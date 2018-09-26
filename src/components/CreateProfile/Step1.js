@@ -90,6 +90,7 @@ class Step1Form extends React.Component{
                             }],
                         })(
                             <InputWithTT
+                                key="fio"
                                 bubbleplaceholder="* ФИО"
                                 className="step-form-item"
                                 tooltip="ФИО Tooltip"
@@ -101,13 +102,14 @@ class Step1Form extends React.Component{
                         {getFieldDecorator('fio2', {
                             rules: [{
                                 required: true,
-                                message: 'Введите ФИО, пожалуйста'
+                                message: 'Выберите дату рождения, пожалуйста'
                             }],
                         })(
                             <InputDateWithToolTip
+                                key="birthday"
                                 bubbleplaceholder="Дата рождения"
                                 className="step-form-item"
-                                tooltip="ДР Tooltip"
+                                tooltip="Дата рождения Tooltip"
 
 
                             />
@@ -119,14 +121,15 @@ class Step1Form extends React.Component{
                         {getFieldDecorator('fio2', {
                             rules: [{
                                 required: true,
-                                message: 'Введите ФИО, пожалуйста'
+                                message: 'Выберите пол, пожалуйста'
                             }],
                         })(
                             <SelectWithTT
-                                bubbleplaceholder="Дата рождения"
+                                key="gender"
+                                bubbleplaceholder="Пол"
                                 className="step-form-item"
-                                tooltip="ДР Tooltip"
-
+                                tooltip="Пол Tooltip"
+                                values={["Мужской", "Женский"]}
 
                             />
                         )}
@@ -135,14 +138,15 @@ class Step1Form extends React.Component{
                         {getFieldDecorator('fio2', {
                             rules: [{
                                 required: true,
-                                message: 'Введите ФИО, пожалуйста'
+                                message: 'Выберите страну пребывания, пожалуйста'
                             }],
                         })(
                             <SelectWithTT
-                                bubbleplaceholder="Дата рождения"
+                                key="country"
+                                bubbleplaceholder="Страна пребывания"
                                 className="step-form-item"
-                                tooltip="ДР Tooltip"
-
+                                tooltip="Страна пребывания Tooltip"
+                                values={["Беларусь", "Россия"]}
 
                             />
                         )}
@@ -152,14 +156,15 @@ class Step1Form extends React.Component{
                     {getFieldDecorator('fio2', {
                         rules: [{
                             required: true,
-                            message: 'Введите ФИО, пожалуйста'
+                            message: 'Выберите сферу деятельности, пожалуйста'
                         }],
                     })(
                         <SelectWithTT
-                            bubbleplaceholder="Дата рождения"
+                            key="activityField"
+                            bubbleplaceholder="Сфера деятельности"
                             className="step-form-item"
-                            tooltip="ДР Tooltip"
-
+                            tooltip="Сфера деятельности Tooltip"
+                            values={["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"]}
 
                         />
                     )}
@@ -168,28 +173,29 @@ class Step1Form extends React.Component{
                     {getFieldDecorator('fio2', {
                         rules: [{
                             required: true,
-                            message: 'Введите ФИО, пожалуйста'
+                            message: 'Выберите интересы, пожалуйста'
                         }],
                     })(
                         <SelectWithTT
-                            bubbleplaceholder="Дата рождения"
+                            key="interests"
+                            bubbleplaceholder="Интересы"
                             className="step-form-item"
-                            tooltip="ДР Tooltip"
+                            tooltip="Интересы Tooltip"
                             mode="multiple"
-
+                            values={["Спорт", "Кино и сериалы"]}
 
                         />
                     )}
                 </FormItem>
                 <div className="step-form-row">
                     <div className="create-profile-avatar">
-                        <span className="upload-avatar-title">Загрузи сюда свою крутую аву</span>
+                        <span className="upload-avatar-title">Загрузи сюда свою крутую аву: </span>
                         <Dropzone multiple = {false} onDrop = {this.onDrop} className="react-dropzone-avatar">
                             {avatarUrl ?
                                 <img src={avatarUrl} alt="avatar" className="avatar-image"/> :
                                 <img src={UploadPhotoImage} alt="avatar" className="avatar-image"/>}
                         </Dropzone>
-                        <span className="upload-avatar-photo-click">Нажми, чтобы загрузить фото</span>
+                        <span className="upload-avatar-photo-click">Нажми на фотоаппарат, чтобы загрузить фото</span>
                     </div>
                     <VK apiId={6695055}>
                         <Auth onAuth={(prof)=>{console.log(prof, "VK AUTH")}}/>
@@ -209,7 +215,7 @@ class Step1Form extends React.Component{
 
                 <div className="steps-action">
                     <Button htmlType="submit"
-                            btnText='Далее'
+                            btnText='Продолжить'
                             size='large'
                             type='gradient'/>
 
