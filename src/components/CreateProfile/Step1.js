@@ -118,7 +118,7 @@ class Step1Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        {getFieldDecorator('fio2', {
+                        {getFieldDecorator('gender', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите пол, пожалуйста'
@@ -135,7 +135,7 @@ class Step1Form extends React.Component{
                         )}
                     </FormItem>
                     <FormItem>
-                        {getFieldDecorator('fio2', {
+                        {getFieldDecorator('country', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите страну пребывания, пожалуйста'
@@ -153,7 +153,7 @@ class Step1Form extends React.Component{
                     </FormItem>
                 </div>
                 <FormItem>
-                    {getFieldDecorator('fio2', {
+                    {getFieldDecorator('activityField', {
                         rules: [{
                             required: true,
                             message: 'Выберите сферу деятельности, пожалуйста'
@@ -170,7 +170,7 @@ class Step1Form extends React.Component{
                     )}
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('fio2', {
+                    {getFieldDecorator('interests', {
                         rules: [{
                             required: true,
                             message: 'Выберите интересы, пожалуйста'

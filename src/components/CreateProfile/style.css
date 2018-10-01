@@ -52,6 +52,7 @@
   line-height: 36px;
   color: #111;
   margin-bottom: 35px;
+  text-transform: uppercase;
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .step-note {
   font-family: "RobotoRegularItalic", serif;
@@ -107,3 +108,4 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-social {
   width: 100%;
 }
+/*# sourceMappingURL=style.css.map */

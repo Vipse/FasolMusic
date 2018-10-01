@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
+import Step4 from './Step4'
+import Step5 from './Step5'
 import Steps from '../Step'
 import './style.css'
 import '../../icon/style.css'
@@ -28,24 +30,36 @@ class CreateProfile extends React.Component{
                     />,
             },
             {
-
-            content: (state) => <Step2 data={state}
-                                       onSubmit={(data) => this.setState({...data})}
-                                       onPrev = {this.prev}
-                                       onNext={this.next}
-                                       //uploadFile={this.props.uploadFile}
-            /> ,
-        },
+                content: (state) => <Step2 data={state}
+                                           onSubmit={(data) => this.setState({...data})}
+                                           onPrev = {this.prev}
+                                           onNext={this.next}
+                                           //uploadFile={this.props.uploadFile}
+                />,
+            },
             {
-
-            content: (state) => <Step3 data = {state}
-                                       onPrev = {this.prev}
-                                       onNext = {this.next}
-                                       //finalText={this.props.finalText}
-                                       onFinish={this.props.onFinish}
-                                       regInProgress = {this.props.regInProgress}
-            />,
-        }];
+                content: (state) => <Step3 data = {state}
+                                           onPrev = {this.prev}
+                                           onNext = {this.next}
+                                           onSubmit={(data) => this.setState({...data})}
+                />,
+            },
+            {
+                content: (state) => <Step4 data={state}
+                                           onSubmit={(data) => this.setState({...data})}
+                                           onPrev = {this.prev}
+                                           onNext={this.next}
+                    //uploadFile={this.props.uploadFile}
+                />,
+            },
+            {
+                content: (state) => <Step5 onPrev = {this.prev}
+                                           onNext = {this.next}
+                                            //finalText={this.props.finalText}
+                                           onFinish={this.props.onFinish}
+                                           regInProgress = {this.props.regInProgress}
+                />,
+            }];
     }
 
     next = () => {
