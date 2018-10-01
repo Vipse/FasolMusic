@@ -41,7 +41,7 @@ class Step5Form extends React.Component{
                     <Button htmlType="submit"
                             btnText='Завершить'
                             size='large'
-                            type='gradient'/>
+                            type='pink'/>
 
                 </div>
             </Form>

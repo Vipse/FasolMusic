@@ -20,9 +20,7 @@ class CreateProfile extends React.Component{
         };
         this.steps = [
             {
-
-                content:
-                    (state) => <Step1 data={state}
+                content: (state) => <Step1 data={state}
                                       onSubmit={(data) => this.setState({...data})}
                                       onNext={this.next}
                                       // checkEmailAvailability={this.props.onCheckEmailAvailability}

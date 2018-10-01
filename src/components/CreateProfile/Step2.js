@@ -194,7 +194,7 @@ class Step2Form extends React.Component{
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
-                            type='gradient'/>
+                            type='pink'/>
 
                 </div>
             </Form>
@@ -206,23 +206,10 @@ const Step2 = Form.create({
     mapPropsToFields(props) {
         let fields ={};
         for (let key in props.data){
-            if (key !== 'current' && props.data[key]){
-                if(key.indexOf("ucationyears") + 1) {
-                    if(props.data[key].defaultEndValue && props.data[key].defaultStartValue) {
-                        fields[key] = Form.createFormField({
-                            value: {defaultStartValue: props.data[key].defaultStartValue , defaultEndValue: props.data[key].defaultEndValue}
-                        })
-                    } else {
-                        fields[key] = Form.createFormField({
-                            value: {defaultStartValue: props.data[key][0] , defaultEndValue: props.data[key][1]}
-                        })
-                    }
-
-                } else {
-                    fields[key] = Form.createFormField({
-                        value: props.data[key],
-                    })
-                }
+            if (key !== 'current'){
+                fields[key] = Form.createFormField({
+                    value: props.data[key],
+                })
             }
         }
         return fields;

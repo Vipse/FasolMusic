@@ -63,6 +63,7 @@ class Step4Form extends React.Component{
                                     <Radio value='3'>3</Radio>
                                     <Radio value='4'>4</Radio>
                                     <Radio value='5'>5</Radio>
+                                    <Radio value='5+'>5 и более</Radio>
                                 </RadioGroup>
                             )}
                         </div>
@@ -91,8 +92,7 @@ class Step4Form extends React.Component{
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
-                            type='gradient'/>
-
+                            type='pink'/>
                 </div>
             </Form>
         )

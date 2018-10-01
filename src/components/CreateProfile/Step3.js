@@ -132,7 +132,7 @@ class Step3Form extends React.Component{
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
-                            type='gradient'/>
+                            type='pink'/>
 
                 </div>
             </Form>
