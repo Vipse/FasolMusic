@@ -36,7 +36,7 @@ class SelectWithTT extends React.Component{
                 <Select onChange={this.onChange} dropdownClassName="new-select-variants" mode={this.props.mode}>
                     {valuesArr.map((item, i) => <Option value={item} key={i}>{item}</Option>)}
                 </Select>
-                {this.props.tooltip && <button data-tip={this.props.tooltip || ""} className='note' >?</button>}
+                {this.props.tooltip && <button type="button" data-tip={this.props.tooltip || ""} className='note'>?</button>}
                 <label className={labelClassName}>{this.props.bubbleplaceholder || ""}</label>
                 {this.props.tooltip && <ReactTooltip place="top" type="dark" effect="float"/>}
 
