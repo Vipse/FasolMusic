@@ -1,84 +1,12 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
-}
 .ant-radio {
+  width: 15px;
+  height: 15px;
   margin-right: 14px;
 }
-.ant-radio-group {
-  font-family: "RobotoRegular";
-  display: flex;
-}
-.ant-radio-wrapper {
-  font-family: "RobotoRegular";
-  display: inline-flex;
-  align-items: center;
-}
-.ant-radio-wrapper:hover .ant-checkbox-inner {
-  border-color: #d7d7d7;
-}
-.ant-radio-input:focus + .ant-checkbox-inner {
-  border-color: #000;
-}
 .ant-radio-inner {
-  border-color: #d7d7d7;
-  width: 24px;
-  height: 24px;
-  border-radius: 2px;
-}
-.ant-radio-inner:after {
-  transform: rotate(45deg) scale(0);
-  position: absolute;
-  width: 8px;
-  height: 15px;
-  left: 6px;
-  top: 1.14285714px;
-  display: table;
-  border: 2px solid #fff;
-  border-top: 0;
-  border-radius: 0;
-  border-left: 0;
-  content: ' ';
-  background-color: transparent;
-  transition: all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6);
-}
-.ant-radio + span {
-  color: #344051;
-  font-size: 14px;
-  font-family: "RobotoRegular";
-  padding: 0;
-}
-.ant-radio-checked .ant-radio-inner {
-  background-color: #000;
   border-color: #000;
 }
 .ant-radio-checked .ant-radio-inner:after {
-  transform: rotate(45deg) scale(1);
-  position: absolute;
-  display: table;
-  border: 2px solid #fff;
-  border-top: 0;
-  border-left: 0;
-  content: ' ';
-  transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+  background-color: #21bedd;
 }
-.ant-radio-checked:after {
-  border-color: #000;
-}
-.ant-radio-checked:focus + .ant-radio-inner {
-  border-color: #d7d7d7;
-}
-.ant-radio-checked + span {
-  color: #333;
-}
-.ant-radio:hover .ant-radio-inner {
-  border-color: #d7d7d7;
-}
+/*# sourceMappingURL=style.css.map */

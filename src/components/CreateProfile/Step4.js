@@ -58,7 +58,7 @@ class Step4Form extends React.Component{
                                 rules: [{ required: true,
                                     message: 'Выберите количество дней, пожалуйста' }],
                             })(
-                                <RadioGroup>
+                                <RadioGroup style={{display: "flex", flexDirection: "column"}}>
                                     <Radio value='1'>1</Radio>
                                     <Radio value='2'>2</Radio>
                                     <Radio value='3'>3</Radio>
