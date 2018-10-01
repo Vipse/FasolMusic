@@ -34,7 +34,8 @@ class Step4Form extends React.Component{
             //     if(!values.avatar.url && !values.avatar.name) {
             //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
             //     }
-            this.props.onSubmit(values);
+            console.log({...this.props.data, ...values});
+            //this.props.onSubmit(values);
             this.props.onNext();
             // }
         })

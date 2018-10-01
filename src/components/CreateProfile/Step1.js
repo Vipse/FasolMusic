@@ -99,7 +99,7 @@ class Step1Form extends React.Component{
                         )}
                     </FormItem>
                     <FormItem>
-                        {getFieldDecorator('fio2', {
+                        {getFieldDecorator('birthDate', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите дату рождения, пожалуйста'
