@@ -6,8 +6,7 @@ import Button from '../Button'
 import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
-import { Auth } from "react-vk";
-import  VK from "react-vk";
+import VK, {Auth} from 'react-vk';
 
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
@@ -18,12 +17,23 @@ import gplusIcon from "../../img/gplusIcon.png"
 
 const FormItem = Form.Item;
 
+const mappedIconsToLinks = {
+    vk: vkIcon,
+    facebook: facebookIcon,
+    twitter: twitterIcon,
+    gplus: gplusIcon
+};
+
 
 class Step1Form extends React.Component{
     state = {
         fileList: [],
         avatarUrl: "",
         avatarThumb: "",
+        vkAuthorized: {show: false, link: ''},
+        facebookAuthorized: {show: false, link: ''},
+        twitterAuthorized: {show: false, link: ''},
+        gplusAuthorized: {show: false, link: ''}
     };
 
     handleSubmit = (e) => {
@@ -38,7 +48,7 @@ class Step1Form extends React.Component{
             //     if(!values.avatar.url && !values.avatar.name) {
             //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
             //     }
-                this.props.onSubmit(values);
+                this.props.onSubmit({...values, ...this.state});
                 this.props.onNext();
             // }
         })
@@ -58,8 +68,9 @@ class Step1Form extends React.Component{
         }));
         reader.readAsDataURL(info.file);
     };
+
     onDrop = (file) => {
-        console.log(file)
+        console.log(file);
         const reader = new FileReader();
         // this.props.uploadFile(info.file)
         //     .then((res) => {
@@ -71,6 +82,62 @@ class Step1Form extends React.Component{
             loading: false
         }));
         reader.readAsDataURL(file[0]);
+    };
+
+    vkAuthorization = () => {
+        return (<VK apiId={6695055}>
+            <Auth options={{
+                onAuth: user => {
+                    this.setState({
+                        vkAuthorized: {show: false, link: "vk.com/id" + user.uid}
+                    });
+                },
+            }}/>
+        </VK>);
+    };
+
+    facebookAuthorization = () => {
+        return null;
+    };
+
+    twitterAuthorization = () => {
+        return null;
+    };
+
+    gplusAuthorization = () => {
+        return null;
+    };
+
+    renderSocial = (name) => {
+        return (<div key={name}>
+            <div className={"social-row " + name}>
+                <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
+                <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
+                {this.state[name + "Authorized"].link ?
+                    <Button className="social-row-btn-close"
+                            icon='close'
+                            size='small'
+                            type='link'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.setState({[name + "Authorized"]: {show: false, link: ""}})
+                            }}
+                    />
+                    : <Button className="social-row-btn-link"
+                              btnText='Связать'
+                              size='small'
+                              type='bright-blue'
+                              onClick={(e) => {
+                                  e.preventDefault();
+                                  this.setState({[name + "Authorized"]: {show: true, link: ""}})
+                              }}
+                    />
+                }
+            </div>
+            <div className="authPopup">
+                {this.state[name + "Authorized"].show && this[name + "Authorization"]()}
+            </div>
+        </div>);
     };
 
     render(){
@@ -203,43 +270,12 @@ class Step1Form extends React.Component{
                     </div>
                     <div className="create-profile-avatar">
                         <span className="upload-avatar-title">Привяжи свои социалки: </span>
-                        <div className="social-row">
-                            <img src={vkIcon} className="social-row-icon"/>
-                            <span className="social-row-link">vk.com/id7654321</span>
-                            <Button className="social-row-btn-close"
-                                    icon='close'
-                                    iconSize='small'
-                                    size='small'
-                                    type='link'/>
-                        </div>
-                        <div className="social-row">
-                            <img src={facebookIcon} className="social-row-icon"/>
-                            <span className="social-row-link"></span>
-                            <Button className="social-row-btn-link"
-                                    btnText='Связать'
-                                    size='small'
-                                    type='bright-blue'/>
-                        </div>
-                        <div className="social-row">
-                            <img src={twitterIcon} className="social-row-icon"/>
-                            <span className="social-row-link"></span>
-                            <Button className="social-row-btn-link"
-                                    btnText='Связать'
-                                    size='small'
-                                    type='bright-blue'/>
-                        </div>
-                        <div className="social-row">
-                            <img src={gplusIcon} className="social-row-icon"/>
-                            <span className="social-row-link"></span>
-                            <Button className="social-row-btn-link"
-                                    btnText='Связать'
-                                    size='small'
-                                    type='bright-blue'/>
-                        </div>
+                        {this.renderSocial("vk")}
+                        {this.renderSocial("facebook")}
+                        {this.renderSocial("twitter")}
+                        {this.renderSocial("gplus")}
                     </div>
-                    {/*<VK apiId={6695055}>
-                        <Auth onAuth={(prof)=>{console.log(prof, "VK AUTH")}}/>
-                    </VK>*/}
+
                     {/*<div className="create-profile-social">
                         <div id="vk_auth"></div>
 

@@ -45,7 +45,8 @@ class Step4Form extends React.Component{
             this.state.selectedTimes.forEach((item, i) => this.state.enabledDays[i] ? selectedTimesObj[i] = item : null);
             console.log("FINAL REG DATA", {
                 ...this.props.data,
-                selectedTimes: selectedTimesObj,
+                daysCount: values.daysCount,
+                selectedTimes: selectedTimesObj
             });
             //this.props.onSubmit(values);
             this.props.onNext();

@@ -72,6 +72,9 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .ant-row.ant-form-item:last-child {
   margin-right: 0;
 }
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .authPopup {
+  float: right;
+}
 .create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row {
   display: flex;
   flex-direction: row;
@@ -93,6 +96,8 @@
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-btn-close {
   margin-top: 5px;
+  width: 30px;
+  justify-content: flex-end;
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .radio-label {
   color: #111;
