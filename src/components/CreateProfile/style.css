@@ -72,6 +72,28 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .ant-row.ant-form-item:last-child {
   margin-right: 0;
 }
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row {
+  display: flex;
+  flex-direction: row;
+  padding-left: 65px;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-icon {
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-link {
+  padding-top: 7px;
+  font-family: RobotoRegular;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-btn-link {
+  margin-top: 10px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-btn-close {
+  margin-top: 5px;
+}
 .create-profile-form .steps .steps-content .ant-form.step-form .radio-label {
   color: #111;
   font-family: RobotoMedium;
@@ -138,4 +160,3 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-social {
   width: 100%;
 }
-/*# sourceMappingURL=style.css.map */

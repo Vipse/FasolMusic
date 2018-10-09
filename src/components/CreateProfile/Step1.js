@@ -11,6 +11,10 @@ import  VK from "react-vk";
 
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
+import vkIcon from "../../img/vkIcon.png"
+import facebookIcon from "../../img/facebookIcon.png"
+import twitterIcon from "../../img/twitterIcon.png"
+import gplusIcon from "../../img/gplusIcon.png"
 
 const FormItem = Form.Item;
 
@@ -197,9 +201,45 @@ class Step1Form extends React.Component{
                         </Dropzone>
                         <span className="upload-avatar-photo-click">Нажми на фотоаппарат, чтобы загрузить фото</span>
                     </div>
-                    <VK apiId={6695055}>
+                    <div className="create-profile-avatar">
+                        <span className="upload-avatar-title">Привяжи свои социалки: </span>
+                        <div className="social-row">
+                            <img src={vkIcon} className="social-row-icon"/>
+                            <span className="social-row-link">vk.com/id7654321</span>
+                            <Button className="social-row-btn-close"
+                                    icon='close'
+                                    iconSize='small'
+                                    size='small'
+                                    type='link'/>
+                        </div>
+                        <div className="social-row">
+                            <img src={facebookIcon} className="social-row-icon"/>
+                            <span className="social-row-link"></span>
+                            <Button className="social-row-btn-link"
+                                    btnText='Связать'
+                                    size='small'
+                                    type='bright-blue'/>
+                        </div>
+                        <div className="social-row">
+                            <img src={twitterIcon} className="social-row-icon"/>
+                            <span className="social-row-link"></span>
+                            <Button className="social-row-btn-link"
+                                    btnText='Связать'
+                                    size='small'
+                                    type='bright-blue'/>
+                        </div>
+                        <div className="social-row">
+                            <img src={gplusIcon} className="social-row-icon"/>
+                            <span className="social-row-link"></span>
+                            <Button className="social-row-btn-link"
+                                    btnText='Связать'
+                                    size='small'
+                                    type='bright-blue'/>
+                        </div>
+                    </div>
+                    {/*<VK apiId={6695055}>
                         <Auth onAuth={(prof)=>{console.log(prof, "VK AUTH")}}/>
-                    </VK>
+                    </VK>*/}
                     {/*<div className="create-profile-social">
                         <div id="vk_auth"></div>
 
