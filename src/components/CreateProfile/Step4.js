@@ -7,10 +7,9 @@ import Button from '../Button'
 import Hr from "../Hr";
 import Spinner from "../Spinner";
 import {Form} from "antd";
-import SelectWithTT from "../SelectWithTT";
-import InputWithTT from "../InputWithTT";
 import Radio from "../RadioBox";
 import RadioGroup from "antd/es/radio/group";
+import Slider from "antd/es/slider";
 
 const FormItem = Form.Item;
 
@@ -18,8 +17,16 @@ class Step4Form extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-
+            enabledDays: [],
+            selectedTimes: []
         }
+    }
+
+    componentWillMount() {
+        this.setState({
+            enabledDays: new Array(7).fill(false),
+            selectedTimes: new Array(7).fill([10, 23])
+        });
     }
 
     handleSubmit = (e) => {
@@ -34,11 +41,46 @@ class Step4Form extends React.Component{
             //     if(!values.avatar.url && !values.avatar.name) {
             //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
             //     }
-            console.log({...this.props.data, ...values});
+            let selectedTimesObj = {};
+            this.state.selectedTimes.forEach((item, i) => this.state.enabledDays[i] ? selectedTimesObj[i] = item : null);
+            console.log("FINAL REG DATA", {
+                ...this.props.data,
+                selectedTimes: selectedTimesObj,
+            });
             //this.props.onSubmit(values);
             this.props.onNext();
             // }
         })
+    };
+
+    renderTimeSchedule = () => {
+        let timeScheduleArr = [];
+        let daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+        for (let i = 0; i < 7; i++)
+            timeScheduleArr.push(<div className="timeSchedule">
+                <Checkbox className="dayCheckbox" value={i} checked={this.state.enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
+                          key={"enableDay" + i}>{daysName[i]}</Checkbox>
+                <Slider className="slider" range step={1} min={0} max={23} defaultValue={[10, 23]} disabled={!this.state.enabledDays[i]}
+                        onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
+                <p className="timePlate">{this.state.enabledDays[i] && this.state.selectedTimes[i][0] + ":00 - " + this.state.selectedTimes[i][1] + ":00"}</p>
+            </div>);
+        return timeScheduleArr;
+    };
+
+    handleActiveSlider = (num) => {
+        let newEnableSlider = this.state.enabledDays;
+        newEnableSlider[num] = !newEnableSlider[num];
+        this.setState({
+            enabledDays: newEnableSlider
+        });
+    };
+
+    handleChangeSlider = (num, value) => {
+        let newSliderValue = this.state.selectedTimes;
+        newSliderValue[num] = value;
+        this.setState({
+            selectedTimes: newSliderValue
+        });
     };
 
     render(){
@@ -59,31 +101,25 @@ class Step4Form extends React.Component{
                                     message: 'Выберите количество дней, пожалуйста' }],
                             })(
                                 <RadioGroup style={{display: "flex", flexDirection: "column"}}>
-                                    <Radio value='1'>1</Radio>
-                                    <Radio value='2'>2</Radio>
-                                    <Radio value='3'>3</Radio>
-                                    <Radio value='4'>4</Radio>
-                                    <Radio value='5'>5</Radio>
-                                    <Radio value='5+'>5 и более</Radio>
+                                    <Radio value='1' key='radio-1'>1</Radio>
+                                    <Radio value='2' key='radio-2'>2</Radio>
+                                    <Radio value='3' key='radio-3'>3</Radio>
+                                    <Radio value='4' key='radio-4'>4</Radio>
+                                    <Radio value='5' key='radio-5'>5</Radio>
+                                    <Radio value='5+' key='radio-5+'>5 и более</Radio>
                                 </RadioGroup>
                             )}
                         </div>
                     </FormItem>
                     <FormItem>
-                        <div className='radio-label'>Время:
+                        <div className='checkSlider'>Время:
                             {getFieldDecorator('timeSchedule', {
                                 rules: [{ required: true,
                                     message: 'Выберите время, пожалуйста' }],
                             })(
-                                <RadioGroup>
-                                    <Radio value='Mon'>Пн</Radio>
-                                    <Radio value='Tue'>Вт</Radio>
-                                    <Radio value='Wed'>Ср</Radio>
-                                    <Radio value='Thu'>Чт</Radio>
-                                    <Radio value='Fri'>Пт</Radio>
-                                    <Radio value='Sat'>Сб</Radio>
-                                    <Radio value='Sun'>Вс</Radio>
-                                </RadioGroup>
+                                <div className="ant-radio-group">
+                                    {this.renderTimeSchedule()}
+                                </div>
                             )}
                         </div>
                     </FormItem>

@@ -75,6 +75,31 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .radio-label {
   color: #111;
   font-family: RobotoMedium;
+  padding-right: 30px;
+  width: 220px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .checkSlider {
+  color: #111;
+  font-family: RobotoMedium;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .timePlate {
+  position: relative;
+  top: -12px;
+  left: -135px;
+  font-size: 10px;
+  width: 70px;
+  height: 3px;
+  font-family: RobotoRegular;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .slider {
+  width: 200px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule {
+  display: flex;
+  flex-direction: row;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .dayCheckbox {
+  width: 64px;
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar {
   display: flex;
