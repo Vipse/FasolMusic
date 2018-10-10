@@ -113,7 +113,7 @@ class Step1Form extends React.Component{
             <div className={"social-row " + name}>
                 <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
                 <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
-                {this.state[name + "Authorized"].link ?
+                {this.state[name + "Authorized"].link || this.state[name + "Authorized"].show ?
                     <Button className="social-row-btn-close"
                             icon='close'
                             size='small'
