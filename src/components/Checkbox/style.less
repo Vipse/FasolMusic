@@ -2,22 +2,21 @@
 .ant{
 
 	&-checkbox{
-		margin-right: 14px;
+		margin-right: 10px;
 
 		&-wrapper{
 			font-family: "RobotoRegular";
-			
+
 			&:hover{
 
 				.ant-checkbox-inner{
-					border-color: #d7d7d7;
+					border-color: #21bedd;
 				}
 			}
 		}
 
 		&-input{
-			&:focus{
-
+			&:focus:not(:hover){
 				& + .ant-checkbox-inner{
 					border-color: #000;
 				}
@@ -25,14 +24,15 @@
 		}
 
 		&-inner{
-			border-color: #d7d7d7;
-			width: 24px;
-    		height: 24px;
+			border-color: #000;
+			width: 15px;
+    		height: 15px;
 
     		&:after{
     			width: 8px;
-    			height: 15px;
-    			left: 6px;
+    			height: 13px;
+    			left: 5px;
+              top: -4px;
     		}
 		}
 
@@ -45,19 +45,21 @@
 
 		&-checked{
 
+			.ant-checkbox-input{
+					&:focus:not(:hover){
+						& + .ant-checkbox-inner{
+							border-color: #000;
+						}
+					}
+			}
+
 			.ant-checkbox-inner{
-				background-color: #000;
+				background-color: #fff;
 				border-color: #000;
-			}
-
-			&:after{
-				border-color: #000;
-			}
-
-			&:focus{
-
-				& + .ant-checkbox-inner{
-					border-color: #d7d7d7;
+				&:after{
+					border: 1px solid #000;
+					border-top: 0;
+					border-left: 0;
 				}
 			}
 

@@ -2,9 +2,28 @@
 .ant{
 
 	&-radio {
-		width: 15px;
-		height: 15px;
-		margin-right: 14px;
+
+      margin-right: 5px;
+
+      &-input {
+        width: 15px;
+        height: 15px;
+      }
+
+		&-wrapper {
+          margin-bottom: 10px;
+          color: #000;
+
+          span:last-child {
+            padding-top: 6px;
+          }
+		}
+
+		&:hover {
+			.ant-radio-inner {
+				border-color: #000;
+			}
+		}
 
 		&-inner {
 			border-color: #000;
@@ -12,10 +31,15 @@
 
 		&-checked {
 			.ant-radio-inner {
+				border-color: #000;
 				&:after {
 					background-color: #21bedd;
 				}
 			}
 		}
 	}
+}
+
+.ant-radio-wrapper:hover .ant-radio .ant-radio-inner {
+	border-color: #21bedd;
 }

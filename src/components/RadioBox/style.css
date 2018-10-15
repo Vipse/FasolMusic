@@ -1,11 +1,29 @@
 .ant-radio {
+  margin-right: 5px;
+}
+.ant-radio-input {
   width: 15px;
   height: 15px;
-  margin-right: 14px;
+}
+.ant-radio-wrapper {
+  margin-bottom: 10px;
+  color: #000;
+}
+.ant-radio-wrapper span:last-child {
+  padding-top: 6px;
+}
+.ant-radio:hover .ant-radio-inner {
+  border-color: #000;
 }
 .ant-radio-inner {
   border-color: #000;
 }
+.ant-radio-checked .ant-radio-inner {
+  border-color: #000;
+}
 .ant-radio-checked .ant-radio-inner:after {
   background-color: #21bedd;
+}
+.ant-radio-wrapper:hover .ant-radio .ant-radio-inner {
+  border-color: #21bedd;
 }
