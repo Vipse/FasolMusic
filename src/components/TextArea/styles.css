@@ -1,28 +1,15 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
-}
 .textarea-label {
-  margin-bottom: 15px;
-  color: #777777;
+  color: #111;
+  font: 14px/30px "RobotoMedium", serif;
 }
 .textarea-field {
   font-size: 14px;
   resize: none;
-  height: 80px;
+  height: 159px;
   width: 100%;
-  border-radius: 8px;
   padding: 7px 20px;
-  color: #999;
-  border-color: #ebebeb;
+  color: #111;
+  border-color: #111;
 }
 .textarea-field:focus {
   outline: 0;

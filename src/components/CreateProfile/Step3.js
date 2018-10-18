@@ -9,6 +9,7 @@ import Spinner from "../Spinner";
 import {Form} from "antd";
 import SelectWithTT from "../SelectWithTT";
 import InputWithTT from "../InputWithTT";
+import TextArea from "../TextArea";
 
 const FormItem = Form.Item;
 
@@ -120,8 +121,9 @@ class Step3Form extends React.Component{
                             message: 'Напишите комментарий, пожалуйста'
                         }],
                     })(
-                        <InputWithTT
-                            bubbleplaceholder="Комментарий"
+                        <TextArea
+                            label="Комментарий"
+                            placeholder=""
                             className="step-form-item"
                         />
                     )}

@@ -13,6 +13,7 @@ import SelectWithTT from "../SelectWithTT";
 import Dropzone from "react-dropzone";
 import UploadPhotoImage from "../../img/uploadPhoto.png";
 import VK, {Auth} from "react-vk";
+import TextArea from "../TextArea";
 
 const FormItem = Form.Item;
 
@@ -183,8 +184,9 @@ class Step2Form extends React.Component{
                             message: 'Укажите любимых исполнителей, пожалуйста'
                         }],
                     })(
-                        <InputWithTT
-                            bubbleplaceholder="Любимые исполнители"
+                        <TextArea
+                            label="Любимые исполнители"
+                            placeholder=""
                             className="step-form-item"
                         />
                     )}

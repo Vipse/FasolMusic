@@ -96,11 +96,12 @@ class Step4Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        <div className='radio-label'>Количество дней в неделю:
+                        <div className='radio-label'>Количество дней в неделю:</div>
                             {getFieldDecorator('daysCount', {
                                 rules: [{ required: true,
                                     message: 'Выберите количество дней, пожалуйста' }],
                             })(
+                                <div className="ant-radio-group">
                                 <RadioGroup style={{display: "flex", flexDirection: "column"}}>
                                     <Radio value='1' key='radio-1'>1</Radio>
                                     <Radio value='2' key='radio-2'>2</Radio>
@@ -109,11 +110,11 @@ class Step4Form extends React.Component{
                                     <Radio value='5' key='radio-5'>5</Radio>
                                     <Radio value='5+' key='radio-5+'>5 и более</Radio>
                                 </RadioGroup>
+                                </div>
                             )}
-                        </div>
                     </FormItem>
                     <FormItem>
-                        <div className='checkSlider'>Время:
+                        <div className='radio-label'>Время:</div>
                             {getFieldDecorator('timeSchedule', {
                                 rules: [{ required: true,
                                     message: 'Выберите время, пожалуйста' }],
@@ -122,7 +123,6 @@ class Step4Form extends React.Component{
                                     {this.renderTimeSchedule()}
                                 </div>
                             )}
-                        </div>
                     </FormItem>
                 </div>
 
