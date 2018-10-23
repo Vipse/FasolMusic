@@ -158,6 +158,7 @@
   text-decoration: none;
 }
 .btn-type-float {
+  font-family: RobotoMediumItalic;
   background-color: transparent;
   color: #21bedd;
   border: 1px solid #21bedd;
