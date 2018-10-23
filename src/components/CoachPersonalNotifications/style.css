@@ -1,0 +1,22 @@
+.personal-notifications-type {
+  margin-bottom: 25px;
+}
+.personal-notifications-title {
+  font-family: RobotoMediumItalic;
+  color: #21bedd;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.personal-notifications .notifications-column {
+  margin: 25px 35px 35px 35px;
+}
+.personal-notifications .notifications-column-input {
+  margin-bottom: 50px;
+}
+.personal-notifications .notifications-column-input .textarea-label {
+  font-family: RobotoRegular;
+  color: #777777;
+}
+.personal-notifications .notifications-column-input .textarea-field {
+  border-color: #e1e1e1;
+}

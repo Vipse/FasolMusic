@@ -42,6 +42,12 @@ const loadStories = () => {
     require('../src/components/NewMessageModal/stories');
     require('../src/components/TimePicker/stories');
     require('../src/components/CreateProfile/stories');
+    require('../src/components/CoachPersonalProfile/stories');
+    require('../src/components/CoachPersonalData/stories');
+    require('../src/components/CoachPersonalContactItem/stories');
+    require('../src/components/CoachPersonalSuggestions/stories');
+    require('../src/components/CoachPersonalChangePassword/stories');
+    require('../src/components/CoachPersonalNotifications/stories');
     require('../src/components/DownloadLink/stories');
     require('../src/components/Popover/stories');
     require('../src/components/TopPanel/stories');
