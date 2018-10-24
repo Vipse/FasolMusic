@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import cn from 'classnames'
 
 import Button from '../Button'
-import CoachPersonalContactItem from '../CoachPersonalContactItem'
 import Input from '../Input'
 import Rate from '../Rate'
 import Icon from '../Icon'
@@ -32,31 +31,31 @@ class CoachPersonalProfile extends React.Component{
     }
 
     render() {
-        const profile = this.props.profileDoctor;
+        const profile = this.props.profileStudent;
         return (
             <div className="personal-coach-items">
                 <Row type="flex" gutter={32}>
                     <Col className="personal-coach-items-data" span={14}>
                         <CoachPersonalData
                             onSubmitPassword={this.onSubmitPasswordPatient}
-                            profileDoctor={profile}
+                            profileStudent={profile}
                             onSubmit={this.onSubmit}
                             onDeleteAvatar={this.props.onDeleteAvatar}
                         />
                     </Col>
                     <Col span={7}>
                             <CoachPersonalSuggestions
-                                profileDoctor={profile}
+                                profileStudent={profile}
                                 onSubmit={this.onSubmit}
                                 uploadFile={this.props.uploadFile}
                             />
                             <CoachPersonalChangePassword
-                                profileDoctor={profile}
+                                profileStudent={profile}
                                 onSubmit={this.onSubmit}
                                 uploadFile={this.props.uploadFile}
                             />
                             <CoachPersonalNotifications
-                                profileDoctor={profile}
+                                profileStudent={profile}
                                 onSubmit={this.onSubmit}
                             />
                     </Col>
@@ -69,12 +68,12 @@ class CoachPersonalProfile extends React.Component{
 }
 
 CoachPersonalProfile.propTypes = {
-    profileDoctor: PropTypes.object,
+    profileStudent: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalProfile.defaultProps = {
-    profileDoctor: {},
+    profileStudent: {},
     onSubmit: () => {}
 };
 

@@ -12,7 +12,6 @@ import Popover from '../Popover'
 
 import './style.css'
 import '../../icon/style.css'
-import PersonalEducation from "../PersonalEducation";
 import ProfileAvatar from "../ProfileAvatar";
 import InputNew from "../InputNew";
 import Spinner from "../Spinner";
@@ -22,6 +21,7 @@ import vkIcon from "../../img/vkIcon.png";
 import facebookIcon from "../../img/facebookIcon.png";
 import twitterIcon from "../../img/twitterIcon.png";
 import gplusIcon from "../../img/gplusIcon.png";
+import avatarDefault from "../../img/avatarDefault.png";
 
 const FormItem = Form.Item;
 
@@ -32,11 +32,11 @@ const mappedIconsToLinks = {
     gplus: gplusIcon
 };
 
-class CoachPersonalContactItemForm extends React.Component{
+class CoachPersonalDataContactForm extends React.Component{
     constructor() {
         super();
         this.state  = {
-            avatar: '',
+            avatar: {},
             vkAuthorized: {show: false, link: ''},
             facebookAuthorized: {show: false, link: ''},
             twitterAuthorized: {show: false, link: ''},
@@ -44,54 +44,20 @@ class CoachPersonalContactItemForm extends React.Component{
         }
     }
 
-    handleSubmitInfo = (e) => {
+    handleChangeAvatar = (e, isReset) => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                // this.setState({loadingInfo:true});
-                if(this.state.avatar) {
-                    values.avatar = {...this.state.avatar}
-                }
-                this.props.onSubmit(values)
-                    // .then((res) => {
-                    //     this.setState({loadingInfo: false});
-                    //     if (res.data.code === 200) {
-                    //         message.success("Изменения сохранены")
-                    //     } else {
-                    //         message.error("Произошла ошибка, попробуйте ещё раз")
-                    //     }
-                    // })
-            } else {
-                console.log(err);
-            }
-        });
-    };
-
-    handleChange = (e) => {
-        e.preventDefault();
-        if(e.target.value && !this.state.passwordsRequired) {
-            this.setState({passwordsRequired: true}, () => {
-                this.props.form.validateFields(['oldPassField', 'newPassField', 'repeatPassField'], { force: true })});
-        } else if(!e.target.value){
-            this.setState({passwordsRequired: false}, () => {
-                this.props.form.validateFields(['oldPassField', 'newPassField', 'repeatPassField'], { force: true })});
-        }
-    };
-
-    handleChangeAvatar = (event, isReset) => {
         if (isReset === true) {
-            this.props.onDeleteAvatar();
             this.setState({
-                avatar: ""
+                avatar: {}
             });
-            event.target.files = [];
+            e.target.files = [];
         }
         else {
-            let file = event.target.files[0];
+            let file = e.target.files[0];
             if (file && file.type.indexOf("image/") !== -1) {
                 const reader = new FileReader();
                 reader.addEventListener('load', () => this.setState({
-                    avatar: ({thumbUrl: reader.result, name: file.name})
+                    avatar: {thumbUrl: reader.result, name: file.name}
                 }));
                 reader.readAsDataURL(file);
             }
@@ -143,7 +109,7 @@ class CoachPersonalContactItemForm extends React.Component{
                                   e.preventDefault();
                                   this.setState({[name + "Authorized"]: {show: true, link: ""}})
                               }}
-                              size='default'
+                              size='small'
                               type='float'
                               style={{marginRight: "20px"}}
                     />
@@ -155,32 +121,23 @@ class CoachPersonalContactItemForm extends React.Component{
         </div>);
     };
 
-    compareToFirstPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value !== form.getFieldValue('newPassField')) {
-            callback('Пароли не совпадают');
-        } else {
-            callback();
-        }
-    };
-
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { fio, phone, email, country, avatar} = this.props.profileDoctor;
-        const rootClass = cn('personal-contact');
+        const { fio, phone, email, country} = this.props.profileStudent;
+        const rootClass = cn('coach-data-form');
 
         return (
             <Form className={rootClass}>
-                <div className='patient-contacts-title'>контактные данные</div>
-                <div className='patient-contacts-block'>
-                    <div className='patient-contacts-avatar'>
+                <div className='coach-data-title'>Контактные данные</div>
+                <div className='coach-data-block'>
+                    <div className='coach-data-avatar'>
                         <ProfileAvatar
-                            img={this.state.avatar.thumbUrl ? this.state.avatar.thumbUrl : avatar}
-                            owner='patient'
+                            img={this.state.avatar.thumbUrl ? this.state.avatar.thumbUrl : avatarDefault}
+                            owner='coach'
                             size="large"
                             online={true}
                         />
-                        <div className='patient-contacts-controls'>
+                        <div className='coach-data-avatar-controls'>
                             <div className="file-upload">
                                 <label className="file-upload-label">
                                     <Icon type='retweet' size={16}/>
@@ -188,10 +145,18 @@ class CoachPersonalContactItemForm extends React.Component{
                                 <input className="file-upload-input" type="file" name="photo-upload"
                                        onChange={this.handleChangeAvatar}/>
                             </div>
+                            <Button
+                                btnText=''
+                                size='icon'
+                                type='icon'
+                                icon='close'
+                                iconSize={13}
+                                onClick={(e) => this.handleChangeAvatar(e, true)}
+                            />
                         </div>
-
                     </div>
-                    <div className='patient-contacts-info'>
+
+                    <div className='coach-data-info'>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('fio', {
                                 initialValue: fio,
@@ -242,6 +207,9 @@ class CoachPersonalContactItemForm extends React.Component{
                                     data={["Беларусь", "Россия"]}/>
                             )}
                         </FormItem>
+                    </div>
+
+                    <div className="coach-data-social">
                         {this.renderSocial("vk")}
                         {this.renderSocial("facebook")}
                         {this.renderSocial("twitter")}
@@ -249,31 +217,19 @@ class CoachPersonalContactItemForm extends React.Component{
                     </div>
                 </div>
 
-                <Button
-                    className="patient-contacts-saveBtn"
-                    onClick={this.handleSubmitInfo}
-                    btnText='Сохранить изменения'
-                    size='default'
-                    disable={this.state.loadingInfo}
-                    type='float'
-                    style={{marginRight: "20px"}}
-                />
-
-                {this.state.loadingInfo && <Spinner isInline={true} size="small" />}
-
             </Form>
         )
     }
 }
 
-const CoachPersonalContactItem  = Form.create()(CoachPersonalContactItemForm);
+const CoachPersonalDataContact  = Form.create()(CoachPersonalDataContactForm);
 
-CoachPersonalContactItem.propTypes = {
-    profileDoctor: PropTypes.object
+CoachPersonalDataContact.propTypes = {
+    profileStudent: PropTypes.object
 };
 
-CoachPersonalContactItem.defaultProps = {
-    profileDoctor: {}
+CoachPersonalDataContact.defaultProps = {
+    profileStudent: {}
 };
 
-export default CoachPersonalContactItem
+export default CoachPersonalDataContact

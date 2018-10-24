@@ -3,10 +3,10 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import CoachPersonalProfile from "../index";
 
-const profileDoctor = {
+const profileStudent = {
     notifications: {
-        email: ["Тип1", "Тип2", "Тип3", "Тип4"],
-        phone: ["Тип1", "Тип2", "Тип3", "Тип4", "Тип5", "Тип6"]
+        email: ["Тип 1", "Тип 2", "Тип 3", "Тип 4"],
+        phone: ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"]
     }
 }
 
@@ -14,7 +14,7 @@ storiesOf('CoachPersonalProfile', module)
     .add('CoachPersonalProfile', () => (
         <div>
             <CoachPersonalProfile
-                profileDoctor={profileDoctor}
+                profileStudent={profileStudent}
             />
         </div>
     ))

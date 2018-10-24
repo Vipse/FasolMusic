@@ -44,7 +44,13 @@ const loadStories = () => {
     require('../src/components/CreateProfile/stories');
     require('../src/components/CoachPersonalProfile/stories');
     require('../src/components/CoachPersonalData/stories');
-    require('../src/components/CoachPersonalContactItem/stories');
+    require('../src/components/CoachPersonalDataContact/stories');
+    require('../src/components/CoachPersonalDataInfo/stories');
+    require('../src/components/CoachPersonalDataPromo/stories');
+    require('../src/components/CoachPersonalDataPayment/stories');
+    require('../src/components/CoachPersonalDataSkill/stories');
+    require('../src/components/CoachPersonalDataPreferences/stories');
+    require('../src/components/CoachPersonalDataTime/stories');
     require('../src/components/CoachPersonalSuggestions/stories');
     require('../src/components/CoachPersonalChangePassword/stories');
     require('../src/components/CoachPersonalNotifications/stories');

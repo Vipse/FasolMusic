@@ -3,30 +3,90 @@ import PropTypes from 'prop-types'
 import cn from 'classnames'
 
 import Button from '../Button'
-import CoachPersonalContactItem from '../CoachPersonalContactItem'
-import Input from '../Input'
-import Rate from '../Rate'
-import Icon from '../Icon'
-import Popover from '../Popover'
+import CoachPersonalDataContact from '../CoachPersonalDataContact'
+import CoachPersonalDataInfo from "../CoachPersonalDataInfo";
+import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
 
 import './style.css'
 import '../../icon/style.css'
 import Card from "antd/es/card";
-import {message} from "antd";
+import {Form, message} from "antd";
+import Spinner from "../Spinner";
+import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
+import CoachPersonalDataSkill from "../CoachPersonalDataSkill";
+import CoachPersonalDataPreferences from "../CoachPersonalDataPreferences";
+import CoachPersonalDataTime from "../CoachPersonalDataTime";
 
-class CoachPersonalData extends React.Component{
+class CoachPersonalData extends React.Component {
 
-    render(){
-        const rootClass = cn('personal-data');
+    constructor() {
+        super();
+        this.state  = {}
+    }
+
+    handleSubmitInfo = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                // this.setState({loadingInfo:true});
+                if (this.state.avatar) {
+                    values.avatar = {...this.state.avatar}
+                }
+                this.props.onSubmit(values)
+                // .then((res) => {
+                //     this.setState({loadingInfo: false});
+                //     if (res.data.code === 200) {
+                //         message.success("Изменения сохранены")
+                //     } else {
+                //         message.error("Произошла ошибка, попробуйте ещё раз")
+                //     }
+                // })
+            } else {
+                console.log(err);
+            }
+        });
+    };
+
+    render() {
+        const rootClass = cn('coach-data');
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
-                    <CoachPersonalContactItem
-                        profileDoctor={this.props.profileDoctor}
-                        onSubmit={this.props.onSubmit}
+                    <CoachPersonalDataContact
+                        profileStudent={this.props.profileStudent}
                         onSubmitPassword={this.props.onSubmitPassword}
                         onDeleteAvatar={this.props.onDeleteAvatar}
                     />
+                    <CoachPersonalDataInfo
+                        profileStudent={this.props.profileStudent}
+                    />
+                    <CoachPersonalDataPromo
+                        profileStudent={this.props.profileStudent}
+                    />
+                    <CoachPersonalDataPayment
+                        profileStudent={this.props.profileStudent}
+                    />
+                    <CoachPersonalDataSkill
+                        profileStudent={this.props.profileStudent}
+                    />
+                    <CoachPersonalDataPreferences
+                        profileStudent={this.props.profileStudent}
+                    />
+                    <CoachPersonalDataTime
+                        profileStudent={this.props.profileStudent}
+                    />
+
+                    <Button
+                        className="coach-data-saveBtn"
+                        onClick={this.handleSubmitInfo}
+                        btnText='Сохранить изменения'
+                        size='default'
+                        disable={this.state.loadingInfo}
+                        type='float'
+                        style={{marginRight: "20px"}}
+                    />
+
+                    {this.state.loadingInfo && <Spinner isInline={true} size="small"/>}
                 </Card>
             </div>
         )
@@ -34,13 +94,14 @@ class CoachPersonalData extends React.Component{
 }
 
 CoachPersonalData.propTypes = {
-    profileDoctor: PropTypes.object,
+    profileStudent: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalData.defaultProps = {
-    profileDoctor: {},
-    onSubmit: () => {}
+    profileStudent: {},
+    onSubmit: () => {
+    }
 };
 
 export default CoachPersonalData

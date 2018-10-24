@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import cn from 'classnames'
 
 import Button from '../Button'
-import CoachPersonalContactItem from '../CoachPersonalContactItem'
 import Input from '../Input'
 import Rate from '../Rate'
 import Icon from '../Icon'
@@ -41,10 +40,10 @@ class CoachPersonalNotificationsForm extends React.Component{
 
     renderNotificationTypes = (destination) => {
         let notificationsArr = [];
-        let notificationsNames = this.props.profileDoctor.notifications[destination];
+        let notificationsNames = this.props.profileStudent.notifications[destination];
         for (let i = 0; i < notificationsNames.length; i++)
             notificationsArr.push(<div className="notifications">
-                <Checkbox className="notificationChk" value={i} key={"notification-" + destination + i}>
+                <Checkbox className="largeChk" value={i} key={"notification-" + destination + i}>
                     {notificationsNames[i]}</Checkbox>
             </div>);
         return notificationsArr;
@@ -88,12 +87,12 @@ class CoachPersonalNotificationsForm extends React.Component{
 const CoachPersonalNotifications  = Form.create()(CoachPersonalNotificationsForm);
 
 CoachPersonalNotifications.propTypes = {
-    profileDoctor: PropTypes.object,
+    profileStudent: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalNotifications.defaultProps = {
-    profileDoctor: {},
+    profileStudent: {},
     onSubmit: () => {}
 };
 

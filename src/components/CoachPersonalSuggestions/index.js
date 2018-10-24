@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import cn from 'classnames'
 
 import Button from '../Button'
-import CoachPersonalContactItem from '../CoachPersonalContactItem'
 import Input from '../Input'
 import Rate from '../Rate'
 import Icon from '../Icon'
@@ -85,12 +84,12 @@ class CoachPersonalSuggestionsForm extends React.Component{
 const CoachPersonalSuggestions  = Form.create()(CoachPersonalSuggestionsForm);
 
 CoachPersonalSuggestions.propTypes = {
-    profileDoctor: PropTypes.object,
+    profileStudent: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalSuggestions.defaultProps = {
-    profileDoctor: {},
+    profileStudent: {},
     onSubmit: () => {}
 };
 

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import cn from 'classnames'
 
 import Button from '../Button'
-import CoachPersonalContactItem from '../CoachPersonalContactItem'
 import Input from '../Input'
 import Rate from '../Rate'
 import Icon from '../Icon'
@@ -50,6 +49,15 @@ class CoachPersonalChangePasswordForm extends React.Component{
         });
     };
 
+    compareToFirstPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('newPassField')) {
+            callback('Пароли не совпадают');
+        } else {
+            callback();
+        }
+    };
+
     render() {
         const {getFieldDecorator} = this.props.form;
         const rootClass = cn('personal-password');
@@ -73,7 +81,10 @@ class CoachPersonalChangePasswordForm extends React.Component{
                                     rules: [{
                                         required: true,
                                         message: 'Введите новый пароль, пожалуйста'
-                                    }],
+                                    },
+                                        {
+                                            validator: this.compareToFirstPassword,
+                                        }],
                                 })(
                                     <InputNew type="password" bubbleplaceholder="Новый пароль"/>
                                 )}
@@ -98,12 +109,12 @@ class CoachPersonalChangePasswordForm extends React.Component{
 const CoachPersonalChangePassword  = Form.create()(CoachPersonalChangePasswordForm);
 
 CoachPersonalChangePassword.propTypes = {
-    profileDoctor: PropTypes.object,
+    profileStudent: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalChangePassword.defaultProps = {
-    profileDoctor: {},
+    profileStudent: {},
     onSubmit: () => {}
 };
 
