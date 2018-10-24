@@ -99,11 +99,11 @@ class CoachPersonalDataTimeForm extends React.Component{
 const CoachPersonalDataTime  = Form.create()(CoachPersonalDataTimeForm);
 
 CoachPersonalDataTime.propTypes = {
-    profileStudent: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 CoachPersonalDataTime.defaultProps = {
-    profileStudent: {}
+    profileCoach: {}
 };
 
 export default CoachPersonalDataTime

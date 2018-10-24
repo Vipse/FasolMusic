@@ -31,31 +31,31 @@ class CoachPersonalProfile extends React.Component{
     }
 
     render() {
-        const profile = this.props.profileStudent;
+        const profile = this.props.profileCoach;
         return (
             <div className="personal-coach-items">
                 <Row type="flex" gutter={32}>
                     <Col className="personal-coach-items-data" span={14}>
                         <CoachPersonalData
                             onSubmitPassword={this.onSubmitPasswordPatient}
-                            profileStudent={profile}
+                            profileCoach={profile}
                             onSubmit={this.onSubmit}
                             onDeleteAvatar={this.props.onDeleteAvatar}
                         />
                     </Col>
                     <Col span={7}>
                             <CoachPersonalSuggestions
-                                profileStudent={profile}
+                                profileCoach={profile}
                                 onSubmit={this.onSubmit}
                                 uploadFile={this.props.uploadFile}
                             />
                             <CoachPersonalChangePassword
-                                profileStudent={profile}
+                                profileCoach={profile}
                                 onSubmit={this.onSubmit}
                                 uploadFile={this.props.uploadFile}
                             />
                             <CoachPersonalNotifications
-                                profileStudent={profile}
+                                profileCoach={profile}
                                 onSubmit={this.onSubmit}
                             />
                     </Col>
@@ -68,12 +68,12 @@ class CoachPersonalProfile extends React.Component{
 }
 
 CoachPersonalProfile.propTypes = {
-    profileStudent: PropTypes.object,
+    profileCoach: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalProfile.defaultProps = {
-    profileStudent: {},
+    profileCoach: {},
     onSubmit: () => {}
 };
 

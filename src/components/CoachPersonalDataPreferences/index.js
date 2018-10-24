@@ -29,7 +29,7 @@ class CoachPersonalDataPreferencesForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { studentGender, studentAge, studentAcceptsHomework, studentQualities, studentComment} = this.props.profileStudent;
+        const { studentGender, studentAge, studentAcceptsHomework, studentQualities, studentComment} = this.props.profileCoach;
         const qualitiesArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-form');
 
@@ -110,11 +110,11 @@ class CoachPersonalDataPreferencesForm extends React.Component{
 const CoachPersonalDataPreferences  = Form.create()(CoachPersonalDataPreferencesForm);
 
 CoachPersonalDataPreferences.propTypes = {
-    profileStudent: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 CoachPersonalDataPreferences.defaultProps = {
-    profileStudent: {}
+    profileCoach: {}
 };
 
 export default CoachPersonalDataPreferences

@@ -84,12 +84,12 @@ class CoachPersonalSuggestionsForm extends React.Component{
 const CoachPersonalSuggestions  = Form.create()(CoachPersonalSuggestionsForm);
 
 CoachPersonalSuggestions.propTypes = {
-    profileStudent: PropTypes.object,
+    profileCoach: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalSuggestions.defaultProps = {
-    profileStudent: {},
+    profileCoach: {},
     onSubmit: () => {}
 };
 

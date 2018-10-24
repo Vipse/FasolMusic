@@ -109,12 +109,12 @@ class CoachPersonalChangePasswordForm extends React.Component{
 const CoachPersonalChangePassword  = Form.create()(CoachPersonalChangePasswordForm);
 
 CoachPersonalChangePassword.propTypes = {
-    profileStudent: PropTypes.object,
+    profileCoach: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalChangePassword.defaultProps = {
-    profileStudent: {},
+    profileCoach: {},
     onSubmit: () => {}
 };
 

@@ -123,7 +123,7 @@ class CoachPersonalDataContactForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { fio, phone, email, country} = this.props.profileStudent;
+        const { fio, phone, email, country} = this.props.profileCoach;
         const rootClass = cn('coach-data-form');
 
         return (
@@ -225,11 +225,11 @@ class CoachPersonalDataContactForm extends React.Component{
 const CoachPersonalDataContact  = Form.create()(CoachPersonalDataContactForm);
 
 CoachPersonalDataContact.propTypes = {
-    profileStudent: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 CoachPersonalDataContact.defaultProps = {
-    profileStudent: {}
+    profileCoach: {}
 };
 
 export default CoachPersonalDataContact

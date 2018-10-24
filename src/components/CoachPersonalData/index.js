@@ -53,27 +53,27 @@ class CoachPersonalData extends React.Component {
             <div className={rootClass}>
                 <Card title="Мои личные данные">
                     <CoachPersonalDataContact
-                        profileStudent={this.props.profileStudent}
+                        profileCoach={this.props.profileCoach}
                         onSubmitPassword={this.props.onSubmitPassword}
                         onDeleteAvatar={this.props.onDeleteAvatar}
                     />
                     <CoachPersonalDataInfo
-                        profileStudent={this.props.profileStudent}
+                        profileCoach={this.props.profileCoach}
                     />
                     <CoachPersonalDataPromo
-                        profileStudent={this.props.profileStudent}
+                        profileCoach={this.props.profileCoach}
                     />
                     <CoachPersonalDataPayment
-                        profileStudent={this.props.profileStudent}
+                        profileCoach={this.props.profileCoach}
                     />
                     <CoachPersonalDataSkill
-                        profileStudent={this.props.profileStudent}
+                        profileCoach={this.props.profileCoach}
                     />
                     <CoachPersonalDataPreferences
-                        profileStudent={this.props.profileStudent}
+                        profileCoach={this.props.profileCoach}
                     />
                     <CoachPersonalDataTime
-                        profileStudent={this.props.profileStudent}
+                        profileCoach={this.props.profileCoach}
                     />
 
                     <Button
@@ -94,12 +94,12 @@ class CoachPersonalData extends React.Component {
 }
 
 CoachPersonalData.propTypes = {
-    profileStudent: PropTypes.object,
+    profileCoach: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalData.defaultProps = {
-    profileStudent: {},
+    profileCoach: {},
     onSubmit: () => {
     }
 };

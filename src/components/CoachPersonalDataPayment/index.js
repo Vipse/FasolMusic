@@ -20,18 +20,35 @@ import TextArea from "../TextArea";
 import DatePickerNew from "../DatePickerNew";
 import cardIcon from "../../img/card.png"
 import yandexMoneyIcon from "../../img/yandexMoney.png"
+import InputWithTT from "../InputWithTT";
 
 const FormItem = Form.Item;
 
 class CoachPersonalDataPaymentForm extends React.Component{
     constructor() {
         super();
-        this.state = {}
+        this.state = {
+            bankCard: {
+                linked: true
+            },
+            yandexMoney: {
+                linked: false
+            }
+        }
     }
+
+    handleLinkStatus = (e, method) => {
+        e.preventDefault();
+        this.setState({
+            [method]: {
+                linked: !this.state[method].linked
+            }
+        });
+    };
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { gender, birthday, speciality, interests, aboutMe} = this.props.profileStudent;
+        const { payments } = this.props.profileCoach;
         const rootClass = cn('coach-data-form');
 
         return (
@@ -40,97 +57,138 @@ class CoachPersonalDataPaymentForm extends React.Component{
                 <div className='coach-data-block'>
                     <div className='coach-data-payment'>
                         <div className="payment-method">
-                            <img src={cardIcon} className="payment-method-icon"/>
+                            <div className="payment-method-view">
+                                <img src={cardIcon} className="payment-method-icon"/>
+                                <span className="payment-method-name">Карта</span>
+                            </div>
                             <Button className="payment-method-linkBtn"
-                                btnText='Привязать'
-                                onClick={this.handleSubmitNotification}
-                                size='default'
-                                type='float'
-                                style={{marginRight: "20px"}}
+                                btnText={this.state.bankCard.linked ? 'Отвязать' : 'Привязать'}
+                                onClick={(e) => this.handleLinkStatus(e, "bankCard")}
+                                size='small'
+                                type={this.state.bankCard.linked ? 'dark-blue' : 'float'}
                             />
-                            <span className="payment-method-name">Карта</span>
+                            {this.state.bankCard.linked &&
+                            <div className="payment-method-fields">
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('number', {
+                                        initialValue: "1234 5678 1234 5678",
+                                        rules: [{ required: true,
+                                            message: 'Введите номер карты, пожалуйста'
+                                        }],
+                                    })(
+                                        <InputNew width ="100%" bubbleplaceholder="Номер карты"/>
+                                    )}
+                                </FormItem>
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('dateExpire', {
+                                        initialValue: "",
+                                        rules: [{ required: true,
+                                            message: 'Введите срок действия, пожалуйста'
+                                        }],
+                                    })(
+                                        <DatePickerNew width ="100%"
+                                                       bubbleplaceholder="Срок действия"
+                                        />
+                                    )}
+                                </FormItem>
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('ownerName', {
+                                        initialValue: "",
+                                        rules: [{ required: true,
+                                            message: 'Введите имя держателя карты, пожалуйста'
+                                        }],
+                                    })(
+                                        <InputWithTT
+                                            width ="100%"
+                                            bubbleplaceholder="Имя держателя карты"
+                                            tooltip="Имя держателя карты Tooltip"
+                                        />
+                                    )}
+                                </FormItem>
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('CVC', {
+                                        initialValue: "",
+                                        rules: [{ required: true,
+                                            message: 'Введите CVC-код, пожалуйста'
+                                        }],
+                                    })(
+                                        <InputWithTT
+                                            width ="100%"
+                                            bubbleplaceholder="CVC"
+                                            tooltip="CVC Tooltip"
+                                        />
+                                    )}
+                                </FormItem>
+                            </div>}
                         </div>
                         <div className="payment-method">
-                            <img src={yandexMoneyIcon} className="payment-method-icon"/>
+                            <div className="payment-method-view">
+                                <img src={yandexMoneyIcon} className="payment-method-icon"/>
+                                <span className="payment-method-name">Яндекс.Деньги</span>
+                            </div>
                             <Button className="payment-method-linkBtn"
-                                btnText='Привязать'
-                                onClick={this.handleSubmitNotification}
-                                size='default'
-                                type='float'
-                                style={{marginRight: "20px"}}
+                                btnText={this.state.yandexMoney.linked ? 'Отвязать' : 'Привязать'}
+                                    onClick={(e) => this.handleLinkStatus(e, "yandexMoney")}
+                                size='small'
+                                type={this.state.yandexMoney.linked ? 'dark-blue' : 'float'}
                             />
-                            <span className="payment-method-name">Яндекс.Деньги</span>
+                            {this.state.yandexMoney.linked &&
+                            <div className="payment-method-fields">
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('number', {
+                                        initialValue: "1234 5678 1234 5678",
+                                        rules: [{ required: true,
+                                            message: 'Введите номер карты, пожалуйста'
+                                        }],
+                                    })(
+                                        <InputNew width ="100%" bubbleplaceholder="Номер карты"/>
+                                    )}
+                                </FormItem>
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('dateExpire', {
+                                        initialValue: "",
+                                        rules: [{ required: true,
+                                            message: 'Введите срок действия, пожалуйста'
+                                        }],
+                                    })(
+                                        <DatePickerNew width ="100%"
+                                                       bubbleplaceholder="Срок действия"
+                                        />
+                                    )}
+                                </FormItem>
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('ownerName', {
+                                        initialValue: "",
+                                        rules: [{ required: true,
+                                            message: 'Введите имя держателя карты, пожалуйста'
+                                        }],
+                                    })(
+                                        <InputWithTT
+                                            width ="100%"
+                                            bubbleplaceholder="Имя держателя карты"
+                                            tooltip="Имя держателя карты Tooltip"
+                                        />
+                                    )}
+                                </FormItem>
+                                <FormItem className="input-form-item">
+                                    {getFieldDecorator('CVC', {
+                                        initialValue: "",
+                                        rules: [{ required: true,
+                                            message: 'Введите CVC-код, пожалуйста'
+                                        }],
+                                    })(
+                                        <InputWithTT
+                                            width ="100%"
+                                            bubbleplaceholder="CVC"
+                                            tooltip="CVC Tooltip"
+                                        />
+                                    )}
+                                </FormItem>
+                            </div>}
                         </div>
-                        {/*<FormItem className="input-form-item">
-                            {getFieldDecorator('gender', {
-                                initialValue: gender,
-                                rules: [{ required: true,
-                                    message: 'Выберите пол, пожалуйста'
-                                }],
-                            })(
-                                <SelectNew width ="100%"
-                                           bubbleplaceholder="Пол"
-                                           data={["Мужской", "Женский"]}
-                                />
-                            )}
-                        </FormItem>
-                        <FormItem className="input-form-item">
-                            {getFieldDecorator('birthday', {
-                                initialValue: birthday,
-                                rules: [{ required: true,
-                                    message: 'Выберите дату рождения, пожалуйста'
-                                }],
-                            })(
-                                <DatePickerNew width ="100%"
-                                           bubbleplaceholder="Дата рождения"
-                                />
-                            )}
-                        </FormItem>
-                        <FormItem className="input-form-item">
-                            {getFieldDecorator('speciality', {
-                                initialValue: speciality,
-                                rules: [{ required: true,
-                                    message: 'Выберите сферу деятельности, пожалуйста'
-                                }],
-                            })(
-                                <SelectNew width ="100%"
-                                           bubbleplaceholder="Сфера деятельности"
-                                           data={specialityArr}
-                                />
-                            )}
-                        </FormItem>
-                        <FormItem className="input-form-item">
-                            {getFieldDecorator('interests', {
-                                initialValue: interests,
-                                rules: [{ required: true,
-                                    message: 'Выберите интересы, пожалуйста'
-                                }],
-                            })(
-                                <SelectNew width ="100%"
-                                           bubbleplaceholder="Интересы"
-                                           mode="multiple"
-                                           data={interestsArr}
-                                />
-                            )}
-                        </FormItem>
-                        <FormItem className="input-form-item">
-                            {getFieldDecorator('aboutMe', {
-                                initialValue: aboutMe,
-                                rules: [{
-                                        required: true,
-                                        message: 'Напишите о себе, пожалуйста'
-                                    }]
-                            })(
-                                <TextArea
-                                    label="О себе"
-                                    placeholder=""
-                                    className="step-form-item"
-                                />
-                            )}
-                        </FormItem>*/}
+
                     </div>
                 </div>
-
             </Form>
         )
     }
@@ -139,11 +197,11 @@ class CoachPersonalDataPaymentForm extends React.Component{
 const CoachPersonalDataPayment  = Form.create()(CoachPersonalDataPaymentForm);
 
 CoachPersonalDataPayment.propTypes = {
-    profileStudent: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 CoachPersonalDataPayment.defaultProps = {
-    profileStudent: {}
+    profileCoach: {}
 };
 
 export default CoachPersonalDataPayment

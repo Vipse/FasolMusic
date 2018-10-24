@@ -51,7 +51,7 @@ class CoachPersonalDataPromoForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const videoUrl = this.state.videoThumb ? this.state.videoThumb : this.props.profileStudent.videoThumb ? this.props.profileStudent.videoThumb : "";
+        const videoUrl = this.state.videoThumb ? this.state.videoThumb : this.props.profileCoach.videoThumb ? this.props.profileCoach.videoThumb : "";
         const rootClass = cn('coach-data-form');
 
         return (
@@ -77,11 +77,11 @@ class CoachPersonalDataPromoForm extends React.Component{
 const CoachPersonalDataPromo  = Form.create()(CoachPersonalDataPromoForm);
 
 CoachPersonalDataPromo.propTypes = {
-    profileStudent: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 CoachPersonalDataPromo.defaultProps = {
-    profileStudent: {}
+    profileCoach: {}
 };
 
 export default CoachPersonalDataPromo

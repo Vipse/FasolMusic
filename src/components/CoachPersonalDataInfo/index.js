@@ -29,7 +29,7 @@ class CoachPersonalDataInfoForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { gender, birthday, speciality, interests, aboutMe} = this.props.profileStudent;
+        const { gender, birthday, speciality, interests, aboutMe} = this.props.profileCoach;
         const specialityArr = ["Программист"];
         const interestsArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-form');
@@ -71,7 +71,8 @@ class CoachPersonalDataInfoForm extends React.Component{
                                     message: 'Выберите сферу деятельности, пожалуйста'
                                 }],
                             })(
-                                <SelectNew width ="100%"
+                                <SelectNew className=""
+                                           width ="100%"
                                            bubbleplaceholder="Сфера деятельности"
                                            data={specialityArr}
                                 />
@@ -117,11 +118,11 @@ class CoachPersonalDataInfoForm extends React.Component{
 const CoachPersonalDataInfo  = Form.create()(CoachPersonalDataInfoForm);
 
 CoachPersonalDataInfo.propTypes = {
-    profileStudent: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 CoachPersonalDataInfo.defaultProps = {
-    profileStudent: {}
+    profileCoach: {}
 };
 
 export default CoachPersonalDataInfo

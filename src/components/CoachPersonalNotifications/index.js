@@ -40,7 +40,7 @@ class CoachPersonalNotificationsForm extends React.Component{
 
     renderNotificationTypes = (destination) => {
         let notificationsArr = [];
-        let notificationsNames = this.props.profileStudent.notifications[destination];
+        let notificationsNames = this.props.profileCoach.notifications[destination];
         for (let i = 0; i < notificationsNames.length; i++)
             notificationsArr.push(<div className="notifications">
                 <Checkbox className="largeChk" value={i} key={"notification-" + destination + i}>
@@ -87,12 +87,12 @@ class CoachPersonalNotificationsForm extends React.Component{
 const CoachPersonalNotifications  = Form.create()(CoachPersonalNotificationsForm);
 
 CoachPersonalNotifications.propTypes = {
-    profileStudent: PropTypes.object,
+    profileCoach: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 CoachPersonalNotifications.defaultProps = {
-    profileStudent: {},
+    profileCoach: {},
     onSubmit: () => {}
 };
 

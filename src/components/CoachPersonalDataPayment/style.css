@@ -9,14 +9,37 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
-.coach-data-payment .payment-method-icon {
-  max-width: 60%;
+.coach-data-payment .payment-method:nth-child(1) {
+  width: 47.5%;
+  height: auto;
+  margin-right: 40px;
+}
+.coach-data-payment .payment-method:nth-child(2) {
+  width: 47.5%;
+}
+.coach-data-payment .payment-method:nth-child(3) {
+  width: 100%;
+}
+.coach-data-payment .payment-method-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 .coach-data-payment .payment-method-linkBtn {
-  max-width: 20%;
+  margin-left: 40px;
+  height: 39px;
 }
-.coach-data-payment .payment-method-name {
+.coach-data-payment .payment-method-fields {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.coach-data-payment .payment-method-fields .input-form-item .new-input-wrapper {
+  border-bottom: 1px solid #d9d9d9;
+}
+.coach-data-payment .payment-method-fields .input-form-item .new-input-wrapper label {
+  font-family: RobotoRegular;
 }

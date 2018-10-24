@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import CoachPersonalDataContact from '../';
 
-const profileStudent = {
+const profileCoach = {
     fio: "Иванова Иван Иванович",
     phone: "+375 29 111 11 11",
     email: "test@test.com",
@@ -14,7 +14,7 @@ storiesOf('CoachPersonalDataContact', module)
     .add('CoachPersonalDataContact', () => (
         <div>
             <CoachPersonalDataContact
-                profileStudent={profileStudent}
+                profileCoach={profileCoach}
             />
         </div>
     ))
