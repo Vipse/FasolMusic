@@ -1,0 +1,14 @@
+a {
+  color: #204d8d;
+}
+a:hover {
+  color: #204d8d;
+  text-decoration: underline;
+}
+.personal-password .password-column {
+  margin: 30px 35px 35px 35px;
+}
+.personal-password .password-column-input {
+  margin-bottom: 40px;
+  width: 80%;
+}

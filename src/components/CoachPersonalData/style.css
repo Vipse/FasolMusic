@@ -1,0 +1,32 @@
+.coach-data {
+  position: relative;
+  min-width: 450px;
+}
+.coach-data-saveBtn {
+  margin: 0 25px 50px 25px;
+}
+.coach-data .new-input input[type="text"] {
+  font-family: RobotoMedium;
+}
+.coach-data .new-input .ant-select-selection-selected-value {
+  font-family: RobotoMedium;
+}
+.coach-data .ant-calendar-picker-input {
+  font-family: RobotoMedium;
+  margin-bottom: -1px;
+}
+.coach-data-form {
+  padding: 25px;
+}
+.coach-data-block {
+  position: relative;
+  display: flex;
+}
+.coach-data-title {
+  position: relative;
+  width: 100%;
+  color: #21bedd;
+  font-family: "RobotoMediumItalic";
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}

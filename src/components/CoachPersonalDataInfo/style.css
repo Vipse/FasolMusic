@@ -1,0 +1,33 @@
+.coach-data-additionalInfo {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.coach-data-additionalInfo .input-form-item:nth-child(1) {
+  width: 47.5%;
+}
+.coach-data-additionalInfo .input-form-item:nth-child(2) {
+  width: 47.5%;
+}
+.coach-data-additionalInfo .input-form-item:nth-child(3) {
+  width: 100%;
+}
+.coach-data-additionalInfo .input-form-item:nth-child(4) {
+  width: 100%;
+}
+.coach-data-additionalInfo .input-form-item:nth-child(5) {
+  width: 100%;
+}
+.coach-data-additionalInfo .textarea-label {
+  color: #777777;
+  font-family: RobotoRegular;
+}
+.coach-data-additionalInfo .textarea-field {
+  border-color: #e1e1e1;
+  height: 133px;
+}
+.coach-data-additionalInfo .input-form-item {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,20 @@
+.personal-suggestions .suggestions-column {
+  margin: 27px 35px 35px 35px;
+}
+.personal-suggestions .suggestions-column p {
+  font-family: RobotoRegularItalic;
+  color: #000011;
+}
+.personal-suggestions .suggestions-column-input {
+  margin-top: 20px;
+  margin-bottom: 35px;
+  height: 180px;
+}
+.personal-suggestions .suggestions-column-input .textarea-label {
+  font-family: RobotoRegular;
+  color: #777777;
+  margin-bottom: 7px;
+}
+.personal-suggestions .suggestions-column-input .textarea-field {
+  border-color: #e1e1e1;
+}

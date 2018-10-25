@@ -1,0 +1,116 @@
+.coach {
+  &-data {
+
+    &-avatar {
+      width: 25%;
+      position: relative;
+      padding: 0 25px;
+      margin-right: 50px;
+
+      .profileAvatar-size-large {
+        margin-bottom: 0;
+
+        .profileImg {
+          width: 120px;
+          height: 120px;
+        }
+      }
+
+      &-controls {
+        display: flex;
+        justify-content: center;
+        width: 120px;
+
+        .file-upload {
+          position: relative;
+          padding: 2px 7px;
+          width: 40px;
+          overflow: hidden;
+          color: #999;
+
+          &:hover {
+            color: #21bedd;
+            cursor: pointer;
+          }
+
+          &-label {
+            display: flex;
+            color: inherit;
+            justify-content: center;
+            padding-top: 11px;
+          }
+
+          &-input {
+            cursor: pointer;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            font-size: 0;
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+          }
+        }
+
+        .btn {
+          transition: none;
+
+          .icon, .anticon {
+            color: #999;
+          }
+
+          &:hover {
+            border: none;
+
+            .icon, .anticon {
+              color: #21bedd;
+            }
+          }
+
+          &:focus {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+
+    &-info {
+      width: 40%;
+
+      .input-form-item {
+        margin-bottom: 20px;
+      }
+    }
+
+    &-social {
+      width: 40%;
+      margin-left: 50px;
+      .social-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        &-icon {
+          padding-top: 10px;
+          padding-right: 10px;
+        }
+        &-link {
+          padding-top: 7px;
+          font-family: RobotoRegular;
+        }
+        &-btn-link {
+          margin-top: 10px;
+          margin-left: auto;
+        }
+        &-btn-close {
+          margin-top: 5px;
+          width: 30px;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}

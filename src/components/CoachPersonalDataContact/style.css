@@ -1,0 +1,98 @@
+.coach-data-avatar {
+  width: 25%;
+  position: relative;
+  padding: 0 25px;
+  margin-right: 50px;
+}
+.coach-data-avatar .profileAvatar-size-large {
+  margin-bottom: 0;
+}
+.coach-data-avatar .profileAvatar-size-large .profileImg {
+  width: 120px;
+  height: 120px;
+}
+.coach-data-avatar-controls {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+.coach-data-avatar-controls .file-upload {
+  position: relative;
+  padding: 2px 7px;
+  width: 40px;
+  overflow: hidden;
+  color: #999;
+}
+.coach-data-avatar-controls .file-upload:hover {
+  color: #21bedd;
+  cursor: pointer;
+}
+.coach-data-avatar-controls .file-upload-label {
+  display: flex;
+  color: inherit;
+  justify-content: center;
+  padding-top: 11px;
+}
+.coach-data-avatar-controls .file-upload-input {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 0;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+}
+.coach-data-avatar-controls .btn {
+  transition: none;
+}
+.coach-data-avatar-controls .btn .icon,
+.coach-data-avatar-controls .btn .anticon {
+  color: #999;
+}
+.coach-data-avatar-controls .btn:hover {
+  border: none;
+}
+.coach-data-avatar-controls .btn:hover .icon,
+.coach-data-avatar-controls .btn:hover .anticon {
+  color: #21bedd;
+}
+.coach-data-avatar-controls .btn:focus {
+  background-color: transparent;
+}
+.coach-data-info {
+  width: 40%;
+}
+.coach-data-info .input-form-item {
+  margin-bottom: 20px;
+}
+.coach-data-social {
+  width: 40%;
+  margin-left: 50px;
+}
+.coach-data-social .social-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.coach-data-social .social-row-icon {
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.coach-data-social .social-row-link {
+  padding-top: 7px;
+  font-family: RobotoRegular;
+}
+.coach-data-social .social-row-btn-link {
+  margin-top: 10px;
+  margin-left: auto;
+}
+.coach-data-social .social-row-btn-close {
+  margin-top: 5px;
+  width: 30px;
+  justify-content: flex-end;
+}
