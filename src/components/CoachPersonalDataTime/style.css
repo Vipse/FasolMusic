@@ -25,12 +25,12 @@
   width: 200px;
 }
 .coach-data-comfortTime .ant-slider-rail {
-  height: 1px;
+  height: 0.1em;
   background-color: #000;
 }
 .coach-data-comfortTime .ant-slider-track {
   background-color: #21bedd;
-  height: 1px;
+  height: 0.1em;
 }
 .coach-data-comfortTime .ant-slider-disabled .ant-slider-handle,
 .coach-data-comfortTime .ant-slider-disabled .ant-slider-track {
