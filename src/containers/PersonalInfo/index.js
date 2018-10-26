@@ -1,11 +1,6 @@
 import React from 'react'
 import Row from "../../components/Row";
 import Col from "../../components/Col";
-import PersonalContact from "../../components/PersonalContact";
-import PersonalEducation from "../../components/PersonalEducation";
-import PersonalExperience from "../../components/PersonalExperience";
-import PersonalInformation from "../../components/PersonalInformation";
-import WarningModal from "../../components/WarningModal";
 
 import Hoc from '../../hoc'
 import './styles.css'
@@ -14,6 +9,8 @@ import * as actions from "../../store/actions";
 import{compileToClientPatient, compileToServerPatient} from './compilerPatient'
 import PatientAccardionContact from "../../components/PatientAccardionContact";
 import PatientAccardionDisease from "../../components/PatientAccardionDisease";
+import CoachPersonalProfile from "../../components/CoachPersonalProfile";
+import PersonalContact from "../../components/PersonalContact";
 
 class PersonalInfo extends React.Component{
     constructor(props){
@@ -71,46 +68,13 @@ class PersonalInfo extends React.Component{
                             </Col>
                         </Row>
                     </div>) : (
-                    <div className="doctor-persoonal-items">
-                        <Row>
-                            <Col xs={24} xxl={18}>
-                                <PersonalContact
-                                    onSubmitPassword={this.onSubmitPasswordPatient}
-                                    profileDoctor={profile}
-                                    onSubmit={this.onSubmit}
-                                    onDeleteAvatar={this.props.onDeleteAvatar}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={24} xxl={18}>
-                                <PersonalEducation
-                                    profileDoctor={profile}
-                                    onSubmit={this.onSubmit}
-                                    uploadFile={this.props.uploadFile}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={24} xxl={18}>
-                                <PersonalExperience
-                                    profileDoctor={profile}
-                                    onSubmit={this.onSubmit}
-                                    uploadFile={this.props.uploadFile}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={24} xxl={18}>
-                                <PersonalInformation
-                                    profileDoctor={profile}
-                                    onSubmit={this.onSubmit}
-                                />
-                            </Col>
-                        </Row>
-                        <WarningModal visible={this.state.visible} onClick={this.onVisible}
-                                      message="Изменения всупят в силу после проверки администратором"/>
-                    </div>)}
+                    <CoachPersonalProfile
+                        onSubmitPassword={this.onSubmitPasswordPatient}
+                        profileDoctor={profile}
+                        onSubmit={this.onSubmit}
+                        onDeleteAvatar={this.props.onDeleteAvatar}
+                        onUploadFile={this.props.uploadFile}
+                    />)}
             </Hoc>
         )
     }

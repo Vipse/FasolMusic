@@ -28,7 +28,7 @@ class CoachPersonalChangePasswordForm extends React.Component{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.setState({loadingPass:true});
+                /*this.setState({loadingPass:true});
 
                 this.props.onSubmitPassword(values.oldPassField, values.newPassField)
                     .then((res) => {
@@ -42,7 +42,7 @@ class CoachPersonalChangePasswordForm extends React.Component{
                         else{
                             message.error("Произошла ошибка, попробуйте ещё раз")
                         }
-                    })
+                    })*/
             } else {
                 console.log(err);
             }

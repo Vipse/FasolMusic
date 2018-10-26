@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  height: 40px;
 }
 .coach-data-payment .payment-method:nth-child(1) {
   width: 47.5%;
@@ -24,8 +25,9 @@
 .coach-data-payment .payment-method-view {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
+  height: 60px;
 }
 .coach-data-payment .payment-method-linkBtn {
   margin-left: 40px;

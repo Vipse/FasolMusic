@@ -26,13 +26,13 @@ class CoachPersonalData extends React.Component {
 
     handleSubmitInfo = (e) => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        /*this.props.form.validateFields((err, values) => {
             if (!err) {
                 // this.setState({loadingInfo:true});
                 if (this.state.avatar) {
                     values.avatar = {...this.state.avatar}
                 }
-                this.props.onSubmit(values)
+                //this.props.onSubmit(values)
                 // .then((res) => {
                 //     this.setState({loadingInfo: false});
                 //     if (res.data.code === 200) {
@@ -44,7 +44,7 @@ class CoachPersonalData extends React.Component {
             } else {
                 console.log(err);
             }
-        });
+        });*/
     };
 
     render() {
