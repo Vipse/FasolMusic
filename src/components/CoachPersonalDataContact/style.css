@@ -88,11 +88,13 @@
   font-family: RobotoRegular;
 }
 .coach-data-social .social-row-btn-link {
-  margin-top: 10px;
-  margin-left: auto;
+  margin: 10px 10px 0 0;
 }
 .coach-data-social .social-row-btn-close {
-  margin-top: 5px;
-  width: 30px;
-  justify-content: flex-end;
+  margin: 10px 10px 0 0;
+  min-width: 20px;
+  padding: 2px;
+}
+.coach-data-social .social-row-btn-close .icon {
+  margin-right: 0;
 }

@@ -38,19 +38,22 @@ class CoachPersonalNotificationsForm extends React.Component{
         });
     };
 
-    renderNotificationTypes = (destination) => {
+    renderNotificationTypes = (notificationsNamesArr) => {
         let notificationsArr = [];
-        let notificationsNames = this.props.profileCoach.notifications[destination];
-        for (let i = 0; i < notificationsNames.length; i++)
+        for (let i = 0; i < notificationsNamesArr.length; i++)
             notificationsArr.push(<div className="notifications">
-                <Checkbox className="largeChk" value={i} key={"notification-" + destination + i}>
-                    {notificationsNames[i]}</Checkbox>
+                <Checkbox className="largeChk" value={i} key={"notification-" + i}>
+                    {notificationsNamesArr[i]}</Checkbox>
             </div>);
         return notificationsArr;
     };
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        const notificationsNames = {
+            email: ["Тип 1", "Тип 2", "Тип 3", "Тип 4"],
+            phone: ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"]
+        };
         const rootClass = cn('personal-notifications');
         return (
             <Form className={rootClass}>
@@ -59,12 +62,12 @@ class CoachPersonalNotificationsForm extends React.Component{
                         <div className='notifications-column-input'>
                             <div className='personal-notifications-type'>
                                 <div className='personal-notifications-title'>Присылать на почту</div>
-                                {this.renderNotificationTypes("email")}
+                                {this.renderNotificationTypes(notificationsNames.email)}
                             </div>
 
                             <div className='personal-notifications-type'>
                                 <div className='personal-notifications-title'>На телефон</div>
-                                {this.renderNotificationTypes("phone")}
+                                {this.renderNotificationTypes(notificationsNames.phone)}
                             </div>
                         </div>
 
