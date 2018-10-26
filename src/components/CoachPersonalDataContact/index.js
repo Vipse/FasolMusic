@@ -111,7 +111,6 @@ class CoachPersonalDataContactForm extends React.Component{
                               }}
                               size='small'
                               type='float'
-                              style={{marginRight: "20px"}}
                     />
                 }
             </div>

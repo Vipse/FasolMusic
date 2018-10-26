@@ -24,7 +24,7 @@ const FormItem = Form.Item;
 class CoachPersonalDataInfoForm extends React.Component{
     constructor() {
         super();
-        this.state  = {}
+        this.state = {}
     }
 
     render(){
