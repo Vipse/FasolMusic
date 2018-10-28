@@ -232,7 +232,7 @@ class ContentForm extends React.Component {
                 </div>
 
 
-                <TextArea label='Комментарий к приему'
+                <TextArea label='Комментарий'
                           value={this.state.message}
                           onChange={message => this.setState({message})}
                           className="NewVisitModal-txtarea"/>

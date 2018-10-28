@@ -176,7 +176,7 @@ class ContentForm extends React.Component {
                         )}
                 </FormItem>
                 
-                <TextArea label='Комментарий к приему'
+                <TextArea label='Комментарий'
                             value={this.state.message}
                             onChange={message => this.setState({message})}
                           className="NewVisitModal-txtarea"/>

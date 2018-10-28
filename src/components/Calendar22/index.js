@@ -74,7 +74,6 @@ class BigCalendar extends React.Component{
     };
     
     render() {       
-
         let prop = this.props.editor ? {
                 ...this.props,
                 schedules: this.changeSchedule(),
@@ -110,7 +109,8 @@ class BigCalendar extends React.Component{
                             events={this.changeEvents()}
                             schedules={this.changeSchedule()}
                             defaultView={'week'}
-                            views={['day', 'week', 'month']}
+                            views={['week']}
+                           
 
                             {...prop}/>
             }

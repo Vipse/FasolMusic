@@ -111,6 +111,7 @@ class CoachPersonalDataContactForm extends React.Component{
                               }}
                               size='small'
                               type='float'
+                              style={{marginRight: "20px"}}
                     />
                 }
             </div>
@@ -209,9 +210,7 @@ class CoachPersonalDataContactForm extends React.Component{
                     </div>
 
                     <div className="coach-data-social">
-                        {this.renderSocial("vk")}
                         {this.renderSocial("facebook")}
-                        {this.renderSocial("twitter")}
                         {this.renderSocial("gplus")}
                     </div>
                 </div>

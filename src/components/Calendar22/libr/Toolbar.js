@@ -55,7 +55,7 @@ class Toolbar extends React.Component {
   viewNamesGroup(messages) {
     let viewNames = this.props.views
     const view = this.props.view
-
+    console.log("viewNamesGroup", viewNames);
     if (viewNames.length > 1) {
       return viewNames.map(name => (
         <Button

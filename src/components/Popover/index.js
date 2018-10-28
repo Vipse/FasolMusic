@@ -39,12 +39,7 @@ class PopoverApp extends React.Component {
                         calendarItem={this.props.events}
                     />
                     :
-                    <PopoverBody
-                        {...this.props.data}
-                        onClose={this.handleClose}
-                        onEmail={this.handleEmail}
-                        onGoto={this.props.onGoto}
-                    />}
+                    null}
                 trigger="click"
                 visible={this.state.visible}
                 onVisibleChange={this.handleVisibleChange}

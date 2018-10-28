@@ -229,11 +229,7 @@ class App extends React.Component {
                         </Switch>
                     </div>
                 </div>
-                <div className="main-footer">
-                        <div className="main-footer-item company">AppDoc 2018</div>
-                        <div className="main-footer-item copirate">© Все права защищены</div>
-                </div>
-                    <button id="bugfix" onClick={()=>this.setState({bugfixVisible: true})}></button>
+           
                     { this.state.isExtrActual && this.props.isIn
                         && <button className='emergencyCall' onClick={this.props.docEmergancyCallSend}>
                             Запрос на экстренный вызов</button> }

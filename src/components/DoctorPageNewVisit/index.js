@@ -136,7 +136,7 @@ class DoctorPageNewVisitForm extends React.Component {
                                 {getFieldDecorator('comment', {
                                     initialValue: this.state.comment
                                 })(
-                                    <TextArea label='Комментарий к приему'
+                                    <TextArea label='Комментарий'
                                               className="NewVisitModal-txtarea"/>
                                 )}
                             </FormItem>

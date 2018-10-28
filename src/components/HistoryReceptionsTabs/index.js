@@ -197,7 +197,7 @@ class HistoryReceptionsTabs extends React.Component {
                         <div className="tableheader-name">Предварительное заключение</div>
                     </div>
                     <div className="flex-col">
-                        <div className="tableheader-name">Комментарий к приему</div>
+                        <div className="tableheader-name">Комментарий</div>
                     </div>
                     <div className="flex-col">
                         <div className="tableheader-name">Стоимость</div>

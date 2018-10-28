@@ -9,6 +9,7 @@ import MyDoctors from '../containers/MyDoctors'
 
 import Chat from '../containers/Chat'
 import DoctorPage from "../containers/DoctorPage";
+import CoachPersonalData from '../components/CoachPersonalData/index';
 
 export const docRoutes = [
     {
@@ -38,7 +39,7 @@ export const docRoutes = [
     },
     {
         path: '/app/personal-info',
-        component: PersonalInfo,
+        component: CoachPersonalData,
         exact: true,
     },
     {
@@ -100,17 +101,17 @@ export const menuDoc =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
     {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
-    {name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
+    //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
-    {name: 'app/reviews', title: 'Отзывы пациентов', iconType: 'chat', svg: true},
+    //{name: 'app/reviews', title: 'Отзывы пациентов', iconType: 'chat', svg: true},
 ];
 
 export const menuPatient =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/calendar', title: 'Календарь', iconType: 'calendar', svg: true},
     {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
-    {name: 'app/doctors', title: 'Мои врачи', iconType: 'user',},
+   // {name: 'app/doctors', title: 'Мои врачи', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
-    {name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
+    //{name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
 

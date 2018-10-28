@@ -202,14 +202,6 @@ export default class TimeGrid extends Component {
   ) : (
     <div ref="content" className="calendar-empty-content">
       <div className="warning">График не заполнен.</div>
-      <div className="decision">Для его редактирования перейдите в 
-      <Button
-                    btnText='Редактор графика'
-                    size='go'
-                    type='go'
-                    svg
-                    onClick={this.props.gotoEditor}
-            />.</div>
     </div>
   )
 }

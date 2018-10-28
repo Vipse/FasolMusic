@@ -88,7 +88,7 @@ export default class TimeColumn extends Component {
     let date = min
     let next = date
     let isNow = false
-
+ 
     for (var i = 0; i < numGroups; i++) {
       isNow = dates.inRange(
         now,
