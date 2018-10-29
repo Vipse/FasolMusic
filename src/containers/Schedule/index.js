@@ -248,6 +248,8 @@ class Schedule extends React.Component {
                                   events = {this.props.allUserVisits}
                                   onNavigate={this.dateChangeHandler}
                                   date={this.state.currentDate}
+
+                                
             />)
         } else if (this.state.isEditorMode) {
             editorBtn = (<Button btnText='Вернуться к графику'
@@ -297,6 +299,11 @@ class Schedule extends React.Component {
                                   max={max}
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
+
+                                   // date={this.state.currentDate}
+                                   onChange={this.dateChangeHandler}
+                                   //  isUser = {this.props.isUser}
+                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
             />)
         }
 
@@ -309,17 +316,18 @@ class Schedule extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={19}>
+                    <Col span={24}>
                         {calendar}
+                     />
                     </Col>
-                    {/* <Col span={5} style={{textAlign: 'center'}}>
+                    <Col span={5} style={{textAlign: 'center'}}>
 
                         <SmallCalendar date={this.state.currentDate}
                                        onChange={this.dateChangeHandler}
                                        isUser = {this.props.isUser}
                                        highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
                                     />
-                    </Col> */}
+                    </Col>
                 </Row>
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}

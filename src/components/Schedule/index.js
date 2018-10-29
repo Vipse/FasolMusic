@@ -307,6 +307,7 @@ class Schedule extends React.Component {
                     <Col span={19} className='schedule-title'>
                         Расписание тренировок
                     </Col>
+                    
                 </Row>
                 <Row>
                     <Col span={19}>

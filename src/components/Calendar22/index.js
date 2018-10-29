@@ -73,7 +73,7 @@ class BigCalendar extends React.Component{
             }) : [];
     };
     
-    render() {       
+    render() {    console.log("props", this.props);    
         let prop = this.props.editor ? {
                 ...this.props,
                 schedules: this.changeSchedule(),

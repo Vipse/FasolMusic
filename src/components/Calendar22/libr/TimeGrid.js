@@ -22,6 +22,7 @@ import { notify } from './utils/helpers'
 import { accessor as get } from './utils/accessors'
 
 import { inRange, sortEvents, segStyle } from './utils/eventLevels'
+import SmallCalendar from './../../SmallCalendar/index';
 
 export default class TimeGrid extends Component {
   static propTypes = {
@@ -184,28 +185,28 @@ export default class TimeGrid extends Component {
       <div className="rbc-time-view">
         {this.renderHeader(range, allDayEvents, width, resources)}
 
-{
-  this.props.intervals.length ? 
-  (
-    <div ref="content" className="rbc-time-content">
-          {/*<div ref="timeIndicator" className="rbc-current-time-indicator" />*/}
-
-          <TimeColumn
-            {...this.props}
-            showLabels
-            style={{ width }}
-            ref={gutterRef}
-            className="rbc-time-gutter"
-          />
-          {eventsRendered}
-        </div>
-  ) : (
-    <div ref="content" className="calendar-empty-content">
-      <div className="warning">График не заполнен.</div>
-    </div>
-  )
-}
-        
+        {
+          this.props.intervals.length ? 
+          (
+            <div ref="content" className="rbc-time-content">
+                  {/*<div ref="timeIndicator" className="rbc-current-time-indicator" />*/}
+                  
+                  <TimeColumn
+                    {...this.props}
+                    showLabels
+                    style={{ width }}
+                    ref={gutterRef}
+                    className="rbc-time-gutter"
+                  />
+                  {eventsRendered}
+                 
+                </div>
+          ) : (
+            <div ref="content" className="calendar-empty-content">
+              <div className="warning">График не заполнен.</div>
+            </div>
+          )
+        }
       </div>
     )
   }
@@ -290,6 +291,8 @@ export default class TimeGrid extends Component {
             {headerRendered}
           </div>
         )}
+
+        
       </div>
     )
   }

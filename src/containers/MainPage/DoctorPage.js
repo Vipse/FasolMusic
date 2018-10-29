@@ -62,7 +62,7 @@ const DoctorPage = props => {
 								}}
 								isDoctor={true}
 								redirect={() => { props.history.push('/reviews'); }} 
-						extra={<a className="schedule-all-link"> <span class="span-all-queue">Весь список</span></a>}
+						extra={<a className="schedule-all-link"> <span className="span-all-queue">Весь список</span></a>}
 								/>
 						</Col>
 					</Row>

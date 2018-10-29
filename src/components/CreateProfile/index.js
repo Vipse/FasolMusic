@@ -20,6 +20,7 @@ class CreateProfile extends React.Component{
         };
         this.steps = [
             {
+                key: 0,
                 content: (state) => <Step1 data={state}
                                            onNext={this.next}
                                            onPrev={this.prev}
@@ -29,6 +30,7 @@ class CreateProfile extends React.Component{
                     />,
             },
             {
+                key: 1,
                 content: (state) => <Step2 data={state}
                                            onNext={this.next}
                                            onPrev={this.prev}
@@ -36,6 +38,7 @@ class CreateProfile extends React.Component{
                 />,
             },
             {
+                key: 2,
                 content: (state) => <Step3 data = {state}
                                            onNext = {this.next}
                                            onPrev={this.prev}
@@ -43,6 +46,7 @@ class CreateProfile extends React.Component{
                 />,
             },
             {
+                key: 3,
                 content: (state) => <Step4 data={state}
                                            onNext={this.next}
                                            onPrev={this.prev}
@@ -50,6 +54,7 @@ class CreateProfile extends React.Component{
                 />,
             },
             {
+                key: 4,
                 content: (state) => <Step5 onNext = {this.next}
                                            onPrev={this.prev}
                                            onFinish={this.props.onFinish}

@@ -5,6 +5,8 @@ import localizer from './localizer'
 import { navigate } from './utils/constants'
 import TimeGrid from './TimeGrid'
 
+import SmallCalendar from './../../SmallCalendar/index';
+
 class Week extends React.Component {
   static propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
