@@ -7,6 +7,7 @@
 }
 .steps {
   max-width: 650px;
+  margin: auto;
 }
 .steps-rounds {
   display: flex;

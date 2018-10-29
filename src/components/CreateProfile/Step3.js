@@ -39,6 +39,11 @@ class Step3Form extends React.Component{
         })
     };
 
+    onPrev = (e) => {
+        e.preventDefault();
+        this.props.onPrev();
+    }
+    
     handleGoBack = () => {
         this.props.onPrev();
     };
@@ -130,6 +135,11 @@ class Step3Form extends React.Component{
                 </FormItem>
 
                 <div className="steps-action">
+                    <Button onClick={this.onPrev}
+                                    btnText='Назад'
+                                    size='large'
+                                    type='pink'
+                                    />   
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
@@ -158,11 +168,15 @@ const Step3 = Form.create({
 Step3.propTypes = {
     data: PropTypes.object,
     onFinish: PropTypes.func,
+    onNext: PropTypes.func,
+    onPrev: PropTypes.func,
 };
 
 Step3.defaultProps = {
     data: {},
-    onFinish: () => {}
+    onFinish: () => {},
+    onNext: () => {},
+    onPrev: () => {}
 };
 
 export default Step3

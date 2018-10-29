@@ -5,6 +5,7 @@ import {Redirect} from 'react-router'
 
 import LoginPage from '../LoginPage'
 import App from '../App'
+import CreateProfile from './../../components/CreateProfile/index';
 
 class Root extends React.Component{
 
@@ -13,7 +14,7 @@ class Root extends React.Component{
         <Switch>
 
             <Route path="/login" component={LoginPage}/>
-            <Route path="/registration" component={LoginPage}/>
+            <Route path="/registration" component={CreateProfile}/>
             <Route path="/patient-registration" component={LoginPage}/>
 
             {/*1 && <Redirect to='login'/>*/}

@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { Form, Upload, Icon, message } from 'antd';
+import { Form, message } from 'antd';
 import Dropzone from "react-dropzone";
 import Button from '../Button'
 import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
-import VK, {Auth} from 'react-vk';
 
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
@@ -37,20 +36,22 @@ class Step1Form extends React.Component{
     };
 
     handleSubmit = (e) => {
+        
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            // if (!err) {
-            //
-            //     let fields = {
-            //         ...values,
-            //         avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
-            //     };
-            //     if(!values.avatar.url && !values.avatar.name) {
-            //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
-            //     }
+            console.log("handleSubmit", values);
+            if (!err) {
+            
+                // let fields = {
+                //     ...values,
+                //     avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
+                // };
+                // if(!values.avatar.url && !values.avatar.name) {
+                //     fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
+                // }
                 this.props.onSubmit({...values, ...this.state});
                 this.props.onNext();
-            // }
+            }
         })
     };
 
@@ -69,6 +70,11 @@ class Step1Form extends React.Component{
         reader.readAsDataURL(info.file);
     };
 
+    onPrev = (e) => {
+        e.preventDefault();
+        this.props.onPrev();
+    }
+
     onDrop = (file) => {
         console.log(file);
         const reader = new FileReader();
@@ -84,23 +90,7 @@ class Step1Form extends React.Component{
         reader.readAsDataURL(file[0]);
     };
 
-    vkAuthorization = () => {
-        return (<VK apiId={6695055}>
-            <Auth options={{
-                onAuth: user => {
-                    this.setState({
-                        vkAuthorized: {show: false, link: "vk.com/id" + user.uid}
-                    });
-                },
-            }}/>
-        </VK>);
-    };
-
     facebookAuthorization = () => {
-        return null;
-    };
-
-    twitterAuthorization = () => {
         return null;
     };
 
@@ -172,7 +162,6 @@ class Step1Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('birthDate', {
                             rules: [{
-                                required: true,
                                 message: 'Выберите дату рождения, пожалуйста'
                             }],
                         })(
@@ -191,7 +180,6 @@ class Step1Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('gender', {
                             rules: [{
-                                required: true,
                                 message: 'Выберите пол, пожалуйста'
                             }],
                         })(
@@ -208,7 +196,6 @@ class Step1Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('country', {
                             rules: [{
-                                required: true,
                                 message: 'Выберите страну пребывания, пожалуйста'
                             }],
                         })(
@@ -226,7 +213,6 @@ class Step1Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('activityField', {
                         rules: [{
-                            required: true,
                             message: 'Выберите сферу деятельности, пожалуйста'
                         }],
                     })(
@@ -243,7 +229,6 @@ class Step1Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('interests', {
                         rules: [{
-                            required: true,
                             message: 'Выберите интересы, пожалуйста'
                         }],
                     })(
@@ -270,9 +255,7 @@ class Step1Form extends React.Component{
                     </div>
                     <div className="create-profile-avatar">
                         <span className="upload-avatar-title">Привяжи свои социалки: </span>
-                        {this.renderSocial("vk")}
                         {this.renderSocial("facebook")}
-                        {this.renderSocial("twitter")}
                         {this.renderSocial("gplus")}
                     </div>
 
@@ -290,11 +273,15 @@ class Step1Form extends React.Component{
                 </div>
 
                 <div className="steps-action">
+                    <Button onClick={this.onPrev}
+                                btnText='Назад'
+                                size='large'
+                                type='pink'
+                                />     
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
-                            type='pink'/>
-
+                            type='pink'/>  
                 </div>
             </Form>
         )
@@ -320,6 +307,8 @@ Step1.propTypes = {
     urlForget: PropTypes.string,
     urlRegistration: PropTypes.string,
     onSubmit: PropTypes.func,
+    onNext: PropTypes.func,
+    onPrev: PropTypes.func,
     checkEmailAvailability: PropTypes.func
 };
 
@@ -327,6 +316,8 @@ Step1.defaultProps = {
     urlForget: '',
     urlRegistration: '',
     onSubmit: () => {},
+    onNext: () => {},
+    onPrev: () => {},
     checkEmailAvailability: () => {}
 };
 

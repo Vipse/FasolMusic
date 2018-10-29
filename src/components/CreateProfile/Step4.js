@@ -53,7 +53,11 @@ class Step4Form extends React.Component{
             // }
         })
     };
-
+    onPrev = (e) => {
+        e.preventDefault();
+        this.props.onPrev();
+    }
+    
     renderTimeSchedule = () => {
         let timeScheduleArr = [];
         let daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
@@ -127,6 +131,11 @@ class Step4Form extends React.Component{
                 </div>
 
                 <div className="steps-action">
+                    <Button onClick={this.onPrev}
+                                    btnText='Назад'
+                                    size='large'
+                                    type='pink'
+                                    />   
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
@@ -154,11 +163,15 @@ const Step4 = Form.create({
 Step4.propTypes = {
     data: PropTypes.object,
     onFinish: PropTypes.func,
+    onNext: PropTypes.func,
+    onPrev: PropTypes.func,
 };
 
 Step4.defaultProps = {
     data: {},
-    onFinish: () => {}
+    onFinish: () => {},
+    onNext: () => {},
+    onPrev: () => {}
 };
 
 export default Step4

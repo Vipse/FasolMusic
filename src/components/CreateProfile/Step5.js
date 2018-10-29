@@ -26,7 +26,11 @@ class Step5Form extends React.Component{
         }
         this.props.onFinish(data);
     };
-
+    onPrev = (e) => {
+        e.preventDefault();
+        this.props.onPrev();
+    }
+    
     render(){
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-5">
@@ -38,6 +42,11 @@ class Step5Form extends React.Component{
                     pariatur porro reprehenderit similique sit tempora? Nisi!
                 </div>
                 <div className="steps-action">
+                    <Button onClick={this.onPrev}
+                                    btnText='Назад'
+                                    size='large'
+                                    type='pink'
+                                    />   
                     <Button htmlType="submit"
                             btnText='Завершить'
                             size='large'
@@ -66,11 +75,15 @@ const Step5 = Form.create({
 Step5.propTypes = {
     data: PropTypes.object,
     onFinish: PropTypes.func,
+    onNext: PropTypes.func,
+    onPrev: PropTypes.func,
 };
 
 Step5.defaultProps = {
     data: {},
-    onFinish: () => {}
+    onFinish: () => {},
+    onNext: () => {},
+    onPrev: () => {},
 };
 
 export default Step5

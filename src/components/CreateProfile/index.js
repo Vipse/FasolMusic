@@ -22,6 +22,7 @@ class CreateProfile extends React.Component{
             {
                 content: (state) => <Step1 data={state}
                                            onNext={this.next}
+                                           onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                             //uploadFile={this.props.uploadFile}
@@ -30,23 +31,27 @@ class CreateProfile extends React.Component{
             {
                 content: (state) => <Step2 data={state}
                                            onNext={this.next}
+                                           onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
                 />,
             },
             {
                 content: (state) => <Step3 data = {state}
                                            onNext = {this.next}
+                                           onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
                 />,
             },
             {
                 content: (state) => <Step4 data={state}
                                            onNext={this.next}
+                                           onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
                 />,
             },
             {
                 content: (state) => <Step5 onNext = {this.next}
+                                           onPrev={this.prev}
                                            onFinish={this.props.onFinish}
                                             //finalText={this.props.finalText}
                                             //regInProgress = {this.props.regInProgress}
@@ -57,6 +62,13 @@ class CreateProfile extends React.Component{
     next = () => {
         const current = this.state.current + 1;
         this.setState({ current });
+    };
+
+    prev = () => {
+        if(this.state.current){
+            const current =  this.state.current - 1;
+            this.setState({ current });
+        }
     };
 
     render(){

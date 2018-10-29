@@ -53,6 +53,11 @@ class Step2Form extends React.Component{
         })
     };
 
+    onPrev = (e) => {
+        e.preventDefault();
+        this.props.onPrev();
+    }
+
     /*handleGoBack = (e) => {
         e.preventDefault();
 
@@ -193,10 +198,16 @@ class Step2Form extends React.Component{
                 </FormItem>
 
                 <div className="steps-action">
+                    <Button onClick={this.onPrev}
+                                btnText='Назад'
+                                size='large'
+                                type='pink'
+                                />  
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
                             type='pink'/>
+                    
 
                 </div>
             </Form>
