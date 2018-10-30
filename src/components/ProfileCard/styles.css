@@ -1,0 +1,19 @@
+.profileCard {
+  width: 340px;
+  text-align: center;
+  padding: 25px 30px;
+  border-bottom: 1px solid #ebebeb;
+}
+.profileCard-name {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #111;
+  font-family: RobotoMediumItalic, sans-serif;
+}
+.profileCard-short {
+  width: 170px;
+  text-align: center;
+  padding: 35px 15px 25px 15px;
+  border-bottom: 1px solid #ebebeb;
+}
+/*# sourceMappingURL=styles.css.map */

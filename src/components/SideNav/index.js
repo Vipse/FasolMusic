@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom'
 import './styles.css'
 
 import {Menu} from 'antd'
-import DoctorProfileCard from '../DoctorProfileCard'
+import ProfileCard from '../ProfileCard'
 import Icon from '../Icon'
 import Button from "../Button"
 
@@ -28,7 +28,7 @@ const SideNav = props => {
         });
     };
 
-        const {isShort, menuItems, onClick, isUser} = props;
+        const {isShort, menuItems} = props;
         const rootClass = cn('sidenav-root', {'sidenav-root-short' : isShort});
         const menuClass = 'sidenav-root-menu' + (isShort ? '-short':'');
 
@@ -37,9 +37,11 @@ const SideNav = props => {
                 <div className="logo" onClick={props.onLogoClick}><span className="logo-img"></span></div>
 
                 <div className='overwlow-a-y'>
-                    <DoctorProfileCard {...props}
-                                        online={true}
-                                       short={isShort}/>
+                    <ProfileCard
+                                 img="https://appdoc.by/media/docDocuments/3199/avatar/avatar_3199.jpg"
+                                 name="Зубрицкий Владимир Анатольевич"
+                                 isShort={isShort}
+                    />
 
                     <Menu
                         mode="inline"
@@ -47,49 +49,13 @@ const SideNav = props => {
                     >
                         {renderMenuItems(menuItems)}
                     </Menu>
-                    {isUser && <div className="site-link"><Button
-                            btnText={isShort ? "" : 'Перейти на сайт'}
-                            size='go'
-                            type='go'
-                            icon='circle_arrow_right'
-                            svg
-                            onClick={props.gotoSite}
-                    /></div>}
                 </div>
             </div>
         )
 
 }
 
-SideNav.propTypes = {
-    menuItems: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        iconType: PropTypes.string,
-        svg: PropTypes.bool,
-        onClick: PropTypes.func,
-    })),
-    img: PropTypes.string,
-    online: PropTypes.bool,
-    name: PropTypes.string,
-    specialty: PropTypes.array,
-    isShort: PropTypes.bool,
-    isUser: PropTypes.bool,
-    rateValue: PropTypes.number,
-    timesRated: PropTypes.number,
-    onClick: PropTypes.func,
-    onLogoClick: PropTypes.func,
-};
-
-SideNav.defaultProps = {
-    menuItems: [],
-    isShort: false,
-    isUser: false,
-    timesRated: 0,
-    rateValue: 0,
-    name: '',
-    onClick: () => {},
-    onLogoClick: () => {},
-};
+SideNav.propTypes = {};
+SideNav.defaultProps = {};
 
 export default SideNav;

@@ -3,37 +3,25 @@ import PropTypes from 'prop-types'
 
 import Button from '../Button'
 import Icon from '../Icon'
-import SwitchPanel from '../SwitchPanel'
 import NotificationApp from '../NotificationApp'
 import AutoComplete from '../AutoComplete'
-import Hoc from "../Hoc"
-import specs from "../../helpers/specsArray"
 
 import './style.css'
 import '../../icon/style.css'
-import NewFreeVisitByPatient from "../NewFreeVisitByPatient";
-import NewVisitTypeModal from "../NewVisitTypeModal";
-import NewEmergencyVisit from "../NewEmergencyVisit";
 
 
 class Header extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            isNewFreeVisit: false,
-            chooseTypeVisitVisible: false,
-            emergencyVisit: false
+
         };
     }
-    
-    handleClick = () => {
-      this.setState({isNewFreeVisit: true})
-    };
 
 render() {
     const {notifications, isUser} = this.props;
         return (
-            <div className={'header'}>
+            <div className='header'>
                 <div className='header-search'>
                     <AutoComplete
                         onAdd = {this.props.onAdd}
@@ -44,9 +32,9 @@ render() {
                         isUser = {isUser}
                     />
                 </div>
-                <div className='header-call'>
-                    {isUser ? 
-                        <Hoc>
+                <div className='header-train'>
+                    {isUser ?
+                        <React.Fragment>
                             <Button btnText='ЭКСТРЕННЫЙ ВЫЗОВ'
                                 size='small'
                                 type='emergensy'
@@ -57,59 +45,32 @@ render() {
                                 size='small'
                                 type='float'
                                 icon='form'/>
-                            <NewVisitTypeModal
-                                visible = {this.state.chooseTypeVisitVisible}
-                                onCancel = {() => this.setState({chooseTypeVisitVisible: false})}
-                                onFree = {
-                                    () => {this.setState({
-                                        chooseTypeVisitVisible: false,
-                                        isNewFreeVisit: true
-                                    })}
-
-                                }
-                            />
-                            <NewFreeVisitByPatient
-                                visible = {this.state.isNewFreeVisit}
-                                docTypes = {specs}
-                                onCancel = {() => this.setState({isNewFreeVisit: false})}
-                                onSubmit = {this.props.onMakeVisit}
-                                getFreeVisitIntervals = {this.props.getFreeVisitIntervals}
-                                freeVisitsIntervals = {this.props.freeVisitsIntervals}
-                                onMakeFreeVisit = {this.props.onMakeVisit}
-
-                            />
-                            <NewEmergencyVisit
-                                visible = {this.state.emergencyVisit}
-                                onCancel = {() => this.setState({emergencyVisit: false})}
-                                onSubmit = {this.props.onMakeVisit}
-                            />
-                        </Hoc> 
+                        </React.Fragment>
                         :
-                        <Hoc>
+                        <React.Fragment>
                             <Button
-                                btnText='ЗАПИСАТЬСЯ НА ТРЕНИРОВКУ'
+                                btnText='ДОБАВИТЬ ТРЕНИРОВКУ'
                                 size='default'
-                                type='pink'
+                                type='border-pink'
                                 className="header-btn"
-
                             />
                             <Button
                                 btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                 size='default'
-                                type='pink'
+                                type='border-pink'
                                 className="header-btn header-btn-transfer"
                             />
-                        </Hoc>
+                        </React.Fragment>
                     }
                 </div>
                 <div className='header-notification'>
-                    <NotificationApp  
-                        data={notifications} 
+                    <NotificationApp
+                        data={notifications}
                         getNotifications={this.props.getNotifications}
                         getId={this.props.getNotifId}>
-                         <Icon 
-                            svg 
-                            type='notification' 
+                         <Icon
+                            svg
+                            type='notification'
                             size={20}
                             title='Уведомления'
                         />

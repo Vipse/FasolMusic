@@ -72,7 +72,7 @@ body {
   background-color: #fff;
   width: calc(100% - 340px);
   height: 100px;
-  padding: 24px 45px 24px 35px;
+  padding: 0 45px 0 35px;
   border-bottom: 1px solid #e8e8e8;
   align-items: center;
   z-index: 30;

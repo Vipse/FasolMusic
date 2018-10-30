@@ -1,0 +1,106 @@
+.lastTraining {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px dashed #e1e1e1;
+}
+.lastTraining-contactInfo {
+  display: flex;
+}
+.lastTraining-contactInfo-nameAndDate {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+.lastTraining-contactInfo-name {
+  color: #2abc6c;
+  font-family: RobotoBlack, sans-serif;
+  line-height: 18px;
+  margin-right: 20px;
+}
+.lastTraining-contactInfo-date {
+  color: #111;
+  font-family: RobotoMediumItalic, sans-serif;
+  font-size: 12px;
+}
+.lastTraining-contactInfo-discipline {
+  font-size: 12px;
+  line-height: 14px;
+  color: #777777;
+}
+.lastTraining-homework {
+  margin: 20px 0;
+  display: inline-block;
+  color: #111;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: RobotoRegular, sans-serif;
+}
+.lastTraining-homework .sendHomework {
+  position: relative;
+}
+.lastTraining-homework .sendHomework-area {
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  resize: none;
+  height: 120px;
+  color: #333;
+  font-family: RobotoRegular, sans-serif;
+  outline: none;
+  padding: 20px;
+}
+.lastTraining-homework .sendHomework-area::placeholder {
+  color: #777777;
+}
+.lastTraining-homework .sendHomework-btn {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  bottom: 12px;
+  right: 12px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+}
+.lastTraining-homework .sendHomework-btn:hover span.icon {
+  color: #777;
+}
+.lastTraining-homework .sendHomework-btn span.icon {
+  font-size: 15px;
+  cursor: pointer;
+  color: #bbbbbb;
+}
+.lastTraining-materials {
+  display: flex;
+}
+.lastTraining-materials .trainingRecord {
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+}
+.lastTraining-materials .trainingRecord-title {
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 24px;
+  font-family: RobotoMediumItalic, sans-serif;
+  color: #111;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.lastTraining-materials .files {
+  display: flex;
+  flex-direction: column;
+}
+.lastTraining-materials .files-title {
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 24px;
+  font-family: RobotoMediumItalic, sans-serif;
+  color: #111;
+  display: inline-block;
+  margin-bottom: 10px;
+}

@@ -1,24 +1,16 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
-}
 .notific_component {
   position: relative;
 }
 .notific_component .notification {
   position: absolute;
 }
+.notification {
+  position: absolute;
+}
 .notification-card {
   margin-left: -350px;
   width: 425px;
+  position: fixed;
 }
 .notification-card .ant-card-head {
   background-color: #fdc401;

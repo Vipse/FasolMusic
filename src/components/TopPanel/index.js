@@ -40,8 +40,8 @@ class TopPanel extends React.Component{
         return (
             <div className='top-panel'>
                 <div className='top-panel-description'>
-                    <h3 className='top-panel-description-h3'>Пока ждешь начала тренировки, можешь посмотреть наше новое видео</h3>
-                    <p>Lorem ipsum et ultricies pellentesque nibh auctor malesuada 
+                    <h3 className='top-panel-description-title'>Пока ждешь начала тренировки, можешь посмотреть наше новое видео</h3>
+                    <p className='top-panel-description-body'>Lorem ipsum et ultricies pellentesque nibh auctor malesuada
                     sit molestie leo et non auctor non diam, duis et sed elementum sit 
                     metus, nulla porta duis. Metus gravida pharetra gravida risus eros 
                     sapien vitae in tempus ut, lorem pharetra sodales in eu: arc.
@@ -52,17 +52,20 @@ class TopPanel extends React.Component{
                         type='yellow'
                     />
                 </div>
-                <TopPanelItem 
-                            panelTitle="Следующая тренировка"
-                            panelText={"24 дек"}
-                            type = {"next"}
-                            />
-                <TopPanelItem 
-                            panelTitle="Осталось тренировок"
-                            panelText={"3"}/>
-                <TopPanelItem 
-                            panelTitle="До оплаты"
-                            panelText={"24"}/>
+                <div className="top-panel-items">
+                    <TopPanelItem
+                        panelTitle="Следующая тренировка"
+                        panelText={"24 дек"}
+                    />
+                    <TopPanelItem
+                        panelTitle="Тренировок на сегодня"
+                        panelText={"3"}
+                    />
+                    <TopPanelItem
+                        panelTitle="Мои студенты"
+                        panelText={"24"}
+                    />
+                </div>
             </div>
         )
     }

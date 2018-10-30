@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import Icon from '../Icon'
 
 import './style.css'
 import '../../icon/style.css'
-import ab from '../../autobahn';
 
 class TopPanelItem extends React.Component{
 
@@ -15,20 +13,11 @@ class TopPanelItem extends React.Component{
         const {className, panelText, type, panelTitle, svg} = this.props;
 
         const rootClass = cn( `${className}`, 'panelItem')
-        let panelTextStyle = {}
-        let panelTitleStyle = {}
 
-        let panelIdStyle = "";
-        if (type == "next") panelIdStyle = "-next";
         return (
             <div className={rootClass}>
-                {<p className={'panelItem-num' + panelIdStyle} style={panelTextStyle}>{panelText}</p>}
-                <div className='panelItem-header'>
-
-                    {!svg && <span></span>} 
-                    {type !== 'icon' && <p className={'panel-title'} style={panelTitleStyle}>{panelTitle}</p>}
-                </div>
-                
+                <p className="panelItem-value">{panelText}</p>
+                <p className='panelItem-description'>{panelTitle}</p>
             </div>
         )
     }

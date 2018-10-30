@@ -61,6 +61,7 @@ const iconList = [
     "icon2",
     "icon3",
     "icon4",
+    "message"
 ];
 
 class Icon extends React.Component{

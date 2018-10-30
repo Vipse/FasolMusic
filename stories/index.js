@@ -60,14 +60,14 @@ const loadStories = () => {
     require('../src/components/TopPanelItem/stories');
     require('../src/components/ReceptionsScheduleModal/stories');
     require('../src/components/ProfileAvatar/stories');
-    require('../src/components/DoctorProfileCard/stories');
+    require('../src/components/ProfileCard/stories');
     require('../src/components/CompletionReceptionModal/stories');
     require('../src/components/Review/stories');
     require('../src/components/Card/stories');
     require('../src/components/Reviews/stories');
     //require('../src/components/RadioIcon/stories');
-    require('../src/components/TableNoHeadItem/stories');
-    require('../src/components/TableNoHead/stories');
+    require('../src/components/NearTrainingsItem/stories');
+    require('../src/components/NearTrainings/stories');
     require('../src/components/TreatmentTableItem/stories');
     require('../src/components/TreatmentTable/stories');
     require('../src/components/ReportBugModal/stories');

@@ -1,14 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux';
-
-import DoctorPage from "./DoctorPage"
+import CouchMain from "./CouchMain"
 import PatientPage from "./PatientPage"
-
 import * as actions from '../../store/actions'
 import moment from 'moment'
-
 import './styles.css'
-import HistoryReceptionsTabs from "../../components/HistoryReceptionsTabs";
 
 class MainPage extends React.Component{
 	state = {
@@ -84,7 +80,7 @@ class MainPage extends React.Component{
                 makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
             />
 		) : (
-			<DoctorPage
+			<CouchMain
 				showCancel = {() => {this.setState({cancelModal: true})}}
 				onAdd = {this.onAddVisit}
 				addModal = {this.state.addModal}
