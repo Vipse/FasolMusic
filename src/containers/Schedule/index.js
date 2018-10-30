@@ -249,24 +249,28 @@ class Schedule extends React.Component {
                                   onNavigate={this.dateChangeHandler}
                                   date={this.state.currentDate}
 
+                                  onChange={this.dateChangeHandler}
+                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+
                                 
             />)
-        } else if (this.state.isEditorMode) {
-            editorBtn = (<Button btnText='Вернуться к графику'
-                                 onClick={() => this.changeToEditorMode(false)}
-                                 type='yellow'
-                                 icon='arrow2_left'/>);
-            calendar = (<Calendar receptionNum={this.getCountOfScheduledIntervals()}
-                                  selectable
-                                  editor
-                                  onMonthSelect={(date, schedule) => {
-                                      !!schedule && this.openReceptionSchedule(date, schedule)
-                                  }}
-                                  schedules={this.props.schedules}
-                                  date={this.state.currentDate}
-                                  onNavigate={this.dateChangeHandler}
-            />)
-        }
+        } 
+        // else if (this.state.isEditorMode) {
+        //     editorBtn = (<Button btnText='Вернуться к графику'
+        //                          onClick={() => this.changeToEditorMode(false)}
+        //                          type='yellow'
+        //                          icon='arrow2_left'/>);
+        //     calendar = (<Calendar receptionNum={this.getCountOfScheduledIntervals()}
+        //                           selectable
+        //                           editor
+        //                           onMonthSelect={(date, schedule) => {
+        //                               !!schedule && this.openReceptionSchedule(date, schedule)
+        //                           }}
+        //                           schedules={this.props.schedules}
+        //                           date={this.state.currentDate}
+        //                           onNavigate={this.dateChangeHandler}
+        //     />)
+        // }
         else {
             const currDate = this.state.currentDate,
                 currY = currDate.getFullYear(),
@@ -300,10 +304,8 @@ class Schedule extends React.Component {
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
 
-                                   // date={this.state.currentDate}
-                                   onChange={this.dateChangeHandler}
-                                   //  isUser = {this.props.isUser}
-                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+                                  onChange={this.dateChangeHandler}
+                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
             />)
         }
 
@@ -311,7 +313,7 @@ class Schedule extends React.Component {
         return (
             <Hoc>
                 <Row className="row-schedule" style={{margin: 0, marginTop: -7, borderTop: 7}}>
-                    <Col span={19} className='schedule-title'>
+                    <Col span={24} className='schedule-title'>
                         Расписание тренировок
                     </Col>
                 </Row>
@@ -319,14 +321,6 @@ class Schedule extends React.Component {
                     <Col span={24}>
                         {calendar}
                      />
-                    </Col>
-                    <Col span={5} style={{textAlign: 'center'}}>
-
-                        <SmallCalendar date={this.state.currentDate}
-                                       onChange={this.dateChangeHandler}
-                                       isUser = {this.props.isUser}
-                                       highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
-                                    />
                     </Col>
                 </Row>
                 <CancelVisitModal visible={this.state.cancelModal}

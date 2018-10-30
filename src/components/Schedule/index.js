@@ -7,7 +7,6 @@ import Row from "../../components/Row";
 import Col from "../../components/Col";
 import Button from "../../components/Button";
 import Calendar from "../../components/Calendar22";
-import SmallCalendar from "../../components/SmallCalendar";
 import CancelVisitModal from "../../components/CancelVisitModal";
 import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
@@ -249,22 +248,7 @@ class Schedule extends React.Component {
                                   onNavigate={this.dateChangeHandler}
                                   date={this.state.currentDate}
             />)
-        } else if (this.state.isEditorMode) {
-            editorBtn = (<Button btnText='Вернуться к графику'
-                                 onClick={() => this.changeToEditorMode(false)}
-                                 type='yellow'
-                                 icon='arrow2_left'/>);
-            calendar = (<Calendar receptionNum={this.getCountOfScheduledIntervals()}
-                                  selectable
-                                  editor
-                                  onMonthSelect={(date, schedule) => {
-                                      !!schedule && this.openReceptionSchedule(date, schedule)
-                                  }}
-                                  schedules={this.props.schedules}
-                                  date={this.state.currentDate}
-                                  onNavigate={this.dateChangeHandler}
-            />)
-        }
+        } 
         else {
             const currDate = this.state.currentDate,
                 currY = currDate.getFullYear(),
@@ -300,7 +284,6 @@ class Schedule extends React.Component {
             />)
         }
 
-        console.log("Treatment", this.props);
         return (
             <Hoc>
                 <Row className="row-schedule" style={{margin: 0, marginTop: -7, borderTop: 7}}>
@@ -313,14 +296,6 @@ class Schedule extends React.Component {
                     <Col span={19}>
                         {calendar}
                     </Col>
-                    {/* <Col span={5} style={{textAlign: 'center'}}>
-
-                        <SmallCalendar date={this.state.currentDate}
-                                       onChange={this.dateChangeHandler}
-                                       isUser = {this.props.isUser}
-                                       highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
-                                    />
-                    </Col> */}
                 </Row>
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}

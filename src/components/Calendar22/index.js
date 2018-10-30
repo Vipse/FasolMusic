@@ -13,27 +13,10 @@ moment.locale('ru');
 momentLocalizer(moment);
 
 class BigCalendar extends React.Component{
-    state = {
-        dayRange: [],
-    };
-
-    selectHandler = (range, slotInfo,selecting, schedule) => {
-        if (slotInfo.action === 'click'){
-            this.props.onMonthSelect(range, schedule);
-            return
-        }
-        if (selecting === true && this.state.dayRange.length !== 0){
-            this.setState({dayRange: []})
-        }
-        else{
-            if (range.length !== 0) {
-                this.setState({dayRange: this.state.dayRange.concat(range)});
-                this.props.onMonthSelect(this.state.dayRange);
-            }
-        }
-    };
-
-    changeIntervalDate = (start, end) => {
+    
+    //сервер_дата -> moment_дата
+    //private
+    changeIntervalDate = (start, end) => { 
         return {
             start: new Date((+start)*1000),
             end: new Date((+end)*1000),
@@ -73,46 +56,28 @@ class BigCalendar extends React.Component{
             }) : [];
     };
     
-    render() {    console.log("props", this.props);    
-        let prop = this.props.editor ? {
-                ...this.props,
-                schedules: this.changeSchedule(),
-            }
-            : {
-                ...this.props,
-                events: this.changeEvents(),
-            };
-
+    render() {
         return (<div>
             {
-                this.props.isUser ?
+                true ?
                     <Calendar
-                        //className='calendar-editor'
-                        //schedules={this.changeSchedule()}
-                        view={'month'}
-                        onView={() => {}}
-                        isUser={true}
-                        {...prop}/>
-                    :
-                    this.props.editor ?
-                        <Calendar
-                            className='calendar-editor'
-                            schedules={this.changeSchedule()}
-                            view={'month'}
-                            onView={() => {
-                            }}
-                            onSelecting={(r,slot,selecting, schedule) =>
-                                this.selectHandler(r, slot,selecting, schedule)}
-                            {...prop}/>
-                        :
-                        <Calendar
-                            events={this.changeEvents()}
-                            schedules={this.changeSchedule()}
+                            isUser={true} // это для коуча
                             defaultView={'week'}
-                            views={['week']}
-                           
+                            onView={() => {}}
+                          
+                            events = {this.changeEvents()}
+                            {...this.props}
 
-                            {...prop}/>
+                            />
+                    :
+                    <Calendar
+                            defaultView={'week'}
+                            schedules={this.changeSchedule()}
+    
+                            events = {this.changeEvents()}
+                            {...this.props}
+
+                            />
             }
         </div>);
     }
@@ -134,7 +99,6 @@ BigCalendar.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-    editor: PropTypes.bool,
     onPopoverClose: PropTypes.func,
     onPopoverEmail: PropTypes.func,
     gotoEditor: PropTypes.func,
@@ -147,7 +111,6 @@ BigCalendar.defaultProps = {
     schedules: [],
     intervals: [],
     receptionNum: 0,
-    editor: false,
     onPopoverClose: () => {},
     onPopoverEmail: () => {},
     gotoEditor: () => {},

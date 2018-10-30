@@ -229,6 +229,9 @@
   border: 1px #f3d87f dotted;
   cursor: pointer;
 }
+.rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK:hover:before {
+  content: "\E900";
+}
 .rbc-time-slot.rbc-label {
   color: #21bedd;
   display: flex;
@@ -255,8 +258,12 @@
 .rbc-header.rbc-today .header-week > div {
   font-family: "RobotoBold";
 }
-.rbc-day-slot.rbc-today.rbc-time-column {
-  background-color: #e8f8fc !important;
+.rbc-calendar-wrapper {
+  min-width: 78%;
+}
+.rbc-smallcalendar-wrapper {
+  margin-top: 52px;
+  min-width: 22%;
 }
 .rbc-day-slot .rbc-event-content {
   line-height: 1.3;

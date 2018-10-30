@@ -1,6 +1,6 @@
 .react-calendar {
   min-width: 270px;
-  margin: 15px;
+  margin: 0px 15px 15px 15px;
 }
 .react-calendar__navigation button {
   min-width: 25px;
@@ -17,7 +17,7 @@
   align-items: center;
 }
 .react-calendar__tile--active {
-  background-color: #204d8d!important;
+  background-color: #21bedd!important;
 }
 .react-calendar__month-view .react-calendar__month-view__weekdays {
   padding: 15px 6px;
@@ -32,7 +32,7 @@
   padding: 5px 6px;
 }
 .react-calendar__navigation {
-  background-color: #204d8d;
+  background-color: #21bedd;
   margin-bottom: 0;
 }
 .react-calendar__navigation button {
@@ -44,15 +44,15 @@
 }
 .react-calendar__navigation button:not([disabled]):hover,
 .react-calendar__navigation button:not([disabled]):focus {
-  background-color: #204d8d;
+  background-color: #15aecc;
 }
 .react-calendar__navigation button[disabled] {
-  background-color: #204d8d;
+  background-color: #15aecc;
 }
 button.react-calendar__tile--hasActive:not([disabled]):hover,
 button.react-calendar__tile--hasActive:not([disabled]):focus,
 .react-calendar__tile--hasActive {
-  background-color: #204d8d;
+  background-color: #15aecc;
   color: #fff;
 }
 .highlighted-day {

@@ -243,7 +243,7 @@
             background-color: rgb(255, 249, 229,0.5);
             ;
             &:before {
-                //content: "\E900";
+                content: "\E900";
             }
             border: 1px #f3d87f dotted;
             cursor: pointer;
@@ -282,9 +282,14 @@
     }
 }
 
-.rbc-day-slot.rbc-today.rbc-time-column {
-    background-color: #e8f8fc !important;
+.rbc-calendar-wrapper{
+    min-width: 78%;
 }
+.rbc-smallcalendar-wrapper{
+    margin-top: 52px;
+    min-width: 22%;
+}
+
 
 .rbc-day-slot {
     .rbc-event-content {

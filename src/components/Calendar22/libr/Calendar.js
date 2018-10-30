@@ -16,13 +16,14 @@ import defaultFormats from './formats'
 import message from './utils/messages'
 import moveDate from './utils/move'
 import VIEWS from './Views'
-import Toolbar from './Toolbar'
+import Toolbar from './header/Toolbar'
 import EventWrapper from './EventWrapper'
 import BackgroundWrapper from './BackgroundWrapper'
 
 import omit from 'lodash/omit'
 import defaults from 'lodash/defaults'
 import transform from 'lodash/transform'
+import SmallCalendar from './../../SmallCalendar/index';
 
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
@@ -174,11 +175,9 @@ class Calendar extends React.Component {
   getViews = () => {
     const views = this.props.views
 
-
     if (Array.isArray(views)) {
       return transform(views, (obj, name) => (obj[name] = VIEWS[name]), {})
     }
-
     return VIEWS
   }
 
@@ -210,6 +209,8 @@ class Calendar extends React.Component {
         date: current,
         length,
         receptionNum,
+        onChange,
+        highlightedDates,
       ...props
     } = this.props
 
@@ -232,52 +233,63 @@ class Calendar extends React.Component {
     const label = View.title(current, { formats, culture, length })
 
     return (
-      <div
-        {...elementProps}
-        className={cn('rbc-calendar', className, {
-          'rbc-rtl': props.rtl,
-        })}
-        style={style}
-      >
-        {toolbar && (
-          <Toolbar
-            date={current}
-            view={view}
-            views={names}
-            label={label}
-            onViewChange={this.handleViewChange}
-            onNavigate={this.handleNavigate}
-            messages={messages}
-            receptionNum={receptionNum}
-            editor={this.props.editor}
-            isUser = {this.props.isUser}
-          />
-        )}
-        <View
-          ref="view"
-          {...props}
-          {...formats}
-          messages={messages}
-          culture={culture}
-          formats={undefined}
-          events={events}
-          date={current}
-          length={length}
-          components={viewComponents}
-          getDrilldownView={this.getDrilldownView}
-          onNavigate={this.handleNavigate}
-          onDrillDown={this.handleDrillDown}
-          onSelectEvent={this.handleSelectEvent}
-          onDoubleClickEvent={this.handleDoubleClickEvent}
-          onSelectSlot={this.handleSelectSlot}
-          onShowMore={this._showMore}
-        />
-        
+      <div>    
+        <div
+          {...elementProps}
+          className={cn('rbc-calendar', className, {
+            'rbc-rtl': props.rtl,
+          })}
+          style={style}
+        >
+          <div className='rbc-calendar-wrapper'>      
+            {toolbar && (
+              <Toolbar
+                date={current}
+                view={view}
+                views={names}
+                label={label}
+                onViewChange={this.handleViewChange}
+                onNavigate={this.handleNavigate}
+                messages={messages}
+                receptionNum={receptionNum}
+                isUser = {this.props.isUser}
+              />
+            )}
+            <View
+              ref="view"
+              {...props}
+              {...formats}
+              messages={messages}
+              culture={culture}
+              formats={undefined}
+              events={events}
+              date={current}
+              length={length}
+              components={viewComponents}
+              getDrilldownView={this.getDrilldownView}
+              onNavigate={this.handleNavigate}
+              onDrillDown={this.handleDrillDown}
+              onSelectEvent={this.handleSelectEvent}
+              onDoubleClickEvent={this.handleDoubleClickEvent}
+              onSelectSlot={this.handleSelectSlot}
+              onShowMore={this._showMore}
+            />
+          </div>
+          <div className='rbc-smallcalendar-wrapper'>
+            <SmallCalendar 
+                date={current}
+                onChange={onChange}
+                isUser = {this.props.isUser}
+                highlightedDates = {highlightedDates}
+            />
+          </div> 
+        </div>
+       
       </div>
     )
   }
 
-  handleNavigate = (action, newDate, isOnDay) => {
+  handleNavigate = (action, newDate, isOnDay) => { 
     let { view, date, onNavigate, ...props } = this.props
     let ViewComponent = this.getView()
 

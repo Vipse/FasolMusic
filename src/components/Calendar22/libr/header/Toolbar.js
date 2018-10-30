@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import cn from 'classnames'
-import { navigate } from './utils/constants'
-import Button from '../../Button'
-import Arrow from '../../Arrow'
+import { navigate } from '../utils/constants'
+import Button from '../../../Button'
+import Arrow from '../../../Arrow'
 
 class Toolbar extends React.Component {
-  state = {
-    active: null
-  }
+
   static propTypes = {
     view: PropTypes.string.isRequired,
     views: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -19,7 +16,7 @@ class Toolbar extends React.Component {
   }
 
   render() {
-    let { messages, label, receptionNum, editor } = this.props
+    let { messages, label, receptionNum } = this.props
 
     return (
       <div className="rbc-toolbar">
@@ -35,11 +32,6 @@ class Toolbar extends React.Component {
         <span className="rbc-toolbar-label">{label}</span>
         <span className="rbc-toolbar-receptionCount">{receptionNum}</span>
 
-          {
-              !editor && !this.props.isUser &&
-              <span className="rbc-btn-group">{this.viewNamesGroup(messages)}</span>
-          }
-
       </div>
     )
   }
@@ -52,23 +44,6 @@ class Toolbar extends React.Component {
     this.props.onViewChange(view)
   }
 
-  viewNamesGroup(messages) {
-    let viewNames = this.props.views
-    const view = this.props.view
-    console.log("viewNamesGroup", viewNames);
-    if (viewNames.length > 1) {
-      return viewNames.map(name => (
-        <Button
-          key={name}
-          size="small"
-          type='transparent'
-          btnText={messages[name]}
-          className={cn({ 'rbc-active': view === name })}
-          onClick={this.view.bind(null, name)}
-        />
-      ))
-    }
-  }
 }
 
 export default Toolbar

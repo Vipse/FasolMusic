@@ -27,14 +27,14 @@ button.rbc-input::-moz-focus-inner {
     display: -ms-flexbox;
     display: flex;
     background-color: #fdfdfd;
-    padding: 20px 0px 10px 20px;
+    padding: 20px 20px 10px 20px;
 
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-align-items: stretch;
-    -ms-flex-align: stretch;
-    align-items: stretch;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: flex-start;
+    align-items: flex-start;
 }
 
 .rbc-calendar *,
@@ -90,9 +90,6 @@ button.rbc-input::-moz-focus-inner {
     height: 135px;
 }
 
-.rbc-today {
-    background-color: #eaf6ff;
-}
 
 .rbc-event {
     cursor: pointer;
