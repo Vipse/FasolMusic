@@ -22,6 +22,10 @@ import cardIcon from "../../img/card.png"
 import yandexMoneyIcon from "../../img/yandexMoney.png"
 import DatePickerNew from "../DatePickerNew";
 import InputWithTT from "../InputWithTT";
+import Content from "../NewVisitByPatientModal/content";
+import Modal from "../Modal";
+import PaymentEditModal from "../PaymentEditModal";
+import NewVisitByPatientModal from "../NewVisitByPatientModal";
 
 class CoachPayment extends React.Component{
 
@@ -33,7 +37,8 @@ class CoachPayment extends React.Component{
             },
             yandexMoney: {
                 linked: false
-            }
+            },
+            modalVisible: false
         };
     }
 
@@ -59,7 +64,7 @@ class CoachPayment extends React.Component{
                   />
                   <Button className="payment-method-field-btnPlate-edit"
                           icon="setting_edit"
-                          onClick={(e) => {}}
+                          onClick={() => this.setState({modalVisible: true})}
                           size='small'
                           type='link'
                   />
@@ -178,8 +183,10 @@ class CoachPayment extends React.Component{
                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                         exercitation</p>
                 </Card>
-                <WarningModal visible={this.state.visible} onClick={this.onVisible}
-                              message="Изменения всупят в силу после проверки администратором"/>
+                <PaymentEditModal
+                    visible={this.state.modalVisible}
+                    onSave = {() => {}}
+                    onCancel={() => this.setState({modalVisible: false})}/>
             </div>
         )
     }
