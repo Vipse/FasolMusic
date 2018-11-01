@@ -150,8 +150,8 @@ class CoachPayment extends React.Component{
                         <Button className="copyBtn"
                             btnText='Скопировать'
                             onClick={this.copyLink}
-                            size='small'
-                            type='pink'
+                            size='default'
+                            type='light-pink'
                         />
                     </div>
                 </Card>

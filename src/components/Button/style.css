@@ -276,6 +276,18 @@
 .btn-type-pink:hover .icon {
   color: #fff;
 }
+.btn-type-light-pink {
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: transparent;
+  color: #ff7daa;
+  text-transform: none;
+  border: 1px solid #ff7daa;
+}
+.btn-type-light-pink:hover {
+  background-color: #ff7daa;
+  color: #fff;
+}
 .btn-type-border-green {
   background-color: #fff;
   color: #2abc6c;
