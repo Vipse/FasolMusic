@@ -22,12 +22,14 @@ export class Event {
       get(data, endAccessor),
       props
     )
+   
     this.startSlot = positionFromDate(startDate, min, totalMin)
     this.endSlot = positionFromDate(endDate, min, totalMin)
     this.start = +startDate
     this.end = +endDate
-    this.top = this.startSlot / totalMin * 100
-    this.height = this.endSlot / totalMin * 100 - this.top
+    this.top = this.startSlot / totalMin * 112
+    console.log("Event", this.props,  this.endSlot, totalMin, this.top);
+    this.height = this.endSlot / totalMin * 150 - this.top
     this.data = data
   }
 

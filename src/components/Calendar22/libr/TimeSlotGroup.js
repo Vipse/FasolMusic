@@ -34,7 +34,9 @@ export default class TimeSlotGroup extends Component {
       culture,
       resource,
       slotPropGetter,
+      children
     } = this.props
+    console.log("CHILD", children);
     return (
       <TimeSlot
         key={slotNumber}
@@ -47,7 +49,7 @@ export default class TimeSlotGroup extends Component {
         isNow={isNow}
         resource={resource}
         value={value}
-      />
+      /> 
     )
   }
 

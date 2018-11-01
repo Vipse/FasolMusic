@@ -21,66 +21,9 @@ import { accessor as get } from './utils/accessors'
 
 import { inRange, sortEvents, segStyle } from './utils/eventLevels'
 import SmallCalendar from './../../SmallCalendar/index';
+import moment from 'moment';
 
-export default class TimeGrid extends Component {
-  static propTypes = {
-    events: PropTypes.array.isRequired,
-    resources: PropTypes.array,
-
-    step: PropTypes.number,
-    range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    min: PropTypes.instanceOf(Date),
-    max: PropTypes.instanceOf(Date),
-    now: PropTypes.instanceOf(Date),
-
-    scrollToTime: PropTypes.instanceOf(Date),
-    eventPropGetter: PropTypes.func,
-    dayPropGetter: PropTypes.func,
-    dayFormat: dateFormat,
-    showMultiDayTimes: PropTypes.bool,
-    culture: PropTypes.string,
-
-    rtl: PropTypes.bool,
-    width: PropTypes.number,
-
-    titleAccessor: accessor.isRequired,
-    allDayAccessor: accessor.isRequired,
-    startAccessor: accessor.isRequired,
-    endAccessor: accessor.isRequired,
-    resourceAccessor: accessor.isRequired,
-
-    resourceIdAccessor: accessor.isRequired,
-    resourceTitleAccessor: accessor.isRequired,
-
-    selected: PropTypes.object,
-    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-    longPressThreshold: PropTypes.number,
-
-    onNavigate: PropTypes.func,
-    onSelectSlot: PropTypes.func,
-    onSelectEnd: PropTypes.func,
-    onSelectStart: PropTypes.func,
-    onSelectEvent: PropTypes.func,
-    onDoubleClickEvent: PropTypes.func,
-    onDrillDown: PropTypes.func,
-    getDrilldownView: PropTypes.func.isRequired,
-
-    messages: PropTypes.object,
-    components: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = {
-    step: 30,
-    min: dates.startOf(new Date(), 'day'),
-    max: dates.endOf(new Date(), 'day'),
-    scrollToTime: dates.startOf(new Date(), 'day'),
-    /* these 2 are needed to satisfy requirements from TimeColumn required props
-     * There is a strange bug in React, using ...TimeColumn.defaultProps causes weird crashes
-     */
-    type: 'gutter',
-    now: new Date(),
-  }
-
+class TimeGrid extends Component {
   constructor(props) {
     super(props)
     this.state = { gutterWidth: undefined, isOverflowing: null }
@@ -105,12 +48,7 @@ export default class TimeGrid extends Component {
   }
 
   componentDidUpdate() {
-    /*if (this.props.width == null && !this.state.gutterWidth) {
-      this.measureGutter()
-    }*/
-
-    this.applyScroll()
-    //this.positionTimeIndicator()
+    this.applyScroll();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -146,10 +84,14 @@ export default class TimeGrid extends Component {
     let allDayEvents = [],
       rangeEvents = []
 
+
+
     events.forEach(event => {
-      if (inRange(event, start, end, this.props)) {
+     // if( start.moment('X') <= event.start && event.start <= end.moment('X')){
+        if (inRange(event, start, end, this.props)) {
         let eStart = get(event, startAccessor),
           eEnd = get(event, endAccessor)
+
 
         if (
           get(event, allDayAccessor) ||
@@ -173,6 +115,7 @@ export default class TimeGrid extends Component {
       this.props.now,
       resources || [null]
     )
+
     return (
       <div className="rbc-time-view">
         {this.renderHeader(range, allDayEvents, width, resources)}
@@ -214,16 +157,22 @@ export default class TimeGrid extends Component {
       components,
     } = this.props
 
-    return range.map((date, idx) => {
-      let daysEvents = events.filter(event =>
-        dates.inRange(
-          date,
-          get(event, startAccessor),
-          get(event, endAccessor),
-          'day'
-        )
-      )
+//console.log("this.props", this.props);
+//console.log("ostalnoe", range, events, today, resources);
+//console.log("||", new Date(1540767600000));
 
+    return range.map((date, idx) => {
+      let daysEvents = events.filter(event => 
+      
+          dates.inRange(
+            date,
+            get(event, startAccessor),
+            get(event, endAccessor),
+            'day'
+          )
+        
+      )
+      // console.log("daysEvents", daysEvents);
       return resources.map((resource, id) => {
         let eventsToDisplay = !resource
           ? daysEvents
@@ -403,3 +352,66 @@ export default class TimeGrid extends Component {
     }
   }
 }
+
+
+TimeGrid.PropTypes = {
+  events: PropTypes.array.isRequired,
+  resources: PropTypes.array,
+
+  step: PropTypes.number,
+  range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  min: PropTypes.instanceOf(Date),
+  max: PropTypes.instanceOf(Date),
+  now: PropTypes.instanceOf(Date),
+
+  scrollToTime: PropTypes.instanceOf(Date),
+  eventPropGetter: PropTypes.func,
+  dayPropGetter: PropTypes.func,
+  dayFormat: dateFormat,
+  showMultiDayTimes: PropTypes.bool,
+  culture: PropTypes.string,
+
+  rtl: PropTypes.bool,
+  width: PropTypes.number,
+
+  titleAccessor: accessor.isRequired,
+  allDayAccessor: accessor.isRequired,
+  startAccessor: accessor.isRequired,
+  endAccessor: accessor.isRequired,
+  resourceAccessor: accessor.isRequired,
+
+  resourceIdAccessor: accessor.isRequired,
+  resourceTitleAccessor: accessor.isRequired,
+
+  selected: PropTypes.object,
+  selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
+  longPressThreshold: PropTypes.number,
+
+  onNavigate: PropTypes.func,
+  onSelectSlot: PropTypes.func,
+  onSelectEnd: PropTypes.func,
+  onSelectStart: PropTypes.func,
+  onSelectEvent: PropTypes.func,
+  onDoubleClickEvent: PropTypes.func,
+  onDrillDown: PropTypes.func,
+  getDrilldownView: PropTypes.func.isRequired,
+
+  messages: PropTypes.object,
+  components: PropTypes.object.isRequired,
+}
+
+ 
+
+TimeGrid.defaultProps = {
+  step: 30,
+  min: dates.startOf(new Date(), 'day'),
+  max: dates.endOf(new Date(), 'day'),
+  scrollToTime: dates.startOf(new Date(), 'day'),
+  /* these 2 are needed to satisfy requirements from TimeColumn required props
+   * There is a strange bug in React, using ...TimeColumn.defaultProps causes weird crashes
+   */
+  type: 'gutter',
+  now: new Date(),
+}
+
+export default TimeGrid;

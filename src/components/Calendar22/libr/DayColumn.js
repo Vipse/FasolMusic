@@ -133,13 +133,13 @@ class DayColumn extends React.Component {
         min={min}
         max={max}
         step={step}
-      >
+      > 
         <div className={cn('rbc-events-container', { rtl: this.props.rtl })}>
           {this.renderEvents()}
         </div>
         {selecting && (
           <div className="rbc-slot-selection" style={slotStyle}>
-            <span>
+            <span> 111
               {localizer.format(selectDates, selectRangeFormat, culture)}
             </span>
           </div>
@@ -186,8 +186,9 @@ class DayColumn extends React.Component {
       step,
       timeslots,
     })
-
+  
     return styledEvents.map(({ event, style }, idx) => {
+    
       let _eventTimeRangeFormat = eventTimeRangeFormat
       let _continuesPrior = false
       let _continuesAfter = false
@@ -255,9 +256,7 @@ class DayColumn extends React.Component {
               'rbc-event-continues-day-after': _continuesAfter,
             })}
           >
-{/*
-            <div className="rbc-event-label">{label}</div>
-*/}
+
             <div className="rbc-event-content">
               {EventComponent ? (
                 <EventComponent event={event} title={fio} />

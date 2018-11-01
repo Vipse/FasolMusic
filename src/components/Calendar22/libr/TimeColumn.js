@@ -45,6 +45,8 @@ export default class TimeColumn extends Component {
       timeGutterFormat,
       culture,
     } = this.props
+console.log("renderTimeSliceGroup", this.props.events);
+console.log("2", this.props); 
 
     return (
       <TimeSlotGroup
@@ -61,6 +63,7 @@ export default class TimeColumn extends Component {
         showLabels={showLabels}
         timeGutterFormat={timeGutterFormat}
         dayWrapperComponent={dayWrapperComponent}
+        children={this.props.children}
       />
     )
   }
@@ -103,6 +106,8 @@ export default class TimeColumn extends Component {
       date = next
     }
 
+    // console.log("renderedSlots", renderedSlots);
+    console.log("children", children);
     return (
       <div className={cn(className, 'rbc-time-column')} style={style}>
         {renderedSlots}

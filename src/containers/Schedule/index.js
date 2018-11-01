@@ -283,7 +283,7 @@ class Schedule extends React.Component {
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
                                  icon='setting_edit'/>)
-            calendar = (<Calendar receptionNum={apiPatients.length} //{this.props.visits.length}
+            calendar = (<Calendar receptionNum={this.props.visits.length}// {apiPatients.length} 
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   onSelectSlot={(slot) => this.onAddVisit(slot)}
@@ -297,7 +297,7 @@ class Schedule extends React.Component {
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={50}
-                                        events={apiPatients}    //{this.props.visits} 
+                                        events={apiPatients} //{this.props.visits}
                                   intervals={this.props.intervals}
                                   min={min}
                                   max={max}
