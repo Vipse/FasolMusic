@@ -1,0 +1,248 @@
+.payment {
+  &-coach {
+
+    .ant-card-body {
+      color: #000;
+    }
+
+    .new-input {
+      input[type="text"] {
+        border-bottom: 1px solid #000;
+      }
+
+      label {
+        font-family: RobotoMedium;
+        color: #000;
+      }
+    }
+
+    background-color: #7544ea;
+    display: grid;
+    grid-template-areas: "record data refer" "record stats refer" "record invite invite";
+    grid-template-rows: 266px 266px 244px;
+    grid-template-columns: 493px 581px 380px;
+    grid-gap: 30px;
+    padding: 30px;
+
+    &-record {
+      grid-area: record;
+
+      &-overlay {
+        margin-top: 30px;
+        padding-left: 30px;
+        height: 100%;
+        max-height: 700px;
+
+        .file {
+          display: flex;
+
+          &-name {
+            margin-left: 15px;
+            font-family: RobotoBlack;
+          }
+
+          &-active {
+            .icon-document {
+              color: #21bedd;
+            }
+            .file-name {
+              color: #21bedd;
+            }
+          }
+        }
+      }
+    }
+
+    &-paymentData {
+      grid-area: data;
+
+      .info {
+        font-family: RobotoRegularItalic;
+        margin: 20px;
+      }
+
+      .paymentPlate {
+        margin: 40px 20px 0 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        .input-form-item {
+          .new-input-wrapper {
+            border-bottom: 1px solid #d9d9d9;
+            label {
+              font-family: RobotoRegular;
+            }
+          }
+        }
+
+
+        .payment-method {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          height: 40px;
+
+          &:nth-child(1) {
+            width: 40%;
+          }
+
+          &:nth-child(2) {
+            width: 60%;
+          }
+
+          &-view {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 60px;
+            padding-right: 10px;
+          }
+
+          &-linkBtn {
+            margin-left: 40px;
+            height: 39px;
+          }
+
+          &-field {
+            display: flex;
+            width: 59%;
+            align-self: center;
+            align-items: center;
+
+            &-btnPlate {
+
+              display: flex;
+              flex-direction: column;
+
+              &-remove {
+                width: 10px;
+                height: 10px;
+                min-width: 0;
+                border: 0;
+                .icon {
+                  font-size: 10px !important;
+                  margin: 0;
+                }
+              }
+
+              &-edit {
+                width: 10px;
+                height: 10px;
+                min-width: 0;
+                border: 0;
+                .icon {
+                  font-size: 10px !important;
+                  margin: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &-referLink {
+      grid-area: refer;
+
+      &-column {
+        display: flex;
+        flex-direction: column;
+        padding: 25px;
+
+        .title {
+          font-family: RobotoMediumItalic;
+          font-size: 20px;
+        }
+
+        .info {
+          font-family: RobotoRegular;
+          margin-bottom: 90px;
+        }
+
+        .input {
+          width: 90%;
+          align-self: center;
+          margin-bottom: 60px;
+        }
+
+        .copyBtn {
+          align-self: center;
+        }
+      }
+    }
+
+    &-stats {
+      grid-area: stats;
+
+      &-plate {
+        display: flex;
+        flex-direction: row;
+        padding: 20px;
+        justify-content: center;
+
+        & > div:not(:last-child) {
+          border-right: 1px solid #c6c1c8;
+          padding-right: 19px;
+          margin-right: 20px;
+        }
+
+        &-completed, &-earned {
+          width: 50%;
+        }
+
+        .title {
+
+          display: flex;
+          height: 80px;
+          margin-bottom: 20px;
+          justify-content: center;
+          align-items: center;
+
+          .count {
+            margin-top: 20px;
+            font-family: RobotoMedium;
+            color: #21bedd;
+            font-size: 48px;
+            width: 50%;
+            text-align: center;
+          }
+
+          .name {
+
+            font-family: RobotoMediumItalic;
+            font-size: 18px;
+            width: 50%;
+            height: 35px;
+            margin: 0;
+            text-align: left;
+          }
+        }
+
+        .info {
+          font-family: RobotoRegularItalic;
+        }
+      }
+    }
+    &-invite {
+      grid-area: invite;
+
+      img {
+        float: left;
+        margin-right: 22px;
+        color: #7544ea;
+      }
+
+      .title {
+        font-family: RobotoMediumItalic;
+        font-size: 20px;
+        margin-top: 22px;
+      }
+
+      .info {
+        font-family: RobotoRegular;
+      }
+    }
+  }
+}
