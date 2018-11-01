@@ -4,6 +4,7 @@ import Treatment from '../containers/Treatment'
 import Patients from '../containers/Patients'
 import PatientsPage from '../containers/PatientsPage'
 import PersonalInfo from '../containers/PersonalInfo'
+import Payment from '../containers/Payment'
 import Reviews from '../containers/Reviews'
 import MyDoctors from '../containers/MyDoctors'
 
@@ -39,6 +40,11 @@ export const docRoutes = [
     {
         path: '/app/personal-info',
         component: PersonalInfo,
+        exact: true,
+    },
+    {
+        path: '/app/payment',
+        component: Payment,
         exact: true,
     },
     {
@@ -102,7 +108,7 @@ export const menuDoc =[
     {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
     {name: 'app/patients', title: 'Мои студенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
-    {name: 'app/reviews', title: 'Оплата', iconType: 'credit-card', svg: true},
+    {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
     {name: 'app/reviews', title: 'Получить бонус', iconType: 'bonus', svg: true},
 ];
 

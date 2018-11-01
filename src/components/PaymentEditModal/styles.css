@@ -1,0 +1,78 @@
+.NewVisitModal {
+  padding: 20px 30px 40px 30px;
+  display: flex;
+  flex-direction: column;
+}
+.NewVisitModal .new-input input[type="text"] {
+  font-family: RobotoMedium;
+}
+.NewVisitModal .new-input .ant-select-selection-selected-value {
+  font-family: RobotoMedium;
+}
+.NewVisitModal .new-input .effect ~ label {
+  font-family: RobotoMedium;
+  color: #777777;
+}
+.NewVisitModal .ant-calendar-picker-input {
+  font-family: RobotoMedium;
+  margin-bottom: -1px;
+}
+.NewVisitModal .new-dp .effect ~ label.placeholder,
+.NewVisitModal .new-dp .effect ~ label {
+  font-family: RobotoMedium;
+  color: #777777;
+}
+.NewVisitModal .saveBtn {
+  align-self: center;
+  width: 20%;
+  margin-top: 20px;
+}
+.NewVisitModal .payment-fields {
+  display: flex;
+  flex-direction: column;
+}
+.NewVisitModal .payment-fields .input-form-item {
+  margin-bottom: 25px;
+}
+.NewVisitModal-submit {
+  display: flex;
+  align-items: center;
+}
+.NewVisitModal-submit-error {
+  color: #f5222d;
+  margin-left: 30px;
+}
+.modal-row {
+  display: flex;
+}
+.modal-result {
+  font-size: 14px;
+  line-height: 18px;
+  color: #344051;
+  font-family: "RobotoMedium";
+}
+.modal-data {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+.modal-data .icon {
+  margin-right: 15px;
+}
+.modal-time {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.modal-time .icon {
+  margin-right: 15px;
+}
+.ant-modal-close-x {
+  color: #000;
+}
+.ant-modal-header {
+  background-color: #ff7daa;
+}
+.ant-modal-title {
+  color: #000;
+}
