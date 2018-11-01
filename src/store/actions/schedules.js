@@ -128,8 +128,8 @@ export const getAllVisits = (start, end) => {
                     type: actionTypes.GET_ALL_VISITS,
                     visits: res.data.result,
                     intervals: res.data.interval.interval,
-                    min: res.data.interval.min,
-                    max: res.data.interval.max,
+                    min: 1540875600, //res.data.interval.min, почему начало приходит с сервера
+                    max: 1540929600 //res.data.interval.max,
                 })
             })
             .catch(err => {

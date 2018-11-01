@@ -234,18 +234,20 @@
         text-align: center;
         height: 52px;
         line-height: 52px;
-        &-NOT {
+        
+        &-OK {
             background-color: #fff9e5;
         }
         &-OK:hover {
             position: relative;
             z-index: 5;
-            background-color: rgb(255, 249, 229,0.5);
+            background-color: rgba(33, 190, 221 ,0.2);
             ;
             &:before {
                 content: "\E900";
+                color: #21bedd;
             }
-            border: 1px #f3d87f dotted;
+            border: 1px #21bedd solid;
             cursor: pointer;
         }
     }

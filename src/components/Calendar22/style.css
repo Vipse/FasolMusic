@@ -219,18 +219,19 @@
   height: 52px;
   line-height: 52px;
 }
-.rbc-day-slot.rbc-time-column .rbc-timeslot-group-NOT {
+.rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK {
   background-color: #fff9e5;
 }
 .rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK:hover {
   position: relative;
   z-index: 5;
-  background-color: #fff9e5;
-  border: 1px #f3d87f dotted;
+  background-color: rgba(33, 190, 221, 0.2);
+  border: 1px #21bedd solid;
   cursor: pointer;
 }
 .rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK:hover:before {
   content: "\E900";
+  color: #21bedd;
 }
 .rbc-time-slot.rbc-label {
   color: #21bedd;

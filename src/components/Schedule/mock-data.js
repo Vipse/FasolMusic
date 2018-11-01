@@ -17,7 +17,7 @@ export let apiPatients = [{
     diagnosis: "",
     doctorName: "Зубрицкий Владимир Анатольевич",
     doctorSpecialty: "",
-    end: 1540473600,
+    end: 1540503600,
     endMA: 0,
     fio: "Калинин Роман Сергеевич",
     id: "127326",

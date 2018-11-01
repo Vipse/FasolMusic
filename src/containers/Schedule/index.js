@@ -278,7 +278,7 @@ class Schedule extends React.Component {
                 currD = currDate.getDate();
             let min = new Date(new Date(this.props.min * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(this.props.max * 1000).setFullYear(currY, currM, currD));
-                console.log("min", min);
+                
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
@@ -296,7 +296,7 @@ class Schedule extends React.Component {
                                   onNavigate={this.dateChangeHandler}
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
-                                  step={60}
+                                  step={50}
                                         events={apiPatients}    //{this.props.visits} 
                                   intervals={this.props.intervals}
                                   min={min}
@@ -309,7 +309,7 @@ class Schedule extends React.Component {
             />)
         }
 
-        console.log("Treatment", this.props);
+        
         return (
             <Hoc>
                 <Row className="row-schedule" style={{margin: 0, marginTop: -7, borderTop: 7}}>
