@@ -32,6 +32,7 @@ class Toolbar extends React.Component {
         <span className="rbc-toolbar-label">{label}</span>
         <span className="rbc-toolbar-receptionCount">{receptionNum}</span>
 
+      
       </div>
     )
   }

@@ -10,7 +10,7 @@ const CancelVisitModal = (props) => {
     const {visible} = props;
 
     return (
-        <Modal title='Отмена приема'
+        <Modal title='Изменить рабочие часы'
                visible={visible}
                onCancel={props.onCancel}
         >

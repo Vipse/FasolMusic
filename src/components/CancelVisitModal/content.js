@@ -141,34 +141,43 @@ class ContentForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
+        let week = ['Пн', "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+        let WEek =  
+         week.map((item, index) => 
 
+                   ( <Button 
+                    className="btn-change-week"
+                    htmlType="submit"
+                    size='default'
+                    btnText='Сохранить'
+                    type='week'
+                    title={item}
+                    btnText={item}
+            /> )
+          );
         return (
             <Form onSubmit={this.handleSubmit}
                   className="cancelVisitModal">
 
-                <TextArea label='Причина отмены'
-                          value={this.state.message}
-                          onChange={message => this.setState({message})}
-                          className="cancelVisitModal-txtarea"/>
-
-                <FormItem>
-                    {getFieldDecorator('file')(
-                        <Upload className="cancelVisitModal-upload"
-                                onChange={({file}) => this.modifyFiles(file)}
-                                listType = 'text'
-                                text="Прикрепить файл"/>
-                    )}
-                </FormItem>
+                <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                 eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                 Ut enim ad minim veniam
+                </div>
+                {WEek}
                 {this.renderDp(getFieldDecorator)}
-                <Button onClick={(e) => this.addDp(e)}
+                
+
+                <Button
                         className='cancelVisitModal-dpAdd'
-                        btnText='Добавить интервал'
                         size='file'
                         type='file'
                         icon='add-button'
                         svg
                 />
-                <Button htmlType="submit"
+                <Button 
+                        className="btn-change-worktime"
+                        htmlType="submit"
                         size='default'
                         btnText='Сохранить'
                         type='float'/>

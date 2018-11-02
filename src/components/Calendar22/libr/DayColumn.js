@@ -243,7 +243,7 @@ class DayColumn extends React.Component {
               height: `${height}%`,
               /*[isRtl ? 'right' : 'left']: `${Math.max(0, xOffset)}%`,*/
             }}
-            title={(typeof label === 'string' ? label + ': ' : '') + fio}
+           
             onClick={e => {
               this.onEventClickHandler(event, e)
             }}

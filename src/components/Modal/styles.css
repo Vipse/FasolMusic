@@ -6,11 +6,11 @@
   font-family: "RobotoRegular";
 }
 .ant-modal-header {
-  background-color: #21bedd;
-  color: #ffffff;
+  background-color: #ff7daa;
+  color: #000;
 }
 .ant-modal-header .ant-modal-title {
-  color: #ffffff;
+  color: #000;
   font-size: 20px;
 }
 .ant-modal-close-x {

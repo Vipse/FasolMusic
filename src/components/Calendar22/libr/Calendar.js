@@ -25,6 +25,9 @@ import defaults from 'lodash/defaults'
 import transform from 'lodash/transform'
 import SmallCalendar from './../../SmallCalendar/index';
 
+import Button from './../../Button/index';
+import CancelVisitModal from './../../CancelVisitModal/index';
+
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
 }
@@ -37,6 +40,14 @@ function isValidView(view, { views: _views }) {
 let now = new Date()
 
 class Calendar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        isWorkTime: false,   
+    }
+  }
+  
+
   static propTypes = {
     elementProps: PropTypes.object,
 
@@ -193,6 +204,9 @@ class Calendar extends React.Component {
 
     return getDrilldownView(date, view, Object.keys(this.getViews()))
   }
+  changeWorkTime = () => {
+    this.setState({isWorkTime: true});
+  }
 
   render() {
     let {
@@ -276,12 +290,24 @@ class Calendar extends React.Component {
             />
           </div>
           <div className='rbc-smallcalendar-wrapper'>
+            <Button
+              className="change-worktime"
+              btnText={"Изменить рабочее время"}
+              size='small'
+              type='dark-blue'
+              onClick={this.changeWorkTime}
+            />
             <SmallCalendar 
                 date={current}
                 onChange={onChange}
                 isUser = {this.props.isUser}
                 highlightedDates = {highlightedDates}
             />
+
+            <CancelVisitModal visible={this.state.isWorkTime}
+                                 
+                                  onCancel={() => this.setState({isWorkTime: false})}
+                />
           </div> 
         </div>
        

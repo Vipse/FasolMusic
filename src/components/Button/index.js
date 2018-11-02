@@ -8,16 +8,27 @@ import './style.css'
 import '../../icon/style.css'
 
 class Button extends React.Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            isChoose:false,
+        };
+    }
 
         render() {
+           
             const {className, type, size, btnText, icon, iconSize, title, svg, disable, onClick} = this.props;
+            let styleCh = "";
+            if(this.state.isChoose && type==="week") styleCh = "btn-change-week-choose"
 
-            const rootClass = cn( `${className}`, 'btn',`btn-size-${size}`, `btn-type-${type}`)
+            const rootClass = cn( `${className}`, 'btn',`btn-size-${size}`, `btn-type-${type}`, `${styleCh}`)
 
+            let onClick2 = () => { onClick(); this.setState({isChoose: !this.state.isChoose})};
             return (
                 <button className={rootClass}
                         title={title}
-                        onClick={onClick}
+                        onClick={onClick2}
                         {...(disable ? { disabled: true } : {})}
                         style={this.props.style}
                 >
@@ -40,7 +51,7 @@ Button.propTypes ={
     className: PropTypes.string,
     type: PropTypes.oneOf(['blue','dark-blue','float','yellow',
         'gradient','icon','light-blue', 'file', 'link', 'go',
-        'blue-float', 'no-brd', 'upload', 'transparent', 'emergency', 'emergensy', 'pink', 'bright-blue']),
+        'blue-float', 'no-brd', 'upload', 'transparent', 'emergency', 'emergensy', 'pink', 'bright-blue', 'week']),
     size: PropTypes.oneOf(['small', 'default', 'large', 'icon',
         'file', 'link', 'file all-download', 'go', 'upload', 'mini']),
     btnText: PropTypes.string,

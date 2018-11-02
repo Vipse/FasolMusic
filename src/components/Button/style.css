@@ -43,11 +43,11 @@
 }
 .btn-size-small {
   text-transform: uppercase;
-  letter-spacing: 0.025em;
+  letter-spacing: .025em;
   font-size: 0.75rem;
   font-family: RobotoMedium;
   min-width: 5.3125rem;
-  padding: 0.625rem 0.85rem;
+  padding: .625rem .85rem;
 }
 .btn-size-default {
   text-transform: uppercase;
@@ -55,7 +55,7 @@
   font-size: 11px;
   font-family: RobotoMedium;
   min-width: 8.875rem;
-  letter-spacing: 0.025em;
+  letter-spacing: .025em;
 }
 .btn-size-large {
   font-size: 1.25rem;
@@ -155,6 +155,20 @@
   text-decoration: underline;
 }
 .btn-type-upload:hover .icon {
+  text-decoration: none;
+}
+.btn-type-week {
+  background-color: transparent;
+  min-width: auto;
+  border-radius: 50px;
+}
+.btn-type-week .icon {
+  font-weight: 100;
+}
+.btn-type-week:hover span {
+  text-decoration: underline;
+}
+.btn-type-week:hover .icon {
   text-decoration: none;
 }
 .btn-type-float {
