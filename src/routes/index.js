@@ -104,12 +104,11 @@ export const patientRoutes = [
 
 export const menuDoc =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
-    {name: 'app/schedule', title: 'Расписание тренировок', iconType: 'calendar', svg: true},
-    {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
-    {name: 'app/patients', title: 'Мои студенты', iconType: 'user',},
-    {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
+    {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
+    {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
+    //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
+    {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
-    {name: 'app/reviews', title: 'Получить бонус', iconType: 'bonus', svg: true},
 ];
 
 export const menuPatient =[
@@ -120,4 +119,5 @@ export const menuPatient =[
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
     {name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
+
 
