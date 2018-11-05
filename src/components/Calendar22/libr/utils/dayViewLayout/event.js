@@ -28,7 +28,6 @@ export class Event {
     this.start = +startDate
     this.end = +endDate
     this.top = this.startSlot / totalMin * 107
-    console.log("Event", this.props,  this.endSlot, totalMin, this.top);
     this.height = this.endSlot / totalMin * 150 - this.top
     this.data = data
   }

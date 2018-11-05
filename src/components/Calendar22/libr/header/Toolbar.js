@@ -9,10 +9,9 @@ class Toolbar extends React.Component {
   static propTypes = {
     view: PropTypes.string.isRequired,
     views: PropTypes.arrayOf(PropTypes.string).isRequired,
-    label: PropTypes.node.isRequired,
+    label: PropTypes.string.isRequired,
     messages: PropTypes.object,
     onNavigate: PropTypes.func.isRequired,
-    onViewChange: PropTypes.func.isRequired,
   }
 
   render() {
@@ -41,9 +40,6 @@ class Toolbar extends React.Component {
     this.props.onNavigate(action)
   }
 
-  view = view => {
-    this.props.onViewChange(view)
-  }
 
 }
 

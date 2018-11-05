@@ -255,22 +255,6 @@ class Schedule extends React.Component {
                                 
             />)
         } 
-        // else if (this.state.isEditorMode) {
-        //     editorBtn = (<Button btnText='Вернуться к графику'
-        //                          onClick={() => this.changeToEditorMode(false)}
-        //                          type='yellow'
-        //                          icon='arrow2_left'/>);
-        //     calendar = (<Calendar receptionNum={this.getCountOfScheduledIntervals()}
-        //                           selectable
-        //                           editor
-        //                           onMonthSelect={(date, schedule) => {
-        //                               !!schedule && this.openReceptionSchedule(date, schedule)
-        //                           }}
-        //                           schedules={this.props.schedules}
-        //                           date={this.state.currentDate}
-        //                           onNavigate={this.dateChangeHandler}
-        //     />)
-        // }
         else {
             const currDate = this.state.currentDate,
                 currY = currDate.getFullYear(),

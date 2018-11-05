@@ -5,8 +5,6 @@ import localizer from './localizer'
 import { navigate } from './utils/constants'
 import TimeGrid from './TimeGrid'
 
-import SmallCalendar from './../../SmallCalendar/index';
-
 class Week extends React.Component {
   static propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -16,11 +14,8 @@ class Week extends React.Component {
 
   render() {
     let { date, ...props } = this.props
-
- 
     let range = Week.range(date, this.props)
  
-
     return <TimeGrid {...props} range={range} eventOffset={15} />
   }
 }

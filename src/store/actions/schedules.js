@@ -37,7 +37,6 @@ export const getAllIntervals = (start, end) => {
         axios.post('/catalog.doc2/getDateWorkInterval',
                     JSON.stringify(obj))
             .then(res => {
-                console.log('[getAllIntervals]',res.data.result)
                 dispatch({
                     type: actionTypes.GET_ALL_INTERVALS,
                     intervals: res.data.result,
@@ -113,6 +112,7 @@ export const addVisit = (reception, start, end, isToday) => {
     }
 }
 
+// fasol
 export const getAllVisits = (start, end) => {
     
     return (dispatch, getState) => {

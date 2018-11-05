@@ -24,26 +24,18 @@ class BigCalendar extends React.Component{
     };
 
     changeSchedule = () => {
-        return this.props.schedules ? this.props.schedules.map((sched)=>{
-                const {intervalOb,intervalEx} = sched;
+        return this.props.schedules ? this.props.schedules.map((sched) => {
+                const {intervalOb} = sched;                  
                 let newIntervalOb = [];
-                for(let i = 0, len = intervalOb.length; i < len; i++){
-                    let interv = intervalOb[i];
-                    newIntervalOb.push(this.changeIntervalDate(interv.start, interv.end))
-                }
 
-                let newIntervalEx = [];
-                for(let i = 0, len = intervalEx.length; i < len; i++){
-                    let interv = intervalEx[i];
-                    newIntervalEx.push(this.changeIntervalDate(interv.start, interv.end))
-                }
+                intervalOb.forEach((item) => {
+                    newIntervalOb.push(this.changeIntervalDate(item.start, item.end))
+                });
 
                 return {
                     ...sched,
                     intervalOb: newIntervalOb,
-                    intervalEx: newIntervalEx,
                 }
-
             }) : [];
     };
 
@@ -59,25 +51,24 @@ class BigCalendar extends React.Component{
     render() {
         return (<div>
             {
-                true ?
+                true ? // this.props.isUser
                     <Calendar
-                            isUser={true} // это для коуча
-                            defaultView={'week'}
-                            onView={() => {}}
-                          
-                            events = {this.changeEvents()}
-                            {...this.props}
+                        events = {this.changeEvents()}
+                        isUser={true} // это для коуча
+                        
+                        {...this.props}
 
-                            />
+                   />
                     :
                     <Calendar
-                            defaultView={'week'}
-                            schedules={this.changeSchedule()}
-    
-                            events = {this.changeEvents()}
-                            {...this.props}
+                        events = {this.changeEvents()}
+                        
+                            //  schedules={this.changeSchedule()} 
+                            // обычные интервалы и экстренные и переводит в Date
+        
+                        {...this.props}
 
-                            />
+                    />
             }
         </div>);
     }

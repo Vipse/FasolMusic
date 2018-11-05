@@ -84,10 +84,7 @@ class TimeGrid extends Component {
     let allDayEvents = [],
       rangeEvents = []
 
-
-
     events.forEach(event => {
-     // if( start.moment('X') <= event.start && event.start <= end.moment('X')){
         if (inRange(event, start, end, this.props)) {
         let eStart = get(event, startAccessor),
           eEnd = get(event, endAccessor)
@@ -124,8 +121,7 @@ class TimeGrid extends Component {
           this.props.intervals.length ? 
           (
             <div ref="content" className="rbc-time-content">
-                  {/*<div ref="timeIndicator" className="rbc-current-time-indicator" />*/}
-                  
+            
                   <TimeColumn
                     {...this.props}
                     showLabels
@@ -157,10 +153,6 @@ class TimeGrid extends Component {
       components,
     } = this.props
 
-//console.log("this.props", this.props);
-//console.log("ostalnoe", range, events, today, resources);
-//console.log("||", new Date(1540767600000));
-
     return range.map((date, idx) => {
       let daysEvents = events.filter(event => 
       
@@ -172,7 +164,7 @@ class TimeGrid extends Component {
           )
         
       )
-      // console.log("daysEvents", daysEvents);
+      
       return resources.map((resource, id) => {
         let eventsToDisplay = !resource
           ? daysEvents
@@ -354,7 +346,7 @@ class TimeGrid extends Component {
 }
 
 
-TimeGrid.PropTypes = {
+TimeGrid.propTypes = {
   events: PropTypes.array.isRequired,
   resources: PropTypes.array,
 

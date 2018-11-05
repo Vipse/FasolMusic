@@ -26,6 +26,10 @@ export default class TimeSlotGroup extends Component {
     showLabels: false,
   }
 
+  onViewModal = () => {
+    console.log("onView")
+  }
+
   renderSlice(slotNumber, content, value) {
     const {
       dayWrapperComponent,
@@ -34,9 +38,8 @@ export default class TimeSlotGroup extends Component {
       culture,
       resource,
       slotPropGetter,
-      children
     } = this.props
-    console.log("CHILD", children);
+    
     return (
       <TimeSlot
         key={slotNumber}
@@ -75,6 +78,7 @@ export default class TimeSlotGroup extends Component {
       return (value >= el.start*1000) && value < (el.end * 1000)
     });
     let cellClass = cn('rbc-timeslot-group', flag ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
-    return <div className={cellClass}>{this.renderSlices()}</div>
+
+    return <div onClick={this.onViewModal} className={cellClass}>{this.renderSlices()}</div>
   }
 }
