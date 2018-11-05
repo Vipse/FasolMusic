@@ -81,7 +81,7 @@ const loadStories = () => {
     require('../src/components/WarningModal/stories');
     require('../src/components/NewVisitTypeModal/stories');
     require('../src/components/SideNav/stories');
-    require('../src/components/HistoryReceptionsItem/stories');
+    require('../src/components/HomeworkListItem/stories');
     require('../src/components/HistoryReceptions/stories');
     require('../src/components/ReviewsTree/stories');
     require('../src/components/PersonalContactItem/stories');
@@ -124,7 +124,7 @@ const loadStories = () => {
     require('../src/components/NewVisitModalPage/stories');
     require('../src/components/PopoverFile/stories');
     require('../src/components/PopoverFileBody/stories');
-    require('../src/components/HistoryReceptionsTabs/stories');
+    require('../src/components/HomeworkList/stories');
     require('../src/components/ChatVideoPanel/stories');
     require('../src/components/TopPanelPatientItem/stories');
     require('../src/components/TopPanelPatientPopover/stories');

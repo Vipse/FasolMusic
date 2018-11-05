@@ -1,0 +1,58 @@
+.trainings {
+  position: relative;
+}
+.trainings-all .tableheader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #fff;
+  border: none;
+  z-index: 99;
+  top: 0;
+}
+.trainings-all .tableheader-name {
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 18px;
+  color: #111111;
+  font-family: "RobotoMediumItalic", sans-serif;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.trainings-all .tableheader.menu-header {
+  padding: 20px 0;
+  background-color: #fff2f6;
+  justify-content: flex-start;
+}
+.trainings-all .tableheader.menu-header .flex-col {
+  text-align: center;
+  margin-right: 1%;
+}
+.trainings-all .tableheader.menu-header .flex-col:first-child {
+  margin-left: 1%;
+}
+.trainings-all .tableheader.menu-header .flex-col:nth-child(1) {
+  width: 10%;
+}
+.trainings-all .tableheader.menu-header .flex-col:nth-child(2) {
+  width: 10%;
+}
+.trainings-all .tableheader.menu-header .flex-col:nth-child(3) {
+  width: 10%;
+}
+.trainings-all .tableheader.menu-header .flex-col:nth-child(4) {
+  width: 13%;
+}
+.trainings-all .tableheader.menu-header .flex-col:nth-child(5) {
+  width: 40%;
+}
+.trainings-all .tableheader.menu-header .flex-col:nth-child(6) {
+  width: 10%;
+}
+.trainings-all .table-footer {
+  height: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
