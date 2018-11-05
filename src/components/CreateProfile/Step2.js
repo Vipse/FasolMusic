@@ -1,43 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { Form } from 'antd';
-import Step2_educ from './Step2_educ'
-import Step2_graduate_educ from './Step2_graduate_educ'
-import Step2_work from './Step2_work'
-import Step2_additional from './Step2_additional'
 import Button from '../Button'
 import Hr from '../Hr'
 import Upload from '../Upload'
 import DropZoneUpload from '../DropZoneUpload'
 import SelectNew from "../SelectNew";
 import InputNew from "../InputNew";
+import InputWithTT from "../InputWithTT";
+import InputDateWithToolTip from "../InputDateWithTT";
+import SelectWithTT from "../SelectWithTT";
+import Dropzone from "react-dropzone";
+import UploadPhotoImage from "../../img/uploadPhoto.png";
+import VK, {Auth} from "react-vk";
+import TextArea from "../TextArea";
 
 const FormItem = Form.Item;
 
-class Step2_From extends React.Component{
+class Step2Form extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            educNum: this.props.data.educNum || 1,
-            gradEducNum: this.props.data.gradEducNum || 1,
-            placesNum: this.props.data.placesNum || 1,
-            isCategory: this.props.data.isCategory || false,
-            isDegree : this.props.data.isDegree || false,
-            isStatus: this.props.data.isStatus || false,
 
         }
     }
 
-    normFile = (e) => {
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e && e.fileList;
-    };
-
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        /*this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 let toSubmit = {
                     ...values,
@@ -46,10 +36,24 @@ class Step2_From extends React.Component{
                 this.props.onSubmit(toSubmit);
                 this.props.onNext();
             }
+        })*/
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            // if (!err) {
+            //
+            //     let fields = {
+            //         ...values,
+            //         avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
+            //     };
+            //     if(!values.avatar.url && !values.avatar.name) {
+            //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
+            //     }
+            this.props.onSubmit(values);
+            this.props.onNext();
+            // }
         })
     };
 
-    handleGoBack = (e) => {
+    /*handleGoBack = (e) => {
         e.preventDefault();
 
         this.props.form.validateFields((err, values) => {
@@ -61,55 +65,7 @@ class Step2_From extends React.Component{
             this.props.onSubmit(fields);
             this.props.onPrev();
         })
-    };
-
-    selectChangeHandler = (e, name) => {
-        const validate = () => {
-            this.props.form.validateFields([
-                'academicdegreedoc',
-                'academicstatusdoc',
-                'categorydoc'], { force: true })};
-        switch (name){
-
-            case "degree":
-                e === "Нет степени" ? this.setState({isDegree: false}, validate) : this.setState({isDegree: true}, validate);
-                return;
-            case "status":
-                e === "Нет звания" ? this.setState({isStatus: false}, validate) : this.setState({isStatus: true},validate);
-                return;
-            case "category":
-                e === "Нет категории" ? this.setState({isCategory: false}, validate): this.setState({isCategory: true},validate);
-                return;
-
-            default: return;
-        }
-    };
-
-    addFormElem = (Component,num,fieldDecorator) => {
-        let i = 1,
-            name = Component.getName,
-            formArr = [<Component getFieldDecorator={fieldDecorator}
-                                  normFile={this.normFile}
-                                  key={name + 0}
-                                  specs = {this.props.specs}
-                                  form = {this.props.form}
-                                  fileToState={this.fileToState}
-                                  uploadFile={this.props.uploadFile}
-                                  number={0}/>,];
-        while (i < num){
-            formArr.push(<Hr key={'hr_' + name + i}/>);
-            formArr.push(<Component getFieldDecorator={fieldDecorator}
-                                    normFile={this.normFile}
-                                    form = {this.props.form}
-                                    specs = {this.props.specs}
-                                    key={name + i}
-                                    fileToState={this.fileToState}
-                                    uploadFile={this.props.uploadFile}
-                                    number={i}/>);
-            i++;
-        }
-        return formArr;
-    };
+    };*/
 
     increaseStateNum = (e, type) => {
         e.preventDefault();
@@ -119,166 +75,129 @@ class Step2_From extends React.Component{
 
 
     render(){
-        const {getFieldDecorator} = this.props.form;
-
+        const { getFieldDecorator } = this.props.form;
 
         return (
-            <Form onSubmit={this.handleSubmit} className="step-form">
-                <div className="step-posttitle">Заполните сведения об образовании и работе</div>
-                <div className="step-notification">Просим образование по основным специальностям указывать в блоке Образование (с дипломом и свидетельством), а по дополнительным квалификационным программам  (в том числе присвоение ученой степени) - в блоке Последипломное образование.</div>
-                <div className="step-notification">* Поля, обязательные для заполнения</div>
-
-                {/*<div className="step-block-title">Сведения об образовании</div>
-                {this.addFormElem(Step2_educ, this.state.educNum, getFieldDecorator)}
-                <Button onClick={e => this.increaseStateNum(e, 'educNum')}
-                        className="personal-btn"
-                        btnText='Добавить'
-                        size='small'
-                        type='no-brd'
-                        icon='plus'
-                        iconSize={11}
-                        svg
-                />
-
-                <div className="step-block-title">Последипломное образование</div>
-                {this.addFormElem(Step2_graduate_educ, this.state.gradEducNum, getFieldDecorator)}
-                <Button onClick={e => this.increaseStateNum(e, 'gradEducNum')}
-                        className="personal-btn"
-                        btnText='Добавить'
-                        size='small'
-                        type='no-brd'
-                        icon='plus'
-                        iconSize={11}
-                        svg
-                />
-
-                <Hr/>
+            <Form onSubmit={this.handleSubmit} className="step-form step-2">
+                <div className="step-title">Уровень подготовки</div>
+                <div className="step-note">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
+                    eligendi harum hic itaque iusto neque porro recusandae. Accusamus corporis culpa est facere, in
+                    pariatur porro reprehenderit similique sit tempora? Nisi!
+                </div>
+                <div className="step-form-row">
+                    <FormItem>
+                        {getFieldDecorator('subject', {
+                            rules: [{
+                                required: true,
+                                message: 'Выберите дисциплину, пожалуйста'
+                            }],
+                        })(
+                            <SelectWithTT
+                                bubbleplaceholder="Дисциплина"
+                                className="step-form-item"
+                                values={["Вокал", "Гитара"]}
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        {getFieldDecorator('specialization', {
+                            rules: [{
+                                required: true,
+                                message: 'Выберите специализацию, пожалуйста'
+                            }],
+                        })(
+                            <SelectWithTT
+                                bubbleplaceholder="Специализация"
+                                className="step-form-item"
+                                values={["Мужской", "Женский"]}
+                            />
+                        )}
+                    </FormItem>
+                </div>
+                <div className="step-form-row">
+                    <FormItem>
+                        {getFieldDecorator('level', {
+                            rules: [{
+                                required: true,
+                                message: 'Выберите ваш уровень подготовки, пожалуйста'
+                            }],
+                        })(
+                            <SelectWithTT
+                                bubbleplaceholder="Мой уровень подготовки"
+                                className="step-form-item"
+                                values={["Низкий", "Средний", "Высокий"]}
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        {getFieldDecorator('exp', {
+                            rules: [{
+                                required: true,
+                                message: 'Выберите опыт занятия музыкой, пожалуйста'
+                            }],
+                        })(
+                            <SelectWithTT
+                                bubbleplaceholder="Опыт занятия музыкой"
+                                className="step-form-item"
+                                values={["1 год", "2 года", "3 года", "4 года", "5 лет"]}
+                            />
+                        )}
+                    </FormItem>
+                </div>
                 <FormItem>
-                    {getFieldDecorator('academicdegree')(
-
-                        <SelectNew width ="100%"
-                                   bubbleplaceholder="Учёная степень"
-                                   className="step-form-item"
-                                   data={academicDegree}
-                                   onChange={(e)=>this.selectChangeHandler(e,"degree")}
-                        />
-                    )}
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('academicdegreedoc', {
-                        rules: [{
-                            required: this.state.isDegree,
-                            message: 'Загрузите подтверждающий документ'
-                        }],
-                    })(
-                        <DropZoneUpload
-                            uploadFile = {this.props.uploadFile}
-                            text="Прикрепить документ, подтверждающий учёную степень"
-                        />
-                    )}
-                </FormItem>
-
-                <FormItem>
-                    {getFieldDecorator('academicstatus')(
-                        <SelectNew width ="100%"
-                        bubbleplaceholder="Учёное звание"
-                        className="step-form-item"
-                        data={academicTitle}
-                        onChange={(e)=>this.selectChangeHandler(e,"status")}
-                        />
-                    )}
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('academicstatusdoc', {
-                        rules: [{
-                            required: this.state.isStatus,
-                            message: 'Загрузите подтверждающий документ'
-                        }]
-
-                    })(
-                        <DropZoneUpload
-                            uploadFile = {this.props.uploadFile}
-                            text="Прикрепить документ, подтверждающий учёное звание"
-                        />
-                    )}
-                </FormItem>
-
-
-                <div className="step-block-title">Сведения о работе</div>
-                {this.addFormElem(Step2_work, this.state.placesNum, getFieldDecorator)}
-                <Button onClick={e => this.increaseStateNum(e, 'placesNum')}
-                        className="personal-btn"
-                        btnText='Добавить'
-                        size='small'
-                        type='no-brd'
-                        icon='plus'
-                        iconSize={11}
-                        svg
-                />
-
-                <Hr/>
-
-                <FormItem>
-
-                    {getFieldDecorator('category', {
+                    {getFieldDecorator('goals', {
                         rules: [{
                             required: true,
-                            message: 'Введите категорию'
+                            message: 'Выберите цели, пожалуйста'
                         }],
                     })(
-                        <SelectNew width ="100%"
-                                   bubbleplaceholder="* Категория"
-                                   className="step-form-item"
-                                   data={category}
-                                   onChange={(e)=>this.selectChangeHandler(e,"category")}
+                        <SelectWithTT
+                            key="1"
+                            bubbleplaceholder="Цели"
+                            className="step-form-item"
+                            mode="multiple"
+                            values={["Играть в группе", "Подбирать на слух"]}
                         />
                     )}
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('categorydoc', {
-                        rules: [{
-                            required: this.state.isCategory,
-                            message: 'Загрузите подтверждающий документ'
-                        }],
-                    })(
-                        <DropZoneUpload
-                            uploadFile = {this.props.uploadFile}
-                            text="Прикрепить документ, подтверждающий категорию"
-                        />
-                    )}
-                </FormItem>
-                <Hr/>*/}
-                <FormItem>
-
-                    {getFieldDecorator('experience', {
+                    {getFieldDecorator('style', {
                         rules: [{
                             required: true,
-                            message: 'Введите общий стаж работы'
+                            message: 'Выберите стиль музыки, который вам нравится, пожалуйста'
                         }],
                     })(
-                        <InputNew width ="100%" bubbleplaceholder="* Общий стаж работы" className="step-form-item"/>
+                        <SelectWithTT
+                            bubbleplaceholder="Стиль музыки, который мне нравится"
+                            className="step-form-item"
+                            values={["зарубежная поп-музыка", "отечественная поп-музыка",
+                                "зарубежная рок-музыка", "отечественная рок-музыка"]}
 
+                        />
+                    )}
+                </FormItem>
+                <FormItem>
+                    {getFieldDecorator('favArtist', {
+                        rules: [{
+                            required: true,
+                            message: 'Укажите любимых исполнителей, пожалуйста'
+                        }],
+                    })(
+                        <TextArea
+                            label="Любимые исполнители"
+                            placeholder=""
+                            className="step-form-item"
+                        />
                     )}
                 </FormItem>
 
-
-                {/*<div className="step-block-title">Дополнительная информация</div>
-                <Step2_additional getFieldDecorator={getFieldDecorator}
-                                  langs={langs}
-                                  payments={payments}/>
-                */}
                 <div className="steps-action">
-                    <Button onClick={this.handleGoBack}
-                            btnText='Назад'
-                            size='large'
-                            type='float'
-                            style = {{marginRight: "20px"}}
-                    />
                     <Button htmlType="submit"
-                            btnText='Далее'
+                            btnText='Продолжить'
                             size='large'
-                            type='gradient'
-                    />
+                            type='pink'/>
+
                 </div>
             </Form>
         )
@@ -289,28 +208,15 @@ const Step2 = Form.create({
     mapPropsToFields(props) {
         let fields ={};
         for (let key in props.data){
-            if (key !== 'current' && props.data[key]){
-                if(key.indexOf("ucationyears") + 1) {
-                    if(props.data[key].defaultEndValue && props.data[key].defaultStartValue) {
-                        fields[key] = Form.createFormField({
-                            value: {defaultStartValue: props.data[key].defaultStartValue , defaultEndValue: props.data[key].defaultEndValue}
-                        })
-                    } else {
-                        fields[key] = Form.createFormField({
-                            value: {defaultStartValue: props.data[key][0] , defaultEndValue: props.data[key][1]}
-                        })
-                    }
-
-                } else {
-                    fields[key] = Form.createFormField({
-                        value: props.data[key],
-                    })
-                }
+            if (key !== 'current'){
+                fields[key] = Form.createFormField({
+                    value: props.data[key],
+                })
             }
         }
         return fields;
     },
-})(Step2_From);
+})(Step2Form);
 
 Step2.propTypes = {
     urlForget: PropTypes.string,

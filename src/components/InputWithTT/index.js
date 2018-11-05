@@ -24,9 +24,9 @@ class InputWithTT extends React.Component{
         return (
             <div className = "new-input-wrapper input-effect">
                 <input onChange={this.onChange} className="effect" type={this.props.type}/>
-                <button data-tip={this.props.tooltip || ""} className='note' >?</button>
+                {this.props.tooltip && <button type="button" data-tip={this.props.tooltip || ""} className='note'>?</button>}
                 <label className={labelClassName}>{this.props.bubbleplaceholder || ""}</label>
-                <ReactTooltip place="top" type="dark" effect="float"/>
+                {this.props.tooltip && <ReactTooltip place="top" type="dark" effect="float"/>}
             </div>
         )
     }

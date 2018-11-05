@@ -5,9 +5,6 @@ a:hover {
   color: #204d8d;
   text-decoration: underline;
 }
-.personal-contact .patient-contacts-avatar {
-  margin-bottom: 40px;
-}
 .personal-block {
   position: relative;
   margin-bottom: 40px;
@@ -38,7 +35,4 @@ a:hover {
   margin-bottom: 15px;
   letter-spacing: 0.14px;
   font-family: "RobotoMedium";
-}
-.patient-contacts-avatar {
-  margin-bottom: 30px;
 }

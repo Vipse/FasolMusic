@@ -1,0 +1,113 @@
+.lastTraining {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px dashed #e1e1e1;
+
+  &-contactInfo {
+    display: flex;
+    &-nameAndDate {
+      display: flex;
+      flex-direction: column;
+      margin-left: 20px;
+    }
+    &-name {
+      color: #2abc6c;
+      font-family: RobotoBlack, sans-serif;
+      line-height: 18px;
+      margin-right: 20px;
+    }
+    &-date {
+      color: #111;
+      font-family: RobotoMediumItalic, sans-serif;
+      font-size: 12px;
+    }
+    &-discipline {
+      font-size: 12px;
+      line-height: 14px;
+      color: #777777;
+
+    }
+  }
+  &-homework {
+    margin: 20px 0;
+    display: inline-block;
+    color: #111;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: RobotoRegular, sans-serif;
+    .sendHomework {
+      position: relative;
+      &-area {
+        width: 100%;
+        border: 1px solid #e1e1e1;
+        resize: none;
+        height: 120px;
+        color:#333;
+        font-family: RobotoRegular, sans-serif;
+        outline: none;
+        padding: 20px;
+        &::placeholder {
+                  color:#777777;
+        }
+
+      }
+      &-btn {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        bottom: 12px;
+        right: 12px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        background: none;
+        &:hover {
+          span.icon {
+            color: #777;
+          }
+        }
+        span.icon {
+          font-size: 15px;
+          cursor: pointer;
+          color: #bbbbbb;
+        }
+      }
+
+    }
+  }
+  &-materials {
+    display: flex;
+    .trainingRecord {
+      display: flex;
+      flex-direction: column;
+      margin-right: 30px;
+      &-title {
+        text-transform: uppercase;
+        font-size: 12px;
+        line-height: 24px;
+        font-family: RobotoMediumItalic, sans-serif;
+        color: #111;
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+    }
+    .files {
+      display: flex;
+      flex-direction: column;
+      &-title {
+        text-transform: uppercase;
+        font-size: 12px;
+        line-height: 24px;
+        font-family: RobotoMediumItalic, sans-serif;
+        color: #111;
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+}

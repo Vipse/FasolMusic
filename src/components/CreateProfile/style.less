@@ -71,6 +71,7 @@
                     line-height: 36px;
                     color: #111;
                     margin-bottom: 35px;
+                    text-transform: uppercase;
                 }
                 .step-note {
                     font-family: "RobotoRegularItalic", serif;
@@ -90,6 +91,91 @@
                             margin-right: 0;
                         }
                     }
+                    .authPopup {
+                        float: right;
+                    }
+                    .social-row {
+                        display: flex;
+                        flex-direction: row;
+                        padding-left: 65px;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 300px;
+                        &-icon {
+                            padding-top: 10px;
+                            padding-right: 10px;
+                        }
+                        &-link {
+                            padding-top: 7px;
+                            font-family: RobotoRegular;
+                        }
+                        &-btn-link {
+                            margin-top: 10px;
+                        }
+                        &-btn-close {
+                            margin-top: 5px;
+                            width: 30px;
+                            justify-content: flex-end;
+                        }
+                    }
+                }
+                .radio-label{
+                    color: #000;
+                    font-family: RobotoMedium;
+                    padding-right: 30px;
+                    width: 220px;
+                }
+                .timePlate {
+                    position: relative;
+                    top: -10px;
+                    left: -135px;
+                    font-size: 10px;
+                    width: 70px;
+                    height: 3px;
+                    font-family: RobotoRegular;
+                    color: #000;
+                }
+                .ant-slider {
+                    width: 200px;
+
+                    &-rail {
+                        height: 1px;
+                        background-color: #000;
+                    }
+
+                    &-track {
+                        background-color: #21bedd;
+                        height: 1px;
+                    }
+
+                    &-disabled {
+                        .ant-slider {
+                            &-handle, &-track {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    &-handle {
+
+                        width: 7px;
+                        height: 7px;
+                        background-color: #21bedd;
+                        border: unset;
+                        margin-top: -3px;
+
+                        &:focus, &:hover {
+                            box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
+                        }
+                    }
+                }
+                .timeSchedule {
+                    display: flex;
+                    flex-direction: row;
+                    user-select: none;
+                }
+                .dayCheckbox {
+                    width: 64px;
                 }
                 .create-profile-avatar {
                     display: flex;
@@ -106,7 +192,7 @@
                         max-width: 200px;
                         max-height: 200px;
                         border-radius: 15px;
-                        border: 1px dashed #21bedd;
+                        border: 2px dashed #21bedd;
                         cursor: pointer;
                         display: flex;
                         align-items: center;
@@ -123,6 +209,7 @@
                         font-family: "RobotoRegular", serif;
                         font-size: 14px;
                         margin-top: 10px;
+                        color: #111;
                     }
                 }
                 .create-profile-social {

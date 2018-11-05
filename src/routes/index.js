@@ -4,6 +4,7 @@ import Treatment from '../containers/Homework'
 import Patients from '../containers/Patients'
 import PatientsPage from '../containers/PatientsPage'
 import PersonalInfo from '../containers/PersonalInfo'
+import Payment from '../containers/Payment'
 import Reviews from '../containers/Reviews'
 import MyDoctors from '../containers/MyDoctors'
 
@@ -42,6 +43,11 @@ export const docRoutes = [
         exact: true,
     },
     {
+        path: '/app/payment',
+        component: Payment,
+        exact: true,
+    },
+    {
         path: '/app/chat',
         component: Chat,
         exact: true,
@@ -65,12 +71,12 @@ export const patientRoutes = [
         exact: true,
     },
     {
-        path: '/app/treatment',
+        path: '/app/homework',
         component: Treatment,
         exact: true,
     },
     {
-        path: '/app/doctors',
+        path: '/app/students',
         component: MyDoctors,
         exact: true,
     },
@@ -100,9 +106,9 @@ export const menuDoc =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
     {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
-    {name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
+    //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
-    {name: 'app/reviews', title: 'Отзывы пациентов', iconType: 'chat', svg: true},
+    {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
 ];
 
 export const menuPatient =[
@@ -113,4 +119,5 @@ export const menuPatient =[
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
     {name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
+
 

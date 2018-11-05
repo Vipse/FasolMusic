@@ -93,16 +93,17 @@ a:hover {
   display: block;
   padding-left: 0;
 }
-.personal-information .radio-label {
+.personal-information .radio-block {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
 }
-.personal-information .radio-label .ant-radio-group {
-  margin-left: 40px;
+.personal-information .radio-block .ant-radio-wrapper {
+  margin-right: 40px;
 }
-.personal-information .radio-label .ant-radio-group .ant-radio-wrapper {
-  margin-left: 35px;
+.personal-information .radio-title {
+  font-size: 14px;
+  color: #777;
+  margin-right: 45px;
 }
 .mb-35 {
   margin-bottom: 35px;

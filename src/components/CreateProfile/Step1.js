@@ -6,13 +6,23 @@ import Button from '../Button'
 import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
-import { Auth } from "react-vk";
-import  VK from "react-vk";
+import VK, {Auth} from 'react-vk';
 
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
+import vkIcon from "../../img/vkIcon.png"
+import facebookIcon from "../../img/facebookIcon.png"
+import twitterIcon from "../../img/twitterIcon.png"
+import gplusIcon from "../../img/gplusIcon.png"
 
 const FormItem = Form.Item;
+
+const mappedIconsToLinks = {
+    vk: vkIcon,
+    facebook: facebookIcon,
+    twitter: twitterIcon,
+    gplus: gplusIcon
+};
 
 
 class Step1Form extends React.Component{
@@ -20,6 +30,10 @@ class Step1Form extends React.Component{
         fileList: [],
         avatarUrl: "",
         avatarThumb: "",
+        vkAuthorized: {show: false, link: ''},
+        facebookAuthorized: {show: false, link: ''},
+        twitterAuthorized: {show: false, link: ''},
+        gplusAuthorized: {show: false, link: ''}
     };
 
     handleSubmit = (e) => {
@@ -34,7 +48,7 @@ class Step1Form extends React.Component{
             //     if(!values.avatar.url && !values.avatar.name) {
             //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
             //     }
-                this.props.onSubmit(values);
+                this.props.onSubmit({...values, ...this.state});
                 this.props.onNext();
             // }
         })
@@ -54,8 +68,9 @@ class Step1Form extends React.Component{
         }));
         reader.readAsDataURL(info.file);
     };
+
     onDrop = (file) => {
-        console.log(file)
+        console.log(file);
         const reader = new FileReader();
         // this.props.uploadFile(info.file)
         //     .then((res) => {
@@ -67,6 +82,62 @@ class Step1Form extends React.Component{
             loading: false
         }));
         reader.readAsDataURL(file[0]);
+    };
+
+    vkAuthorization = () => {
+        return (<VK apiId={6695055}>
+            <Auth options={{
+                onAuth: user => {
+                    this.setState({
+                        vkAuthorized: {show: false, link: "vk.com/id" + user.uid}
+                    });
+                },
+            }}/>
+        </VK>);
+    };
+
+    facebookAuthorization = () => {
+        return null;
+    };
+
+    twitterAuthorization = () => {
+        return null;
+    };
+
+    gplusAuthorization = () => {
+        return null;
+    };
+
+    renderSocial = (name) => {
+        return (<div key={name}>
+            <div className={"social-row " + name}>
+                <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
+                <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
+                {this.state[name + "Authorized"].link || this.state[name + "Authorized"].show ?
+                    <Button className="social-row-btn-close"
+                            icon='close'
+                            size='small'
+                            type='link'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.setState({[name + "Authorized"]: {show: false, link: ""}})
+                            }}
+                    />
+                    : <Button className="social-row-btn-link"
+                              btnText='Связать'
+                              size='small'
+                              type='bright-blue'
+                              onClick={(e) => {
+                                  e.preventDefault();
+                                  this.setState({[name + "Authorized"]: {show: true, link: ""}})
+                              }}
+                    />
+                }
+            </div>
+            <div className="authPopup">
+                {this.state[name + "Authorized"].show && this[name + "Authorization"]()}
+            </div>
+        </div>);
     };
 
     render(){
@@ -90,6 +161,7 @@ class Step1Form extends React.Component{
                             }],
                         })(
                             <InputWithTT
+                                key="fio"
                                 bubbleplaceholder="* ФИО"
                                 className="step-form-item"
                                 tooltip="ФИО Tooltip"
@@ -98,16 +170,17 @@ class Step1Form extends React.Component{
                         )}
                     </FormItem>
                     <FormItem>
-                        {getFieldDecorator('fio2', {
+                        {getFieldDecorator('birthDate', {
                             rules: [{
                                 required: true,
-                                message: 'Введите ФИО, пожалуйста'
+                                message: 'Выберите дату рождения, пожалуйста'
                             }],
                         })(
                             <InputDateWithToolTip
+                                key="birthday"
                                 bubbleplaceholder="Дата рождения"
                                 className="step-form-item"
-                                tooltip="ДР Tooltip"
+                                tooltip="Дата рождения Tooltip"
 
 
                             />
@@ -116,84 +189,93 @@ class Step1Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        {getFieldDecorator('fio2', {
+                        {getFieldDecorator('gender', {
                             rules: [{
                                 required: true,
-                                message: 'Введите ФИО, пожалуйста'
+                                message: 'Выберите пол, пожалуйста'
                             }],
                         })(
                             <SelectWithTT
-                                bubbleplaceholder="Дата рождения"
+                                key="gender"
+                                bubbleplaceholder="Пол"
                                 className="step-form-item"
-                                tooltip="ДР Tooltip"
-
+                                tooltip="Пол Tooltip"
+                                values={["Мужской", "Женский"]}
 
                             />
                         )}
                     </FormItem>
                     <FormItem>
-                        {getFieldDecorator('fio2', {
+                        {getFieldDecorator('country', {
                             rules: [{
                                 required: true,
-                                message: 'Введите ФИО, пожалуйста'
+                                message: 'Выберите страну пребывания, пожалуйста'
                             }],
                         })(
                             <SelectWithTT
-                                bubbleplaceholder="Дата рождения"
+                                key="country"
+                                bubbleplaceholder="Страна пребывания"
                                 className="step-form-item"
-                                tooltip="ДР Tooltip"
-
+                                tooltip="Страна пребывания Tooltip"
+                                values={["Беларусь", "Россия"]}
 
                             />
                         )}
                     </FormItem>
                 </div>
                 <FormItem>
-                    {getFieldDecorator('fio2', {
+                    {getFieldDecorator('activityField', {
                         rules: [{
                             required: true,
-                            message: 'Введите ФИО, пожалуйста'
+                            message: 'Выберите сферу деятельности, пожалуйста'
                         }],
                     })(
                         <SelectWithTT
-                            bubbleplaceholder="Дата рождения"
+                            key="activityField"
+                            bubbleplaceholder="Сфера деятельности"
                             className="step-form-item"
-                            tooltip="ДР Tooltip"
-
+                            tooltip="Сфера деятельности Tooltip"
+                            values={["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"]}
 
                         />
                     )}
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('fio2', {
+                    {getFieldDecorator('interests', {
                         rules: [{
                             required: true,
-                            message: 'Введите ФИО, пожалуйста'
+                            message: 'Выберите интересы, пожалуйста'
                         }],
                     })(
                         <SelectWithTT
-                            bubbleplaceholder="Дата рождения"
+                            key="interests"
+                            bubbleplaceholder="Интересы"
                             className="step-form-item"
-                            tooltip="ДР Tooltip"
+                            tooltip="Интересы Tooltip"
                             mode="multiple"
-
+                            values={["Спорт", "Кино и сериалы"]}
 
                         />
                     )}
                 </FormItem>
                 <div className="step-form-row">
                     <div className="create-profile-avatar">
-                        <span className="upload-avatar-title">Загрузи сюда свою крутую аву</span>
+                        <span className="upload-avatar-title">Загрузи сюда свою крутую аву: </span>
                         <Dropzone multiple = {false} onDrop = {this.onDrop} className="react-dropzone-avatar">
                             {avatarUrl ?
                                 <img src={avatarUrl} alt="avatar" className="avatar-image"/> :
                                 <img src={UploadPhotoImage} alt="avatar" className="avatar-image"/>}
                         </Dropzone>
-                        <span className="upload-avatar-photo-click">Нажми, чтобы загрузить фото</span>
+                        <span className="upload-avatar-photo-click">Нажми на фотоаппарат, чтобы загрузить фото</span>
                     </div>
-                    <VK apiId={6695055}>
-                        <Auth onAuth={(prof)=>{console.log(prof, "VK AUTH")}}/>
-                    </VK>
+                    <div className="create-profile-avatar">
+                        <span className="upload-avatar-title">Привяжи свои социалки: </span>
+                        {this.renderSocial("vk")}
+                        {this.renderSocial("facebook")}
+                        {this.renderSocial("twitter")}
+                        {this.renderSocial("gplus")}
+                    </div>
+
                     {/*<div className="create-profile-social">
                         <div id="vk_auth"></div>
 
@@ -209,9 +291,9 @@ class Step1Form extends React.Component{
 
                 <div className="steps-action">
                     <Button htmlType="submit"
-                            btnText='Далее'
+                            btnText='Продолжить'
                             size='large'
-                            type='gradient'/>
+                            type='pink'/>
 
                 </div>
             </Form>

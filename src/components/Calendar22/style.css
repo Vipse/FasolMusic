@@ -179,7 +179,6 @@
   color: white;
   white-space: nowrap;
   overflow: hidden;
-  margin-right: 20px;
   text-overflow: ellipsis;
 }
 .rbc-month-row .user-month-row-segment .user-visit .vis-info-btn {
@@ -231,8 +230,7 @@
   cursor: pointer;
 }
 .rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK:hover:before {
-  font-family: "icomoon";
-  content: "\e92c";
+  content: "\E900";
 }
 .rbc-time-slot.rbc-label {
   color: #21bedd;

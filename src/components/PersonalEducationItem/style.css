@@ -53,7 +53,7 @@ a:hover {
 }
 .personal-education .personal-edit {
   position: absolute;
-  right: 0;
+  left: 300px;
   top: -0.625rem;
 }
 .personal-education .new-d {
@@ -64,6 +64,9 @@ a:hover {
   margin-bottom: 15px;
 }
 .personal-education .new-d .personal-item .input-root {
+  margin-bottom: 25px;
+}
+.personal-education .new-d .personal-item .ant-select {
   margin-bottom: 25px;
 }
 .personal-education-save-modal {
@@ -108,6 +111,7 @@ a:hover {
 }
 .personal-education .ant-form-item {
   position: relative;
+  margin-bottom: 45px;
   min-height: 65px;
 }
 .personal-education .ant-form-item .has-error .input-root-focus {

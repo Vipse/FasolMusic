@@ -150,7 +150,7 @@ class PatientCalendarCarousel extends React.Component {
         const rootClass = intervals.length ? cn('calendar-carousel') : cn('calendar-carousel no-intervals');
         return (
             <div className={rootClass}>
-                {!intervals.length ? (<span className="no-schedule">Расписание не определено</span>)
+                {!intervals.length ? (<span className="no-schedule">Доктор ещё не определил расписание</span>)
                     :
                     (<div>
                             <div className='calendar-carousel-slide'>

@@ -1,59 +1,58 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
-}
 .treatment {
   display: flex;
   align-items: stretch;
-  width: 100%;
+  min-width: 1450px;
   cursor: pointer;
 }
 .treatment .flex-col {
   padding: 25px 0;
-  margin-right: 2%;
+  margin-right: 30px;
 }
 .treatment .flex-col:first-child {
-  margin-left: 1%;
+  padding-left: 25px;
 }
 .treatment .flex-col:last-child {
-  margin-right: 1%;
+  padding-right: 25px;
+  margin-right: 0;
 }
 .treatment .flex-col:nth-child(1) {
-  width: 13%;
+  max-width: 180px;
+  width: 100%;
 }
 .treatment .flex-col:nth-child(2) {
-  width: 7%;
+  max-width: 120px;
+  width: 100%;
 }
 .treatment .flex-col:nth-child(3) {
-  width: 15%;
+  max-width: 160px;
+  width: 100%;
 }
 .treatment .flex-col:nth-child(4) {
-  width: 11%;
+  max-width: 200px;
+  width: 100%;
 }
 .treatment .flex-col:nth-child(5) {
-  width: 6%;
+  max-width: 100px;
+  width: 100%;
 }
 .treatment .flex-col:nth-child(6) {
-  width: 10%;
+  max-width: 205px;
+  width: 100%;
 }
 .treatment .flex-col:nth-child(7) {
-  width: 16%;
+  max-width: 200px;
+  width: 100%;
 }
 .treatment .flex-col:nth-child(8) {
-  width: 6%;
+  width: 100%;
+  max-width: 100px;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
 }
 .treatment .patient-name {
   font-size: 14px;
   line-height: 18px;
-  word-break: break-word;
 }
 .treatment .patient-date {
   color: #344051;
@@ -70,12 +69,10 @@
 .treatment .patient-diagnostic {
   font-size: 14px;
   color: #344051;
-  word-break: break-word;
 }
 .treatment .patient-comment {
   font-size: 14px;
   color: #344051;
-  word-break: break-word;
 }
 .treatment .patient-price {
   font-size: 14px;
@@ -87,7 +84,6 @@
   max-width: 205px;
   width: 100%;
   margin-bottom: 15px;
-  word-break: break-word;
 }
 .treatment .patient-review {
   font-size: 14px;

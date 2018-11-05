@@ -1,6 +1,4 @@
-
 .ant-radio-button-wrapper {
-
   display: inline-flex;
   padding: 0;
   border-radius: 50%;
@@ -9,26 +7,26 @@
   background-color: #fff;
   border: 1px solid transparent;
 }
-.wrapper-tip-radio .ant-radio-button-wrapper:not(:last-child) {
+.ant-radio-button-wrapper:not(:last-child) {
   margin-right: 34px;
 }
-.wrapper-tip-radio .ant-radio-button-wrapper::before {
+.ant-radio-button-wrapper::before {
   display: none !important;
 }
-.wrapper-tip-radio .ant-radio-button-wrapper > span:nth-child(2) {
+.ant-radio-button-wrapper > span:nth-child(2) {
   margin: auto;
   display: flex;
   align-items: center;
 }
-.wrapper-tip-radio .ant-radio-button-wrapper:first-child {
+.ant-radio-button-wrapper:first-child {
   border-radius: 50%;
   border: 1px solid transparent;
 }
-.wrapper-tip-radio .ant-radio-button-wrapper:last-child {
+.ant-radio-button-wrapper:last-child {
   border-radius: 50%;
   border: 1px solid transparent;
 }
-.wrapper-tip-radio .ant-radio-button-wrapper:hover {
+.ant-radio-button-wrapper:hover {
   border: 1px solid #465060;
   color: #465060;
 }

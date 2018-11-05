@@ -43,11 +43,11 @@
 }
 .btn-size-small {
   text-transform: uppercase;
-  letter-spacing: .025em;
+  letter-spacing: 0.025em;
   font-size: 0.75rem;
   font-family: RobotoMedium;
   min-width: 5.3125rem;
-  padding: .625rem .85rem;
+  padding: 0.625rem 0.85rem;
 }
 .btn-size-default {
   text-transform: uppercase;
@@ -55,7 +55,7 @@
   font-size: 11px;
   font-family: RobotoMedium;
   min-width: 8.875rem;
-  letter-spacing: .025em;
+  letter-spacing: 0.025em;
 }
 .btn-size-large {
   font-size: 1.25rem;
@@ -158,6 +158,7 @@
   text-decoration: none;
 }
 .btn-type-float {
+  font-family: RobotoMediumItalic;
   background-color: transparent;
   color: #21bedd;
   border: 1px solid #21bedd;
@@ -203,16 +204,18 @@
   color: #fff;
   background-color: #21bedd;
 }
-.btn-type-pink {
+.btn-type-border-pink {
   background-color: #fff;
   color: #ff7daa;
   border: 1px solid #ff7daa;
+  font-family: RobotoMedium, sans-serif;
 }
-.btn-type-pink:hover {
+.btn-type-border-pink:hover {
   color: #fff;
   background-color: #ff7daa;
 }
 .btn-type-dark-blue {
+  font-family: RobotoMediumItalic;
   background-color: transparent;
   color: #344051;
   border: 1px solid #344051;
@@ -253,6 +256,67 @@
   border-color: #21bedd;
 }
 .btn-type-light-blue:hover .icon {
+  color: #fff;
+}
+.btn-type-pink {
+  background-color: #ff7daa;
+  color: #000;
+  font-family: RobotoMediumItalic;
+  border-radius: 0;
+  text-transform: uppercase;
+  border-bottom: #d1658a 4px solid;
+}
+.btn-type-pink .icon {
+  color: #000;
+}
+.btn-type-pink:hover {
+  background-color: #ff90bb;
+  color: #fff;
+}
+.btn-type-pink:hover .icon {
+  color: #fff;
+}
+.btn-type-light-pink {
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: transparent;
+  color: #ff7daa;
+  text-transform: none;
+  border: 1px solid #ff7daa;
+}
+.btn-type-light-pink:hover {
+  background-color: #ff7daa;
+  color: #fff;
+}
+.btn-type-border-green {
+  background-color: #fff;
+  color: #2abc6c;
+  font-family: RobotoMedium, sans-serif;
+  font-size: 12px;
+  border: 1px solid #2abc6c;
+  border-radius: 0;
+  text-transform: none;
+}
+.btn-type-border-green:hover {
+  background-color: #2abc6c;
+  color: #fff;
+}
+.btn-type-bright-blue {
+  background-color: #21bedd;
+  color: #000;
+  font-family: RobotoMediumItalic;
+  border-radius: 0;
+  text-transform: uppercase;
+  border-bottom: #1aa1bc 4px solid;
+}
+.btn-type-bright-blue .icon {
+  color: #000;
+}
+.btn-type-bright-blue:hover {
+  background-color: #32bcd8;
+  color: #fff;
+}
+.btn-type-bright-blue:hover .icon {
   color: #fff;
 }
 .btn-type-link {
@@ -296,7 +360,7 @@
   border-bottom: 1px solid #204d8d;
 }
 .btn[disabled] {
-  background-color: #bbbbbb;
+  background-color: #bbb;
   color: #fff;
   border: none;
   cursor: default;

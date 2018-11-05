@@ -6,7 +6,7 @@
   margin: 5px 0 !important;
 }
 :global(.ant-menu-item) > a {
-  margin: auto 0 auto 66px;
+  margin: auto 0 auto 40px;
 }
 .ant-menu-item-selected {
   background-color: transparent !important;
@@ -25,8 +25,13 @@
   transition: 0.2s linear;
   min-height: 840px;
 }
-.sidenav-root * {
-  transition: 0.2s linear;
+.sidenav-root a {
+  transition: none!important;
+}
+.sidenav-root .icon,
+.sidenav-root .anticon,
+.sidenav-root .item-title {
+  transition: 0.2s color linear !important;
 }
 .sidenav-root .doctorProfileCard-specialty {
   margin-bottom: 25px;
@@ -70,10 +75,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 55px;
+  margin: 0 55px;
 }
 .sidenav-root-short a:hover {
   text-decoration: none;
+  color: #21bedd;
 }
 .sidenav-root-short a:before {
   display: none;
@@ -81,13 +87,20 @@
 .sidenav-root-short a:active:before {
   display: none;
 }
+.sidenav-root-short a .icon,
+.sidenav-root-short a .anticon {
+  width: auto;
+  margin: 0!important;
+}
+.sidenav-root-short li.ant-menu-item-selected a {
+  padding-bottom: 10px;
+  border-bottom: 4px solid #21bedd;
+}
 .sidenav-root .ant-menu-inline {
   border-right: none;
 }
 .sidenav-root-menu a:hover {
   text-decoration: none;
-}
-.sidenav-root-menu a:hover .item-title {
   color: #21bedd;
 }
 .sidenav-root-menu a:hover .icon,
@@ -109,16 +122,6 @@
 .sidenav-root-menu .selectedNavLink:hover {
   text-decoration: none;
 }
-.sidenav-root-menu .selectedNavLink:hover .item-title {
-  color: #000;
-}
-.sidenav-root-menu .selectedNavLink:hover .icon {
-  color: #000;
-}
-.sidenav-root-menu .selectedNavLink:hover .anticon {
-  color: #000;
-  margin: auto 20px auto 0;
-}
 .sidenav-root-menu .selectedNavLink .icon,
 .sidenav-root-menu .selectedNavLink .anticon {
   color: #21bedd;
@@ -134,10 +137,16 @@
   align-items: center;
 }
 .sidenav-root-menu-item > .anticon {
-  margin: auto 20px auto 0;
+  width: 50px;
+  margin: 0 20px 0 0!important;
+  display: flex;
+  justify-content: center;
 }
 .sidenav-root-menu-item > .icon {
-  margin: auto 20px auto 0;
+  width: 50px;
+  margin: 0 20px 0 0!important;
+  display: flex;
+  justify-content: center;
 }
 .sidenav-root-menu-short .selectedNavLink {
   display: flex !important;

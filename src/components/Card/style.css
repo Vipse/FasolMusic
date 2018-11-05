@@ -5,13 +5,14 @@
   margin-top: 20px;
 }
 .ant-card-head {
+  font-family: RobotoRegularItalic;
   background-color: #ff7daa;
   padding: 0 !important;
 }
 .ant-card-head-title {
   color: #fff;
   font-size: 1.25rem;
-  padding: 1rem 1.25rem;
+  padding: 1rem 2rem;
 }
 .ant-card-extra {
   display: flex;

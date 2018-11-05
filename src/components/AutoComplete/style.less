@@ -1,9 +1,25 @@
 .auto__complete {
+    align-items: center;
+    display: flex;
+    &:before {
+        content: "\e911";
+        display: inline-block;
+        position: relative;
+        color: #111;
+        font-family: icomoon!important;
+        margin-right: 15px;
+    }
+    &-search {
+        display: inline-block;
+        width: 100%;
+    }
     .ant-input {
         font-size: 18px;
-        font-style: italic;
-        font-weight: bold;
-        color: rgba(0, 0, 0, 1);
+        font-family: RobotoRegularItalic, sans-serif;
+        color: #111;
+        &::placeholder {
+            color: #111;
+        }
     }
     &-overlay {
         position: fixed;
@@ -32,10 +48,12 @@
     &-title {
         position: relative;
         padding: 35px 30px;
-        color: #344051;
+        font-family: RobotoRegularItalic, sans-serif;
+        color: #111;
         font-size: 20px;
         display: flex;
         align-items: center;
+        border-bottom: 1px solid #e1e1e1;
         &-spinner {
             padding-left: 20px;
         }
@@ -46,12 +64,16 @@
         line-height: 1;
         font-size: 12px;
         color: #fff;
+        font-family: RobotoRegular, sans-serif;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         height: 20px;
         padding: 0 15px;
         margin-left: 20px;
+    }
+    .auto__complete-results {
+        height: 430px;
     }
     &-list {
         position: relative;

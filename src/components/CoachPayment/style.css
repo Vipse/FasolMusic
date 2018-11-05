@@ -1,0 +1,197 @@
+.payment-coach {
+  background-color: #7544ea;
+  display: grid;
+  grid-template-areas: "record data refer" "record stats refer" "record invite invite";
+  grid-template-rows: 266px 266px 244px;
+  grid-template-columns: 493px 581px 380px;
+  grid-gap: 30px;
+}
+.payment-coach .ant-card-body {
+  color: #000;
+}
+.payment-coach .new-input input[type="text"] {
+  border-bottom: 1px solid #000;
+}
+.payment-coach .new-input label {
+  font-family: RobotoMedium;
+  color: #000;
+}
+.payment-coach-record {
+  grid-area: record;
+}
+.payment-coach-record-overlay {
+  margin-top: 30px;
+  padding-left: 30px;
+  height: 100%;
+  max-height: 700px;
+}
+.payment-coach-record-overlay .file {
+  display: flex;
+}
+.payment-coach-record-overlay .file-name {
+  margin-left: 15px;
+  font-family: RobotoBlack;
+}
+.payment-coach-record-overlay .file-active .icon-document {
+  color: #21bedd;
+}
+.payment-coach-record-overlay .file-active .file-name {
+  color: #21bedd;
+}
+.payment-coach-paymentData {
+  grid-area: data;
+}
+.payment-coach-paymentData .info {
+  font-family: RobotoRegularItalic;
+  margin: 20px;
+}
+.payment-coach-paymentData .paymentPlate {
+  margin: 40px 20px 0 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.payment-coach-paymentData .paymentPlate .input-form-item .new-input-wrapper {
+  border-bottom: 1px solid #d9d9d9;
+}
+.payment-coach-paymentData .paymentPlate .input-form-item .new-input-wrapper label {
+  font-family: RobotoRegular;
+}
+.payment-coach-paymentData .paymentPlate .payment-method {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 40px;
+}
+.payment-coach-paymentData .paymentPlate .payment-method:nth-child(1) {
+  width: 40%;
+}
+.payment-coach-paymentData .paymentPlate .payment-method:nth-child(2) {
+  width: 60%;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 60px;
+  padding-right: 10px;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-linkBtn {
+  margin-left: 40px;
+  height: 39px;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-field {
+  display: flex;
+  width: 59%;
+  align-self: center;
+  align-items: center;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-field-btnPlate {
+  display: flex;
+  flex-direction: column;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-field-btnPlate-remove {
+  width: 10px;
+  height: 10px;
+  min-width: 0;
+  border: 0;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-field-btnPlate-remove .icon {
+  font-size: 10px !important;
+  margin: 0;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-field-btnPlate-edit {
+  width: 10px;
+  height: 10px;
+  min-width: 0;
+  border: 0;
+}
+.payment-coach-paymentData .paymentPlate .payment-method-field-btnPlate-edit .icon {
+  font-size: 10px !important;
+  margin: 0;
+}
+.payment-coach-referLink {
+  grid-area: refer;
+}
+.payment-coach-referLink-column {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+.payment-coach-referLink-column .title {
+  font-family: RobotoMediumItalic;
+  font-size: 20px;
+}
+.payment-coach-referLink-column .info {
+  font-family: RobotoRegular;
+  margin-bottom: 90px;
+}
+.payment-coach-referLink-column .input {
+  width: 90%;
+  align-self: center;
+  margin-bottom: 60px;
+}
+.payment-coach-referLink-column .copyBtn {
+  align-self: center;
+}
+.payment-coach-stats {
+  grid-area: stats;
+}
+.payment-coach-stats-plate {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  justify-content: center;
+}
+.payment-coach-stats-plate > div:not(:last-child) {
+  border-right: 1px solid #c6c1c8;
+  padding-right: 19px;
+  margin-right: 20px;
+}
+.payment-coach-stats-plate-completed,
+.payment-coach-stats-plate-earned {
+  width: 50%;
+}
+.payment-coach-stats-plate .title {
+  display: flex;
+  height: 80px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.payment-coach-stats-plate .title .count {
+  margin-top: 20px;
+  font-family: RobotoMedium;
+  color: #21bedd;
+  font-size: 48px;
+  width: 50%;
+  text-align: center;
+}
+.payment-coach-stats-plate .title .name {
+  font-family: RobotoMediumItalic;
+  font-size: 18px;
+  width: 50%;
+  height: 35px;
+  margin: 0;
+  text-align: left;
+}
+.payment-coach-stats-plate .info {
+  font-family: RobotoRegularItalic;
+}
+.payment-coach-invite {
+  grid-area: invite;
+}
+.payment-coach-invite img {
+  float: left;
+  margin-right: 22px;
+  color: #7544ea;
+}
+.payment-coach-invite .title {
+  font-family: RobotoMediumItalic;
+  font-size: 20px;
+  margin-top: 22px;
+}
+.payment-coach-invite .info {
+  font-family: RobotoRegular;
+}

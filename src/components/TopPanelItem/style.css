@@ -1,84 +1,35 @@
 .panelItem {
   width: 160px;
   height: 160px;
-  margin-top: 22px;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   z-index: 2;
   position: relative;
   border: 2px solid #21bedd;
   border-radius: 100%;
   color: #21bedd;
 }
-.panelItem.first-col {
-  border: none !important;
+.panelItem-value,
+.panelItem-description {
+  height: 50%;
 }
-.panelItem.first-col .panelItem-header {
-  margin-bottom: 0.25rem;
-}
-.panelItem.first-col .panelItem-header .icon,
-.panelItem.first-col .panelItem-header .anticon {
-  color: #fff;
-  margin-bottom: 0.25rem;
-}
-@media (max-width: 1620px) {
-  .panelItem.first-col .panelItem-header .icon,
-  .panelItem.first-col .panelItem-header .anticon {
-    font-size: 24px !important;
-  }
-}
-.panelItem.first-col .panelItem-header .panel-title {
-  width: 100%;
-  font-size: 28px;
-}
-@media (max-width: 1620px) {
-  .panelItem.first-col .panelItem-header .panel-title {
-    font-size: 22.5px;
-  }
-}
-.panelItem.first-col .panelItem-num {
-  font-size: 1rem;
-  font-family: "RobotoRegular";
-  text-align: left;
-}
-.panelItem-header {
-  align-items: center;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-.panelItem-header .icon,
-.panelItem-header .anticon {
-  margin-right: 1.25rem;
-  color: #fdc401;
-}
-.panelItem-header .panel-title {
-  font-size: 18px;
-  color: #344051;
-  white-space: inherit;
+.panelItem-value {
+  display: flex;
+  align-items: flex-end;
+  max-width: 80%;
   text-align: center;
-  font-style: italic;
-}
-@media (max-width: 1620px) {
-  .panelItem-header .panel-title {
-    font-size: 16px;
-  }
-}
-.panelItem-num {
-  font-size: 50px;
-  font-family: "RobotoLight";
-  text-align: center;
-  display: block;
-  width: 100%;
-  line-height: 1;
-  font-weight: bold;
-  margin: 10px 0px;
-}
-@media (max-width: 1620px) {
-  .panelItem-num {
-    font-size: 40px;
-  }
-}
-.panelItem-num-next {
+  color: #21bedd;
   font-size: 30px;
+  font-family: RobotoMedium, sans-serif;
+  margin-bottom: 5px;
+}
+.panelItem-description {
+  max-width: 75%;
   text-align: center;
-  margin: 12px 0;
+  color: #111;
+  font-size: 18px;
+  line-height: 24px;
+  font-family: RobotoMediumItalic, sans-serif;
 }

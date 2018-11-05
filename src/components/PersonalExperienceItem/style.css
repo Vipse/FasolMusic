@@ -25,6 +25,7 @@ a:hover {
 .personal-experience .personal-block {
   border-bottom: 1px solid #ebebeb;
   padding: 0px 100px 0;
+  margin-bottom: 0px;
   display: flex;
   flex-direction: column;
   margin-bottom: 35px;
@@ -49,13 +50,14 @@ a:hover {
 .personal-experience .personal-delete {
   position: absolute;
   right: 0;
-  top: -0.5rem;
+  top: 0;
   text-transform: none;
   font-size: 12px;
+  color: #204d8d;
 }
 .personal-experience .personal-edit {
   position: absolute;
-  right: 0;
+  left: 300px;
   top: -0.625rem;
 }
 .personal-experience .personal-info {
@@ -82,6 +84,13 @@ a:hover {
 }
 .personal-experience .new-d .personal-item .input-root {
   margin-bottom: 25px;
+}
+.personal-experience .new-d .personal-item .input-root-focus {
+  margin-bottom: 25px;
+}
+.personal-experience .new-d .personal-item .ant-input-group-wrapper:nth-child(2) {
+  max-width: 47.5%;
+  margin-right: 32px;
 }
 .personal-experience .new-d .personal-item .ant-select {
   margin-bottom: 25px;
@@ -120,6 +129,7 @@ a:hover {
 }
 .personal-experience .ant-form-item {
   position: relative;
+  margin-bottom: 45px;
   min-height: 65px;
 }
 .personal-experience .ant-form-item .has-error .input-root-focus {

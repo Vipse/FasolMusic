@@ -30,26 +30,16 @@ class SelectWithTT extends React.Component{
 
     render() {
         const labelClassName = this.state.value ? "bubble" : "";
+        const valuesArr = this.props.values ? this.props.values : [];
         return (
             <div className = "new-select-wrapper input-effect">
                 <Select onChange={this.onChange} dropdownClassName="new-select-variants" mode={this.props.mode}>
-                    <Option value="lucy">Lucy</Option>
-                    <Option value="disabled">Disabled</Option>
-                    <Option value="Yiminghe">yiminghe</Option>
-                    <Option value="lucy1">Lucy</Option>
-                    <Option value="disabled2">Disabled</Option>
-                    <Option value="Yiminghe3">yiminghe</Option>
-                    <Option value="lucy4">Lucy</Option>
-                    <Option value="disabled5">Disabled</Option>
-                    <Option value="Yiminghe6">yiminghe</Option>
-                    <Option value="lucy7">Lucy</Option>
-                    <Option value="disabled8">Disabled</Option>
-                    <Option value="Yiminghe9">yiminghe</Option>
-
+                    {valuesArr.map((item, i) => <Option value={item} key={i}>{item}</Option>)}
                 </Select>
-                <button data-tip={this.props.tooltip || ""} className='note' >?</button>
+                {this.props.tooltip && <button type="button" data-tip={this.props.tooltip || ""} className='note'>?</button>}
                 <label className={labelClassName}>{this.props.bubbleplaceholder || ""}</label>
-                <ReactTooltip place="top" type="dark" effect="float"/>
+                {this.props.tooltip && <ReactTooltip place="top" type="dark" effect="float"/>}
+
             </div>
         )
     }

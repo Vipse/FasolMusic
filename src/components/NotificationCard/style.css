@@ -1,19 +1,10 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
-}
 .notific_component {
   position: relative;
 }
 .notific_component .notification {
+  position: absolute;
+}
+.notification {
   position: absolute;
 }
 .notification-card {
@@ -37,12 +28,4 @@
 }
 .notification-card .scroll {
   max-height: 65vh;
-}
-.notification-card .ps__rail-x:hover > .ps__thumb-x,
-.notification-card .ps__rail-x:focus > .ps__thumb-x,
-.notification-card .ps__rail-y:hover > .ps__thumb-y,
-.notification-card .ps__rail-y:focus > .ps__thumb-y,
-.notification-card .ps__thumb-x,
-.notification-card .ps__thumb-y {
-  background-color: #fdc401 !important;
 }

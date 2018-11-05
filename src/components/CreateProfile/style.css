@@ -52,6 +52,7 @@
   line-height: 36px;
   color: #111;
   margin-bottom: 35px;
+  text-transform: uppercase;
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .step-note {
   font-family: "RobotoRegularItalic", serif;
@@ -71,6 +72,83 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .ant-row.ant-form-item:last-child {
   margin-right: 0;
 }
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .authPopup {
+  float: right;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row {
+  display: flex;
+  flex-direction: row;
+  padding-left: 65px;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-icon {
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-link {
+  padding-top: 7px;
+  font-family: RobotoRegular;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-btn-link {
+  margin-top: 10px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-btn-close {
+  margin-top: 5px;
+  width: 30px;
+  justify-content: flex-end;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .radio-label {
+  color: #000;
+  font-family: RobotoMedium;
+  padding-right: 30px;
+  width: 220px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .timePlate {
+  position: relative;
+  top: -10px;
+  left: -135px;
+  font-size: 10px;
+  width: 70px;
+  height: 3px;
+  font-family: RobotoRegular;
+  color: #000;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider {
+  width: 200px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider-rail {
+  height: 1px;
+  background-color: #000;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider-track {
+  background-color: #21bedd;
+  height: 1px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider-disabled .ant-slider-handle,
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider-disabled .ant-slider-track {
+  display: none;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider-handle {
+  width: 7px;
+  height: 7px;
+  background-color: #21bedd;
+  border: unset;
+  margin-top: -3px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider-handle:focus,
+.create-profile-form .steps .steps-content .ant-form.step-form .ant-slider-handle:hover {
+  box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule {
+  display: flex;
+  flex-direction: row;
+  user-select: none;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .dayCheckbox {
+  width: 64px;
+}
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar {
   display: flex;
   width: 100%;
@@ -87,7 +165,7 @@
   max-width: 200px;
   max-height: 200px;
   border-radius: 15px;
-  border: 1px dashed #21bedd;
+  border: 2px dashed #21bedd;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -103,6 +181,7 @@
   font-family: "RobotoRegular", serif;
   font-size: 14px;
   margin-top: 10px;
+  color: #111;
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-social {
   width: 100%;
