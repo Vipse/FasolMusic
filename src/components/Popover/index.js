@@ -37,6 +37,7 @@ class PopoverApp extends React.Component {
                 content={this.props.isUser ?
                     <PatientCalendarPopover
                         calendarItem={this.props.events}
+                        cancelAppByPatient = {this.props.cancelAppByPatient}
                     />
                     :
                     <PopoverBody

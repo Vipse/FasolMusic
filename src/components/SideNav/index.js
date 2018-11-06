@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 import { NavLink } from 'react-router-dom'
+import ReactScrollbar from "react-perfect-scrollbar"
 
 import './styles.css'
 
@@ -31,10 +32,14 @@ const SideNav = props => {
         const {isShort, menuItems} = props;
         const rootClass = cn('sidenav-root', {'sidenav-root-short' : isShort});
         const menuClass = 'sidenav-root-menu' + (isShort ? '-short':'');
-
+        const shouldScroll = window.innerHeight < 900;
         return (
             <div className={rootClass}>
                 <div className="logo" onClick={props.onLogoClick}><span className="logo-img"></span></div>
+                <ReactScrollbar
+                    className="scrollableSideNav"
+                    option={{suppressScrollX: true,
+                        wheelPropagation: false}} >
 
                 <div className='overwlow-a-y'>
                     <ProfileCard
@@ -50,6 +55,7 @@ const SideNav = props => {
                         {renderMenuItems(menuItems)}
                     </Menu>
                 </div>
+                </ReactScrollbar>
             </div>
         )
 

@@ -51,13 +51,14 @@ class NotificationItem extends React.Component{
         const {id, title, desc, time, thisTime, status, watch, getId} = this.props;
         let iconType = 'notification';
         let links;
-    
+
         switch (status) {
             case 'research':
                 iconType = 'order-form';
-            case 'cancel':
-                links = this.renderLinks();
                 break;
+            // case 'cancel':
+            //     links = this.renderLinks();
+            //     break;
         }
     //false   false
         let flag = this.state.watchInverse ? watch : !watch;
@@ -65,7 +66,7 @@ class NotificationItem extends React.Component{
         let madeDate = new Date((+thisTime)*1000),
             now = new Date();
         return (
-                    <div className={rootClass} 
+                    <div className={rootClass}
                         onClick={(flag) ? (() => {
                             getId(id);
                             this.setState({watchInverse: true});
@@ -76,12 +77,12 @@ class NotificationItem extends React.Component{
                         </div>
                         <div className='notification-row'>
                             <div className='notification-title'>
-                                {title} 
-                                {(status != 'negative' && status != 'research' && time) 
+                                {title}
+                                {(status != 'negative' && status != 'research' && time)
                                     ? `- ${moment((+time)*1000).format('HH:mm')}` : ''}
                                 </div>
                             {<div className='notification-time'>
-                                {(madeDate.getDate() === now.getDate() && madeDate.getMonth() === now.getMonth()) 
+                                {(madeDate.getDate() === now.getDate() && madeDate.getMonth() === now.getMonth())
                                     ? moment((+thisTime)*1000).format('HH:mm')
                                     : moment((+thisTime)*1000).format('DD.MM.YY HH:mm')
                                 }

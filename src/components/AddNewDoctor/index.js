@@ -8,8 +8,8 @@ import './styles.css'
 import Spinner from "../Spinner";
 
 
-class AddNewDoctor extends React.Component{
-    constructor(props){
+class AddNewDoctor extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             doctors: props.data,
@@ -21,8 +21,11 @@ class AddNewDoctor extends React.Component{
     doctorsRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<AddNewDoctorItem {...item}
-                                        onAdd={this.props.onAdd} 
-                                        key={item.id + ''+index}/>)
+                                      onAdd={this.props.onAdd}
+                                      key={item.id + '' + index}
+                                      searchQuery={this.state.inputValue}
+
+            />)
         });
 
     };
@@ -78,7 +81,7 @@ class AddNewDoctor extends React.Component{
         else this.props.onClear();
     };
 
-    render(){
+    render() {
         const {visible, onCancel} = this.props;
 
         return (
@@ -90,18 +93,18 @@ class AddNewDoctor extends React.Component{
                 <div className='new-doctor'>
                     <div className='new-doctor-search'>
                         <Input.Search placeholder="Введите ФИО доктора"
-                                    ref={inp => this.inp = inp}
-                                    onSearch={this.handleSearch}
-                                    onChange={this.handleChange}
-                                    onKeyDown={this.handleKeyDown}
-                                    value={this.state.inputValue}  />
+                                      ref={inp => this.inp = inp}
+                                      onSearch={this.handleSearch}
+                                      onChange={this.handleChange}
+                                      onKeyDown={this.handleKeyDown}
+                                      value={this.state.inputValue}/>
                     </div>
                     <div className='new-doctor-title'>Результаты поиска</div>
                     <ScrollArea
-                            speed={1}
-                            className="new-doctor-list"
-                            contentClassName="content"
-                            horizontal={false}>
+                        speed={1}
+                        className="new-doctor-list"
+                        contentClassName="content"
+                        horizontal={false}>
                         {this.state.inputValue.length > 2 ?
                             (
                                 this.state.loading ? <Spinner/> :
@@ -122,7 +125,7 @@ AddNewDoctor.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object),
     visible: PropTypes.bool,
     onCancel: PropTypes.func,
-    onAdd: PropTypes.func, 
+    onAdd: PropTypes.func,
     onSearch: PropTypes.func,
     onClear: PropTypes.func
 };
@@ -130,10 +133,14 @@ AddNewDoctor.propTypes = {
 AddNewDoctor.defaultProps = {
     data: [],
     visible: false,
-    onCancel: () => {},
-    onAdd: () => {},
-    onSearch: () => {},
-    onClear: () => {}
+    onCancel: () => {
+    },
+    onAdd: () => {
+    },
+    onSearch: () => {
+    },
+    onClear: () => {
+    }
 };
 
 export default AddNewDoctor;

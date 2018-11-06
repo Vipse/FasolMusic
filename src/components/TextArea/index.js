@@ -33,7 +33,10 @@ class TextArea extends React.Component{
                 <textarea className="textarea-field"
                           placeholder={placeholder}
                           value={this.state.value}
-                          onChange={this.changeHandler}/>
+                          onChange={this.changeHandler}
+                          style={this.props.style}
+
+                />
             </div>
         )
     }

@@ -206,7 +206,7 @@ class MonthView extends React.Component {
         renderForMeasure={needLimitMeasure}
         onShowMore={this.handleShowMore}
         isUser={isUser}
-
+        cancelAppByPatient = {this.props.cancelAppByPatient}
         schedules={schedules}
         editor={editor}
         onSelect={this.handleSelectEvent}

@@ -74,7 +74,8 @@ class PatientsPage extends React.Component{
 
         if (this.props.profileDoctor.works) {
             mapsArr = this.props.profileDoctor.works.map((item) => {
-                return {map: (item.worknow + " - " + item.adress)};
+                console.log(item, "ITEM WORK")
+                return {map: (`${item.worknow} - ${item.post} - ${item.adress}`)};
             });
         }
 
@@ -112,7 +113,7 @@ class PatientsPage extends React.Component{
 
 
     render(){
-        const { fio, academicdegree, academicstatus, category, experience, consultationPrice, isChildConsult, avatar} = this.props.profileDoctor;
+        const { fio, academicdegree, academicstatus, category, experience, consultationPrice, isChildConsult, avatar, about} = this.props.profileDoctor;
         const reviewsLoadCount = 7;
         const categoryString = academicdegree
             ? (academicstatus ? academicdegree + '. ' + academicstatus + '. ' + category + '.': academicdegree + '. ' + category + '.')
@@ -152,6 +153,7 @@ class PatientsPage extends React.Component{
                               doctorChild={isChildConsult}
                               doctorMaps={this.getDoctorMapsArr()}
                               doctorExperience={this.getDoctorExperienceArr()}
+                              about = {about}
                           />
                         </Col>
                         <Col xs={24} xxl={9} className='section'>

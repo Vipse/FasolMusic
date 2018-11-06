@@ -122,7 +122,7 @@
   position: relative;
 }
 .profile__doctor-information-block {
-  margin-bottom: 35px;
+  margin-bottom: 50px;
   position: relative;
 }
 .profile__doctor-information-title {
@@ -134,7 +134,7 @@
   line-height: 1;
   color: #344051;
   text-transform: uppercase;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
 }
 .profile__doctor-information-postitle {
   position: relative;

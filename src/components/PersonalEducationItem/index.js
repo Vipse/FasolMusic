@@ -403,20 +403,7 @@ class PersonalEducationItemForm extends React.Component{
                             {elem.speciality.join(', ')}
                         </p>
                     </div>
-                    <Button onClick={(e) => {
-                        e.preventDefault();
-                        let newMainEducationArr = this.state.mainEducationArr;
-                        newMainEducationArr.splice(i, 1);
-                        this.setState({mainEducationArr: newMainEducationArr});
-                    }
-                    }
-                            className="personal-edit"
-                            size='small'
-                            type='blue-float'
-                            icon='close'
-                            iconSize={17}
-                            svg
-                    />
+
                 </div> );
         });
         const institutionSecond = secondEducationArr.map((elem, i) => {

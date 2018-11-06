@@ -58,6 +58,7 @@ export function createSocket(wsUrl,_props,_callbacks) {
 				break;
 			case 'closeReception':
                 callbacks.setReceptionStatus(false);
+                callbacks.show_review_modal(parsedMessage.receptionId, parsedMessage.by);
                 break;
             case 'callResponse':
 				callResponse(parsedMessage);
@@ -66,7 +67,7 @@ export function createSocket(wsUrl,_props,_callbacks) {
 				incomingCall(parsedMessage);
                 break;
             case 'startCommunication':
-				startCommunication(parsedMessage);
+                startCommunication(parsedMessage);
                 break;
             case 'stopCommunication':
 				stop(true);
@@ -360,7 +361,7 @@ export const call = () => {
     const visitInfo = callbacks.get_visitInfo();
     const {contactLevel} = visitInfo;
 
-    console.log('[video tags]',videoInput,videoOutput)
+    
     let options = contactLevel === 'video' ?
             {
                 localVideo : videoInput,
@@ -371,6 +372,7 @@ export const call = () => {
                     audio:true,
                     video:false
                 },
+                remoteVideo : videoOutput,
                 onicecandidate : onIceCandidate
             };
 
@@ -422,11 +424,12 @@ export const messAboutStop = () => {
     }
 }
 
-export const messForCloseReception = () => {
+export const messForCloseReception = (receptionId) => {
     sendMessage({
         id : 'closeReception',
         name: callbacks.get_from(),
         other_name: callbacks.get_to(),
+        receptionId,
     });
     sendMessage({
         id : 'chat',

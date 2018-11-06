@@ -16,6 +16,7 @@ class ContentForm extends React.Component{
 
         this.state = {
             message: '',
+            value: 1,
 
         };
     }
@@ -32,6 +33,10 @@ class ContentForm extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        if(!this.state.message) {
+            message.error("Введите текст отзыва");
+            return
+        }
         const obj = {
             comment: this.state.message,
             rating: this.state.value,

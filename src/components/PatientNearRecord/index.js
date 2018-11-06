@@ -19,7 +19,7 @@ class PatientNearRecord extends React.Component{
         let nearArr = [];
 
         dataArr.map((item,index) => {
-            nearArr.push(<PatientNearRecordItem key={index} {...item}/>)
+            nearArr.push(<PatientNearRecordItem key={index} {...item} cancelAppByPatient={this.props.cancelAppByPatient}/>)
         });
 
         return nearArr;

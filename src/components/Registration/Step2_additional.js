@@ -5,6 +5,7 @@ import { Form } from 'antd';
 import Select from '../Select'
 import Radio from '../RadioBox'
 import SelectNew from "../SelectNew";
+import TextArea from "../TextArea";
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -61,6 +62,15 @@ class Step2_additional extends React.Component{
                         </RadioGroup>
                     )}
                 </div>
+                <FormItem>
+                    {getFieldDecorator('about')(
+                        <TextArea label="О себе"
+                                  className="step-form-item"
+                                  style={{height:"200px"}}
+
+                        />
+                    )}
+                </FormItem>
             </div>
         )
     }
