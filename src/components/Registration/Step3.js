@@ -187,8 +187,9 @@ class Step3 extends React.Component{
                 {data.academicstatus && this.renderItem('Ученое звание','academicstatus')}
                 {data.experience && this.renderItem('Стаж работы','experience')}
 
-                {this.renderAdditionalInfo(data)}
 
+                {this.renderAdditionalInfo(data)}
+                {data.about && this.renderItem('О себе','about')}
                 <Checkbox checked={this.state.checked}
                           style={{marginTop:"20px"}}
                           onChange={(e) => this.setState({checked: e.target.checked})}>

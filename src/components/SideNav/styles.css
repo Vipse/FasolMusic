@@ -181,3 +181,6 @@
 .site-link {
   margin: 40px 0 0 60px;
 }
+.scrollableSideNav {
+  height: calc(100vh - 100px) !important;
+}

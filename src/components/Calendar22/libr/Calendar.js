@@ -23,6 +23,7 @@ import BackgroundWrapper from './BackgroundWrapper'
 import omit from 'lodash/omit'
 import defaults from 'lodash/defaults'
 import transform from 'lodash/transform'
+import PatientPage from "../../../containers/MainPage/PatientPage";
 
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
@@ -271,6 +272,8 @@ class Calendar extends React.Component {
           onDoubleClickEvent={this.handleDoubleClickEvent}
           onSelectSlot={this.handleSelectSlot}
           onShowMore={this._showMore}
+          cancelAppByPatient = {this.props.cancelAppByPatient}
+
         />
       </div>
     )

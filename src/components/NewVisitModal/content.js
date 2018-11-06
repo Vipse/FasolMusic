@@ -107,7 +107,7 @@ class ContentForm extends React.Component {
     };
 
     renderOptions = () => {
-        return this.props.patients.map((patient, i) => {
+        return this.props.patients.length && this.props.patients.map((patient, i) => {
             return (
                 <Select.Option value={patient.id}
                                key={`my_patient_${i}`}>
@@ -165,16 +165,30 @@ class ContentForm extends React.Component {
                     {timeElement}
                 </div>
 
-
-                <FormItem className="user-select">
-                        {getFieldDecorator('id_user',{
+                {!this.props.patients.length ?
+                    <FormItem className="user-select"
+                        validateStatus='error'
+                              help="Добавьте пациентов в свой список"
+                    >
+                        {getFieldDecorator('id_user', {
                             rules: [{required: true, message: 'Выберите пациента',}],
                         })(
                             <Select placeholder="ФИО">
                                 {this.renderOptions()}
                             </Select>
                         )}
-                </FormItem>
+                    </FormItem> :
+                <FormItem className="user-select"
+
+                >
+                        {getFieldDecorator('id_user', {
+                            rules: [{required: true, message: 'Выберите пациента',}],
+                        })(
+                            <Select placeholder="ФИО">
+                                {this.renderOptions()}
+                            </Select>
+                        )}
+                </FormItem>}
                 
                 <TextArea label='Комментарий к приему'
                             value={this.state.message}

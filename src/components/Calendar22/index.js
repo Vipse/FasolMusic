@@ -8,6 +8,7 @@ import momentLocalizer from './libr/localizers/moment.js'
 
 import './react-big-calendar.css'
 import './style.css'
+import PatientPage from "../../containers/MainPage/PatientPage";
 
 moment.locale('ru');
 momentLocalizer(moment);
@@ -72,8 +73,8 @@ class BigCalendar extends React.Component{
                 }
             }) : [];
     };
-    
-    render() {       
+
+    render() {
 
         let prop = this.props.editor ? {
                 ...this.props,
@@ -93,6 +94,8 @@ class BigCalendar extends React.Component{
                         view={'month'}
                         onView={() => {}}
                         isUser={true}
+                        cancelAppByPatient = {this.props.cancelAppByPatient}
+
                         {...prop}/>
                     :
                     this.props.editor ?

@@ -3,6 +3,8 @@ import {docRoutes, patientRoutes, menuDoc, menuPatient} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
 import Header from "../../components/Header";
+import { Modal } from 'antd';
+import Adapter from 'webrtc-adapter'
 
 import {connect} from 'react-redux';
 
@@ -14,7 +16,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 
 import Icon from "../../components/Icon";
-
 
 const renderRoutes = ({path, component, exact}) => (
     <Route key={path} exact={exact} path={path} component={component}/>
@@ -91,7 +92,6 @@ class App extends React.Component {
             get_shortDocInfo: () => this.props.shortDocInfo,
             get_visitInfo: () => this.props.visitInfo,
             get_timer: () => this.props.timer,
-
             get_history: () => this.props.history,
             }
         );
@@ -126,7 +126,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(this.props.shortDocInfo, "SHORT DOC INFO");
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
@@ -235,6 +234,7 @@ const mapDispatchToProps = dispatch => {
         setChatStory: (chat) => dispatch(actions.setChatStory(chat)),
         onSelectReception: (id, callback) => dispatch(actions.seletVisit(id, callback)),
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),
+        hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
     }
 };

@@ -11,12 +11,16 @@ class Content extends React.Component {
         const { doctorExperience, doctorMaps,onGoto } = this.props;
 
         return (
-            <div className='profile__doctor-information'>  
+            <div className='profile__doctor-information'>
+                {this.props.about && <div className='profile__doctor-information-block'>
+                    <div className='profile__doctor-information-title'>О себе</div>
+                    <div className='profile__doctor-information-postitle'>{this.props.about}</div>
+                </div>}
                 <div className='profile__doctor-information-block'>
                     <div className='profile__doctor-information-title'>Места работы</div>
                     <div className='profile__doctor-information-postitle'>Доктор принимает в клиниках:</div>
-                    {doctorMaps.map((item, index)=> (<div onClick={() => onGoto(item.map)} 
-                                                            className='profile__doctor-information-text go-to' 
+                    {doctorMaps.map((item, index)=> (<div onClick={() => onGoto(item.map)}
+                                                            className='profile__doctor-information-text go-to'
                                                             key={index+1}>
                                                                 {item.map}
                                                             </div>))}

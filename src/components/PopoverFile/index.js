@@ -41,24 +41,23 @@ class PopoverFile extends React.Component {
         );
     };
     handleChange = (file) => {
+        console.log(file, "Функция handleChange, принимает файл из инпута, лог - file")
         this.setState({loading: true});
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.addEventListener('load', () => {
+            console.log(reader.result, "reader result - результата чтения файла ридером")
             file={thumbUrl: reader.result, name: file.name};
             this.props.onAddFiles(file, this.props.id_app)
                 .then((res)=> {
-                    console.log(res, "RES UPLOADING FILE");
+                    console.log(res, "результат с сервера о загрузке файла");
                     this.setState({loading: false});
                     if(res.data.code===200) {
                         message.success("Файл успешно добавлен");
                         this.props.refresh();
                     } else {
                         message.error("При загрузке файла произошла ошибка, попробуйте ешё раз")
-
                     }
-
-                    console.log(res)
                 });
         });
 

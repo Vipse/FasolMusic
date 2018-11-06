@@ -55,7 +55,7 @@ class PatientTable extends React.Component{
 
         return (
             <div className='patient-all'>
-                <Card title="Список пациентов" extra={<div className='patient-count'>{data.length}</div>}>
+                <Card title="Список пациентов" extra={data.length && <div className='patient-count'>{data.length}</div>}>
                     <ScrollArea
                             speed={1}
                             className="patient-list"
@@ -81,7 +81,7 @@ class PatientTable extends React.Component{
                                 />
                             </div>
                         </div>
-                        {this.patinetRender(this.state.searchRes)}
+                        {this.state.searchRes.length ? this.patinetRender(this.state.searchRes) : <span className='noPatients'>На данный момент у вас нет пациентов</span>}
                     </ScrollArea>
                   </Card>
             </div>

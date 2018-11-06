@@ -68,11 +68,19 @@ class AutoComplete extends React.Component{
 
     patientsRender = (dataArr) => {
         return dataArr.map((item) => {
-            return (<AddNewPatientItem {...item}
-                                    onAdd = {(id) => {this.onClickHandler(id, 'add')}}
-                                    onDelete = {this.onDeletePatientHandler}
-                                    onGoto = {(id) => {this.onClickHandler(id, 'goto')}}
-                                    key={item.id}/>)
+            return (<AddNewPatientItem
+                {...item}
+                onAdd={(id) => {
+                    this.onClickHandler(id, 'add')
+                }}
+                onDelete={this.onDeletePatientHandler}
+                onGoto={(id) => {
+                    this.onClickHandler(id, 'goto')
+                }}
+                key={item.id}
+                searchQuery = {this.state.inputValue}
+
+            />)
         });
     };
 

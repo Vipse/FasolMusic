@@ -17,6 +17,7 @@ import * as actions from '../../store/actions'
 import './styles.css'
 import {findTimeInterval} from '../../helpers/timeInterval'
 import {timePeriod} from './mock-data'
+import PatientPage from "../MainPage/PatientPage";
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -246,6 +247,8 @@ class Schedule extends React.Component {
                                   events = {this.props.allUserVisits}
                                   onNavigate={this.dateChangeHandler}
                                   date={this.state.currentDate}
+                                  cancelAppByPatient = {this.props.cancelAppByPatient}
+
             />)
         } else if (this.state.isEditorMode) {
             editorBtn = (<Button btnText='Вернуться к графику'
@@ -406,6 +409,8 @@ const mapDispatchToProps = dispatch => {
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         onSelectEvent: (event) => dispatch(actions.selectEvent(event)),
         onEventDelete: () => dispatch(actions.deleteEvent()),
+        cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id))
+
     }
 };
 
