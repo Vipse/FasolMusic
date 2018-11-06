@@ -82,7 +82,6 @@ DayColumn.propTypes = {
   eventPropGetter: PropTypes.func,
   dayWrapperComponent: elementType,
   eventComponent: elementType,
-  eventWrapperComponent: elementType.isRequired,
   resource: PropTypes.string,
 }
 

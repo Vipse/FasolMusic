@@ -13,7 +13,9 @@ class Week extends React.Component {
   static defaultProps = TimeGrid.defaultProps
 
   render() {
+
     let { date, ...props } = this.props
+
     let range = Week.range(date, this.props)
  
     return <TimeGrid {...props} range={range} eventOffset={15} />

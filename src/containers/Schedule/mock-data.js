@@ -17,14 +17,17 @@ export let apiPatients = [{
     diagnosis: "",
     doctorName: "Зубрицкий Владимир Анатольевич",
     doctorSpecialty: "",
-    end: new Date(1541428200000),
+    end: new Date(1541410500000),
     endMA: 0,
     fio: "Калинин Роман Сергеевич",
     id: "127326",
     id_doc: "3199",
     id_treatment: "127325",
     id_user: "3095",
-    start: new Date(1541425200000),
+    start: new Date(1541409000),
+
+    timeTraining: 1541409000,
+
     status_user: 0,
     type: "video",
 }];

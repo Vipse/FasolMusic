@@ -7,21 +7,17 @@ import dates from './utils/dates'
 import localizer from './localizer'
 import DayColumn from './DayColumn'
 import TimeColumn from './TimeColumn'
-import Header from './Header'
+import Header from './header/Header'
 import Icon from '../../Icon'
 
 import scrollbarSize from 'dom-helpers/util/scrollbarSize'
 import message from './utils/messages'
 
 import { accessor, dateFormat } from './utils/propTypes'
-
 import { notify } from './utils/helpers'
-
 import { accessor as get } from './utils/accessors'
 
 import { inRange, sortEvents, segStyle } from './utils/eventLevels'
-import SmallCalendar from './../../SmallCalendar/index';
-import moment from 'moment';
 
 class TimeGrid extends Component {
   constructor(props) {
@@ -108,7 +104,7 @@ class TimeGrid extends Component {
 
     let eventsRendered = this.renderEvents(
       range,
-      rangeEvents,
+      this.props.events,// rangeEvents,
       this.props.now,
       resources || [null]
     )
@@ -181,13 +177,13 @@ class TimeGrid extends Component {
             max={dates.merge(date, max)}
             resource={resource && resource.id}
             eventComponent={components.event}
-            eventWrapperComponent={components.eventWrapper}
+          
             dayWrapperComponent={components.dayWrapper}
             className={cn({ 'rbc-now': dates.eq(date, today, 'day') })}
             style={segStyle(1, this.slots)}
             key={idx + '-' + id}
             date={date}
-            events={eventsToDisplay}
+            events={events}  //eventsToDisplay
           />
         )
       })
@@ -257,7 +253,7 @@ class TimeGrid extends Component {
     let HeaderComponent = Header
       
     return range.map((date, i) => {
-      let drilldownView = getDrilldownView(date)
+        let drilldownView = getDrilldownView(date)
         let labels = [localizer.format(date, 'dddd', culture),
             localizer.format(date, 'DD', culture)];
 

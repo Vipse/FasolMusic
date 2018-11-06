@@ -16,7 +16,6 @@ import defaultFormats from './formats'
 import message from './utils/messages'
 import moveDate from './utils/move'
 import Toolbar from './header/Toolbar'
-import EventWrapper from './EventWrapper'
 import BackgroundWrapper from './BackgroundWrapper'
 
 import omit from 'lodash/omit'
@@ -46,25 +45,13 @@ class Calendar extends React.Component {
     }
   }
   
-
-
-
-  getViews = () => {
-    return {  [views.WEEK]: Week }
-  }
-
-  getView = () => {
-    const views = this.getViews()
-    return views[this.props.view]
-  }
-
   getDrilldownView = date => {
     const { view, drilldownView, getDrilldownView } = this.props
 
     if (!getDrilldownView) return drilldownView
-
-    return getDrilldownView(date, view, Object.keys(this.getViews()))
+        return getDrilldownView(date, view, ['week'])
   }
+
   changeWorkTime = () => {
     this.setState({isWorkTime: true});
   }
@@ -92,13 +79,12 @@ class Calendar extends React.Component {
     formats = defaultFormats(formats)
     messages = message(messages)
 
-    let names = viewNames(this.props.views)
-
+    let names = ['week'];
+    
     let viewComponents = defaults(
       components[view] || {},
       omit(components, names),
       {
-        eventWrapper: EventWrapper,
         dayWrapper: BackgroundWrapper,
         dateCellWrapper: BackgroundWrapper,
       }
@@ -172,7 +158,7 @@ class Calendar extends React.Component {
 
   handleNavigate = (action, newDate, isOnDay) => { 
     let { view, date, onNavigate, ...props } = this.props
-    let ViewComponent = this.getView()
+    let ViewComponent = Week;
 
     date = moveDate(ViewComponent, {
       ...props,
@@ -271,7 +257,6 @@ Calendar.propTypes = {
   }),
 components: PropTypes.shape({
     event: elementType,
-    eventWrapper: elementType,
     dayWrapper: elementType,
     dateCellWrapper: elementType,
 

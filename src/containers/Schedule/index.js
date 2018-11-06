@@ -245,7 +245,7 @@ class Schedule extends React.Component {
         if (this.props.isUser) {
             calendar = (<Calendar receptionNum={this.getCountOfReceptionsAtCurMonth()}
                                   isUser = {true}
-                                  events = {this.props.allUserVisits}
+                                  events = {apiPatients}//{this.props.allUserVisits} //
                                   onNavigate={this.dateChangeHandler}
                                   date={this.state.currentDate}
 
@@ -260,14 +260,21 @@ class Schedule extends React.Component {
                 currY = currDate.getFullYear(),
                 currM = currDate.getMonth(),
                 currD = currDate.getDate();
+
+                let minFasol = this.props.min;
+                let maxFasol = this.props.max;
+
             let min = new Date(new Date(this.props.min * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(this.props.max * 1000).setFullYear(currY, currM, currD));
                 
+              
+console.log('min.get :', min.getMilliseconds());
+
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
                                  icon='setting_edit'/>)
-            calendar = (<Calendar receptionNum={this.props.visits.length}// {apiPatients.length} 
+            calendar = (<Calendar receptionNum={apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   onSelectSlot={(slot) => this.onAddVisit(slot)}
@@ -285,6 +292,8 @@ class Schedule extends React.Component {
                                   intervals={this.props.intervals}
                                   min={min}
                                   max={max}
+                                  minFasol={minFasol}
+                                  maxFasol={maxFasol}
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
 

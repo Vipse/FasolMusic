@@ -16,6 +16,7 @@ class BigCalendar extends React.Component{
     
     //сервер_дата -> moment_дата
     //private
+
     changeIntervalDate = (start, end) => { 
         return {
             start: new Date((+start)*1000),
