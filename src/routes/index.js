@@ -1,6 +1,6 @@
 import MainPage from '../containers/MainPage'
 import Schedule from '../containers/Schedule'
-import Treatment from '../containers/Homework'
+import Homework from '../containers/Homework'
 import Patients from '../containers/Patients'
 import PatientsPage from '../containers/PatientsPage'
 import PersonalInfo from '../containers/PersonalInfo'
@@ -23,8 +23,8 @@ export const docRoutes = [
         exact: true,
     },
     {
-        path: '/app/treatment',
-        component: Treatment,
+        path: '/app/homework',
+        component: Homework,
         exact: true,
     },
     {
@@ -72,7 +72,7 @@ export const patientRoutes = [
     },
     {
         path: '/app/homework',
-        component: Treatment,
+        component: Homework,
         exact: true,
     },
     {
@@ -105,7 +105,7 @@ export const patientRoutes = [
 export const menuDoc =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
-    {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
+    {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
     //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},

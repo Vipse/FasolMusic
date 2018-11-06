@@ -67,12 +67,18 @@ class HomeworkListItem extends React.Component {
                 <div className="flex-col">
                     <div className="patient-price">{trainingRecord ?
                         <a target='_blank' href={trainingRecord}>
-                            <Button btnText="Просмотр" type="pink"/>
+                            <Button btnText="Просмотр" type="border-pink"/>
                         </a>
                         : <span>&mdash;</span>}</div>
                 </div>
                 <div className="flex-col">
-                    <div className="patient-price">{homework ? homework : <span>&mdash;</span>}</div>
+                    <div className="patient-price">{homework ? homework:
+                        <div className="sendHomework">
+                            <textarea className="sendHomework-area" name="homework" rows="10" placeholder='Домашнее задание...'></textarea>
+                            <button className="sendHomework-btn">
+                                <Icon type="message" size={25}></Icon>
+                            </button>
+                        </div>}</div>
                 </div>
                 <div className="flex-col"
                      onClick={this.handleClick}>

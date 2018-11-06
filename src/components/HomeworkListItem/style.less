@@ -51,5 +51,44 @@
         color: #777;
       }
     }
+    .sendHomework {
+      position: relative;
+      &-area {
+        width: 100%;
+        border: 1px solid #e1e1e1;
+        resize: none;
+        height: 120px;
+        color: #333;
+        font-family: RobotoRegular, sans-serif;
+        outline: none;
+        padding: 20px;
+        &::placeholder {
+          color: #777777;
+        }
+
+      }
+      &-btn {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        bottom: 12px;
+        right: 12px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        background: none;
+        &:hover {
+          span.icon {
+            color: #777;
+          }
+        }
+        span.icon {
+          font-size: 15px;
+          cursor: pointer;
+          color: #bbbbbb;
+        }
+      }
+
+    }
   }
 }
