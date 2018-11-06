@@ -5,6 +5,7 @@ import Patients from '../containers/Patients'
 import PatientsPage from '../containers/PatientsPage'
 import PersonalInfo from '../containers/PersonalInfo'
 import Payment from '../containers/Payment'
+import Bonus from '../containers/Bonus'
 import Reviews from '../containers/Reviews'
 import MyDoctors from '../containers/MyDoctors'
 
@@ -57,6 +58,12 @@ export const docRoutes = [
         component: Reviews,
         exact: true,
     },
+    {
+        path: '/app/bonus',
+        component: Bonus,
+        exact: true,
+    },
+
 ];
 
 export const patientRoutes = [
@@ -109,6 +116,7 @@ export const menuDoc =[
     //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
+    {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true},
 ];
 
 export const menuPatient =[
