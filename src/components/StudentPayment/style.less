@@ -1,0 +1,249 @@
+.payment {
+  &-student {
+
+    .ant-card-body {
+      color: #000;
+    }
+
+    .new-input {
+      border: none;
+
+      input[type="text"] {
+        border-bottom: 1px solid #000;
+      }
+
+      label {
+        font-family: RobotoMedium;
+      }
+    }
+
+    background-color: #7544ea;
+    display: grid;
+    grid-template-areas: "plans plans" "data stats";
+    grid-template-rows: 523px 266px;
+    grid-template-columns: 580px 890px;
+    grid-gap: 30px;
+
+    &-trainingPlans {
+      grid-area: plans;
+
+      .info {
+        font-family: RobotoRegularItalic;
+        font-size: 20px;
+        padding: 20px 30px;
+        margin: 0;
+      }
+
+      .plansPlate {
+        display: flex;
+        justify-content: center;
+
+        .plan {
+          background-color: #2abb6c;
+          border-radius: 5px;
+          width: 280px;
+          height: 360px;
+          font-family: RobotoMediumItalic;
+          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+
+          &:not(:last-child) {
+            margin-right: 11px;
+          }
+
+          &-title {
+            display: flex;
+            background-color: #21bedd;
+            height: 50px;
+            margin: 20px;
+            align-items: center;
+            text-transform: uppercase;
+
+            &-number {
+              background-color: #ffc800;
+              margin: -10px 10px 0 -10px;
+              width: 50px;
+              height: 50px;
+              font-size: 30px;
+              text-align: center;
+            }
+
+            &-text {
+              font-size: 18px;
+            }
+          }
+
+          &-lessonCost {
+            line-height: 1.15;
+            margin: 40px 35px 20px;
+
+            &-number {
+              color: #ffc800;
+              font-family: RobotoBlackItalic;
+              font-size: 24px;
+              margin: 30px 0 0 0;
+            }
+            &-text {
+              font-family: RobotoMedium;
+              font-size: 18px;
+              margin: 0;
+            }
+          }
+
+          &-select {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 200px;
+            justify-content: center;
+            align-items: center;
+            background: url('../../img/planBackground.png') no-repeat;
+            margin-top: 20px;
+
+            &-totalPrice {
+              font-family: RobotoBlackItalic;
+              font-size: 32px;
+              margin: 6px 0 15px;
+            }
+
+            &-selectBtn {
+              width: 100px;
+
+              &-active {
+                background-color: #ffc800;
+                border: 1px #ffc800 solid;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &-paymentData {
+      grid-area: data;
+
+      .inputPlate {
+        display: flex;
+        padding: 25px;
+
+        .input {
+          width: 55%;
+          margin-right: 40px;
+        }
+
+        .applyBtn {
+          width: 20%;
+        }
+      }
+
+      .paymentBlock {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 25px;
+
+        .title {
+          width: 100%;
+          font-family: RobotoMedium;
+        }
+
+        .info {
+          font-family: RobotoRegularItalic;
+          width: 40%;
+          margin: 0;
+          align-self: flex-end;
+        }
+
+        .paymentTypePlate {
+          width: 50%;
+          margin: 20px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+
+          .payment-method {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            height: 40px;
+
+            &:nth-child(1) {
+              width: 40%;
+            }
+
+            &:nth-child(2) {
+              width: 60%;
+            }
+
+            &-view {
+              display: flex;
+              flex-direction: column;
+              justify-content: space-around;
+              align-items: center;
+              height: 60px;
+              padding-right: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    &-stats {
+      grid-area: stats;
+
+      &-plate {
+        display: flex;
+        flex-direction: row;
+        padding: 23px 0 0 40px;
+        justify-content: center;
+
+        & > div {
+          padding-right: 19px;
+          margin-right: 20px;
+        }
+
+        & > div:not(:last-child) {
+          border-right: 1px solid #c6c1c8;
+        }
+
+        .title {
+          display: flex;
+          height: 80px;
+          margin-bottom: 20px;
+          justify-content: center;
+          align-items: center;
+
+          .count {
+            margin-top: 20px;
+            font-family: RobotoMedium;
+            color: #21bedd;
+            font-size: 48px;
+            width: 50%;
+            text-align: center;
+          }
+
+          .date {
+            margin-top: 20px;
+            font-family: RobotoMedium;
+            color: #21bedd;
+            font-size: 30px;
+            width: 50%;
+            text-align: center;
+          }
+
+          .name {
+
+            font-family: RobotoMediumItalic;
+            font-size: 18px;
+            width: 50%;
+            height: 35px;
+            margin: 0;
+            text-align: left;
+          }
+        }
+
+        .info {
+          font-family: RobotoRegularItalic;
+        }
+      }
+    }
+  }
+}

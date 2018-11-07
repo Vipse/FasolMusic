@@ -1,0 +1,206 @@
+.payment-student {
+  background-color: #7544ea;
+  display: grid;
+  grid-template-areas: "plans plans" "data stats";
+  grid-template-rows: 523px 266px;
+  grid-template-columns: 580px 890px;
+  grid-gap: 30px;
+}
+.payment-student .ant-card-body {
+  color: #000;
+}
+.payment-student .new-input {
+  border: none;
+}
+.payment-student .new-input input[type="text"] {
+  border-bottom: 1px solid #000;
+}
+.payment-student .new-input label {
+  font-family: RobotoMedium;
+}
+.payment-student-trainingPlans {
+  grid-area: plans;
+}
+.payment-student-trainingPlans .info {
+  font-family: RobotoRegularItalic;
+  font-size: 20px;
+  padding: 20px 30px;
+  margin: 0;
+}
+.payment-student-trainingPlans .plansPlate {
+  display: flex;
+  justify-content: center;
+}
+.payment-student-trainingPlans .plansPlate .plan {
+  background-color: #2abb6c;
+  border-radius: 5px;
+  width: 280px;
+  height: 360px;
+  font-family: RobotoMediumItalic;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
+.payment-student-trainingPlans .plansPlate .plan:not(:last-child) {
+  margin-right: 11px;
+}
+.payment-student-trainingPlans .plansPlate .plan-title {
+  display: flex;
+  background-color: #21bedd;
+  height: 50px;
+  margin: 20px;
+  align-items: center;
+  text-transform: uppercase;
+}
+.payment-student-trainingPlans .plansPlate .plan-title-number {
+  background-color: #ffc800;
+  margin: -10px 10px 0 -10px;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  text-align: center;
+}
+.payment-student-trainingPlans .plansPlate .plan-title-text {
+  font-size: 18px;
+}
+.payment-student-trainingPlans .plansPlate .plan-lessonCost {
+  line-height: 1.15;
+  margin: 40px 35px 20px;
+}
+.payment-student-trainingPlans .plansPlate .plan-lessonCost-number {
+  color: #ffc800;
+  font-family: RobotoBlackItalic;
+  font-size: 24px;
+  margin: 30px 0 0 0;
+}
+.payment-student-trainingPlans .plansPlate .plan-lessonCost-text {
+  font-family: RobotoMedium;
+  font-size: 18px;
+  margin: 0;
+}
+.payment-student-trainingPlans .plansPlate .plan-select {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+  background: url('../../img/planBackground.png') no-repeat;
+  margin-top: 20px;
+}
+.payment-student-trainingPlans .plansPlate .plan-select-totalPrice {
+  font-family: RobotoBlackItalic;
+  font-size: 32px;
+  margin: 6px 0 15px;
+}
+.payment-student-trainingPlans .plansPlate .plan-select-selectBtn {
+  width: 100px;
+}
+.payment-student-trainingPlans .plansPlate .plan-select-selectBtn-active {
+  background-color: #ffc800;
+  border: 1px #ffc800 solid;
+}
+.payment-student-paymentData {
+  grid-area: data;
+}
+.payment-student-paymentData .inputPlate {
+  display: flex;
+  padding: 25px;
+}
+.payment-student-paymentData .inputPlate .input {
+  width: 55%;
+  margin-right: 40px;
+}
+.payment-student-paymentData .inputPlate .applyBtn {
+  width: 20%;
+}
+.payment-student-paymentData .paymentBlock {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 25px;
+}
+.payment-student-paymentData .paymentBlock .title {
+  width: 100%;
+  font-family: RobotoMedium;
+}
+.payment-student-paymentData .paymentBlock .info {
+  font-family: RobotoRegularItalic;
+  width: 40%;
+  margin: 0;
+  align-self: flex-end;
+}
+.payment-student-paymentData .paymentBlock .paymentTypePlate {
+  width: 50%;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.payment-student-paymentData .paymentBlock .paymentTypePlate .payment-method {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 40px;
+}
+.payment-student-paymentData .paymentBlock .paymentTypePlate .payment-method:nth-child(1) {
+  width: 40%;
+}
+.payment-student-paymentData .paymentBlock .paymentTypePlate .payment-method:nth-child(2) {
+  width: 60%;
+}
+.payment-student-paymentData .paymentBlock .paymentTypePlate .payment-method-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  padding-right: 10px;
+}
+.payment-student-stats {
+  grid-area: stats;
+}
+.payment-student-stats-plate {
+  display: flex;
+  flex-direction: row;
+  padding: 23px 0 0 40px;
+  justify-content: center;
+}
+.payment-student-stats-plate > div {
+  padding-right: 19px;
+  margin-right: 20px;
+}
+.payment-student-stats-plate > div:not(:last-child) {
+  border-right: 1px solid #c6c1c8;
+}
+.payment-student-stats-plate .title {
+  display: flex;
+  height: 80px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.payment-student-stats-plate .title .count {
+  margin-top: 20px;
+  font-family: RobotoMedium;
+  color: #21bedd;
+  font-size: 48px;
+  width: 50%;
+  text-align: center;
+}
+.payment-student-stats-plate .title .date {
+  margin-top: 20px;
+  font-family: RobotoMedium;
+  color: #21bedd;
+  font-size: 30px;
+  width: 50%;
+  text-align: center;
+}
+.payment-student-stats-plate .title .name {
+  font-family: RobotoMediumItalic;
+  font-size: 18px;
+  width: 50%;
+  height: 35px;
+  margin: 0;
+  text-align: left;
+}
+.payment-student-stats-plate .info {
+  font-family: RobotoRegularItalic;
+}

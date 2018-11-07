@@ -288,6 +288,30 @@
   background-color: #ff7daa;
   color: #fff;
 }
+.btn-type-light-green {
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: transparent;
+  color: #2abb6c;
+  text-transform: none;
+  border: 1px solid #2abb6c;
+}
+.btn-type-light-green:hover {
+  background-color: #2abb6c;
+  color: #fff;
+}
+.btn-type-black {
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: transparent;
+  color: #000;
+  text-transform: none;
+  border: 1px solid #000;
+}
+.btn-type-black:hover {
+  background-color: #000;
+  color: #fff;
+}
 .btn-type-border-green {
   background-color: #fff;
   color: #2abc6c;

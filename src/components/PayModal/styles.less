@@ -1,0 +1,118 @@
+.NewVisitModal {
+  padding: 20px 30px 40px 30px;
+  display: flex;
+  flex-direction: column;
+
+  .info {
+    font-family: RobotoRegularItalic;
+    color: #111111;
+    margin-bottom: 50px;
+  }
+
+  .new-input {
+    input[type="text"] {
+      font-family: RobotoMedium;
+    }
+
+    .ant-select-selection-selected-value {
+      font-family: RobotoMedium;
+    }
+  }
+
+  .new-input .effect ~ label {
+    font-family: RobotoMedium;
+    color: #777777;
+  }
+
+  .ant-calendar-picker {
+    &-input {
+      font-family: RobotoMedium;
+      margin-bottom: -1px;
+    }
+  }
+
+  .new-dp .effect ~ label.placeholder, .new-dp .effect ~ label {
+    font-family: RobotoMedium;
+      color: #777777;
+  }
+
+  .saveBtn {
+    align-self: center;
+    width: 20%;
+    margin-top: 20px;
+  }
+
+  .payment-fields {
+    display: flex;
+    flex-direction: column;
+    .input-form-item {
+      margin-bottom: 25px;
+    }
+  }
+
+  &-submit {
+    display: flex;
+    align-items: center;
+    &-error {
+      color: #f5222d;
+      margin-left: 30px;
+    }
+  }
+}
+
+.modal {
+
+  &-header {
+
+  }
+  &-row {
+    display: flex;
+  }
+
+  &-result {
+    font-size: 14px;
+    line-height: 18px;
+    color: #344051;
+    font-family: "RobotoMedium";
+  }
+
+  &-data {
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    .icon {
+      margin-right: 15px;
+    }
+  }
+
+  &-time {
+    width: 50%;
+    display: flex;
+    align-items: center;
+
+    .ant-form-item {
+    }
+
+    .icon {
+      margin-right: 15px;
+    }
+  }
+}
+
+.ant {
+  &-modal {
+    &-close-x {
+      color: #000;
+    }
+
+    &-header {
+      background-color: #ff7daa;
+      color: #000;
+    }
+
+    &-title {
+      color: #000;
+    }
+  }
+}
