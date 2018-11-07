@@ -38,7 +38,8 @@ class CoachPayment extends React.Component{
             yandexMoney: {
                 linked: false
             },
-            modalVisible: false
+            modalVisible: false,
+            refLink: ""
         };
     }
 
@@ -70,6 +71,17 @@ class CoachPayment extends React.Component{
                   />
               </div>
           </div>);
+    };
+
+    copyLink = (e) => {
+        const textField = document.createElement('textarea');
+        if (this.state.refLink) {
+            textField.innerText = this.state.refLink;
+            document.body.appendChild(textField);
+            textField.select();
+            document.execCommand('copy');
+            textField.remove();
+        }
     };
 
     render() {
@@ -151,7 +163,7 @@ class CoachPayment extends React.Component{
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
                             eligendi harum hic neque porro recusandae.
                         </p>
-                        <InputNew className="input" bubbleplaceholder="Ссылка"/>
+                        <InputNew className="input" bubbleplaceholder="Ссылка" onChange={(e) => this.setState({refLink: e.target.value})}/>
                         <Button className="copyBtn"
                             btnText='Скопировать'
                             onClick={this.copyLink}
