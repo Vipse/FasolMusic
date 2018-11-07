@@ -8,21 +8,26 @@ class InputNew extends AntInput{
     constructor(props){
         super(props);
         this.state ={
-            onFocus: false
+            onFocus: false,
+            inputClassName: ""
         }
+    }
+
+    componentWillMount() {
+        this.setState({inputClassName: ((this.inp && this.inp.input.value) || this.props.value ? "effect has-content" : "effect")});
     }
 
 
     render() {
-        const inputClassName = ((this.inp && this.inp.input.value) || this.props.value ? "effect has-content" : "effect");
         const rootCl = "new-input input-effect" +" "+ this.props.className + " " +  'input-root ';
         return (
             <div className={rootCl}
                  style={{width:this.props.width ? this.props.width : null}}
             >
                 <AntInput {...this.props}
-                          className={inputClassName}
+                          className={this.state.inputClassName}
                           ref = {inp => this.inp = inp}
+                          onBlur={(e) => this.setState({inputClassName: (e.target.value && e.target.value) ? "effect has-content" : "effect"})}
                 />
                 <label>{this.props.bubbleplaceholder}</label>
 

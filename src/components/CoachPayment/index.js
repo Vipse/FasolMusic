@@ -163,7 +163,7 @@ class CoachPayment extends React.Component{
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
                             eligendi harum hic neque porro recusandae.
                         </p>
-                        <InputNew className="input" bubbleplaceholder="Ссылка" onChange={(e) => this.setState({refLink: e.target.value})}/>
+                        <InputNew className="input" bubbleplaceholder="Ссылка" onChange={(e) => this.setState({refLink: e.target.value})} onPressEnter={this.copyLink}/>
                         <Button className="copyBtn"
                             btnText='Скопировать'
                             onClick={this.copyLink}

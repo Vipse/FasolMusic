@@ -154,6 +154,9 @@
   height: 60px;
   padding-right: 10px;
 }
+.payment-student-paymentData .paymentBlock .paymentTypePlate .payment-method-view:hover {
+  cursor: pointer;
+}
 .payment-student-stats {
   grid-area: stats;
 }
