@@ -20,23 +20,35 @@
   grid-area: record;
 }
 .payment-coach-record-overlay {
-  margin-top: 30px;
+  margin-top: 15px;
   padding-left: 30px;
   height: 100%;
-  max-height: 700px;
+  max-height: 740px;
+}
+.payment-coach-record-overlay .ps__thumb-y,
+.payment-coach-record-overlay .ps__rail-y:hover > .ps__thumb-y {
+  background-color: #21bedd;
 }
 .payment-coach-record-overlay .file {
   display: flex;
+  margin-top: 15px;
 }
-.payment-coach-record-overlay .file-name {
-  margin-left: 15px;
+.payment-coach-record-overlay .file .link .icon {
+  text-decoration: none;
+}
+.payment-coach-record-overlay .file .link span {
+  color: #000;
   font-family: RobotoBlack;
+  text-decoration: none;
 }
-.payment-coach-record-overlay .file-active .icon-document {
+.payment-coach-record-overlay .file .link:hover span {
   color: #21bedd;
+  text-decoration: none;
 }
-.payment-coach-record-overlay .file-active .file-name {
-  color: #21bedd;
+.payment-coach-record-overlay .file .link:active span,
+.payment-coach-record-overlay .file .link:focus span {
+  color: #b7b7b7;
+  text-decoration: none;
 }
 .payment-coach-paymentData {
   grid-area: data;

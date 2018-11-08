@@ -42,7 +42,9 @@ const loadStories = () => {
     require('../src/components/NewMessageModal/stories');
     require('../src/components/TimePicker/stories');
     require('../src/components/CreateProfile/stories');
+    require('../src/components/StudentPayment/stories');
     require('../src/components/CoachPayment/stories');
+    require('../src/components/PayModal/stories');
     require('../src/components/PaymentEditModal/stories');
     require('../src/components/CoachPersonalProfile/stories');
     require('../src/components/CoachPersonalData/stories');

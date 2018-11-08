@@ -98,6 +98,11 @@ export const patientRoutes = [
         exact: true,
     },
     {
+        path: '/app/payment',
+        component: Payment,
+        exact: true,
+    },
+    {
         path: '/app/chat',
         component: Chat,
         exact: true,
@@ -125,6 +130,7 @@ export const menuPatient =[
     {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
     {name: 'app/doctors', title: 'Мои врачи', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
+    {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
     {name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
 

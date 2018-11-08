@@ -4,6 +4,7 @@ import Hoc from '../../hoc'
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 import CoachPayment from "../../components/CoachPayment";
+import StudentPayment from "../../components/StudentPayment";
 
 class Payment extends React.Component{
     constructor(props){
@@ -17,7 +18,7 @@ class Payment extends React.Component{
         let isUser = this.props.auth.mode === "user";
         return (
             <Hoc>
-                {isUser ? (<p>Unavailable</p>)
+                {isUser ? (<StudentPayment/>)
                     : (<CoachPayment/>)}
             </Hoc>
         )

@@ -27,25 +27,43 @@
       grid-area: record;
 
       &-overlay {
-        margin-top: 30px;
+        margin-top: 15px;
         padding-left: 30px;
         height: 100%;
-        max-height: 700px;
+        max-height: 740px;
+
+        .ps__thumb-y, .ps__rail-y:hover > .ps__thumb-y {
+          background-color: #21bedd;
+        }
 
         .file {
           display: flex;
+          margin-top: 15px;
 
-          &-name {
-            margin-left: 15px;
-            font-family: RobotoBlack;
-          }
+          .link {
 
-          &-active {
-            .icon-document {
-              color: #21bedd;
+            .icon {
+              text-decoration: none;
             }
-            .file-name {
-              color: #21bedd;
+
+            span {
+              color: #000;
+              font-family: RobotoBlack;
+              text-decoration: none;
+            }
+
+            &:hover {
+              span {
+                color: #21bedd;
+                text-decoration: none;
+              }
+            }
+
+            &:active, &:focus {
+              span {
+                color: #b7b7b7;
+                text-decoration: none;
+              }
             }
           }
         }
