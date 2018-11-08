@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 import cn from 'classnames'
 
 import Button from '../Button'
@@ -26,6 +28,7 @@ import Content from "../NewVisitByPatientModal/content";
 import Modal from "../Modal";
 import PaymentEditModal from "../PaymentEditModal";
 import NewVisitByPatientModal from "../NewVisitByPatientModal";
+import DownloadLink from "../DownloadLink";
 
 class CoachPayment extends React.Component{
 
@@ -73,6 +76,23 @@ class CoachPayment extends React.Component{
           </div>);
     };
 
+    renderFilesList = () => {
+        return this.props.filesList.map((file, i) => {
+            return <div className="file">
+                <DownloadLink {...file}
+                              key={file.id + '' + i}
+                              size="default"
+                              type="link"
+                              svg
+                              icon="file"
+                              iconSize={14}
+                              download
+                              btnText={file.name}
+                />
+            </div>;
+        });
+    };
+
     copyLink = (e) => {
         const textField = document.createElement('textarea');
         if (this.state.refLink) {
@@ -86,40 +106,13 @@ class CoachPayment extends React.Component{
 
     render() {
         const payment = this.props.paymentData;
+        const filesList = this.props.filesList;
         return (
             <div className="payment-coach">
                 <Card className="payment-coach-record" title="Акты выполненных работ">
-                    <ScrollArea
-                        speed={1}
-                        className="payment-coach-record-overlay"
-                        contentClassName="content"
-                        horizontal={false}
-                    >
-                        <div className="file file-active"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file file-active"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file file-active"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Заключение.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Прикрепленный файл с длинным названием.doc</p></div>
-                        <div className="file"><Icon className="file-icon" svg type="document" size={16}/><p className="file-name">Данные 525462.pdf</p></div>
-                    </ScrollArea>
+                    <PerfectScrollbar className="payment-coach-record-overlay">
+                        {this.renderFilesList()}
+                    </PerfectScrollbar>
                 </Card>
                 <Card className="payment-coach-paymentData" title="Данные для получения оплаты">
                     <p className="info">
@@ -206,11 +199,13 @@ class CoachPayment extends React.Component{
 
 CoachPayment.propTypes = {
     paymentData: PropTypes.object,
+    filesList: PropTypes.arrayOf(PropTypes.object),
     onSubmit: PropTypes.func
 };
 
 CoachPayment.defaultProps = {
     paymentData: {},
+    filesList: [],
     onSubmit: () => {}
 };
 
