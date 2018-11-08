@@ -18,7 +18,7 @@ import './styles.css'
 import {findTimeInterval} from '../../helpers/timeInterval'
 import {timePeriod} from './mock-data'
 
-import { apiPatients } from './mock-data';
+import { apiPatients, apiTrainers} from './mock-data';
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -42,9 +42,32 @@ class Schedule extends React.Component {
             receptionData: {
                 dates: [],
                 currentSched: {},
-            }
+            
+            },
+
+            isTransferEvent: false,
+            isShowFreeTrainers: false,
+            idEvent: null
         }
     };
+
+
+    showTransferEvent = () => { // нажатие на крестик
+        this.setState({isTransferEvent : true});
+    }
+    showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
+        // запомнить куда нужно отправить free trainers
+        this.setState({isShowFreeTrainers : true, idEvent: idEvent});
+    }
+
+    setChoosenTrainer = (id) => { // нажатие на желтую область -> появление свободных тренеров
+        apiTrainers.forEach((elem) => {
+            if(elem.id === id){
+                apiPatients.push(elem);
+                return;
+            } 
+        });
+    }
 
     setIntervalAndView = (date, view) => {
         const {start, end} = findTimeInterval(date, view);
@@ -267,8 +290,10 @@ class Schedule extends React.Component {
             let min = new Date(new Date(this.props.min * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(this.props.max * 1000).setFullYear(currY, currM, currD));
                 
-              
-console.log('min.get :', min.getMilliseconds());
+            // надо нормальную проверка для коуча и студента
+            let checkIntervals = this.state.isTransferEvent ? this.props.intervals : []
+            let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
+            
 
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
@@ -289,16 +314,23 @@ console.log('min.get :', min.getMilliseconds());
                                   onGotoPatient={this.gotoHandler}
                                   step={50}
                                         events={apiPatients} //{this.props.visits}
-                                  intervals={this.props.intervals}
+                                  intervals={checkIntervals}
                                   min={min}
                                   max={max}
                                   minFasol={minFasol}
                                   maxFasol={maxFasol}
+                                  intervalsFasol={checkIntervals}
+
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
 
                                   onChange={this.dateChangeHandler}
                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+
+                                  showTransferEvent={this.showTransferEvent} // my
+                                  freeTrainers={{idEvent: this.state.idEvent, freeTrainers: checkFreeTrainers}} //my
+                                  showModalTransferEvent={this.showModalTransferEvent}
+                                  setChoosenTrainer={this.setChoosenTrainer}
             />)
         }
 

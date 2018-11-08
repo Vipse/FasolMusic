@@ -297,6 +297,11 @@ components: PropTypes.shape({
     event: PropTypes.node,
     showMore: PropTypes.func,
   }),
+
+  showTransferEvent: PropTypes.func,
+  freeTrainers: PropTypes.object,
+  showModalTransferEvent: PropTypes.func,
+  setChoosenTrainer: PropTypes.func,
 }
 
 Calendar.defaultProps = {

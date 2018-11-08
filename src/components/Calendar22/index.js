@@ -94,6 +94,10 @@ BigCalendar.propTypes = {
     onPopoverClose: PropTypes.func,
     onPopoverEmail: PropTypes.func,
     gotoEditor: PropTypes.func,
+    showTransferEvent: PropTypes.func,
+    freeTrainers: PropTypes.object,
+    showModalTransferEvent: PropTypes.func,
+    setChoosenTrainer: PropTypes.func,
 };
 
 
@@ -102,6 +106,7 @@ BigCalendar.defaultProps = {
     events: [],
     schedules: [],
     intervals: [],
+    freeTrainers: {},
     receptionNum: 0,
     onPopoverClose: () => {},
     onPopoverEmail: () => {},

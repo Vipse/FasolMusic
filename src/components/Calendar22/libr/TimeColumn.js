@@ -25,6 +25,10 @@ export default class TimeColumn extends Component {
     slotPropGetter: PropTypes.func,
     dayPropGetter: PropTypes.func,
     dayWrapperComponent: elementType,
+
+    freeTrainers: PropTypes.object,
+    showModalTransferEvent: PropTypes.func,
+    setChoosenTrainer: PropTypes.func,
   }
   static defaultProps = {
     step: 30,
@@ -46,8 +50,11 @@ export default class TimeColumn extends Component {
       timeGutterFormat,
       culture,
       events,
+      showTransferEvent,
+      freeTrainers,
+      showModalTransferEvent,
+      setChoosenTrainer
     } = this.props;
-
 
     return (
       <TimeSlotGroup
@@ -59,6 +66,7 @@ export default class TimeColumn extends Component {
         slotPropGetter={slotPropGetter}
         dayPropGetter={dayPropGetter}
         intervals={this.props.intervals}
+        intervalsFasol={this.props.intervalsFasol}
         culture={culture}
         timeslots={timeslots}
         resource={resource}
@@ -66,6 +74,11 @@ export default class TimeColumn extends Component {
         timeGutterFormat={timeGutterFormat}
         dayWrapperComponent={dayWrapperComponent}
         children={this.props.children}
+
+        showTransferEvent={showTransferEvent}
+        freeTrainers={freeTrainers}
+        showModalTransferEvent={showModalTransferEvent}
+        setChoosenTrainer={setChoosenTrainer}
       />
     )
   }
@@ -100,7 +113,7 @@ export default class TimeColumn extends Component {
         'minutes'
       )
       next = dates.add(date, groupLengthInMinutes, 'minutes')
-console.log('QQQdate :', date);
+
       renderedSlots.push(this.renderTimeSliceGroup(i, isNow, date, resource))
 
       date = next

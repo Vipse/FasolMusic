@@ -114,7 +114,7 @@ class TimeGrid extends Component {
         {this.renderHeader(range, allDayEvents, width, resources)}
 
         {
-          this.props.intervals.length ? 
+          // this.props.intervals.length ? 
           (
             <div ref="content" className="rbc-time-content">
             
@@ -128,11 +128,12 @@ class TimeGrid extends Component {
                   {eventsRendered}
                  
                 </div>
-          ) : (
-            <div ref="content" className="calendar-empty-content">
-              <div className="warning">График не заполнен.</div>
-            </div>
-          )
+          ) 
+          // : (
+          //   <div ref="content" className="calendar-empty-content">
+          //     <div className="warning">График не заполнен.</div>
+          //   </div>
+          // )
         }
       </div>
     )
@@ -386,6 +387,11 @@ TimeGrid.propTypes = {
 
   messages: PropTypes.object,
   components: PropTypes.object.isRequired,
+
+  showTransferEvent: PropTypes.func,
+  freeTrainers: PropTypes.object,
+  showModalTransferEvent: PropTypes.func,
+  setChoosenTrainer: PropTypes.func,
 }
 
  

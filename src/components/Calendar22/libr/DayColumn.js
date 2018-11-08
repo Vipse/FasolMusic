@@ -83,6 +83,11 @@ DayColumn.propTypes = {
   dayWrapperComponent: elementType,
   eventComponent: elementType,
   resource: PropTypes.string,
+
+  showTransferEvent:PropTypes.func,
+  freeTrainers: PropTypes.object,
+  showModalTransferEvent: PropTypes.func,
+  setChoosenTrainer: PropTypes.func,
 }
 
 DayColumn.defaultProps = {
