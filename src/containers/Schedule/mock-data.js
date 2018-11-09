@@ -43,7 +43,7 @@ export let apiPatients = [
     end: new Date(1541412100000),
     endMA: 0,
     fio: "Пушкин Александр Сергеевич",
-    id: "127326",
+    id: "127327",
     id_doc: "3199",
     id_treatment: "127325",
     id_user: "3095",
@@ -64,13 +64,19 @@ export let apiTrainers = [
         del: "",
         delComment: "",
         diagnosis: "",
+        doctorName: "Зубрицкий Владимир Анатольевич",
+        doctorSpecialty: "",
+        end: new Date(1541412100000),
+        endMA: 0,
         fio: "Шварцнегер Арнольд Михалович",
-    
-        id: "127326",
+        id: "127328",
+        id_doc: "3199",
+        id_treatment: "127325",
         id_user: "3095",
-
+        start: new Date(1541418000000),
+    
         timeTraining: 1541409000,
-
+    
         status_user: 0,
         type: "video",
     },
@@ -82,7 +88,7 @@ export let apiTrainers = [
         diagnosis: "",
         fio: "Зевс Саня Саныч",
     
-        id: "127327",
+        id: "127329",
         id_user: "3095",
 
         timeTraining: 1541409000,

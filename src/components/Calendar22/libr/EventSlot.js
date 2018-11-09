@@ -11,11 +11,12 @@ export default class EventSlot extends Component {
         super(props);
     };
 
-    showTransferEvent = () => {
-        this.props.showTransferEvent();
+    showTransferEvent = (id) => {
+        this.props.showTransferEvent(id);
     }
-    getChoosenTrainer = (id) => {
-        this.props.setChoosenTrainer(id);
+    getChoosenTrainer = (e, id) => {
+        e.preventDefault();
+        this.props.setChoosenTrainer(id, this.props.value);
     }
 
     render() {
@@ -30,12 +31,13 @@ export default class EventSlot extends Component {
             :
             "event-group";
             
+            console.log('freeTrainers :', freeTrainers);
         return (
         <div className={eventStyle} >
             { freeTrainers.freeTrainers.length && idEvent === freeTrainers.idEvent ? 
                 freeTrainers.freeTrainers.map((elem) => {
                     return (
-                        <p className="event-group-text" key={elem.id} onClick={() => this.getChoosenTrainer(elem.id)}>
+                        <p className="event-group-text" key={elem.id} onClick={(e) => this.getChoosenTrainer(e,elem.id)}>
                             {elem.fio}
                         </p>)
                 })
@@ -43,7 +45,7 @@ export default class EventSlot extends Component {
                 :
                 <div>
                     <div className="event-group-cross">
-                        <Icon type='close' size={7} onClick={this.showTransferEvent}/>
+                        <Icon type='close' size={7} onClick={() => this.showTransferEvent(this.props.event.id)}/>
                     </div>
                     <p className="event-group-text" >
                         {event.fio}

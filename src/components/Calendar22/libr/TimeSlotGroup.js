@@ -85,6 +85,7 @@ export default class TimeSlotGroup extends Component {
           if(events[i].start.getTime() === this.props.value.getTime()) {
             return (
               <EventSlot 
+                  value={this.props.value.getTime()}
                   event={events[i]}
                   showTransferEvent={showTransferEvent} 
                   setChoosenTrainer={this.props.setChoosenTrainer}
@@ -97,6 +98,7 @@ export default class TimeSlotGroup extends Component {
     
     if(freeTrainers.idEvent === this.props.value.getTime()){ // рендер выпадающего списка freeTrainer
         return <EventSlot 
+            value={this.props.value.getTime()}
             showTransferEvent={showTransferEvent} 
             freeTrainers={freeTrainers}
             setChoosenTrainer={this.props.setChoosenTrainer}

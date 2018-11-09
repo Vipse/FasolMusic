@@ -73,7 +73,6 @@ let dates = {
     date = dates.hours(date, dates.hours(time))
     date = dates.minutes(date, dates.minutes(time))
     date = dates.seconds(date, dates.seconds(time))
-    console.log('dates.milliseconds(time) :', dates.milliseconds(time));
     return dates.milliseconds(date, dates.milliseconds(time))
   },
 

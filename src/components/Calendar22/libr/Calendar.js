@@ -132,20 +132,22 @@ class Calendar extends React.Component {
 
           </div>
           <div className='rbc-smallcalendar-wrapper'>
+          { (this.props.isUser && 
             <Button
               className="change-worktime"
               btnText={"Изменить рабочее время"}
               size='small'
               type='dark-blue'
               onClick={this.changeWorkTime}
-            />
+            />) || <div className="block-change-worktime"></div>
+          }
             <SmallCalendar 
                 date={current}
                 onChange={onChange}
                 isUser = {this.props.isUser}
                 highlightedDates = {highlightedDates}
             />
-
+           
             <CancelVisitModal visible={this.state.isWorkTime}
                               onCancel={() => this.setState({isWorkTime: false})}
                 />

@@ -47,26 +47,36 @@ class Schedule extends React.Component {
 
             isTransferEvent: false,
             isShowFreeTrainers: false,
+            isShowFreeTrainers2: false,
             idEvent: null
         }
     };
 
 
-    showTransferEvent = () => { // нажатие на крестик
+    showTransferEvent = (id) => { // нажатие на крестик
         this.setState({isTransferEvent : true});
+        this.deleteId = id;
     }
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         // запомнить куда нужно отправить free trainers
+//console.log('showModalTransferEvent :');
+      
         this.setState({isShowFreeTrainers : true, idEvent: idEvent});
     }
 
-    setChoosenTrainer = (id) => { // нажатие на желтую область -> появление свободных тренеров
-        apiTrainers.forEach((elem) => {
-            if(elem.id === id){
-                apiPatients.push(elem);
-                return;
-            } 
-        });
+    setChoosenTrainer = (id, time) => {
+        
+        this.setState({isShowFreeTrainers2 : 2, isTransferEvent: false, idEvent: null});
+        //console.log('isShowFreeTrainers2 :');     
+        for(let i = 0; i < apiTrainers.length; i++){
+           //this.deleteId
+            if(apiTrainers[i].id === id){
+                let trainer= apiTrainers[i];
+                trainer.start = new Date(time);
+                apiPatients.push(trainer);
+            }
+        }
+       
     }
 
     setIntervalAndView = (date, view) => {
@@ -293,8 +303,9 @@ class Schedule extends React.Component {
             // надо нормальную проверка для коуча и студента
             let checkIntervals = this.state.isTransferEvent ? this.props.intervals : []
             let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
-            
+            if(this.state.isShowFreeTrainers2 == 2) checkFreeTrainers = [];
 
+console.log('this.state.isShowFreeTrainers2 :', this.state.isShowFreeTrainers2);
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
