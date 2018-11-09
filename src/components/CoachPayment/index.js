@@ -32,6 +32,58 @@ import DownloadLink from "../DownloadLink";
 
 class CoachPayment extends React.Component{
 
+    filesList = [
+        {
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        },{
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        },{
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        },{
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        },{
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        },{
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        },{
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        },{
+            name: "Заключение.doc",
+        },{
+            name: "Прикрепленный файл с длинным названием.doc",
+        },{
+            name: "Данные 525462.pdf",
+        }
+    ];
+
     constructor() {
         super();
         this.state = {
@@ -77,7 +129,7 @@ class CoachPayment extends React.Component{
     };
 
     renderFilesList = () => {
-        return this.props.filesList.map((file, i) => {
+        return this.filesList.map((file, i) => {
             return <div className="file">
                 <DownloadLink {...file}
                               key={file.id + '' + i}
@@ -106,7 +158,6 @@ class CoachPayment extends React.Component{
 
     render() {
         const payment = this.props.paymentData;
-        const filesList = this.props.filesList;
         return (
             <div className="payment-coach">
                 <Card className="payment-coach-record" title="Акты выполненных работ">
