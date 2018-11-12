@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { findDOMNode } from 'react-dom'
 
 import dates from './utils/dates'
-import localizer from './localizer'
+import localizer from './header/localizer'
 import DayColumn from './DayColumn'
 import TimeColumn from './TimeColumn'
 import Header from './header/Header'

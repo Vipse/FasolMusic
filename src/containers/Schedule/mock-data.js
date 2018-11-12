@@ -18,14 +18,14 @@ export let apiPatients = [
     diagnosis: "",
     doctorName: "Зубрицкий Владимир Анатольевич",
     doctorSpecialty: "",
-    end: new Date(1541411500000),
+    end: new Date(1542201600000),
     endMA: 0,
     fio: "Калинин Роман Сергеевич",
     id: "127326",
     id_doc: "3199",
     id_treatment: "127325",
     id_user: "3095",
-    start: new Date(1541412000000),
+    start: new Date(1542198600000),
 
     timeTraining: 1541409000,
 
@@ -40,14 +40,14 @@ export let apiPatients = [
     diagnosis: "",
     doctorName: "Зубрицкий Владимир Анатольевич",
     doctorSpecialty: "",
-    end: new Date(1541412100000),
+    end: new Date(1542207600000),
     endMA: 0,
     fio: "Пушкин Александр Сергеевич",
     id: "127327",
     id_doc: "3199",
     id_treatment: "127325",
     id_user: "3095",
-    start: new Date(1541418000000),
+    start: new Date(1542204600000),
 
     timeTraining: 1541409000,
 

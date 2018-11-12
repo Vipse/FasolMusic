@@ -1,6 +1,6 @@
 import Calendar from './Calendar'
 import BackgroundWrapper from './BackgroundWrapper'
-import { set as setLocalizer } from './localizer'
+import { set as setLocalizer } from './header/localizer'
 import momentLocalizer from './localizers/moment'
 import globalizeLocalizer from './localizers/globalize'
 import move from './utils/move'

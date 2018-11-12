@@ -305,7 +305,7 @@ class Schedule extends React.Component {
             let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
             if(this.state.isShowFreeTrainers2 == 2) checkFreeTrainers = [];
 
-console.log('this.state.isShowFreeTrainers2 :', this.state.isShowFreeTrainers2);
+
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'

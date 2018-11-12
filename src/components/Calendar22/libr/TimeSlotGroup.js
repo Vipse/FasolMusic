@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import cn from 'classnames'
 import TimeSlot from './TimeSlot'
 import date from './utils/dates.js'
-import localizer from './localizer'
+import localizer from './header/localizer'
 import { elementType, dateFormat } from './utils/propTypes'
 
 import EventSlot from './EventSlot';

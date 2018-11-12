@@ -12,7 +12,7 @@ import {
 
 import { notify } from './utils/helpers'
 import { navigate, views } from './utils/constants'
-import defaultFormats from './formats'
+import defaultFormats from './header/formats'
 import message from './utils/messages'
 import moveDate from './utils/move'
 import Toolbar from './header/Toolbar'
@@ -132,15 +132,16 @@ class Calendar extends React.Component {
 
           </div>
           <div className='rbc-smallcalendar-wrapper'>
-          { (this.props.isUser && 
+          
             <Button
               className="change-worktime"
               btnText={"Изменить рабочее время"}
               size='small'
               type='dark-blue'
               onClick={this.changeWorkTime}
-            />) || <div className="block-change-worktime"></div>
-          }
+            />
+            
+            
             <SmallCalendar 
                 date={current}
                 onChange={onChange}

@@ -1,6 +1,6 @@
 import dates from '../utils/dates'
-import { set } from '../formats'
-import { set as setLocalizer } from '../localizer'
+import { set } from '../header/formats'
+import { set as setLocalizer } from '../header/localizer'
 
 let dateRangeFormat = ({ start, end }, culture, local) =>
   local.format(start, 'd', culture) + ' — ' + local.format(end, 'd', culture)

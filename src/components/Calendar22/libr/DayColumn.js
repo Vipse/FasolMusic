@@ -25,7 +25,7 @@ class DayColumn extends React.Component {
       dayPropGetter,
       ...props
     } = this.props
-
+console.log('this.props :', this.props);
     return (
       <TimeColumn
         {...props}
