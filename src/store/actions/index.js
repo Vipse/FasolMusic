@@ -67,6 +67,7 @@ export {
     changeReceptionStatus,
     getReceptionDuration,
     clearCallback,
+    cancelAppByPatient
 } from './treatment'
 
 

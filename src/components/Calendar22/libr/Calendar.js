@@ -20,6 +20,7 @@ import BackgroundWrapper from './BackgroundWrapper'
 
 import omit from 'lodash/omit'
 import defaults from 'lodash/defaults'
+
 import SmallCalendar from './../../SmallCalendar/index';
 
 import Button from './../../Button/index';
@@ -155,6 +156,7 @@ class Calendar extends React.Component {
           </div> 
         </div>
        
+
       </div>
     )
   }

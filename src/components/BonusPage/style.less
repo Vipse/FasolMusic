@@ -1,0 +1,134 @@
+.bonus {
+
+  .ant-card-body {
+    color: #000;
+  }
+
+  .new-input {
+    input[type="text"] {
+      border-bottom: 1px solid #000;
+    }
+
+    label {
+      font-family: RobotoMedium, sans-serif;
+      color: #000;
+    }
+  }
+
+  background-color: #7544ea;
+  display: grid;
+  grid-template-areas: "record invite invite" "record data refer" "record data refer";
+  grid-template-rows: 244px 266px 244px;
+  grid-template-columns: 493px 581px 380px;
+  grid-gap: 30px;
+
+  .offers {
+    grid-area: record;
+    .ant-card-body {
+      height: calc(100% - 66px);
+    }
+    &-item {
+      margin: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px dashed #777;
+      &-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 25px;
+        .date {
+          font-family: RobotoMedium, sans-serif;
+          font-size: 24px;
+          line-height: 24px;
+          color: #21bedd;
+          text-align: center;
+          margin-right: 40px;
+        }
+        .title {
+          font-size: 18px;
+          line-height: 18px;
+          font-family: RobotoMediumItalic, sans-serif;
+          color: #111;
+        }
+      }
+      &-body {
+        .info {
+          font-family: RobotoRegular, sans-serif;
+          font-size: 14px;
+          line-height: 24px;
+          color: #111;
+        }
+        .link {
+          color: #21bedd;
+          font-size: 12px;
+          line-height: 24px;
+          font-family: RobotoRegular, sans-serif;
+
+        }
+      }
+    }
+
+
+  }
+
+  .second-subscription {
+    grid-area: data;
+    &-container {
+      padding: 25px;
+      .title {
+        font-family: RobotoMediumItalic, sans-serif;
+        font-size: 20px;
+      }
+    }
+  }
+
+  .referLink {
+    grid-area: refer;
+
+    &-column {
+      display: flex;
+      flex-direction: column;
+      padding: 25px;
+
+      .title {
+        font-family: RobotoMediumItalic, sans-serif;
+        font-size: 20px;
+      }
+
+      .info {
+        font-family: RobotoRegular, sans-serif;
+        margin-bottom: 90px;
+      }
+
+      .input {
+        width: 90%;
+        align-self: center;
+        margin-bottom: 60px;
+      }
+
+      .copyBtn {
+        align-self: center;
+      }
+    }
+  }
+
+  .invite {
+    grid-area: invite;
+
+    img {
+      float: left;
+      margin-right: 22px;
+      color: #7544ea;
+    }
+
+    .title {
+      font-family: RobotoMediumItalic, sans-serif;
+      font-size: 20px;
+      margin-top: 22px;
+    }
+
+    .info {
+      font-family: RobotoRegular, sans-serif;
+    }
+  }
+}

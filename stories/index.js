@@ -42,6 +42,10 @@ const loadStories = () => {
     require('../src/components/NewMessageModal/stories');
     require('../src/components/TimePicker/stories');
     require('../src/components/CreateProfile/stories');
+    require('../src/components/StudentPayment/stories');
+    require('../src/components/CoachPayment/stories');
+    require('../src/components/PayModal/stories');
+    require('../src/components/PaymentEditModal/stories');
     require('../src/components/CoachPersonalProfile/stories');
     require('../src/components/CoachPersonalData/stories');
     require('../src/components/CoachPersonalDataContact/stories');
@@ -60,14 +64,14 @@ const loadStories = () => {
     require('../src/components/TopPanelItem/stories');
     require('../src/components/ReceptionsScheduleModal/stories');
     require('../src/components/ProfileAvatar/stories');
-    require('../src/components/DoctorProfileCard/stories');
+    require('../src/components/ProfileCard/stories');
     require('../src/components/CompletionReceptionModal/stories');
     require('../src/components/Review/stories');
     require('../src/components/Card/stories');
     require('../src/components/Reviews/stories');
     //require('../src/components/RadioIcon/stories');
-    require('../src/components/TableNoHeadItem/stories');
-    require('../src/components/TableNoHead/stories');
+    require('../src/components/NearTrainingsItem/stories');
+    require('../src/components/NearTrainings/stories');
     require('../src/components/TreatmentTableItem/stories');
     require('../src/components/TreatmentTable/stories');
     require('../src/components/ReportBugModal/stories');
@@ -79,7 +83,7 @@ const loadStories = () => {
     require('../src/components/WarningModal/stories');
     require('../src/components/NewVisitTypeModal/stories');
     require('../src/components/SideNav/stories');
-    require('../src/components/HistoryReceptionsItem/stories');
+    require('../src/components/HomeworkListItem/stories');
     require('../src/components/HistoryReceptions/stories');
     require('../src/components/ReviewsTree/stories');
     require('../src/components/PersonalContactItem/stories');
@@ -122,7 +126,7 @@ const loadStories = () => {
     require('../src/components/NewVisitModalPage/stories');
     require('../src/components/PopoverFile/stories');
     require('../src/components/PopoverFileBody/stories');
-    require('../src/components/HistoryReceptionsTabs/stories');
+    require('../src/components/HomeworkList/stories');
     require('../src/components/ChatVideoPanel/stories');
     require('../src/components/TopPanelPatientItem/stories');
     require('../src/components/TopPanelPatientPopover/stories');

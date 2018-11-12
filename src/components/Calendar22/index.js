@@ -8,6 +8,7 @@ import momentLocalizer from './libr/localizers/moment.js'
 
 import './react-big-calendar.css'
 import './style.css'
+import PatientPage from "../../containers/MainPage/PatientPage";
 
 moment.locale('ru');
 momentLocalizer(moment);
@@ -48,8 +49,9 @@ class BigCalendar extends React.Component{
                 }
             }) : [];
     };
-    
+
     render() {
+
         return (<div>
             {
                 true ? // this.props.isUser
@@ -60,6 +62,7 @@ class BigCalendar extends React.Component{
                         {...this.props}
 
                    />
+
                     :
                     <Calendar
                         events = {this.changeEvents()}

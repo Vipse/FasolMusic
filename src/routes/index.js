@@ -1,9 +1,11 @@
 import MainPage from '../containers/MainPage'
 import Schedule from '../containers/Schedule'
-import Treatment from '../containers/Treatment'
+import Homework from '../containers/Homework'
 import Patients from '../containers/Patients'
 import PatientsPage from '../containers/PatientsPage'
 import PersonalInfo from '../containers/PersonalInfo'
+import Payment from '../containers/Payment'
+import Bonus from '../containers/Bonus'
 import Reviews from '../containers/Reviews'
 import MyDoctors from '../containers/MyDoctors'
 
@@ -23,8 +25,8 @@ export const docRoutes = [
         exact: true,
     },
     {
-        path: '/app/treatment',
-        component: Treatment,
+        path: '/app/homework',
+        component: Homework,
         exact: true,
     },
     {
@@ -43,6 +45,11 @@ export const docRoutes = [
         exact: true,
     },
     {
+        path: '/app/payment',
+        component: Payment,
+        exact: true,
+    },
+    {
         path: '/app/chat',
         component: Chat,
         exact: true,
@@ -52,6 +59,12 @@ export const docRoutes = [
         component: Reviews,
         exact: true,
     },
+    {
+        path: '/app/bonus',
+        component: Bonus,
+        exact: true,
+    },
+
 ];
 
 export const patientRoutes = [
@@ -66,12 +79,12 @@ export const patientRoutes = [
         exact: true,
     },
     {
-        path: '/app/treatment',
-        component: Treatment,
+        path: '/app/homework',
+        component: Homework,
         exact: true,
     },
     {
-        path: '/app/doctors',
+        path: '/app/students',
         component: MyDoctors,
         exact: true,
     },
@@ -83,6 +96,11 @@ export const patientRoutes = [
     {
         path: '/app/personal-info',
         component: PersonalInfo,
+        exact: true,
+    },
+    {
+        path: '/app/payment',
+        component: Payment,
         exact: true,
     },
     {
@@ -100,10 +118,13 @@ export const patientRoutes = [
 export const menuDoc =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
-    {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
+
+    {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
     //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
-    //{name: 'app/reviews', title: 'Отзывы пациентов', iconType: 'chat', svg: true},
+    {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
+    {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true},
+
 ];
 
 export const menuPatient =[
@@ -112,6 +133,10 @@ export const menuPatient =[
     {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
    // {name: 'app/doctors', title: 'Мои врачи', iconType: 'user',},
     {name: 'app/personal-info', title: 'Личные данные', iconType: 'setting_edit', svg: true},
-    //{name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
+
+    {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
+    {name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
+
 ];
+
 

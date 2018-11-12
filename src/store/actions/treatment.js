@@ -1,5 +1,6 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
+import {getAllPatientVisits, getCountNearVisits} from "./schedules";
 
 export const getAllTreatments = () => {
 
@@ -97,9 +98,9 @@ export const addFileToApp = (file, id) => {
             id: id,
             files: [file]
         };
+        console.log(obj, "Объект для отправки на /catalog.doc2/addFilesInMA для загрузки файла")
         return axios.post('/catalog.doc2/addFilesInMA',
             JSON.stringify(obj))
-
             .catch(err => {
                 console.log(err);
             })
@@ -281,4 +282,18 @@ export const clearCallback = () => {
     return ({
         type: actionTypes.CLEAR_CALLBACK,
     });
+}
+export const cancelAppByPatient = (id) => {
+
+    return (dispatch) => {
+        return axios.get('/catalog.doc2/userMakingAppDel/id/'+id)
+            .then(res=>{
+                dispatch(getCountNearVisits(3));
+                dispatch(getAllPatientVisits());
+                return res
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 }

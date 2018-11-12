@@ -5,7 +5,7 @@
     height: 62px !important;
     margin: 5px 0 !important;
     &>a {
-        margin: auto 0 auto 66px;
+        margin: auto 0 auto 40px;
     }
 }
 
@@ -31,14 +31,17 @@
 }
 
 .sidenav-root {
+    a {
+        transition: none!important;
+    }
     width: 340px;
     position: absolute;
     height: 100%;
     border-right: 1px solid #e8e8e8;
     transition: 0.2s linear;
     min-height: 840px;
-    * {
-        transition: 0.2s linear;
+    .icon, .anticon, .item-title {
+        transition: 0.2s color linear!important;
     }
     .doctorProfileCard-specialty {
         margin-bottom: 25px;
@@ -83,9 +86,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-left: 55px;
+            margin: 0 55px;
             &:hover {
                 text-decoration: none;
+                color: #21bedd;
             }
             &:before {
                 display: none;
@@ -94,6 +98,16 @@
                 &:before {
                     display: none;
                 }
+            }
+            .icon, .anticon {
+                width: auto;
+                margin: 0!important;
+            }
+        }
+        li.ant-menu-item-selected {
+            a {
+                padding-bottom: 10px;
+                border-bottom: 4px solid #21bedd;
             }
         }
     }
@@ -104,9 +118,7 @@
         a {
             &:hover {
                 text-decoration: none;
-                .item-title {
-                    color: #21bedd;
-                }
+                color: #21bedd;
                 .icon,
                 .anticon {
                     color: #21bedd;
@@ -129,16 +141,6 @@
             color: #21bedd;
             &:hover {
                 text-decoration: none;
-                .item-title {
-                    color: #000;
-                }
-                .icon {
-                    color: #000;
-                }
-                .anticon {
-                    color: #000;
-                    margin: auto 20px auto 0
-                }
             }
             &>.sidenav-root-menu-item {}
             .icon,
@@ -156,10 +158,16 @@
             justify-content: center;
             align-items: center;
             &>.anticon {
-                margin: auto 20px auto 0;
+                width: 50px;
+                margin: 0 20px 0 0!important;
+                display: flex;
+                justify-content: center;
             }
             &>.icon {
-                margin: auto 20px auto 0;
+                width: 50px;
+                margin: 0 20px 0 0!important;
+                display: flex;
+                justify-content: center;
             } //&-selected{
             //  background-color: #21bedd;
             //}
@@ -202,3 +210,9 @@
 .site-link {
     margin: 40px 0 0 60px;
 }
+
+.scrollableSideNav {
+    height: calc(100vh - 100px)!important;
+}
+
+

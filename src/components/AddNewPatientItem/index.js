@@ -16,10 +16,13 @@ class AddNewPatientItem extends React.Component{
 
         flag==="add" ? this.props.onAdd(this.props.id) :  this.props.onDelete(this.props.id, this.props.name);
     }
-
+    highlight = (text, higlight) => {
+        let parts = text.split(new RegExp(`(${higlight})`, 'gi'));
+        return <span>{parts.map(part => part.toLowerCase() === higlight.toLowerCase() ? <b>{part}</b> : part)}</span>;
+    }
     render(){
         const { name, age, avatar, online, isSearchItem, usertype, academicdegree,
-            academicstatus, category, specialitys, favorite} = this.props;
+            academicstatus, category, specialitys, favorite, searchQuery} = this.props;
 
         return (
             <div className='new-patient-item' onClick={() => this.props.onGoto(this.props.id)}>
@@ -35,6 +38,7 @@ class AddNewPatientItem extends React.Component{
                             (academicstatus ? academicstatus+ ". " : "") +
                             (category ? category + ". " : "")
                         ) :  "Дисциплина"} </div>
+
                 </div>
                 {
                     !isSearchItem && <div className='new-patient-btn'>

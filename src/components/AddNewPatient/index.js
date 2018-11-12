@@ -17,7 +17,7 @@ class AddNewPatient extends React.Component{
             loading: false
         };
     }
-    
+
     onAddHandler = (id) => {
         this.props.onAdd(id, this.state.inputValue);
     };
@@ -25,8 +25,11 @@ class AddNewPatient extends React.Component{
     patientsRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<AddNewPatientItem {...item}
-                                        onAdd={this.onAddHandler} 
-                                        key={item.id + ''+index}/>)
+                                        onAdd={this.onAddHandler}
+                                        key={item.id + ''+index}
+                                        searchQuery = {this.state.inputValue}
+
+            />)
         });
 
     };
@@ -93,7 +96,7 @@ class AddNewPatient extends React.Component{
             >
                 <div className='new-patient'>
                     <div className='new-patient-search'>
-                        <Input.Search placeholder="Введите ФИО пациента" 
+                        <Input.Search placeholder="Введите ФИО пациента"
                                     ref={inp => this.inp = inp}
                                       onSearch={this.handleSearch}
                                       onChange={this.handleChange}
@@ -127,7 +130,7 @@ AddNewPatient.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object),
     visible: PropTypes.bool,
     onCancel: PropTypes.func,
-    onAdd: PropTypes.func, 
+    onAdd: PropTypes.func,
     onSearch: PropTypes.func,
 };
 

@@ -72,6 +72,5 @@
   left: 24px;
 }
 .popover-num.active {
-  background-color: #fdc401;
-  color: #fff;
+  color: #111;
 }

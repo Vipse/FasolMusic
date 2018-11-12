@@ -5,11 +5,29 @@ import Button from '../Button'
 
 import Icon from '../Icon'
 import './style.css'
+import {message, Modal} from "antd";
 
 
 const PatientCalendarPopover = (props) => {
 
   	const { appointmentNum, appointmentSpec, appointmentName, appointmentDate, appointmentType, appointmentText, appointmentTypeTitle, calendarItem, onGoto, onGotoName} = props;
+
+    const cancelApp = (id) => {
+        Modal.confirm({
+            title: `Вы действительно хотите отменить приём?`,
+            width: '445px',
+            okText: 'Да',
+            cancelText: 'Нет',
+            onOk() {
+                props.cancelAppByPatient(id).then((res)=>{
+                    if(res.data.code === 200) {
+                        message.success("Приём успешно отменен")
+                    }
+                })
+            },
+        });
+    };
+
 
     return (
     	<div className='popover-calendar'>
@@ -36,6 +54,14 @@ const PatientCalendarPopover = (props) => {
                                      size={17}
                                      svg
                                      title={item.appointmentTypeTitle} />
+                                {+moment(item.event.start).format('X') - 10800 > +moment().format('X') && <Icon
+                                     type="circle_close"
+                                     size={17}
+                                     svg
+                                     title="Отменить приём"
+                                     style={{marginLeft:"10px", cursor:"pointer"}}
+                                     onClick={()=>cancelApp(item.event.id)}
+                                />}
                             </div>
 						</div>
 						<div className='popover-calendar-text'>{item.appointmentText}</div>

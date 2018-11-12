@@ -13,6 +13,8 @@ import './style.css'
 import Hoc from '../../../hoc'
 import PerfectScrollbar from "react-perfect-scrollbar";
 import ChatFiles from "../../../components/ChatFiles";
+import { detect } from 'detect-browser';
+const browser = detect();
 
 class ChatAudioContent extends React.Component {
 	constructor(props){
@@ -21,6 +23,7 @@ class ChatAudioContent extends React.Component {
         this.state = {
             isActive: false
         }
+        this.isSafari = browser ? browser.name == 'safari' : true;
 	}
     toggleFilesArea = () => {
         (!this.state.isActive) && this.props.getAllFilesTreatment(this.props.id_treatment);
@@ -35,8 +38,40 @@ class ChatAudioContent extends React.Component {
 
         });
     };
+    componentDidMount(){
+        this.isSafari && this.startPlayVideo(this.videoOut, this.videoOutPlayInterval);
+    }
     componentWillReceiveProps(nextProps) {
+        const { id_treatment: next_id_treatment, 
+			receptionId: nextReceptionId, 
+			isCalling: nextIsCalling } = nextProps;
+		const { id_treatment, receptionId, isCalling } = this.props;
+		this.isSafari && 
+			(next_id_treatment !== id_treatment || nextReceptionId !== receptionId || nextIsCalling !== isCalling)
+				&& (
+					this.startPlayVideo(this.videoOut, this.videoOutPlayInterval)
+				);
         this.setState({isActive: nextProps.filesActive})
+    }
+    componentWillUnmount(){
+		clearInterval(this.videoInPlayInterval);
+		clearInterval(this.videoOutPlayInterval);
+	}
+    startPlayVideo = (video, intervalVar) =>{
+		let promise;
+		this.videoOut && (promise = this.videoOut.play());
+		promise && promise.then(() => {
+			console.log('Automatic playback started!');
+			clearInterval(intervalVar);
+		})
+		.catch(() => {
+			console.log('Automatic playback was prevented!');
+			!intervalVar && (intervalVar = setInterval(this.startPlayVideo(video), 300))
+		})
+	}
+    setVideoOutRef = (video) => {
+        this.videoOut = video;
+        this.props.setVideoOut(video);
     }
 	renderCallArea = () => {
 		const panelClass = cn('chat-card-video__panel', {'chat-card-video__panel-active': this.props.isActiveChat});
@@ -44,11 +79,20 @@ class ChatAudioContent extends React.Component {
         let {s, m, h} = this.props.timer;
 		return (<Hoc>
 			<div className='chat-card-video__area'>
-				<video className='chat-card-video__box'
-						ref={video => this.props.setVideoOut(video)}
-						autoPlay
+				{this.isSafari ? (
+                    <video className='chat-card-video__box'
+                    ref={this.setVideoOutRef}
+                    playsInline
+                    poster={avatar}
+                    ></video>
+                ) : (
+                    <video className='chat-card-video__box'
+						ref={this.setVideoOutRef}
+                        autoPlay
 						poster={avatar}
 						></video>
+                )}
+                
                 <div className={panelClass}>
                     <ChatVideoPanel
                         onStop={() => {

@@ -11,6 +11,7 @@ import SelectNew from "../SelectNew";
 
 import addInfoObj from "../../helpers/addInfoObj";
 import langsArray from "../../helpers/langsArray";
+import TextArea from "../TextArea";
 
 const FormItem = Form.Item;
 
@@ -34,7 +35,7 @@ class PersonalInformationItemForm extends React.Component{
     render(){
         const { getFieldDecorator } = this.props.form;
 
-        let {language, isChildConsult, consultationPrice, isFreeConsult} = this.props.profileDoctor;
+        let {language, isChildConsult, consultationPrice, isFreeConsult, about} = this.props.profileDoctor;
 
         const rootClass = cn('personal-information');
         const RadioGroup = Radio.Group;
@@ -86,6 +87,18 @@ class PersonalInformationItemForm extends React.Component{
                                 </RadioGroup>
                             )}
                         </div>
+                        <FormItem>
+                            <div className="textarea-label">О себе</div>
+                            {getFieldDecorator('about', {
+                                initialValue: about
+                            })(
+
+                                    <textarea className="textarea-field"
+                                              style={{height: "200px"}}
+
+                                    />
+                            )}
+                        </FormItem>
                     </div>
 
                     <div className="personal-block">

@@ -1,0 +1,85 @@
+.homework-list-item {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+}
+.homework-list-item:hover {
+  background-color: rgba(33, 190, 221, 0.1);
+}
+.homework-list-item .flex-col {
+  padding: 25px 0;
+  text-align: center;
+  margin-right: 1%;
+  font-size: 14px;
+  line-height: 22px;
+  color: #111111;
+  font-family: "RobotoRegular", sans-serif;
+}
+.homework-list-item .flex-col:first-child {
+  margin-left: 1%;
+}
+.homework-list-item .flex-col:nth-child(1) {
+  width: 10%;
+}
+.homework-list-item .flex-col:nth-child(2) {
+  width: 10%;
+}
+.homework-list-item .flex-col:nth-child(3) {
+  width: 10%;
+}
+.homework-list-item .flex-col:nth-child(4) {
+  width: 13%;
+}
+.homework-list-item .flex-col:nth-child(5) {
+  width: 40%;
+}
+.homework-list-item .flex-col:nth-child(6) {
+  width: 10%;
+}
+.homework-list-item .flex-col .name {
+  font-size: 14px;
+  line-height: 24px;
+  color: #21bedd;
+  font-family: "RobotoBlack", sans-serif;
+  font-weight: 800;
+}
+.homework-list-item .flex-col .training-date .time {
+  font-size: 12px;
+  line-height: 26px;
+  color: #777;
+}
+.homework-list-item .flex-col .sendHomework {
+  position: relative;
+}
+.homework-list-item .flex-col .sendHomework-area {
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  resize: none;
+  height: 120px;
+  color: #333;
+  font-family: RobotoRegular, sans-serif;
+  outline: none;
+  padding: 20px;
+}
+.homework-list-item .flex-col .sendHomework-area::placeholder {
+  color: #777777;
+}
+.homework-list-item .flex-col .sendHomework-btn {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  bottom: 12px;
+  right: 12px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+}
+.homework-list-item .flex-col .sendHomework-btn:hover span.icon {
+  color: #777;
+}
+.homework-list-item .flex-col .sendHomework-btn span.icon {
+  font-size: 15px;
+  cursor: pointer;
+  color: #bbbbbb;
+}

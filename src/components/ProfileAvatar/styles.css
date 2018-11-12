@@ -15,14 +15,12 @@
 .profileAvatar-size-small .profileImg {
   width: 46px;
   height: 46px;
-  border: 1px solid #fff;
 }
 .profileAvatar-size-small .profileImg .profileAvatar-indicator {
   right: 2px;
   top: 2px;
   width: 8px;
   height: 8px;
-  border: 1px solid #fff;
 }
 .profileAvatar-size-medium {
   margin-bottom: 20px;
@@ -30,7 +28,6 @@
 .profileAvatar-size-medium .profileImg {
   width: 90px;
   height: 90px;
-  border: 2px solid #fff;
 }
 .profileAvatar-size-medium .profileImg .profileAvatar-indicator {
   right: 14px;
@@ -54,9 +51,6 @@
   height: 14px;
   border: 2px solid #fff;
 }
-.profileAvatar-status-offline {
-  border: 2px solid #d8d8d8;
-}
 .profileAvatar-status-offline .profileAvatar-indicator {
   background-color: #d8d8d8;
 }
@@ -66,9 +60,4 @@
 .profileAvatar-status-offline.profileAvatar-size-small .profileAvatar-indicator {
   background-color: #ef5350;
 }
-.profileAvatar-owner-patient {
-  border: none;
-}
-.profileAvatar-owner-patient .profileImg {
-  border: none;
-}
+/*# sourceMappingURL=styles.css.map */

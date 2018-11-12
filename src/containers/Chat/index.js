@@ -16,6 +16,7 @@ class Chat extends React.Component{
 
     componentDidMount(){
         this.props.onGetTodayVisits();
+        console.log('chat version 1.0');
     }
     componentWillMount(){
         //this.props.getTodayReceptions();

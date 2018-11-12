@@ -9,8 +9,8 @@ import {patientArr} from './mock-data'
 storiesOf('PatientTable', module)
     .add('PatientTable', () => (
         <div>
-            <PatientTable data={patientArr} 
-                        onAdd={() => console.log('ererre')}
+            <PatientTable data={patientArr}
+                        onAdd={() => console.log('eee')}
                         onGoto={(id) => console.log('goto', id)}
                         onSearch={(a) => console.log(a)}
                         onNewMessage={(obj) => console.log('e ',obj)}

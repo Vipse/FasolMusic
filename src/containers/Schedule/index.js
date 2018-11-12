@@ -17,6 +17,7 @@ import * as actions from '../../store/actions'
 import './styles.css'
 import {findTimeInterval} from '../../helpers/timeInterval'
 import {timePeriod} from './mock-data'
+import PatientPage from "../MainPage/PatientPage";
 
 import { apiPatients, apiTrainers} from './mock-data';
 
@@ -286,6 +287,7 @@ class Schedule extends React.Component {
                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
 
                                 
+
             />)
         } 
         else {
@@ -435,6 +437,8 @@ const mapDispatchToProps = dispatch => {
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         onSelectEvent: (event) => dispatch(actions.selectEvent(event)),
         onEventDelete: () => dispatch(actions.deleteEvent()),
+        cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id))
+
     }
 };
 

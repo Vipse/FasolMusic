@@ -341,7 +341,7 @@ wss.on('connection', function(ws) {
             break;
 
         case 'closeReception':
-            closeReception(message.name, message.other_name);
+            closeReception(message.name, message.other_name, message.receptionId);
             break;
 
         case 'onIceCandidate':
@@ -574,12 +574,13 @@ function startReception(name, other_name, receptionId){
         }
 }
 
-function closeReception(name, other_name){
+function closeReception(name, other_name, receptionId){
         var callee = userRegistry.getByName(other_name);
         try{
             callee && callee.sendMessage({
                 id: 'closeReception',
                 by: name,
+                receptionId
             });
             return;
         } catch(exception) {

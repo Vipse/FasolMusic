@@ -1,76 +1,36 @@
 .panelItem {
     width: 160px;
     height: 160px;
-    margin-top: 22px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     z-index: 2;
     position: relative;
     border: 2px solid #21bedd;
     border-radius: 100%;
     color: #21bedd;
-    &.first-col {
-        border: none !important;
-        .panelItem-header {
-            margin-bottom: 0.25rem;
-            .icon,
-            .anticon {
-                color: #fff;
-                margin-bottom: 0.25rem;
-                @media(max-width: 1620px) {
-                    font-size: 24px !important;
-                }
-            }
-            .panel-title {
-                width: 100%;
-                font-size: 28px;
-                @media(max-width: 1620px) {
-                    font-size: 22.5px;
-                }
-            }
-        }
-        .panelItem-num {
-            font-size: 1rem;
-            font-family: "RobotoRegular";
-            text-align: left;
-        }
-    }
-    &-header {
-        align-items: center;
-        width: 100%;
-        margin-bottom: 1rem;
-        .icon,
-        .anticon {
-            margin-right: 1.25rem;
-            color: #fdc401;
-        }
-        .panel-title {
-            font-size: 18px;
-            color: #344051;
-            white-space: inherit;
-            text-align: center;
-            font-style: italic;
-            @media(max-width: 1620px) {
-                font-size: 16px;
-            }
-        }
-    }
-    &-num {
-        font-size: 50px;
-        font-family: "RobotoLight";
-        text-align: center;
-        display: block;
-        width: 100%;
-        line-height: 1;
-        font-weight: bold;
-        margin: 10px 0px;
-        @media(max-width: 1620px) {
-            font-size: 40px;
-        }
-    }
-}
+    &-value, &-description {
+        height: 50%;
 
-.panelItem-num-next {
-    font-size: 30px;
-    text-align: center;
-    margin: 12px 0;
+    }
+    &-value {
+        display: flex;
+        align-items: flex-end;
+        max-width: 80%;
+        text-align: center;
+        color: #21bedd;
+        font-size: 30px;
+        font-family: RobotoMedium, sans-serif;
+        margin-bottom: 5px;
+
+    }
+    &-description {
+        max-width: 75%;
+        text-align: center;
+        color: #111;
+        font-size: 18px;
+        line-height: 24px;
+        font-family: RobotoMediumItalic, sans-serif;
+    }
 }

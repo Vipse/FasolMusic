@@ -2,41 +2,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
     &-search {
         width: 100%;
         max-width: 300px;
         z-index: 12;
-        .ant-input-search {
-            display: flex;
-            flex-direction: row;
-            position: relative;
-            align-items: center;
-            .ant-input {
-                border: none;
-                border-radius: 0;
-                color: #000;
-                position: relative;
-                padding-left: 20px;
-            }
-            .ant-input-suffix {
-                position: relative;
-                right: auto;
-                top: auto;
-                transform: none;
-                .anticon,
-                .icon {
-                    color: #344051;
-                }
-            }
-        }
     }
-    &-call {
+    &-train {
         margin-left: auto;
         margin-right: 135px;
         button {
             &:last-child {
                 margin-right: 0;
             }
+        }
+        @media screen and(max-width: 1420px) {
+            margin-right: auto;
         }
     }
     &-notification {
@@ -70,10 +51,9 @@
 }
 
 .header-btn {
-    width: 200px;
-    margin-left: 30px;
+    width: 190px;
 }
 
 .header-btn-transfer {
-    margin-left: 50px;
+    margin-left: 40px;
 }

@@ -83,7 +83,10 @@ class Patients extends React.Component{
             },
           });
     }
-
+    onSearch = (query) => {
+        this.setState({searchQuery: query});
+        return this.props.onSearch(query)
+    }
     render(){
         return (
         	<Hoc>

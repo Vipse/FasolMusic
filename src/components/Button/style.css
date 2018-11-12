@@ -218,12 +218,13 @@
   color: #fff;
   background-color: #21bedd;
 }
-.btn-type-pink {
+.btn-type-border-pink {
   background-color: #fff;
   color: #ff7daa;
   border: 1px solid #ff7daa;
+  font-family: RobotoMedium, sans-serif;
 }
-.btn-type-pink:hover {
+.btn-type-border-pink:hover {
   color: #fff;
   background-color: #ff7daa;
 }
@@ -287,6 +288,55 @@
   color: #fff;
 }
 .btn-type-pink:hover .icon {
+  color: #fff;
+}
+.btn-type-light-pink {
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: transparent;
+  color: #ff7daa;
+  text-transform: none;
+  border: 1px solid #ff7daa;
+}
+.btn-type-light-pink:hover {
+  background-color: #ff7daa;
+  color: #fff;
+}
+.btn-type-light-green {
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: transparent;
+  color: #2abb6c;
+  text-transform: none;
+  border: 1px solid #2abb6c;
+}
+.btn-type-light-green:hover {
+  background-color: #2abb6c;
+  color: #fff;
+}
+.btn-type-black {
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: transparent;
+  color: #000;
+  text-transform: none;
+  border: 1px solid #000;
+}
+.btn-type-black:hover {
+  background-color: #000;
+  color: #fff;
+}
+.btn-type-border-green {
+  background-color: #fff;
+  color: #2abc6c;
+  font-family: RobotoMedium, sans-serif;
+  font-size: 12px;
+  border: 1px solid #2abc6c;
+  border-radius: 0;
+  text-transform: none;
+}
+.btn-type-border-green:hover {
+  background-color: #2abc6c;
   color: #fff;
 }
 .btn-type-bright-blue {

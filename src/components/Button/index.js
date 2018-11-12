@@ -51,7 +51,10 @@ Button.propTypes ={
     className: PropTypes.string,
     type: PropTypes.oneOf(['blue','dark-blue','float','yellow',
         'gradient','icon','light-blue', 'file', 'link', 'go',
-        'blue-float', 'no-brd', 'upload', 'transparent', 'emergency', 'emergensy', 'pink', 'bright-blue', 'week']),
+        'blue-float', 'no-brd', 'upload', 'transparent', 'emergency',
+        'emergensy', 'pink', 'bright-blue', 'light-pink', 'light-green',
+        'black']),
+
     size: PropTypes.oneOf(['small', 'default', 'large', 'icon',
         'file', 'link', 'file all-download', 'go', 'upload', 'mini']),
     btnText: PropTypes.string,
