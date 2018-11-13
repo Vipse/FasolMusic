@@ -5,11 +5,11 @@ import Modal from '../Modal'
 import Content from './content'
 import './styles.css'
 
-const TrialTrainModal = (props) => {
+const TransferRecordModal = (props) => {
     
     return (
-        <Modal title='Запишись на пробную тренировку'
-               width={770}
+        <Modal title="Перенос тренировки"
+               width={400}
                visible={props.visible}
                onCancel={props.onCancel}
         >
@@ -19,18 +19,18 @@ const TrialTrainModal = (props) => {
     
 }
 
-TrialTrainModal.propTypes = {
+TransferRecordModal.propTypes = {
     visible: PropTypes.bool,
     subjects: PropTypes.array,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 };
 
-TrialTrainModal.defaultProps = {
+TransferRecordModal.defaultProps = {
     visible: false,
     subjects: [],
     onSave: () => {},
     onCancel: () => {},
 };
 
-export default TrialTrainModal;
+export default TransferRecordModal;

@@ -13,12 +13,14 @@ class ContentForm extends React.Component {
     state = {
         message: '',
         loading: false,
-        selectedDays: []
+        selectedDays: [],
+        confirmed: false
     };
 
     componentWillMount() {
         this.setState({
-            selectedDays: new Array(7).fill(false)
+            selectedDays: new Array(7).fill(false),
+            confirmed: false
         });
     }
 
@@ -34,7 +36,6 @@ class ContentForm extends React.Component {
                     }
                 });
                 let finalData = {
-                    subject: values.subject,
                     fasolIntervals: fasolIntervals
                 };
 
@@ -70,27 +71,32 @@ class ContentForm extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const subjectArr = this.props.subjects.length ? this.props.subjects : ['Гитара', 'Вокал'];
 
-        return (
+        if (!this.state.confirmed) return (
+          <div className="TransferRecordModal">
+              <p className="attention">Вы уверены, что хотите отменить эту тренировку?</p>
+              <div className="TransferRecordModal-confirm">
+                  <Button className="saveBtn"
+                          btnText='Да'
+                          onClick={() => {this.setState({confirmed: true})}}
+                          size='small'
+                          type='black'
+                  />
+                  <Button className="saveBtn"
+                          btnText='Назад'
+                          onClick={this.props.onCancel}
+                          size='small'
+                          type='light-pink'
+                  />
+              </div>
+          </div>
+        );
+        else return (
             <Form onSubmit={this.handleSubmit}
-                  className="NewRecordScheduleModal">
+                  className="TransferRecordModal">
                 <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                 </p>
-                <FormItem>
-                    <div className='radio-label'>Выбери дисциплину</div>
-                    {getFieldDecorator('subject', {
-                        initialValue: subjectArr[0],
-                        rules: [{
-                            required: true,
-                            message: 'Выберите дисциплину, пожалуйста'
-                        }],
-                    })(
-                        <SelectNew width ="80%"
-                                   data={subjectArr}/>
-                    )}
-                </FormItem>
                 <FormItem>
                     <div className='radio-label'>Выбери дни</div>
                     {getFieldDecorator('days', {
@@ -127,7 +133,7 @@ class ContentForm extends React.Component {
                             btnText='Сохранить'
                             onClick={() => {}}
                             size='default'
-                            type='yellow-black'
+                            type='light-pink'
                     />
                     {this.state.loading && <Spinner/>}
                 </div>

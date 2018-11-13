@@ -1,19 +1,11 @@
 import React from 'react';
 import moment from 'moment'
 import {Form, message} from 'antd';
-import TextArea from '../TextArea'
-import Upload from '../Upload'
-import Icon from '../Icon'
 import TimePicker from '../TimePicker'
-import {previewFile} from "../../helpers/modifyFiles";
 import Checkbox from '../Checkbox'
 import Button from '../Button'
-import Hr from "../Hr";
 import Spinner from "../Spinner";
-import Radio from "../RadioBox";
-import RadioGroup from "antd/es/radio/group";
-import RangeTp from "../TimePicker/RangeTP";
-import Slider from "antd/es/slider";
+import SelectNew from "../SelectNew";
 
 const FormItem = Form.Item;
 
@@ -24,22 +16,37 @@ class ContentForm extends React.Component {
         selectedDays: []
     };
 
+    componentWillMount() {
+        this.setState({
+            selectedDays: new Array(7).fill(false)
+        });
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 //this.setState({loading: true});
-                this.setState({completed: true});
-                let selectedDaysObj = {};
-                this.state.selectedDays.forEach((item, i) => this.state.selectedDays[i] ? selectedDaysObj[i] = item : null);
+                let fasolIntervals = this.state.selectedDays.map((item, i) => {
+                    return {
+                        day: i,
+                        intervals: item ? [{start: values.time[0].format('X') * 1000, end: values.time[1].format('X') * 1000}] : []
+                    }
+                });
                 let finalData = {
-                    ...values,
-                    selectedDays: selectedDaysObj
+                    subject: values.subject,
+                    fasolIntervals: fasolIntervals
                 };
+
                 this.props.onSave(finalData);
             }
             else console.log("error", err);
         })
+    };
+
+    checkGroupValidator = (rule, value, callback) => {
+        if (this.state.selectedDays.includes(true)) callback();
+        callback('Выберите день, пожалуйста');
     };
 
     handleDayCheck = (num) => {
@@ -63,6 +70,7 @@ class ContentForm extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        const subjectArr = this.props.subjects.length ? this.props.subjects : ['Гитара', 'Вокал'];
 
         return (
         <Form onSubmit={this.handleSubmit}
@@ -73,18 +81,15 @@ class ContentForm extends React.Component {
                 <div className="item">
                     <FormItem>
                         <div className='radio-label'>Выбери дисциплину</div>
-                        {getFieldDecorator('type', {
+                        {getFieldDecorator('subject', {
+                            initialValue: subjectArr[0],
                             rules: [{
                                 required: true,
                                 message: 'Выберите дисциплину, пожалуйста'
                             }],
                         })(
-                            <div className="ant-radio-group">
-                                <RadioGroup style={{display: "flex", flexDirection: "row"}}>
-                                    <Radio value='guitar' key='radio-guitar'>Гитара</Radio>
-                                    <Radio value='vocal' key='radio-vocal'>Вокал</Radio>
-                                </RadioGroup>
-                            </div>
+                            <SelectNew width ="80%"
+                                data={subjectArr}/>
                         )}
                     </FormItem>
                     <p className="info-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -97,8 +102,7 @@ class ContentForm extends React.Component {
                         <div className='radio-label'>Выбери дни</div>
                         {getFieldDecorator('days', {
                             rules: [{
-                                required: true,
-                                message: 'Выберите дни, пожалуйста'
+                                validator: this.checkGroupValidator
                             }],
                         })(
                             <div className="ant-radio-group">
@@ -116,14 +120,8 @@ class ContentForm extends React.Component {
                         })(
                             <TimePicker
                                 range
-                                isReset={false}
-                                rangeSet={[
-                                    {
-                                        defaultStartValue: moment(1318781876),
-                                        defaultEndValue: moment(1378781876)
-                                    }
-                                ]}
                                 delimiter='&mdash;'
+                                isReset={true}
                                 availableArea={[{
                                     from: 1528318800000,
                                     to: 1528318800000 - 1

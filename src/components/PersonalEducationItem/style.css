@@ -5,10 +5,6 @@ a:hover {
   color: #204d8d;
   text-decoration: underline;
 }
-.ant-form-explain {
-  position: absolute;
-  top: 45px;
-}
 .personal-education .personal-title {
   font-size: 12px;
   letter-spacing: 0px;

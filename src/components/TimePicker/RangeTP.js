@@ -112,21 +112,27 @@ class RangeTp extends React.Component {
                     endValue: null
                 })
             } else if(field==="end") {
-                this.setState({endValue: null})
+                this.setState({
+                    startValue: null,
+                    endValue: null
+                })
             }
-
+            this.props.onChange(null);
         }
 
-       if (field === 'end' && value) {
+       else if (field === 'end' && value) {
             let start = this.state.startValue;
             this.setState({
                 [field]: value,
             });
 
-            if(!start){
+            if(!start || value < start){
                 const {rangeSet} = this.props;
                 const {defaultStartValue} = rangeSet;
                 start = defaultStartValue || value;
+                this.setState({
+                    startValue: start,
+                });
             }
             this.props.onChange([start, value]);
         }
@@ -139,7 +145,7 @@ class RangeTp extends React.Component {
             });
             this.props.onChange([roundVal, roundVal]);
         }
-        this.setState({isReset:false});
+        this.setState({isReset: false});
         //this.props.onChange([value, value], field, this.props.id);
         //this.props.id ? this.props.onChange(value, field, this.props.id) : this.props.onChange(value, field);
     };
@@ -174,7 +180,7 @@ class RangeTp extends React.Component {
     }
 
     render() {
-        const {format,delimiter, minuteStep} = this.props;
+        const {format, delimiter, minuteStep} = this.props;
         const {rangeSet} = this.props;
         const {defaultStartValue, defaultEndValue} = rangeSet;
         const {startValue, endValue} = this.state;
@@ -197,9 +203,7 @@ class RangeTp extends React.Component {
                                minuteStep={minuteStep}
                                disabledHours={() => this.state.disabledHours}
                                disabledMinutes={() => this.disabledMinutes}
-                               onChange={(val) => {
-                                   this.onChange("end", val)
-                               }}/>
+                               onChange={(val) => this.onChange("end", val)}/>
             </div>
         )
     }

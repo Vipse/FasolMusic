@@ -1,39 +1,50 @@
-.NewRecordScheduleModal {
+.TransferRecordModal {
   padding: 10px 30px 40px 30px;
   display: flex;
   flex-direction: column;
   justify-content: left;
 }
-.NewRecordScheduleModal .info {
+.TransferRecordModal .attention {
+  font-family: RobotoRegularItalic;
+  font-size: 14px;
+  text-align: center;
+}
+.TransferRecordModal-confirm {
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+  justify-content: space-evenly;
+}
+.TransferRecordModal .info {
   font-family: RobotoRegularItalic;
   color: #000;
   font-size: 12px;
 }
-.NewRecordScheduleModal .radio-label {
+.TransferRecordModal .radio-label {
   color: #000;
   font-family: RobotoMedium;
 }
-.NewRecordScheduleModal .item-title {
+.TransferRecordModal .item-title {
   color: #000;
   font-family: RobotoMedium;
 }
-.NewRecordScheduleModal .submitPlate {
+.TransferRecordModal .submitPlate {
   display: flex;
   margin-top: 20px;
   align-items: center;
   justify-content: space-evenly;
 }
-.NewRecordScheduleModal .submitPlate .saveBtn {
+.TransferRecordModal .submitPlate .saveBtn {
   width: 20%;
 }
-.NewRecordScheduleModal .submitPlate .spinner-wrapper {
+.TransferRecordModal .submitPlate .spinner-wrapper {
   padding-left: 10px;
 }
-.NewRecordScheduleModal-submit {
+.TransferRecordModal-submit {
   display: flex;
   align-items: center;
 }
-.NewRecordScheduleModal-submit-error {
+.TransferRecordModal-submit-error {
   color: #f5222d;
   margin-left: 30px;
 }

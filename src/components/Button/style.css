@@ -315,6 +315,14 @@
 .btn-type-yellow-black {
   background-color: #ffd000;
   color: #000;
+  border-radius: 10px;
+  font-family: RobotoBold;
+  text-transform: none;
+  font-size: 14px;
+}
+.btn-type-yellow-black:hover {
+  background-color: #21bedd;
+  color: #fff;
 }
 .btn-type-border-green {
   background-color: #fff;

@@ -21,18 +21,12 @@ const RecordCompleteModal = (props) => {
 
 RecordCompleteModal.propTypes = {
     visible: PropTypes.bool,
-    date: PropTypes.number,
-    patients: PropTypes.array,
-    isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 };
 
 RecordCompleteModal.defaultProps = {
     visible: false,
-    date: null,
-    patients: [],
-    isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},
 };

@@ -21,18 +21,14 @@ const NewRecordScheduleModal = (props) => {
 
 NewRecordScheduleModal.propTypes = {
     visible: PropTypes.bool,
-    date: PropTypes.number,
-    patients: PropTypes.array,
-    isChoosebleTime: PropTypes.bool,
+    subjects: PropTypes.array,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 };
 
 NewRecordScheduleModal.defaultProps = {
     visible: false,
-    date: null,
-    patients: [],
-    isChoosebleTime: false,
+    subjects: [],
     onSave: () => {},
     onCancel: () => {},
 };
