@@ -46,6 +46,9 @@ const loadStories = () => {
     require('../src/components/CoachPayment/stories');
     require('../src/components/PayModal/stories');
     require('../src/components/PaymentEditModal/stories');
+    require('../src/components/TrialTrainModal/stories');
+    require('../src/components/NewRecordScheduleModal/stories');
+    require('../src/components/RecordCompleteModal/stories');
     require('../src/components/CoachPersonalProfile/stories');
     require('../src/components/CoachPersonalData/stories');
     require('../src/components/CoachPersonalDataContact/stories');

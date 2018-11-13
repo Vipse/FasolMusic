@@ -17,6 +17,7 @@ import {Form, message} from "antd";
 import cardIcon from "../../img/card.png"
 import yandexMoneyIcon from "../../img/yandexMoney.png"
 import PayModal from "../PayModal";
+import TrialTrainModal from "../TrialTrainModal";
 
 class StudentPayment extends React.Component{
 
@@ -221,7 +222,7 @@ class StudentPayment extends React.Component{
                         </div>
                     </div>
                 </Card>
-                <PayModal
+                <TrialTrainModal
                     visible={this.state.modalVisible}
                     onSave = {() => {}}
                     onCancel={() => this.setState({modalVisible: false})}/>

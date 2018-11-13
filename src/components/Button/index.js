@@ -42,7 +42,7 @@ Button.propTypes ={
         'gradient','icon','light-blue', 'file', 'link', 'go',
         'blue-float', 'no-brd', 'upload', 'transparent', 'emergency',
         'emergensy', 'pink', 'bright-blue', 'light-pink', 'light-green',
-        'black']),
+        'black', 'yellow-black']),
     size: PropTypes.oneOf(['small', 'default', 'large', 'icon',
         'file', 'link', 'file all-download', 'go', 'upload', 'mini']),
     btnText: PropTypes.string,

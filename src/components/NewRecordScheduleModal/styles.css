@@ -1,0 +1,75 @@
+.NewRecordScheduleModal {
+  padding: 10px 20px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+.NewRecordScheduleModal .info {
+  font-family: RobotoRegularItalic;
+  color: #000;
+  font-size: 12px;
+}
+.NewRecordScheduleModal .radio-label {
+  color: #000;
+  font-family: RobotoMedium;
+}
+.NewRecordScheduleModal .item-title {
+  color: #000;
+  font-family: RobotoMedium;
+}
+.NewRecordScheduleModal .submitPlate {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.NewRecordScheduleModal .submitPlate .saveBtn {
+  width: 20%;
+}
+.NewRecordScheduleModal .submitPlate .spinner-wrapper {
+  padding-left: 10px;
+}
+.NewRecordScheduleModal-submit {
+  display: flex;
+  align-items: center;
+}
+.NewRecordScheduleModal-submit-error {
+  color: #f5222d;
+  margin-left: 30px;
+}
+.modal-row {
+  display: flex;
+}
+.modal-result {
+  font-size: 14px;
+  line-height: 18px;
+  color: #344051;
+  font-family: "RobotoMedium";
+}
+.modal-data {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+.modal-data .icon {
+  margin-right: 15px;
+}
+.modal-time {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.modal-time .icon {
+  margin-right: 15px;
+}
+.ant-time-picker-icon .ant-time-picker-clock-icon {
+  color: #21bedd;
+}
+.ant-modal-close-x {
+  color: #000;
+}
+.ant-modal-header .ant-modal-title {
+  background-color: #ff7daa;
+  color: #000;
+  font-family: RobotoRegularItalic;
+}

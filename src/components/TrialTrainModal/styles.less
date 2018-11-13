@@ -1,0 +1,128 @@
+.TrialTrainModal {
+  padding: 10px 40px 40px 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .info {
+    font-family: RobotoRegularItalic;
+    color: #000;
+    width: 100%;
+
+    &-small {
+      font-family: RobotoRegularItalic;
+      color: #c6c1c8;
+      font-size: 12px;
+      width: 270px;
+    }
+
+    &-complete {
+      padding: 20px;
+    }
+  }
+
+  .radio-label{
+    color: #000;
+    font-family: RobotoMedium;
+  }
+
+  .item {
+    width: 50%;
+
+    &-title {
+      color: #000;
+      font-family: RobotoMedium;
+    }
+  }
+
+  .submitPlate {
+    .saveBtn {
+      width: 20%;
+    }
+
+    .spinner-wrapper {
+      padding-left: 10px;
+    }
+
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .payment-fields {
+    display: flex;
+    flex-direction: column;
+    .input-form-item {
+      margin-bottom: 25px;
+    }
+  }
+
+  &-submit {
+    display: flex;
+    align-items: center;
+    &-error {
+      color: #f5222d;
+      margin-left: 30px;
+    }
+  }
+}
+
+.modal {
+
+  &-header {
+
+  }
+  &-row {
+    display: flex;
+  }
+
+  &-result {
+    font-size: 14px;
+    line-height: 18px;
+    color: #344051;
+    font-family: "RobotoMedium";
+  }
+
+  &-data {
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    .icon {
+      margin-right: 15px;
+    }
+  }
+
+  &-time {
+    width: 50%;
+    display: flex;
+    align-items: center;
+
+    .ant-form-item {
+    }
+
+    .icon {
+      margin-right: 15px;
+    }
+  }
+}
+
+.ant {
+  &-time-picker-icon &-time-picker-clock-icon {
+    color: #21bedd;
+  }
+
+  &-modal {
+    &-close-x {
+      color: #000;
+    }
+
+    &-header &-title{
+      background-color: #ff7daa;
+      color: #000;
+      font-family: RobotoRegularItalic;
+    }
+  }
+}
