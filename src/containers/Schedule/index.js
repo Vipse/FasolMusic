@@ -18,7 +18,7 @@ import './styles.css'
 import {findTimeInterval} from '../../helpers/timeInterval'
 import {timePeriod} from './mock-data'
 
-import { apiPatients, apiTrainers} from './mock-data';
+import { apiPatients, apiTrainers, fasolIntervals} from './mock-data';
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -107,7 +107,6 @@ console.log("showModalTransferEvent")
                 this.apiPatientsChanged.push(trainer);
             }
         }
-       console.log('this.apiPatientsChanged :', this.apiPatientsChanged);
     }
 
     setIntervalAndView = (date, view) => {
@@ -288,6 +287,8 @@ console.log("showModalTransferEvent")
 	}
 
     render() {
+        console.log('freeIntervals :', this.props.freeIntervals);
+
         const {dates, currentSched} = this.state.receptionData;
         let editorBtn, calendar, timeSetCall = this.state.receptionData.currentSched.intervalOb, timeSetReception = [];
         let {intervalTime, type, isDayOff} = this.state.receptionData.currentSched;
@@ -333,7 +334,9 @@ console.log("showModalTransferEvent")
                 
             // надо нормальную проверка для коуча и студента
         
-            let checkIntervals = this.state.isTransferEvent ? this.props.intervals : []
+            let checkIntervals = this.state.isTransferEvent ? 
+            fasolIntervals//this.props.intervals 
+            : []
             let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
             if(this.isShowFreeTrainers2 == 2) checkFreeTrainers = [];
 
@@ -441,6 +444,7 @@ console.log("showModalTransferEvent")
 const mapStateToProps = state => {
     return {
         patients: state.patients.docPatients,
+        freeIntervals: state.patients.freeIntervals,
         isUser: state.auth.mode === "user",
         visits: state.schedules.visits,
         intervals: state.schedules.visIntervals,

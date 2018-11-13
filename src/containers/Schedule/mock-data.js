@@ -97,3 +97,58 @@ export let apiTrainers = [
         type: "video",
     }
 ]
+
+
+export let fasolIntervals =  [
+    {
+        day: 0,
+        intervals: [
+            {
+                start: 1540875800000,
+                end: 1540929400000
+            }    
+        ]
+    },
+    {
+        day: 1,
+        intervals: [
+            {
+                start: 1540875900000,
+                end: 1540929300000
+            }    
+        ]
+    },
+    {
+        day: 2,
+        intervals: [
+            {
+                start: 1540875900000,
+                end: 1540929300000
+            }    
+        ]
+    },
+    {
+        day: 3,
+        intervals: [
+            {
+                start: 1540875900000,
+                end: 1540929300000
+            }    
+        ]
+    },
+    {
+        day: 4,
+        intervals: [  
+        ]
+    },
+    {
+        day: 5,
+        intervals: [  
+        ]
+    },
+    {
+        day: 6,
+        intervals: [  
+        ]
+    }
+]

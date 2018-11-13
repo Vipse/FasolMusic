@@ -405,6 +405,13 @@ export const unselectPatient = () => {
     }
 }
 
+export const setFreeIntervals = (freeIntervals) => {
+    return {
+        type: actionTypes.SET_FREE_INTERVALS,
+        freeIntervals: freeIntervals
+    }
+}
+
 
 // /putMessage
 export const sendMessage = (message) => {

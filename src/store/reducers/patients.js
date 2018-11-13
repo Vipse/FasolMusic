@@ -77,6 +77,12 @@ const reducer = (state = initialState, action) => {
                 isLoadingPatientDoctors: true,
             }
 
+        case actionTypes.SET_FREE_INTERVALS:
+            return {
+                ...state,
+                freeIntervals: action.freeIntervals,
+            }
+            
         default: return state;
     }
 }

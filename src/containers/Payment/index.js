@@ -16,6 +16,9 @@ class Payment extends React.Component{
 
     render() {
         let isUser = this.props.auth.mode === "user";
+
+        // убрать
+        isUser = true;
         return (
             <Hoc>
                 {isUser ? (<StudentPayment/>)

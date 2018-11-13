@@ -1,23 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types'
-import cn from 'classnames'
-
+import React from 'react'
 import Button from '../Button'
-import Input from '../Input'
-import Rate from '../Rate'
-import Icon from '../Icon'
-import Popover from '../Popover'
 
 import './style.css'
 import '../../icon/style.css'
 import Card from "antd/es/card";
 import InputNew from "../InputNew";
-import Spinner from "../Spinner";
-import {Form, message} from "antd";
 import cardIcon from "../../img/card.png"
 import yandexMoneyIcon from "../../img/yandexMoney.png"
 import PayModal from "../PayModal";
-import TrialTrainModal from "../TrialTrainModal";
+
+import * as actions from '../../store/actions'
+import {connect} from "react-redux";
 
 class StudentPayment extends React.Component{
 
@@ -43,6 +36,11 @@ class StudentPayment extends React.Component{
         });
     };
 
+    selectPlan = (typeSubscription) => {
+        // здесь должно быть typeSubscription
+        this.props.onSetFreeIntervals({count : 4})
+    }
+
     renderInput = (type) => {
       return (
           <div className="payment-method-field">
@@ -66,6 +64,7 @@ class StudentPayment extends React.Component{
 
     render() {
         const payment = this.props.paymentData;
+        
         return (
             <div className="payment-student">
                 <Card className="payment-student-trainingPlans" title="Планы тренировок">
@@ -222,7 +221,7 @@ class StudentPayment extends React.Component{
                         </div>
                     </div>
                 </Card>
-                <TrialTrainModal
+                <PayModal
                     visible={this.state.modalVisible}
                     onSave = {() => {}}
                     onCancel={() => this.setState({modalVisible: false})}/>
@@ -231,14 +230,19 @@ class StudentPayment extends React.Component{
     }
 }
 
-StudentPayment.propTypes = {
-    paymentData: PropTypes.object,
-    onSubmit: PropTypes.func
+
+const mapStateToProps = state => {
+    return {
+        //freeIntervals: state.patients.freeIntervals,
+        
+    };
 };
 
-StudentPayment.defaultProps = {
-    paymentData: {},
-    onSubmit: () => {}
+const mapDispatchToProps = dispatch => {
+    return {
+        onSetFreeIntervals: (freeIntervals) => dispatch(actions.setFreeIntervals(freeIntervals)),
+    }
 };
 
-export default StudentPayment
+export default connect(mapStateToProps, mapDispatchToProps)(StudentPayment);
+

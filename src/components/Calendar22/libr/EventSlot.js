@@ -6,6 +6,8 @@ import Icon from './../../Icon/index';
 import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import NotificationItem from './../../Notification/index';
 
+import { getRandomTraining } from './header/subscription';
+
 export default class EventSlot extends Component {
     constructor(props) {
         super(props);
@@ -25,12 +27,36 @@ export default class EventSlot extends Component {
             idEvent
         } = this.props;
 
+
+        let want = [
+            {
+                day: 0,
+                intervals: [
+                    {
+                        start: 1540875800000,
+                        end: 1540929400000
+                    }    
+                ]
+            },
+            {
+                day: 1,
+                intervals: [
+                    {
+                        start: 1540875900000,
+                        end: 1540929300000
+                    }    
+                ]
+            }
+        ]
+        getRandomTraining(want);
+
+
+
         let eventStyle = (freeTrainers && freeTrainers.freeTrainers.length && idEvent === freeTrainers.idEvent) ?
             "event-group event-group-freetrainers"
             :
             "event-group";
             
-            console.log('freeTrainers :', freeTrainers);
         return (
         <div className={eventStyle} >
             {freeTrainers && freeTrainers.freeTrainers.length && idEvent === freeTrainers.idEvent ? 

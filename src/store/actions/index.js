@@ -23,6 +23,7 @@ export {
     searchUsers,
     addOrDeleteUserFromSearch,
     sendMessage,
+    setFreeIntervals,
 } from './patients';
 
 export {
