@@ -312,6 +312,10 @@
   background-color: #000;
   color: #fff;
 }
+.btn-type-yellow-black {
+  background-color: #ffd000;
+  color: #000;
+}
 .btn-type-border-green {
   background-color: #fff;
   color: #2abc6c;
