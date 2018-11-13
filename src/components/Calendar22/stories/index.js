@@ -278,9 +278,9 @@ storiesOf('Calendar22', module)
                          onSelectEvent={action('Receive 1 obj')}
                          onSelectSlot={action('Slot info')}
 
-                         min={new Date(new Date().setHours(8,0,0,0))}
-                         max={new Date(new Date().setHours(14,50,0,0))}
-                         step = {5}
+                         min={new Date(new Date().setHours(9,0,0,0))}
+                         max={new Date(new Date().setHours(23,0,0,0))}
+                         step = {50}
                          events = {events1}
                          intervals={intervals}
                          gotoEditor={() => console.log('go to editor')}

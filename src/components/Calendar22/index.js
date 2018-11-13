@@ -8,33 +8,16 @@ import momentLocalizer from './libr/localizers/moment.js'
 
 import './react-big-calendar.css'
 import './style.css'
-import PatientPage from "../../containers/MainPage/PatientPage";
 
 moment.locale('ru');
 momentLocalizer(moment);
 
 class BigCalendar extends React.Component{
-    state = {
-        dayRange: [],
-    };
+    
+    //сервер_дата -> moment_дата
+    //private
 
-    selectHandler = (range, slotInfo,selecting, schedule) => {
-        if (slotInfo.action === 'click'){
-            this.props.onMonthSelect(range, schedule);
-            return
-        }
-        if (selecting === true && this.state.dayRange.length !== 0){
-            this.setState({dayRange: []})
-        }
-        else{
-            if (range.length !== 0) {
-                this.setState({dayRange: this.state.dayRange.concat(range)});
-                this.props.onMonthSelect(this.state.dayRange);
-            }
-        }
-    };
-
-    changeIntervalDate = (start, end) => {
+    changeIntervalDate = (start, end) => { 
         return {
             start: new Date((+start)*1000),
             end: new Date((+end)*1000),
@@ -42,26 +25,18 @@ class BigCalendar extends React.Component{
     };
 
     changeSchedule = () => {
-        return this.props.schedules ? this.props.schedules.map((sched)=>{
-                const {intervalOb,intervalEx} = sched;
+        return this.props.schedules ? this.props.schedules.map((sched) => {
+                const {intervalOb} = sched;                  
                 let newIntervalOb = [];
-                for(let i = 0, len = intervalOb.length; i < len; i++){
-                    let interv = intervalOb[i];
-                    newIntervalOb.push(this.changeIntervalDate(interv.start, interv.end))
-                }
 
-                let newIntervalEx = [];
-                for(let i = 0, len = intervalEx.length; i < len; i++){
-                    let interv = intervalEx[i];
-                    newIntervalEx.push(this.changeIntervalDate(interv.start, interv.end))
-                }
+                intervalOb.forEach((item) => {
+                    newIntervalOb.push(this.changeIntervalDate(item.start, item.end))
+                });
 
                 return {
                     ...sched,
                     intervalOb: newIntervalOb,
-                    intervalEx: newIntervalEx,
                 }
-
             }) : [];
     };
 
@@ -73,49 +48,28 @@ class BigCalendar extends React.Component{
                 }
             }) : [];
     };
-
+    
     render() {
-
-        let prop = this.props.editor ? {
-                ...this.props,
-                schedules: this.changeSchedule(),
-            }
-            : {
-                ...this.props,
-                events: this.changeEvents(),
-            };
-
         return (<div>
             {
-                this.props.isUser ?
+                true ? // this.props.isUser
                     <Calendar
-                        //className='calendar-editor'
-                        //schedules={this.changeSchedule()}
-                        view={'month'}
-                        onView={() => {}}
-                        isUser={true}
-                        cancelAppByPatient = {this.props.cancelAppByPatient}
+                        events = {this.changeEvents()}
+                        isUser={true} // это для коуча
+                        
+                        {...this.props}
 
-                        {...prop}/>
+                   />
                     :
-                    this.props.editor ?
-                        <Calendar
-                            className='calendar-editor'
-                            schedules={this.changeSchedule()}
-                            view={'month'}
-                            onView={() => {
-                            }}
-                            onSelecting={(r,slot,selecting, schedule) =>
-                                this.selectHandler(r, slot,selecting, schedule)}
-                            {...prop}/>
-                        :
-                        <Calendar
-                            events={this.changeEvents()}
-                            schedules={this.changeSchedule()}
-                            defaultView={'week'}
-                            views={['day', 'week', 'month']}
+                    <Calendar
+                        events = {this.changeEvents()}
+                        
+                            //  schedules={this.changeSchedule()} 
+                            // обычные интервалы и экстренные и переводит в Date
+        
+                        {...this.props}
 
-                            {...prop}/>
+                    />
             }
         </div>);
     }
@@ -137,10 +91,13 @@ BigCalendar.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-    editor: PropTypes.bool,
     onPopoverClose: PropTypes.func,
     onPopoverEmail: PropTypes.func,
     gotoEditor: PropTypes.func,
+    showTransferEvent: PropTypes.func,
+    freeTrainers: PropTypes.object,
+    showModalTransferEvent: PropTypes.func,
+    setChoosenTrainer: PropTypes.func,
 };
 
 
@@ -149,8 +106,8 @@ BigCalendar.defaultProps = {
     events: [],
     schedules: [],
     intervals: [],
+    freeTrainers: {},
     receptionNum: 0,
-    editor: false,
     onPopoverClose: () => {},
     onPopoverEmail: () => {},
     gotoEditor: () => {},

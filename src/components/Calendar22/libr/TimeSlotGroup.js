@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import cn from 'classnames'
 import TimeSlot from './TimeSlot'
 import date from './utils/dates.js'
-import localizer from './localizer'
+import localizer from './header/localizer'
 import { elementType, dateFormat } from './utils/propTypes'
+
+import EventSlot from './EventSlot';
 
 export default class TimeSlotGroup extends Component {
   static propTypes = {
@@ -24,7 +26,9 @@ export default class TimeSlotGroup extends Component {
     step: 30,
     isNow: false,
     showLabels: false,
+    freeTrainers: null,
   }
+
 
   renderSlice(slotNumber, content, value) {
     const {
@@ -34,7 +38,9 @@ export default class TimeSlotGroup extends Component {
       culture,
       resource,
       slotPropGetter,
+      showTransferEvent, //my
     } = this.props
+    
     return (
       <TimeSlot
         key={slotNumber}
@@ -47,7 +53,8 @@ export default class TimeSlotGroup extends Component {
         isNow={isNow}
         resource={resource}
         value={value}
-      />
+        showTransferEvent={showTransferEvent}
+      /> 
     )
   }
 
@@ -67,12 +74,65 @@ export default class TimeSlotGroup extends Component {
     return ret
   }
 
+  renderEvent = () => {
+    let {
+      events, 
+      showTransferEvent, 
+      freeTrainers,
+      setChoosenTrainer,
+      showLabels
+    } = this.props;
+   
+    for( let i = 0; i < events.length; i++){
+     
+          if(events[i].start.getTime() === this.props.value.getTime() && !showLabels) {
+            return (
+              <EventSlot 
+                  value={this.props.value.getTime()}
+                  event={events[i]}
+                  showTransferEvent={showTransferEvent} 
+                  setChoosenTrainer={this.props.setChoosenTrainer}
+                  freeTrainers={freeTrainers}
+                  idEvent={events[i].start.getTime()}
+                 
+            />)
+          }
+    }
+    if(freeTrainers && freeTrainers.idEvent === this.props.value.getTime() && !showLabels){ // рендер выпадающего списка freeTrainer
+        return <EventSlot 
+            value={this.props.value.getTime()}
+            showTransferEvent={showTransferEvent} 
+            freeTrainers={freeTrainers}
+            setChoosenTrainer={this.props.setChoosenTrainer}
+            idEvent={freeTrainers.idEvent}
+        />
+    }
+   
+    return null;
+  }
+
+  showModalTransferEvent = (e,idValue) => {
+      e.preventDefault();
+     this.props.showModalTransferEvent(idValue);
+  }
+
   render() {
-    const {intervals, value} = this.props;
-    let flag = intervals.some(el => {
+    const {intervals, value, freeTrainers} = this.props;
+    
+
+    const flag = intervals.some(el => {
       return (value >= el.start*1000) && value < (el.end * 1000)
     });
-    let cellClass = cn('rbc-timeslot-group', flag ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
-    return <div className={cellClass}>{this.renderSlices()}</div>
+
+    const modalTransferEvent = flag ? this.showModalTransferEvent : () => {}; // перенос тренировки
+    const isViewTrainer = (freeTrainers && freeTrainers.idEvent === this.props.value.getTime()) ? true : false;//не OK если таместь freeTrainers
+    const currentEvent = this.renderEvent();
+
+    let cellClass = cn('rbc-timeslot-group', flag && !isViewTrainer && !currentEvent ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
+
+    return <div className={cellClass} onClick={(e) => modalTransferEvent(e, value.getTime())}>
+              {this.renderSlices()}
+              {currentEvent}
+            </div>
   }
 }
