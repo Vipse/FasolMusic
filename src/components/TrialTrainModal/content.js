@@ -36,7 +36,6 @@ class ContentForm extends React.Component {
                     ...values,
                     selectedDays: selectedDaysObj
                 };
-                console.log("FINAL REG DATA", finalData);
                 this.props.onSave(finalData);
             }
             else console.log("error", err);
@@ -76,7 +75,7 @@ class ContentForm extends React.Component {
                         <div className='radio-label'>Выбери дисциплину</div>
                         {getFieldDecorator('type', {
                             rules: [{
-                                required: false,
+                                required: true,
                                 message: 'Выберите дисциплину, пожалуйста'
                             }],
                         })(
@@ -98,7 +97,7 @@ class ContentForm extends React.Component {
                         <div className='radio-label'>Выбери дни</div>
                         {getFieldDecorator('days', {
                             rules: [{
-                                required: false,
+                                required: true,
                                 message: 'Выберите дни, пожалуйста'
                             }],
                         })(
@@ -111,7 +110,7 @@ class ContentForm extends React.Component {
                         <div className='radio-label'>Интервал предпочитаемого времени</div>
                         {getFieldDecorator('time', {
                             rules: [{
-                                required: false,
+                                required: true,
                                 message: 'Выберите интервал времени, пожалуйста'
                             }],
                         })(

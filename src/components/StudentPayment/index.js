@@ -83,7 +83,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">28 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={this.selectPlan}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
                                         size='small'
                                         type='black'
                                 />
@@ -102,7 +102,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">107 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={this.selectPlan}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
                                         size='small'
                                         type='black'
                                 />
@@ -121,7 +121,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">184 р.</div>
                                 <Button className="plan-select-selectBtn-active"
                                         btnText='Выбрать'
-                                        onClick={this.selectPlan}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
                                         size='small'
                                         type='black'
                                 />
@@ -140,7 +140,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">279 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={this.selectPlan}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
                                         size='small'
                                         type='black'
                                 />
@@ -159,7 +159,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">488 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={this.selectPlan}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
                                         size='small'
                                         type='black'
                                 />

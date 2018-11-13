@@ -6,12 +6,47 @@ import * as actions from "../../store/actions";
 import CoachPayment from "../../components/CoachPayment";
 import StudentPayment from "../../components/StudentPayment";
 
+import TrialTrainModal from './../../components/TrialTrainModal/index';
+
 class Payment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            visible: false
+            visibleTrialModal: false
         }
+    }
+
+    onSendDataModal = (data) => {
+        let array = [];
+        for(let i = 0; i < 7; i++){
+            
+            if(data.selectedDays.hasOwnProperty(i)){
+                array.push(
+                    {
+                        day: i, 
+                        intervals : [{
+                            start: +data.time[0].format('x'),
+                            end: +data.time[1].format('x')
+                        }]
+                    }
+                );   
+            }
+            else{
+                array.push(
+                    {
+                        day: i, 
+                        intervals : []
+                    }
+                );   
+            }
+        }
+        console.log('array :', array);
+    }
+    showTrialModal = () => {
+        this.setState({visibleTrialModal: true})
+    }
+    hideTrialModal = () => {
+        this.setState({visibleTrialModal: false})
     }
 
     render() {
@@ -21,8 +56,19 @@ class Payment extends React.Component{
         isUser = true;
         return (
             <Hoc>
-                {isUser ? (<StudentPayment/>)
+                {isUser ? (
+                    <StudentPayment
+                        showTrialModal = {this.showTrialModal}
+                    />)
                     : (<CoachPayment/>)}
+
+                <TrialTrainModal  
+                    title='Запишись на пробную тренировку'
+                    width={770}
+                    visible={this.state.visibleTrialModal}
+                    onCancel={this.hideTrialModal} 
+                    onSave={this.onSendDataModal}
+                />
             </Hoc>
         )
     }
