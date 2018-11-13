@@ -1,5 +1,5 @@
 import React from 'react'
-import Hoc from '../../Hoc'
+import Hoc from '../../../Hoc'
 
 const Header = ({ labels, label }) => {
   let content = labels  ?

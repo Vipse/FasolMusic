@@ -17,7 +17,8 @@ import * as actions from '../../store/actions'
 import './styles.css'
 import {findTimeInterval} from '../../helpers/timeInterval'
 import {timePeriod} from './mock-data'
-import PatientPage from "../MainPage/PatientPage";
+
+import { apiPatients, apiTrainers} from './mock-data';
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -41,9 +42,73 @@ class Schedule extends React.Component {
             receptionData: {
                 dates: [],
                 currentSched: {},
-            }
+            
+            },
+
+            isTransferEvent: false,
+            isShowFreeTrainers: false
         }
     };
+
+
+    showTransferEvent = (id) => { // нажатие на крестик
+        this.setState({isTransferEvent : true});
+        this.deleteId = id;
+    }
+    showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
+        // запомнить куда нужно отправить free trainers
+       
+console.log("showModalTransferEvent")
+        if(!this.isShowFreeTrainers2){
+            this.idEvent = idEvent;
+            this.setState({isShowFreeTrainers : true});
+        } 
+        else{
+            this.idEvent = null;
+            this.isShowFreeTrainers2 = false;
+            this.setState({isShowFreeTrainers : false});
+        }
+       
+    }
+
+    setChoosenTrainer = (id, time) => {
+        console.log("setChoosenTrainer")
+        let arr = [];
+        this.apiPatientsChanged = this.apiPatientsChanged ? this.apiPatientsChanged: [];
+
+        this.idEvent = null;
+        this.isShowFreeTrainers2 = 2;
+        this.setState({ isTransferEvent: false});
+      
+
+        if(this.apiPatientsChanged){
+            for(let i= 0; i < this.apiPatientsChanged.length; i++){
+                if(this.apiPatientsChanged[i].id != this.deleteId) 
+                    arr.push(this.apiPatientsChanged[i]);
+            }
+        }
+        else{
+            for(let i= 0; i < apiPatients.length; i++){
+                if(apiPatients[i].id != this.deleteId) 
+                    arr.push(apiPatients[i]);
+            }
+        }
+       
+        this.apiPatientsChanged = arr;
+
+        this.deleteId = null;
+
+
+        for(let i = 0; i < apiTrainers.length; i++){
+
+            if(apiTrainers[i].id === id){
+                let trainer= apiTrainers[i];
+                trainer.start = new Date(time);
+                this.apiPatientsChanged.push(trainer);
+            }
+        }
+       console.log('this.apiPatientsChanged :', this.apiPatientsChanged);
+    }
 
     setIntervalAndView = (date, view) => {
         const {start, end} = findTimeInterval(date, view);
@@ -240,44 +305,49 @@ class Schedule extends React.Component {
                 }
             });
 
-        }
+        } 
         if (this.props.isUser) {
             calendar = (<Calendar receptionNum={this.getCountOfReceptionsAtCurMonth()}
                                   isUser = {true}
-                                  events = {this.props.allUserVisits}
+                                  events = {apiPatients}//{this.props.allUserVisits} //
                                   onNavigate={this.dateChangeHandler}
                                   date={this.state.currentDate}
-                                  cancelAppByPatient = {this.props.cancelAppByPatient}
 
+                                  onChange={this.dateChangeHandler}
+                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+
+                                
             />)
-        } else if (this.state.isEditorMode) {
-            editorBtn = (<Button btnText='Вернуться к графику'
-                                 onClick={() => this.changeToEditorMode(false)}
-                                 type='yellow'
-                                 icon='arrow2_left'/>);
-            calendar = (<Calendar receptionNum={this.getCountOfScheduledIntervals()}
-                                  selectable
-                                  editor
-                                  onMonthSelect={(date, schedule) => {
-                                      !!schedule && this.openReceptionSchedule(date, schedule)
-                                  }}
-                                  schedules={this.props.schedules}
-                                  date={this.state.currentDate}
-                                  onNavigate={this.dateChangeHandler}
-            />)
-        }
+        } 
         else {
             const currDate = this.state.currentDate,
                 currY = currDate.getFullYear(),
                 currM = currDate.getMonth(),
                 currD = currDate.getDate();
+
+                let minFasol = this.props.min;
+                let maxFasol = this.props.max;
+
             let min = new Date(new Date(this.props.min * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(this.props.max * 1000).setFullYear(currY, currM, currD));
+                
+            // надо нормальную проверка для коуча и студента
+        
+            let checkIntervals = this.state.isTransferEvent ? this.props.intervals : []
+            let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
+            if(this.isShowFreeTrainers2 == 2) checkFreeTrainers = [];
+
+            console.log('this.props.intervals  :', this.props.intervals );
+            let freeTrainers = this.idEvent ? 
+                    {idEvent: this.idEvent, freeTrainers: checkFreeTrainers} : null
+
+
+                    
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
                                  icon='setting_edit'/>)
-            calendar = (<Calendar receptionNum={this.props.visits.length}
+            calendar = (<Calendar receptionNum={apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   onSelectSlot={(slot) => this.onAddVisit(slot)}
@@ -290,47 +360,40 @@ class Schedule extends React.Component {
                                   onNavigate={this.dateChangeHandler}
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
-                                  step={5}
-                                  events={this.props.visits}
-                                  intervals={this.props.intervals}
+                                  step={50}
+                                        events={ Array.isArray(this.apiPatientsChanged) ? this.apiPatientsChanged : apiPatients} //{this.props.visits}
+                                  intervals={checkIntervals}
                                   min={min}
                                   max={max}
+                                  minFasol={minFasol}
+                                  maxFasol={maxFasol}
+                                  intervalsFasol={checkIntervals}
+
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
+
+                                  onChange={this.dateChangeHandler}
+                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+
+                                  showTransferEvent={this.showTransferEvent} // my
+                                  freeTrainers={freeTrainers} //my
+                                  showModalTransferEvent={this.showModalTransferEvent}
+                                  setChoosenTrainer={this.setChoosenTrainer}
             />)
         }
 
-
+        
         return (
             <Hoc>
-                <Row style={{marginBottom: 25,}}>
-                    <Col span={19} className='schedule-title'>
-                        {this.props.isUser ? "График приёмов" : "График работы"}
-                    </Col>
-                    <Col span={5}
-                         className='schedule-editBtn'>
-                        {editorBtn}
+                <Row className="row-schedule" style={{margin: 0, marginTop: -7, borderTop: 7}}>
+                    <Col span={24} className='schedule-title'>
+                        Расписание тренировок
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={19}>
+                    <Col span={24}>
                         {calendar}
-                    </Col>
-                    <Col span={5} style={{textAlign: 'center'}}>
-                        {!this.props.isUser && <Button
-                            btnText='Отменить приемы'
-                            className={'cancel_rec'}
-                            onClick={() => this.setState({cancelModal: true})}
-                            size='link'
-                            type='link'
-                            icon='circle_close'
-                            svg
-                        />}
-                        <SmallCalendar date={this.state.currentDate}
-                                       onChange={this.dateChangeHandler}
-                                       isUser = {this.props.isUser}
-                                       highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
-                                    />
+                     />
                     </Col>
                 </Row>
                 <CancelVisitModal visible={this.state.cancelModal}
@@ -409,8 +472,6 @@ const mapDispatchToProps = dispatch => {
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         onSelectEvent: (event) => dispatch(actions.selectEvent(event)),
         onEventDelete: () => dispatch(actions.deleteEvent()),
-        cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id))
-
     }
 };
 

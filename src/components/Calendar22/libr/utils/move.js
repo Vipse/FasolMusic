@@ -1,10 +1,9 @@
 import invariant from 'invariant'
 import { navigate } from './constants'
-import VIEWS from '../Views'
+import Week from './../Week';
 
 export default function moveDate(View, { action, date, ...props }) {
-  View = typeof View === 'string' ? VIEWS[View] : View
-
+  View = Week;
   switch (action) {
     case navigate.TODAY:
       date = new Date()

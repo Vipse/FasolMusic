@@ -6,6 +6,7 @@ import dates from './utils/dates'
 import { elementType, dateFormat } from './utils/propTypes'
 import BackgroundWrapper from './BackgroundWrapper'
 import TimeSlotGroup from './TimeSlotGroup'
+import ColumnGroup from 'antd/lib/table/ColumnGroup';
 
 export default class TimeColumn extends Component {
   static propTypes = {
@@ -24,6 +25,10 @@ export default class TimeColumn extends Component {
     slotPropGetter: PropTypes.func,
     dayPropGetter: PropTypes.func,
     dayWrapperComponent: elementType,
+
+    freeTrainers: PropTypes.object,
+    showModalTransferEvent: PropTypes.func,
+    setChoosenTrainer: PropTypes.func,
   }
   static defaultProps = {
     step: 30,
@@ -44,23 +49,36 @@ export default class TimeColumn extends Component {
       dayPropGetter,
       timeGutterFormat,
       culture,
-    } = this.props
+      events,
+      showTransferEvent,
+      freeTrainers,
+      showModalTransferEvent,
+      setChoosenTrainer
+    } = this.props;
 
     return (
       <TimeSlotGroup
         key={key}
         isNow={isNow}
+        events={events}
         value={date}
         step={step}
         slotPropGetter={slotPropGetter}
         dayPropGetter={dayPropGetter}
         intervals={this.props.intervals}
+        intervalsFasol={this.props.intervalsFasol}
         culture={culture}
         timeslots={timeslots}
         resource={resource}
         showLabels={showLabels}
         timeGutterFormat={timeGutterFormat}
         dayWrapperComponent={dayWrapperComponent}
+        children={this.props.children}
+
+        showTransferEvent={showTransferEvent}
+        freeTrainers={freeTrainers}
+        showModalTransferEvent={showModalTransferEvent}
+        setChoosenTrainer={setChoosenTrainer}
       />
     )
   }
@@ -80,7 +98,6 @@ export default class TimeColumn extends Component {
       let timeslots = 1;
 
     const totalMin = dates.diff(min, max, 'minutes')
-
     const numGroups = Math.ceil(totalMin / (step * timeslots))
     const renderedSlots = []
     const groupLengthInMinutes = step * timeslots
@@ -88,7 +105,6 @@ export default class TimeColumn extends Component {
     let date = min
     let next = date
     let isNow = false
-
     for (var i = 0; i < numGroups; i++) {
       isNow = dates.inRange(
         now,
@@ -96,8 +112,8 @@ export default class TimeColumn extends Component {
         dates.add(next, groupLengthInMinutes - 1, 'minutes'),
         'minutes'
       )
-
       next = dates.add(date, groupLengthInMinutes, 'minutes')
+
       renderedSlots.push(this.renderTimeSliceGroup(i, isNow, date, resource))
 
       date = next
