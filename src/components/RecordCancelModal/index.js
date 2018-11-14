@@ -5,10 +5,10 @@ import Modal from '../Modal'
 import Content from './content'
 import './styles.css'
 
-const RecordCompleteModal = (props) => {
+const RecordCancelModal = (props) => {
     
     return (
-        <Modal title='Спасибо!'
+        <Modal title="Отмена тренировки"
                width={400}
                visible={props.visible}
                onCancel={props.onCancel}
@@ -19,20 +19,18 @@ const RecordCompleteModal = (props) => {
     
 }
 
-RecordCompleteModal.propTypes = {
+RecordCancelModal.propTypes = {
     visible: PropTypes.bool,
-    type: PropTypes.string,
-    date: PropTypes.string,
-    time: PropTypes.string,
-    onCancel: PropTypes.func
+    subjects: PropTypes.array,
+    onSave: PropTypes.func,
+    onCancel: PropTypes.func,
 };
 
-RecordCompleteModal.defaultProps = {
+RecordCancelModal.defaultProps = {
     visible: false,
-    type: '',
-    date: '',
-    time: '',
-    onCancel: () => {}
+    subjects: [],
+    onSave: () => {},
+    onCancel: () => {},
 };
 
-export default RecordCompleteModal;
+export default RecordCancelModal;

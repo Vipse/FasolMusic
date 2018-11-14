@@ -62,7 +62,7 @@ class ContentForm extends React.Component {
         let timeScheduleArr = [];
         let daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
         for (let i = 0; i < 7; i++)
-            timeScheduleArr.push(<Checkbox className="dayCheckbox"
+            timeScheduleArr.push(<Checkbox className={"circleFilled" + (this.state.selectedDays[i] ? "-checked" : "")}
                                            value={i} checked={this.state.selectedDays[i]}
                                            onChange={() => this.handleDayCheck(i)}
                                            key={"selectDay" + i}>{daysName[i]}</Checkbox>);

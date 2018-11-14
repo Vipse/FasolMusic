@@ -92,3 +92,28 @@
 .largeChk .ant-checkbox-checked + span {
   color: #333;
 }
+.circleFilled {
+  background-color: #fff;
+  width: 39px;
+  height: 39px;
+  border-radius: 19.5px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: RobotoRegular;
+}
+.circleFilled-checked {
+  background-color: #21bedd;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.15);
+  width: 39px;
+  height: 39px;
+  border-radius: 19.5px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: RobotoRegular;
+}
+.circleFilled-checked .ant-checkbox {
+  display: none;
+}
+.circleFilled .ant-checkbox {
+  display: none;
+}

@@ -50,6 +50,7 @@ const loadStories = () => {
     require('../src/components/NewRecordScheduleModal/stories');
     require('../src/components/RecordCompleteModal/stories');
     require('../src/components/TransferRecordModal/stories');
+    require('../src/components/RecordCancelModal/stories');
     require('../src/components/CoachPersonalProfile/stories');
     require('../src/components/CoachPersonalData/stories');
     require('../src/components/CoachPersonalDataContact/stories');
