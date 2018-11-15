@@ -86,7 +86,7 @@ const PatientPage = props => {
                         }]
                     }/>
                 </Col>
-                <Col xs={24} xxl={10} className='section'>
+                {/*<Col xs={24} xxl={10} className='section'>
                     <PatientDoctor
                         data = {props.doctors}
                         onGoto={gotoHandler}
@@ -101,7 +101,7 @@ const PatientPage = props => {
                         receptionRecordedID={props.receptionRecordedID}
                         myDoctorsLoaded={props.myDoctorsLoaded}
                     />
-                </Col>
+                </Col>*/}
             </Row>
             <Row>
                 <Col>

@@ -21,7 +21,7 @@ class PersonalInfo extends React.Component{
     }
 
     componentDidMount(){
-        this.props.auth.mode === "user" ? this.props.onGetInfoPatient(this.props.auth.id) :
+        this.props.auth.mode === "student" ? this.props.onGetInfoPatient(this.props.auth.id) :
         this.props.onGetInfoDoctor(this.props.auth.id);
     };
 
@@ -44,7 +44,7 @@ class PersonalInfo extends React.Component{
     };
 
     render() {
-        let isUser = this.props.auth.mode === "user";
+        let isUser = this.props.auth.mode === "student";
         let profile = isUser ? compileToClientPatient(this.props.profilePatient) : this.props.profileDoctor;
         return (
             <Hoc>

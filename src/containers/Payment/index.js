@@ -61,7 +61,7 @@ class Payment extends React.Component{
     }
 
     render() {
-        let isUser = this.props.auth.mode === "user";
+        let isUser = this.props.auth.mode === "student";
 
         // убрать
         isUser = true;

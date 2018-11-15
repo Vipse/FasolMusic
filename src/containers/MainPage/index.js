@@ -19,7 +19,7 @@ class MainPage extends React.Component{
 	}
 
 	componentWillMount(){
-		if (this.props.mode === "user") {
+		if (this.props.mode === "student") {
 			this.props.onGetPatientDoctors(2);
             this.props.onGetNearVisits(3);
 			this.timer = setInterval(()=>this.props.onGetNearVisits(3), 60000);
@@ -72,9 +72,9 @@ class MainPage extends React.Component{
 	}*/
 
     render(){
-        return (this.props.mode === "user") ? (
+        return (this.props.mode === "student") ? (
 			<PatientPage
-				isUser = {this.props.mode === "user"}
+				isUser = {this.props.mode === "student"}
 				doctors = {this.props.patientDoctors}
 				completedApps = {this.props.completedApps}
 				nearVisits = {this.props.nearVisits}

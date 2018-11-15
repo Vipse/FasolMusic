@@ -118,7 +118,7 @@ class App extends React.Component {
     }
 
     gotoHandler = (id) => {
-        this.props.auth.mode !== "user" ? this.props.history.push('/app/patient' + id) : this.props.history.push('/app/doctor' + id)
+        this.props.auth.mode !== "student" ? this.props.history.push('/app/patient' + id) : this.props.history.push('/app/doctor' + id)
     };
 
     onLogoClick = () => {
@@ -129,7 +129,7 @@ class App extends React.Component {
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
-        const isUser = (this.props.mode === "user");
+        const isUser = (this.props.mode === "student");
         return (
             <div className="main">
                 {

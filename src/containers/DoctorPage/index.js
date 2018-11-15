@@ -175,7 +175,7 @@ class PatientsPage extends React.Component{
                                                }}
                                                id_doc={this.props.match.params.id}
                                                personalPage = {true}
-                                               isUser = {this.props.mode === "user"}
+                                               isUser = {this.props.mode === "student"}
                                                onSubmit={this.props.makeReview}
                                                onAddFiles={this.props.onAddFiles}
                                                makeArchiveOfFiles = {this.props.makeArchiveOfFiles}

@@ -183,7 +183,7 @@ const callResponse = (message) => {
     let msg = {
         id : 'chat',
         type: message.response != 'accepted' ? "notBegin" : "begin",
-        name: callbacks.get_user_mode() === "user" ? name_doc : name,
+        name: callbacks.get_user_mode() === "student" ? name_doc : name,
         from: callbacks.get_from(),
         to: callbacks.get_to(),
         date: Math.ceil(Date.now()/1000),
