@@ -29,7 +29,7 @@ class CoachPersonalDataSkillForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { subject, specialization, skill, experience, aims, musicStyles, favouriteArtists} = this.props.profileCoach;
+        const { disciplines, specialization, skill, experience, aims, musicStyles, favouriteArtists} = this.props.profileCoach;
         const rootClass = cn('coach-data-form');
 
         return (
@@ -39,7 +39,7 @@ class CoachPersonalDataSkillForm extends React.Component{
                     <div className='coach-data-skill'>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('subject', {
-                                initialValue: subject,
+                                initialValue: disciplines,
                                 rules: [{ required: true,
                                     message: 'Выберите дисциплину, пожалуйста'
                                 }],

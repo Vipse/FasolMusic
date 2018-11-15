@@ -122,7 +122,7 @@ class CoachPersonalDataContactForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { fio, phone, email, country} = this.props.profileCoach;
+        const { name, phones, email, country} = this.props.profileCoach;
         const rootClass = cn('coach-data-form');
 
         return (
@@ -158,7 +158,7 @@ class CoachPersonalDataContactForm extends React.Component{
                     <div className='coach-data-info'>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('fio', {
-                                initialValue: fio,
+                                initialValue: name,
                                 rules: [{ required: true,
                                     message: 'Введите ФИО, пожалуйста'
                                 }],
@@ -168,7 +168,7 @@ class CoachPersonalDataContactForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('phone', {
-                                initialValue: phone,
+                                initialValue: phones,
                                 rules: [{ required: true,
                                     message: 'Введите телефон, пожалуйста'
                                 }],

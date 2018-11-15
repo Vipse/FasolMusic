@@ -18,8 +18,11 @@ class TextArea extends React.Component{
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.value === ''){
+        if (nextProps.value === ''){
             this.setState({value: ""})
+        }
+        else if (nextProps.value !== ''){
+            this.setState({value: nextProps.value})
         }
     }
 

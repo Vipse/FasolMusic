@@ -24,14 +24,14 @@ export const getInfoDoctor = (id) => {
     let ids = {"id":idstr}; //задать самому id доктора
     return (dispatch) => {
 
-        return axios.post('/fusers.doc/infoDoc',
+        return axios.post('/catalog.fasol/getUserInfo',
          JSON.stringify(ids))
             .then(res => {
-                res.data.result.id= ids.id;
+                res.data.result.data.id = ids.id;
 
                 dispatch({
                     type: actionTypes.INFO_DOCTOR,
-                    profileDoctor: res.data.result,
+                    profileDoctor: res.data.result.data,
                 })
             })
             .catch(err => {

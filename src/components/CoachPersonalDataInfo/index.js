@@ -18,6 +18,7 @@ import Spinner from "../Spinner";
 import SelectNew from "../SelectNew";
 import TextArea from "../TextArea";
 import DatePickerNew from "../DatePickerNew";
+import moment from "moment";
 
 const FormItem = Form.Item;
 
@@ -29,7 +30,7 @@ class CoachPersonalDataInfoForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { gender, birthday, speciality, interests, aboutMe} = this.props.profileCoach;
+        const { sex, datebirth, speciality, interests, aboutme} = this.props.profileCoach;
         const specialityArr = ["Программист"];
         const interestsArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-form');
@@ -41,7 +42,7 @@ class CoachPersonalDataInfoForm extends React.Component{
                     <div className='coach-data-additionalInfo'>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('gender', {
-                                initialValue: gender,
+                                initialValue: sex === "m" ? "Мужской" : "Женский",
                                 rules: [{ required: true,
                                     message: 'Выберите пол, пожалуйста'
                                 }],
@@ -54,7 +55,7 @@ class CoachPersonalDataInfoForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('birthday', {
-                                initialValue: birthday,
+                                initialValue: datebirth ? moment(datebirth, "DD/MM/YYYY HH:mm:ss") : null,
                                 rules: [{ required: true,
                                     message: 'Выберите дату рождения, пожалуйста'
                                 }],
@@ -66,7 +67,7 @@ class CoachPersonalDataInfoForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('speciality', {
-                                initialValue: speciality,
+                                initialValue: specialityArr[0],
                                 rules: [{ required: true,
                                     message: 'Выберите сферу деятельности, пожалуйста'
                                 }],
@@ -80,7 +81,7 @@ class CoachPersonalDataInfoForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('interests', {
-                                initialValue: interests,
+                                initialValue: "Спорт",
                                 rules: [{ required: true,
                                     message: 'Выберите интересы, пожалуйста'
                                 }],
@@ -94,7 +95,7 @@ class CoachPersonalDataInfoForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('aboutMe', {
-                                initialValue: aboutMe,
+                                initialValue: aboutme,
                                 rules: [{
                                         required: true,
                                         message: 'Напишите о себе, пожалуйста'

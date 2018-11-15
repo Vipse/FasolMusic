@@ -29,7 +29,7 @@ class CoachPersonalDataPreferencesForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { studentGender, studentAge, studentAcceptsHomework, studentQualities, studentComment} = this.props.profileCoach;
+        const { bestsex, bestage, bestishomework, bestqualities, bestcomment} = this.props.profileCoach;
         const qualitiesArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-form');
 
@@ -40,7 +40,7 @@ class CoachPersonalDataPreferencesForm extends React.Component{
                     <div className='coach-data-studentPreferences'>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('studentGender', {
-                                initialValue: studentGender,
+                                initialValue: bestsex === "m" ? "Мужской" : "Женский",
                                 rules: [{ required: true,
                                     message: 'Выберите пол студента, пожалуйста'
                                 }],
@@ -53,7 +53,7 @@ class CoachPersonalDataPreferencesForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('studentAge', {
-                                initialValue: studentAge,
+                                initialValue: bestage,
                                 rules: [{ required: true,
                                     message: 'Выберите возраст студента, пожалуйста'
                                 }],
@@ -63,7 +63,7 @@ class CoachPersonalDataPreferencesForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('studentAcceptsHomework', {
-                                initialValue: studentAcceptsHomework,
+                                initialValue: bestishomework ? "Да" : "Нет",
                                 rules: [{ required: true,
                                     message: 'Выберите отношение студента к д.з., пожалуйста'
                                 }],
@@ -76,7 +76,7 @@ class CoachPersonalDataPreferencesForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('studentQualities', {
-                                initialValue: studentQualities,
+                                initialValue: bestqualities,
                                 rules: [{ required: true,
                                     message: 'Выберите качества студента, пожалуйста'
                                 }],
@@ -90,7 +90,7 @@ class CoachPersonalDataPreferencesForm extends React.Component{
                         </FormItem>
                         <FormItem className="input-form-item">
                             {getFieldDecorator('studentComment', {
-                                initialValue: studentComment
+                                initialValue: bestcomment
                             })(
                                 <TextArea
                                     label="Комментарий"

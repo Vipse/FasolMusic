@@ -41,16 +41,16 @@ export const hasNoReviewToFreeApp = () => {
 
 export const getInfoPatient = (id) => {
     const idstr = String(id);
-    let obj = {"id_user":idstr}; //задать самому id доктора
+    let obj = {"id":idstr}; //задать самому id доктора
     return (dispatch) => {
-        axios.post('/fusers.doc/patientInfoiId',
+        axios.post('/catalog.fasol/getUserInfo',
             JSON.stringify(obj))
             .then(res => {
-                res.data.result.id = obj.id_user;
+                res.data.result.data.id = obj.id;
 
                 dispatch({
                     type: actionTypes.INFO_PATIENT,
-                    profilePatient: res.data.result,
+                    profilePatient: res.data.result.data,
                 })
             })
             .catch(err => {
