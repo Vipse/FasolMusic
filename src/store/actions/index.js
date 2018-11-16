@@ -24,6 +24,7 @@ export {
     addOrDeleteUserFromSearch,
     sendMessage,
     setFreeIntervals,
+    setNeedSaveIntervals,
 } from './patients';
 
 export {

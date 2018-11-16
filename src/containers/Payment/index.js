@@ -6,44 +6,47 @@ import * as actions from "../../store/actions";
 import CoachPayment from "../../components/CoachPayment";
 import StudentPayment from "../../components/StudentPayment";
 
+import {Redirect} from 'react-router-dom'
 import TrialTrainModal from './../../components/TrialTrainModal/index';
 
 class Payment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            visibleTrialModal: false
+            visibleTrialModal: false,
+            redirectToSchedule: false,
+            countTraining: 0
         }
     }
 
     onSendDataModal = (data) => {
         let array = [];
         for(let i = 0; i < 7; i++){
-            
-            if(data.selectedDays.hasOwnProperty(i)){
-                array.push(
-                    {
-                        day: i, 
-                        intervals : [{
-                            start: +data.time[0].format('x'),
-                            end: +data.time[1].format('x')
-                        }]
-                    }
-                );   
-            }
-            else{
-                array.push(
-                    {
-                        day: i, 
-                        intervals : []
-                    }
-                );   
-            }
+                data.selectedDays.hasOwnProperty(i) ?
+                    array.push(
+                        {
+                            day: i, 
+                            intervals : [{
+                                start: +data.time[0].weekday(i+1).format('X'),
+                                end: +data.time[1].weekday(i+1).format('X')
+                            }]
+                        }
+                    )    
+                    :
+                    array.push(
+                        {
+                            day: i, 
+                            intervals : []
+                        }
+                    );   
         }
-        console.log('array :', array);
+
+        this.setState({visibleTrialModal: false, redirectToSchedule: true});
+        this.props.onSetFreeIntervals(array, this.state.countTraining);
+        this.props.onSetNeedSaveIntervals(true);
     }
-    showTrialModal = () => {
-        this.setState({visibleTrialModal: true})
+    showTrialModal = (count) => {
+        this.setState({visibleTrialModal: true, countTraining: count})
     }
     hideTrialModal = () => {
         this.setState({visibleTrialModal: false})
@@ -54,6 +57,7 @@ class Payment extends React.Component{
 
         // убрать
         isUser = true;
+
         return (
             <Hoc>
                 {isUser ? (
@@ -69,6 +73,8 @@ class Payment extends React.Component{
                     onCancel={this.hideTrialModal} 
                     onSave={this.onSendDataModal}
                 />
+
+                { this.state.redirectToSchedule ? <Redirect to="/app/schedule"/> : null }
             </Hoc>
         )
     }
@@ -84,6 +90,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onSetFreeIntervals: (freeIntervals) => dispatch(actions.setFreeIntervals(freeIntervals)),
+        onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
+        
     }
 };
 

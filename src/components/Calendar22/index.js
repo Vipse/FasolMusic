@@ -24,22 +24,6 @@ class BigCalendar extends React.Component{
         }
     };
 
-    changeSchedule = () => {
-        return this.props.schedules ? this.props.schedules.map((sched) => {
-                const {intervalOb} = sched;                  
-                let newIntervalOb = [];
-
-                intervalOb.forEach((item) => {
-                    newIntervalOb.push(this.changeIntervalDate(item.start, item.end))
-                });
-
-                return {
-                    ...sched,
-                    intervalOb: newIntervalOb,
-                }
-            }) : [];
-    };
-
     changeEvents = () => {
         return this.props.events ? this.props.events.map((event) => {
                 return {
@@ -98,6 +82,8 @@ BigCalendar.propTypes = {
     freeTrainers: PropTypes.object,
     showModalTransferEvent: PropTypes.func,
     setChoosenTrainer: PropTypes.func,
+    isNeedSaveIntervals: PropTypes.bool,
+    fillTrainingWeek: PropTypes.func,
 };
 
 

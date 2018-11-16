@@ -53,7 +53,8 @@ export default class TimeColumn extends Component {
       showTransferEvent,
       freeTrainers,
       showModalTransferEvent,
-      setChoosenTrainer
+      setChoosenTrainer, 
+      intervals
     } = this.props;
 
     return (
@@ -65,8 +66,7 @@ export default class TimeColumn extends Component {
         step={step}
         slotPropGetter={slotPropGetter}
         dayPropGetter={dayPropGetter}
-        intervals={this.props.intervals}
-        intervalsFasol={this.props.intervalsFasol}
+        intervals={intervals}
         culture={culture}
         timeslots={timeslots}
         resource={resource}

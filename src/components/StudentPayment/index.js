@@ -38,6 +38,7 @@ class StudentPayment extends React.Component{
 
     selectPlan = (typeSubscription) => {
         // здесь должно быть typeSubscription
+       
         this.props.onSetFreeIntervals({count : 4})
     }
 
@@ -102,7 +103,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">107 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
+                                        onClick={() => { this.props.showTrialModal(4); this.selectPlan() }}
                                         size='small'
                                         type='black'
                                 />
@@ -119,7 +120,7 @@ class StudentPayment extends React.Component{
                             </div>
                             <div className="plan-select">
                                 <div className="plan-select-totalPrice">184 р.</div>
-                                <Button className="plan-select-selectBtn-active"
+                                <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
                                         onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
                                         size='small'
@@ -241,6 +242,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onSetFreeIntervals: (freeIntervals) => dispatch(actions.setFreeIntervals(freeIntervals)),
+        onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
+        
     }
 };
 

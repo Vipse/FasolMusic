@@ -58,6 +58,22 @@ class TimeGrid extends Component {
     }
   }
 
+  // fasol - для каждого DayColumn соответствующий intervals
+  getCurrentIntervalsDay = () => { 
+    let {intervals} = this.props;
+
+    if( Array.isArray(intervals) && intervals.length > 0){
+
+        for(let i = 0; i < intervals.length; i++){
+              if(intervals[i].day === this.numberDay){
+                this.numberDay++;
+                return [...intervals[i].intervals];
+              }
+        }
+    }
+    return [];
+  }
+
   render() {
       let {
       events,
@@ -148,7 +164,11 @@ class TimeGrid extends Component {
       resourceAccessor,
       resourceIdAccessor,
       components,
+      intervals
     } = this.props
+
+    this.numberDay = 0;
+ 
 
     return range.map((date, idx) => {
       let daysEvents = events.filter(event => 
@@ -161,7 +181,6 @@ class TimeGrid extends Component {
           )
         
       )
-      
       return resources.map((resource, id) => {
         let eventsToDisplay = !resource
           ? daysEvents
@@ -174,6 +193,8 @@ class TimeGrid extends Component {
         return (
           <DayColumn
             {...this.props}
+
+            intervals={this.getCurrentIntervalsDay()}
             min={dates.merge(date, min)}
             max={dates.merge(date, max)}
             resource={resource && resource.id}

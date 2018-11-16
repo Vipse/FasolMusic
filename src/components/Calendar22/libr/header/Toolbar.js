@@ -15,7 +15,7 @@ class Toolbar extends React.Component {
   }
 
   render() {
-    let { messages, label, receptionNum } = this.props
+    let { messages, label, receptionNum,isNeedSaveIntervals, fillTrainingWeek} = this.props
 
     return (
       <div className="rbc-toolbar">
@@ -31,7 +31,15 @@ class Toolbar extends React.Component {
         <span className="rbc-toolbar-label">{label}</span>
         <span className="rbc-toolbar-receptionCount">{receptionNum}</span>
 
-      
+        { isNeedSaveIntervals ?  
+              <Button
+              btnText={'Сохранить'}
+              size='small'
+              type='yellow-black'
+              onClick={fillTrainingWeek}
+              /> : null
+        }
+
       </div>
     )
   }

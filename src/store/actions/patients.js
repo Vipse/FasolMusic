@@ -405,6 +405,7 @@ export const unselectPatient = () => {
     }
 }
 
+//fasol
 export const setFreeIntervals = (freeIntervals) => {
     return {
         type: actionTypes.SET_FREE_INTERVALS,
@@ -412,6 +413,12 @@ export const setFreeIntervals = (freeIntervals) => {
     }
 }
 
+export const setNeedSaveIntervals = (countTraining) => {
+    return {
+        type: actionTypes.SET_NEED_SAVE_INTERVALS,
+        abonementIntervals: { isNeed: true, countTraining: countTraining}
+    }
+}
 
 // /putMessage
 export const sendMessage = (message) => {

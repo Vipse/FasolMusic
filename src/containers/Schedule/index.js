@@ -19,6 +19,7 @@ import {findTimeInterval} from '../../helpers/timeInterval'
 import {timePeriod} from './mock-data'
 
 import { apiPatients, apiTrainers, fasolIntervals} from './mock-data';
+import { fillTrainingWeek } from './shedule';
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -58,7 +59,6 @@ class Schedule extends React.Component {
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         // запомнить куда нужно отправить free trainers
        
-console.log("showModalTransferEvent")
         if(!this.isShowFreeTrainers2){
             this.idEvent = idEvent;
             this.setState({isShowFreeTrainers : true});
@@ -72,41 +72,24 @@ console.log("showModalTransferEvent")
     }
 
     setChoosenTrainer = (id, time) => {
-        console.log("setChoosenTrainer")
-        let arr = [];
-        this.apiPatientsChanged = this.apiPatientsChanged ? this.apiPatientsChanged: [];
 
         this.idEvent = null;
         this.isShowFreeTrainers2 = 2;
         this.setState({ isTransferEvent: false});
-      
-
-        if(this.apiPatientsChanged){
-            for(let i= 0; i < this.apiPatientsChanged.length; i++){
-                if(this.apiPatientsChanged[i].id != this.deleteId) 
-                    arr.push(this.apiPatientsChanged[i]);
-            }
-        }
-        else{
-            for(let i= 0; i < apiPatients.length; i++){
-                if(apiPatients[i].id != this.deleteId) 
-                    arr.push(apiPatients[i]);
-            }
-        }
-       
-        this.apiPatientsChanged = arr;
 
         this.deleteId = null;
 
 
         for(let i = 0; i < apiTrainers.length; i++){
-
+   
             if(apiTrainers[i].id === id){
-                let trainer= apiTrainers[i];
+                let trainer= {...apiTrainers[i]};
                 trainer.start = new Date(time);
-                this.apiPatientsChanged.push(trainer);
+                apiPatients.push(trainer);
+                break;
             }
         }
+        console.log('this.countTraining :',   this.props.abonementIntervals.countTraining);
     }
 
     setIntervalAndView = (date, view) => {
@@ -287,7 +270,12 @@ console.log("showModalTransferEvent")
 	}
 
     render() {
-        console.log('freeIntervals :', this.props.freeIntervals);
+        let isNeedSaveIntervals = false
+        if(this.props.abonementIntervals){
+            isNeedSaveIntervals = this.props.abonementIntervals.isNeedSaveIntervals;
+            this.countTraining = this.props.abonementIntervals.countTraining; //кол-во трень в абоменте
+        }
+        
 
         const {dates, currentSched} = this.state.receptionData;
         let editorBtn, calendar, timeSetCall = this.state.receptionData.currentSched.intervalOb, timeSetReception = [];
@@ -340,11 +328,11 @@ console.log("showModalTransferEvent")
             let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
             if(this.isShowFreeTrainers2 == 2) checkFreeTrainers = [];
 
-            console.log('this.props.intervals  :', this.props.intervals );
+            //console.log('this.props.intervals  :', this.props.intervals );
             let freeTrainers = this.idEvent ? 
                     {idEvent: this.idEvent, freeTrainers: checkFreeTrainers} : null
 
-
+                   
                     
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
@@ -364,13 +352,12 @@ console.log("showModalTransferEvent")
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={50}
-                                        events={ Array.isArray(this.apiPatientsChanged) ? this.apiPatientsChanged : apiPatients} //{this.props.visits}
-                                  intervals={checkIntervals}
+                                        events={apiPatients} //{this.props.visits}
+                                  intervals={this.props.freeIntervals}
                                   min={min}
                                   max={max}
                                   minFasol={minFasol}
                                   maxFasol={maxFasol}
-                                  intervalsFasol={checkIntervals}
 
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
@@ -382,6 +369,8 @@ console.log("showModalTransferEvent")
                                   freeTrainers={freeTrainers} //my
                                   showModalTransferEvent={this.showModalTransferEvent}
                                   setChoosenTrainer={this.setChoosenTrainer}
+                                  isNeedSaveIntervals={isNeedSaveIntervals}
+                                  fillTrainingWeek = {fillTrainingWeek}
             />)
         }
 
@@ -445,6 +434,8 @@ const mapStateToProps = state => {
     return {
         patients: state.patients.docPatients,
         freeIntervals: state.patients.freeIntervals,
+        abonementIntervals: state.patients.abonementIntervals,
+        countTraining: state.patients.countTraining,
         isUser: state.auth.mode === "user",
         visits: state.schedules.visits,
         intervals: state.schedules.visIntervals,

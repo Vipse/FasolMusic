@@ -73,6 +73,8 @@ class Calendar extends React.Component {
         receptionNum,
         onChange,
         highlightedDates,
+        isNeedSaveIntervals,
+        fillTrainingWeek,
       ...props
     } = this.props
 
@@ -112,6 +114,8 @@ class Calendar extends React.Component {
                 messages={messages}
                 receptionNum={receptionNum}
                 isUser = {this.props.isUser}
+                isNeedSaveIntervals = {isNeedSaveIntervals}
+                fillTrainingWeek = {fillTrainingWeek}
               />
             )}
             <Week
@@ -305,6 +309,8 @@ components: PropTypes.shape({
   freeTrainers: PropTypes.object,
   showModalTransferEvent: PropTypes.func,
   setChoosenTrainer: PropTypes.func,
+  isNeedSaveIntervals: PropTypes.bool,
+  fillTrainingWeek: PropTypes.func,
 }
 
 Calendar.defaultProps = {

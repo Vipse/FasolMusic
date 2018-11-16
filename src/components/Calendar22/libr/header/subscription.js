@@ -20,7 +20,7 @@ export function getRandomTraining(wantIntervals, workTrainerTimes) {
         })
     }
       
-console.log('goodInterval :', goodInterval);
+//console.log('goodInterval :', goodInterval);
     // for(let i = 0; i < maxWant; i++){
     //     for(let j = 0; j < maxWork; j++){
 

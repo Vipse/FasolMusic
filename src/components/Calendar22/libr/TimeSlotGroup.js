@@ -83,6 +83,7 @@ export default class TimeSlotGroup extends Component {
       showLabels
     } = this.props;
    
+
     for( let i = 0; i < events.length; i++){
      
           if(events[i].start.getTime() === this.props.value.getTime() && !showLabels) {
@@ -116,11 +117,13 @@ export default class TimeSlotGroup extends Component {
      this.props.showModalTransferEvent(idValue);
   }
 
+
+  
   render() {
     const {intervals, value, freeTrainers} = this.props;
-    
 
     const flag = intervals.some(el => {
+      
       return (value >= el.start*1000) && value < (el.end * 1000)
     });
 
@@ -128,6 +131,8 @@ export default class TimeSlotGroup extends Component {
     const isViewTrainer = (freeTrainers && freeTrainers.idEvent === this.props.value.getTime()) ? true : false;//не OK если таместь freeTrainers
     const currentEvent = this.renderEvent();
 
+
+    
     let cellClass = cn('rbc-timeslot-group', flag && !isViewTrainer && !currentEvent ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
 
     return <div className={cellClass} onClick={(e) => modalTransferEvent(e, value.getTime())}>

@@ -82,6 +82,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 freeIntervals: action.freeIntervals,
             }
+
+        case actionTypes.SET_NEED_SAVE_INTERVALS:
+            return {
+                ...state,
+                abonementIntervals: action.abonementIntervals,
+            }    
+            
             
         default: return state;
     }
