@@ -22,7 +22,8 @@ class Payment extends React.Component{
     onSendDataModal = (data) => {
         let array = [];
         for(let i = 0; i < 7; i++){
-                data.selectedDays.hasOwnProperty(i) ?
+
+                if(data.selectedDays.hasOwnProperty(i)){
                     array.push(
                         {
                             day: i, 
@@ -31,22 +32,28 @@ class Payment extends React.Component{
                                 end: +data.time[1].weekday(i+1).format('X')
                             }]
                         }
-                    )    
-                    :
+                    )   
+                    //console.log("7", data.time[0].day(7));
+                } 
+                else{
                     array.push(
                         {
                             day: i, 
                             intervals : []
                         }
                     );   
+                }
+                   
         }
 
         this.setState({visibleTrialModal: false, redirectToSchedule: true});
         this.props.onSetFreeIntervals(array, this.state.countTraining);
-        this.props.onSetNeedSaveIntervals(true);
+        //this.props.onSetNeedSaveIntervals(true);
     }
     showTrialModal = (count) => {
+        console.log('showTrialModal :', count);
         this.setState({visibleTrialModal: true, countTraining: count})
+        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: count});
     }
     hideTrialModal = () => {
         this.setState({visibleTrialModal: false})

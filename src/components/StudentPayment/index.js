@@ -36,10 +36,10 @@ class StudentPayment extends React.Component{
         });
     };
 
-    selectPlan = (typeSubscription) => {
+    selectPlan = (count) => {
         // здесь должно быть typeSubscription
        
-        this.props.onSetFreeIntervals({count : 4})
+        this.props.onSetNeedSaveIntervals(count)
     }
 
     renderInput = (type) => {
@@ -84,7 +84,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">28 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan(1) }}
                                         size='small'
                                         type='black'
                                 />
@@ -103,7 +103,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">107 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(4); this.selectPlan() }}
+                                        onClick={() => { this.props.showTrialModal(4); this.selectPlan(4) }}
                                         size='small'
                                         type='black'
                                 />
@@ -122,7 +122,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">184 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan(8) }}
                                         size='small'
                                         type='black'
                                 />
@@ -141,7 +141,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">279 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan(12) }}
                                         size='small'
                                         type='black'
                                 />
@@ -160,7 +160,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">488 р.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(); this.selectPlan() }}
+                                        onClick={() => { this.props.showTrialModal(); this.selectPlan(24) }}
                                         size='small'
                                         type='black'
                                 />

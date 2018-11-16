@@ -47,7 +47,8 @@ class Schedule extends React.Component {
             },
 
             isTransferEvent: false,
-            isShowFreeTrainers: false
+            isShowFreeTrainers: false, 
+            supIntervals: true,
         }
     };
 
@@ -73,6 +74,10 @@ class Schedule extends React.Component {
 
     setChoosenTrainer = (id, time) => {
 
+        console.log("count", this.props.abonementIntervals);
+       
+            
+
         this.idEvent = null;
         this.isShowFreeTrainers2 = 2;
         this.setState({ isTransferEvent: false});
@@ -89,7 +94,11 @@ class Schedule extends React.Component {
                 break;
             }
         }
-        console.log('this.countTraining :',   this.props.abonementIntervals.countTraining);
+
+         if( apiPatients.length === this.props.abonementIntervals.countTraining){
+            this.setState({supIntervals : false});
+            return null;
+        }
     }
 
     setIntervalAndView = (date, view) => {
@@ -272,7 +281,7 @@ class Schedule extends React.Component {
     render() {
         let isNeedSaveIntervals = false
         if(this.props.abonementIntervals){
-            isNeedSaveIntervals = this.props.abonementIntervals.isNeedSaveIntervals;
+            isNeedSaveIntervals = this.props.abonementIntervals.isNeed;
             this.countTraining = this.props.abonementIntervals.countTraining; //кол-во трень в абоменте
         }
         
@@ -353,7 +362,7 @@ class Schedule extends React.Component {
                                   onGotoPatient={this.gotoHandler}
                                   step={50}
                                         events={apiPatients} //{this.props.visits}
-                                  intervals={this.props.freeIntervals}
+                                  intervals={ this.state.supIntervals ? this.props.freeIntervals : []}
                                   min={min}
                                   max={max}
                                   minFasol={minFasol}
