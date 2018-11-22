@@ -84,6 +84,7 @@ BigCalendar.propTypes = {
     setChoosenTrainer: PropTypes.func,
     isNeedSaveIntervals: PropTypes.bool,
     fillTrainingWeek: PropTypes.func,
+    isShowFreeTrainers: PropTypes.bool
 };
 
 
@@ -92,7 +93,6 @@ BigCalendar.defaultProps = {
     events: [],
     schedules: [],
     intervals: [],
-    freeTrainers: {},
     receptionNum: 0,
     onPopoverClose: () => {},
     onPopoverEmail: () => {},

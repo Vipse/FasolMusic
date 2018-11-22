@@ -418,6 +418,7 @@ TimeGrid.propTypes = {
  
 
 TimeGrid.defaultProps = {
+  events: [],
   step: 30,
   min: dates.startOf(new Date(), 'day'),
   max: dates.endOf(new Date(), 'day'),

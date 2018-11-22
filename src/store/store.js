@@ -12,6 +12,9 @@ import infoPatientReducer from './reducers/patientData'
 import chatWSReducer from './reducers/chatWS'
 import loadingReducer from './reducers/loading'
 
+// fasol
+import abonementReducer from './reducers/abonement'
+
 
 const rootReducer = combineReducers({
     patients: patientsReducer,
@@ -24,6 +27,7 @@ const rootReducer = combineReducers({
     profilePatient: infoPatientReducer,
     chatWS: chatWSReducer,
     loading: loadingReducer,
+    abonement: abonementReducer,
 });
 
 export default function configureStore() {

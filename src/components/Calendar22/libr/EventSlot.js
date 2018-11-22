@@ -13,11 +13,9 @@ export default class EventSlot extends Component {
         super(props);
     };
 
-    showTransferEvent = (id) => {
-        this.props.showTransferEvent(id);
-    }
-    getChoosenTrainer = (id) => {
-        this.props.setChoosenTrainer(id, this.props.value);
+    showTransferEvent = () => {
+        console.log('this.props :', this.props);
+        this.props.showTransferEvent(this.props.event.id);
     }
 
     render() {
@@ -50,34 +48,16 @@ export default class EventSlot extends Component {
         ]
         getRandomTraining(want);
 
-
-
-        let eventStyle = (freeTrainers && freeTrainers.freeTrainers.length && idEvent === freeTrainers.idEvent) ?
-            "event-group event-group-freetrainers"
-            :
-            "event-group";
-            
         return (
-        <div className={eventStyle} >
-            {freeTrainers && freeTrainers.freeTrainers.length && idEvent === freeTrainers.idEvent ? 
-                freeTrainers.freeTrainers.map((elem) => {
-                    return (
-                        <p className="event-group-text" key={elem.id} onClick={() => this.getChoosenTrainer(elem.id)}>
-                            {elem.fio}
-                        </p>)
-                })
-                
-                :
+        <div className="event-group" >
                 <div>
                     <div className="event-group-cross">
-                        <Icon type='close' size={7} onClick={() => this.showTransferEvent(this.props.event.id)}/>
+                        <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>
                     </div>
                     <p className="event-group-text" >
                         {event.fio}
                     </p>
                 </div>
-            }
-           
         </div>
         )
     }

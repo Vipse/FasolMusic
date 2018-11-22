@@ -130,3 +130,8 @@ export {
     setNewTimer,
 
 } from './chatWS'
+
+export {
+    createAbonement,
+    getAbonements,
+} from './abonement'

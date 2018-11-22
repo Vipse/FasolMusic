@@ -22,6 +22,7 @@ export default class TimeSlotGroup extends Component {
     resource: PropTypes.string,
   }
   static defaultProps = {
+    intervals: [],
     timeslots: 2,
     step: 30,
     isNow: false,
@@ -112,8 +113,7 @@ export default class TimeSlotGroup extends Component {
     return null;
   }
 
-  showModalTransferEvent = (e,idValue) => {
-      e.preventDefault();
+  showModalTransferEvent = (idValue) => {
      this.props.showModalTransferEvent(idValue);
   }
 
@@ -122,20 +122,22 @@ export default class TimeSlotGroup extends Component {
   render() {
     const {intervals, value, freeTrainers} = this.props;
 
-    const flag = intervals.some(el => {
-      
-      return (value >= el.start*1000) && value < (el.end * 1000)
-    });
 
-    const modalTransferEvent = flag ? this.showModalTransferEvent : () => {}; // перенос тренировки
+    const flag = Array.isArray(intervals) ? intervals.some(el => {
+
+      return (value >= el.start*1000) && value < (el.end * 1000)
+    }) : null
+
+   
     const isViewTrainer = (freeTrainers && freeTrainers.idEvent === this.props.value.getTime()) ? true : false;//не OK если таместь freeTrainers
     const currentEvent = this.renderEvent();
 
 
     
     let cellClass = cn('rbc-timeslot-group', flag && !isViewTrainer && !currentEvent ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
+    const modalTransferEvent = flag && !isViewTrainer && !currentEvent ? this.showModalTransferEvent : () => {}; // перенос тренировки
 
-    return <div className={cellClass} onClick={(e) => modalTransferEvent(e, value.getTime())}>
+    return <div className={cellClass} onClick={(e) => modalTransferEvent(value.getTime())}>
               {this.renderSlices()}
               {currentEvent}
             </div>

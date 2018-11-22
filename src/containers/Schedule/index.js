@@ -7,12 +7,11 @@ import Row from "../../components/Row";
 import Col from "../../components/Col";
 import Button from "../../components/Button";
 import Calendar from "../../components/Calendar22";
-import SmallCalendar from "../../components/SmallCalendar";
 import CancelVisitModal from "../../components/CancelVisitModal";
 import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
 import ReceptionsScheduleModal from "../../components/ReceptionsScheduleModal";
-import WarningModal from "../../components/WarningModal";
+import Modal from './../../components/Modal/index';
 import * as actions from '../../store/actions'
 import './styles.css'
 import {findTimeInterval} from '../../helpers/timeInterval'
@@ -20,6 +19,7 @@ import {timePeriod} from './mock-data'
 
 import { apiPatients, apiTrainers, fasolIntervals} from './mock-data';
 import { fillTrainingWeek } from './shedule';
+
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -39,67 +39,62 @@ class Schedule extends React.Component {
             cancelModal: false,
             newMessageModal: false,
             receptionsScheduleModal: false,
-            warningModal: false,
+            sendingModal: false,
             receptionData: {
                 dates: [],
                 currentSched: {},
             
             },
 
-            isTransferEvent: false,
             isShowFreeTrainers: false, 
-            supIntervals: true,
+            amountTraining: true,
         }
     };
 
 
     showTransferEvent = (id) => { // нажатие на крестик
-        this.setState({isTransferEvent : true});
         this.deleteId = id;
     }
+
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
-        // запомнить куда нужно отправить free trainers
-       
-        if(!this.isShowFreeTrainers2){
-            this.idEvent = idEvent;
-            this.setState({isShowFreeTrainers : true});
-        } 
-        else{
-            this.idEvent = null;
-            this.isShowFreeTrainers2 = false;
-            this.setState({isShowFreeTrainers : false});
-        }
-       
+        this.timeEvent = idEvent;
+        this.setState({isShowFreeTrainers : true});
     }
 
-    setChoosenTrainer = (id, time) => {
-
-        console.log("count", this.props.abonementIntervals);
-       
-            
-
-        this.idEvent = null;
-        this.isShowFreeTrainers2 = 2;
-        this.setState({ isTransferEvent: false});
-
-        this.deleteId = null;
-
+    setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
 
         for(let i = 0; i < apiTrainers.length; i++){
    
-            if(apiTrainers[i].id === id){
+            if(apiTrainers[i].idMaster === idMaster){
                 let trainer= {...apiTrainers[i]};
-                trainer.start = new Date(time);
+                trainer.start = new Date(this.timeEvent);
+ 
                 apiPatients.push(trainer);
-                break;
+                i = Infinity;
             }
         }
 
-         if( apiPatients.length === this.props.abonementIntervals.countTraining){
-            this.setState({supIntervals : false});
-            return null;
+        if( apiPatients.length === this.props.abonementIntervals.countTraining){
+            this.setState({amountTraining : false});
         }
+
+        this.timeEvent = null;
+        this.setState({isShowFreeTrainers : false});
     }
+
+    fillTrainingWeek = () => { // создание абонемента
+        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
+        this.setState({amountTraining : false, sendingModal: true}); // убрать интервалы
+
+        this.props.onCreateAbonement(fillTrainingWeek())
+        .then(() => {
+            this.props.onGetAbonements(); // получить уже распредленное время тренировок в абонементе
+        });
+
+
+
+    }
+
 
     setIntervalAndView = (date, view) => {
         const {start, end} = findTimeInterval(date, view);
@@ -266,7 +261,7 @@ class Schedule extends React.Component {
 
     eventDeleteHandler = (id) => {
         this.props.onEventDelete(id);
-        this.setState({warningModal: true});
+        this.setState({sendingModal: true});
     }
 
     prepareDatesForSmallCalendar = (visits) => {
@@ -279,9 +274,10 @@ class Schedule extends React.Component {
 	}
 
     render() {
+        console.log('this.props.abonementIntervals :', this.props.abonementIntervals);
         let isNeedSaveIntervals = false
         if(this.props.abonementIntervals){
-            isNeedSaveIntervals = this.props.abonementIntervals.isNeed;
+            isNeedSaveIntervals = this.props.abonementIntervals.visibleTrialModal;
             this.countTraining = this.props.abonementIntervals.countTraining; //кол-во трень в абоменте
         }
         
@@ -331,23 +327,18 @@ class Schedule extends React.Component {
                 
             // надо нормальную проверка для коуча и студента
         
-            let checkIntervals = this.state.isTransferEvent ? 
-            fasolIntervals//this.props.intervals 
-            : []
-            let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
-            if(this.isShowFreeTrainers2 == 2) checkFreeTrainers = [];
+            // let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
 
-            //console.log('this.props.intervals  :', this.props.intervals );
-            let freeTrainers = this.idEvent ? 
-                    {idEvent: this.idEvent, freeTrainers: checkFreeTrainers} : null
+            let freeTrainers = (this.timeEvent && this.state.isShowFreeTrainers) ? 
+                    {idEvent: this.timeEvent, freeTrainers: apiTrainers} : null
+   
 
-                   
-                    
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
                                  icon='setting_edit'/>)
-            calendar = (<Calendar receptionNum={apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
+            calendar = (<Calendar 
+                                    receptionNum={apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   onSelectSlot={(slot) => this.onAddVisit(slot)}
@@ -362,7 +353,8 @@ class Schedule extends React.Component {
                                   onGotoPatient={this.gotoHandler}
                                   step={50}
                                         events={apiPatients} //{this.props.visits}
-                                  intervals={ this.state.supIntervals ? this.props.freeIntervals : []}
+                                  intervals={ this.state.amountTraining ? this.props.freeIntervals : []}
+                                  
                                   min={min}
                                   max={max}
                                   minFasol={minFasol}
@@ -379,11 +371,34 @@ class Schedule extends React.Component {
                                   showModalTransferEvent={this.showModalTransferEvent}
                                   setChoosenTrainer={this.setChoosenTrainer}
                                   isNeedSaveIntervals={isNeedSaveIntervals}
-                                  fillTrainingWeek = {fillTrainingWeek}
+                                  fillTrainingWeek = {this.fillTrainingWeek}
+                                  isShowFreeTrainers = {this.state.isShowFreeTrainers}
+
             />)
         }
 
         
+        if(this.props.allAbonements){
+            apiPatients = [];
+            let {subscriptions} = this.props.allAbonements;
+            let max = subscriptions.length;
+            for(let i = 0; i < max; i++){
+                for(let j = 0; j < subscriptions[i].training.length; j++){
+                    
+                    apiPatients.push(
+                        {
+                            avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+                            fio: subscriptions[i].training[j].idMaster,
+                            idMaster: subscriptions[i].training[j].idMaster,
+                            discipline: subscriptions[i].discipline,
+                            comment: "Строгий полицейский",
+                            start: new Date(subscriptions[i].training[j].start * 1000)
+                        })
+                }
+            }
+        }
+       
+
         return (
             <Hoc>
                 <Row className="row-schedule" style={{margin: 0, marginTop: -7, borderTop: 7}}>
@@ -397,11 +412,28 @@ class Schedule extends React.Component {
                      />
                     </Col>
                 </Row>
+
+                <Modal 
+                    title='Сообщение'
+                    visible={this.state.sendingModal}
+                    onClick={() => this.setState({sendingModal: false})}
+                    onCancel={() => this.setState({sendingModal: false})}
+                    width={360}
+                    className="schedule-message-modal-wrapper"
+                >
+
+                    <div className="schedule-message-modal"> 
+                        <p>Тренировки распределены по календарю</p>
+                    </div>
+                    
+                </Modal>
+
+
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}
                                   onSave={(obj) => {
                                       this.props.onCloseCancelModal(obj);
-                                      this.setState({cancelModal: false, warningModal: true});
+                                      this.setState({cancelModal: false, sendingModal: true});
                                   }}
                                   onCancel={() => this.setState({cancelModal: false})}
                 />
@@ -431,9 +463,7 @@ class Schedule extends React.Component {
                                          isDayOff={!!(+isDayOff)}
                                          emergencyAvailable={this.props.emergencyAvailable}
                 />
-                <WarningModal visible={this.state.warningModal}
-                              onClick={() => this.setState({warningModal: false})}
-                              message='Изменения всупят в силу после проверки администратором'/>
+               
             </Hoc>
         )
     }
@@ -441,20 +471,22 @@ class Schedule extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        patients: state.patients.docPatients,
-        freeIntervals: state.patients.freeIntervals,
+        allAbonements: state.abonement.allAbonements, // и интервалы
+
+        patients:  state.patients.docPatients,
+        freeIntervals:  state.patients.freeIntervals,
         abonementIntervals: state.patients.abonementIntervals,
         countTraining: state.patients.countTraining,
-        isUser: state.auth.mode === "user",
-        visits: state.schedules.visits,
+        isUser:  state.auth.mode === "user",
+        visits:  state.schedules.visits,
         intervals: state.schedules.visIntervals,
-        min: state.schedules.min,
-        max: state.schedules.max,
-        schedules: state.schedules.schedules,
+        min: state.schedules.min,   // !   1540929600
+        max:  state.schedules.max,   // !  1540875600
+        schedules:  state.schedules.schedules,  // 1
         chosenData: state.schedules.chosenData,
         cancelData: state.schedules.cancelData,
-        allUserVisits: state.schedules.allUserVisits,
-        emergencyAvailable: state.doctor.emergencyAvailable
+        allUserVisits:  state.schedules.allUserVisits,
+        emergencyAvailable:  state.doctor.emergencyAvailable
     };
 };
 
@@ -476,6 +508,11 @@ const mapDispatchToProps = dispatch => {
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         onSelectEvent: (event) => dispatch(actions.selectEvent(event)),
         onEventDelete: () => dispatch(actions.deleteEvent()),
+
+        onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
+        onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
+        onGetAbonements: (idStudent) => dispatch(actions.getAbonements(idStudent)),
+
     }
 };
 

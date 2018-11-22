@@ -262,10 +262,11 @@
 }
 .rbc-calendar-wrapper {
   min-width: 78%;
+  margin-right: 10px;
 }
 .rbc-smallcalendar-wrapper {
   margin-top: 5px;
-  min-width: 22%;
+  width: 22%;
 }
 .rbc-smallcalendar-wrapper .change-worktime {
   margin: 0px 0px 15px 15px;

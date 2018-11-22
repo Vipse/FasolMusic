@@ -417,7 +417,7 @@ export const setNeedSaveIntervals = (countTraining) => {
     console.log('countTraining :', countTraining);
     return {
         type: actionTypes.SET_NEED_SAVE_INTERVALS,
-        abonementIntervals: { isNeed: true, countTraining: countTraining}
+        abonementIntervals: { visibleTrialModal: countTraining.visibleTrialModal, countTraining: countTraining}
     }
 }
 

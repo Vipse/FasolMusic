@@ -46,9 +46,9 @@ class Payment extends React.Component{
                    
         }
 
-        this.setState({visibleTrialModal: false, redirectToSchedule: true});
+        this.setState({visibleTrialModal: true, redirectToSchedule: true});
         this.props.onSetFreeIntervals(array, this.state.countTraining);
-        //this.props.onSetNeedSaveIntervals(true);
+        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 0});
     }
     showTrialModal = (count) => {
         console.log('showTrialModal :', count);
@@ -99,6 +99,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onSetFreeIntervals: (freeIntervals) => dispatch(actions.setFreeIntervals(freeIntervals)),
         onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
+
         
     }
 };

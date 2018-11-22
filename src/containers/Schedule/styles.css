@@ -18,3 +18,9 @@
   margin: 5px 0 25px 0;
   background-color: transparent;
 }
+.schedule-message-modal-wrapper {
+  top: 30%;
+}
+.schedule-message-modal-wrapper .schedule-message-modal {
+  padding: 25px;
+}

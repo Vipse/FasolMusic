@@ -25,6 +25,7 @@ import SmallCalendar from './../../SmallCalendar/index';
 import Button from './../../Button/index';
 import CancelVisitModal from './../../CancelVisitModal/index';
 import Week from './Week';
+import MyCoach from './../../MyCoach/index';
 
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
@@ -75,6 +76,9 @@ class Calendar extends React.Component {
         highlightedDates,
         isNeedSaveIntervals,
         fillTrainingWeek,
+        freeTrainers,
+        setChoosenTrainer,
+        isShowFreeTrainers,
       ...props
     } = this.props
 
@@ -137,22 +141,34 @@ class Calendar extends React.Component {
           </div>
           <div className='rbc-smallcalendar-wrapper'>
           
-            <Button
-              className="change-worktime"
-              btnText={"Изменить рабочее время"}
-              size='small'
-              type='dark-blue'
-              onClick={this.changeWorkTime}
-            />
-            
-            
-            <SmallCalendar 
-                date={current}
-                onChange={onChange}
-                isUser = {this.props.isUser}
-                highlightedDates = {highlightedDates}
-            />
+            {this.props.isUser ?
+              <Button
+                    className="change-worktime"
+                    btnText={"Изменить рабочее время"}
+                    size='small'
+                    type='dark-blue'
+                    onClick={this.changeWorkTime}
+              />
+              :
+              <div style={{width: '20px', height: '50px'}} ></div>
+            }
            
+            
+            
+            { this.props.isShowFreeTrainers ?
+              <MyCoach 
+                  freeTrainers={freeTrainers} 
+                  setChoosenTrainer={setChoosenTrainer}
+              /> 
+              :
+              <SmallCalendar 
+                  date={current}
+                  onChange={onChange}
+                  isUser = {this.props.isUser}
+                  highlightedDates = {highlightedDates}
+              />
+            }
+              
             <CancelVisitModal visible={this.state.isWorkTime}
                               onCancel={() => this.setState({isWorkTime: false})}
                 />
@@ -311,6 +327,7 @@ components: PropTypes.shape({
   setChoosenTrainer: PropTypes.func,
   isNeedSaveIntervals: PropTypes.bool,
   fillTrainingWeek: PropTypes.func,
+  isShowFreeTrainers: PropTypes.bool
 }
 
 Calendar.defaultProps = {

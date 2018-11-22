@@ -60,41 +60,54 @@ export let apiPatients = [
 export let apiTrainers = [
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
-        comment: "Заболел",
-        del: "",
-        delComment: "",
-        diagnosis: "",
-        doctorName: "Зубрицкий Владимир Анатольевич",
-        doctorSpecialty: "",
-        end: new Date(1541412100000),
-        endMA: 0,
         fio: "Шварцнегер Арнольд Михалович",
-        id: "127328",
-        id_doc: "3199",
-        id_treatment: "127325",
-        id_user: "3095",
-        start: new Date(1541418000000),
-    
-        timeTraining: 1541409000,
-    
-        status_user: 0,
-        type: "video",
+        idMaster: "127328",
+        discipline: "Вокал",
+        comment: "Строгий полицейский",
+    },
+    {
+
+        avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+        fio: "Зевс Саня Саныч",
+        idMaster: "127329",
+        discipline: "Вокал",
+        comment: "Добрый полицейский",
+
     },
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
-        comment: "Заболел",
-        del: "",
-        delComment: "",
-        diagnosis: "",
-        fio: "Зевс Саня Саныч",
-    
-        id: "127329",
-        id_user: "3095",
-
-        timeTraining: 1541409000,
-
-        status_user: 0,
-        type: "video",
+        fio: "Мальберд Кисточка",
+        idMaster: "127330",
+        discipline: "Вокал",
+        comment: "Строгий полицейский",
+    },
+    {
+        avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+        fio: "Александр Глеб",
+        idMaster: "127331",
+        discipline: "Вокал",
+        comment: "Добрый полицейский",
+    },
+    {
+        avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+        fio: "Граф Монте-Кристо",
+        idMaster: "127332",
+        discipline: "Вокал",
+        comment: "Хозяйский парень",
+    },
+    {
+        avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+        fio: "Петрусь Бровка",
+        idMaster: "127333",
+        discipline: "Вокал",
+        comment: "Книги, животные, бейсбол",
+    },
+    {
+        avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+        fio: "Моно Бровка",
+        idMaster: "127334",
+        discipline: "Вокал",
+        comment: "Работаю в парикмахерской",
     }
 ]
 

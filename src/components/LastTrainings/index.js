@@ -17,7 +17,6 @@ class LastTrainings extends React.Component {
     };
 
     render() {
-        console.log(this.props.data, "DATA TO MY STUDENTS")
         const {data} = this.props;
         return (
             <div className='lastTrainings'>
