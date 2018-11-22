@@ -86,6 +86,7 @@ export {
 
 export {
     getInfoPatient,
+    saveUserEdit,
     sendNewInfoPatient,
     sendNewPasswordPatient,
     deleteAvatar,

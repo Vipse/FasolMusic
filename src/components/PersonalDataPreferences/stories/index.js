@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import CoachPersonalDataContact from '../';
+import PersonalDataPreferences from '../';
 
 const profileCoach = {
     fio: "Иванова Иван Иванович",
@@ -10,11 +10,11 @@ const profileCoach = {
     country: "Беларусь"
 };
 
-storiesOf('CoachPersonalDataContact', module)
-    .add('CoachPersonalDataContact', () => (
+storiesOf('PersonalDataPreferences', module)
+    .add('PersonalDataPreferences', () => (
         <div>
-            <CoachPersonalDataContact
-                profileCoach={profileCoach}
+            <PersonalDataPreferences
+                profile={profileCoach}
             />
         </div>
     ))

@@ -13,10 +13,13 @@ class InputNew extends AntInput{
         }
     }
 
+    componentWillMount() {
+        this.setState({inputClassName: ((this.inp && this.inp.input.value) || this.props.value ? "effect has-content" : "effect")});
+    }
+
     componentWillReceiveProps(nextProps) {
         this.setState({inputClassName: ((this.inp && this.inp.input.value) || nextProps.value ? "effect has-content" : "effect")});
     }
-
 
     render() {
         const rootCl = "new-input input-effect" +" "+ this.props.className + " " +  'input-root ';

@@ -27,6 +27,7 @@ export const getInfoDoctor = (id) => {
         return axios.post('/catalog.fasol/getUserInfo',
          JSON.stringify(ids))
             .then(res => {
+                console.log("receivedCoachData", res);
                 res.data.result.data.id = ids.id;
 
                 dispatch({

@@ -52,14 +52,14 @@ class PersonalInfo extends React.Component{
                     <StudentPersonalProfile
                         onSubmitPassword={this.onSubmitPasswordPatient}
                         profileStudent={this.props.profileStudent}
-                        onSubmit={this.onSubmit}
+                        onSubmit={this.props.onSaveUserEdit}
                         onDeleteAvatar={this.props.onDeleteAvatar}
                         onUploadFile={this.props.uploadFile}
                     />) : (
                     <CoachPersonalProfile
                         onSubmitPassword={this.onSubmitPasswordPatient}
                         profileCoach={this.props.profileCoach}
-                        onSubmit={this.onSubmit}
+                        onSubmit={this.props.onSaveUserEdit}
                         onDeleteAvatar={this.props.onDeleteAvatar}
                         onUploadFile={this.props.uploadFile}
                     />)}
@@ -84,7 +84,8 @@ const mapDispatchToProps = dispatch => {
         onSendNewInfoPatient: (info) => dispatch(actions.sendNewInfoPatient(info)),
         onSendNewPasswordPatient: (oldPass, newPass, id) => dispatch(actions.sendNewPasswordPatient(oldPass, newPass, id)),
         onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),
-        uploadFile: (file) => dispatch(actions.uploadFile(file))
+        uploadFile: (file) => dispatch(actions.uploadFile(file)),
+        onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data))
     }
 };
 

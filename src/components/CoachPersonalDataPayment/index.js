@@ -24,13 +24,10 @@ import InputWithTT from "../InputWithTT";
 
 const FormItem = Form.Item;
 
-class CoachPersonalDataPaymentForm extends React.Component{
+class CoachPersonalDataPayment extends React.Component {
     constructor() {
         super();
         this.state = {
-            bankCard: {
-                linked: true
-            },
             yandexMoney: {
                 linked: false
             }
@@ -46,155 +43,45 @@ class CoachPersonalDataPaymentForm extends React.Component{
         });
     };
 
-    render(){
-        const { getFieldDecorator } = this.props.form;
-        const { payments } = this.props.profileCoach;
+    render() {
+        const {getFieldDecorator} = this.props;
+        const {payments} = this.props.profileCoach;
         const rootClass = cn('coach-data-form');
 
         return (
-            <Form className={rootClass}>
-                <div className='coach-data-title'>Платежные данные</div>
-                <div className='coach-data-block'>
-                    <div className='coach-data-payment'>
-                        <div className="payment-method">
-                            <div className="payment-method-view">
-                                <img src={cardIcon} className="payment-method-icon"/>
-                                <span className="payment-method-name">Карта</span>
-                            </div>
-                            <Button className="payment-method-linkBtn"
-                                btnText={this.state.bankCard.linked ? 'Отвязать' : 'Привязать'}
-                                onClick={(e) => this.handleLinkStatus(e, "bankCard")}
-                                size='small'
-                                type={this.state.bankCard.linked ? 'dark-blue' : 'float'}
-                            />
-                            {this.state.bankCard.linked &&
-                            <div className="payment-method-fields">
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('number', {
-                                        initialValue: "1234 5678 1234 5678",
-                                        rules: [{ required: true,
-                                            message: 'Введите номер карты, пожалуйста'
-                                        }],
-                                    })(
-                                        <InputNew width ="100%" bubbleplaceholder="Номер карты"/>
-                                    )}
-                                </FormItem>
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('dateExpire', {
-                                        initialValue: "",
-                                        rules: [{ required: true,
-                                            message: 'Введите срок действия, пожалуйста'
-                                        }],
-                                    })(
-                                        <DatePickerNew width ="100%"
-                                                       bubbleplaceholder="Срок действия"
-                                        />
-                                    )}
-                                </FormItem>
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('ownerName', {
-                                        initialValue: "",
-                                        rules: [{ required: true,
-                                            message: 'Введите имя держателя карты, пожалуйста'
-                                        }],
-                                    })(
-                                        <InputWithTT
-                                            width ="100%"
-                                            bubbleplaceholder="Имя держателя карты"
-                                            tooltip="Имя держателя карты Tooltip"
-                                        />
-                                    )}
-                                </FormItem>
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('CVC', {
-                                        initialValue: "",
-                                        rules: [{ required: true,
-                                            message: 'Введите CVC-код, пожалуйста'
-                                        }],
-                                    })(
-                                        <InputWithTT
-                                            width ="100%"
-                                            bubbleplaceholder="CVC"
-                                            tooltip="CVC Tooltip"
-                                        />
-                                    )}
-                                </FormItem>
-                            </div>}
+            <div className='coach-data-block'>
+                <div className='coach-data-payment'>
+                    <div className="payment-method">
+                        <div className="payment-method-view">
+                            <img src={yandexMoneyIcon} className="payment-method-icon"/>
+                            <span className="payment-method-name">Яндекс.Деньги</span>
                         </div>
-                        <div className="payment-method">
-                            <div className="payment-method-view">
-                                <img src={yandexMoneyIcon} className="payment-method-icon"/>
-                                <span className="payment-method-name">Яндекс.Деньги</span>
-                            </div>
-                            <Button className="payment-method-linkBtn"
+                        <Button className="payment-method-linkBtn"
                                 btnText={this.state.yandexMoney.linked ? 'Отвязать' : 'Привязать'}
-                                    onClick={(e) => this.handleLinkStatus(e, "yandexMoney")}
+                                onClick={(e) => this.handleLinkStatus(e, "yandexMoney")}
                                 size='small'
                                 type={this.state.yandexMoney.linked ? 'dark-blue' : 'float'}
-                            />
-                            {this.state.yandexMoney.linked &&
-                            <div className="payment-method-fields">
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('number', {
-                                        initialValue: "1234 5678 1234 5678",
-                                        rules: [{ required: true,
-                                            message: 'Введите номер карты, пожалуйста'
-                                        }],
-                                    })(
-                                        <InputNew width ="100%" bubbleplaceholder="Номер карты"/>
-                                    )}
-                                </FormItem>
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('dateExpire', {
-                                        initialValue: "",
-                                        rules: [{ required: true,
-                                            message: 'Введите срок действия, пожалуйста'
-                                        }],
-                                    })(
-                                        <DatePickerNew width ="100%"
-                                                       bubbleplaceholder="Срок действия"
-                                        />
-                                    )}
-                                </FormItem>
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('ownerName', {
-                                        initialValue: "",
-                                        rules: [{ required: true,
-                                            message: 'Введите имя держателя карты, пожалуйста'
-                                        }],
-                                    })(
-                                        <InputWithTT
-                                            width ="100%"
-                                            bubbleplaceholder="Имя держателя карты"
-                                            tooltip="Имя держателя карты Tooltip"
-                                        />
-                                    )}
-                                </FormItem>
-                                <FormItem className="input-form-item">
-                                    {getFieldDecorator('CVC', {
-                                        initialValue: "",
-                                        rules: [{ required: true,
-                                            message: 'Введите CVC-код, пожалуйста'
-                                        }],
-                                    })(
-                                        <InputWithTT
-                                            width ="100%"
-                                            bubbleplaceholder="CVC"
-                                            tooltip="CVC Tooltip"
-                                        />
-                                    )}
-                                </FormItem>
-                            </div>}
-                        </div>
-
+                        />
+                        {this.state.yandexMoney.linked &&
+                        <div className="payment-method-fields">
+                            <FormItem className="input-form-item">
+                                {getFieldDecorator('number', {
+                                    initialValue: "123456",
+                                    rules: [{
+                                        required: true,
+                                        message: 'Введите номер кошелька, пожалуйста'
+                                    }],
+                                })(
+                                    <InputNew width="100%" bubbleplaceholder="Номер кошелька"/>
+                                )}
+                            </FormItem>
+                        </div>}
                     </div>
                 </div>
-            </Form>
+            </div>
         )
     }
 }
-
-const CoachPersonalDataPayment  = Form.create()(CoachPersonalDataPaymentForm);
 
 CoachPersonalDataPayment.propTypes = {
     profileCoach: PropTypes.object

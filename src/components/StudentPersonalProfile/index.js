@@ -36,21 +36,19 @@ class StudentPersonalProfile extends React.Component{
                 <Row type="flex" gutter={32}>
                     <Col className="personal-student-items-data" span={14}>
                         <StudentPersonalData
-                            onSubmitPassword={this.onSubmitPasswordPatient}
                             profileStudent={profile}
-                            onSubmit={this.onSubmit}
+                            onSubmit={this.props.onSubmit}
                             onDeleteAvatar={this.props.onDeleteAvatar}
                         />
                     </Col>
                     <Col span={7}>
                         <CoachPersonalNotifications
                             profileCoach={profile}
-                            onSubmit={this.onSubmit}
+                            onSubmit={this.props.onSubmit}
                         />
                         <CoachPersonalChangePassword
                             profileCoach={profile}
-                            onSubmit={this.onSubmit}
-                            uploadFile={this.props.uploadFile}
+                            onSubmit={this.props.onSubmit}
                         />
                     </Col>
                 </Row>

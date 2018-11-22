@@ -41,7 +41,7 @@ class CoachPersonalNotificationsForm extends React.Component{
     renderNotificationTypes = (notificationsNamesArr) => {
         let notificationsArr = [];
         for (let i = 0; i < notificationsNamesArr.length; i++)
-            notificationsArr.push(<div className="notifications">
+            notificationsArr.push(<div className="notifications" key={i}>
                 <Checkbox className="largeChk" value={i} key={"notification-" + i}>
                     {notificationsNamesArr[i]}</Checkbox>
             </div>);
@@ -51,8 +51,8 @@ class CoachPersonalNotificationsForm extends React.Component{
     render() {
         const {getFieldDecorator} = this.props.form;
         const notificationsNames = {
-            email: ["Тип 1", "Тип 2", "Тип 3", "Тип 4"],
-            phone: ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"]
+            email: ["Общие уведомления"],
+            phone: ["Телефон 1", "Телефон 2"]
         };
         const rootClass = cn('personal-notifications');
         return (
