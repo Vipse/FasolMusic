@@ -32,7 +32,7 @@ export const getAbonements = (idStudent) => {
     idStudent = 1234;
     return (dispatch, getState) => {
 
-        instance2.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': '1234'}))
+        instance2.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': '1234',  "pastOnly": false}))
             .then(res => {
                 console.log("GetSubscriptions", res);
                 dispatch({
@@ -48,3 +48,20 @@ export const getAbonements = (idStudent) => {
 
 
 
+export const getAbonements2 = (idStudent) => {
+    idStudent = 1234;
+    return (dispatch, getState) => {
+
+        instance2.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': '1234',  "pastOnly": true}))
+            .then(res => {
+                console.log("GetSubscriptions", res);
+                dispatch({
+                    type: actionTypes.GET_ABONEMENTS2,
+                    allAbonements2: res.data.result,
+                });
+            })
+            .catch(err => {
+                console.log(err);
+        })
+    }    
+}

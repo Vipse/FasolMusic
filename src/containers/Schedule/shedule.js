@@ -5,8 +5,8 @@ import { moment } from 'moment';
 // заполняем выбранную неделю и дозаполняем будующие
 
 export function fillTrainingWeek(amount, discipline = "Вокал") {
-    console.log("SAVE", apiPatients);
-
+ 
+    console.log('amount :', amount);
     //if(Array.isArray(apiPatients) && apiPatients.length) return null;  
     //  isArray не прохоидт если брать из mock-data
     
@@ -18,12 +18,12 @@ export function fillTrainingWeek(amount, discipline = "Вокал") {
     const abonement = {
             idStudent : "1234", // id student
             dateStart :  Math.floor( +begin / 1000),
-            amount: 8,//amount,
+            amount: amount,
             discipline : discipline,
             trainingtime: { }       
     }
     
-    console.log('apiPatients :', apiPatients);
+  
     apiPatients.forEach((el) => {
 
         let week = el.start.getDay(); // тк воскр-0 ,а надо понедел-0

@@ -134,4 +134,5 @@ export {
 export {
     createAbonement,
     getAbonements,
+    getAbonements2,
 } from './abonement'

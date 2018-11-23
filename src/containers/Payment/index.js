@@ -20,6 +20,7 @@ class Payment extends React.Component{
     }
 
     onSendDataModal = (data) => {
+        console.log('data :', data);
         let array = [];
         for(let i = 0; i < 7; i++){
 
@@ -47,8 +48,8 @@ class Payment extends React.Component{
         }
 
         this.setState({visibleTrialModal: true, redirectToSchedule: true});
-        this.props.onSetFreeIntervals(array, this.state.countTraining);
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 0});
+        this.props.onSetFreeIntervals(array, this.state.countTraining, data.type);
+        //this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 0});
     }
     showTrialModal = (count) => {
         console.log('showTrialModal :', count);

@@ -83,15 +83,15 @@ class Schedule extends React.Component {
     }
 
     fillTrainingWeek = () => { // создание абонемента
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
+       
         this.setState({amountTraining : false, sendingModal: true}); // убрать интервалы
 
-        this.props.onCreateAbonement(fillTrainingWeek())
+        this.props.onCreateAbonement(fillTrainingWeek(this.props.abonementIntervals.countTraining))
         .then(() => {
             this.props.onGetAbonements(); // получить уже распредленное время тренировок в абонементе
         });
 
-
+        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
 
     }
 
@@ -112,6 +112,7 @@ class Schedule extends React.Component {
     componentDidMount() {
         this.setIntervalAndView(this.state.currentDate, 'week');
         this.props.onGetAllUserVisits();
+        this.props.onGetAbonements();
     }
 
     componentWillUnmount() {
@@ -333,12 +334,38 @@ class Schedule extends React.Component {
                     {idEvent: this.timeEvent, freeTrainers: apiTrainers} : null
    
 
+                    console.log('this.props.allAbonements :', this.props.allAbonements);
+                    let arrAbonement = null;
+                    let iterator = 0; 
+
+                    if(this.props.allAbonements){
+                        arrAbonement = [];
+                        let {subscriptions} = this.props.allAbonements;
+                        let max = subscriptions.length;
+                        for(let i = 0; i < max; i++){
+                            for(let j = 0; j < subscriptions[i].training.length; j++){
+
+                                iterator++
+                                arrAbonement.push(
+                                    {
+                                        avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+                                        fio: 'Дисциплина - '+subscriptions[i].discipline + ' #'+iterator,
+                                        idMaster: subscriptions[i].training[j].idMaster,
+                                        discipline: 'Дисциплина - '+subscriptions[i].discipline + ' #'+iterator,
+                                        comment: "Строгий полицейский",
+                                        start: new Date(subscriptions[i].training[j].start * 1000)
+                                    })
+                            }
+                        }
+                    }
+
+console.log('arrAbonement :', arrAbonement);
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
                                  icon='setting_edit'/>)
             calendar = (<Calendar 
-                                    receptionNum={apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
+                                    receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   onSelectSlot={(slot) => this.onAddVisit(slot)}
@@ -352,7 +379,7 @@ class Schedule extends React.Component {
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={50}
-                                        events={apiPatients} //{this.props.visits}
+                                        events={(arrAbonement && arrAbonement.length) ? arrAbonement : apiPatients} //{this.props.visits}
                                   intervals={ this.state.amountTraining ? this.props.freeIntervals : []}
                                   
                                   min={min}
@@ -377,26 +404,7 @@ class Schedule extends React.Component {
             />)
         }
 
-        
-        if(this.props.allAbonements){
-            apiPatients = [];
-            let {subscriptions} = this.props.allAbonements;
-            let max = subscriptions.length;
-            for(let i = 0; i < max; i++){
-                for(let j = 0; j < subscriptions[i].training.length; j++){
-                    
-                    apiPatients.push(
-                        {
-                            avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
-                            fio: subscriptions[i].training[j].idMaster,
-                            idMaster: subscriptions[i].training[j].idMaster,
-                            discipline: subscriptions[i].discipline,
-                            comment: "Строгий полицейский",
-                            start: new Date(subscriptions[i].training[j].start * 1000)
-                        })
-                }
-            }
-        }
+      
        
 
         return (

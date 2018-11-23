@@ -17,8 +17,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 allAbonements: action.allAbonements,
             }    
-
-            
+        case actionTypes.GET_ABONEMENTS2:
+            return {
+                ...state,
+                allAbonements2: action.allAbonements2,
+            }    
         default: return state;
     }
 };

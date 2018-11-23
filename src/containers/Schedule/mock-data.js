@@ -61,7 +61,7 @@ export let apiTrainers = [
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
         fio: "Шварцнегер Арнольд Михалович",
-        idMaster: "127328",
+        idMaster: 127328,
         discipline: "Вокал",
         comment: "Строгий полицейский",
     },
@@ -69,7 +69,7 @@ export let apiTrainers = [
 
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
         fio: "Зевс Саня Саныч",
-        idMaster: "127329",
+        idMaster: 127329,
         discipline: "Вокал",
         comment: "Добрый полицейский",
 
@@ -77,35 +77,35 @@ export let apiTrainers = [
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
         fio: "Мальберд Кисточка",
-        idMaster: "127330",
+        idMaster: 127330,
         discipline: "Вокал",
         comment: "Строгий полицейский",
     },
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
         fio: "Александр Глеб",
-        idMaster: "127331",
+        idMaster: 127331,
         discipline: "Вокал",
         comment: "Добрый полицейский",
     },
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
         fio: "Граф Монте-Кристо",
-        idMaster: "127332",
+        idMaster: 127332,
         discipline: "Вокал",
         comment: "Хозяйский парень",
     },
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
         fio: "Петрусь Бровка",
-        idMaster: "127333",
+        idMaster: 127333,
         discipline: "Вокал",
         comment: "Книги, животные, бейсбол",
     },
     {
         avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
         fio: "Моно Бровка",
-        idMaster: "127334",
+        idMaster: 127334,
         discipline: "Вокал",
         comment: "Работаю в парикмахерской",
     }
