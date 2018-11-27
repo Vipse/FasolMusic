@@ -15,6 +15,7 @@ import Spinner from "../Spinner";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
+import moment from "moment";
 
 class StudentPersonalDataForm extends React.Component {
 
@@ -23,7 +24,11 @@ class StudentPersonalDataForm extends React.Component {
         this.state = {
             avatarLink: "",
             facebookLink: "",
-            googleLink: ""
+            googleLink: "",
+            trainingTime: {
+                enabledDays: [],
+                selectedTimes: []
+            }
         }
     }
 
@@ -31,7 +36,11 @@ class StudentPersonalDataForm extends React.Component {
         this.setState({
             avatarLink: this.props.profileStudent.avatar,
             facebookLink: this.props.profileStudent.facebooklink,
-            googleLink: this.props.profileStudent.googlelink
+            googleLink: this.props.profileStudent.googlelink,
+            trainingTime: {
+                enabledDays: new Array(7).fill(false),
+                selectedTimes: new Array(7).fill([10, 23])
+            }
         })
     }
 
@@ -39,67 +48,76 @@ class StudentPersonalDataForm extends React.Component {
         this.setState({[type + "Link"]: link})
     };
 
+    updateTrainingTime = (type, value) => {
+        this.setState({trainingTime: {
+                ...this.state.trainingTime,
+                [type]: value
+        }});
+    };
+
+    prepareTrainingTime = () => {
+        let preparedTrainingTime = {};
+        for (let i = 0; i < 7; ++i) {
+            this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
+                datestart: this.state.trainingTime.selectedTimes[i][0],
+                dateend: this.state.trainingTime.selectedTimes[i][1]
+            } : null;
+        }
+        return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileStudent.trainingtime;
+    };
+
+    prepareDisciplines = (data) => {
+        let preparedDisciplines = [];
+        for (let i = 0; i < 2; ++i) {
+            preparedDisciplines.push({
+                discipline: data["discipline-" + i],
+                specialization: data["specialization-" + i],
+                level: data["level-" + i],
+                experience: data["experience-" + i],
+                goals: data["goals-" + i],
+                musicstyles: data["musicstyles-" + i],
+                favoritesingers: data["favoritesingers-" + i]
+            });
+        }
+        return preparedDisciplines;
+    };
+
     handleSubmitInfo = (e) => {
         e.preventDefault();
 
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err && this.props.profileStudent.id) {
+
                 const finalData = {
                     id: this.props.profileStudent.id,
                     name: values.name,
-                    phones: values.phones,
+                    phones: values.phones.split(' ').join('').split(',', 2),
                     email: values.email,
                     country: values.country,
                     //avatar: this.state.avatarLink,
                     //facebooklink: this.state.facebookLink,
                     //googlelink: this.state.googleLink,
 
-                    sex: values.sex,
-                    datebirth: values.datebirth,
-                    //+сфера деятельности
+                    sex: values.sex === "Мужской" ? "m" : "w",
+                    datebirth: moment(values.datebirth).format('X'),
+                    work: values.work,
                     interests: values.interests,
 
-                    /*disciplines: {
-                        "0": {
-                            "discipline": "Гитара",
-                            "specialization": ["spec1", "spec2"],
-                            "level": "level",
-                            "experiense": "21",
-                            "goals": ["Саморазвитие", "Саморазвитие 2"],
-                            "musicstyles": ["Рок", "Поп"],
-                            "favoritesingers": ["fav1", "fav2"]
-                        },
-                        "1": {
-                            "discipline": "Вокал",
-                            "specialization": ["spec1", "spec2"],
-                            "level": "level",
-                            "experiense": "21",
-                            "goals": ["Саморазвитие", "Саморазвитие 2"],
-                            "musicstyles": ["Рок", "Поп"],
-                            "favoritesingers": ["fav1", "fav2"]
-                        }},
+                    disciplines: this.prepareDisciplines(values),
 
-                    besttrainer: {
-                        "sex": "w",
-                        "age": "20-25",
-                        "ishomework": "true",
-                        "qualities": ["Качество1", "Качество2"],
-                        "comment": "trainerComment"
-                    },
-                    trainingtime: {
-                        "0": {
-                            "datestart": "192323923",
-                            "dateend": "192323923"
-                        },
-                        "2": {
-                            "datestart": "192323923",
-                            "dateend": "192323923"
-                        }}*/
+                    bestsex: values.bestsex === "Мужской" ? "m" : "w",
+                    bestage: values.bestage,
+                    bestishomework: values.bestishomework === "Да",
+                    bestqualities: values.bestqualities,
+                    bestcomment: values.bestcomment,
+
+                    trainingtime: this.prepareTrainingTime(),
+
+                    password: "123456"
                 };
 
                 this.setState({loading: true});
-                console.log("FINAL REG DATA", values);
-                //this.props.onSubmit(finalData);
+                this.props.onSubmit(finalData);
             }
             else console.log("error", err);
         })
@@ -146,6 +164,7 @@ class StudentPersonalDataForm extends React.Component {
                         <PersonalDataTime
                             profile={this.props.profileStudent}
                             getFieldDecorator={getFieldDecorator}
+                            onChange={this.updateTrainingTime}
                         />
                     </Form>
 

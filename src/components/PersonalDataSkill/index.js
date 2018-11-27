@@ -29,15 +29,15 @@ class PersonalDataSkill extends React.Component {
 
     render() {
         const {getFieldDecorator, number} = this.props;
-        const {disciplines, specialization, skill, experience, aims, musicStyles, favouriteArtists} = this.props.profile;
+        const {discipline, specialization, level, experience, goals, musicstyles, favoritesingers} = this.props.profile.disciplines.length ? this.props.profile.disciplines[number] : {};
         const rootClass = cn('coach-data-form');
 
         return (
             <div className='coach-data-block'>
                 <div className='coach-data-skill'>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator(number + '-subject', {
-                            initialValue: disciplines,
+                        {getFieldDecorator('discipline-' + number, {
+                            initialValue: discipline,
                             rules: [{
                                 required: true,
                                 message: 'Выберите дисциплину, пожалуйста'
@@ -50,7 +50,7 @@ class PersonalDataSkill extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator(number + '-specialization', {
+                        {getFieldDecorator('specialization-' + number, {
                             initialValue: specialization,
                             rules: [{
                                 required: true,
@@ -61,8 +61,8 @@ class PersonalDataSkill extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator(number + '-skill', {
-                            initialValue: skill,
+                        {getFieldDecorator('level-' + number, {
+                            initialValue: level,
                             rules: [{
                                 required: true,
                                 message: 'Введите уровень подготовки, пожалуйста'
@@ -72,7 +72,7 @@ class PersonalDataSkill extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator(number + '-experience', {
+                        {getFieldDecorator('experience-' + number, {
                             initialValue: experience,
                             rules: [{
                                 required: true,
@@ -83,8 +83,8 @@ class PersonalDataSkill extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator(number + '-aims', {
-                            initialValue: aims,
+                        {getFieldDecorator('goals-' + number, {
+                            initialValue: goals,
                             rules: [{
                                 required: true,
                                 message: 'Выберите цели, пожалуйста'
@@ -98,8 +98,8 @@ class PersonalDataSkill extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator(number + '-musicStyles', {
-                            initialValue: musicStyles,
+                        {getFieldDecorator('musicstyles-' + number, {
+                            initialValue: musicstyles,
                             rules: [{
                                 required: true,
                                 message: 'Выберите предпочитаемые стили музыки, пожалуйста'
@@ -113,8 +113,8 @@ class PersonalDataSkill extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator(number + '-favouriteArtists', {
-                            initialValue: favouriteArtists,
+                        {getFieldDecorator('favoritesingers-' + number, {
+                            initialValue: favoritesingers,
                             rules: [{
                                 required: true,
                                 message: 'Выберите любимых исполнителей, пожалуйста'

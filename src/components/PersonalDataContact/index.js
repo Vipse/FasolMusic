@@ -159,7 +159,7 @@ class PersonalDataContact extends React.Component {
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('phones', {
-                            initialValue: phones,
+                            initialValue: phones.join(', '),
                             rules: [{
                                 required: true,
                                 message: 'Введите телефоны, пожалуйста'

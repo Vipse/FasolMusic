@@ -22,7 +22,7 @@ class PersonalDataInfo extends React.Component {
     render() {
         const {getFieldDecorator} = this.props;
         const isStudent = this.props.isStudent;
-        const {sex, datebirth, speciality, interests, aboutme} = this.props.profile;
+        const {sex, datebirth, work, interests, aboutme} = this.props.profile;
         const specialityArr = ["Программист"];
         const interestsArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-form');
@@ -31,7 +31,7 @@ class PersonalDataInfo extends React.Component {
             <div className='coach-data-block'>
                 <div className='coach-data-additionalInfo'>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('gender', {
+                        {getFieldDecorator('sex', {
                             initialValue: sex === "m" ? "Мужской" : "Женский",
                             rules: [{
                                 required: true,
@@ -45,8 +45,8 @@ class PersonalDataInfo extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('birthday', {
-                            initialValue: datebirth ? moment(datebirth, "x") : null,
+                        {getFieldDecorator('datebirth', {
+                            initialValue: datebirth ? moment(datebirth * 1000, "x") : null,
                             rules: [{
                                 required: true,
                                 message: 'Выберите дату рождения, пожалуйста'
@@ -58,8 +58,8 @@ class PersonalDataInfo extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('speciality', {
-                            //initialValue: specialityArr[0],
+                        {getFieldDecorator('work', {
+                            initialValue: work,
                             rules: [{
                                 required: true,
                                 message: 'Выберите сферу деятельности, пожалуйста'
@@ -74,7 +74,7 @@ class PersonalDataInfo extends React.Component {
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('interests', {
-                            //initialValue: interests,
+                            initialValue: interests,
                             rules: [{
                                 required: true,
                                 message: 'Выберите интересы, пожалуйста'
@@ -88,7 +88,7 @@ class PersonalDataInfo extends React.Component {
                         )}
                     </FormItem>
                     {!isStudent && <FormItem className="input-form-item">
-                        {getFieldDecorator('aboutMe', {
+                        {getFieldDecorator('aboutme', {
                             initialValue: aboutme,
                             rules: [{
                                 required: true,

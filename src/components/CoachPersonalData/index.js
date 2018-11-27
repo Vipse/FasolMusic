@@ -16,75 +16,117 @@ import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
+import moment from "moment";
 
 class CoachPersonalDataForm extends React.Component {
 
     constructor() {
         super();
-        this.state  = {}
+        this.state = {
+            avatarLink: "",
+            facebookLink: "",
+            googleLink: "",
+            promoLink: "",
+            trainingTime: {
+                enabledDays: [],
+                selectedTimes: []
+            }
+        }
     }
 
+    componentDidMount() {
+        this.setState({
+            avatarLink: this.props.profileCoach.avatar,
+            facebookLink: this.props.profileCoach.facebooklink,
+            googleLink: this.props.profileCoach.googlelink,
+            promoLink: this.props.profileCoach.promovideo,
+            trainingTime: {
+                enabledDays: new Array(7).fill(false),
+                selectedTimes: new Array(7).fill([10, 23])
+            }
+        })
+    }
+
+    updateLink = (type, link) => {
+        this.setState({[type + "Link"]: link})
+    };
+
+    updateTrainingTime = (type, value) => {
+        this.setState({trainingTime: {
+                ...this.state.trainingTime,
+                [type]: value
+            }});
+    };
+
+    prepareTrainingTime = () => {
+        let preparedTrainingTime = {};
+        for (let i = 0; i < 7; ++i) {
+            this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
+                datestart: this.state.trainingTime.selectedTimes[i][0],
+                dateend: this.state.trainingTime.selectedTimes[i][1]
+            } : null;
+        }
+        return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileCoach.trainingtime;
+    };
+
+    prepareDisciplines = (data) => {
+        let preparedDisciplines = [];
+        for (let i = 0; i < 1; ++i) {
+            preparedDisciplines.push({
+                discipline: data["discipline-" + i],
+                specialization: data["specialization-" + i],
+                level: data["level-" + i],
+                experience: data["experience-" + i],
+                goals: data["goals-" + i],
+                musicstyles: data["musicstyles-" + i],
+                favoritesingers: data["favoritesingers-" + i]
+            });
+        }
+        return preparedDisciplines;
+    };
+
     handleSubmitInfo = (e) => {
-        const outObj = {
-            "id": "3396",
-            "name": "Ivanov Ivan Ivanovich",
-            "email": "ivanov@ii.ii",
-            "avatar": "imagelink",
-            "country": "Беларусь",
-            "sex": "m",
-            "phones": ["+3567248", "+2456323"],
-
-            "datebirth": "1234567",
-
-            "interests": ["Спорт", "Туризм"],
-            "facebooklink": "faceLink",
-            "googlelink": "googleLink",
-
-            "improvetext": "impText",
-
-            "disciplines": {
-                "0": {
-                    "discipline": "Гитара",
-                    "specialization": ["spec1", "spec2"],
-                    "level": "level",
-                    "experiense": "21",
-                    "goals": ["Саморазвитие", "Саморазвитие 2"],
-                    "musicstyles": ["Рок", "Поп"],
-                    "favoritesingers": ["fav1", "fav2"]
-                },
-                "1": {
-                    "discipline": "Вокал",
-                    "specialization": ["spec1", "spec2"],
-                    "level": "level",
-                    "experiense": "21",
-                    "goals": ["Саморазвитие", "Саморазвитие 2"],
-                    "musicstyles": ["Рок", "Поп"],
-                    "favoritesingers": ["fav1", "fav2"]
-                }},
-
-            "besttrainer": {
-                "sex": "w",
-                "age": "20-25",
-                "ishomework": "true",
-                "qualities": ["Качество1", "Качество2"],
-                "comment": "trainerComment"
-            },
-
-            "amountdays": "1",
-            "trainingtime": {
-                "0": {
-
-                    "datestart": "192323923",
-                    "dateend": "192323923"
-                },
-                "2": {
-
-                    "datestart": "192323923",
-                    "dateend": "192323923"
-                }}
-        };
         e.preventDefault();
-        this.handleSubmitInfo(outObj);
+
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err && this.props.profileCoach.id) {
+
+                const finalData = {
+                    id: this.props.profileCoach.id,
+                    name: values.name,
+                    phones: values.phones.split(' ').join('').split(',', 2),
+                    email: values.email,
+                    country: values.country,
+                    //avatar: this.state.avatarLink,
+                    //facebooklink: this.state.facebookLink,
+                    //googlelink: this.state.googleLink,
+
+                    sex: values.sex === "Мужской" ? "m" : "w",
+                    datebirth: moment(values.datebirth).format('X'),
+                    work: values.work,
+                    interests: values.interests,
+                    aboutme: values.aboutme,
+
+                    //promovideo: this.state.promoLink,
+
+                    disciplines: this.prepareDisciplines(values),
+
+                    bestsex: values.bestsex === "Мужской" ? "m" : "w",
+                    bestage: values.bestage,
+                    bestishomework: values.bestishomework === "Да",
+                    bestqualities: values.bestqualities,
+                    bestcomment: values.bestcomment,
+
+                    trainingtime: this.prepareTrainingTime(),
+
+                    password: "123456"
+                };
+
+                this.setState({loading: true});
+                this.props.onSubmit(finalData);
+            }
+            else console.log("error", err);
+        })
     };
 
     render() {
@@ -97,6 +139,7 @@ class CoachPersonalDataForm extends React.Component {
                         <div className='coach-data-title'>Контактные данные</div>
                         <PersonalDataContact
                             profile={this.props.profileCoach}
+                            updateLink={this.updateLink}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Дополнительная информация</div>
@@ -129,6 +172,7 @@ class CoachPersonalDataForm extends React.Component {
                         <PersonalDataTime
                             profile={this.props.profileCoach}
                             getFieldDecorator={getFieldDecorator}
+                            onChange={this.updateTrainingTime}
                         />
                     </Form>
 

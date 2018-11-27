@@ -31,7 +31,7 @@ class PersonalDataPreferences extends React.Component {
             <div className='coach-data-block'>
                 <div className='coach-data-studentPreferences'>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('studentGender', {
+                        {getFieldDecorator('bestsex', {
                             initialValue: bestsex === "m" ? "Мужской" : "Женский",
                             rules: [{
                                 required: true,
@@ -45,8 +45,8 @@ class PersonalDataPreferences extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('studentAge', {
-                            //initialValue: bestage,
+                        {getFieldDecorator('bestage', {
+                            initialValue: bestage,
                             rules: [{
                                 required: true,
                                 message: 'Введите возраст ' + userTypeWord + ', пожалуйста'
@@ -56,8 +56,8 @@ class PersonalDataPreferences extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('studentAcceptsHomework', {
-                            //initialValue: bestishomework ? "Да" : "Нет",
+                        {getFieldDecorator('bestishomework', {
+                            initialValue: bestishomework ? "Да" : "Нет",
                             rules: [{
                                 required: true,
                                 message: 'Выберите отношение ' + userTypeWord + ' к д.з., пожалуйста'
@@ -70,8 +70,8 @@ class PersonalDataPreferences extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('studentQualities', {
-                            //initialValue: bestqualities,
+                        {getFieldDecorator('bestqualities', {
+                            initialValue: bestqualities,
                             rules: [{
                                 required: true,
                                 message: 'Выберите качества ' + userTypeWord + ', пожалуйста'
@@ -85,8 +85,8 @@ class PersonalDataPreferences extends React.Component {
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
-                        {getFieldDecorator('studentComment', {
-                            //initialValue: bestcomment
+                        {getFieldDecorator('bestcomment', {
+                            initialValue: bestcomment
                         })(
                             <TextArea
                                 label="Комментарий"

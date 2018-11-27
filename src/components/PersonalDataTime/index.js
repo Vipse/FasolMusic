@@ -28,18 +28,33 @@ class PersonalDataTime extends React.Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.profile && nextProps.profile.trainingtime !== this.props.profile.trainingtime) {
+            const lel = this.state.enabledDays;
+            for (let num in nextProps.profile.trainingtime) {
+                this.handleActiveSlider(num);
+                this.handleChangeSlider(num, [
+                    nextProps.profile.trainingtime[num].datestart,
+                    nextProps.profile.trainingtime[num].dateend
+                ]);
+            }
+        }
+    }
+
     renderTimeSchedule = () => {
         let timeScheduleArr = [];
-        let daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+        let daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
         for (let i = 0; i < 7; i++)
             timeScheduleArr.push(<div className="timeSchedule" key={i}>
                 <Checkbox className="dayCheckbox largeChk" value={i} checked={this.state.enabledDays[i]}
                           onChange={() => this.handleActiveSlider(i)}
                           key={"enableDay" + i}>{daysName[i]}</Checkbox>
-                <Slider className="slider" range step={1} min={0} max={23} defaultValue={[10, 23]}
+                <Slider className="slider" range step={1} min={0} max={24} defaultValue={[10, 23]}
                         disabled={!this.state.enabledDays[i]}
                         onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
-                <p className="timePlate">{this.state.enabledDays[i] && this.state.selectedTimes[i][0] + ":00 - " + this.state.selectedTimes[i][1] + ":00"}</p>
+                <p className="timePlate">{this.state.enabledDays[i] &&
+                (this.state.selectedTimes[i][1] - this.state.selectedTimes[i][0] === 24 ? "Весь день" :
+                    this.state.selectedTimes[i][0] + ":00 - " + (this.state.selectedTimes[i][1] !== 24 ? this.state.selectedTimes[i][1] : 0) + ":00")}</p>
             </div>);
         return timeScheduleArr;
     };
@@ -50,6 +65,7 @@ class PersonalDataTime extends React.Component {
         this.setState({
             enabledDays: newEnableSlider
         });
+        this.props.onChange('enabledDays', newEnableSlider);
     };
 
     handleChangeSlider = (num, value) => {
@@ -58,6 +74,7 @@ class PersonalDataTime extends React.Component {
         this.setState({
             selectedTimes: newSliderValue
         });
+        this.props.onChange('selectedTimes', newSliderValue);
     };
 
     render() {

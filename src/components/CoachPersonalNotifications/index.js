@@ -51,8 +51,8 @@ class CoachPersonalNotificationsForm extends React.Component{
     render() {
         const {getFieldDecorator} = this.props.form;
         const notificationsNames = {
-            email: ["Общие уведомления"],
-            phone: ["Телефон 1", "Телефон 2"]
+            email: [this.props.profileCoach.email],
+            phone: this.props.profileCoach.phones
         };
         const rootClass = cn('personal-notifications');
         return (
