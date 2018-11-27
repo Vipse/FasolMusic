@@ -73,6 +73,7 @@ class PersonalDataContact extends React.Component {
             fields="name"
             onClick={this.componentClicked}
             callback={this.responseFacebook}
+            size="small"
         />);
     };
 
@@ -85,29 +86,30 @@ class PersonalDataContact extends React.Component {
             <div className={"social-row " + name}>
                 <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
                 <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
-                {this.state[name + "Authorized"].link || this.state[name + "Authorized"].show ?
-                    <Button className="social-row-btn-close"
-                            icon='close'
-                            size='small'
-                            type='link'
+                {this.state[name + "Authorized"].link ?
+                    <Button className="social-row-btn-link"
+                            btnText='Отвязать'
                             onClick={(e) => {
                                 e.preventDefault();
                                 this.setState({[name + "Authorized"]: {show: false, link: ""}})
                             }}
+                            size='small'
+                            type='float'
                     />
-                    : <Button className="social-row-btn-link"
-                              btnText='Связать'
-                              onClick={(e) => {
-                                  e.preventDefault();
-                                  this.setState({[name + "Authorized"]: {show: true, link: ""}})
-                              }}
-                              size='small'
-                              type='float'
-                    />
+                    : this.state[name + "Authorized"].show ?
+                        <div className="authSocialPopup">
+                            {this[name + "Authorization"]()}
+                        </div>
+                        : <Button className="social-row-btn-link"
+                                  btnText='Связать'
+                                  onClick={(e) => {
+                                      e.preventDefault();
+                                      this.setState({[name + "Authorized"]: {show: true, link: ""}})
+                                  }}
+                                  size='small'
+                                  type='float'
+                        />
                 }
-            </div>
-            <div className="authPopup">
-                {this.state[name + "Authorized"].show && this[name + "Authorization"]()}
             </div>
         </div>);
     };

@@ -30,7 +30,6 @@ class PersonalDataTime extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.profile && nextProps.profile.trainingtime !== this.props.profile.trainingtime) {
-            const lel = this.state.enabledDays;
             for (let num in nextProps.profile.trainingtime) {
                 this.handleActiveSlider(num);
                 this.handleChangeSlider(num, [
@@ -77,6 +76,11 @@ class PersonalDataTime extends React.Component {
         this.props.onChange('selectedTimes', newSliderValue);
     };
 
+    checkIsTimeSelected = (role, email, callBack) => {
+        if (this.state.enabledDays.includes(true)) callBack();
+        else callBack("Выберите удобное время, пожалуйста");
+    };
+
     render() {
         const {getFieldDecorator} = this.props;
         const rootClass = cn('coach-data-form');
@@ -87,8 +91,7 @@ class PersonalDataTime extends React.Component {
                     <FormItem className='input-form-item'>
                         {getFieldDecorator('comfortTime', {
                             rules: [{
-                                required: true,
-                                message: 'Выберите удобное время, пожалуйста'
+                                validator: this.checkIsTimeSelected
                             }],
                         })(
                             <div className="ant-radio-group">
