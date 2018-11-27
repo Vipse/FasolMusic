@@ -12,13 +12,12 @@ import '../../icon/style.css'
 import Card from "antd/es/card";
 import {Form, message} from "antd";
 import Spinner from "../Spinner";
-import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
 import moment from "moment";
 
-class CoachPersonalDataForm extends React.Component {
+class StudentPersonalDataForm extends React.Component {
 
     constructor() {
         super();
@@ -26,7 +25,6 @@ class CoachPersonalDataForm extends React.Component {
             avatarLink: "",
             facebookLink: "",
             googleLink: "",
-            promoLink: "",
             trainingTime: {
                 enabledDays: [],
                 selectedTimes: []
@@ -36,10 +34,9 @@ class CoachPersonalDataForm extends React.Component {
 
     componentDidMount() {
         this.setState({
-            avatarLink: this.props.profileCoach.avatar,
-            facebookLink: this.props.profileCoach.facebooklink,
-            googleLink: this.props.profileCoach.googlelink,
-            promoLink: this.props.profileCoach.promovideo,
+            avatarLink: this.props.profileStudent.avatar,
+            facebookLink: this.props.profileStudent.facebooklink,
+            googleLink: this.props.profileStudent.googlelink,
             trainingTime: {
                 enabledDays: new Array(7).fill(false),
                 selectedTimes: new Array(7).fill([10, 23])
@@ -55,7 +52,7 @@ class CoachPersonalDataForm extends React.Component {
         this.setState({trainingTime: {
                 ...this.state.trainingTime,
                 [type]: value
-            }});
+        }});
     };
 
     prepareTrainingTime = () => {
@@ -66,12 +63,12 @@ class CoachPersonalDataForm extends React.Component {
                 dateend: this.state.trainingTime.selectedTimes[i][1]
             } : null;
         }
-        return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileCoach.trainingtime;
+        return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileStudent.trainingtime;
     };
 
     prepareDisciplines = (data) => {
         let preparedDisciplines = [];
-        for (let i = 0; i < 1; ++i) {
+        for (let i = 0; i < 2; ++i) {
             preparedDisciplines.push({
                 discipline: data["discipline-" + i],
                 specialization: data["specialization-" + i],
@@ -89,10 +86,10 @@ class CoachPersonalDataForm extends React.Component {
         e.preventDefault();
 
         this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err && this.props.profileCoach.id) {
+            if (!err && this.props.profileStudent.id) {
 
                 const finalData = {
-                    id: this.props.profileCoach.id,
+                    id: this.props.profileStudent.id,
                     name: values.name,
                     phones: values.phones.split(' ').join('').split(',', 2),
                     email: values.email,
@@ -105,9 +102,6 @@ class CoachPersonalDataForm extends React.Component {
                     datebirth: moment(values.datebirth).format('X'),
                     work: values.work,
                     interests: values.interests,
-                    aboutme: values.aboutme,
-
-                    //promovideo: this.state.promoLink,
 
                     disciplines: this.prepareDisciplines(values),
 
@@ -130,54 +124,52 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     render() {
-        const rootClass = cn('coach-data');
+        const rootClass = cn('student-data');
         const { getFieldDecorator } = this.props.form;
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
-                    <Form className={"coach-data-form"}>
-                        <div className='coach-data-title'>Контактные данные</div>
+                    <Form className={"student-data-form"}>
+                        <div className='student-data-title'>Контактные данные</div>
                         <PersonalDataContact
-                            profile={this.props.profileCoach}
+                            profile={this.props.profileStudent}
                             updateLink={this.updateLink}
                             getFieldDecorator={getFieldDecorator}
                         />
-                        <div className='coach-data-title'>Дополнительная информация</div>
+                        <div className='student-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
-                            profile={this.props.profileCoach}
+                            profile={this.props.profileStudent}
                             getFieldDecorator={getFieldDecorator}
+                            isStudent={true}
                         />
-                        <div className='coach-data-title'>Проморолик</div>
-                        <CoachPersonalDataPromo
-                            profileCoach={this.props.profileCoach}
-                            getFieldDecorator={getFieldDecorator}
-                        />
-                        <div className='coach-data-title'>Платежные данные</div>
-                        <CoachPersonalDataPayment
-                            profileCoach={this.props.profileCoach}
-                            getFieldDecorator={getFieldDecorator}
-                        />
-                        <div className='coach-data-title'>Уровень подготовки по дисциплине</div>
+                        <div className='student-data-title'>Уровень подготовки гитара</div>
                         <PersonalDataSkill
-                            profile={this.props.profileCoach}
+                            profile={this.props.profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             number={0}
                         />
-                        <div className='coach-data-title'>Идеальный студент</div>
-                        <PersonalDataPreferences
-                            profile={this.props.profileCoach}
+                        <div className='student-data-title'>Уровень подготовки вокал</div>
+                        <PersonalDataSkill
+                            profile={this.props.profileStudent}
                             getFieldDecorator={getFieldDecorator}
+                            number={1}
                         />
-                        <div className='coach-data-title'>Удобное время проведения тренировок</div>
+                        <div className='student-data-title'>Идеальный тренер</div>
+                        <PersonalDataPreferences
+                            profile={this.props.profileStudent}
+                            getFieldDecorator={getFieldDecorator}
+                            isStudent={true}
+                        />
+                        <div className='student-data-title'>Удобное время тренировок</div>
                         <PersonalDataTime
-                            profile={this.props.profileCoach}
+                            profile={this.props.profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             onChange={this.updateTrainingTime}
                         />
                     </Form>
 
                     <Button
-                        className="coach-data-saveBtn"
+                        className="student-data-saveBtn"
                         onClick={this.handleSubmitInfo}
                         btnText='Сохранить изменения'
                         size='default'
@@ -193,16 +185,16 @@ class CoachPersonalDataForm extends React.Component {
     }
 }
 
-const CoachPersonalData  = Form.create()(CoachPersonalDataForm);
+const StudentPersonalData  = Form.create()(StudentPersonalDataForm);
 
-CoachPersonalData.propTypes = {
-    profileCoach: PropTypes.object,
+StudentPersonalData.propTypes = {
+    profileStudent: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
-CoachPersonalData.defaultProps = {
-    profileCoach: {},
+StudentPersonalData.defaultProps = {
+    profileStudent: {},
     onSubmit: () => {}
 };
 
-export default CoachPersonalData
+export default StudentPersonalData

@@ -23,6 +23,7 @@
     "react-cookie": "^2.1.2",
     "react-dom": "^16.4.2",
     "react-dropzone": "^5.1.0",
+    "react-facebook-login": "^4.1.1",
     "react-perfect-scrollbar": "^1.2.1",
     "react-prop-types": "^0.4.0",
     "react-redux": "^5.0.6",

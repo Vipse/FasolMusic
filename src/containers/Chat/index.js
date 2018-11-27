@@ -37,7 +37,7 @@ class Chat extends React.Component{
         ) : (
             {id_user,id_doc,name, name_doc, id: visitId, contactLevel,comment, chat, avatar, avatar_doc, status, id_treatment} = this.props.visitInfo
         )
-        const isUser = this.props.user_mode === "user";
+        const isUser = this.props.user_mode === "student";
 
         const chatProps = {
             //wsURL: 'wss://appdoc.by:8443/one2one',

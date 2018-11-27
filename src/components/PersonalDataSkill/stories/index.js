@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import CoachPersonalDataTime from '../';
+import PersonalDataSkill from '../';
 
 const profileCoach = {
     fio: "Иванова Иван Иванович",
@@ -10,11 +10,11 @@ const profileCoach = {
     country: "Беларусь"
 };
 
-storiesOf('CoachPersonalDataTime', module)
-    .add('CoachPersonalDataTime', () => (
+storiesOf('PersonalDataSkill', module)
+    .add('PersonalDataSkill', () => (
         <div>
-            <CoachPersonalDataTime
-                profileCoach={profileCoach}
+            <PersonalDataSkill
+                profile={profileCoach}
             />
         </div>
     ))

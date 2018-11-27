@@ -1,34 +1,28 @@
 import * as actionTypes from '../actions/actionTypes'
 
-let  profileDoctor = {
-    id: '',
+let profileDoctor = {
+    "id": "",
+    "name": "",
+    "avatar": "",
     "email": "",
-    "fio": '',
-    "phone": '',
+    "country": "",
     "sex": "",
-    "datebirth": null,
-    "educationsgroup1": [],
-    "educationsgroup2": [],
-    "worknow": [],
-    "post": "doctor",
-    "workdate": null,
-    "category": null,
-    "academicdegree": null,
-    "academicdegreedoc": [],
-    "academicstatus":  null,
-    "academicstatusdoc": [],
-    "copycontract": [],
-    "language": [],//11 - возникает rp-c elemnt ошибка если ""
-    "consultationPrice": null,
-    "isChildConsult": false,
-    "isFreeConsult":false,
-    "experience": null,
-    "isworking":false,
-    "active" :'1',
-    "avatar" : null,
-    "works": [],
-    "workIntervals": [],
-    "docIntervalsWithAppsAll": []
+    "datebirth": "",
+    "aboutme": "",
+    "interests": [],
+    "facebooklink": "",
+    "googlelink": "",
+    "promovideo": "",
+    "improvetext": "",
+    "disciplines": [],
+    "best": "",
+    "amountdays": "",
+    "trainingtime": {},
+    "active": "",
+    "__nodeChanged": "",
+    "phones": [],
+    "work": "",
+    "defaultPrice": ""
 };
 
 const initialState = profileDoctor;

@@ -11,6 +11,7 @@ import PatientAccardionContact from "../../components/PatientAccardionContact";
 import PatientAccardionDisease from "../../components/PatientAccardionDisease";
 import CoachPersonalProfile from "../../components/CoachPersonalProfile";
 import PersonalContact from "../../components/PersonalContact";
+import StudentPersonalProfile from "../../components/StudentPersonalProfile";
 
 class PersonalInfo extends React.Component{
     constructor(props){
@@ -21,7 +22,7 @@ class PersonalInfo extends React.Component{
     }
 
     componentDidMount(){
-        this.props.auth.mode === "user" ? this.props.onGetInfoPatient(this.props.auth.id) :
+        this.props.auth.mode === "student" ? this.props.onGetInfoPatient(this.props.auth.id) :
         this.props.onGetInfoDoctor(this.props.auth.id);
     };
 
@@ -44,34 +45,21 @@ class PersonalInfo extends React.Component{
     };
 
     render() {
-        let isUser = this.props.auth.mode === "user";
-        let profile = isUser ? compileToClientPatient(this.props.profilePatient) : this.props.profileDoctor;
+        let isUser = this.props.auth.mode === "student";
         return (
             <Hoc>
                 {isUser ? (
-                    <div className="patient-persoonal-items">
-                        <Row>
-                            <Col xs={24} xxl={18}>
-                                <PatientAccardionContact
-                                    onSubmit={this.onSubmitPatient}
-                                    onSubmitPassword={this.onSubmitPasswordPatient}
-                                    onDeleteAvatar={this.props.onDeleteAvatar}
-                                    profile = {profile}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={24} xxl={18}>
-                                <PatientAccardionDisease
-                                    diseases = {profile.chronic}
-                                />
-                            </Col>
-                        </Row>
-                    </div>) : (
+                    <StudentPersonalProfile
+                        onSubmitPassword={this.onSubmitPasswordPatient}
+                        profileStudent={this.props.profileStudent}
+                        onSubmit={this.props.onSaveUserEdit}
+                        onDeleteAvatar={this.props.onDeleteAvatar}
+                        onUploadFile={this.props.uploadFile}
+                    />) : (
                     <CoachPersonalProfile
                         onSubmitPassword={this.onSubmitPasswordPatient}
-                        profileDoctor={profile}
-                        onSubmit={this.onSubmit}
+                        profileCoach={this.props.profileCoach}
+                        onSubmit={this.props.onSaveUserEdit}
                         onDeleteAvatar={this.props.onDeleteAvatar}
                         onUploadFile={this.props.uploadFile}
                     />)}
@@ -82,8 +70,8 @@ class PersonalInfo extends React.Component{
 
 const mapStateToProps = state => {
     return {
-        profileDoctor: state.profileDoctor,
-        profilePatient: state.profilePatient,
+        profileCoach: state.profileDoctor,
+        profileStudent: state.profilePatient,
         auth: state.auth,
     }
 };
@@ -96,7 +84,8 @@ const mapDispatchToProps = dispatch => {
         onSendNewInfoPatient: (info) => dispatch(actions.sendNewInfoPatient(info)),
         onSendNewPasswordPatient: (oldPass, newPass, id) => dispatch(actions.sendNewPasswordPatient(oldPass, newPass, id)),
         onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),
-        uploadFile: (file) => dispatch(actions.uploadFile(file))
+        uploadFile: (file) => dispatch(actions.uploadFile(file)),
+        onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data))
     }
 };
 

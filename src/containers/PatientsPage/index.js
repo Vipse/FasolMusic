@@ -93,7 +93,7 @@ class PatientsPage extends React.Component{
                                                getApps={this.props.onGetAppointments}
                                                id_user={this.props.match.params.id}
                                                personalPage = {true}
-                                               isUser = {this.props.mode === "user"}
+                                               isUser = {this.props.mode === "student"}
                                                onAddFiles = {this.props.onAddFiles}
                                                addConclusion = {this.props.addConclusion}
                                                makeArchiveOfFiles = {this.props.makeArchiveOfFiles}

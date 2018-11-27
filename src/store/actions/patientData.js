@@ -41,17 +41,37 @@ export const hasNoReviewToFreeApp = () => {
 
 export const getInfoPatient = (id) => {
     const idstr = String(id);
-    let obj = {"id_user":idstr}; //задать самому id доктора
+    let obj = {"id":idstr};
     return (dispatch) => {
-        axios.post('/fusers.doc/patientInfoiId',
+        axios.post('/catalog.fasol/getUserInfo',
             JSON.stringify(obj))
             .then(res => {
-                res.data.result.id = obj.id_user;
+                console.log("receivedStudentData", res);
+                res.data.result.data.id = obj.id;
 
                 dispatch({
                     type: actionTypes.INFO_PATIENT,
-                    profilePatient: res.data.result,
+                    profilePatient: res.data.result.data,
                 })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+};
+
+export const saveUserEdit = (data) => {
+    console.log("sendingData", data);
+    return (dispatch) => {
+        axios.post('/catalog.fasol/saveUserEdit',
+            JSON.stringify(data))
+            .then(res => {
+                console.log(res);
+
+                /*dispatch({
+                    type: actionTypes.INFO_PATIENT,
+                    profilePatient: res.data.result.data,
+                })*/
             })
             .catch(err => {
                 console.log(err);

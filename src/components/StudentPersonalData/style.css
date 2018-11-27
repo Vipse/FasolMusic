@@ -1,28 +1,28 @@
-.coach-data {
+.student-data {
   position: relative;
   min-width: 450px;
 }
-.coach-data-saveBtn {
+.student-data-saveBtn {
   margin: 0 25px 50px 25px;
 }
-.coach-data .new-input input[type="text"] {
+.student-data .new-input input[type="text"] {
   font-family: RobotoMedium;
 }
-.coach-data .new-input .ant-select-selection-selected-value {
+.student-data .new-input .ant-select-selection-selected-value {
   font-family: RobotoMedium;
 }
-.coach-data .ant-calendar-picker-input {
+.student-data .ant-calendar-picker-input {
   font-family: RobotoMedium;
   margin-bottom: -1px;
 }
-.coach-data-form {
+.student-data-form {
   padding: 25px;
 }
-.coach-data-block {
+.student-data-block {
   position: relative;
   display: flex;
 }
-.coach-data-title {
+.student-data-title {
   position: relative;
   width: 100%;
   color: #21bedd;

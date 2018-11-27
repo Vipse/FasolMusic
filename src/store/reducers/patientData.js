@@ -1,14 +1,29 @@
 import * as actionTypes from '../actions/actionTypes'
 
-let  profilePatient = {
-    id: '',
+let profilePatient = {
+    "id": "",
+    "name": "",
+    "avatar": "",
     "email": "",
-    "fio": '',
-    "phone": '',
+    "country": "",
     "sex": "",
-    "active" :'1',
-    "avatar" : null,
-    "chronic" : []
+    "datebirth": "",
+    "aboutme": "",
+    "interests": [],
+    "facebooklink": "",
+    "googlelink": "",
+    "promovideo": "",
+    "improvetext": "",
+    "disciplines": [],
+    "best": "",
+    "amountdays": "",
+    "trainingtime": {},
+    "password": "",
+    "active": "",
+    "__nodeChanged": "",
+    "phones": [],
+    "work": "",
+    "defaultPrice": ""
 };
 
 let userInfoShort = {

@@ -36,7 +36,7 @@ export const login = (userName, password, remember, history, isAuto) => {
 
     return (dispatch) => {
         dispatch(authStart());
-        axios.post('/fusers.doc/loginDoc',
+        axios.post('/catalog.fasol/authorization',
                 JSON.stringify({
                     login: userName,
                     password: password,
@@ -44,10 +44,10 @@ export const login = (userName, password, remember, history, isAuto) => {
                     .then(res => {
                         !res.data.error
                             ? (
-                                dispatch(authSuccess(res.data.id, res.data.usergroup)),
-                                dispatch(setOnlineStatus(res.data.id, true)),
-                                sessionStorage.setItem('_appdoc-id', res.data.id),
-                                sessionStorage.setItem('_appdoc-mode', res.data.usergroup),
+                                dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                                dispatch(setOnlineStatus(res.data.result.id, true)),
+                                sessionStorage.setItem('_appdoc-id', res.data.result.id),
+                                sessionStorage.setItem('_appdoc-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
                                 history.push('/app')
                             )

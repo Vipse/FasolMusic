@@ -24,10 +24,10 @@ import UploadVideoImage from "../../img/uploadVideo.png";
 
 const FormItem = Form.Item;
 
-class CoachPersonalDataPromoForm extends React.Component{
+class CoachPersonalDataPromo extends React.Component {
     constructor() {
         super();
-        this.state  = {
+        this.state = {
             fileList: [],
             videoUrl: "",
             videoThumb: "",
@@ -49,32 +49,27 @@ class CoachPersonalDataPromoForm extends React.Component{
         reader.readAsDataURL(file[0]);
     };
 
-    render(){
-        const { getFieldDecorator } = this.props.form;
+    render() {
+        const {getFieldDecorator} = this.props;
         const videoUrl = this.state.videoThumb ? this.state.videoThumb : this.props.profileCoach.videoThumb ? this.props.profileCoach.videoThumb : "";
         const rootClass = cn('coach-data-form');
 
         return (
-            <Form className={rootClass}>
-                <div className='coach-data-title'>Проморолик</div>
-                <div className='coach-data-block'>
-                    <div className='coach-data-promoVideo'>
-                        <div className="add-video">
-                            <Dropzone multiple = {false} onDrop = {this.onDrop} className="react-dropzone-video">
-                                {videoUrl ?
-                                    <img src={videoUrl} alt="video" className="video-image"/> :
-                                    <img src={UploadVideoImage} alt="video" className="video-image"/>}
-                            </Dropzone>
-                            <span className="upload-video-photo-click">Нажми на значок, чтобы загрузить видео</span>
-                        </div>
+            <div className='coach-data-block'>
+                <div className='coach-data-promoVideo'>
+                    <div className="add-video">
+                        <Dropzone multiple={false} onDrop={this.onDrop} className="react-dropzone-video">
+                            {videoUrl ?
+                                <img src={videoUrl} alt="video" className="video-image"/> :
+                                <img src={UploadVideoImage} alt="video" className="video-image"/>}
+                        </Dropzone>
+                        <span className="upload-video-photo-click">Нажми на значок, чтобы загрузить видео</span>
                     </div>
                 </div>
-            </Form>
+            </div>
         )
     }
 }
-
-const CoachPersonalDataPromo  = Form.create()(CoachPersonalDataPromoForm);
 
 CoachPersonalDataPromo.propTypes = {
     profileCoach: PropTypes.object

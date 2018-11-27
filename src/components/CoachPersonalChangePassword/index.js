@@ -49,10 +49,10 @@ class CoachPersonalChangePasswordForm extends React.Component{
         });
     };
 
-    compareToFirstPassword = (rule, value, callback) => {
+    compareToOldPassword = (rule, value, callback) => {
         const form = this.props.form;
-        if (value && value !== form.getFieldValue('newPassField')) {
-            callback('Пароли не совпадают');
+        if (value && value === form.getFieldValue('oldPassField')) {
+            callback('Новый пароль совпадает со старым');
         } else {
             callback();
         }
@@ -83,7 +83,7 @@ class CoachPersonalChangePasswordForm extends React.Component{
                                         message: 'Введите новый пароль, пожалуйста'
                                     },
                                         {
-                                            validator: this.compareToFirstPassword,
+                                            validator: this.compareToOldPassword,
                                         }],
                                 })(
                                     <InputNew type="password" bubbleplaceholder="Новый пароль"/>
