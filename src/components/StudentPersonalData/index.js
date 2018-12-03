@@ -126,6 +126,7 @@ class StudentPersonalDataForm extends React.Component {
     render() {
         const rootClass = cn('student-data');
         const { getFieldDecorator } = this.props.form;
+        console.log(this.props.profileStudent);
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
@@ -148,12 +149,13 @@ class StudentPersonalDataForm extends React.Component {
                             getFieldDecorator={getFieldDecorator}
                             number={0}
                         />
-                        <div className='student-data-title'>Уровень подготовки вокал</div>
-                        <PersonalDataSkill
+                        {this.props.profileStudent.disciplines.length > 1 &&
+                        <div className='student-data-title'>Уровень подготовки вокал</div>}
+                        {this.props.profileStudent.disciplines.length > 1 && <PersonalDataSkill
                             profile={this.props.profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             number={1}
-                        />
+                        />}
                         <div className='student-data-title'>Идеальный тренер</div>
                         <PersonalDataPreferences
                             profile={this.props.profileStudent}

@@ -45,13 +45,13 @@ export const login = (userName, password, remember, history, isAuto) => {
                         console.log("AUTH", res);
                         console.log('res.data.error :', res.data.hasOwnProperty('error'));
                         !res.data.hasOwnProperty('error')
-                            ? ( 
+                            ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
                                 dispatch(setOnlineStatus(res.data.result.id, true)),
                                 sessionStorage.setItem('_appdoc-id', res.data.result.id),
                                 sessionStorage.setItem('_appdoc-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
-                                
+
                                 history.push('/app')
                             )
                             : (
@@ -143,7 +143,7 @@ export const registerUser = (userInfo) => {
         dispatch({
             type: actionTypes.REG_PATIENT_START
         });
-        return axios.post('/catalog.doc2/creatUser',
+        return axios.post('/catalog.fasol/registration',
                 JSON.stringify(userInfo))
                     .then(res => res)
                     .catch(err => {

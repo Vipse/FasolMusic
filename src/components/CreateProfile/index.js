@@ -8,7 +8,6 @@ import Step5 from './Step5'
 import Steps from '../Step'
 import './style.css'
 import '../../icon/style.css'
-// import RegistrationComplete from "../RegistrationComplete";
 
 
 
@@ -43,13 +42,14 @@ class CreateProfile extends React.Component{
                 content: (state) => <Step4 data={state}
                                            onNext={this.next}
                                            onSubmit={(data) => this.setState({...data})}
+                                           onFinish={this.props.onSubmit}
                 />,
             },
             {
-                content: (state) => <Step5 onNext = {this.next}
-                                           onFinish={this.props.onFinish}
-                                            //finalText={this.props.finalText}
-                                            //regInProgress = {this.props.regInProgress}
+                content: () => <Step5 onNext={this.next}
+                                      urlLogin={this.props.urlLogin}
+                    //finalText={this.props.finalText}
+                    //regInProgress = {this.props.regInProgress}
                 />,
             }];
     }

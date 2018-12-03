@@ -20,8 +20,7 @@ class InputDateWithToolTip extends React.Component{
         console.log(value);
         if(value) {
             this.setState({value: moment(value).format("X")});
-            //this.props.onChange && this.props.onChange(value)
-            console.log(moment(value).format("X"), "onChange")
+            this.props.onChange && this.props.onChange(value)
         } else {
             this.setState({focused: false, value: ""})
         }
