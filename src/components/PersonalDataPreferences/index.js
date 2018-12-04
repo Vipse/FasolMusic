@@ -49,10 +49,13 @@ class PersonalDataPreferences extends React.Component {
                             initialValue: bestage,
                             rules: [{
                                 required: true,
-                                message: 'Введите возраст ' + userTypeWord + ', пожалуйста'
+                                message: 'Выберите возраст ' + userTypeWord + ', пожалуйста'
                             }],
                         })(
-                            <InputNew width="100%" bubbleplaceholder="Возраст"/>
+                            <SelectNew width="100%"
+                                       bubbleplaceholder="Возраст"
+                                       data={["18-24", "25-35", "36-50", ">50"]}
+                            />
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">

@@ -22,6 +22,7 @@ class StudentPersonalDataForm extends React.Component {
     constructor() {
         super();
         this.state = {
+            uploadingNewData: false,
             avatarLink: "",
             facebookLink: "",
             googleLink: "",
@@ -111,22 +112,27 @@ class StudentPersonalDataForm extends React.Component {
                     bestqualities: values.bestqualities,
                     bestcomment: values.bestcomment,
 
-                    trainingtime: this.prepareTrainingTime(),
-
-                    password: "123456"
+                    trainingtime: this.prepareTrainingTime()
                 };
 
-                this.setState({loading: true});
-                this.props.onSubmit(finalData);
+                this.setState({uploadingNewData: true});
+                this.props.onSubmit(finalData)
+                    .then((res) => {
+                        this.setState({uploadingNewData: false});
+                        if (!res.data.error) {
+                            message.success("Изменения сохранены");
+                        } else
+                            message.error("Произошла ошибка, попробуйте ещё раз");
+                    });
             }
-            else console.log("error", err);
+            else
+                console.log("error", err);
         })
     };
 
     render() {
         const rootClass = cn('student-data');
         const { getFieldDecorator } = this.props.form;
-        console.log(this.props.profileStudent);
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
@@ -175,12 +181,12 @@ class StudentPersonalDataForm extends React.Component {
                         onClick={this.handleSubmitInfo}
                         btnText='Сохранить изменения'
                         size='default'
-                        disable={this.state.loadingInfo}
+                        disable={this.state.uploadingNewData}
                         type='float'
                         style={{marginRight: "20px"}}
                     />
 
-                    {this.state.loadingInfo && <Spinner isInline={true} size="small"/>}
+                    {this.state.uploadingNewData && <Spinner isInline={true} size="small"/>}
                 </Card>
             </div>
         )

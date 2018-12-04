@@ -68,7 +68,7 @@ class Step4Form extends React.Component{
             //     }
             const finalRegData = {
                 name: this.props.data.name,
-                phones: ["+1234567890", "+0987654321"],
+                //phones:
                 email: this.props.data.facebookAuthorized.link,
                 country: this.props.data.country,
                 //avatar: this.state.avatarLink,

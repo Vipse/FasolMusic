@@ -58,9 +58,9 @@ const loadStories = () => {
     require('../src/components/PersonalDataSkill/stories');
     require('../src/components/PersonalDataPreferences/stories');
     require('../src/components/PersonalDataTime/stories');
-    require('../src/components/CoachPersonalSuggestions/stories');
-    require('../src/components/CoachPersonalChangePassword/stories');
-    require('../src/components/CoachPersonalNotifications/stories');
+    require('../src/components/PersonalSuggestions/stories');
+    require('../src/components/PersonalChangePassword/stories');
+    require('../src/components/PersonalNotifications/stories');
     require('../src/components/StudentPersonalProfile/stories');
     require('../src/components/StudentPersonalData/stories');
     require('../src/components/DownloadLink/stories');

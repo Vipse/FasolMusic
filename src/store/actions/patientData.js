@@ -61,22 +61,15 @@ export const getInfoPatient = (id) => {
 };
 
 export const saveUserEdit = (data) => {
-    console.log("sendingData", data);
-    return (dispatch) => {
-        axios.post('/catalog.fasol/saveUserEdit',
+    return () => {
+        console.log("savingUserData", data);
+        return axios.post('/catalog.fasol/saveUserEdit',
             JSON.stringify(data))
-            .then(res => {
-                console.log(res);
-
-                /*dispatch({
-                    type: actionTypes.INFO_PATIENT,
-                    profilePatient: res.data.result.data,
-                })*/
-            })
+            .then(res => res)
             .catch(err => {
-                console.log(err);
-            })
-    }
+                console.log('error: ', err);
+            });
+    };
 };
 
 export const sendUserPoleValue = (pole, value, id) => {

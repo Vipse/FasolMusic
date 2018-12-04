@@ -78,7 +78,7 @@ class Step3Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="Возраст"
                                 className="step-form-item"
-                                values={["18-24", "25-35", "35-50", ">50"]}
+                                values={["18-24", "25-35", "36-50", ">50"]}
                             />
                         )}
                     </FormItem>

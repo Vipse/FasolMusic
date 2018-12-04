@@ -23,7 +23,7 @@ class PersonalDataInfo extends React.Component {
         const {getFieldDecorator} = this.props;
         const isStudent = this.props.isStudent;
         const {sex, datebirth, work, interests, aboutme} = this.props.profile;
-        const specialityArr = ["Программист"];
+        const specialityArr = ["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"];
         const interestsArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-form');
 

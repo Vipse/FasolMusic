@@ -23,6 +23,7 @@ class CoachPersonalDataForm extends React.Component {
     constructor() {
         super();
         this.state = {
+            uploadingNewData: false,
             avatarLink: "",
             facebookLink: "",
             googleLink: "",
@@ -117,15 +118,21 @@ class CoachPersonalDataForm extends React.Component {
                     bestqualities: values.bestqualities,
                     bestcomment: values.bestcomment,
 
-                    trainingtime: this.prepareTrainingTime(),
-
-                    password: "123456"
+                    trainingtime: this.prepareTrainingTime()
                 };
 
-                this.setState({loading: true});
-                this.props.onSubmit(finalData);
+                this.setState({uploadingNewData: true});
+                this.props.onSubmit(finalData)
+                    .then((res) => {
+                    this.setState({uploadingNewData: false});
+                    if (!res.data.error) {
+                        message.success("Изменения сохранены");
+                    } else
+                        message.error("Произошла ошибка, попробуйте ещё раз");
+                });
             }
-            else console.log("error", err);
+            else
+                console.log("error", err);
         })
     };
 
@@ -181,12 +188,12 @@ class CoachPersonalDataForm extends React.Component {
                         onClick={this.handleSubmitInfo}
                         btnText='Сохранить изменения'
                         size='default'
-                        disable={this.state.loadingInfo}
+                        disable={this.state.uploadingNewData}
                         type='float'
                         style={{marginRight: "20px"}}
                     />
 
-                    {this.state.loadingInfo && <Spinner isInline={true} size="small"/>}
+                    {this.state.uploadingNewData && <Spinner isInline={true} size="small"/>}
                 </Card>
             </div>
         )
