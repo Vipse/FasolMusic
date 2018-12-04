@@ -55,7 +55,7 @@ class Step3Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        {getFieldDecorator('coachGender', {
+                        {getFieldDecorator('bestsex', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите пол, пожалуйста'
@@ -69,7 +69,7 @@ class Step3Form extends React.Component{
                         )}
                     </FormItem>
                     <FormItem>
-                        {getFieldDecorator('coachAge', {
+                        {getFieldDecorator('bestage', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите возраст, пожалуйста'
@@ -78,13 +78,13 @@ class Step3Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="Возраст"
                                 className="step-form-item"
-                                values={["18-24", "25-35", "35-50", ">50"]}
+                                values={["18-24", "25-35", "36-50", ">50"]}
                             />
                         )}
                     </FormItem>
                 </div>
                 <FormItem>
-                    {getFieldDecorator('homework', {
+                    {getFieldDecorator('bestishomework', {
                         rules: [{
                             required: true,
                             message: 'Выберите отношение к домашним заданиям, пожалуйста'
@@ -99,7 +99,7 @@ class Step3Form extends React.Component{
                     )}
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('coachQual', {
+                    {getFieldDecorator('bestqualities', {
                         rules: [{
                             required: true,
                             message: 'Выберите качества, пожалуйста'
@@ -115,7 +115,7 @@ class Step3Form extends React.Component{
                     )}
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('comment', {
+                    {getFieldDecorator('bestcomment', {
                         rules: [{
                             required: true,
                             message: 'Напишите комментарий, пожалуйста'

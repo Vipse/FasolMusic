@@ -161,13 +161,13 @@ class PersonalDataContact extends React.Component {
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('phones', {
-                            initialValue: phones.join(', '),
+                            initialValue: Array.isArray(phones) ? phones.join(', ') : null,
                             rules: [{
                                 required: true,
                                 message: 'Введите телефоны, пожалуйста'
                             }],
                         })(
-                            <InputNew width="100%" bubbleplaceholder="Телефон"/>
+                            <InputNew width="100%" bubbleplaceholder="Телефоны"/>
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
@@ -212,11 +212,11 @@ class PersonalDataContact extends React.Component {
 }
 
 PersonalDataContact.propTypes = {
-    profileCoach: PropTypes.object
+    profile: PropTypes.object
 };
 
 PersonalDataContact.defaultProps = {
-    profileCoach: {}
+    profile: {}
 };
 
 export default PersonalDataContact

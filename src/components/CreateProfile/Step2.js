@@ -10,9 +10,6 @@ import InputNew from "../InputNew";
 import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
-import Dropzone from "react-dropzone";
-import UploadPhotoImage from "../../img/uploadPhoto.png";
-import VK, {Auth} from "react-vk";
 import TextArea from "../TextArea";
 
 const FormItem = Form.Item;
@@ -87,7 +84,7 @@ class Step2Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        {getFieldDecorator('subject', {
+                        {getFieldDecorator('discipline', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите дисциплину, пожалуйста'
@@ -131,7 +128,7 @@ class Step2Form extends React.Component{
                         )}
                     </FormItem>
                     <FormItem>
-                        {getFieldDecorator('exp', {
+                        {getFieldDecorator('experience', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите опыт занятия музыкой, пожалуйста'
@@ -162,7 +159,7 @@ class Step2Form extends React.Component{
                     )}
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('style', {
+                    {getFieldDecorator('musicstyles', {
                         rules: [{
                             required: true,
                             message: 'Выберите стиль музыки, который вам нравится, пожалуйста'
@@ -178,7 +175,7 @@ class Step2Form extends React.Component{
                     )}
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('favArtist', {
+                    {getFieldDecorator('favoritesingers', {
                         rules: [{
                             required: true,
                             message: 'Укажите любимых исполнителей, пожалуйста'

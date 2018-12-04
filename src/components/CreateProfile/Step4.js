@@ -6,7 +6,7 @@ import Checkbox from '../Checkbox'
 import Button from '../Button'
 import Hr from "../Hr";
 import Spinner from "../Spinner";
-import {Form} from "antd";
+import {Form, message} from "antd";
 import Radio from "../RadioBox";
 import RadioGroup from "antd/es/radio/group";
 import Slider from "antd/es/slider";
@@ -29,6 +29,31 @@ class Step4Form extends React.Component{
         });
     }
 
+    prepareDisciplines = (data) => {
+        let preparedDisciplines = [];
+        preparedDisciplines.push({
+            discipline: data.discipline,
+            specialization: data.specialization,
+            level: data.level,
+            experience: data.experience,
+            goals: data.goals,
+            musicstyles: data.musicstyles,
+            favoritesingers: data.favoritesingers,
+        });
+        return preparedDisciplines;
+    };
+
+    prepareTrainingTime = () => {
+        let preparedTrainingTime = {};
+        for (let i = 0; i < 7; ++i) {
+            this.state.enabledDays[i] ? preparedTrainingTime[i] = {
+                datestart: this.state.selectedTimes[i][0],
+                dateend: this.state.selectedTimes[i][1]
+            } : null;
+        }
+        return preparedTrainingTime;
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -41,29 +66,59 @@ class Step4Form extends React.Component{
             //     if(!values.avatar.url && !values.avatar.name) {
             //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
             //     }
-            let selectedTimesObj = {};
-            this.state.selectedTimes.forEach((item, i) => this.state.enabledDays[i] ? selectedTimesObj[i] = item : null);
-            console.log("FINAL REG DATA", {
-                ...this.props.data,
-                daysCount: values.daysCount,
-                selectedTimes: selectedTimesObj
+            const finalRegData = {
+                name: this.props.data.name,
+                //phones:
+                email: this.props.data.facebookAuthorized.link,
+                country: this.props.data.country,
+                //avatar: this.state.avatarLink,
+                //facebooklink: this.state.facebookLink,
+                //googlelink: this.state.googleLink,
+
+                sex: this.props.data.sex === "Мужской" ? "m" : "w",
+                datebirth: moment(this.props.data.datebirth).format('X'),
+                work: this.props.data.work,
+                interests: this.props.data.interests,
+
+                disciplines: this.prepareDisciplines(this.props.data),
+
+                bestsex: this.props.data.bestsex === "Мужской" ? "m" : "w",
+                bestage: this.props.data.bestage,
+                bestishomework: this.props.data.bestishomework === "Да",
+                bestqualities: this.props.data.bestqualities,
+                bestcomment: this.props.data.bestcomment,
+
+                amountdays: values.daysCount,
+                trainingtime: this.prepareTrainingTime(),
+
+                password: "123456"
+            };
+            console.log("FINAL REG DATA", finalRegData);
+            this.props.onFinish(finalRegData).then(res=> {
+                if(res.data.error) {
+                    console.log(res.data.error);
+                    message.error('Ошибка ' + res.data.error.code + ': ' + res.data.error.text, 60);
+                    //message.error('Заполнены не все обязательные поля', 4);
+                } else {
+                    this.props.onNext();
+                }
             });
-            //this.props.onSubmit(values);
-            this.props.onNext();
             // }
         })
     };
 
     renderTimeSchedule = () => {
         let timeScheduleArr = [];
-        let daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+        let daysName = ["Вс", "Вт", "Ср", "Чт", "Пт", "Сб", "Пн"];
         for (let i = 0; i < 7; i++)
             timeScheduleArr.push(<div className="timeSchedule">
                 <Checkbox className="dayCheckbox" value={i} checked={this.state.enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
                           key={"enableDay" + i}>{daysName[i]}</Checkbox>
-                <Slider className="slider" range step={1} min={0} max={23} defaultValue={[10, 23]} disabled={!this.state.enabledDays[i]}
+                <Slider className="slider" range step={1} min={0} max={24} defaultValue={[10, 23]} disabled={!this.state.enabledDays[i]}
                         onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
-                <p className="timePlate">{this.state.enabledDays[i] && this.state.selectedTimes[i][0] + ":00 - " + this.state.selectedTimes[i][1] + ":00"}</p>
+                <p className="timePlate">{this.state.enabledDays[i] &&
+                (this.state.selectedTimes[i][1] - this.state.selectedTimes[i][0] === 24 ? "Весь день" :
+                    this.state.selectedTimes[i][0] + ":00 - " + (this.state.selectedTimes[i][1] !== 24 ? this.state.selectedTimes[i][1] : 0) + ":00")}</p>
             </div>);
         return timeScheduleArr;
     };

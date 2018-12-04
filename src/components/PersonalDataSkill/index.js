@@ -117,14 +117,10 @@ class PersonalDataSkill extends React.Component {
                             initialValue: favoritesingers,
                             rules: [{
                                 required: true,
-                                message: 'Выберите любимых исполнителей, пожалуйста'
+                                message: 'Введите любимых исполнителей, пожалуйста'
                             }]
                         })(
-                            <SelectNew width="100%"
-                                       bubbleplaceholder="Любимые исполнители"
-                                       mode="multiple"
-                                       data={["Спорт", "Кино и сериалы", "Туризм"]}
-                            />
+                            <InputNew width="100%" bubbleplaceholder="Любимые исполнители"/>
                         )}
                     </FormItem>
                 </div>

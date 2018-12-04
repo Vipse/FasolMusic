@@ -9,6 +9,8 @@ import Col from "../../components/Col/index.js";
 import Login from "../../components/Login/index.js";
 import { message } from 'antd';
 import LoginForget from "../../components/LoginForget/index.js";
+import Registration from "../../components/Registration/index.js";
+import CreateProfile from "../../components/CreateProfile";
 
 import RegistrationPatient from "../../components/RegistrationPatient/index.js";
 import langsArray from "../../helpers/langsArray"
@@ -18,7 +20,6 @@ import addInfoObj from "../../helpers/addInfoObj"
 import * as actions from '../../store/actions'
 import './styles.css'
 import ReportBugModal from "../../components/ReportBugModal";
-import CreateProfile from './../../components/CreateProfile/index';
 
 class LoginPage extends React.Component {
 
@@ -28,34 +29,6 @@ class LoginPage extends React.Component {
             isRegFinished: false
         };
     }
-
-
-
-    registerDoctor = (data) => {
-        this.setState({regInProgress: true});
-        this.props.onRegisterDoctor(data).then(res=> {
-            if(res.data.code !== 200) {
-                message.error('Заполнены не все обязательные поля', 4);
-            } else {
-                this.setState({isRegFinished:true})
-            }
-        })
-    };
-    registerPatient = (data) => {
-        this.setState({regInProgress: true});
-        this.props.onRegisterUser(data).then(res=> {
-            if(res.data.code !== 200) {
-                message.error('Заполнены не все обязательные поля', 4);
-            } else {
-                this.setState({isRegFinished:true})
-            }
-        })
-    };
-
-    onOk = () => {
-        this.setState({isRegFinished: false, regInProgress: false})
-
-    };
 
     render(){
         const langs = langsArray;
@@ -85,8 +58,7 @@ class LoginPage extends React.Component {
                         <Route path="/login"
                                exact
                                render={() => <Login urlForget={this.props.match.url + '/forget'}
-                                                    urlRegistrationDoctor='/registration'
-                                                    urlRegistrationPatient='/patient-registration'
+                                                    urlRegistrationStudent='/registration'
                                                     errorCode={this.props.errorCode}
                                                     onSubmit={(obj) => this.props.onLogin(obj, this.props.history)}
                                />}
@@ -100,34 +72,11 @@ class LoginPage extends React.Component {
                         />
                         <Route path="/registration"
                                exact
-                               render={() => <CreateProfile onFinish={this.registerDoctor}
-                                                           langs={langs}
-                                                           payments={payments}
-                                                           category = {category}
-                                                           academicTitle = {academicTitle}
-                                                           academicDegree = {academicDegree}
-                                                           finalText='Я ознакомлен с условиями работы и принимаю их'
-                                                           urlLogin = "/login"
-                                                           onOk={this.onOk}
-                                                           isRegFinished = {this.state.isRegFinished}
-                                                           regInProgress = {this.state.regInProgress}
-                                                           onCheckEmailAvailability={this.props.onCheckEmailAvailability}
-                                                           uploadFile = {this.props.uploadFile}
-                               />}
-                        />
-                        <Route path="/patient-registration"
-                               exact
-                               render={() => <RegistrationPatient onFinish={this.registerPatient}
-                                                                  langs={langs}
-                                                                  urlLogin = "/login"
-                                                                  payments={payments}
-                                                                  academicTitle={academicTitle}
-                                                                  academicDegree={academicDegree}
-                                                                  finalText='to continue'
-                                                                  isRegFinished={this.state.isRegFinished}
-                                                                  isRegInProgress={this.state.regInProgress}
-                                                                  checkEmailAvailability={this.props.onCheckEmailAvailability}
-                                                                  onOk={this.onOk}
+                               render={() => <CreateProfile onSubmit={this.props.onRegisterUser}
+                                                            urlLogin="/login"
+                                                            //langs={langs}
+                                                            //checkEmailAvailability={this.props.onCheckEmailAvailability}
+                                                            //uploadFile = {this.props.uploadFile}
                                />}
                         />
                     </Col>
@@ -155,7 +104,6 @@ const mapDispatchToProps = dispatch => {
 	return {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
         onRegisterUser: (userInfo) => dispatch(actions.registerUser(userInfo)),
-        onRegisterDoctor: (docInfo) => dispatch(actions.registerDoctor(docInfo)),
         onCheckEmailAvailability: (email) => dispatch(actions.checkEmailAvailability(email)),
         reportBug: (message, href) => dispatch(actions.reportBug(message, href)),
         uploadFile: (file) => dispatch(actions.uploadFile(file))

@@ -25,7 +25,7 @@ class LoginForm extends React.Component{
     };
 
     render(){
-        const {errorCode, urlForget, urlRegistrationDoctor, urlRegistrationPatient} = this.props;
+        const {errorCode, urlForget, urlRegistrationStudent} = this.props;
 
         const { getFieldDecorator } = this.props.form;
 
@@ -90,28 +90,13 @@ class LoginForm extends React.Component{
                             size='large'
                             type='gradient'/>
                     <div>У вас еще нет аккаунта? <br/>
-                        <NavLink
-                            to={urlRegistrationDoctor}
-                            className="login-form-navlink"
-                            data-tip
-                        >
-                            Зарегистрироваться как доктор
-                        </NavLink>
-                        <ReactTooltip place="top" type="dark" effect="float" multiline={true}>
-                            <p>При регистрации вам будут необходимы фото или сканы документов подтверждающих ваше
-                                образование,<br/> дипломы и свидетельства о послевузовском образовании,
-                            свидетельство о подтверждении категории и <br/>дипломы ученой степени и ученого звания при наличии</p>
-                        </ReactTooltip>
-
-                        <br/>
 
                         <NavLink
-                            to={urlRegistrationPatient}
+                            to={urlRegistrationStudent}
                             className="login-form-navlink"
                         >
-                            Зарегистрироваться как пациент
+                            Зарегистрироваться как студент
                         </NavLink>
-
 
                     </div>
                 </div>

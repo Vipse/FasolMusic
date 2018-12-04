@@ -18,7 +18,7 @@ class InputNew extends AntInput{
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({inputClassName: ((this.inp && this.inp.input.value) || nextProps.value ? "effect has-content" : "effect")});
+        this.setState({inputClassName: (nextProps.value ? "effect has-content" : "effect")});
     }
 
     render() {

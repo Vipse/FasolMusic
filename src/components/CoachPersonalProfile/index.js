@@ -19,9 +19,9 @@ import Row from "../Row";
 import Col from "../Col";
 import WarningModal from "../WarningModal";
 import CoachPersonalData from "../CoachPersonalData";
-import CoachPersonalSuggestions from "../CoachPersonalSuggestions";
-import CoachPersonalChangePassword from "../CoachPersonalChangePassword";
-import CoachPersonalNotifications from "../CoachPersonalNotifications";
+import PersonalSuggestions from "../PersonalSuggestions";
+import PersonalChangePassword from "../PersonalChangePassword";
+import PersonalNotifications from "../PersonalNotifications";
 
 class CoachPersonalProfile extends React.Component{
 
@@ -43,16 +43,16 @@ class CoachPersonalProfile extends React.Component{
                         />
                     </Col>
                     <Col span={7}>
-                            <CoachPersonalSuggestions
-                                profileCoach={profile}
+                            <PersonalSuggestions
+                                profile={profile}
                                 onSubmit={this.props.onSubmit}
                             />
-                            <CoachPersonalChangePassword
-                                profileCoach={profile}
+                            <PersonalChangePassword
+                                profile={profile}
                                 onSubmit={this.props.onSubmit}
                             />
-                            <CoachPersonalNotifications
-                                profileCoach={profile}
+                            <PersonalNotifications
+                                profile={profile}
                                 onSubmit={this.props.onSubmit}
                             />
                     </Col>

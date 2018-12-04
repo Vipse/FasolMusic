@@ -18,10 +18,9 @@ class SelectWithTT extends React.Component{
     }
 
     onChange = (value) => {
-        console.log(value);
-        if(value) {
+        if (value) {
             this.setState({value});
-            //this.props.onChange && this.props.onChange(value)
+            this.props.onChange && this.props.onChange(value)
 
         } else {
             this.setState({focused: false, value: ""})

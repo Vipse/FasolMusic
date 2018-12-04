@@ -91,33 +91,6 @@
                             margin-right: 0;
                         }
                     }
-                    .authPopup {
-                        float: right;
-                    }
-                    .social-row {
-                        display: flex;
-                        flex-direction: row;
-                        padding-left: 65px;
-                        align-items: center;
-                        justify-content: space-between;
-                        width: 300px;
-                        &-icon {
-                            padding-top: 10px;
-                            padding-right: 10px;
-                        }
-                        &-link {
-                            padding-top: 7px;
-                            font-family: RobotoRegular;
-                        }
-                        &-btn-link {
-                            margin-top: 10px;
-                        }
-                        &-btn-close {
-                            margin-top: 5px;
-                            width: 30px;
-                            justify-content: flex-end;
-                        }
-                    }
                 }
                 .radio-label{
                     color: #000;
@@ -187,6 +160,45 @@
                         font-size: 14px;
                         color: #111;
                         margin-bottom: 30px;
+                    }
+                    .social {
+                        width: 100%;
+                        .social-row {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            width: 100%;
+                            justify-content: space-between;
+
+                            .authSocialPopup .kep-login-facebook {
+                                padding: 2px;
+                                margin-top: 5px;
+                                height: 40px;
+                                width: 200px;
+                                font-size: 14px;
+                            }
+
+                            &-icon {
+                                padding-top: 10px;
+                                padding-right: 10px;
+                            }
+                            &-link {
+                                padding-top: 7px;
+                                font-family: RobotoRegular;
+                            }
+                            &-btn-link {
+                                margin: 10px 10px 0 0;
+                            }
+                            &-btn-close {
+                                margin: 10px 10px 0 0;
+                                min-width: 20px;
+                                padding: 2px;
+
+                                .icon {
+                                    margin-right: 0;
+                                }
+                            }
+                        }
                     }
                     .react-dropzone-avatar {
                         max-width: 200px;

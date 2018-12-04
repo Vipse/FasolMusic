@@ -7,25 +7,13 @@ import Button from '../Button'
 import Hr from "../Hr";
 import Spinner from "../Spinner";
 import {Form} from "antd";
+import {NavLink} from "react-router-dom";
 
 class Step5Form extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
-
-    finishHandler = () => {
-        let data = this.props.data;
-        for (let key in data) {
-            if (!data[key]) {
-                delete data[key]
-            }
-
-        }
-        this.props.onFinish(data);
-    };
 
     render(){
         return (
@@ -38,11 +26,13 @@ class Step5Form extends React.Component{
                     pariatur porro reprehenderit similique sit tempora? Nisi!
                 </div>
                 <div className="steps-action">
+                    <NavLink to={this.props.urlLogin}
+                             className="login-form-navlink">
                     <Button htmlType="submit"
                             btnText='Завершить'
                             size='large'
                             type='pink'/>
-
+                    </NavLink>
                 </div>
             </Form>
         )

@@ -18,8 +18,8 @@ import TextArea from "../TextArea";
 import Row from "../Row";
 import Col from "../Col";
 import WarningModal from "../WarningModal";
-import CoachPersonalChangePassword from "../CoachPersonalChangePassword";
-import CoachPersonalNotifications from "../CoachPersonalNotifications";
+import PersonalChangePassword from "../PersonalChangePassword";
+import PersonalNotifications from "../PersonalNotifications";
 import StudentPersonalData from "../StudentPersonalData";
 
 class StudentPersonalProfile extends React.Component{
@@ -42,12 +42,12 @@ class StudentPersonalProfile extends React.Component{
                         />
                     </Col>
                     <Col span={7}>
-                        <CoachPersonalNotifications
-                            profileCoach={profile}
+                        <PersonalNotifications
+                            profile={profile}
                             onSubmit={this.props.onSubmit}
                         />
-                        <CoachPersonalChangePassword
-                            profileCoach={profile}
+                        <PersonalChangePassword
+                            profile={profile}
                             onSubmit={this.props.onSubmit}
                         />
                     </Col>

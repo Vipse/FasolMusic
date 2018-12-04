@@ -6,21 +6,17 @@ import Button from '../Button'
 import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
-import VK, {Auth} from 'react-vk';
 
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
-import vkIcon from "../../img/vkIcon.png"
 import facebookIcon from "../../img/facebookIcon.png"
-import twitterIcon from "../../img/twitterIcon.png"
 import gplusIcon from "../../img/gplusIcon.png"
+import FacebookLogin from "react-facebook-login";
 
 const FormItem = Form.Item;
 
 const mappedIconsToLinks = {
-    vk: vkIcon,
     facebook: facebookIcon,
-    twitter: twitterIcon,
     gplus: gplusIcon
 };
 
@@ -30,9 +26,7 @@ class Step1Form extends React.Component{
         fileList: [],
         avatarUrl: "",
         avatarThumb: "",
-        vkAuthorized: {show: false, link: ''},
         facebookAuthorized: {show: false, link: ''},
-        twitterAuthorized: {show: false, link: ''},
         gplusAuthorized: {show: false, link: ''}
     };
 
@@ -84,24 +78,23 @@ class Step1Form extends React.Component{
         reader.readAsDataURL(file[0]);
     };
 
-    vkAuthorization = () => {
-        return (<VK apiId={6695055}>
-            <Auth options={{
-                onAuth: user => {
-                    this.setState({
-                        vkAuthorized: {show: false, link: "vk.com/id" + user.uid}
-                    });
-                },
-            }}/>
-        </VK>);
+    responseFacebook = response => {
+        console.log(response);
+
+        this.setState({
+            facebookAuthorized: {show: false, link: response.email}
+        });
     };
 
     facebookAuthorization = () => {
-        return null;
-    };
-
-    twitterAuthorization = () => {
-        return null;
+        return (<FacebookLogin
+            appId="2093206104069628"
+            autoLoad={true}
+            fields="name,email,picture"
+            onClick={this.componentClicked}
+            callback={this.responseFacebook}
+            size="small"
+        />);
     };
 
     gplusAuthorization = () => {
@@ -113,29 +106,30 @@ class Step1Form extends React.Component{
             <div className={"social-row " + name}>
                 <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
                 <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
-                {this.state[name + "Authorized"].link || this.state[name + "Authorized"].show ?
-                    <Button className="social-row-btn-close"
-                            icon='close'
-                            size='small'
-                            type='link'
+                {this.state[name + "Authorized"].link ?
+                    <Button className="social-row-btn-link"
+                            btnText='Отвязать'
                             onClick={(e) => {
                                 e.preventDefault();
                                 this.setState({[name + "Authorized"]: {show: false, link: ""}})
                             }}
+                            size='small'
+                            type='float'
                     />
-                    : <Button className="social-row-btn-link"
-                              btnText='Связать'
-                              size='small'
-                              type='bright-blue'
-                              onClick={(e) => {
-                                  e.preventDefault();
-                                  this.setState({[name + "Authorized"]: {show: true, link: ""}})
-                              }}
-                    />
+                    : this.state[name + "Authorized"].show ?
+                        <div className="authSocialPopup">
+                            {this[name + "Authorization"]()}
+                        </div>
+                        : <Button className="social-row-btn-link"
+                                  btnText='Связать'
+                                  onClick={(e) => {
+                                      e.preventDefault();
+                                      this.setState({[name + "Authorized"]: {show: true, link: ""}})
+                                  }}
+                                  size='small'
+                                  type='float'
+                        />
                 }
-            </div>
-            <div className="authPopup">
-                {this.state[name + "Authorized"].show && this[name + "Authorization"]()}
             </div>
         </div>);
     };
@@ -154,54 +148,50 @@ class Step1Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        {getFieldDecorator('fio1', {
+                        {getFieldDecorator('name', {
                             rules: [{
                                 required: true,
                                 message: 'Введите ФИО, пожалуйста'
                             }],
                         })(
                             <InputWithTT
-                                key="fio"
+                                key="name"
                                 bubbleplaceholder="* ФИО"
                                 className="step-form-item"
                                 tooltip="ФИО Tooltip"
-
                             />
                         )}
                     </FormItem>
                     <FormItem>
-                        {getFieldDecorator('birthDate', {
+                        {getFieldDecorator('datebirth', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите дату рождения, пожалуйста'
                             }],
                         })(
                             <InputDateWithToolTip
-                                key="birthday"
+                                key="datebirth"
                                 bubbleplaceholder="Дата рождения"
                                 className="step-form-item"
                                 tooltip="Дата рождения Tooltip"
-
-
                             />
                         )}
                     </FormItem>
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        {getFieldDecorator('gender', {
+                        {getFieldDecorator('sex', {
                             rules: [{
                                 required: true,
                                 message: 'Выберите пол, пожалуйста'
                             }],
                         })(
                             <SelectWithTT
-                                key="gender"
+                                key="sex"
                                 bubbleplaceholder="Пол"
                                 className="step-form-item"
                                 tooltip="Пол Tooltip"
                                 values={["Мужской", "Женский"]}
-
                             />
                         )}
                     </FormItem>
@@ -218,25 +208,23 @@ class Step1Form extends React.Component{
                                 className="step-form-item"
                                 tooltip="Страна пребывания Tooltip"
                                 values={["Беларусь", "Россия"]}
-
                             />
                         )}
                     </FormItem>
                 </div>
                 <FormItem>
-                    {getFieldDecorator('activityField', {
+                    {getFieldDecorator('work', {
                         rules: [{
                             required: true,
                             message: 'Выберите сферу деятельности, пожалуйста'
                         }],
                     })(
                         <SelectWithTT
-                            key="activityField"
+                            key="work"
                             bubbleplaceholder="Сфера деятельности"
                             className="step-form-item"
                             tooltip="Сфера деятельности Tooltip"
                             values={["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"]}
-
                         />
                     )}
                 </FormItem>
@@ -254,7 +242,6 @@ class Step1Form extends React.Component{
                             tooltip="Интересы Tooltip"
                             mode="multiple"
                             values={["Спорт", "Кино и сериалы"]}
-
                         />
                     )}
                 </FormItem>
@@ -270,23 +257,11 @@ class Step1Form extends React.Component{
                     </div>
                     <div className="create-profile-avatar">
                         <span className="upload-avatar-title">Привяжи свои социалки: </span>
-                        {this.renderSocial("vk")}
-                        {this.renderSocial("facebook")}
-                        {this.renderSocial("twitter")}
-                        {this.renderSocial("gplus")}
+                        <div className="social">
+                            {this.renderSocial("facebook")}
+                            {this.renderSocial("gplus")}
+                        </div>
                     </div>
-
-                    {/*<div className="create-profile-social">
-                        <div id="vk_auth"></div>
-
-                    </div>
-                    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?159"></script>
-                    <script type="text/javascript">
-                        {VK.init({apiId: 6695055})}
-                    </script>
-                    <script type="text/javascript">
-                        {VK.Widgets.Auth("vk_auth", {"onAuth" : "function(data) {alert('user '+data['uid']+' authorized');}"})}
-                    </script>*/}
                 </div>
 
                 <div className="steps-action">

@@ -72,33 +72,6 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .ant-row.ant-form-item:last-child {
   margin-right: 0;
 }
-.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .authPopup {
-  float: right;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row {
-  display: flex;
-  flex-direction: row;
-  padding-left: 65px;
-  align-items: center;
-  justify-content: space-between;
-  width: 300px;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-icon {
-  padding-top: 10px;
-  padding-right: 10px;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-link {
-  padding-top: 7px;
-  font-family: RobotoRegular;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-btn-link {
-  margin-top: 10px;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .social-row-btn-close {
-  margin-top: 5px;
-  width: 30px;
-  justify-content: flex-end;
-}
 .create-profile-form .steps .steps-content .ant-form.step-form .radio-label {
   color: #000;
   font-family: RobotoMedium;
@@ -160,6 +133,42 @@
   font-size: 14px;
   color: #111;
   margin-bottom: 30px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social {
+  width: 100%;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social .social-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social .social-row .authSocialPopup .kep-login-facebook {
+  padding: 2px;
+  margin-top: 5px;
+  height: 40px;
+  width: 200px;
+  font-size: 14px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social .social-row-icon {
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social .social-row-link {
+  padding-top: 7px;
+  font-family: RobotoRegular;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social .social-row-btn-link {
+  margin: 10px 10px 0 0;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social .social-row-btn-close {
+  margin: 10px 10px 0 0;
+  min-width: 20px;
+  padding: 2px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .social .social-row-btn-close .icon {
+  margin-right: 0;
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar .react-dropzone-avatar {
   max-width: 200px;
