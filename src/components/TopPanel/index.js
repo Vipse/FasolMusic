@@ -62,7 +62,7 @@ class TopPanel extends React.Component{
                         panelText={"3"}
                     />
                     <TopPanelItem
-                        panelTitle="Мои студенты"
+                        panelTitle="Мои коучи"
                         panelText={"24"}
                     />
                 </div>

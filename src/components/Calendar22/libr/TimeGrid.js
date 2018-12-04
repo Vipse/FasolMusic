@@ -84,6 +84,7 @@ class TimeGrid extends Component {
       resources,
       allDayAccessor,
       showMultiDayTimes,
+      handleDrop
     } = this.props
 
     width = width || this.state.gutterWidth
@@ -140,6 +141,7 @@ class TimeGrid extends Component {
                     style={{ width }}
                     ref={gutterRef}
                     className="rbc-time-gutter"
+                    showLabels={false}
                   />
                   {eventsRendered}
                  
@@ -206,6 +208,7 @@ class TimeGrid extends Component {
             key={idx + '-' + id}
             date={date}
             events={events}  //eventsToDisplay
+            showLabels={true}
           />
         )
       })
@@ -413,6 +416,7 @@ TimeGrid.propTypes = {
   freeTrainers: PropTypes.object,
   showModalTransferEvent: PropTypes.func,
   setChoosenTrainer: PropTypes.func,
+  transferTraining: PropTypes.func,
 }
 
  

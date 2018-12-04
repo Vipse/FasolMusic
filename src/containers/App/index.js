@@ -2,7 +2,7 @@ import React from 'react';
 import {docRoutes, patientRoutes, menuDoc, menuPatient} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
-import Header from "../../components/Header";
+import Header from '../../components/Header';
 import { Modal } from 'antd';
 import Adapter from 'webrtc-adapter'
 
@@ -129,7 +129,8 @@ class App extends React.Component {
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
-        const isUser = (this.props.mode === "student");
+        const isUser = (this.props.mode === "user");
+
         return (
             <div className="main">
                 {

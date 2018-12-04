@@ -47,7 +47,7 @@ export const getAbonements = (idStudent) => {
 }
 
 
-
+// сделать нормально нужно
 export const getAbonements2 = (idStudent) => {
     idStudent = 1234;
     return (dispatch, getState) => {
@@ -64,4 +64,59 @@ export const getAbonements2 = (idStudent) => {
                 console.log(err);
         })
     }    
+}
+
+export const transferTrainining = (value) => {
+    console.log('value :', value);
+    return (dispatch, getState) => 
+
+        instance2.post('/catalog.fasol/transferTrainining', JSON.stringify(value))
+            .then(res => {
+                console.log("transferTrainining", res);
+                // dispatch({
+                //     type: actionTypes.GET_ABONEMENTS2,
+                //     allAbonements2: res.data.result,
+                // });
+            })
+            .catch(err => {
+                console.log(err);
+        })
+        
+}
+
+export const transferTraininingToEnd = (value) => {
+    console.log('value :', value);
+    return (dispatch, getState) => 
+
+        instance2.post('/catalog.fasol/TransferTraininingToEnd', JSON.stringify(value))
+            .then(res => {
+                console.log("TransferTraininingToEnd", res);
+                // dispatch({
+                //     type: actionTypes.GET_ABONEMENTS2,
+                //     allAbonements2: res.data.result,
+                // });
+            })
+            .catch(err => {
+                console.log(err);
+        })
+        
+}
+
+export const changeSubscription = (value) => {
+    console.log("changeSubscription1", value);
+    value.amount = '10';
+    return (dispatch, getState) => 
+   
+        instance2.post('/catalog.fasol/changeSubscription', JSON.stringify(value))
+            .then(res => {
+                console.log("changeSubscription", res);
+                // dispatch({
+                //     type: actionTypes.GET_ABONEMENTS2,
+                //     allAbonements2: res.data.result,
+                // });
+            })
+            .catch(err => {
+                console.log(err);
+        })
+        
 }

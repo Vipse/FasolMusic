@@ -18,8 +18,12 @@ class MainPage extends React.Component{
 
 	}
 
+	componentDidMount() {
+        this.props.onGetAbonements();
+	}
+	
 	componentWillMount(){
-		if (this.props.mode === "student") {
+		if (this.props.mode === "user") {
 			this.props.onGetPatientDoctors(2);
             this.props.onGetNearVisits(3);
 			this.timer = setInterval(()=>this.props.onGetNearVisits(3), 60000);
@@ -72,9 +76,11 @@ class MainPage extends React.Component{
 	}*/
 
     render(){
-        return (this.props.mode === "student") ? (
+		
+        return (this.props.mode === "user") ? (
 			<PatientPage
-				isUser = {this.props.mode === "student"}
+				allAbonements={this.props.allAbonements}
+				isUser = {this.props.mode === "user"}
 				doctors = {this.props.patientDoctors}
 				completedApps = {this.props.completedApps}
 				nearVisits = {this.props.nearVisits}
@@ -93,11 +99,12 @@ class MainPage extends React.Component{
             />
 		) : (
 			<CouchMain
+				allAbonements = {this.props.allAbonements}
 				showCancel = {() => {this.setState({cancelModal: true})}}
 				onAdd = {this.onAddVisit}
 				addModal = {this.state.addModal}
 				closeAdd= {() => {this.setState({addModal: false})}}
-				onSaveNewVisit = {this.onSaveNewVisit}
+				onSaveNewVisit = {this.onSaveNewVisit} // ?
 				cancelModal ={this.state.cancelModal}
                 closeCancel= {() => {this.setState({cancelModal: false})}}
 				saveCancel = {() => {}}
@@ -112,6 +119,8 @@ class MainPage extends React.Component{
 
 const mapStateToProps = state => {
     return {
+		allAbonements: state.abonement.allAbonements, // и интервалы
+
 		mode: state.auth.mode,
 		patients: state.patients.docPatients,
 		visits: state.schedules.visits,
@@ -153,7 +162,9 @@ const mapDispatchToProps = dispatch => {
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
         addConclusion:(id_zap, file) => dispatch(actions.uploadConclusion(id_zap, file)),
         makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
-        cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id))
+		cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id)),
+		
+		onGetAbonements: (idStudent) => dispatch(actions.getAbonements(idStudent)),
     }
 };
 

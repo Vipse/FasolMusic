@@ -25,21 +25,22 @@ class PatientsPage extends React.Component{
         this.onMakeNewApp = this.onMakeNewApp.bind(this)
     }
 
-    componentWillMount(){
-        const info = this.props.onGetInfoDoctor(this.props.match.params.id);
-        const schedule = this.props.onGetDocSchedule(this.props.match.params.id);
-        Promise.all([info, schedule])
-            .then(()=> {this.setState({loading:false})})
+    componentWillMount(){ // здесь будем получать инфу о коуче\студента
+        
+        // const info = this.props.onGetInfoDoctor(this.props.match.params.id);
+        // const schedule = this.props.onGetDocSchedule(this.props.match.params.id);
+        // Promise.all([info, schedule])
+        //     .then(()=> {this.setState({loading:false})})
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.match.params.id !== this.props.match.params.id) {
-            this.setState({loading:true})
-            const info = this.props.onGetInfoDoctor(nextProps.match.params.id);
-            const schedule = this.props.onGetDocSchedule(nextProps.match.params.id);
-            Promise.all([info, schedule])
-                .then(()=> {this.setState({loading:false})})
-        }
+        // if(nextProps.match.params.id !== this.props.match.params.id) {
+        //     this.setState({loading:true})
+        //     const info = this.props.onGetInfoDoctor(nextProps.match.params.id);
+        //     const schedule = this.props.onGetDocSchedule(nextProps.match.params.id);
+        //     Promise.all([info, schedule])
+        //         .then(()=> {this.setState({loading:false})})
+        // }
     }
 
     getDoctorSpecialityStr = () => {

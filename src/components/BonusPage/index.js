@@ -58,7 +58,7 @@ class CoachPayment extends React.Component{
     render() {
         return (
             <div className="bonus">
-                <Card className="offers" title="Акты выполненных работ">
+                <Card className="offers" title="Акции"> {/*title="Акты выполненных работ">*/}
                     <PerfectScrollbar>
                         <div className="offers-item">
                             <div className='offers-item-header'>
@@ -223,23 +223,18 @@ class CoachPayment extends React.Component{
                         </p>
                     </div>
                 </Card>
-                <Card className="referLink" title="Реферальная ссылка">
-                    <div className="referLink-column">
-                        <p className="title">Скинуть ссылку потенциальному новому клиенту</p>
-                        <p className="info">
-                            Тот получит 1 бесплатное занятие если оплатят, а препод получит денежное вознаграждение
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
-                            eligendi harum hic neque porro recusandae.
-                        </p>
-                        <InputNew className="input" bubbleplaceholder="Ссылка"/>
-                        <Button className="copyBtn"
-                            btnText='Скопировать'
-                            onClick={this.copyLink}
-                            size='default'
-                            type='light-pink'
-                        />
-                    </div>
-                </Card>
+
+                <Card className="referLink" title="Заголовок карточки">
+                <div className="referLink-column">
+                    <p className="title">Купи абонемент на вторую дисциплину</p>
+                    <p className="info">
+                        Тот получит 1 бесплатное занятие если оплатят, а препод получит денежное вознаграждение
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
+                        eligendi harum hic neque porro recusandae.
+                    </p>
+                </div>
+            </Card>
+
                 <Card className="invite" title="Пригласи друзей">
                     <img src={inviteFriendsPic}/>
                     <p className="title">Пригласи друга и получи бонус</p>

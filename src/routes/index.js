@@ -127,11 +127,16 @@ export const menuDoc =[
 export const menuPatient =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/calendar', title: 'Календарь', iconType: 'calendar', svg: true},
-    {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
-    {name: 'app/doctors', title: 'Мои врачи', iconType: 'user',},
+
+    {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
+   // {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
+   // {name: 'app/doctors', title: 'Мои врачи', iconType: 'user',},
+
+
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
-    {name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
+    {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true},
+    //{name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
 
 

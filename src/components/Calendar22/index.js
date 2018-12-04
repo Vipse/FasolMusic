@@ -84,7 +84,9 @@ BigCalendar.propTypes = {
     setChoosenTrainer: PropTypes.func,
     isNeedSaveIntervals: PropTypes.bool,
     fillTrainingWeek: PropTypes.func,
-    isShowFreeTrainers: PropTypes.bool
+    isShowFreeTrainers: PropTypes.bool,
+    transferTraining: PropTypes.func,
+    deleteEvent: PropTypes.func,
 };
 
 

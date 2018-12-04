@@ -88,6 +88,7 @@ DayColumn.propTypes = {
   freeTrainers: PropTypes.object,
   showModalTransferEvent: PropTypes.func,
   setChoosenTrainer: PropTypes.func,
+  transferTraining: PropTypes.func,
 }
 
 DayColumn.defaultProps = {

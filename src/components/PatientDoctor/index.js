@@ -34,6 +34,8 @@ class PatientDoctor extends React.Component{
     doctorRender = (dataArr) => {
         let doctorArr = [];
 
+        if(!Array.isArray(dataArr)) return [];
+        
         dataArr.map((item,index) => {
             doctorArr.push(<PatientDoctorItem onGoto={this.props.onGoto} key={index} {...item} checkModal1Visible={this.setModal1Visible}/>)
         });

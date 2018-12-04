@@ -48,6 +48,7 @@ class Schedule extends React.Component {
 
             isShowFreeTrainers: false, 
             amountTraining: true,
+            modalTransferTraining: false,
         }
     };
 
@@ -93,6 +94,101 @@ class Schedule extends React.Component {
 
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
 
+    }
+
+    transferTraining = (transferDay) => {
+        // value - дата куда переносим (TimeSlotGroup)
+        // не передаем для коуча и он не может менять расписание
+        console.log('transferDay :', transferDay);
+        if(transferDay){
+            this.transferDay = {dateStart : Math.floor(+transferDay.getTime() / 1000)}
+            console.log("transfertraining", transferDay);
+        }
+       
+    }
+    deleteEvent = (delEvent) => {
+
+        if(delEvent && Object.keys(delEvent).length){
+            this.delEvent = delEvent;
+            this.setState({modalTransferTraining: true});
+        }   
+    }
+
+    setTransfer_1_Training = () => {
+            const {id: idTraining, idMaster} = this.delEvent.event;
+            if(this.delEvent){
+                    this.props.onTransferTrainining({idTraining, idMaster, ...this.transferDay})
+                        .then(() => {
+                            this.props.onGetAbonements(); 
+                        });
+            } 
+            this.setState({modalTransferTraining: false});   
+    }
+
+    setTransfer_End_Training = () => {
+
+        if(this.delEvent){
+                this.props.onTransferTraininingToEnd({idTraining : this.delEvent.event.id})
+                    .then(() => {
+                        this.props.onGetAbonements(); 
+                    });
+        } 
+        this.setState({modalTransferTraining: false});   
+    }
+
+
+    setAbonement_Training = () => {
+
+        const {subscriptions: subs} = this.props.allAbonements;
+        const {idSubscription, start} = this.delEvent.event;
+        let scheduleForWeek = {}; // это POST
+        let trainingtime = {}; // это POST
+        
+        const max = subs.length;
+        const curWeek = moment( start.getTime() ).week(); // текущая неделя
+        
+
+        for(let i = 0; i < max; i++){
+            if(subs[i].idSubscription === idSubscription) {
+                scheduleForWeek.dateStart = subs[i].dateStart;
+                scheduleForWeek.idSubscription = subs[i].idSubscription;
+                scheduleForWeek.idStudent = '1234';//subs[i].idStudent;
+                scheduleForWeek.discipline = subs[i].discipline;
+
+                subs[i].training.forEach((item) => {
+                        const start = moment(+item.start * 1000);
+                        const weekElem = start.week(); // номер недели
+                       
+
+                        if (curWeek === weekElem) {
+
+                           if( item.id === this.delEvent.event.id){
+                                    const weekDay =  new Date(this.transferDay.dateStart * 1000).getDay(); // номер дня в неделе ( переносимое занятие)
+                                    
+                            console.log('this.tansferDay :', this.transferDay.dateStart);
+                            console.log('weekDay :', weekDay);
+
+                                    if(!trainingtime.hasOwnProperty(weekDay)){
+                                        trainingtime[weekDay] = [];
+                                    }
+                                    trainingtime[weekDay].push({id: item.id, start: this.transferDay.dateStart })   
+                           }
+                           else{
+                                    const weekDay =  new Date(item.start * 1000).getDay();
+                                    if(!trainingtime.hasOwnProperty(weekDay)){
+                                        trainingtime[weekDay] = [];
+                                    }
+                                    trainingtime[weekDay].push({id: item.id, start: item.start })
+                           }        
+                        }                    
+                })
+                scheduleForWeek.trainingtime = trainingtime;
+                break;                
+            }           
+        }
+
+        this.setState({modalTransferTraining: false});   
+        this.props.onChangeSubscription(scheduleForWeek);
     }
 
 
@@ -275,7 +371,7 @@ class Schedule extends React.Component {
 	}
 
     render() {
-        console.log('this.props.abonementIntervals :', this.props.abonementIntervals);
+      
         let isNeedSaveIntervals = false
         if(this.props.abonementIntervals){
             isNeedSaveIntervals = this.props.abonementIntervals.visibleTrialModal;
@@ -323,9 +419,12 @@ class Schedule extends React.Component {
                 let minFasol = this.props.min;
                 let maxFasol = this.props.max;
 
-            let min = new Date(new Date(this.props.min * 1000).setFullYear(currY, currM, currD)),
-                max = new Date(new Date(this.props.max * 1000).setFullYear(currY, currM, currD));
+            let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
+                max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
                 
+
+                console.log('min :', min);
+                console.log('max :', max);
             // надо нормальную проверка для коуча и студента
         
             // let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
@@ -343,27 +442,33 @@ class Schedule extends React.Component {
                         let {subscriptions} = this.props.allAbonements;
                         let max = subscriptions.length;
                         for(let i = 0; i < max; i++){
+                            
                             for(let j = 0; j < subscriptions[i].training.length; j++){
 
                                 iterator++
                                 arrAbonement.push(
                                     {
-                                        avatar: "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
-                                        fio: 'Дисциплина - '+subscriptions[i].discipline + ' #'+iterator,
-                                        idMaster: subscriptions[i].training[j].idMaster,
-                                        discipline: 'Дисциплина - '+subscriptions[i].discipline + ' #'+iterator,
-                                        comment: "Строгий полицейский",
-                                        start: new Date(subscriptions[i].training[j].start * 1000)
+                                        id:             subscriptions[i].training[j].id,
+                                        avatar:         "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+                                        fio:            'Дисциплина - ' + subscriptions[i].discipline + ' #'+iterator,
+                                        idMaster:       subscriptions[i].training[j].idMaster,
+                                        discipline:     'Дисциплина - ' + subscriptions[i].discipline + ' #'+iterator,
+                                        comment:        "Строгий полицейский",
+                                        start:          new Date(subscriptions[i].training[j].start * 1000),
+                                        status:         subscriptions[i].training[j].status,
+                                        isBooking:      subscriptions[i].training[j].isBooking,
+
+                                        idSubscription: subscriptions[i].idSubscription, // для поиска
                                     })
                             }
                         }
                     }
-
-console.log('arrAbonement :', arrAbonement);
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
                                  icon='setting_edit'/>)
+
+                                 console.log('QQQ this.props :', this.props);
             calendar = (<Calendar 
                                     receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
@@ -382,8 +487,8 @@ console.log('arrAbonement :', arrAbonement);
                                         events={(arrAbonement && arrAbonement.length) ? arrAbonement : apiPatients} //{this.props.visits}
                                   intervals={ this.state.amountTraining ? this.props.freeIntervals : []}
                                   
-                                  min={min}
-                                  max={max}
+                                  min= {min}
+                                  max= {max}
                                   minFasol={minFasol}
                                   maxFasol={maxFasol}
 
@@ -400,12 +505,16 @@ console.log('arrAbonement :', arrAbonement);
                                   isNeedSaveIntervals={isNeedSaveIntervals}
                                   fillTrainingWeek = {this.fillTrainingWeek}
                                   isShowFreeTrainers = {this.state.isShowFreeTrainers}
+                                  transferTraining = {this.transferTraining} // drag and drop
+                                  deleteEvent = {this.deleteEvent} // drag and drop
+                                  setAbonement_Training = {this.setAbonement_Training}
 
             />)
         }
 
       
-       
+       console.log('this.props.min :', this.props.min);
+       console.log('this.props.max :', this.props.max);
 
         return (
             <Hoc>
@@ -436,7 +545,35 @@ console.log('arrAbonement :', arrAbonement);
                     
                 </Modal>
 
+                <Modal 
+                    title='Сообщение'
+                    visible={this.state.modalTransferTraining}
+                    onCancel={() => this.setState({modalTransferTraining : false})}
+                    width={360}
+                    className="schedule-message-modal-wrapper"
+                >
+                        <div className="schedule-message-modal"> 
+                            <Button btnText='Перенести 1 треню'    
+                                onClick= {this.setTransfer_1_Training}
+                                type='yellow'
+                            />
+                        </div>
+                        <div className="schedule-message-modal"> 
+                            <Button btnText='Перенести треню в конец'    
+                                onClick= {this.setTransfer_End_Training}
+                                type='yellow'
+                            />
+                        </div>    
 
+                        <div className="schedule-message-modal"> 
+                            <Button btnText='Новое расписание'    
+                                onClick= {this.setAbonement_Training}
+                                type='yellow'
+                            />
+                        </div>   
+                </Modal>
+
+                
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}
                                   onSave={(obj) => {
@@ -520,6 +657,9 @@ const mapDispatchToProps = dispatch => {
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
         onGetAbonements: (idStudent) => dispatch(actions.getAbonements(idStudent)),
+        onTransferTrainining: (value) => dispatch(actions.transferTrainining(value)),
+        onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
+        onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),
 
     }
 };

@@ -9,7 +9,7 @@ import Col from "../../components/Col/index.js";
 import Login from "../../components/Login/index.js";
 import { message } from 'antd';
 import LoginForget from "../../components/LoginForget/index.js";
-import Registration from "../../components/Registration/index.js";
+
 import RegistrationPatient from "../../components/RegistrationPatient/index.js";
 import langsArray from "../../helpers/langsArray"
 import addInfoObj from "../../helpers/addInfoObj"
@@ -18,6 +18,7 @@ import addInfoObj from "../../helpers/addInfoObj"
 import * as actions from '../../store/actions'
 import './styles.css'
 import ReportBugModal from "../../components/ReportBugModal";
+import CreateProfile from './../../components/CreateProfile/index';
 
 class LoginPage extends React.Component {
 
@@ -99,7 +100,7 @@ class LoginPage extends React.Component {
                         />
                         <Route path="/registration"
                                exact
-                               render={() => <Registration onFinish={this.registerDoctor}
+                               render={() => <CreateProfile onFinish={this.registerDoctor}
                                                            langs={langs}
                                                            payments={payments}
                                                            category = {category}

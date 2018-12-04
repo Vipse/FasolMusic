@@ -6,9 +6,33 @@ import Icon from './../../Icon/index';
 import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import NotificationItem from './../../Notification/index';
 
-import { getRandomTraining } from './header/subscription';
+import { DragSource } from 'react-dnd';
 
-export default class EventSlot extends Component {
+
+const itemSource = {
+    beginDrag(props) {
+        console.log("draggin", props)
+        return props;
+    },
+    endDrag(props, monitor, component) {
+        if(!monitor.didDrop()){
+            return;
+        }
+        console.log('ENd drag :', props);
+        return props.handleDrop(props);
+    }
+
+}
+
+function collect(connect, monitor){
+    return {
+        connectDragSource: connect.dragSource(),
+        connectDragPreview: connect.dragPreview(),
+        isDragging: monitor.isDragging(),
+    }
+}
+
+class EventSlot extends Component {
     constructor(props) {
         super(props);
     };
@@ -20,48 +44,54 @@ export default class EventSlot extends Component {
 
     render() {
         const {
-            event,
-            freeTrainers,
-            idEvent
+            event
         } = this.props;
 
+        //drag and drop
+        const {
+            isDragging,
+            connectDragSource,
+            item
+        } = this.props;
+        const opacity = isDragging ? 0 : 1;
+        let backgroundColor = event.status ? {} : '#eee'; // цвет на была ли тренировка
+        backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
-        let want = [
-            {
-                day: 0,
-                intervals: [
-                    {
-                        start: 1540875800000,
-                        end: 1540929400000
-                    }    
-                ]
-            },
-            {
-                day: 1,
-                intervals: [
-                    {
-                        start: 1540875900000,
-                        end: 1540929300000
-                    }    
-                ]
-            }
-        ]
-        getRandomTraining(want);
-
-        return (
-        <div className="event-group" >
-                <div>
-                    <div className="event-group-cross">
-                        <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>
-                    </div>
-                    <p className="event-group-text" >
-                        {event.fio}
-                    </p>
+console.log('event :', event);
+       
+        if(event.status && !event.isBooking){
+            return connectDragSource(
+                <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
+                        <div>
+                            <div className="event-group-cross">
+                                <Icon type='close' size={7} onClick={() => this.props.setAbonement_Training}/>
+                            </div>
+                            <p className="event-group-text" >
+                                {event.fio}
+                            </p>
+                        </div>
                 </div>
-        </div>
+            )
+        }
+
+        
+        return (
+            <div key = {event.id} className="event-group" style={{backgroundColor}}>
+                    <div>
+                        <div className="event-group-cross">
+                            <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>
+                        </div>
+                        <p className="event-group-text" >
+                            {event.fio}
+                        </p>
+                    </div>
+            </div>
         )
+        
     }
 }
+
+
 
 EventSlot.propTypes = {
      event : PropTypes.object,
@@ -74,3 +104,6 @@ EventSlot.propTypes = {
       freeTrainers: null,
       showTransferEvent: () => {},
   }
+
+
+  export default DragSource('event-group', itemSource, collect)(EventSlot);

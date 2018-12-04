@@ -7,8 +7,34 @@ import localizer from './header/localizer'
 import { elementType, dateFormat } from './utils/propTypes'
 
 import EventSlot from './EventSlot';
+import { DropTarget } from 'react-dnd';
 
-export default class TimeSlotGroup extends Component {
+const squareTarget = {
+  drop(props) {
+    props.transferTraining(props.value); // drag and drop 
+    console.log('DROP props :', props);
+    //moveKnight(props.x, props.y);
+  },
+  // hover(props, monitor, component) {
+  //   // This is fired very often and lets you perform side effects
+  //   // in response to the hover. You can't handle enter and leave
+  //   // here—if you need them, put monitor.isOver() into collect() so you
+  //   // can just use componentDidUpdate() to handle enter/leave.
+
+  // }
+};
+
+function collect(connect, monitor){
+
+  return{
+    connectDropTarget: connect.dropTarget(),
+    hovered: monitor.isOver(),
+    item: monitor.getItem(),
+  }
+}
+
+
+class TimeSlotGroup extends Component {
   static propTypes = {
     dayWrapperComponent: elementType,
     timeslots: PropTypes.number.isRequired,
@@ -55,6 +81,7 @@ export default class TimeSlotGroup extends Component {
         resource={resource}
         value={value}
         showTransferEvent={showTransferEvent}
+        
       /> 
     )
   }
@@ -81,13 +108,15 @@ export default class TimeSlotGroup extends Component {
       showTransferEvent, 
       freeTrainers,
       setChoosenTrainer,
-      showLabels
+      showLabels,
+      handleDrop
     } = this.props;
-   
 
+    
+    const valueTime = this.props.value.getTime()
     for( let i = 0; i < events.length; i++){
      
-          if(events[i].start.getTime() === this.props.value.getTime() && !showLabels) {
+          if(events[i].start.getTime() === valueTime && showLabels) {
             return (
               <EventSlot 
                   value={this.props.value.getTime()}
@@ -96,10 +125,13 @@ export default class TimeSlotGroup extends Component {
                   setChoosenTrainer={this.props.setChoosenTrainer}
                   freeTrainers={freeTrainers}
                   idEvent={events[i].start.getTime()}
+                  handleDrop={handleDrop}
+                  setAbonement_Training = {this.props.setAbonement_Training}
                  
             />)
           }
     }
+    
     if(freeTrainers && freeTrainers.idEvent === this.props.value.getTime() && !showLabels){ // рендер выпадающего списка freeTrainer
         return <EventSlot 
             value={this.props.value.getTime()}
@@ -107,6 +139,7 @@ export default class TimeSlotGroup extends Component {
             freeTrainers={freeTrainers}
             setChoosenTrainer={this.props.setChoosenTrainer}
             idEvent={freeTrainers.idEvent}
+            
         />
     }
    
@@ -120,6 +153,10 @@ export default class TimeSlotGroup extends Component {
 
   
   render() {
+    //drag and drop
+    const { connectDropTarget, hovered, item} = this.props;
+    const backgroundColor= hovered ? '#e8f8fc ' : 'white';
+
     const {intervals, value, freeTrainers} = this.props;
 
 
@@ -137,9 +174,24 @@ export default class TimeSlotGroup extends Component {
     let cellClass = cn('rbc-timeslot-group', flag && !isViewTrainer && !currentEvent ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
     const modalTransferEvent = flag && !isViewTrainer && !currentEvent ? this.showModalTransferEvent : () => {}; // перенос тренировки
 
-    return <div className={cellClass} onClick={(e) => modalTransferEvent(value.getTime())}>
-              {this.renderSlices()}
-              {currentEvent}
-            </div>
+    if(Date.now() <= value.getTime()){
+      return connectDropTarget(
+        <div className={cellClass} style={{backgroundColor}} onClick={(e) => modalTransferEvent(value.getTime())}>
+           {this.renderSlices()}
+           {currentEvent}
+         </div>
+      )
+    }
+
+    return (
+      <div className={cellClass} style={{backgroundColor}} onClick={(e) => modalTransferEvent(value.getTime())}>
+           {this.renderSlices()}
+           {currentEvent}
+         </div>
+    )
+  
   }
 }
+
+
+export default DropTarget('event-group', squareTarget, collect)(TimeSlotGroup);

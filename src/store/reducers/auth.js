@@ -23,6 +23,7 @@ const reducer = (state = initialState, action) => {
                 errorCode: action.errorCode,
             }
         case actionTypes.AUTH_SUCCESS:
+            console.log("AUTH_SUCCESS")
             return {
                 ...state,
                 id: action.id,

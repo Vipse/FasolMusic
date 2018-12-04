@@ -58,6 +58,7 @@ class Homework extends React.Component{
                                     trainingRecord: "http://vk.com",
                                     homework: "сделать кучу вещей, сыграть на гитарке",
                                     files: [],
+                                   
                                 })
                             console.log("AAAA")
                             a = Infinity;

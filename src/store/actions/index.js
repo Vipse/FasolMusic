@@ -136,4 +136,7 @@ export {
     createAbonement,
     getAbonements,
     getAbonements2,
+    transferTrainining,
+    transferTraininingToEnd,
+    changeSubscription,
 } from './abonement'

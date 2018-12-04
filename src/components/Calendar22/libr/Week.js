@@ -5,6 +5,10 @@ import localizer from './header/localizer'
 import { navigate } from './utils/constants'
 import TimeGrid from './TimeGrid'
 
+
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
+
 class Week extends React.Component {
   static propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -12,13 +16,31 @@ class Week extends React.Component {
 
   static defaultProps = TimeGrid.defaultProps
 
+  deleteEvent = (value) => {
+    if(Object.keys(value).length){
+        this.props.deleteEvent(value);
+    }
+    
+  }
+
+
   render() {
 
     let { date, ...props } = this.props
 
     let range = Week.range(date, this.props)
  
-    return <TimeGrid {...props} range={range} eventOffset={15} />
+    return (
+        <div>
+          <TimeGrid 
+                  {...props} 
+                  range={range} 
+                  eventOffset={15} 
+                  handleDrop = {(id) => this.deleteEvent(id)} 
+                
+                  />
+        </div>  
+    )
   }
 }
 
@@ -53,4 +75,4 @@ Week.title = (date, { formats, culture }) => {
   )
 }
 
-export default Week
+export default DragDropContext(HTML5Backend)(Week)

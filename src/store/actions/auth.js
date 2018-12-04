@@ -42,13 +42,16 @@ export const login = (userName, password, remember, history, isAuto) => {
                     password: password,
                 }))
                     .then(res => {
-                        !res.data.error
-                            ? (
+                        console.log("AUTH", res);
+                        console.log('res.data.error :', res.data.hasOwnProperty('error'));
+                        !res.data.hasOwnProperty('error')
+                            ? ( 
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
                                 dispatch(setOnlineStatus(res.data.result.id, true)),
                                 sessionStorage.setItem('_appdoc-id', res.data.result.id),
                                 sessionStorage.setItem('_appdoc-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
+                                
                                 history.push('/app')
                             )
                             : (
