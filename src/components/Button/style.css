@@ -44,11 +44,11 @@
 }
 .btn-size-small {
   text-transform: uppercase;
-  letter-spacing: .025em;
+  letter-spacing: 0.025em;
   font-size: 0.75rem;
   font-family: RobotoMedium;
   min-width: 5.3125rem;
-  padding: .625rem .85rem;
+  padding: 0.625rem 0.85rem;
 }
 .btn-size-default {
   text-transform: uppercase;
@@ -56,7 +56,7 @@
   font-size: 11px;
   font-family: RobotoMedium;
   min-width: 8.875rem;
-  letter-spacing: .025em;
+  letter-spacing: 0.025em;
 }
 .btn-size-large {
   font-size: 1.25rem;
@@ -217,9 +217,11 @@
 }
 .btn-type-dark-blue {
   font-family: RobotoMediumItalic;
+  font-size: 14px;
   background-color: transparent;
   color: #344051;
   border: 1px solid #344051;
+  text-transform: none;
 }
 .btn-type-dark-blue:hover {
   color: #fff;
@@ -245,11 +247,15 @@
   background: #bbbbbb;
 }
 .btn-type-light-blue {
-  background-color: #e1f2fe;
-  color: #204d8d;
+  font-family: RobotoMediumItalic;
+  font-size: 14px;
+  background-color: transparent;
+  color: #21bedd;
+  text-transform: none;
+  border: 1px solid #21bedd;
 }
 .btn-type-light-blue .icon {
-  color: #204d8d;
+  color: #21bedd;
 }
 .btn-type-light-blue:hover {
   background-color: #21bedd;
@@ -391,7 +397,5 @@
 .btn[disabled] {
   background-color: #bbb;
   color: #fff;
-  border: none;
-  cursor: default;
-  pointer-events: none;
+  cursor: not-allowed;
 }

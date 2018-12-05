@@ -133,15 +133,13 @@ class App extends React.Component {
     render() {
         let name, avatar;
 
-        if(this.props.auth.mode === "student" && this.props.profileStudent){
-            console.log('profileStudent', this.props.profileStudent);
-            console.log("2", this.props.auth.id)
-             name = this.props.profileStudent.name;
-             avatar = this.props.profileStudent.avatar;
+        if (this.props.auth.mode === "student" && this.props.profileStudent) {
+            name = this.props.profileStudent.name;
+            avatar = this.props.profileStudent.avatar;
         } 
-        else if(this.props.profileDoctor){
-            name = this.props.profileDoctor.name;
-            avatar = this.props.profileDoctor.avatar;
+        else if (this.props.profileCoach) {
+            name = this.props.profileCoach.name;
+            avatar = this.props.profileCoach.avatar;
         }
 
         const {collapsed} = this.state;
@@ -157,7 +155,7 @@ class App extends React.Component {
                         <React.Fragment>
                             <div className={siderClass}>
                                 <SideNav
-                                    img={avatar}
+                                    avatar={avatar}
                                     name={name}
                                     onLogoClick={this.onLogoClick}
                                     menuItems={isUser ? menuPatient : menuDoc}

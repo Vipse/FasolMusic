@@ -222,9 +222,11 @@
         }
         &-dark-blue {
             font-family: RobotoMediumItalic;
+            font-size: 14px;
             background-color: transparent;
             color: #344051;
             border: 1px solid #344051;
+            text-transform: none;
             &:hover {
                 color: #fff;
                 background-color: #344051;
@@ -250,10 +252,14 @@
             }
         }
         &-light-blue {
-            background-color: #e1f2fe;
-            color: #204d8d;
+            font-family: RobotoMediumItalic;
+            font-size: 14px;
+            background-color: transparent;
+            color: #21bedd;
+            text-transform: none;
+            border: 1px solid #21bedd;
             .icon {
-                color: #204d8d;
+                color: #21bedd;
             }
             &:hover {
                 background-color: #21bedd;
@@ -408,8 +414,6 @@
     &[disabled] {
         background-color: #bbb;
         color: #fff;
-        border: none;
-        cursor: default;
-        pointer-events: none;
+        cursor: not-allowed;
     }
 }

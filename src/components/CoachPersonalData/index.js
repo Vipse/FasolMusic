@@ -2,20 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import Button from '../Button'
-import PersonalDataContact from '../PersonalDataContact'
+import Button from '../Button';
+import PersonalDataContact from '../PersonalDataContact';
 import PersonalDataInfo from "../PersonalDataInfo";
 import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
-
-import './style.css'
-import '../../icon/style.css'
-import Card from "antd/es/card";
-import {Form, message} from "antd";
-import Spinner from "../Spinner";
 import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
+
+import './style.css'
+import '../../icon/style.css'
+
+import Card from "antd/es/card";
+import {Form, message} from "antd";
+import Spinner from "../Spinner";
 import moment from "moment";
 
 class CoachPersonalDataForm extends React.Component {
@@ -24,9 +25,9 @@ class CoachPersonalDataForm extends React.Component {
         super();
         this.state = {
             uploadingNewData: false,
-            avatarLink: "",
-            facebookLink: "",
-            googleLink: "",
+            avatar: "",
+            facebookAuth: {link: '', name: '', email: ''},
+            googleAuth: {link: '', name: '', email: ''},
             promoLink: "",
             trainingTime: {
                 enabledDays: [],
@@ -35,18 +36,36 @@ class CoachPersonalDataForm extends React.Component {
         }
     }
 
+    handleChangeAvatar = (newAvatar) => {
+        this.setState({avatar: newAvatar});
+    };
+
     componentDidMount() {
         this.setState({
-            avatarLink: this.props.profileCoach.avatar,
-            facebookLink: this.props.profileCoach.facebooklink,
-            googleLink: this.props.profileCoach.googlelink,
-            promoLink: this.props.profileCoach.promovideo,
             trainingTime: {
                 enabledDays: new Array(7).fill(false),
                 selectedTimes: new Array(7).fill([10, 23])
             }
         })
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.profileCoach.id !== nextProps.profileCoach.id)
+            this.setState({
+                avatar: nextProps.profileCoach.avatar,
+                facebookAuth: {link: nextProps.profileCoach.facebooklink, name: '', email: ''},
+                googleAuth: {link: nextProps.profileCoach.googlelink, name: '', email: ''},
+                promoLink: nextProps.profileCoach.promovideo,
+            })
+    }
+
+    handleChangeSocial = (valueObj) => {
+        const {getFieldValue, setFieldsValue} = this.props.form;
+        const { name } = valueObj[Object.keys(valueObj)[0]];
+        this.setState(valueObj);
+        if (!getFieldValue('name') && name)
+            setFieldsValue({name: name});
+    };
 
     updateLink = (type, link) => {
         this.setState({[type + "Link"]: link})
@@ -98,9 +117,9 @@ class CoachPersonalDataForm extends React.Component {
                     phones: values.phones.split(' ').join('').split(',', 2),
                     email: values.email,
                     country: values.country,
-                    //avatar: this.state.avatarLink,
-                    //facebooklink: this.state.facebookLink,
-                    //googlelink: this.state.googleLink,
+                    avatar: this.state.avatar,
+                    facebooklink: this.state.facebookAuth.link,
+                    googlelink: this.state.googleAuth.link,
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
@@ -125,7 +144,7 @@ class CoachPersonalDataForm extends React.Component {
                 this.props.onSubmit(finalData)
                     .then((res) => {
                     this.setState({uploadingNewData: false});
-                    if (!res.data.error) {
+                    if (res && !res.data.error) {
                         message.success("Изменения сохранены");
                     } else
                         message.error("Произошла ошибка, попробуйте ещё раз");
@@ -138,46 +157,52 @@ class CoachPersonalDataForm extends React.Component {
 
     render() {
         const rootClass = cn('coach-data');
-        const { getFieldDecorator } = this.props.form;
+        const { facebookAuth, googleAuth } = this.state;
+        const { form, profileCoach } = this.props;
+        const { getFieldDecorator } = form;
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
                     <Form className={"coach-data-form"}>
                         <div className='coach-data-title'>Контактные данные</div>
                         <PersonalDataContact
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
+                            onChangeAvatar={this.handleChangeAvatar}
+                            onChangeSocial={this.handleChangeSocial}
                             updateLink={this.updateLink}
-                            getFieldDecorator={getFieldDecorator}
+                            form={form}
+                            facebookAuth={facebookAuth}
+                            googleAuth={googleAuth}
                         />
                         <div className='coach-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Проморолик</div>
                         <CoachPersonalDataPromo
-                            profileCoach={this.props.profileCoach}
+                            profileCoach={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Платежные данные</div>
                         <CoachPersonalDataPayment
-                            profileCoach={this.props.profileCoach}
+                            profileCoach={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Уровень подготовки по дисциплине</div>
                         <PersonalDataSkill
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                             number={0}
                         />
                         <div className='coach-data-title'>Идеальный студент</div>
                         <PersonalDataPreferences
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Удобное время проведения тренировок</div>
                         <PersonalDataTime
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                             onChange={this.updateTrainingTime}
                         />
@@ -189,7 +214,7 @@ class CoachPersonalDataForm extends React.Component {
                         btnText='Сохранить изменения'
                         size='default'
                         disable={this.state.uploadingNewData}
-                        type='float'
+                        type='light-blue'
                         style={{marginRight: "20px"}}
                     />
 

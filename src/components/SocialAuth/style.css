@@ -1,0 +1,32 @@
+.social {
+  width: 100%;
+}
+.social-row {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.social-row .icon {
+  color: #bbbbbb;
+}
+.social-row-link {
+  padding: 0 10px;
+  font-size: 11px;
+  font-family: RobotoRegular;
+  overflow: hidden;
+  width: min-content;
+}
+.social-row-active {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.social-row-active .icon {
+  color: #21bedd;
+}

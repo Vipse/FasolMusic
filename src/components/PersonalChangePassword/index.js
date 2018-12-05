@@ -98,7 +98,7 @@ class PersonalChangePasswordForm extends React.Component{
                             btnText='Сохранить изменения'
                             onClick={this.handleSubmitPassword}
                             size='default'
-                            type='float'
+                            type='light-blue'
                             disable={this.state.loadingPass}
                             style={{marginRight: "20px"}}
                         />

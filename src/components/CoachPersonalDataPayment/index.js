@@ -60,15 +60,14 @@ class CoachPersonalDataPayment extends React.Component {
                                 btnText={this.state.yandexMoney.linked ? 'Отвязать' : 'Привязать'}
                                 onClick={(e) => this.handleLinkStatus(e, "yandexMoney")}
                                 size='small'
-                                type={this.state.yandexMoney.linked ? 'dark-blue' : 'float'}
+                                type={this.state.yandexMoney.linked ? 'dark-blue' : 'light-blue'}
                         />
                         {this.state.yandexMoney.linked &&
                         <div className="payment-method-fields">
                             <FormItem className="input-form-item">
                                 {getFieldDecorator('number', {
-                                    initialValue: "123456",
                                     rules: [{
-                                        required: true,
+                                        required: false,
                                         message: 'Введите номер кошелька, пожалуйста'
                                     }],
                                 })(

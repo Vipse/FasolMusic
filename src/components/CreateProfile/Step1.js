@@ -9,31 +9,23 @@ import SelectWithTT from "../SelectWithTT";
 
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
-import facebookIcon from "../../img/facebookIcon.png"
-import gplusIcon from "../../img/gplusIcon.png"
-import FacebookLogin from "react-facebook-login";
+import SocialAuth from "../SocialAuth";
 
 const FormItem = Form.Item;
-
-const mappedIconsToLinks = {
-    facebook: facebookIcon,
-    gplus: gplusIcon
-};
-
 
 class Step1Form extends React.Component{
     state = {
         fileList: [],
-        avatarUrl: "",
-        avatarThumb: "",
-        facebookAuthorized: {show: false, link: ''},
-        gplusAuthorized: {show: false, link: ''}
+        avatar: "",
+        facebookAuth: {link: '', name: '', email: ''},
+        googleAuth: {link: '', name: '', email: ''}
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const {facebookAuth, googleAuth} = this.state;
         this.props.form.validateFieldsAndScroll((err, values) => {
-            // if (!err) {
+            // if (!err && (facebookAuth.email || googleAuth.email)) {
             //
             //     let fields = {
             //         ...values,
@@ -48,7 +40,7 @@ class Step1Form extends React.Component{
         })
     };
 
-    handleChange = (info) => {
+    /*handleChange = (info) => {
         const reader = new FileReader();
         this.setState({ loading: true });
         this.props.uploadFile(info.file)
@@ -61,83 +53,34 @@ class Step1Form extends React.Component{
             loading: false
         }));
         reader.readAsDataURL(info.file);
-    };
+    };*/
 
     onDrop = (file) => {
-        console.log(file);
         const reader = new FileReader();
         // this.props.uploadFile(info.file)
         //     .then((res) => {
         //         this.setState({avatarUrl: res.data.file[0].url, avatarName: res.data.file[0].name});
         //         message.success("Фото загружено")
         //     });
+        this.setState({loading: true});
         reader.addEventListener('load', () => this.setState({
-            avatarThumb: reader.result,
+            avatar: reader.result,
             loading: false
         }));
         reader.readAsDataURL(file[0]);
     };
 
-    responseFacebook = response => {
-        console.log(response);
-
-        this.setState({
-            facebookAuthorized: {show: false, link: response.email}
-        });
-    };
-
-    facebookAuthorization = () => {
-        return (<FacebookLogin
-            appId="2093206104069628"
-            autoLoad={true}
-            fields="name,email,picture"
-            onClick={this.componentClicked}
-            callback={this.responseFacebook}
-            size="small"
-        />);
-    };
-
-    gplusAuthorization = () => {
-        return null;
-    };
-
-    renderSocial = (name) => {
-        return (<div key={name}>
-            <div className={"social-row " + name}>
-                <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
-                <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
-                {this.state[name + "Authorized"].link ?
-                    <Button className="social-row-btn-link"
-                            btnText='Отвязать'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.setState({[name + "Authorized"]: {show: false, link: ""}})
-                            }}
-                            size='small'
-                            type='float'
-                    />
-                    : this.state[name + "Authorized"].show ?
-                        <div className="authSocialPopup">
-                            {this[name + "Authorization"]()}
-                        </div>
-                        : <Button className="social-row-btn-link"
-                                  btnText='Связать'
-                                  onClick={(e) => {
-                                      e.preventDefault();
-                                      this.setState({[name + "Authorized"]: {show: true, link: ""}})
-                                  }}
-                                  size='small'
-                                  type='float'
-                        />
-                }
-            </div>
-        </div>);
+    handleChangeSocial = (valueObj) => {
+        const {getFieldValue, setFieldsValue} = this.props.form;
+        this.setState(valueObj);
+        if (!getFieldValue('name') && valueObj.facebookAuth.name)
+            setFieldsValue({name: valueObj[Object.keys(valueObj)[0]].name});
     };
 
     render(){
         const { getFieldDecorator } = this.props.form;
 
-        const avatarUrl = this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb ? this.props.data.avatarThumb : "";
+        const avatarUrl = this.state.avatar ? this.state.avatar : this.props.data.avatar ? this.props.data.avatar : "";
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-1">
                 <div className="step-title">Личные данные</div>
@@ -257,9 +200,12 @@ class Step1Form extends React.Component{
                     </div>
                     <div className="create-profile-avatar">
                         <span className="upload-avatar-title">Привяжи свои социалки: </span>
-                        <div className="social">
-                            {this.renderSocial("facebook")}
-                            {this.renderSocial("gplus")}
+                        <div className="profile-social">
+                            <SocialAuth
+                                facebookAuth={this.state.facebookAuth}
+                                googleAuth={this.state.googleAuth}
+                                onChange={this.handleChangeSocial}
+                            />
                         </div>
                     </div>
                 </div>

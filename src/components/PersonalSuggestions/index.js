@@ -85,7 +85,7 @@ class PersonalSuggestionsForm extends React.Component{
                             btnText='Отправить'
                             onClick={this.handleSubmitSuggestion}
                             size='default'
-                            type='float'
+                            type='light-blue'
                             disable={this.state.uploadingSuggestion}
                             style={{marginRight: "20px"}}
                         />
