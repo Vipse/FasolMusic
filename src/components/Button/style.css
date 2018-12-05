@@ -397,7 +397,5 @@
 .btn[disabled] {
   background-color: #bbb;
   color: #fff;
-  border: none;
-  cursor: default;
-  pointer-events: none;
+  cursor: not-allowed;
 }

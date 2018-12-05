@@ -71,9 +71,9 @@ class Step4Form extends React.Component{
                 //phones:
                 email: this.props.data.facebookAuth.email || this.props.data.googleAuth.email,
                 country: this.props.data.country,
-                avatar: this.state.avatarLink,
-                facebooklink: this.state.facebookAuth.link,
-                googlelink: this.state.googleAuth.link,
+                avatar: this.props.data.avatarUrl,
+                facebooklink: this.props.data.facebookAuth.link,
+                googlelink: this.props.data.googleAuth.link,
 
                 sex: this.props.data.sex === "Мужской" ? "m" : "w",
                 datebirth: moment(this.props.data.datebirth).format('X'),

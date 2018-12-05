@@ -25,7 +25,7 @@ class PersonalDataContact extends React.Component {
     constructor() {
         super();
         this.state = {
-            avatar: {}
+            avatar: ""
         }
     }
 
@@ -33,16 +33,18 @@ class PersonalDataContact extends React.Component {
         e.preventDefault();
         if (isReset === true) {
             this.setState({
-                avatar: {}
+                avatar: "default"
             });
+            this.props.onChangeAvatar("default");
             e.target.files = [];
         } else {
             let file = e.target.files[0];
             if (file && file.type.indexOf("image/") !== -1) {
                 const reader = new FileReader();
-                reader.addEventListener('load', () => this.setState({
-                    avatar: {thumbUrl: reader.result, name: file.name}
-                }));
+                reader.addEventListener('load', () => {this.setState({
+                    avatar: reader.result});
+                    this.props.onChangeAvatar(reader.result);
+                });
                 reader.readAsDataURL(file);
             }
         }
@@ -50,15 +52,14 @@ class PersonalDataContact extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {name, phones, email, country} = this.props.profile;
+        const {name, phones, email, country, avatar} = this.props.profile;
         const rootClass = cn('coach-data-form');
 
         return (
             <div className='coach-data-block'>
                 <div className='coach-data-avatar'>
                     <ProfileAvatar
-                        img={this.state.avatar.thumbUrl ? this.state.avatar.thumbUrl : avatarDefault}
-                        owner='coach'
+                        img={this.state.avatar ? this.state.avatar : avatar}
                         size="large"
                         online={true}
                     />

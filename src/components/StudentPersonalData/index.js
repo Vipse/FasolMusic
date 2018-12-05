@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import Button from '../Button'
-import PersonalDataContact from '../PersonalDataContact'
+import PersonalDataContact from '../PersonalDataContact';
 import PersonalDataInfo from "../PersonalDataInfo";
-import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
-
-import './style.css'
-import '../../icon/style.css'
-import Card from "antd/es/card";
-import {Form, message} from "antd";
-import Spinner from "../Spinner";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
+
+import './style.css'
+import '../../icon/style.css'
+
+import Card from "antd/es/card";
+import {Form, message} from "antd";
+import Button from '../Button';
+import Spinner from "../Spinner";
 import moment from "moment";
 
 class StudentPersonalDataForm extends React.Component {
@@ -23,7 +23,7 @@ class StudentPersonalDataForm extends React.Component {
         super();
         this.state = {
             uploadingNewData: false,
-            avatarLink: "",
+            avatar: "",
             facebookAuth: {link: '', name: '', email: ''},
             googleAuth: {link: '', name: '', email: ''},
             trainingTime: {
@@ -45,12 +45,16 @@ class StudentPersonalDataForm extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.profileStudent.id !== nextProps.profileStudent.id) {
             this.setState({
-                avatarLink: nextProps.profileStudent.avatar,
+                avatar: nextProps.profileStudent.avatar,
                 facebookAuth: {link: nextProps.profileStudent.facebooklink, name: '', email: ''},
                 googleAuth: {link: nextProps.profileStudent.googlelink, name: '', email: ''}
             })
         }
     }
+
+    handleChangeAvatar = (newAvatar) => {
+        this.setState({avatar: newAvatar});
+    };
 
     handleChangeSocial = (valueObj) => {
         const {getFieldValue, setFieldsValue} = this.props.form;
@@ -110,7 +114,7 @@ class StudentPersonalDataForm extends React.Component {
                     phones: values.phones.split(' ').join('').split(',', 2),
                     email: values.email,
                     country: values.country,
-                    //avatar: this.state.avatarLink,
+                    avatar: this.state.avatar,
                     facebooklink: this.state.facebookAuth.link,
                     googlelink: this.state.googleAuth.link,
 
@@ -157,9 +161,10 @@ class StudentPersonalDataForm extends React.Component {
                         <div className='student-data-title'>Контактные данные</div>
                         <PersonalDataContact
                             profile={profileStudent}
+                            onChangeAvatar={this.handleChangeAvatar}
+                            onChangeSocial={this.handleChangeSocial}
                             updateLink={this.updateLink}
                             form={form}
-                            onChangeSocial={this.handleChangeSocial}
                             facebookAuth={facebookAuth}
                             googleAuth={googleAuth}
                         />

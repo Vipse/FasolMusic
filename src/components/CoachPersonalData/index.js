@@ -2,20 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import Button from '../Button'
-import PersonalDataContact from '../PersonalDataContact'
+import Button from '../Button';
+import PersonalDataContact from '../PersonalDataContact';
 import PersonalDataInfo from "../PersonalDataInfo";
 import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
-
-import './style.css'
-import '../../icon/style.css'
-import Card from "antd/es/card";
-import {Form, message} from "antd";
-import Spinner from "../Spinner";
 import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
+
+import './style.css'
+import '../../icon/style.css'
+
+import Card from "antd/es/card";
+import {Form, message} from "antd";
+import Spinner from "../Spinner";
 import moment from "moment";
 
 class CoachPersonalDataForm extends React.Component {
@@ -24,7 +25,7 @@ class CoachPersonalDataForm extends React.Component {
         super();
         this.state = {
             uploadingNewData: false,
-            avatarLink: "",
+            avatar: "",
             facebookAuth: {link: '', name: '', email: ''},
             googleAuth: {link: '', name: '', email: ''},
             promoLink: "",
@@ -34,6 +35,10 @@ class CoachPersonalDataForm extends React.Component {
             }
         }
     }
+
+    handleChangeAvatar = (newAvatar) => {
+        this.setState({avatar: newAvatar});
+    };
 
     componentDidMount() {
         this.setState({
@@ -47,7 +52,7 @@ class CoachPersonalDataForm extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.profileCoach.id !== nextProps.profileCoach.id)
             this.setState({
-                avatarLink: nextProps.profileCoach.avatar,
+                avatar: nextProps.profileCoach.avatar,
                 facebookAuth: {link: nextProps.profileCoach.facebooklink, name: '', email: ''},
                 googleAuth: {link: nextProps.profileCoach.googlelink, name: '', email: ''},
                 promoLink: nextProps.profileCoach.promovideo,
@@ -112,7 +117,7 @@ class CoachPersonalDataForm extends React.Component {
                     phones: values.phones.split(' ').join('').split(',', 2),
                     email: values.email,
                     country: values.country,
-                    //avatar: this.state.avatarLink,
+                    avatar: this.state.avatar,
                     facebooklink: this.state.facebookAuth.link,
                     googlelink: this.state.googleAuth.link,
 
@@ -139,7 +144,7 @@ class CoachPersonalDataForm extends React.Component {
                 this.props.onSubmit(finalData)
                     .then((res) => {
                     this.setState({uploadingNewData: false});
-                    if (!res.data.error) {
+                    if (res && !res.data.error) {
                         message.success("Изменения сохранены");
                     } else
                         message.error("Произошла ошибка, попробуйте ещё раз");
@@ -162,9 +167,10 @@ class CoachPersonalDataForm extends React.Component {
                         <div className='coach-data-title'>Контактные данные</div>
                         <PersonalDataContact
                             profile={profileCoach}
+                            onChangeAvatar={this.handleChangeAvatar}
+                            onChangeSocial={this.handleChangeSocial}
                             updateLink={this.updateLink}
                             form={form}
-                            onChangeSocial={this.handleChangeSocial}
                             facebookAuth={facebookAuth}
                             googleAuth={googleAuth}
                         />

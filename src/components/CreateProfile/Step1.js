@@ -16,8 +16,7 @@ const FormItem = Form.Item;
 class Step1Form extends React.Component{
     state = {
         fileList: [],
-        avatarUrl: "",
-        avatarThumb: "",
+        avatar: "",
         facebookAuth: {link: '', name: '', email: ''},
         googleAuth: {link: '', name: '', email: ''}
     };
@@ -41,7 +40,7 @@ class Step1Form extends React.Component{
         })
     };
 
-    handleChange = (info) => {
+    /*handleChange = (info) => {
         const reader = new FileReader();
         this.setState({ loading: true });
         this.props.uploadFile(info.file)
@@ -54,18 +53,18 @@ class Step1Form extends React.Component{
             loading: false
         }));
         reader.readAsDataURL(info.file);
-    };
+    };*/
 
     onDrop = (file) => {
-        console.log(file);
         const reader = new FileReader();
         // this.props.uploadFile(info.file)
         //     .then((res) => {
         //         this.setState({avatarUrl: res.data.file[0].url, avatarName: res.data.file[0].name});
         //         message.success("Фото загружено")
         //     });
+        this.setState({loading: true});
         reader.addEventListener('load', () => this.setState({
-            avatarThumb: reader.result,
+            avatar: reader.result,
             loading: false
         }));
         reader.readAsDataURL(file[0]);
@@ -81,7 +80,7 @@ class Step1Form extends React.Component{
     render(){
         const { getFieldDecorator } = this.props.form;
 
-        const avatarUrl = this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb ? this.props.data.avatarThumb : "";
+        const avatarUrl = this.state.avatar ? this.state.avatar : this.props.data.avatar ? this.props.data.avatar : "";
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-1">
                 <div className="step-title">Личные данные</div>
