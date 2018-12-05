@@ -104,6 +104,11 @@ class App extends React.Component {
             this.runChatWS();
         }
     }*/
+    componentDidMount() {
+        this.props.auth.mode === "student" ? 
+                this.props.onGetInfoPatient(this.props.auth.id) :
+                this.props.onGetInfoDoctor(this.props.auth.id);
+    }
 
     componentWillMount() {
         const login = localStorage.getItem('_appdoc-user'),
@@ -126,11 +131,25 @@ class App extends React.Component {
     }
 
     render() {
+        let name, avatar;
+
+        if(this.props.auth.mode === "student" && this.props.profileStudent){
+            console.log('profileStudent', this.props.profileStudent);
+            console.log("2", this.props.auth.id)
+             name = this.props.profileStudent.name;
+             avatar = this.props.profileStudent.avatar;
+        } 
+        else if(this.props.profileDoctor){
+            name = this.props.profileDoctor.name;
+            avatar = this.props.profileDoctor.avatar;
+        }
+
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
         const isUser = (this.props.mode === "user");
 
+        
         return (
             <div className="main">
                 {
@@ -138,8 +157,8 @@ class App extends React.Component {
                         <React.Fragment>
                             <div className={siderClass}>
                                 <SideNav
-                                    img="https://appdoc.by/media/docDocuments/3199/avatar/avatar_3199.jpg"
-                                    name="Зубрицкий Владимир Анатольевич"
+                                    img={avatar}
+                                    name={name}
                                     onLogoClick={this.onLogoClick}
                                     menuItems={isUser ? menuPatient : menuDoc}
                                     isShort={this.state.collapsed}
@@ -197,6 +216,9 @@ const mapStateToProps = state => {
         auth: state.auth,
         id: state.auth.id,
         mode: state.auth.mode,
+        profileCoach: state.profileDoctor,
+        profileStudent: state.profilePatient,
+
         shortDocInfo: state.doctor.shortInfo,
         usersHeaderSearch: state.patients.usersHeaderSearch,
         isIn: state.doctor.isEx,
@@ -237,6 +259,9 @@ const mapDispatchToProps = dispatch => {
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
+
+        onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
+        onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
     }
 };
 

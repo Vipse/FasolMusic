@@ -81,12 +81,6 @@ class LoginPage extends React.Component {
                         />
                     </Col>
                 </Row>
-                <button id="bugfix" onClick={()=>this.setState({bugfixVisible: true})}></button>
-                <ReportBugModal
-                    visible={this.state.bugfixVisible}
-                    onCancel={()=>this.setState({bugfixVisible: false})}
-                    onSend={this.props.reportBug}
-                />
             </Hoc>
         )
     }

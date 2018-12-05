@@ -88,14 +88,14 @@ class LoginForm extends React.Component{
                     <Button htmlType="submit"
                             btnText='Войти'
                             size='large'
-                            type='gradient'/>
+                            type='yellow-black'/>
                     <div>У вас еще нет аккаунта? <br/>
 
                         <NavLink
                             to={urlRegistrationStudent}
                             className="login-form-navlink"
                         >
-                            Зарегистрироваться как студент
+                            Зарегистрироваться
                         </NavLink>
 
                     </div>

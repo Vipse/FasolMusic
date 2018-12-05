@@ -29,10 +29,11 @@ const SideNav = props => {
         });
     };
 
-        const {isShort, menuItems} = props;
+        const {isShort, menuItems, name, avatar} = props;
         const rootClass = cn('sidenav-root', {'sidenav-root-short' : isShort});
         const menuClass = 'sidenav-root-menu' + (isShort ? '-short':'');
         const shouldScroll = window.innerHeight < 900;
+
         return (
             <div className={rootClass}>
                 <div className="logo" onClick={props.onLogoClick}><span className="logo-img"></span></div>
@@ -43,8 +44,8 @@ const SideNav = props => {
 
                 <div className='overwlow-a-y'>
                     <ProfileCard
-                                 img="https://appdoc.by/media/docDocuments/3199/avatar/avatar_3199.jpg"
-                                 name="Зубрицкий Владимир Анатольевич"
+                                 img={avatar}
+                                 name={name}
                                  isShort={isShort}
                     />
 
