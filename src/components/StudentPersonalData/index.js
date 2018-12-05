@@ -24,8 +24,8 @@ class StudentPersonalDataForm extends React.Component {
         this.state = {
             uploadingNewData: false,
             avatarLink: "",
-            facebookLink: "",
-            googleLink: "",
+            facebookAuth: {link: '', name: '', email: ''},
+            googleAuth: {link: '', name: '', email: ''},
             trainingTime: {
                 enabledDays: [],
                 selectedTimes: []
@@ -35,15 +35,30 @@ class StudentPersonalDataForm extends React.Component {
 
     componentDidMount() {
         this.setState({
-            avatarLink: this.props.profileStudent.avatar,
-            facebookLink: this.props.profileStudent.facebooklink,
-            googleLink: this.props.profileStudent.googlelink,
             trainingTime: {
                 enabledDays: new Array(7).fill(false),
                 selectedTimes: new Array(7).fill([10, 23])
             }
         })
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.profileStudent.id !== nextProps.profileStudent.id) {
+            this.setState({
+                avatarLink: nextProps.profileStudent.avatar,
+                facebookAuth: {link: nextProps.profileStudent.facebooklink, name: '', email: ''},
+                googleAuth: {link: nextProps.profileStudent.googlelink, name: '', email: ''}
+            })
+        }
+    }
+
+    handleChangeSocial = (valueObj) => {
+        const {getFieldValue, setFieldsValue} = this.props.form;
+        const { name } = valueObj[Object.keys(valueObj)[0]];
+        this.setState(valueObj);
+        if (!getFieldValue('name') && name)
+            setFieldsValue({name: name});
+    };
 
     updateLink = (type, link) => {
         this.setState({[type + "Link"]: link})
@@ -96,8 +111,8 @@ class StudentPersonalDataForm extends React.Component {
                     email: values.email,
                     country: values.country,
                     //avatar: this.state.avatarLink,
-                    //facebooklink: this.state.facebookLink,
-                    //googlelink: this.state.googleLink,
+                    facebooklink: this.state.facebookAuth.link,
+                    googlelink: this.state.googleAuth.link,
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
@@ -132,45 +147,50 @@ class StudentPersonalDataForm extends React.Component {
 
     render() {
         const rootClass = cn('student-data');
-        const { getFieldDecorator } = this.props.form;
+        const { facebookAuth, googleAuth } = this.state;
+        const { form, profileStudent } = this.props;
+        const { getFieldDecorator } = form;
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
                     <Form className={"student-data-form"}>
                         <div className='student-data-title'>Контактные данные</div>
                         <PersonalDataContact
-                            profile={this.props.profileStudent}
+                            profile={profileStudent}
                             updateLink={this.updateLink}
-                            getFieldDecorator={getFieldDecorator}
+                            form={form}
+                            onChangeSocial={this.handleChangeSocial}
+                            facebookAuth={facebookAuth}
+                            googleAuth={googleAuth}
                         />
                         <div className='student-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
-                            profile={this.props.profileStudent}
+                            profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             isStudent={true}
                         />
                         <div className='student-data-title'>Уровень подготовки гитара</div>
                         <PersonalDataSkill
-                            profile={this.props.profileStudent}
+                            profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             number={0}
                         />
-                        {this.props.profileStudent.disciplines.length > 1 &&
+                        {profileStudent.disciplines.length > 1 &&
                         <div className='student-data-title'>Уровень подготовки вокал</div>}
-                        {this.props.profileStudent.disciplines.length > 1 && <PersonalDataSkill
-                            profile={this.props.profileStudent}
+                        {profileStudent.disciplines.length > 1 && <PersonalDataSkill
+                            profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             number={1}
                         />}
                         <div className='student-data-title'>Идеальный тренер</div>
                         <PersonalDataPreferences
-                            profile={this.props.profileStudent}
+                            profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             isStudent={true}
                         />
                         <div className='student-data-title'>Удобное время тренировок</div>
                         <PersonalDataTime
-                            profile={this.props.profileStudent}
+                            profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             onChange={this.updateTrainingTime}
                         />

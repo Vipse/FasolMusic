@@ -1,5 +1,5 @@
 .coach-data-avatar {
-  width: 25%;
+  width: 20%;
   position: relative;
   padding: 0 25px;
   margin-right: 50px;
@@ -64,44 +64,11 @@
 }
 .coach-data-info {
   width: 40%;
+  margin-right: 50px;
 }
 .coach-data-info .input-form-item {
   margin-bottom: 20px;
 }
 .coach-data-social {
   width: 40%;
-  margin-left: 50px;
-}
-.coach-data-social .social-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-.coach-data-social .social-row .authSocialPopup .kep-login-facebook {
-  padding: 2px;
-  margin-top: 5px;
-  height: 40px;
-  width: 240px;
-  font-size: 16px;
-}
-.coach-data-social .social-row-icon {
-  padding-top: 10px;
-  padding-right: 10px;
-}
-.coach-data-social .social-row-link {
-  padding-top: 7px;
-  font-family: RobotoRegular;
-}
-.coach-data-social .social-row-btn-link {
-  margin: 10px 10px 0 0;
-}
-.coach-data-social .social-row-btn-close {
-  margin: 10px 10px 0 0;
-  min-width: 20px;
-  padding: 2px;
-}
-.coach-data-social .social-row-btn-close .icon {
-  margin-right: 0;
 }

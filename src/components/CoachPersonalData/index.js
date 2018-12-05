@@ -25,8 +25,8 @@ class CoachPersonalDataForm extends React.Component {
         this.state = {
             uploadingNewData: false,
             avatarLink: "",
-            facebookLink: "",
-            googleLink: "",
+            facebookAuth: {link: '', name: '', email: ''},
+            googleAuth: {link: '', name: '', email: ''},
             promoLink: "",
             trainingTime: {
                 enabledDays: [],
@@ -37,16 +37,30 @@ class CoachPersonalDataForm extends React.Component {
 
     componentDidMount() {
         this.setState({
-            avatarLink: this.props.profileCoach.avatar,
-            facebookLink: this.props.profileCoach.facebooklink,
-            googleLink: this.props.profileCoach.googlelink,
-            promoLink: this.props.profileCoach.promovideo,
             trainingTime: {
                 enabledDays: new Array(7).fill(false),
                 selectedTimes: new Array(7).fill([10, 23])
             }
         })
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.profileCoach.id !== nextProps.profileCoach.id)
+            this.setState({
+                avatarLink: nextProps.profileCoach.avatar,
+                facebookAuth: {link: nextProps.profileCoach.facebooklink, name: '', email: ''},
+                googleAuth: {link: nextProps.profileCoach.googlelink, name: '', email: ''},
+                promoLink: nextProps.profileCoach.promovideo,
+            })
+    }
+
+    handleChangeSocial = (valueObj) => {
+        const {getFieldValue, setFieldsValue} = this.props.form;
+        const { name } = valueObj[Object.keys(valueObj)[0]];
+        this.setState(valueObj);
+        if (!getFieldValue('name') && name)
+            setFieldsValue({name: name});
+    };
 
     updateLink = (type, link) => {
         this.setState({[type + "Link"]: link})
@@ -99,8 +113,8 @@ class CoachPersonalDataForm extends React.Component {
                     email: values.email,
                     country: values.country,
                     //avatar: this.state.avatarLink,
-                    //facebooklink: this.state.facebookLink,
-                    //googlelink: this.state.googleLink,
+                    facebooklink: this.state.facebookAuth.link,
+                    googlelink: this.state.googleAuth.link,
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
@@ -138,46 +152,51 @@ class CoachPersonalDataForm extends React.Component {
 
     render() {
         const rootClass = cn('coach-data');
-        const { getFieldDecorator } = this.props.form;
+        const { facebookAuth, googleAuth } = this.state;
+        const { form, profileCoach } = this.props;
+        const { getFieldDecorator } = form;
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
                     <Form className={"coach-data-form"}>
                         <div className='coach-data-title'>Контактные данные</div>
                         <PersonalDataContact
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             updateLink={this.updateLink}
-                            getFieldDecorator={getFieldDecorator}
+                            form={form}
+                            onChangeSocial={this.handleChangeSocial}
+                            facebookAuth={facebookAuth}
+                            googleAuth={googleAuth}
                         />
                         <div className='coach-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Проморолик</div>
                         <CoachPersonalDataPromo
-                            profileCoach={this.props.profileCoach}
+                            profileCoach={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Платежные данные</div>
                         <CoachPersonalDataPayment
-                            profileCoach={this.props.profileCoach}
+                            profileCoach={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Уровень подготовки по дисциплине</div>
                         <PersonalDataSkill
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                             number={0}
                         />
                         <div className='coach-data-title'>Идеальный студент</div>
                         <PersonalDataPreferences
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Удобное время проведения тренировок</div>
                         <PersonalDataTime
-                            profile={this.props.profileCoach}
+                            profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                             onChange={this.updateTrainingTime}
                         />
@@ -189,7 +208,7 @@ class CoachPersonalDataForm extends React.Component {
                         btnText='Сохранить изменения'
                         size='default'
                         disable={this.state.uploadingNewData}
-                        type='float'
+                        type='light-blue'
                         style={{marginRight: "20px"}}
                     />
 

@@ -63,6 +63,7 @@ const loadStories = () => {
     require('../src/components/PersonalNotifications/stories');
     require('../src/components/StudentPersonalProfile/stories');
     require('../src/components/StudentPersonalData/stories');
+    require('../src/components/SocialAuth/stories');
     require('../src/components/DownloadLink/stories');
     require('../src/components/Popover/stories');
     require('../src/components/TopPanel/stories');

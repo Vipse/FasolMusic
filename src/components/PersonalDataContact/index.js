@@ -16,26 +16,16 @@ import ProfileAvatar from "../ProfileAvatar";
 import InputNew from "../InputNew";
 import Spinner from "../Spinner";
 import SelectNew from "../SelectNew";
-import facebookIcon from "../../img/facebookIcon.png";
-import gplusIcon from "../../img/gplusIcon.png";
 import avatarDefault from "../../img/avatarDefault.png";
-
-import FacebookLogin from 'react-facebook-login';
+import SocialAuth from "../SocialAuth";
 
 const FormItem = Form.Item;
-
-const mappedIconsToLinks = {
-    facebook: facebookIcon,
-    gplus: gplusIcon
-};
 
 class PersonalDataContact extends React.Component {
     constructor() {
         super();
         this.state = {
-            avatar: {},
-            facebookAuthorized: {show: false, link: ''},
-            gplusAuthorized: {show: false, link: ''}
+            avatar: {}
         }
     }
 
@@ -58,64 +48,8 @@ class PersonalDataContact extends React.Component {
         }
     };
 
-    responseFacebook = response => {
-        console.log(response);
-
-        this.setState({
-            facebookAuthorized: {show: false, link: response.name}
-        });
-    };
-
-    facebookAuthorization = () => {
-        return (<FacebookLogin
-            appId="2093206104069628"
-            autoLoad={true}
-            fields="name"
-            onClick={this.componentClicked}
-            callback={this.responseFacebook}
-            size="small"
-        />);
-    };
-
-    gplusAuthorization = () => {
-        return null;
-    };
-
-    renderSocial = (name) => {
-        return (<div key={name}>
-            <div className={"social-row " + name}>
-                <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
-                <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
-                {this.state[name + "Authorized"].link ?
-                    <Button className="social-row-btn-link"
-                            btnText='Отвязать'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.setState({[name + "Authorized"]: {show: false, link: ""}})
-                            }}
-                            size='small'
-                            type='float'
-                    />
-                    : this.state[name + "Authorized"].show ?
-                        <div className="authSocialPopup">
-                            {this[name + "Authorization"]()}
-                        </div>
-                        : <Button className="social-row-btn-link"
-                                  btnText='Связать'
-                                  onClick={(e) => {
-                                      e.preventDefault();
-                                      this.setState({[name + "Authorized"]: {show: true, link: ""}})
-                                  }}
-                                  size='small'
-                                  type='float'
-                        />
-                }
-            </div>
-        </div>);
-    };
-
     render() {
-        const {getFieldDecorator} = this.props;
+        const {getFieldDecorator} = this.props.form;
         const {name, phones, email, country} = this.props.profile;
         const rootClass = cn('coach-data-form');
 
@@ -202,9 +136,12 @@ class PersonalDataContact extends React.Component {
                     </FormItem>
                 </div>
 
-                <div className="coach-data-social">
-                    {this.renderSocial("facebook")}
-                    {this.renderSocial("gplus")}
+                <div className='coach-data-social'>
+                    <SocialAuth
+                        facebookAuth={this.props.facebookAuth}
+                        googleAuth={this.props.googleAuth}
+                        onChange={this.props.onChangeSocial}
+                    />
                 </div>
             </div>
         )

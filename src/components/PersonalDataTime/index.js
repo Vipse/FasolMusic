@@ -29,7 +29,7 @@ class PersonalDataTime extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.profile && nextProps.profile.trainingtime !== this.props.profile.trainingtime) {
+        if (this.props.profile.id !== nextProps.profile.id) {
             for (let num in nextProps.profile.trainingtime) {
                 this.handleActiveSlider(num);
                 this.handleChangeSlider(num, [
