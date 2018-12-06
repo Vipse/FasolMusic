@@ -65,12 +65,19 @@ class SocialAuth extends React.Component {
             }
         };
 
+        const componentClicked = () => {
+            //TODO: loadingCheck
+        };
+
         return (<GoogleLogin
                 clientId="511983507919-slo4jbeaoft55uc4r5vhfgirb4oiuq0h.apps.googleusercontent.com"
                 render={renderProps => (
                     <Button className='social-row-btn'
                             btnText='Связать'
-                            onClick={renderProps.onClick}
+                            onClick={() => {
+                                renderProps.onClick();
+                                componentClicked()
+                            }}
                             size='small'
                             type='light-blue'
                     />

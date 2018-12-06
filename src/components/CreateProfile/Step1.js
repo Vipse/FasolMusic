@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { Form, Upload, Icon, message } from 'antd';
+import { Form } from 'antd';
 import Dropzone from "react-dropzone";
 import Button from '../Button'
 import InputWithTT from "../InputWithTT";
@@ -15,7 +15,6 @@ const FormItem = Form.Item;
 
 class Step1Form extends React.Component{
     state = {
-        fileList: [],
         avatar: "",
         facebookAuth: {link: '', name: '', email: ''},
         googleAuth: {link: '', name: '', email: ''}

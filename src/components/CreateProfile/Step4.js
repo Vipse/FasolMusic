@@ -95,31 +95,37 @@ class Step4Form extends React.Component{
             };
             console.log("FINAL REG DATA", finalRegData);
             this.props.onFinish(finalRegData).then(res=> {
-                if(res.data.error) {
+                if(res && !res.data.error) {
+                    this.props.onNext();
+                } else {
                     console.log(res.data.error);
                     message.error('Ошибка ' + res.data.error.code + ': ' + res.data.error.text, 60);
                     //message.error('Заполнены не все обязательные поля', 4);
-                } else {
-                    this.props.onNext();
                 }
             });
             // }
         })
     };
 
+    generateOneDay = (i) => {
+        const daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+
+        return (<div className="timeSchedule" key={i}>
+            <Checkbox className="dayCheckbox" value={i} checked={this.state.enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
+                      key={"enableDay" + i}>{daysName[i]}</Checkbox>
+            <Slider className="slider" range step={1} min={0} max={24} defaultValue={[10, 23]} disabled={!this.state.enabledDays[i]}
+                    onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
+            <p className="timePlate">{this.state.enabledDays[i] &&
+            (this.state.selectedTimes[i][1] - this.state.selectedTimes[i][0] === 24 ? "Весь день" :
+                this.state.selectedTimes[i][0] + ":00 - " + (this.state.selectedTimes[i][1] !== 24 ? this.state.selectedTimes[i][1] : 0) + ":00")}</p>
+        </div>);
+    };
+
     renderTimeSchedule = () => {
         let timeScheduleArr = [];
-        let daysName = ["Вс", "Вт", "Ср", "Чт", "Пт", "Сб", "Пн"];
-        for (let i = 0; i < 7; i++)
-            timeScheduleArr.push(<div className="timeSchedule">
-                <Checkbox className="dayCheckbox" value={i} checked={this.state.enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
-                          key={"enableDay" + i}>{daysName[i]}</Checkbox>
-                <Slider className="slider" range step={1} min={0} max={24} defaultValue={[10, 23]} disabled={!this.state.enabledDays[i]}
-                        onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
-                <p className="timePlate">{this.state.enabledDays[i] &&
-                (this.state.selectedTimes[i][1] - this.state.selectedTimes[i][0] === 24 ? "Весь день" :
-                    this.state.selectedTimes[i][0] + ":00 - " + (this.state.selectedTimes[i][1] !== 24 ? this.state.selectedTimes[i][1] : 0) + ":00")}</p>
-            </div>);
+        for (let i = 1; i < 7; i++)
+            timeScheduleArr.push(this.generateOneDay(i));
+        timeScheduleArr.push(this.generateOneDay(0));
         return timeScheduleArr;
     };
 

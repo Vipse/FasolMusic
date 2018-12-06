@@ -4,11 +4,7 @@ import cn from 'classnames'
 
 import {Form, message} from 'antd'
 import Button from '../Button'
-import Input from '../Input'
-import Rate from '../Rate'
 import Icon from '../Icon'
-import Popover from '../Popover'
-
 
 import './style.css'
 import '../../icon/style.css'
@@ -53,10 +49,10 @@ class PersonalDataContact extends React.Component {
     render() {
         const {getFieldDecorator} = this.props.form;
         const {name, phones, email, country, avatar} = this.props.profile;
-        const rootClass = cn('coach-data-form');
+        const rootClass = cn('coach-data-block');
 
         return (
-            <div className='coach-data-block'>
+            <div className={rootClass}>
                 <div className='coach-data-avatar'>
                     <ProfileAvatar
                         img={this.state.avatar ? this.state.avatar : avatar}

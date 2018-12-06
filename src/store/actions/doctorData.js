@@ -33,7 +33,9 @@ export const getInfoDoctor = (id) => {
                 dispatch({
                     type: actionTypes.INFO_DOCTOR,
                     profileDoctor: res.data.result.data,
-                })
+                });
+
+                return res;
             })
             .catch(err => {
                 console.log(err);
