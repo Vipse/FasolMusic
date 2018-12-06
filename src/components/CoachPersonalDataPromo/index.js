@@ -52,10 +52,10 @@ class CoachPersonalDataPromo extends React.Component {
     render() {
         const {getFieldDecorator} = this.props;
         const videoUrl = this.state.videoThumb ? this.state.videoThumb : this.props.profileCoach.videoThumb ? this.props.profileCoach.videoThumb : "";
-        const rootClass = cn('coach-data-form');
+        const rootClass = cn('coach-data-block');
 
         return (
-            <div className='coach-data-block'>
+            <div className={rootClass}>
                 <div className='coach-data-promoVideo'>
                     <div className="add-video">
                         <Dropzone multiple={false} onDrop={this.onDrop} className="react-dropzone-video">

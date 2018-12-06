@@ -30,34 +30,36 @@ class CoachPersonalDataForm extends React.Component {
             googleAuth: {link: '', name: '', email: ''},
             promoLink: "",
             trainingTime: {
-                enabledDays: [],
-                selectedTimes: []
+                enabledDays: new Array(7).fill(false),
+                selectedTimes: new Array(7).fill([10, 23])
             }
         }
     }
 
+    componentDidMount() {
+        const { avatar, facebooklink, googlelink } = this.props.profileCoach;
+        this.setState({
+            avatar: avatar,
+            facebookAuth: {link: facebooklink, name: '', email: ''},
+            googleAuth: {link: googlelink, name: '', email: ''}
+        });
+        this.loadTrainingTime();
+    }
+
+    loadTrainingTime = () => {
+        const { trainingtime } = this.props.profileCoach;
+        for (let num in trainingtime) {
+            this.handleChangeTrainingTime('enabledDays', num, true);
+            this.handleChangeTrainingTime('selectedTimes', num, [
+                trainingtime[num].datestart,
+                trainingtime[num].dateend
+            ]);
+        }
+    };
+
     handleChangeAvatar = (newAvatar) => {
         this.setState({avatar: newAvatar});
     };
-
-    componentDidMount() {
-        this.setState({
-            trainingTime: {
-                enabledDays: new Array(7).fill(false),
-                selectedTimes: new Array(7).fill([10, 23])
-            }
-        })
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.profileCoach.id !== nextProps.profileCoach.id)
-            this.setState({
-                avatar: nextProps.profileCoach.avatar,
-                facebookAuth: {link: nextProps.profileCoach.facebooklink, name: '', email: ''},
-                googleAuth: {link: nextProps.profileCoach.googlelink, name: '', email: ''},
-                promoLink: nextProps.profileCoach.promovideo,
-            })
-    }
 
     handleChangeSocial = (valueObj) => {
         const {getFieldValue, setFieldsValue} = this.props.form;
@@ -67,26 +69,13 @@ class CoachPersonalDataForm extends React.Component {
             setFieldsValue({name: name});
     };
 
-    updateLink = (type, link) => {
-        this.setState({[type + "Link"]: link})
-    };
-
-    updateTrainingTime = (type, value) => {
+    handleChangeTrainingTime = (type, num, value) => {
+        let newArray = this.state.trainingTime[type];
+        newArray[num] = value;
         this.setState({trainingTime: {
                 ...this.state.trainingTime,
-                [type]: value
+                [type]: newArray
             }});
-    };
-
-    prepareTrainingTime = () => {
-        let preparedTrainingTime = {};
-        for (let i = 0; i < 7; ++i) {
-            this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
-                datestart: this.state.trainingTime.selectedTimes[i][0],
-                dateend: this.state.trainingTime.selectedTimes[i][1]
-            } : null;
-        }
-        return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileCoach.trainingtime;
     };
 
     prepareDisciplines = (data) => {
@@ -103,6 +92,17 @@ class CoachPersonalDataForm extends React.Component {
             });
         }
         return preparedDisciplines;
+    };
+
+    prepareTrainingTime = () => {
+        let preparedTrainingTime = {};
+        for (let i = 0; i < 7; ++i) {
+            this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
+                datestart: this.state.trainingTime.selectedTimes[i][0],
+                dateend: this.state.trainingTime.selectedTimes[i][1]
+            } : null;
+        }
+        return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileCoach.trainingtime;
     };
 
     handleSubmitInfo = (e) => {
@@ -169,7 +169,6 @@ class CoachPersonalDataForm extends React.Component {
                             profile={profileCoach}
                             onChangeAvatar={this.handleChangeAvatar}
                             onChangeSocial={this.handleChangeSocial}
-                            updateLink={this.updateLink}
                             form={form}
                             facebookAuth={facebookAuth}
                             googleAuth={googleAuth}
@@ -202,9 +201,9 @@ class CoachPersonalDataForm extends React.Component {
                         />
                         <div className='coach-data-title'>Удобное время проведения тренировок</div>
                         <PersonalDataTime
-                            profile={profileCoach}
+                            trainingTime={this.state.trainingTime}
                             getFieldDecorator={getFieldDecorator}
-                            onChange={this.updateTrainingTime}
+                            onChange={this.handleChangeTrainingTime}
                         />
                     </Form>
 

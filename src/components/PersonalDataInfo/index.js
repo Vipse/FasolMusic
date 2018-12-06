@@ -20,15 +20,14 @@ class PersonalDataInfo extends React.Component {
     }
 
     render() {
-        const {getFieldDecorator} = this.props;
-        const isStudent = this.props.isStudent;
-        const {sex, datebirth, work, interests, aboutme} = this.props.profile;
+        const { getFieldDecorator, isStudent } = this.props;
+        const { sex, datebirth, work, interests, aboutme } = this.props.profile;
         const specialityArr = ["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"];
         const interestsArr = ["Спорт", "Кино и сериалы", "Туризм"];
-        const rootClass = cn('coach-data-form');
+        const rootClass = cn('coach-data-block');
 
         return (
-            <div className='coach-data-block'>
+            <div className={rootClass}>
                 <div className='coach-data-additionalInfo'>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('sex', {

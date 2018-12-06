@@ -1,6 +1,7 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 import {getDocShortInfo} from "./doctor";
+import { getInfoDoctor } from "./doctorData";
 
 export const sendNewInfoPatient = (data) => {
     return (dispatch) => {
@@ -43,7 +44,7 @@ export const getInfoPatient = (id) => {
     const idstr = String(id);
     let obj = {"id":idstr};
     return (dispatch) => {
-        axios.post('/catalog.fasol/getUserInfo',
+        return axios.post('/catalog.fasol/getUserInfo',
             JSON.stringify(obj))
             .then(res => {
                 console.log("receivedStudentData", res);
@@ -52,7 +53,9 @@ export const getInfoPatient = (id) => {
                 dispatch({
                     type: actionTypes.INFO_PATIENT,
                     profilePatient: res.data.result.data,
-                })
+                });
+
+                return res;
             })
             .catch(err => {
                 console.log(err);
@@ -61,11 +64,16 @@ export const getInfoPatient = (id) => {
 };
 
 export const saveUserEdit = (data) => {
-    return () => {
+    return (dispatch, getState) => {
         console.log("savingUserData", data);
         return axios.post('/catalog.fasol/saveUserEdit',
             JSON.stringify(data))
-            .then(res => res)
+            .then(res => {
+                getState().auth.mode === 'student' ?
+                    dispatch(getInfoPatient(data.id)) :
+                    dispatch(getInfoDoctor(data.id));
+                return res;
+            })
             .catch(err => {
                 console.log('error: ', err);
             });

@@ -2,27 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import Button from '../Button'
-import Input from '../Input'
-import Rate from '../Rate'
-import Icon from '../Icon'
-import Popover from '../Popover'
-
 import './style.css'
 import '../../icon/style.css'
-import Card from "antd/es/card";
-import InputNew from "../InputNew";
-import Spinner from "../Spinner";
-import {Form, message} from "antd";
-import TextArea from "../TextArea";
+
 import Row from "../Row";
 import Col from "../Col";
-import WarningModal from "../WarningModal";
+//import WarningModal from "../WarningModal";
 import PersonalChangePassword from "../PersonalChangePassword";
 import PersonalNotifications from "../PersonalNotifications";
 import StudentPersonalData from "../StudentPersonalData";
 
-class StudentPersonalProfile extends React.Component{
+class StudentPersonalProfile extends React.Component {
 
     constructor() {
         super();
@@ -31,14 +21,14 @@ class StudentPersonalProfile extends React.Component{
 
     render() {
         const profile = this.props.profileStudent;
+        const rootClass = cn('personal-student-items');
         return (
-            <div className="personal-student-items">
+            <div className={rootClass}>
                 <Row type="flex" gutter={32}>
                     <Col className="personal-student-items-data" span={14}>
                         <StudentPersonalData
                             profileStudent={profile}
                             onSubmit={this.props.onSubmit}
-                            onDeleteAvatar={this.props.onDeleteAvatar}
                         />
                     </Col>
                     <Col span={7}>
@@ -52,8 +42,8 @@ class StudentPersonalProfile extends React.Component{
                         />
                     </Col>
                 </Row>
-                <WarningModal visible={this.state.visible} onClick={this.onVisible}
-                              message="Изменения всупят в силу после проверки администратором"/>
+                {/*<WarningModal visible={this.state.visible} onClick={this.onVisible}
+                              message="Изменения всупят в силу после проверки администратором"/>*/}
             </div>
         )
     }

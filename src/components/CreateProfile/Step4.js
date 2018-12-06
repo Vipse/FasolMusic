@@ -95,12 +95,12 @@ class Step4Form extends React.Component{
             };
             console.log("FINAL REG DATA", finalRegData);
             this.props.onFinish(finalRegData).then(res=> {
-                if(res.data.error) {
+                if(res && !res.data.error) {
+                    this.props.onNext();
+                } else {
                     console.log(res.data.error);
                     message.error('Ошибка ' + res.data.error.code + ': ' + res.data.error.text, 60);
                     //message.error('Заполнены не все обязательные поля', 4);
-                } else {
-                    this.props.onNext();
                 }
             });
             // }

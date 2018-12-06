@@ -46,10 +46,10 @@ class CoachPersonalDataPayment extends React.Component {
     render() {
         const {getFieldDecorator} = this.props;
         const {payments} = this.props.profileCoach;
-        const rootClass = cn('coach-data-form');
+        const rootClass = cn('coach-data-block');
 
         return (
-            <div className='coach-data-block'>
+            <div className={rootClass}>
                 <div className='coach-data-payment'>
                     <div className="payment-method">
                         <div className="payment-method-view">

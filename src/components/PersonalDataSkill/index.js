@@ -28,12 +28,12 @@ class PersonalDataSkill extends React.Component {
     }
 
     render() {
-        const {getFieldDecorator, number} = this.props;
-        const {discipline, specialization, level, experience, goals, musicstyles, favoritesingers} = this.props.profile.disciplines.length ? this.props.profile.disciplines[number] : {};
-        const rootClass = cn('coach-data-form');
+        const { getFieldDecorator, number, isStudent } = this.props;
+        const {discipline, specialization, level, experience, methods, goals, musicstyles, favoritesingers} = this.props.profile.disciplines.length ? this.props.profile.disciplines[number] : {};
+        const rootClass = cn('coach-data-block');
 
         return (
-            <div className='coach-data-block'>
+            <div className={rootClass}>
                 <div className='coach-data-skill'>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('discipline-' + number, {
@@ -76,25 +76,39 @@ class PersonalDataSkill extends React.Component {
                             initialValue: experience,
                             rules: [{
                                 required: true,
-                                message: 'Введите опыт занятия, пожалуйста'
+                                message: 'Выберите опыт занятия, пожалуйста'
                             }],
                         })(
-                            <InputNew width="100%" bubbleplaceholder="Опыт занятия"/>
+                            <SelectNew width="100%"
+                                       bubbleplaceholder="Опыт занятия"
+                                       data={["Спорт", "Кино и сериалы", "Туризм"]}
+                            />
                         )}
                     </FormItem>
+                    {!isStudent && <FormItem className="input-form-item">
+                        {getFieldDecorator('methods-' + number, {
+                            initialValue: methods,
+                            rules: [{
+                                required: false,
+                                message: 'Выберите приемы, пожалуйста'
+                            }],
+                        })(
+                            <SelectNew width="100%"
+                                       bubbleplaceholder="Приемы"
+                                       mode="multiple"
+                                       data={["Спорт", "Кино и сериалы", "Туризм"]}
+                            />
+                        )}
+                    </FormItem>}
                     <FormItem className="input-form-item">
                         {getFieldDecorator('goals-' + number, {
                             initialValue: goals,
                             rules: [{
                                 required: true,
-                                message: 'Выберите цели, пожалуйста'
+                                message: 'Введите цели, пожалуйста'
                             }]
                         })(
-                            <SelectNew width="100%"
-                                       bubbleplaceholder="Цели"
-                                       mode="multiple"
-                                       data={["Спорт", "Кино и сериалы", "Туризм"]}
-                            />
+                            <InputNew width="100%" bubbleplaceholder="Цели"/>
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
@@ -130,11 +144,15 @@ class PersonalDataSkill extends React.Component {
 }
 
 PersonalDataSkill.propTypes = {
-    profile: PropTypes.object
+    profile: PropTypes.object,
+    number: PropTypes.number,
+    isStudent: PropTypes.bool
 };
 
 PersonalDataSkill.defaultProps = {
-    profile: {}
+    profile: {},
+    number: 1,
+    isStudent: false
 };
 
 export default PersonalDataSkill

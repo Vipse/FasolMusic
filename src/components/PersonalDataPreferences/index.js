@@ -20,15 +20,14 @@ class PersonalDataPreferences extends React.Component {
     }
 
     render() {
-        const {getFieldDecorator} = this.props;
-        const isStudent = this.props.isStudent;
-        const {bestsex, bestage, bestishomework, bestqualities, bestcomment} = this.props.profile;
+        const { getFieldDecorator, isStudent } = this.props;
+        const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profile;
         const qualitiesArr = ["Спорт", "Кино и сериалы", "Туризм"];
-        const rootClass = cn('coach-data-form');
+        const rootClass = cn('coach-data-block');
         const userTypeWord = isStudent ? 'студента' : 'тренера';
 
         return (
-            <div className='coach-data-block'>
+            <div className={rootClass}>
                 <div className='coach-data-studentPreferences'>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('bestsex', {
@@ -63,11 +62,11 @@ class PersonalDataPreferences extends React.Component {
                             initialValue: bestishomework ? "Да" : "Нет",
                             rules: [{
                                 required: true,
-                                message: 'Выберите отношение ' + userTypeWord + ' к д.з., пожалуйста'
+                                message: 'Выберите отношение ' + userTypeWord + ' к выполнению домашнего задания, пожалуйста'
                             }],
                         })(
                             <SelectNew width="100%"
-                                       bubbleplaceholder={isStudent ? "Дает д.з." : "Делает д.з."}
+                                       bubbleplaceholder={isStudent ? "Дает" : "Делает" + " домашнее задание"}
                                        data={["Да", "Нет"]}
                             />
                         )}
