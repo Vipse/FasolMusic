@@ -2,22 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import {Form, message} from 'antd'
-import Button from '../Button'
-import Input from '../Input'
-import Rate from '../Rate'
-import Icon from '../Icon'
-import Popover from '../Popover'
-
-
 import './style.css'
 import '../../icon/style.css'
-import ProfileAvatar from "../ProfileAvatar";
+
+import {Form} from 'antd'
+import Button from '../Button'
 import InputNew from "../InputNew";
-import Spinner from "../Spinner";
 import SelectNew from "../SelectNew";
-import TextArea from "../TextArea";
-import DatePickerNew from "../DatePickerNew";
 
 const FormItem = Form.Item;
 
@@ -40,7 +31,7 @@ class PersonalDataSkill extends React.Component {
         const { length } = this.props.profile.disciplines;
         const { addedCount } = this.state;
 
-        return <div className='coach-data-skill'>
+        return <div className='coach-data-skill' key={'discipline' + number}>
             <FormItem className="input-form-item">
                 {getFieldDecorator('discipline-' + number, {
                     initialValue: discipline,
