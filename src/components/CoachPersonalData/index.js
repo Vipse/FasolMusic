@@ -79,13 +79,17 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareDisciplines = (data) => {
+        let disciplinesCount = 0;
+        for (let key in data)
+            if (key.indexOf('discipline-') !== -1) ++disciplinesCount;
         let preparedDisciplines = [];
-        for (let i = 0; i < 1; ++i) {
+        for (let i = 0; i < disciplinesCount; ++i) {
             preparedDisciplines.push({
                 discipline: data["discipline-" + i],
                 specialization: data["specialization-" + i],
                 level: data["level-" + i],
                 experience: data["experience-" + i],
+                methods: data["methods-" + i],
                 goals: data["goals-" + i],
                 musicstyles: data["musicstyles-" + i],
                 favoritesingers: data["favoritesingers-" + i]
@@ -188,11 +192,10 @@ class CoachPersonalDataForm extends React.Component {
                             profileCoach={profileCoach}
                             getFieldDecorator={getFieldDecorator}
                         />
-                        <div className='coach-data-title'>Уровень подготовки по дисциплине</div>
+                        <div className='coach-data-title'>Уровени подготовки по дисциплинам</div>
                         <PersonalDataSkill
                             profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
-                            number={0}
                         />
                         <div className='coach-data-title'>Идеальный студент</div>
                         <PersonalDataPreferences

@@ -26,24 +26,29 @@ class PersonalDataTime extends React.Component {
         this.props.onChange('selectedTimes', num, value);
     };
 
-    renderTimeSchedule = () => {
+    generateOneDay = (i) => {
         const {enabledDays, selectedTimes} = this.props.trainingTime;
         const daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+
+        return (<div className="timeSchedule" key={i}>
+            <Checkbox className="dayCheckbox largeChk" value={i} checked={enabledDays[i]}
+                      onChange={() => this.handleActiveSlider(i)}
+                      key={"enableDay" + i}>{daysName[i]}</Checkbox>
+            <Slider className="slider" range step={1} min={0} max={24}
+                    value={[selectedTimes[i][0], selectedTimes[i][1]]}
+                    disabled={!enabledDays[i]}
+                    onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
+            <p className="timePlate">{enabledDays[i] &&
+            (selectedTimes[i][1] - selectedTimes[i][0] === 24 ? "Весь день" :
+                selectedTimes[i][0] + ":00 - " + (selectedTimes[i][1] !== 24 ? selectedTimes[i][1] : 0) + ":00")}</p>
+        </div>);
+    };
+
+    renderTimeSchedule = () => {
         let timeScheduleArr = [];
-        for (let i = 0; i < 7; i++) {
-            timeScheduleArr.push(<div className="timeSchedule" key={i}>
-                <Checkbox className="dayCheckbox largeChk" value={i} checked={enabledDays[i]}
-                          onChange={() => this.handleActiveSlider(i)}
-                          key={"enableDay" + i}>{daysName[i]}</Checkbox>
-                <Slider className="slider" range step={1} min={0} max={24}
-                        value={[selectedTimes[i][0], selectedTimes[i][1]]}
-                        disabled={!enabledDays[i]}
-                        onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
-                <p className="timePlate">{enabledDays[i] &&
-                (selectedTimes[i][1] - selectedTimes[i][0] === 24 ? "Весь день" :
-                    selectedTimes[i][0] + ":00 - " + (selectedTimes[i][1] !== 24 ? selectedTimes[i][1] : 0) + ":00")}</p>
-            </div>);
-        }
+        for (let i = 1; i < 7; i++)
+            timeScheduleArr.push(this.generateOneDay(i));
+        timeScheduleArr.push(this.generateOneDay(0));
         return timeScheduleArr;
     };
 

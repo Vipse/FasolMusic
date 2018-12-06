@@ -76,8 +76,11 @@ class StudentPersonalDataForm extends React.Component {
     };
 
     prepareDisciplines = (data) => {
+        let disciplinesCount = 0;
+        for (let key in data)
+            if (key.indexOf('discipline-') !== -1) ++disciplinesCount;
         let preparedDisciplines = [];
-        for (let i = 0; i < 2; ++i) {
+        for (let i = 0; i < disciplinesCount; ++i) {
             preparedDisciplines.push({
                 discipline: data["discipline-" + i],
                 specialization: data["specialization-" + i],
@@ -173,21 +176,12 @@ class StudentPersonalDataForm extends React.Component {
                             getFieldDecorator={getFieldDecorator}
                             isStudent={true}
                         />
-                        <div className='student-data-title'>Уровень подготовки гитара</div>
+                        <div className='student-data-title'>Уровни подготовки по дисциплинам</div>
                         <PersonalDataSkill
                             profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
                             isStudent={true}
-                            number={0}
                         />
-                        {profileStudent.disciplines.length > 1 &&
-                        <div className='student-data-title'>Уровень подготовки вокал</div>}
-                        {profileStudent.disciplines.length > 1 && <PersonalDataSkill
-                            profile={profileStudent}
-                            getFieldDecorator={getFieldDecorator}
-                            isStudent={true}
-                            number={1}
-                        />}
                         <div className='student-data-title'>Идеальный тренер</div>
                         <PersonalDataPreferences
                             profile={profileStudent}
@@ -208,7 +202,7 @@ class StudentPersonalDataForm extends React.Component {
                         btnText='Сохранить изменения'
                         size='default'
                         disable={this.state.uploadingNewData}
-                        type='float'
+                        type='light-blue'
                         style={{marginRight: "20px"}}
                     />
 
