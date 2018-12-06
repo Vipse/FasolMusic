@@ -22,7 +22,7 @@ class InputWithTT extends React.Component{
 
     componentWillReceiveProps(nextProps) {
         this.setState({value: nextProps.value});
-        this.input.current.value = nextProps.value;
+        if (nextProps.value) this.input.current.value = nextProps.value;
     }
 
     render() {

@@ -21,7 +21,7 @@ class Steps extends React.Component {
     return (
       <div className='steps'>
         <AntSteps current={current} size="small">
-          {steps.map(item => <Step key={item.title}
+          {steps.map((item, it) => <Step key={it}
                                    title={item.title} />)}
         </AntSteps>
         <div className="steps-content">
