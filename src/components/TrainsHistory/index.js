@@ -171,49 +171,15 @@ class TrainsHistory extends React.Component {
     // };
 
     render() {
-        console.log('this.props.allAbonements2 :', this.props.allAbonements2);
         let arrAbonement = [];
-
-        if (this.props.allAbonements2) {
-            let {subscriptions} = this.props.allAbonements2;
-            let max = subscriptions.length;
-            for (let i = 0; i < max; i++) {
-                for (let j = 0; j < subscriptions[i].training.length; j++) {
-
-                    for (let a = 0; a < apiTrainers.length; a++) {
-                        console.log('apiTrainers[a].idMaster :', apiTrainers[a].idMaster);
-                        console.log('subscriptions[i].training[j].idMaster :', subscriptions[i].training[j].idMaster);
-
-                        if (String(apiTrainers[a].idMaster) === String(subscriptions[i].training[j].idMaster)) {
-
-
-                            arrAbonement.push(
-                                {
-                                    date: subscriptions[i].training[j].start,
-                                    name: apiTrainers[a].fio,
-                                    discipline: subscriptions[i].discipline,
-                                    trainingRecord: "http://vk.com",
-                                    homework: "сделать кучу вещей, сыграть на гитарке",
-                                    files: [],
-
-                                })
-                            console.log("AAAA")
-                            a = Infinity;
-                        }
-                    }
-
-                    // arrAbonement.push(
-                    //     {
-                    //         date: subscriptions[i].training[j].start ,
-                    //         name: fio,
-                    //         discipline: subscriptions[i].discipline,
-                    //         trainingRecord: "http://vk.com",
-                    //         homework: "сделать кучу вещей, сыграть на гитарке",
-                    //         files: [],
-                    //     })
-                }
-            }
-        }
+        arrAbonement.push({
+                date: 1111,
+                name: "fre",
+                discipline: "gf4g4tr",
+                trainingRecord: "http://vk.com",
+                homework: "сделать кучу вещей, сыграть на гитарке",
+                files: []
+        });
 
         return (
             <div className='receptions-personal-page'>
