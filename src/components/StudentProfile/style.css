@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+.profile {
+  padding: 25px 35px;
+}
+.profile-student {
+  display: flex;
+}
+.profile-student-avatar {
+  margin-right: 30px;
+}
+.profile-student-info {
+  flex-direction: column;
+}
+.profile-student-info-name {
+  color: #21bedd;
+  font-family: "RobotoMediumItalic";
+  text-transform: uppercase;
+}
+.profile-student-info-count {
+  font-family: RobotoMedium;
+}
+.profile-student-info-count-number {
+  font-size: 22px;
+}

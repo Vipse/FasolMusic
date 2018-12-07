@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+.perfect-coach {
+  padding: 25px 35px;
+  display: flex;
+  flex-direction: column;
+}
+.perfect-coach-fields {
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.perfect-coach-fields-row {
+  margin-bottom: 15px;
+  width: 70%;
+}
+.perfect-coach-fields .data {
+  font-family: RobotoMedium;
+  margin-left: 25px;
+}
+.perfect-coach-fields-name {
+  color: #21bedd;
+  font-family: "RobotoMediumItalic";
+  text-transform: uppercase;
+}
+.perfect-coach-comment {
+  font-family: RobotoMedium;
+}

@@ -2,7 +2,7 @@ import MainPage from '../containers/MainPage'
 import Schedule from '../containers/Schedule'
 import Homework from '../containers/Homework'
 import Patients from '../containers/Patients'
-import PatientsPage from '../containers/PatientsPage'
+import StudentPage from '../containers/StudentPage'
 import PersonalInfo from '../containers/PersonalInfo'
 import Payment from '../containers/Payment'
 import Bonus from '../containers/Bonus'
@@ -34,8 +34,8 @@ export const docRoutes = [
         exact: true,
     },
     {
-        path: '/app/patient:id',
-        component: PatientsPage,
+        path: '/app/student:id',
+        component: StudentPage,
         exact: true,
     },
     {

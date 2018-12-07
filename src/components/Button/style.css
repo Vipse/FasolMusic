@@ -253,6 +253,7 @@
   color: #21bedd;
   text-transform: none;
   border: 1px solid #21bedd;
+  border-radius: unset;
 }
 .btn-type-light-blue .icon {
   color: #21bedd;

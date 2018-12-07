@@ -192,8 +192,8 @@ class App extends React.Component {
                                         }
                                         <Route
                                             render={() => (
-                                                <div style={{textAlign: 'center', padding: '40px 20px'}}>
-                                                    <h3>Страница не найдена</h3>
+                                                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
+                                                    <h3 style={{color: '#fff'}}>Страница не найдена</h3>
                                                     <p>Проверьте введённый адрес</p>
                                                 </div>
                                             )}
