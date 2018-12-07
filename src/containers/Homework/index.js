@@ -28,12 +28,11 @@ class Homework extends React.Component{
 
     componentDidMount() {
     
-        this.props.onGetAbonements2();
+        this.props.onGetAbonements2(this.props.id);
     }
 
     render(){
 
-        console.log('this.props.allAbonements2 :', this.props.allAbonements2);
         let arrAbonement = [];
 
         if(this.props.allAbonements2){
@@ -101,6 +100,7 @@ const mapStateToProps = state => {
 	return {
         allAbonements2: state.abonement.allAbonements2, // и интервалы
         mode: state.auth.mode,
+        id: state.auth.id,
 	}
 };
 

@@ -62,12 +62,12 @@ class Schedule extends React.Component {
         this.setState({isShowFreeTrainers : true});
     }
 
-    setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
-
-        for(let i = 0; i < apiTrainers.length; i++){
+    setChoosenTrainer = (idMaster, trainerList) => { // выбор одного из тренеров
+  
+        for(let i = 0; i < trainerList.length; i++){
    
-            if(apiTrainers[i].idMaster === idMaster){
-                let trainer= {...apiTrainers[i]};
+            if(trainerList[i].idMaster === idMaster){
+                let trainer= {...trainerList[i]};
                 trainer.start = new Date(this.timeEvent);
  
                 apiPatients.push(trainer);
@@ -75,21 +75,21 @@ class Schedule extends React.Component {
             }
         }
 
-        if( apiPatients.length === this.props.abonementIntervals.countTraining){
+        if( trainerList.length === this.props.abonementIntervals.countTraining){
             this.setState({amountTraining : false});
         }
-
         this.timeEvent = null;
         this.setState({isShowFreeTrainers : false});
     }
 
     fillTrainingWeek = () => { // создание абонемента
-       
+        const {id, abonementIntervals} = this.props;
+
         this.setState({amountTraining : false, sendingModal: true}); // убрать интервалы
 
-        this.props.onCreateAbonement(fillTrainingWeek(this.props.abonementIntervals.countTraining))
+        this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, "Вокал"))
         .then(() => {
-            this.props.onGetAbonements(); // получить уже распредленное время тренировок в абонементе
+            this.props.onGetAbonements(id); // получить уже распредленное время тренировок в абонементе
         });
 
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
@@ -115,22 +115,24 @@ class Schedule extends React.Component {
     }
 
     setTransfer_1_Training = () => {
+            const {id} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
             if(this.delEvent){
                     this.props.onTransferTrainining({idTraining, idMaster, ...this.transferDay})
                         .then(() => {
-                            this.props.onGetAbonements(); 
+                            this.props.onGetAbonements(id); 
                         });
             } 
             this.setState({modalTransferTraining: false});   
     }
 
-    setTransfer_End_Training = () => {
-
-        if(this.delEvent){
-                this.props.onTransferTraininingToEnd({idTraining : this.delEvent.event.id})
+    setTransfer_End_Training = (transferId) => {
+ 
+        const {id} = this.props;
+        if(transferId){
+                this.props.onTransferTraininingToEnd({idTraining : transferId})
                     .then(() => {
-                        this.props.onGetAbonements(); 
+                        this.props.onGetAbonements(id); 
                     });
         } 
         this.setState({modalTransferTraining: false});   
@@ -138,7 +140,7 @@ class Schedule extends React.Component {
 
 
     setAbonement_Training = () => {
-
+        
         const {subscriptions: subs} = this.props.allAbonements;
         const {idSubscription, start} = this.delEvent.event;
         let scheduleForWeek = {}; // это POST
@@ -152,7 +154,7 @@ class Schedule extends React.Component {
             if(subs[i].idSubscription === idSubscription) {
                 scheduleForWeek.dateStart = subs[i].dateStart;
                 scheduleForWeek.idSubscription = subs[i].idSubscription;
-                scheduleForWeek.idStudent = '1234';//subs[i].idStudent;
+                scheduleForWeek.idStudent = subs[i].idStudent;
                 scheduleForWeek.discipline = subs[i].discipline;
 
                 subs[i].training.forEach((item) => {
@@ -206,9 +208,11 @@ class Schedule extends React.Component {
     }
 
     componentDidMount() {
+        const {id} = this.props;
+
         this.setIntervalAndView(this.state.currentDate, 'week');
         this.props.onGetAllUserVisits();
-        this.props.onGetAbonements();
+        this.props.onGetAbonements(id);
     }
 
     componentWillUnmount() {
@@ -426,14 +430,11 @@ class Schedule extends React.Component {
                 console.log('min :', min);
                 console.log('max :', max);
             // надо нормальную проверка для коуча и студента
-        
-            // let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
 
+            
             let freeTrainers = (this.timeEvent && this.state.isShowFreeTrainers) ? 
-                    {idEvent: this.timeEvent, freeTrainers: apiTrainers} : null
+                    {idEvent: this.timeEvent, freeTrainers: this.props.trainerList} : null
    
-
-                    console.log('this.props.allAbonements :', this.props.allAbonements);
                     let arrAbonement = null;
                     let iterator = 0; 
 
@@ -508,6 +509,7 @@ class Schedule extends React.Component {
                                   transferTraining = {this.transferTraining} // drag and drop
                                   deleteEvent = {this.deleteEvent} // drag and drop
                                   setAbonement_Training = {this.setAbonement_Training}
+                                  setTransfer_End_Training = {this.setTransfer_End_Training}
 
             />)
         }
@@ -553,24 +555,18 @@ class Schedule extends React.Component {
                     className="schedule-message-modal-wrapper"
                 >
                         <div className="schedule-message-modal"> 
-                            <Button btnText='Перенести 1 треню'    
-                                onClick= {this.setTransfer_1_Training}
-                                type='yellow'
-                            />
-                        </div>
-                        <div className="schedule-message-modal"> 
-                            <Button btnText='Перенести треню в конец'    
-                                onClick= {this.setTransfer_End_Training}
-                                type='yellow'
-                            />
-                        </div>    
+                                <div className="schedule-message-btn"> 
+                                    <Button btnText='Перенести 1 треню'    
+                                        onClick= {this.setTransfer_1_Training}
+                                        type='yellow'/>
+                                </div>
 
-                        <div className="schedule-message-modal"> 
-                            <Button btnText='Новое расписание'    
-                                onClick= {this.setAbonement_Training}
-                                type='yellow'
-                            />
-                        </div>   
+                                <div className="schedule-message-btn"> 
+                                    <Button btnText='Новое расписание'    
+                                    onClick= {this.setAbonement_Training}
+                                    type='yellow'/>
+                                </div>
+                        </div>
                 </Modal>
 
                 
@@ -617,6 +613,8 @@ class Schedule extends React.Component {
 const mapStateToProps = state => {
     return {
         allAbonements: state.abonement.allAbonements, // и интервалы
+        id: state.auth.id,
+        trainerList: state.trainer.trainerList,
 
         patients:  state.patients.docPatients,
         freeIntervals:  state.patients.freeIntervals,

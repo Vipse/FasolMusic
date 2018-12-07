@@ -105,9 +105,14 @@ class App extends React.Component {
         }
     }*/
     componentDidMount() {
-        this.props.auth.mode === "student" ? 
-                this.props.onGetInfoPatient(this.props.auth.id) :
-                this.props.onGetInfoDoctor(this.props.auth.id);
+        if(this.props.auth.mode === "student"){
+            this.props.onGetInfoPatient(this.props.auth.id);
+            
+        }
+        else{
+            this.props.onGetInfoDoctor(this.props.auth.id);
+        }
+         
     }
 
     componentWillMount() {
@@ -119,6 +124,7 @@ class App extends React.Component {
             password: pass,
         }, this.props.history);
 
+        // 2 функция - изменить
         this.props.id && (this.props.getDocShortInfo());
     }
 
@@ -133,13 +139,13 @@ class App extends React.Component {
     render() {
         let name, avatar;
 
-        if (this.props.auth.mode === "student" && this.props.profileStudent) {
-            name = this.props.profileStudent.name;
-            avatar = this.props.profileStudent.avatar;
+        if(this.props.auth.mode === "student" && this.props.profileStudent){
+             name = this.props.profileStudent.name;
+             avatar = this.props.profileStudent.avatar;
         } 
-        else if (this.props.profileCoach) {
-            name = this.props.profileCoach.name;
-            avatar = this.props.profileCoach.avatar;
+        else if(this.props.profileDoctor){
+            name = this.props.profileDoctor.name;
+            avatar = this.props.profileDoctor.avatar;
         }
 
         const {collapsed} = this.state;
@@ -147,7 +153,7 @@ class App extends React.Component {
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
         const isUser = (this.props.mode === "user");
 
-        
+        console.log('this.props.myCoach :', this.props.myCoach);
         return (
             <div className="main">
                 {
@@ -155,7 +161,7 @@ class App extends React.Component {
                         <React.Fragment>
                             <div className={siderClass}>
                                 <SideNav
-                                    avatar={avatar}
+                                    img={avatar}
                                     name={name}
                                     onLogoClick={this.onLogoClick}
                                     menuItems={isUser ? menuPatient : menuDoc}
@@ -217,6 +223,7 @@ const mapStateToProps = state => {
         profileCoach: state.profileDoctor,
         profileStudent: state.profilePatient,
 
+
         shortDocInfo: state.doctor.shortInfo,
         usersHeaderSearch: state.patients.usersHeaderSearch,
         isIn: state.doctor.isEx,
@@ -260,6 +267,7 @@ const mapDispatchToProps = dispatch => {
 
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
+
     }
 };
 

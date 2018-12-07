@@ -4,6 +4,7 @@ import * as actionTypes from './actionTypes';
 import moment from "moment";
 
 import {getDateWorkIntervalWithoutMakingAppAll} from "./doctorData";
+import MyCoach from './../../components/MyCoach/index';
 export const getDateInterval = (beginDay, endDay) => {
     return (dispatch, getState) => {
         let obj =
@@ -380,7 +381,7 @@ export const removePatient = (id_user, id_doctor) => {
 export const removeDoctor = (id_doctor) => {
     return (dispatch, getState) => {
         let id_user = getState().auth.id;
-        axios.get('/catalog.doc2/delFavoriteDoc/id_user/' + id_user+ '/id_doc/' + id_doctor)
+        axios.get('/catalog.doc2/getMyMastersOrStudents' + id_user+ '/id_doc/' + id_doctor)
             .then(() => {
                 dispatch(getPatientDoctors());
                 //dispatch(getNotDocPatients(''));
@@ -390,6 +391,9 @@ export const removeDoctor = (id_doctor) => {
             })
     }
 }
+
+
+
 
 
 export const selectPatient = (id) => {
@@ -406,10 +410,28 @@ export const unselectPatient = () => {
 }
 
 //fasol
-export const setFreeIntervals = (freeIntervals) => {
-    return {
-        type: actionTypes.SET_FREE_INTERVALS,
-        freeIntervals: freeIntervals,
+
+export const setFreeIntervals = (freeIntervals, discipline ) => {
+
+    return (dispatch, getState) => {
+       let obj = { discipline }
+        axios.post('/catalog.fasol/getMasterList', JSON.stringify(obj))
+            .then((rez) => {
+                rez.data.result.masterlist[0].idMaster = 3403;
+                rez.data.result.masterlist[1].idMaster = 3405;
+                rez.data.result.masterlist[2].idMaster = 3420;
+                dispatch({
+                    type: actionTypes.GET_MASTER_LIST,
+                    trainerList: rez.data.result.masterlist,
+                })
+                dispatch({
+                    type: actionTypes.SET_FREE_INTERVALS,
+                    freeIntervals: freeIntervals,
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 }
 
@@ -419,6 +441,10 @@ export const setNeedSaveIntervals = (countTraining) => {
         abonementIntervals: { visibleTrialModal: countTraining.visibleTrialModal, countTraining: countTraining.countTraining}
     }
 }
+
+
+
+
 
 // /putMessage
 export const sendMessage = (message) => {

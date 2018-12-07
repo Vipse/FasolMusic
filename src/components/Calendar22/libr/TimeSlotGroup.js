@@ -109,7 +109,8 @@ class TimeSlotGroup extends Component {
       freeTrainers,
       setChoosenTrainer,
       showLabels,
-      handleDrop
+      handleDrop,
+      setTransfer_End_Training
     } = this.props;
 
     
@@ -127,6 +128,7 @@ class TimeSlotGroup extends Component {
                   idEvent={events[i].start.getTime()}
                   handleDrop={handleDrop}
                   setAbonement_Training = {this.props.setAbonement_Training}
+                  setTransfer_End_Training = {setTransfer_End_Training}
                  
             />)
           }

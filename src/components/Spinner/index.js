@@ -11,14 +11,12 @@ class Spinner extends Spin{
 
 
     render() {
-        const { isInline, onBackground, tip, size, style } = this.props;
-        let cls = isInline ? "inline-spinner" :"spinner-wrapper";
-        cls += onBackground ? " background-spinner" : "";
+        const cls = this.props.isInline ? "inline-spinner" :"spinner-wrapper";
         return (
             <div className={cls}>
-                <Spin size={size}
-                      style={style}
-                      tip={tip}
+                <Spin size={this.props.size}
+                      style={this.props.style}
+
                 />
             </div>
         )
@@ -27,14 +25,10 @@ class Spinner extends Spin{
 
 Spinner.propTypes = {
     isInline: PropTypes.bool,
-    onBackground: PropTypes.bool,
-    tip: PropTypes.string
 };
 
 Spinner.defaultProps = {
     isInline: false,
-    onBackground: false,
-    tip: null,
 };
 
 export default Spinner;

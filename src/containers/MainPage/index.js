@@ -19,7 +19,8 @@ class MainPage extends React.Component{
 	}
 
 	componentDidMount() {
-        this.props.onGetAbonements();
+		this.props.onGetAbonements(this.props.id);
+		this.props.onGetMyMasters(this.props.id);
 	}
 	
 	componentWillMount(){
@@ -37,7 +38,7 @@ class MainPage extends React.Component{
 			this.timer = setInterval(()=>this.props.onGetTodayVisits(new Date(now.getFullYear(), now.getMonth(), now.getDate()),
 											new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20)), 60000);
 
-			this.props.getDocTodayInfo();
+			//this.props.getDocTodayInfo();
 			this.props.onGetIntervalForDate(moment(+new Date()).format('X'), moment(+new Date()).format('X'), );
 		}
 
@@ -55,7 +56,7 @@ class MainPage extends React.Component{
         let now = new Date();
 		this.props.onGetTodayVisits(new Date(now.getFullYear(), now.getMonth(), now.getDate()),
 										new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20));
-		this.props.getDocTodayInfo();
+		//this.props.getDocTodayInfo();
 	}
 
 	onSaveNewVisit = (obj) => {
@@ -120,8 +121,10 @@ class MainPage extends React.Component{
 const mapStateToProps = state => {
     return {
 		allAbonements: state.abonement.allAbonements, // и интервалы
-
+		id: state.auth.id,
 		mode: state.auth.mode,
+		myCoach: state.student.myCoach,
+
 		patients: state.patients.docPatients,
 		visits: state.schedules.visits,
 		reviews: state.reviews.reviews,
@@ -165,6 +168,8 @@ const mapDispatchToProps = dispatch => {
 		cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id)),
 		
 		onGetAbonements: (idStudent) => dispatch(actions.getAbonements(idStudent)),
+		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
+		onGetMyMasters: (idStudent) => dispatch(actions.getMyMasters(idStudent)),
     }
 };
 

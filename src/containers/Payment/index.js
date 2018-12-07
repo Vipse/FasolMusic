@@ -21,8 +21,12 @@ class Payment extends React.Component{
         }
     }
 
+    componentDidMount() {
+
+        this.props.onGetDeadlinePay(this.props.id);	
+    }
     onSendDataModal = (data) => {
-        console.log('data :', data);
+
         let array = [];
 
         let time0 = +data.time[0].format('x')
@@ -75,14 +79,12 @@ class Payment extends React.Component{
                    
         }
 
-        console.log('array :', array);
 
         this.setState({visibleTrialModal: true, redirectToSchedule: true});
         this.props.onSetFreeIntervals(array,  data.type);
         //this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 0});
     }
     showTrialModal = (count) => {
-        console.log('showTrialModal :', count);
         this.setState({visibleTrialModal: true, countTraining: count})
         this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: count});
     }
@@ -91,6 +93,7 @@ class Payment extends React.Component{
     }
 
     render() {
+        let {deadlinePay} = this.props;
         let isUser = this.props.auth.mode === "student";
 
         // убрать
@@ -101,6 +104,7 @@ class Payment extends React.Component{
                 {isUser ? (
                     <StudentPayment
                         showTrialModal = {this.showTrialModal}
+                        deadlinePay = {deadlinePay}
                     />)
                     : (<CoachPayment/>)}
 
@@ -123,6 +127,9 @@ const mapStateToProps = state => {
         profileDoctor: state.profileDoctor,
         profilePatient: state.profilePatient,
         auth: state.auth,
+        id: state.auth.id,
+		deadlinePay: state.student.deadlinePay,
+
     }
 };
 
@@ -130,7 +137,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
-
+        onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
         
     }
 };

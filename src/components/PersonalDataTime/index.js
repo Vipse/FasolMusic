@@ -15,55 +15,78 @@ const FormItem = Form.Item;
 class PersonalDataTime extends React.Component {
     constructor() {
         super();
-        this.state = {}
+        this.state = {
+            enabledDays: [],
+            selectedTimes: []
+        }
     }
 
-    handleActiveSlider = (num) => {
-        this.props.onChange('enabledDays', num, !this.props.trainingTime.enabledDays[num]);
-    };
+    componentWillMount() {
+        this.setState({
+            enabledDays: new Array(7).fill(false),
+            selectedTimes: new Array(7).fill([10, 23])
+        });
+    }
 
-    handleChangeSlider = (num, value) => {
-        this.props.onChange('selectedTimes', num, value);
-    };
-
-    generateOneDay = (i) => {
-        const {enabledDays, selectedTimes} = this.props.trainingTime;
-        const daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
-
-        return (<div className="timeSchedule" key={i}>
-            <Checkbox className="dayCheckbox largeChk" value={i} checked={enabledDays[i]}
-                      onChange={() => this.handleActiveSlider(i)}
-                      key={"enableDay" + i}>{daysName[i]}</Checkbox>
-            <Slider className="slider" range step={1} min={0} max={24}
-                    value={[selectedTimes[i][0], selectedTimes[i][1]]}
-                    disabled={!enabledDays[i]}
-                    onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
-            <p className="timePlate">{enabledDays[i] &&
-            (selectedTimes[i][1] - selectedTimes[i][0] === 24 ? "Весь день" :
-                selectedTimes[i][0] + ":00 - " + (selectedTimes[i][1] !== 24 ? selectedTimes[i][1] : 0) + ":00")}</p>
-        </div>);
-    };
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.profile && nextProps.profile.trainingtime !== this.props.profile.trainingtime) {
+            for (let num in nextProps.profile.trainingtime) {
+                this.handleActiveSlider(num);
+                this.handleChangeSlider(num, [
+                    nextProps.profile.trainingtime[num].datestart,
+                    nextProps.profile.trainingtime[num].dateend
+                ]);
+            }
+        }
+    }
 
     renderTimeSchedule = () => {
         let timeScheduleArr = [];
-        for (let i = 1; i < 7; i++)
-            timeScheduleArr.push(this.generateOneDay(i));
-        timeScheduleArr.push(this.generateOneDay(0));
+        let daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+        for (let i = 0; i < 7; i++)
+            timeScheduleArr.push(<div className="timeSchedule" key={i}>
+                <Checkbox className="dayCheckbox largeChk" value={i} checked={this.state.enabledDays[i]}
+                          onChange={() => this.handleActiveSlider(i)}
+                          key={"enableDay" + i}>{daysName[i]}</Checkbox>
+                <Slider className="slider" range step={1} min={0} max={24} defaultValue={[10, 23]}
+                        disabled={!this.state.enabledDays[i]}
+                        onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
+                <p className="timePlate">{this.state.enabledDays[i] &&
+                (this.state.selectedTimes[i][1] - this.state.selectedTimes[i][0] === 24 ? "Весь день" :
+                    this.state.selectedTimes[i][0] + ":00 - " + (this.state.selectedTimes[i][1] !== 24 ? this.state.selectedTimes[i][1] : 0) + ":00")}</p>
+            </div>);
         return timeScheduleArr;
     };
 
+    handleActiveSlider = (num) => {
+        let newEnableSlider = this.state.enabledDays;
+        newEnableSlider[num] = !newEnableSlider[num];
+        this.setState({
+            enabledDays: newEnableSlider
+        });
+        this.props.onChange('enabledDays', newEnableSlider);
+    };
+
+    handleChangeSlider = (num, value) => {
+        let newSliderValue = this.state.selectedTimes;
+        newSliderValue[num] = value;
+        this.setState({
+            selectedTimes: newSliderValue
+        });
+        this.props.onChange('selectedTimes', newSliderValue);
+    };
+
     checkIsTimeSelected = (role, email, callBack) => {
-        const { enabledDays } = this.props.trainingTime;
-        if (enabledDays.includes(true)) callBack();
+        if (this.state.enabledDays.includes(true)) callBack();
         else callBack("Выберите удобное время, пожалуйста");
     };
 
     render() {
         const {getFieldDecorator} = this.props;
-        const rootClass = cn('coach-data-block');
+        const rootClass = cn('coach-data-form');
 
         return (
-            <div className={rootClass}>
+            <div className='coach-data-block'>
                 <div className='coach-data-comfortTime'>
                     <FormItem className='input-form-item'>
                         {getFieldDecorator('comfortTime', {
@@ -83,11 +106,11 @@ class PersonalDataTime extends React.Component {
 }
 
 PersonalDataTime.propTypes = {
-    trainingTime: PropTypes.object
+    profile: PropTypes.object
 };
 
 PersonalDataTime.defaultProps = {
-    trainingTime: {}
+    profile: {}
 };
 
 export default PersonalDataTime

@@ -4,7 +4,11 @@ import cn from 'classnames'
 
 import {Form, message} from 'antd'
 import Button from '../Button'
+import Input from '../Input'
+import Rate from '../Rate'
 import Icon from '../Icon'
+import Popover from '../Popover'
+
 
 import './style.css'
 import '../../icon/style.css'
@@ -12,16 +16,26 @@ import ProfileAvatar from "../ProfileAvatar";
 import InputNew from "../InputNew";
 import Spinner from "../Spinner";
 import SelectNew from "../SelectNew";
+import facebookIcon from "../../img/facebookIcon.png";
+import gplusIcon from "../../img/gplusIcon.png";
 import avatarDefault from "../../img/avatarDefault.png";
-import SocialAuth from "../SocialAuth";
+
+import FacebookLogin from 'react-facebook-login';
 
 const FormItem = Form.Item;
+
+const mappedIconsToLinks = {
+    facebook: facebookIcon,
+    gplus: gplusIcon
+};
 
 class PersonalDataContact extends React.Component {
     constructor() {
         super();
         this.state = {
-            avatar: ""
+            avatar: {},
+            facebookAuthorized: {show: false, link: ''},
+            gplusAuthorized: {show: false, link: ''}
         }
     }
 
@@ -29,33 +43,88 @@ class PersonalDataContact extends React.Component {
         e.preventDefault();
         if (isReset === true) {
             this.setState({
-                avatar: "default"
+                avatar: {}
             });
-            this.props.onChangeAvatar("default");
             e.target.files = [];
         } else {
             let file = e.target.files[0];
             if (file && file.type.indexOf("image/") !== -1) {
                 const reader = new FileReader();
-                reader.addEventListener('load', () => {this.setState({
-                    avatar: reader.result});
-                    this.props.onChangeAvatar(reader.result);
-                });
+                reader.addEventListener('load', () => this.setState({
+                    avatar: {thumbUrl: reader.result, name: file.name}
+                }));
                 reader.readAsDataURL(file);
             }
         }
     };
 
+    responseFacebook = response => {
+        console.log(response);
+
+        this.setState({
+            facebookAuthorized: {show: false, link: response.name}
+        });
+    };
+
+    facebookAuthorization = () => {
+        return (<FacebookLogin
+            appId="2093206104069628"
+            autoLoad={true}
+            fields="name"
+            onClick={this.componentClicked}
+            callback={this.responseFacebook}
+            size="small"
+        />);
+    };
+
+    gplusAuthorization = () => {
+        return null;
+    };
+
+    renderSocial = (name) => {
+        return (<div key={name}>
+            <div className={"social-row " + name}>
+                <img src={mappedIconsToLinks[name]} className="social-row-icon"/>
+                <span className="social-row-link">{this.state[name + "Authorized"].link}</span>
+                {this.state[name + "Authorized"].link ?
+                    <Button className="social-row-btn-link"
+                            btnText='Отвязать'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.setState({[name + "Authorized"]: {show: false, link: ""}})
+                            }}
+                            size='small'
+                            type='float'
+                    />
+                    : this.state[name + "Authorized"].show ?
+                        <div className="authSocialPopup">
+                            {this[name + "Authorization"]()}
+                        </div>
+                        : <Button className="social-row-btn-link"
+                                  btnText='Связать'
+                                  onClick={(e) => {
+                                      e.preventDefault();
+                                      this.setState({[name + "Authorized"]: {show: true, link: ""}})
+                                  }}
+                                  size='small'
+                                  type='float'
+                        />
+                }
+            </div>
+        </div>);
+    };
+
     render() {
-        const {getFieldDecorator} = this.props.form;
-        const {name, phones, email, country, avatar} = this.props.profile;
-        const rootClass = cn('coach-data-block');
+        const {getFieldDecorator} = this.props;
+        const {name, phones, email, country} = this.props.profile;
+        const rootClass = cn('coach-data-form');
 
         return (
-            <div className={rootClass}>
+            <div className='coach-data-block'>
                 <div className='coach-data-avatar'>
                     <ProfileAvatar
-                        img={this.state.avatar ? this.state.avatar : avatar}
+                        img={this.state.avatar.thumbUrl ? this.state.avatar.thumbUrl : avatarDefault}
+                        owner='coach'
                         size="large"
                         online={true}
                     />
@@ -133,12 +202,9 @@ class PersonalDataContact extends React.Component {
                     </FormItem>
                 </div>
 
-                <div className='coach-data-social'>
-                    <SocialAuth
-                        facebookAuth={this.props.facebookAuth}
-                        googleAuth={this.props.googleAuth}
-                        onChange={this.props.onChangeSocial}
-                    />
+                <div className="coach-data-social">
+                    {this.renderSocial("facebook")}
+                    {this.renderSocial("gplus")}
                 </div>
             </div>
         )

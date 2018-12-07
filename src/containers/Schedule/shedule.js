@@ -4,7 +4,7 @@ import { moment } from 'moment';
 // нажатие на кнопку сохранить
 // заполняем выбранную неделю и дозаполняем будующие
 
-export function fillTrainingWeek(amount, discipline = "Вокал") {
+export function fillTrainingWeek(idStudent, amount, discipline,) {
  
     console.log('amount :', amount);
     //if(Array.isArray(apiPatients) && apiPatients.length) return null;  
@@ -16,7 +16,7 @@ export function fillTrainingWeek(amount, discipline = "Вокал") {
         }, Infinity);
 
     const abonement = {
-            idStudent : "1234", // id student
+            idStudent : idStudent,
             dateStart :  Math.floor( +begin / 1000),
             amount: amount,
             discipline : discipline,

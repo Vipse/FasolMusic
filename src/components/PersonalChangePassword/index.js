@@ -40,7 +40,7 @@ class PersonalChangePasswordForm extends React.Component{
                 this.props.onSubmit(dataObj)
                     .then((res) => {
                         this.setState({loadingPass: false});
-                        if (res && !res.data.error) {
+                        if (!res.data.error) {
                             message.success("Пароль изменен");
                         } else
                             message.error("Произошла ошибка, попробуйте ещё раз");
@@ -98,7 +98,7 @@ class PersonalChangePasswordForm extends React.Component{
                             btnText='Сохранить изменения'
                             onClick={this.handleSubmitPassword}
                             size='default'
-                            type='light-blue'
+                            type='float'
                             disable={this.state.loadingPass}
                             style={{marginRight: "20px"}}
                         />

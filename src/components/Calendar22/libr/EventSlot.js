@@ -57,14 +57,12 @@ class EventSlot extends Component {
         let backgroundColor = event.status ? {} : '#eee'; // цвет на была ли тренировка
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
-console.log('event :', event);
-       
         if(event.status && !event.isBooking){
             return connectDragSource(
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
                             <div className="event-group-cross">
-                                <Icon type='close' size={7} onClick={() => this.props.setAbonement_Training}/>
+                                <Icon type='close' size={7} onClick={() => this.props.setTransfer_End_Training(event.id)}/>
                             </div>
                             <p className="event-group-text" >
                                 {event.fio}

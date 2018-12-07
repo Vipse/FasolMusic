@@ -15,6 +15,7 @@ class MyCoach extends React.Component {
                                     key={index}
                                     onGoto={this.props.onGoto}
                                     setChoosenTrainer={this.props.setChoosenTrainer}
+                                    trainerList = {this.props.freeTrainers.freeTrainers}
             />)
         });
     };

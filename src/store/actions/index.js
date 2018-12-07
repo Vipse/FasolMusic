@@ -25,6 +25,7 @@ export {
     sendMessage,
     setFreeIntervals,
     setNeedSaveIntervals,
+   
 } from './patients';
 
 export {
@@ -97,10 +98,7 @@ export {
 
 export {
     getDocTodayInfo,
-    getDocShortInfo,
-    setExIntervalInfo,
-    switchExInterval,
-    getEmergencyAvailability
+    getDocShortInfo
 } from './doctor'
 
 export {
@@ -140,3 +138,12 @@ export {
     transferTraininingToEnd,
     changeSubscription,
 } from './abonement'
+
+export {
+    getMyMasters,
+    getDeadlinePay
+} from './student'
+
+export {
+    getMasterList
+} from './trainer'

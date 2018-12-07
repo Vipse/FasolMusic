@@ -1,53 +1,41 @@
 import React from 'react'
 
-import './styles.css'
-
 import Hoc from '../../hoc'
+import './styles.css'
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 import CoachPersonalProfile from "../../components/CoachPersonalProfile";
 import StudentPersonalProfile from "../../components/StudentPersonalProfile";
-import {message} from "antd";
-import Spinner from "../../components/Spinner";
 
-class PersonalInfo extends React.Component {
-    constructor(props) {
+class PersonalInfo extends React.Component{
+    constructor(props){
         super(props);
-        this.state = {
-            loadingData: true
-        }
+        this.state = {}
     }
 
-    componentDidMount() {
-        (this.props.auth.mode === "student" ? this.props.onGetInfoPatient :
-            this.props.onGetInfoDoctor)(this.props.auth.id)
-            .then(res => {
-                this.setState({loadingData: false});
-                if (res && res.data.error)
-                    message.error("Произошла ошибка при загрузке данных, попробуйте ещё раз");
-            });
+    componentDidMount(){
+        this.props.auth.mode === "student" ? this.props.onGetInfoPatient(this.props.auth.id) :
+        this.props.onGetInfoDoctor(this.props.auth.id);
     };
 
     render() {
-        const isStudent = this.props.auth.mode === "student";
-        const {loadingData} = this.state;
+        let isUser = this.props.auth.mode === "student";
         return (
-            loadingData ? <Spinner onBackground tip="Загрузка" size="large"/> :
-                <Hoc>
-                    {isStudent ? (
-                        <StudentPersonalProfile
-                            profileStudent={this.props.profileStudent}
-                            onSubmit={this.props.onSaveUserEdit}
-                            //onDeleteAvatar={this.props.onDeleteAvatar}
-                            //onUploadFile={this.props.uploadFile}
-                        />) : (
-                        <CoachPersonalProfile
-                            profileCoach={this.props.profileCoach}
-                            onSubmit={this.props.onSaveUserEdit}
-                            //onDeleteAvatar={this.props.onDeleteAvatar}
-                            //onUploadFile={this.props.uploadFile}
-                        />)}
-                </Hoc>
+            <Hoc>
+                {isUser ? (
+                    <StudentPersonalProfile
+                        profileStudent={this.props.profileStudent}
+                        onSubmit={this.props.onSaveUserEdit}
+                        onDeleteAvatar={this.props.onDeleteAvatar}
+                        onUploadFile={this.props.uploadFile}
+                    />) : (
+                    <CoachPersonalProfile
+                        profileCoach={this.props.profileCoach}
+                        onSubmit={this.props.onSaveUserEdit}
+                        onDeleteAvatar={this.props.onDeleteAvatar}
+                        onUploadFile={this.props.uploadFile}
+                    />)}
+            </Hoc>
         )
     }
 }
@@ -64,9 +52,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
+        onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),
+        uploadFile: (file) => dispatch(actions.uploadFile(file)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data))
-        //onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),
-        //uploadFile: (file) => dispatch(actions.uploadFile(file)),
     }
 };
 

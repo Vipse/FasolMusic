@@ -21,8 +21,9 @@ class CouchMain extends React.Component{
 		this.props.history.push('/app/patient'+id);
     }
     render(){
-    console.log('this.props.all :', this.props.allAbonements);
-    let near = [];
+        const { myCoach } = this.props;
+        console.log('myCoach :', myCoach);
+
 
     // if(this.props.allAbonements)
     //     for(let i = 0; i < this.props.allAbonements.subscriptions.length; i++){
@@ -40,7 +41,8 @@ class CouchMain extends React.Component{
             <Hoc>
                         <Row>
                             <Col span={24} className='section'>
-                                <TopPanel  {...this.props.docTodayInfo}/>
+                                <TopPanel  {...this.props.docTodayInfo}
+                                            />
                             </Col>
                         </Row>
 
@@ -99,25 +101,16 @@ class CouchMain extends React.Component{
                             <Col xs={14} xxl={9} className='section'>
                                 <MyStudents
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    data={[{
-                                        profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                        online: true,
-                                        discipline: "Вокал",
-                                        name: "Петров василий чвасильевич",
-                                        lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the " +
-                                            "printing and typesetting industry. Lorem Ipsum has been the industry's " +
-                                            "standard dummy text ever since the 1500s, when a"
-                                    },
-                                    {
-                                        profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                        online: true,
-                                        discipline: "Вокал",
-                                        name: "Петров ВАСКЕ чвасильевич",
-                                        lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the " +
-                                            "printing and typesetting industry. Lorem Ipsum has been the industry's " +
-                                            "standard dummy text ever since the 1500s, when a"
-                                    }
-                                    ]}
+                                    data = { (Array.isArray(myCoach)) ? myCoach.map((el) => {
+                                        return {
+                                            profileAvatar: el.avatar,
+                                            online: true,
+                                            discipline: el.disciplines.map((elem) => elem.discipline),
+                                            name: el.name,
+                                            lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing"+
+                                                        " and typesetting industry. Lorem Ipsum has been the industry's "
+                                        }
+                                    }) : [] }
 
                                 />
                             </Col>

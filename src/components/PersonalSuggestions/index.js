@@ -41,7 +41,7 @@ class PersonalSuggestionsForm extends React.Component{
                 this.props.onSubmit(dataObj)
                     .then((res) => {
                         this.setState({uploadingSuggestion: false});
-                        if (res && !res.data.error) {
+                        if (!res.data.error) {
                             message.success("Предложение отправлено");
                             this.props.form.resetFields();
                         } else
@@ -66,7 +66,12 @@ class PersonalSuggestionsForm extends React.Component{
                         </p>
                         <div className='suggestions-column-input'>
                             <FormItem className="input-form-item">
-                                {getFieldDecorator('improvetext')(
+                                {getFieldDecorator('improvetext', {
+                                    rules: [{
+                                        required: true,
+                                        message: 'Введите комментарий, пожалуйста'
+                                    }],
+                                })(
                                     <TextArea
                                         label="Комментарий"
                                         placeholder=""
@@ -80,7 +85,7 @@ class PersonalSuggestionsForm extends React.Component{
                             btnText='Отправить'
                             onClick={this.handleSubmitSuggestion}
                             size='default'
-                            type='light-blue'
+                            type='float'
                             disable={this.state.uploadingSuggestion}
                             style={{marginRight: "20px"}}
                         />

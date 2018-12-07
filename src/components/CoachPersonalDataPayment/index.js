@@ -46,10 +46,10 @@ class CoachPersonalDataPayment extends React.Component {
     render() {
         const {getFieldDecorator} = this.props;
         const {payments} = this.props.profileCoach;
-        const rootClass = cn('coach-data-block');
+        const rootClass = cn('coach-data-form');
 
         return (
-            <div className={rootClass}>
+            <div className='coach-data-block'>
                 <div className='coach-data-payment'>
                     <div className="payment-method">
                         <div className="payment-method-view">
@@ -60,14 +60,15 @@ class CoachPersonalDataPayment extends React.Component {
                                 btnText={this.state.yandexMoney.linked ? 'Отвязать' : 'Привязать'}
                                 onClick={(e) => this.handleLinkStatus(e, "yandexMoney")}
                                 size='small'
-                                type={this.state.yandexMoney.linked ? 'dark-blue' : 'light-blue'}
+                                type={this.state.yandexMoney.linked ? 'dark-blue' : 'float'}
                         />
                         {this.state.yandexMoney.linked &&
                         <div className="payment-method-fields">
                             <FormItem className="input-form-item">
                                 {getFieldDecorator('number', {
+                                    initialValue: "123456",
                                     rules: [{
-                                        required: false,
+                                        required: true,
                                         message: 'Введите номер кошелька, пожалуйста'
                                     }],
                                 })(

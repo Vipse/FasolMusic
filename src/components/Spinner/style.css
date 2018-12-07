@@ -1,19 +1,19 @@
+/* fonts */
+/* COLORS */
+/* VAR */
+.entry-list {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.25rem;
+  color: #eee;
+}
 .spinner-wrapper {
   display: flex;
   justify-content: center;
 }
-.spinner-wrapper .ant-spin-dot i {
-  background-color: #21bedd;
-}
 .inline-spinner {
   display: inline-block;
-}
-.inline-spinner .ant-spin-dot i {
-  background-color: #21bedd;
-}
-.background-spinner .ant-spin-dot i {
-  background-color: #fff;
-}
-.background-spinner .ant-spin-show-text {
-  color: #fff;
 }

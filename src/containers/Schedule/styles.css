@@ -21,6 +21,10 @@
 .schedule-message-modal-wrapper {
   top: 30%;
 }
-.schedule-message-modal-wrapper .schedule-message-modal {
-  padding: 15px;
+.schedule-message-modal-wrapper .schedule-message-btn {
+  display: inline-block;
+  margin: 10px;
+}
+.schedule-message-modal-wrapper .schedule-message-btn button {
+  width: 100px;
 }

@@ -77,7 +77,7 @@ class PersonalNotificationsForm extends React.Component{
                             btnText='Сохранить изменения'
                             onClick={this.handleSubmitNotification}
                             size='default'
-                            type='light-blue'
+                            type='float'
                             style={{marginRight: "20px"}}
                         />
 
