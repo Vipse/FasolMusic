@@ -33,7 +33,7 @@ class PersonalDataPreferences extends React.Component {
                         {getFieldDecorator('bestsex', {
                             initialValue: bestsex === "m" ? "Мужской" : "Женский",
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите пол ' + userTypeWord + ', пожалуйста'
                             }],
                         })(
@@ -47,7 +47,7 @@ class PersonalDataPreferences extends React.Component {
                         {getFieldDecorator('bestage', {
                             initialValue: bestage,
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите возраст ' + userTypeWord + ', пожалуйста'
                             }],
                         })(
@@ -61,7 +61,7 @@ class PersonalDataPreferences extends React.Component {
                         {getFieldDecorator('bestishomework', {
                             initialValue: bestishomework ? "Да" : "Нет",
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите отношение ' + userTypeWord + ' к выполнению домашнего задания, пожалуйста'
                             }],
                         })(
@@ -75,7 +75,7 @@ class PersonalDataPreferences extends React.Component {
                         {getFieldDecorator('bestqualities', {
                             initialValue: bestqualities,
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите качества ' + userTypeWord + ', пожалуйста'
                             }],
                         })(

@@ -1,0 +1,18 @@
+.ChangePasswordModal {
+  padding: 10px 25px;
+  justify-content: center;
+}
+a {
+  color: #204d8d;
+}
+a:hover {
+  color: #204d8d;
+  text-decoration: underline;
+}
+.password-column {
+  margin: 25px;
+}
+.password-column-input {
+  margin-bottom: 40px;
+  width: 100%;
+}

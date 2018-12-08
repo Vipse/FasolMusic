@@ -6,10 +6,12 @@ import Button from '../Button';
 import PersonalDataContact from '../PersonalDataContact';
 import PersonalDataInfo from "../PersonalDataInfo";
 import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
-import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
+//import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
+import ChangePasswordModal from "../ChangePasswordModal";
+import SendSuggestionsModal from "../SendSuggestionsModal";
 
 import './style.css'
 import '../../icon/style.css'
@@ -26,22 +28,21 @@ class CoachPersonalDataForm extends React.Component {
         this.state = {
             uploadingNewData: false,
             avatar: "",
-            facebookAuth: {link: '', name: '', email: ''},
-            googleAuth: {link: '', name: '', email: ''},
             promoLink: "",
             trainingTime: {
                 enabledDays: new Array(7).fill(false),
                 selectedTimes: new Array(7).fill([10, 23])
-            }
+            },
+            isChangePasswordModalVisible: false,
+            isSendSuggestionsModalVisible: false
         }
     }
 
     componentDidMount() {
-        const { avatar, facebooklink, googlelink } = this.props.profileCoach;
+        const { avatar, facebooklink, googlelink, promovideo } = this.props.profileCoach;
         this.setState({
             avatar: avatar,
-            facebookAuth: {link: facebooklink, name: '', email: ''},
-            googleAuth: {link: googlelink, name: '', email: ''}
+            promoLink: promovideo
         });
         this.loadTrainingTime();
     }
@@ -61,40 +62,61 @@ class CoachPersonalDataForm extends React.Component {
         this.setState({avatar: newAvatar});
     };
 
-    handleChangeSocial = (valueObj) => {
+    handleChangeSocial = (name, valuesObj) => {
         const {getFieldValue, setFieldsValue} = this.props.form;
-        const { name } = valueObj[Object.keys(valueObj)[0]];
-        this.setState(valueObj);
-        if (!getFieldValue('name') && name)
-            setFieldsValue({name: name});
+        const {avatar} = this.state;
+
+        const updateData = {
+            id: this.props.profileCoach.id,
+            [name + 'link']: valuesObj.link
+        };
+
+        const checkableFields = ['name', 'email'];
+        checkableFields.forEach(item => {
+            if (!getFieldValue(item) && valuesObj[item]) {
+                setFieldsValue({[item]: valuesObj[item]});
+                updateData[item] = valuesObj[item];
+            }
+        });
+
+        if (!avatar && valuesObj.avatar) {
+            this.handleChangeAvatar(valuesObj.avatar);
+            updateData.avatar = valuesObj.avatar;
+        }
+
+        return this.props.onSubmit(updateData);
     };
 
     handleChangeTrainingTime = (type, num, value) => {
-        let newArray = this.state.trainingTime[type];
+        const {trainingTime} = this.state;
+        let newArray = trainingTime[type];
         newArray[num] = value;
-        this.setState({trainingTime: {
-                ...this.state.trainingTime,
+        this.setState({
+            trainingTime: {
+                ...trainingTime,
                 [type]: newArray
-            }});
+            }
+        });
     };
 
     prepareDisciplines = (data) => {
-        let disciplinesCount = 0;
+        let disciplinesNumsArr = [];
         for (let key in data)
-            if (key.indexOf('discipline-') !== -1) ++disciplinesCount;
+            if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
+
         let preparedDisciplines = [];
-        for (let i = 0; i < disciplinesCount; ++i) {
+        disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({
                 discipline: data["discipline-" + i],
                 specialization: data["specialization-" + i],
                 level: data["level-" + i],
                 experience: data["experience-" + i],
-                methods: data["methods-" + i],
                 goals: data["goals-" + i],
                 musicstyles: data["musicstyles-" + i],
                 favoritesingers: data["favoritesingers-" + i]
             });
-        }
+        });
+
         return preparedDisciplines;
     };
 
@@ -122,8 +144,6 @@ class CoachPersonalDataForm extends React.Component {
                     email: values.email,
                     country: values.country,
                     avatar: this.state.avatar,
-                    facebooklink: this.state.facebookAuth.link,
-                    googlelink: this.state.googleAuth.link,
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
@@ -131,7 +151,7 @@ class CoachPersonalDataForm extends React.Component {
                     interests: values.interests,
                     aboutme: values.aboutme,
 
-                    //promovideo: this.state.promoLink,
+                    promovideo: this.state.promoLink,
 
                     disciplines: this.prepareDisciplines(values),
 
@@ -161,7 +181,7 @@ class CoachPersonalDataForm extends React.Component {
 
     render() {
         const rootClass = cn('coach-data');
-        const { facebookAuth, googleAuth } = this.state;
+        const { promoLink } = this.state;
         const { form, profileCoach } = this.props;
         const { getFieldDecorator } = form;
         return (
@@ -173,9 +193,9 @@ class CoachPersonalDataForm extends React.Component {
                             profile={profileCoach}
                             onChangeAvatar={this.handleChangeAvatar}
                             onChangeSocial={this.handleChangeSocial}
-                            form={form}
-                            facebookAuth={facebookAuth}
-                            googleAuth={googleAuth}
+                            getFieldDecorator={getFieldDecorator}
+                            showChangePasswordModal={() => this.setState({isChangePasswordModalVisible: true})}
+                            showSendSuggestionsModal={() => this.setState({isSendSuggestionsModalVisible: true})}
                         />
                         <div className='coach-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
@@ -184,17 +204,17 @@ class CoachPersonalDataForm extends React.Component {
                         />
                         <div className='coach-data-title'>Проморолик</div>
                         <CoachPersonalDataPromo
-                            profileCoach={profileCoach}
-                            getFieldDecorator={getFieldDecorator}
+                            promoLink={promoLink}
                         />
-                        <div className='coach-data-title'>Платежные данные</div>
+                        {/*<div className='coach-data-title'>Платежные данные</div>
                         <CoachPersonalDataPayment
                             profileCoach={profileCoach}
                             getFieldDecorator={getFieldDecorator}
-                        />
+                        />*/}
                         <div className='coach-data-title'>Уровени подготовки по дисциплинам</div>
                         <PersonalDataSkill
                             profile={profileCoach}
+                            form={form}
                             getFieldDecorator={getFieldDecorator}
                         />
                         <div className='coach-data-title'>Идеальный студент</div>
@@ -208,19 +228,32 @@ class CoachPersonalDataForm extends React.Component {
                             getFieldDecorator={getFieldDecorator}
                             onChange={this.handleChangeTrainingTime}
                         />
+
+                        <Button
+                            className="coach-data-saveBtn"
+                            onClick={this.handleSubmitInfo}
+                            btnText='Сохранить изменения'
+                            size='default'
+                            disable={this.state.uploadingNewData}
+                            type='light-blue'
+                            style={{marginRight: "20px"}}
+                        />
+
+                        {this.state.uploadingNewData && <Spinner isInline={true} size="small"/>}
                     </Form>
 
-                    <Button
-                        className="coach-data-saveBtn"
-                        onClick={this.handleSubmitInfo}
-                        btnText='Сохранить изменения'
-                        size='default'
-                        disable={this.state.uploadingNewData}
-                        type='light-blue'
-                        style={{marginRight: "20px"}}
+                    <ChangePasswordModal
+                        profile={profileCoach}
+                        visible={this.state.isChangePasswordModalVisible}
+                        onSubmit = {this.props.onSubmit}
+                        onCancel={() => this.setState({isChangePasswordModalVisible: false})}
                     />
-
-                    {this.state.uploadingNewData && <Spinner isInline={true} size="small"/>}
+                    <SendSuggestionsModal
+                        profile={profileCoach}
+                        visible={this.state.isSendSuggestionsModalVisible}
+                        onSubmit = {this.props.onSubmit}
+                        onCancel={() => this.setState({isSendSuggestionsModalVisible: false})}
+                    />
                 </Card>
             </div>
         )

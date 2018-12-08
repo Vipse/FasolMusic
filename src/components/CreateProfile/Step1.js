@@ -71,9 +71,10 @@ class Step1Form extends React.Component{
 
     handleChangeSocial = (valueObj) => {
         const {getFieldValue, setFieldsValue} = this.props.form;
+        const { name } = valueObj[Object.keys(valueObj)[0]];
         this.setState(valueObj);
-        if (!getFieldValue('name') && valueObj.facebookAuth.name)
-            setFieldsValue({name: valueObj[Object.keys(valueObj)[0]].name});
+        if (!getFieldValue('name') && name)
+            setFieldsValue({name: name});
     };
 
     render(){
@@ -98,7 +99,7 @@ class Step1Form extends React.Component{
                         })(
                             <InputWithTT
                                 key="name"
-                                bubbleplaceholder="* ФИО"
+                                bubbleplaceholder="*ФИО"
                                 className="step-form-item"
                                 tooltip="ФИО Tooltip"
                             />
@@ -113,7 +114,7 @@ class Step1Form extends React.Component{
                         })(
                             <InputDateWithToolTip
                                 key="datebirth"
-                                bubbleplaceholder="Дата рождения"
+                                bubbleplaceholder="*Дата рождения"
                                 className="step-form-item"
                                 tooltip="Дата рождения Tooltip"
                             />
@@ -124,7 +125,7 @@ class Step1Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('sex', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите пол, пожалуйста'
                             }],
                         })(
@@ -146,7 +147,7 @@ class Step1Form extends React.Component{
                         })(
                             <SelectWithTT
                                 key="country"
-                                bubbleplaceholder="Страна пребывания"
+                                bubbleplaceholder="*Страна пребывания"
                                 className="step-form-item"
                                 tooltip="Страна пребывания Tooltip"
                                 values={["Беларусь", "Россия"]}
@@ -163,7 +164,7 @@ class Step1Form extends React.Component{
                     })(
                         <SelectWithTT
                             key="work"
-                            bubbleplaceholder="Сфера деятельности"
+                            bubbleplaceholder="*Сфера деятельности"
                             className="step-form-item"
                             tooltip="Сфера деятельности Tooltip"
                             values={["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"]}
@@ -179,7 +180,7 @@ class Step1Form extends React.Component{
                     })(
                         <SelectWithTT
                             key="interests"
-                            bubbleplaceholder="Интересы"
+                            bubbleplaceholder="*Интересы"
                             className="step-form-item"
                             tooltip="Интересы Tooltip"
                             mode="multiple"

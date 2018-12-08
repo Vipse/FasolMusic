@@ -91,7 +91,7 @@ class Step2Form extends React.Component{
                             }],
                         })(
                             <SelectWithTT
-                                bubbleplaceholder="Дисциплина"
+                                bubbleplaceholder="*Дисциплина"
                                 className="step-form-item"
                                 values={["Вокал", "Гитара"]}
                             />
@@ -100,7 +100,7 @@ class Step2Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('specialization', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите специализацию, пожалуйста'
                             }],
                         })(
@@ -116,7 +116,7 @@ class Step2Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('level', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите ваш уровень подготовки, пожалуйста'
                             }],
                         })(
@@ -130,7 +130,7 @@ class Step2Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('experience', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите опыт занятия музыкой, пожалуйста'
                             }],
                         })(
@@ -145,7 +145,7 @@ class Step2Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('goals', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите цели, пожалуйста'
                         }],
                     })(
@@ -161,7 +161,7 @@ class Step2Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('musicstyles', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите стиль музыки, который вам нравится, пожалуйста'
                         }],
                     })(
@@ -177,7 +177,7 @@ class Step2Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('favoritesingers', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Укажите любимых исполнителей, пожалуйста'
                         }],
                     })(

@@ -1,4 +1,5 @@
-.coach-data .disciplines {
+.coach-data-block.disciplines {
+  display: flex;
   flex-direction: column;
 }
 .coach-data-skill {
@@ -34,6 +35,7 @@
 }
 .coach-data-skill-footer {
   display: flex;
+  width: 100%;
 }
 .coach-data-skill-footer button {
   margin: 0 20px 10px 0;
@@ -43,7 +45,7 @@
   font-size: 12px;
 }
 .coach-data-skill-footer-line {
-  margin: 10px auto 40px;
+  margin: 17px auto 40px;
   border-bottom: #21bedd 1px solid;
-  width: 50%;
+  width: 100%;
 }

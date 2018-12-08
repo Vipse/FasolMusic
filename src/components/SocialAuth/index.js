@@ -6,9 +6,9 @@ import Button from '../Button'
 
 import './style.css'
 import '../../icon/style.css'
-import {Form, message} from "antd";
+
+import {message} from "antd";
 import Spinner from "../Spinner";
-import moment from "moment";
 import FacebookLogin from "react-facebook-login";
 import GoogleLogin from 'react-google-login';
 import Icon from "../Icon";
@@ -18,30 +18,39 @@ class SocialAuth extends React.Component {
     constructor() {
         super();
         this.state = {
-            facebookAuth: {},
-            googleAuth: {},
-        }
+            facebookLoading: false,
+            googleLoading: false
+        };
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            facebookAuth: nextProps.facebookAuth,
-            googleAuth: nextProps.googleAuth
-        })
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.facebookLink !== this.props.facebookLink)
+            this.setState({facebookLoading: false});
+        if (prevProps.googleLink !== this.props.googleLink)
+            this.setState({googleLoading: false});
     }
-
-    onChange = (objValue) => {
-        this.props.onChange(objValue);
-    };
 
     facebookAuth = () => {
         const responseFacebook = response => {
             const {userID, name, email, picture} = response;
-            this.onChange({facebookAuth: {link: userID, name, email, picture}});
+            if (!userID) {
+                this.setState({facebookLoading: false});
+                message.error('Ошибка Facebook');
+            }
+            else this.props.onChange('facebook', {link: userID, name, email, avatar: picture.data.url})
+                .then((res) => {
+                    if (res && !res.data.error)
+                        message.success("Аккаунт Facebook успешно привязан");
+                    else {
+                        this.setState({facebookLoading: false});
+                        message.error("Произошла ошибка при сохранении данных, попробуйте ещё раз");
+                    }
+                })
+                .catch((err) => console.log(err));
         };
 
         const componentClicked = () => {
-            //TODO: loadingCheck
+            this.setState({facebookLoading: true})
         };
 
         return (<FacebookLogin
@@ -61,12 +70,26 @@ class SocialAuth extends React.Component {
         const responseGoogle = (response) => {
             if (!response.error) {
                 const {googleId, givenName, familyName, email, imageUrl} = response.profileObj;
-                this.onChange({googleAuth: {link: googleId, name: givenName + ' ' + familyName, email, picture: imageUrl}});
+                this.props.onChange('google', {link: googleId, name: givenName + ' ' + familyName, email, avatar: imageUrl})
+                    .then((res) => {
+                        if (res && !res.data.error)
+                            message.success("Аккаунт Google успешно привязан");
+                        else {
+                            this.setState({googleLoading: false});
+                            message.error("Произошла ошибка при сохранении данных, попробуйте ещё раз");
+                        }
+                    })
+                    .catch((err) => console.log(err));
+            }
+            else {
+                this.setState({googleLoading: false});
+                message.error('Ошибка Google');
+                console.log(response.error);
             }
         };
 
         const componentClicked = () => {
-            //TODO: loadingCheck
+            this.setState({googleLoading: true})
         };
 
         return (<GoogleLogin
@@ -74,9 +97,10 @@ class SocialAuth extends React.Component {
                 render={renderProps => (
                     <Button className='social-row-btn'
                             btnText='Связать'
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.preventDefault();
                                 renderProps.onClick();
-                                componentClicked()
+                                componentClicked();
                             }}
                             size='small'
                             type='light-blue'
@@ -90,15 +114,25 @@ class SocialAuth extends React.Component {
 
     renderSocial = (name) => {
         return (<div key={name}>
-            <div className={"social-row" + (this.state[name + "Auth"].link ? "-active " : " ") + name}>
+            <div className={"social-row" + (this.props[name + "Link"] ? "-active " : " ") + name}>
                 <Icon type={name} size={33} svg/>
-                <span className="social-row-link">{this.state[name + "Auth"].link}</span>
-                {this.state[name + "Auth"].link ?
+                {this.state[name + "Loading"] ? <Spinner/> : this.props[name + "Link"] ?
                     <Button className='social-row-btn'
                             btnText='Отвязать'
+                            htmlType='button'
                             onClick={(e) => {
                                 e.preventDefault();
-                                this.onChange({[name + "Auth"]: {link: "", name: "", email: "", picture: ""}})
+                                this.setState({[name + 'Loading']: true});
+                                this.props.onChange(name, {link: "", name: "", email: "", avatar: ""})
+                                    .then((res) => {
+                                        if (res && !res.data.error)
+                                            message.success("Аккаунт " + name.charAt(0).toUpperCase() + name.slice(1) + " успешно отвязан");
+                                        else {
+                                            this.setState({[name + 'Loading']: false});
+                                            message.error("Произошла ошибка при сохранении данных, попробуйте ещё раз");
+                                        }
+                                    })
+                                    .catch((err) => console.log(err));
                             }}
                             size='small'
                             type='light-blue'
@@ -123,14 +157,10 @@ class SocialAuth extends React.Component {
 }
 
 SocialAuth.propTypes = {
-    facebookAuth: PropTypes.object,
-    googleAuth: PropTypes.object,
     onChange: PropTypes.func
 };
 
 SocialAuth.defaultProps = {
-    facebookAuth: "",
-    googleAuth: "",
     onChange: () => {}
 };
 

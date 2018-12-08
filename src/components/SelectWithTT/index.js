@@ -28,7 +28,7 @@ class SelectWithTT extends React.Component{
     };
 
     render() {
-        const labelClassName = this.state.value ? "bubble" : "";
+        const labelClassName = this.state.value && this.state.value.length ? "bubble" : "";
         const valuesArr = this.props.values ? this.props.values : [];
         return (
             <div className = "new-select-wrapper input-effect">

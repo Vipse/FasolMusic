@@ -1,6 +1,7 @@
 .coach {
 	&-data {
-		.disciplines {
+		&-block.disciplines {
+			display: flex;
 			flex-direction: column;
 		}
 
@@ -47,6 +48,7 @@
 
 			&-footer {
 				display: flex;
+				width: 100%;
 
 				button {
 					margin: 0 20px 10px 0;
@@ -57,9 +59,9 @@
 				}
 
 				&-line {
-					margin: 10px auto 40px;
+					margin: 17px auto 40px;
 					border-bottom: #21bedd 1px solid;
-					width: 50%;
+					width: 100%;
 				}
 			}
 		}

@@ -24,7 +24,7 @@ class SelectNew extends AntSelect{
         this.props.onChange(value)
     };
     render() {
-        const inputClassName = (this.state.select || this.props.value ? "effect has-content" : "effect");
+        const inputClassName = (this.props.value && this.props.value.length ? "effect has-content" : "effect");
         const rootCl = "new-input input-effect" +" "+ this.props.className + " " +  'input-root ';
         return (
             <div className={rootCl}

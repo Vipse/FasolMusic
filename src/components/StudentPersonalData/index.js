@@ -16,6 +16,7 @@ import {Form, message} from "antd";
 import Button from '../Button';
 import Spinner from "../Spinner";
 import moment from "moment";
+import ChangePasswordModal from "../ChangePasswordModal";
 
 class StudentPersonalDataForm extends React.Component {
 
@@ -24,21 +25,18 @@ class StudentPersonalDataForm extends React.Component {
         this.state = {
             uploadingNewData: false,
             avatar: "",
-            facebookAuth: {link: '', name: '', email: ''},
-            googleAuth: {link: '', name: '', email: ''},
             trainingTime: {
                 enabledDays: new Array(7).fill(false),
                 selectedTimes: new Array(7).fill([10, 23])
-            }
+            },
+            isChangePasswordModalVisible: false
         }
     }
 
     componentDidMount() {
-        const { avatar, facebooklink, googlelink } = this.props.profileStudent;
+        const { avatar } = this.props.profileStudent;
         this.setState({
-            avatar: avatar,
-            facebookAuth: {link: facebooklink, name: '', email: ''},
-            googleAuth: {link: googlelink, name: '', email: ''}
+            avatar: avatar
         });
         this.loadTrainingTime();
     }
@@ -58,29 +56,50 @@ class StudentPersonalDataForm extends React.Component {
         this.setState({avatar: newAvatar});
     };
 
-    handleChangeSocial = (valueObj) => {
+    handleChangeSocial = (name, valuesObj) => {
         const {getFieldValue, setFieldsValue} = this.props.form;
-        const { name } = valueObj[Object.keys(valueObj)[0]];
-        this.setState(valueObj);
-        if (!getFieldValue('name') && name)
-            setFieldsValue({name: name});
+        const {avatar} = this.state;
+
+        const updateData = {
+            id: this.props.profileStudent.id,
+            [name + 'link']: valuesObj.link
+        };
+
+        const checkableFields = ['name', 'email'];
+        checkableFields.forEach(item => {
+            if (!getFieldValue(item) && valuesObj[item]) {
+                setFieldsValue({[item]: valuesObj[item]});
+                updateData[item] = valuesObj[item];
+            }
+        });
+
+        if (!avatar && valuesObj.avatar) {
+            this.handleChangeAvatar(valuesObj.avatar);
+            updateData.avatar = valuesObj.avatar;
+        }
+
+        return this.props.onSubmit(updateData);
     };
 
     handleChangeTrainingTime = (type, num, value) => {
-        let newArray = this.state.trainingTime[type];
+        const {trainingTime} = this.state;
+        let newArray = trainingTime[type];
         newArray[num] = value;
-        this.setState({trainingTime: {
-                ...this.state.trainingTime,
+        this.setState({
+            trainingTime: {
+                ...trainingTime,
                 [type]: newArray
-        }});
+            }
+        });
     };
 
     prepareDisciplines = (data) => {
-        let disciplinesCount = 0;
+        let disciplinesNumsArr = [];
         for (let key in data)
-            if (key.indexOf('discipline-') !== -1) ++disciplinesCount;
+            if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
+
         let preparedDisciplines = [];
-        for (let i = 0; i < disciplinesCount; ++i) {
+        disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({
                 discipline: data["discipline-" + i],
                 specialization: data["specialization-" + i],
@@ -90,7 +109,8 @@ class StudentPersonalDataForm extends React.Component {
                 musicstyles: data["musicstyles-" + i],
                 favoritesingers: data["favoritesingers-" + i]
             });
-        }
+        });
+
         return preparedDisciplines;
     };
 
@@ -118,8 +138,6 @@ class StudentPersonalDataForm extends React.Component {
                     email: values.email,
                     country: values.country,
                     avatar: this.state.avatar,
-                    facebooklink: this.state.facebookAuth.link,
-                    googlelink: this.state.googleAuth.link,
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
@@ -154,7 +172,6 @@ class StudentPersonalDataForm extends React.Component {
 
     render() {
         const rootClass = cn('student-data');
-        const { facebookAuth, googleAuth } = this.state;
         const { form, profileStudent } = this.props;
         const { getFieldDecorator } = form;
         return (
@@ -166,9 +183,9 @@ class StudentPersonalDataForm extends React.Component {
                             profile={profileStudent}
                             onChangeAvatar={this.handleChangeAvatar}
                             onChangeSocial={this.handleChangeSocial}
-                            form={form}
-                            facebookAuth={facebookAuth}
-                            googleAuth={googleAuth}
+                            getFieldDecorator={getFieldDecorator}
+                            showChangePasswordModal={() => this.setState({isChangePasswordModalVisible: true})}
+                            isStudent={true}
                         />
                         <div className='student-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
@@ -179,7 +196,7 @@ class StudentPersonalDataForm extends React.Component {
                         <div className='student-data-title'>Уровни подготовки по дисциплинам</div>
                         <PersonalDataSkill
                             profile={profileStudent}
-                            getFieldDecorator={getFieldDecorator}
+                            form={form}
                             isStudent={true}
                         />
                         <div className='student-data-title'>Идеальный тренер</div>
@@ -194,19 +211,26 @@ class StudentPersonalDataForm extends React.Component {
                             getFieldDecorator={getFieldDecorator}
                             onChange={this.handleChangeTrainingTime}
                         />
+
+                        <Button
+                            className="student-data-saveBtn"
+                            onClick={this.handleSubmitInfo}
+                            btnText='Сохранить изменения'
+                            size='default'
+                            disable={this.state.uploadingNewData}
+                            type='light-blue'
+                            style={{marginRight: "20px"}}
+                        />
+
+                        {this.state.uploadingNewData && <Spinner isInline={true} size="small"/>}
                     </Form>
 
-                    <Button
-                        className="student-data-saveBtn"
-                        onClick={this.handleSubmitInfo}
-                        btnText='Сохранить изменения'
-                        size='default'
-                        disable={this.state.uploadingNewData}
-                        type='light-blue'
-                        style={{marginRight: "20px"}}
+                    <ChangePasswordModal
+                        profile={profileStudent}
+                        visible={this.state.isChangePasswordModalVisible}
+                        onSubmit = {this.props.onSubmit}
+                        onCancel={() => this.setState({isChangePasswordModalVisible: false})}
                     />
-
-                    {this.state.uploadingNewData && <Spinner isInline={true} size="small"/>}
                 </Card>
             </div>
         )

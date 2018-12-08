@@ -57,7 +57,7 @@ class Step3Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('bestsex', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите пол, пожалуйста'
                             }],
                         })(
@@ -71,7 +71,7 @@ class Step3Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('bestage', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите возраст, пожалуйста'
                             }],
                         })(
@@ -86,7 +86,7 @@ class Step3Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('bestishomework', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите отношение к домашним заданиям, пожалуйста'
                         }],
                     })(
@@ -101,7 +101,7 @@ class Step3Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('bestqualities', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите качества, пожалуйста'
                         }],
                     })(
@@ -117,7 +117,7 @@ class Step3Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('bestcomment', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Напишите комментарий, пожалуйста'
                         }],
                     })(
