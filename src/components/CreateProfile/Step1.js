@@ -16,13 +16,13 @@ const FormItem = Form.Item;
 class Step1Form extends React.Component{
     state = {
         avatar: "",
-        facebookAuth: {link: '', name: '', email: ''},
-        googleAuth: {link: '', name: '', email: ''}
+        facebookLink: "",
+        googleLink: ""
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {facebookAuth, googleAuth} = this.state;
+        const {avatar, facebookLink, googleLink} = this.state;
         this.props.form.validateFieldsAndScroll((err, values) => {
             // if (!err && (facebookAuth.email || googleAuth.email)) {
             //
@@ -69,16 +69,28 @@ class Step1Form extends React.Component{
         reader.readAsDataURL(file[0]);
     };
 
-    handleChangeSocial = (valueObj) => {
+    handleChangeSocial = (name, valuesObj) => {
         const {getFieldValue, setFieldsValue} = this.props.form;
-        const { name } = valueObj[Object.keys(valueObj)[0]];
-        this.setState(valueObj);
-        if (!getFieldValue('name') && name)
-            setFieldsValue({name: name});
+        const {avatar} = this.state;
+
+        this.setState({[name + 'Link']: valuesObj.link});
+
+        const checkableFields = ['name', 'email'];
+        checkableFields.forEach(item => {
+            if (!getFieldValue(item) && valuesObj[item]) {
+                setFieldsValue({[item]: valuesObj[item]});
+            }
+        });
+
+        if (!avatar && valuesObj.avatar)
+            this.setState({avatar: valuesObj.avatar});
+
+        return new Promise(resolve => true);
     };
 
     render(){
         const { getFieldDecorator } = this.props.form;
+        const { facebookLink, googleLink } = this.state;
 
         const avatarUrl = this.state.avatar ? this.state.avatar : this.props.data.avatar ? this.props.data.avatar : "";
         return (
@@ -202,8 +214,8 @@ class Step1Form extends React.Component{
                         <span className="upload-avatar-title">Привяжи свои социалки: </span>
                         <div className="profile-social">
                             <SocialAuth
-                                facebookAuth={this.state.facebookAuth}
-                                googleAuth={this.state.googleAuth}
+                                facebookLink={facebookLink}
+                                googleLink={googleLink}
                                 onChange={this.handleChangeSocial}
                             />
                         </div>
