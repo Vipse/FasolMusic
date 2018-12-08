@@ -7,7 +7,6 @@ import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
 
-
 import UploadPhotoImage from "../../img/uploadPhoto.png"
 import SocialAuth from "../SocialAuth";
 
@@ -20,23 +19,33 @@ class Step1Form extends React.Component{
         googleLink: ""
     };
 
+    componentDidMount() {
+        if (this.props.data.avatar)
+            this.setState({avatar: this.props.data.avatar});
+        if (this.props.data.facebookLink)
+            this.setState({facebookLink: this.props.data.facebookLink});
+        if (this.props.data.googleLink)
+            this.setState({googleLink: this.props.data.googleLink});
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
-        const {avatar, facebookLink, googleLink} = this.state;
         this.props.form.validateFieldsAndScroll((err, values) => {
-            // if (!err && (facebookAuth.email || googleAuth.email)) {
-            //
-            //     let fields = {
-            //         ...values,
-            //         avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
-            //     };
-            //     if(!values.avatar.url && !values.avatar.name) {
-            //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
-            //     }
-                this.props.onSubmit({...values, ...this.state});
+            if (!err) {
+                const {avatar, facebookLink, googleLink} = this.state;
+                const fields = {
+                    ...values,
+                    avatar: avatar,
+                    facebookLink: facebookLink,
+                    googleLink: googleLink,
+                };
+
+                this.props.onSubmit(fields);
                 this.props.onNext();
-            // }
-        })
+            }
+            else
+                console.log(err);
+        });
     };
 
     /*handleChange = (info) => {
@@ -61,11 +70,8 @@ class Step1Form extends React.Component{
         //         this.setState({avatarUrl: res.data.file[0].url, avatarName: res.data.file[0].name});
         //         message.success("Фото загружено")
         //     });
-        this.setState({loading: true});
-        reader.addEventListener('load', () => this.setState({
-            avatar: reader.result,
-            loading: false
-        }));
+        reader.addEventListener('load', () =>
+            this.setState({avatar: reader.result}));
         reader.readAsDataURL(file[0]);
     };
 
@@ -77,22 +83,21 @@ class Step1Form extends React.Component{
 
         const checkableFields = ['name', 'email'];
         checkableFields.forEach(item => {
-            if (!getFieldValue(item) && valuesObj[item]) {
+            if (!getFieldValue(item) && valuesObj[item])
                 setFieldsValue({[item]: valuesObj[item]});
-            }
         });
 
         if (!avatar && valuesObj.avatar)
             this.setState({avatar: valuesObj.avatar});
 
-        return new Promise(resolve => true);
+        return new Promise(resolve => resolve({data: {}}));
     };
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { facebookLink, googleLink } = this.state;
+        const { avatar, facebookLink, googleLink } = this.state;
 
-        const avatarUrl = this.state.avatar ? this.state.avatar : this.props.data.avatar ? this.props.data.avatar : "";
+        const avatarUrl = avatar;
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-1">
                 <div className="step-title">Личные данные</div>
@@ -129,6 +134,42 @@ class Step1Form extends React.Component{
                                 bubbleplaceholder="*Дата рождения"
                                 className="step-form-item"
                                 tooltip="Дата рождения Tooltip"
+                            />
+                        )}
+                    </FormItem>
+                </div>
+                <div className="step-form-row">
+                    <FormItem>
+                        {getFieldDecorator('email', {
+                            rules: [{
+                                required: true,
+                                message: 'Введите E-mail, пожалуйста'
+                            },
+                                {
+                                    type: "email",
+                                    message: 'Неправильный формат'
+                                }],
+                        })(
+                            <InputWithTT
+                                key="name"
+                                bubbleplaceholder="*E-mail"
+                                className="step-form-item"
+                                tooltip="E-mail Tooltip"
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        {getFieldDecorator('phones', {
+                            rules: [{
+                                required: true,
+                                message: 'Введите телефоны, пожалуйста'
+                            }],
+                        })(
+                            <InputWithTT
+                                key="name"
+                                bubbleplaceholder="*Телефоны"
+                                className="step-form-item"
+                                tooltip="Телефоны Tooltip"
                             />
                         )}
                     </FormItem>
@@ -227,7 +268,6 @@ class Step1Form extends React.Component{
                             btnText='Продолжить'
                             size='large'
                             type='pink'/>
-
                 </div>
             </Form>
         )

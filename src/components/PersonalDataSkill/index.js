@@ -64,7 +64,8 @@ class PersonalDataSkill extends React.Component {
                         type='light-blue'
                     />
                     <div className="coach-data-skill-footer-line"/>
-                </div> : null}
+                </div> : (!number || (!length && number === Math.min(...addedNums))) ? <span/> :
+                    <div className="coach-data-skill-footer-line" style={{width: "80%"}}/>}
             <FormItem className="input-form-item">
                 {getFieldDecorator('discipline-' + number, {
                     initialValue: discipline,
@@ -87,7 +88,10 @@ class PersonalDataSkill extends React.Component {
                         message: 'Введите специализацию, пожалуйста'
                     }],
                 })(
-                    <InputNew width="100%" bubbleplaceholder="Специализация"/>
+                    <SelectNew width="100%"
+                               bubbleplaceholder="Специализация"
+                               data={["Спорт", "Кино и сериалы", "Туризм"]}
+                    />
                 )}
             </FormItem>
             <FormItem className="input-form-item">
@@ -123,7 +127,11 @@ class PersonalDataSkill extends React.Component {
                         message: 'Введите цели, пожалуйста'
                     }]
                 })(
-                    <InputNew width="100%" bubbleplaceholder="Цели"/>
+                    <SelectNew width="100%"
+                               bubbleplaceholder="Цели"
+                               mode="multiple"
+                               data={["Спорт", "Кино и сериалы", "Туризм"]}
+                    />
                 )}
             </FormItem>
             {!isStudent && <FormItem className="input-form-item">

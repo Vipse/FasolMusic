@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
@@ -8,8 +7,6 @@ import Step5 from './Step5'
 import Steps from '../Step'
 import './style.css'
 import '../../icon/style.css'
-
-
 
 class CreateProfile extends React.Component{
     constructor(props){
@@ -29,18 +26,21 @@ class CreateProfile extends React.Component{
             {
                 content: (state) => <Step2 data={state}
                                            onNext={this.next}
+                                           onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
                 />,
             },
             {
                 content: (state) => <Step3 data = {state}
                                            onNext = {this.next}
+                                           onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
                 />,
             },
             {
                 content: (state) => <Step4 data={state}
                                            onNext={this.next}
+                                           onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
                                            onFinish={this.props.onSubmit}
                 />,
@@ -56,6 +56,11 @@ class CreateProfile extends React.Component{
 
     next = () => {
         const current = this.state.current + 1;
+        this.setState({ current });
+    };
+
+    prev = () => {
+        const current = this.state.current - 1;
         this.setState({ current });
     };
 
@@ -75,16 +80,9 @@ class CreateProfile extends React.Component{
 
 
 CreateProfile.propTypes = {
-    // urlForget: PropTypes.string,
-    // urlRegistration: PropTypes.string,
-    // onFinish: PropTypes.func,
-    // onCheckEmailAvailability: PropTypes.func
 };
 
 CreateProfile.defaultProps = {
-    // urlForget: '',
-    // urlRegistration: '',
-    // onFinish: () => {},
 };
 
 export default CreateProfile

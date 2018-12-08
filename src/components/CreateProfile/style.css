@@ -46,6 +46,12 @@
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
 }
+.create-profile-form .steps .steps-content .has-error .radio-label {
+  border-bottom: none;
+}
+.create-profile-form .steps .steps-content .ant-form-explain {
+  top: auto;
+}
 .create-profile-form .steps .steps-content .ant-form.step-form .step-title {
   font-family: "RobotoBlackItalic", serif;
   font-size: 36px;
@@ -72,11 +78,17 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .step-form-row .ant-row.ant-form-item:last-child {
   margin-right: 0;
 }
+.create-profile-form .steps .steps-content .ant-form.step-form .steps-action {
+  justify-content: space-evenly;
+}
 .create-profile-form .steps .steps-content .ant-form.step-form .radio-label {
   color: #000;
   font-family: RobotoMedium;
   padding-right: 30px;
   width: 220px;
+}
+.create-profile-form .steps .steps-content .ant-form.step-form .radio-label-amountdays {
+  margin-bottom: 10px;
 }
 .create-profile-form .steps .steps-content .ant-form.step-form .timePlate {
   position: relative;
@@ -125,6 +137,7 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar {
   display: flex;
   width: 50%;
+  height: 258px;
   flex-direction: column;
   align-items: center;
 }

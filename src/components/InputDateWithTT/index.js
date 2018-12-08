@@ -16,13 +16,18 @@ class InputDateWithToolTip extends React.Component{
         }
     }
 
+    componentDidMount() {
+        this.props.value && this.onChange(this.props.value);
+    }
+
     onChange = (value) => {
-        console.log(value);
-        if(value) {
+        if (value) {
             this.setState({value: moment(value).format("X")});
             this.props.onChange && this.props.onChange(value)
-        } else {
-            this.setState({focused: false, value: ""})
+        }
+        else if (value === null) {
+            this.setState({value: null});
+            this.props.onChange && this.props.onChange(null);
         }
     };
 
@@ -35,7 +40,7 @@ class InputDateWithToolTip extends React.Component{
                     placeholder = ""
                     onChange={this.onChange}
                     dropdownClassName = "input-date-with-tt-calendar-popup"
-
+                    defaultValue={this.props.value}
                 />
                 {this.props.tooltip && <button type="button" data-tip={this.props.tooltip || ""} className='note'>?</button>}
                 <label className={labelClassName}>{this.props.bubbleplaceholder || ""}</label>

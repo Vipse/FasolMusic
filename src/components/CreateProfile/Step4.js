@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import Hoc from '../Hoc'
 import Checkbox from '../Checkbox'
 import Button from '../Button'
-import Hr from "../Hr";
-import Spinner from "../Spinner";
 import {Form, message} from "antd";
 import Radio from "../RadioBox";
 import RadioGroup from "antd/es/radio/group";
@@ -17,21 +14,18 @@ class Step4Form extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            enabledDays: [],
-            selectedTimes: []
+            enabledDays: new Array(7).fill(false),
+            selectedTimes: new Array(7).fill([10, 23])
         }
     }
 
-    componentWillMount() {
-        this.setState({
-            enabledDays: new Array(7).fill(false),
-            selectedTimes: new Array(7).fill([10, 23])
-        });
+    componentDidMount() {
+        if (this.props.data.enabledDays && this.props.data.selectedTimes)
+            this.setState({enabledDays: this.props.data.enabledDays, selectedTimes: this.props.data.selectedTimes});
     }
 
     prepareDisciplines = (data) => {
-        let preparedDisciplines = [];
-        preparedDisciplines.push({
+        return [{
             discipline: data.discipline,
             specialization: data.specialization,
             level: data.level,
@@ -39,8 +33,7 @@ class Step4Form extends React.Component{
             goals: data.goals,
             musicstyles: data.musicstyles,
             favoritesingers: data.favoritesingers,
-        });
-        return preparedDisciplines;
+        }];
     };
 
     prepareTrainingTime = () => {
@@ -57,67 +50,88 @@ class Step4Form extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            // if (!err) {
-            //
-            //     let fields = {
-            //         ...values,
-            //         avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
-            //     };
-            //     if(!values.avatar.url && !values.avatar.name) {
-            //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
-            //     }
-            const finalRegData = {
-                name: this.props.data.name,
-                //phones:
-                email: this.props.data.facebookAuth.email || this.props.data.googleAuth.email,
-                country: this.props.data.country,
-                avatar: this.props.data.avatarUrl,
-                facebooklink: this.props.data.facebookAuth.link,
-                googlelink: this.props.data.googleAuth.link,
+            const {name, datebirth, email, phones, sex, country, work, interests, avatar, facebookLink, googleLink,
+                bestsex, bestage, bestishomework, bestqualities, bestcomment} = this.props.data;
+            if (!err) {
+                const finalRegData = {
+                    name,
+                    datebirth: moment(datebirth).format('X'),
+                    email,
+                    phones,
+                    sex: sex ? sex === "Мужской" ? "m" : "w" : "",
+                    country,
+                    work,
+                    interests,
+                    avatar,
+                    facebookLink,
+                    googleLink,
 
-                sex: this.props.data.sex === "Мужской" ? "m" : "w",
-                datebirth: moment(this.props.data.datebirth).format('X'),
-                work: this.props.data.work,
-                interests: this.props.data.interests,
+                    disciplines: this.prepareDisciplines(this.props.data),
 
-                disciplines: this.prepareDisciplines(this.props.data),
+                    bestsex: bestsex ? bestsex === "Мужской" ? "m" : "w" : "",
+                    bestage,
+                    bestishomework: bestishomework ? bestishomework === "Да" : "",
+                    bestqualities,
+                    bestcomment,
 
-                bestsex: this.props.data.bestsex === "Мужской" ? "m" : "w",
-                bestage: this.props.data.bestage,
-                bestishomework: this.props.data.bestishomework === "Да",
-                bestqualities: this.props.data.bestqualities,
-                bestcomment: this.props.data.bestcomment,
+                    amountdays: values.amountdays,
+                    trainingtime: this.prepareTrainingTime(),
 
-                amountdays: values.daysCount,
-                trainingtime: this.prepareTrainingTime(),
+                    password: "123456"
+                };
 
-                password: "123456"
+                console.log("FINAL REG DATA", finalRegData);
+                this.props.onFinish(finalRegData).then(res => {
+                    if (res && !res.data.error)
+                        this.props.onNext();
+                    else {
+                        console.log(res.data.error);
+                        message.error('Ошибка ' + res.data.error.code + ': ' + res.data.error.text, 10);
+                        //message.error('Заполнены не все обязательные поля', 4);
+                    }
+                });
+            }
+            else
+                console.log(err);
+        });
+    };
+
+    handleGoBack = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            const fields = {
+                amountdays: values.amountdays,
+                ...this.state
             };
-            console.log("FINAL REG DATA", finalRegData);
-            this.props.onFinish(finalRegData).then(res=> {
-                if(res && !res.data.error) {
-                    this.props.onNext();
-                } else {
-                    console.log(res.data.error);
-                    message.error('Ошибка ' + res.data.error.code + ': ' + res.data.error.text, 60);
-                    //message.error('Заполнены не все обязательные поля', 4);
-                }
-            });
-            // }
-        })
+
+            this.props.onSubmit(fields);
+            this.props.onPrev();
+        });
+    };
+
+    checkIsTimeSelected = (rule, value, callback) => {
+        const {enabledDays} = this.state;
+        if (enabledDays.every((item) => !item)) {
+            callback('Выберите время, пожалуйста');
+        } else {
+            callback();
+        }
     };
 
     generateOneDay = (i) => {
         const daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+        const {enabledDays, selectedTimes} = this.state;
 
         return (<div className="timeSchedule" key={i}>
-            <Checkbox className="dayCheckbox" value={i} checked={this.state.enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
+            <Checkbox className="dayCheckbox" value={i} checked={enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
                       key={"enableDay" + i}>{daysName[i]}</Checkbox>
-            <Slider className="slider" range step={1} min={0} max={24} defaultValue={[10, 23]} disabled={!this.state.enabledDays[i]}
+            <Slider className="slider" range step={1} min={0} max={24}
+                    value={[selectedTimes[i][0], selectedTimes[i][1]]}
+                    disabled={!enabledDays[i]}
                     onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
-            <p className="timePlate">{this.state.enabledDays[i] &&
-            (this.state.selectedTimes[i][1] - this.state.selectedTimes[i][0] === 24 ? "Весь день" :
-                this.state.selectedTimes[i][0] + ":00 - " + (this.state.selectedTimes[i][1] !== 24 ? this.state.selectedTimes[i][1] : 0) + ":00")}</p>
+            <p className="timePlate">{enabledDays[i] &&
+            (selectedTimes[i][1] - selectedTimes[i][0] === 24 ? "Весь день" :
+                selectedTimes[i][0] + ":00 - " + (selectedTimes[i][1] !== 24 ? selectedTimes[i][1] : 0) + ":00")}</p>
         </div>);
     };
 
@@ -157,13 +171,12 @@ class Step4Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        <div className='radio-label'>Количество дней в неделю:</div>
-                            {getFieldDecorator('daysCount', {
+                        <div className='radio-label radio-label-amountdays'>Количество дней в неделю:</div>
+                            {getFieldDecorator('amountdays', {
                                 rules: [{ required: true,
                                     message: 'Выберите количество дней, пожалуйста' }],
                             })(
-                                <div className="ant-radio-group">
-                                <RadioGroup style={{display: "flex", flexDirection: "column"}}>
+                                <RadioGroup className="ant-radio-group" style={{display: "flex", flexDirection: "column"}}>
                                     <Radio value='1' key='radio-1'>1</Radio>
                                     <Radio value='2' key='radio-2'>2</Radio>
                                     <Radio value='3' key='radio-3'>3</Radio>
@@ -171,14 +184,15 @@ class Step4Form extends React.Component{
                                     <Radio value='5' key='radio-5'>5</Radio>
                                     <Radio value='5+' key='radio-5+'>5 и более</Radio>
                                 </RadioGroup>
-                                </div>
                             )}
                     </FormItem>
                     <FormItem>
                         <div className='radio-label'>Время:</div>
                             {getFieldDecorator('timeSchedule', {
-                                rules: [{ required: true,
-                                    message: 'Выберите время, пожалуйста' }],
+                                rules: [
+                                    {
+                                        validator: this.checkIsTimeSelected,
+                                    }],
                             })(
                                 <div className="ant-radio-group">
                                     {this.renderTimeSchedule()}
@@ -188,6 +202,10 @@ class Step4Form extends React.Component{
                 </div>
 
                 <div className="steps-action">
+                    <Button btnText='Назад'
+                            size='large'
+                            type='pink'
+                            onClick={this.handleGoBack}/>
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
