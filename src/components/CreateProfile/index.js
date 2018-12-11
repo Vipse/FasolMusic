@@ -19,6 +19,7 @@ class CreateProfile extends React.Component{
                 content: (state) => <Step1 data={state}
                                            onNext={this.next}
                                            onSubmit={(data) => this.setState({...data})}
+                                           interestsList={this.state.interestsList}
                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                             //uploadFile={this.props.uploadFile}
                     />,
@@ -48,10 +49,16 @@ class CreateProfile extends React.Component{
             {
                 content: () => <Step5 onNext={this.next}
                                       urlLogin={this.props.urlLogin}
-                    //finalText={this.props.finalText}
-                    //regInProgress = {this.props.regInProgress}
                 />,
             }];
+    }
+
+    componentDidMount() {
+        const {getSelectors} = this.props;
+        const selectorsNames = ['interests', 'specialization', 'discipline', 'qualities', 'professions'];
+        selectorsNames.forEach((name) => getSelectors(name)
+            .then(res => this.setState({[name + "List"]: res.data}))
+            .catch(err => console.log(err)));
     }
 
     next = () => {

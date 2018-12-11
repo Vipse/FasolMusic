@@ -94,6 +94,7 @@ class Step1Form extends React.Component{
     };
 
     render(){
+        const { interestsList } = this.props;
         const { getFieldDecorator } = this.props.form;
         const { avatar, facebookLink, googleLink } = this.state;
 

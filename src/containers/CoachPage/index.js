@@ -28,7 +28,7 @@ class StudentPage extends React.Component{
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.id !== this.props.match.params.id) {
-            this.props.onGetInfoPatient(nextProps.match.params.id);
+            this.props.getPatientInfo(nextProps.match.params.id);
             this.setState({
                 loading: true
             });

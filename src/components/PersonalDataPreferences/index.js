@@ -66,7 +66,7 @@ class PersonalDataPreferences extends React.Component {
                             }],
                         })(
                             <SelectNew width="100%"
-                                       bubbleplaceholder={isStudent ? "Дает" : "Делает" + " домашнее задание"}
+                                       bubbleplaceholder={(isStudent ? "Дает" : "Делает") + " домашнее задание"}
                                        data={["Да", "Нет"]}
                             />
                         )}

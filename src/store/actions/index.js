@@ -81,6 +81,7 @@ export {
     resetRegisterStatus,
     setOnlineStatus,
     checkEmailAvailability,
+    getSelectors,
     reportBug
 } from './auth'
 
