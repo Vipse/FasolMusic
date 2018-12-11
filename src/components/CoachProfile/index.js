@@ -8,22 +8,22 @@ import ScrollArea from 'react-scrollbar'
 import './style.css'
 import '../../icon/style.css'
 
-class StudentProfile extends React.Component {
+class CoachProfile extends React.Component {
     state = {};
 
     render() {
-        const {img, name, discipline, level, paidTrainingsCount} = this.props;
+        const {img, name, discipline, specialization, rate, ratingsCount} = this.props;
 
         return (
-            <Card title="Профиль студента">
+            <Card title="Профиль преподавателя">
                 <ScrollArea
                     speed={0.5}
                     contentClassName="flex-div"
                     smoothScrolling={true}
                 >
                     <div className="profile">
-                        <div className='profile-student'>
-                            <div className="profile-student-avatar">
+                        <div className='profile-coach'>
+                            <div className="profile-coach-avatar">
                                 <ProfileAvatar
                                     img={img}
                                     size="large"
@@ -31,14 +31,14 @@ class StudentProfile extends React.Component {
                                 />
                             </div>
 
-                            <div className="profile-student-info">
-                                <div className="profile-student-info-name">{name}</div>
-                                <div className="profile-student-info-discipline">{discipline}</div>
-                                <div className="profile-student-info-level">{level}</div>
-                                <div className="profile-student-info-count">Тренировок оплачено: <span className="profile-student-info-count-number">{paidTrainingsCount}</span></div>
+                            <div className="profile-coach-info">
+                                <div className="profile-coach-info-name">{name}</div>
+                                <div className="profile-coach-info-discipline">{discipline}</div>
+                                <div className="profile-coach-info-specialization">{specialization}</div>
+                                <div className="profile-coach-info-count">Rate: <span className="profile-coach-info-count-number">{rate} ({ratingsCount})</span></div>
                             </div>
                         </div>
-                        <div className="profile-student-btn-row">
+                        <div className="profile-coach-btn-row">
                             <Button onClick={() => console.log('openDialog')}
                                     btnText='Открыть диалог'
                                     size='default'
@@ -53,21 +53,21 @@ class StudentProfile extends React.Component {
     }
 }
 
-StudentProfile.propTypes = {
+CoachProfile.propTypes = {
     name: PropTypes.string,
     img: PropTypes.string,
     discipline: PropTypes.string,
-    level: PropTypes.string,
+    specialization: PropTypes.string,
     paidTrainingsCount: PropTypes.number
 
 };
 
-StudentProfile.defaultProps = {
+CoachProfile.defaultProps = {
     name: '',
     img: '',
     discipline: '',
-    level: '',
+    specialization: '',
     paidTrainingsCount: 0
 };
 
-export default StudentProfile
+export default CoachProfile

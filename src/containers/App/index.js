@@ -145,7 +145,7 @@ class App extends React.Component {
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
-        const isUser = (this.props.mode === "user");
+        const isUser = (this.props.mode === "student");
 
         
         return (

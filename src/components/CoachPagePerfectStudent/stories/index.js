@@ -1,11 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import CoachProfile from '../';
+import CoachPagePerfectStudent from '../';
 
-storiesOf('CoachProfile', module)
-    .add('CoachProfile', () => (
+storiesOf('CoachPagePerfectStudent', module)
+    .add('CoachPagePerfectStudent', () => (
         <div>
-            <CoachProfile
+            <CoachPagePerfectStudent
                 status={true}
             	name= "тестовый пациент"
             	img="https://24smi.org/public/media/resize/660x-/person/2017/10/25/cdRRFH0JWoYv_supermen.jpg"

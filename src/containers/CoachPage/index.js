@@ -2,9 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux';
 import Row from "../../components/Row";
 import Col from "../../components/Col";
-import StudentProfile from "../../components/StudentProfile";
-import StudentPagePerfectCoach from "../../components/StudentPagePerfectCoach";
-import TrainsHistory from "../../components/TrainsHistory";
+import CoachProfile from "../../components/CoachProfile";
+import CoachPagePerfectStudent from "../../components/CoachPagePerfectStudent";
+import RecordTrainCarousel from "../../components/RecordTrainCarousel";
 
 import Hoc from '../../hoc'
 
@@ -13,7 +13,7 @@ import * as actions from '../../store/actions'
 import './styles.css';
 import Spinner from "../../components/Spinner";
 
-class StudentPage extends React.Component{
+class CoachPage extends React.Component{
 
     constructor(props){
         super(props);
@@ -23,12 +23,12 @@ class StudentPage extends React.Component{
     }
 
     componentDidMount(){
-        this.props.onGetInfoPatient(this.props.match.params.id);
+        this.props.onGetInfoDoctor(this.props.match.params.id);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.id !== this.props.match.params.id) {
-            this.props.getPatientInfo(nextProps.match.params.id);
+            this.props.onGetInfoDoctor(nextProps.match.params.id);
             this.setState({
                 loading: true
             });
@@ -41,11 +41,11 @@ class StudentPage extends React.Component{
     }
 
     render() {
-        const { avatar, name, disciplines } = this.props.profileStudent;
-        const { bestsex, bestage, bestishomework, bestqualities } = this.props.profileStudent;
+        const { avatar, name, disciplines } = this.props.profileCoach;
+        const { bestsex, bestage, bestishomework, bestqualities } = this.props.profileCoach;
         if (this.state.loading === true) {
             return <Spinner onBackground tip="Загрузка" size="large"/>;
-        } else if (!this.props.profileStudent.name) {
+        } else if (!this.props.profileCoach.name) {
             return (
                 <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
                     <h3 style={{color: '#fff'}}>Страница не найдена</h3>
@@ -57,35 +57,36 @@ class StudentPage extends React.Component{
                 <Hoc>
                     <div>
                         <Row type="flex" gutter={32}>
-                            <Col span={10} className='section'>
-                                <StudentProfile
+                            <Col span={11} className='section'>
+                                <CoachProfile
                                     img={avatar}
                                     name={name}
                                     discipline={disciplines.length ? disciplines[0].discipline : null}
-                                    level={disciplines.length ? disciplines[0].level : null}
-                                    paidTrainingsCount={0}
+                                    specialization={disciplines.length ? disciplines[0].specialization : null}
+                                    rate={5}
+                                    ratingsCount={19}
                                 />
-                                <StudentPagePerfectCoach
+                            </Col>
+                            <Col span={13}>
+                                {/*<RecordTrainCarousel data={this.props.appsBetween}
+                                               appsBetweenCount={this.props.appsBetweenCount}
+                                               onGotoChat={(id) => {
+                                                   this.props.onSelectTretment(id);
+                                                   this.props.history.push('/app/chat')
+                                               }}
+                                               getApps={this.props.onGetAppointments}
+                                               id_user={this.props.match.params.id}
+                                               personalPage={true}
+                                               isUser={this.props.mode === "student"}
+                                               onAddFiles={this.props.onAddFiles}
+                                               addConclusion={this.props.addConclusion}
+                                               makeArchiveOfFiles={this.props.makeArchiveOfFiles}
+                                />*/}
+                                <CoachPagePerfectStudent
                                     sex={bestsex}
                                     age={bestage}
                                     homework={bestishomework}
                                     qualities={bestqualities}
-                                />
-                            </Col>
-                            <Col span={14}>
-                                <TrainsHistory data={this.props.appsBetween}
-                                                   appsBetweenCount={this.props.appsBetweenCount}
-                                                   onGotoChat={(id) => {
-                                                       this.props.onSelectTretment(id);
-                                                       this.props.history.push('/app/chat')
-                                                   }}
-                                                   getApps={this.props.onGetAppointments}
-                                                   id_user={this.props.match.params.id}
-                                                   personalPage={true}
-                                                   isUser={this.props.mode === "student"}
-                                                   onAddFiles={this.props.onAddFiles}
-                                                   addConclusion={this.props.addConclusion}
-                                                   makeArchiveOfFiles={this.props.makeArchiveOfFiles}
                                 />
                             </Col>
                         </Row>
@@ -100,7 +101,7 @@ class StudentPage extends React.Component{
 
 const mapStateToProps = state => {
     return {
-        profileStudent: state.profilePatient,
+        profileCoach: state.profileDoctor,
         //info: state.patients.selectedPatientInfo,
         intervals: state.patients.intervals,
         availableIntervals: state.profileDoctor.workIntervals,
@@ -111,7 +112,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
+        onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
         //getPatientInfo: (id) => dispatch(actions.getSelectedPatientInfo(id)),
         onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
         addPatient: (id) => dispatch(actions.addPatient(id, '', true)),
@@ -126,4 +127,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CoachPage);

@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+.perfect-student {
+  padding: 25px 35px;
+  display: flex;
+  flex-direction: column;
+}
+.perfect-student-fields {
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.perfect-student-fields-row {
+  margin-bottom: 15px;
+  width: 70%;
+}
+.perfect-student-fields .data {
+  font-family: RobotoMedium;
+  margin-left: 25px;
+}
+.perfect-student-fields-name {
+  color: #21bedd;
+  font-family: "RobotoMediumItalic";
+  text-transform: uppercase;
+}
+.perfect-student-comment {
+  font-family: RobotoMedium;
+}

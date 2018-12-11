@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+.profile {
+  padding: 25px 35px;
+}
+.profile-coach {
+  display: flex;
+}
+.profile-coach-avatar {
+  margin-right: 30px;
+}
+.profile-coach-info {
+  flex-direction: column;
+}
+.profile-coach-info-name {
+  color: #21bedd;
+  font-family: "RobotoMediumItalic";
+  text-transform: uppercase;
+}
+.profile-coach-info-count {
+  font-family: RobotoMedium;
+}
+.profile-coach-info-count-number {
+  font-size: 22px;
+}

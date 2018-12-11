@@ -1,0 +1,158 @@
+
+
+.calendar{
+
+	&-carousel{
+		position: relative;
+		width: 100%;
+		max-width: 555px;
+		&&.no-intervals {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		span.no-schedule {
+			color: #344051;
+			font-size: 16px;
+			line-height: 40px;
+			padding: 0 20px;
+			background-color: #edf4f9;
+			border-radius: 5px;
+
+		}
+		.ant-carousel{
+
+			.slick-initialized{
+
+				.slick-slide{
+					display: flex;
+				}
+			}
+
+			.slick-dots{
+				display: none !important;
+			}
+		}
+
+		&-slide{
+			overflow: hidden;
+			.carouselPosition {
+				display: flex;
+				justify-content: flex-start;
+				transition: 0.2s ease-out;
+				position: relative;
+			}
+			.btn-prev{
+				position: absolute;
+				top: 5px;
+				left: 0;
+				background-color: transparent;
+				transition: none;
+
+				.icon{
+					color: #344051;
+					font-size: 13px !important;
+				}
+
+				&:hover{
+					background-color: transparent;
+					border: none;
+
+					.icon{
+						color: #21bedd;
+					}
+				}
+			}
+
+			.btn-next{
+				position: absolute;
+				top: 5px;
+				right: 0;
+				background-color: transparent;
+				transition: none;
+
+				.icon{
+					color: #344051;
+					font-size: 13px !important;
+				}
+
+				&:hover{
+					background-color: transparent;
+					border: none;
+
+					.icon{
+						color: #21bedd;
+					}
+				}
+			}
+		}
+
+		&-col{
+			width: 100%;
+			min-width: 33%;
+		}
+
+		&-days{
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		&-day{
+			text-align: center;
+			color: #344051;
+			font-size: 14px;
+			line-height: 1;
+			padding: 20px 0;
+			border-bottom: 1px solid #ebebeb;
+		}
+
+		&-time{
+			color: #344051;
+			background-color: #edf4f9;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 90px;
+			height: 40px;
+			font-size: 16px;
+			border-radius: 5px;
+			margin: 10px auto;
+			cursor: pointer;
+
+			&:nth-child(2){
+				margin-top: 20px;
+			}
+
+			&:hover{
+				background-color: #21bedd;
+				color: #fff;
+			}
+
+			&.close{
+				background-color: #ffeeb5 !important;
+				color: #344051 !important;
+				cursor: default;
+			}
+			&.activeTime {
+				background-color: #204d8d!important;
+				color: white!important;
+			}
+			&.unAvailableTime {
+				background-color: #f7f7f7;
+				color: #c6c1c8;
+				cursor: not-allowed;
+			}
+			&.afterAnalyses {
+				background-color: #ffeeb5;
+				&:hover{
+					background-color: #21bedd;
+					color: #fff;
+				}
+
+			}
+		}
+		.table-footer {
+			text-align: center;
+		}
+	}
+}
