@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import Row from "../../components/Row";
 import Col from "../../components/Col";
 import CoachProfile from "../../components/CoachProfile";
-import CoachPagePerfectStudent from "../../components/CoachPagePerfectStudent";
 import RecordTrainCarousel from "../../components/RecordTrainCarousel";
+import CoachPagePerfectStudent from "../../components/CoachPagePerfectStudent";
 
 import Hoc from '../../hoc'
 
@@ -24,14 +24,16 @@ class CoachPage extends React.Component{
 
     componentDidMount(){
         this.props.onGetInfoDoctor(this.props.match.params.id);
+        this.props.onGetTrainerTrainings(this.props.match.params.id);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.id !== this.props.match.params.id) {
-            this.props.onGetInfoDoctor(nextProps.match.params.id);
             this.setState({
                 loading: true
             });
+            this.props.onGetInfoDoctor(nextProps.match.params.id);
+            this.props.onGetTrainerTrainings(nextProps.match.params.id);
         }
         else {
             this.setState({
@@ -41,6 +43,7 @@ class CoachPage extends React.Component{
     }
 
     render() {
+        const { trainerTrainings } = this.props;
         const { avatar, name, disciplines } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities } = this.props.profileCoach;
         if (this.state.loading === true) {
@@ -68,20 +71,9 @@ class CoachPage extends React.Component{
                                 />
                             </Col>
                             <Col span={13}>
-                                {/*<RecordTrainCarousel data={this.props.appsBetween}
-                                               appsBetweenCount={this.props.appsBetweenCount}
-                                               onGotoChat={(id) => {
-                                                   this.props.onSelectTretment(id);
-                                                   this.props.history.push('/app/chat')
-                                               }}
-                                               getApps={this.props.onGetAppointments}
-                                               id_user={this.props.match.params.id}
-                                               personalPage={true}
-                                               isUser={this.props.mode === "student"}
-                                               onAddFiles={this.props.onAddFiles}
-                                               addConclusion={this.props.addConclusion}
-                                               makeArchiveOfFiles={this.props.makeArchiveOfFiles}
-                                />*/}
+                                <RecordTrainCarousel
+                                    intervals={trainerTrainings}
+                                />
                                 <CoachPagePerfectStudent
                                     sex={bestsex}
                                     age={bestage}
@@ -102,6 +94,7 @@ class CoachPage extends React.Component{
 const mapStateToProps = state => {
     return {
         profileCoach: state.profileDoctor,
+        trainerTrainings: state.profileDoctor.trainerTrainings,
         //info: state.patients.selectedPatientInfo,
         intervals: state.patients.intervals,
         availableIntervals: state.profileDoctor.workIntervals,
@@ -113,6 +106,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
+        onGetTrainerTrainings: (id) => dispatch(actions.getTrainerTrainings(id)),
         //getPatientInfo: (id) => dispatch(actions.getSelectedPatientInfo(id)),
         onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
         addPatient: (id) => dispatch(actions.addPatient(id, '', true)),

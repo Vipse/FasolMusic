@@ -7,21 +7,17 @@
   flex-direction: column;
 }
 .perfect-student-fields {
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-.perfect-student-fields-row {
+  flex-direction: row;
   margin-bottom: 15px;
-  width: 70%;
+  flex-wrap: wrap;
 }
-.perfect-student-fields .data {
+.perfect-student-fields .field {
+  margin-right: 20px;
+  width: auto;
+}
+.perfect-student-fields .field .value {
   font-family: RobotoMedium;
   margin-left: 25px;
-}
-.perfect-student-fields-name {
-  color: #21bedd;
-  font-family: "RobotoMediumItalic";
-  text-transform: uppercase;
 }
 .perfect-student-comment {
   font-family: RobotoMedium;

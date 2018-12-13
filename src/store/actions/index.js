@@ -107,6 +107,7 @@ export {
 export {
     sendNewInfoDoctor,
     getInfoDoctor,
+    getTrainerTrainings,
     getNotifications,
     readNotification,
     getAllDocIntervals,

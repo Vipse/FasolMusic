@@ -7,16 +7,29 @@ import Button from '../Button'
 import './style.css'
 import '../../icon/style.css'
 import {Alert} from 'antd'
+import Spinner from "../Spinner";
+import Card from "antd/es/card";
 
 class RecordTrainCarousel extends React.Component {
 
     state = {
+        loading: true,
         modalVisible: false,
         isFull: false,
         rowCount: 4,
         intervals: [],
         carouselStep: 0,
     };
+
+    componentDidMount() {
+        if (this.props.intervals)
+            this.setState({loading: false});
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.intervals !== this.props.intervals)
+            this.setState({loading: false});
+    }
 
     setModalVisible(modalVisible) {
         this.setState({modalVisible});
@@ -40,16 +53,18 @@ class RecordTrainCarousel extends React.Component {
             e.target.classList.toggle("activeTime");
         }
     };
+
     nextCarouselItem = (e) => {
-        e.preventDefault()
-        if (this.state.carouselStep < this.props.intervals.length - 3) {
+        e.preventDefault();
+        if (this.state.carouselStep < 7) {
             this.setState({
                 carouselStep: this.state.carouselStep + 1
             })
         }
     };
+
     prevCarouselItem = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if (this.state.carouselStep > 0) {
             this.setState({
                 carouselStep: this.state.carouselStep - 1
@@ -57,85 +72,50 @@ class RecordTrainCarousel extends React.Component {
         }
     };
 
-
     renderAvailableAppointments = (intervals) => {
+        const curTime = moment();
+        let curWeekBegin = moment().startOf('week');
+
         if (!intervals) {
             return
         }
 
-
         let headers = [];
         let timeIntervals = [];
 
-        if (this.props.isOnFreeAppointments) {
-            for (let i = 0; i < intervals.length; i++) {
-                let time = [];
-                for (let key in intervals[i]) {
-                    headers.push(moment(+key * 1000).format('ddd D MMMM'));
-                    for (let appKey in intervals[i][key]) {
-                        time.push({
-                            timeToDisplay: moment(+appKey * 1000).format('H:mm'),
-                            timestamp: +appKey,
-                            //type: intervals[i].type,
-                            isActive: true,
-                            docs: intervals[i][key][appKey]["doc"].join(" ")
-                        })
-                    }
-                }
-                timeIntervals.push(time);
-
+        for (let i = 0; i < 14; i++) {
+            let curDayBegin = moment(curWeekBegin).add(i, 'days');
+            let time = [];
+            for (let i = 0; i < 24; i++) {
+                let curHourBegin = moment(curDayBegin).add(i, 'hours');
+                let isActive = curTime < curHourBegin
+                    && !intervals.some((item) => curHourBegin.isSame(moment(item.allInfo.date * 1000), 'hour'));
+                time.push({
+                    timeToDisplay: curHourBegin.format('H:mm'),
+                    timestamp: curHourBegin.format('X'),
+                    type: 'default',
+                    isActive: isActive
+                });
             }
-        } else {
 
-            for (let i = 0; i < intervals.length; i++) {
-                let time = [];
-                if (intervals[i].intervalOb.length) {
-                    for (let j = 0; j < intervals[i].intervalOb.length; j++) {
-                        for (let t = +intervals[i].intervalOb[j].start; t < +intervals[i].intervalOb[j].end; t += intervals[i].interval * 60) {
-                            if(+t >= +moment().format("X")+1800) {
-                                time.push({
-                                    timeToDisplay: moment(+t * 1000).format('H:mm'),
-                                    timestamp: +t,
-                                    type: intervals[i].type,
-                                    isActive: intervals[i].intervalOb[j].active,
-                                    isAfterAnalyses: +intervals[i].interval === 5
-                                });
-                            }
-                        }
-                    }
-                    if(time.length) {
-                        headers.push(moment(this.props.intervals[i].date * 1000).format('ddd D MMMM'));
-                        timeIntervals.push(time);
-                    }
-                }
+            if (time.length) {
+                headers.push(curDayBegin.format('ddd D MMMM'));
+                timeIntervals.push(time);
             }
         }
 
         return headers.map((item, indexDay) =>
-            <div className='calendar-carousel-col' key={indexDay + 1}>
-                <div className='calendar-carousel-day' key={indexDay + 1}>{item}</div>
-                {this.state.rowCount ?
-                    timeIntervals[indexDay].slice(0, this.state.rowCount).map((item, indexTime) =>
-                        <div className={!item.isActive ? 'calendar-carousel-time unAvailableTime'
-                            : item.isAfterAnalyses ? 'calendar-carousel-time afterAnalyses' : 'calendar-carousel-time'}
-                             onClick={item.isActive ? (e) => this.dateClickHandler(e) : null}
-                             key={indexTime + 1}
-                             data-timestamp={item.timestamp}
-                             data-interval-type={item.type}
-                             data-docs={item.docs}
-                        >
-                            {item.timeToDisplay}
-                        </div>
-                    )
-                    :
-                    timeIntervals[indexDay].map((item, indexTime) =>
-                        <div className={!item.isActive ? 'calendar-carousel-time unAvailableTime'
-                            : item.isAfterAnalyses ? 'calendar-carousel-time afterAnalyses' : 'calendar-carousel-time'}
-                             onClick={item.isActive ? (e) => this.dateClickHandler(e) : null}
-                             key={indexTime + 1}
-                             data-timestamp={item.timestamp}
-                             data-interval-type={item.type}
-                             data-docs={item.docs}
+            <div className='train-carousel-col' key={indexDay + 1}>
+                <div className='train-carousel-day' key={indexDay + 1}>{item}</div>
+                {(this.state.rowCount ? timeIntervals[indexDay].slice(0, this.state.rowCount) : timeIntervals[indexDay])
+                    .map((item, indexTime) =>
+                        <div
+                            className={item.isActive ? 'train-carousel-time' : 'train-carousel-time unAvailableTime'}
+                            onClick={item.isActive ? (e) => console.log("clicked: " + item.timestamp) : null}
+                            key={indexTime + 1}
+                            data-timestamp={item.timestamp}
+                            data-interval-type={item.type}
+                            data-docs={item.docs}
                         >
                             {item.timeToDisplay}
                         </div>
@@ -146,57 +126,62 @@ class RecordTrainCarousel extends React.Component {
     };
 
     render() {
-        const intervals = this.props.intervals;
-        const rootClass = intervals.length ? cn('calendar-carousel') : cn('calendar-carousel no-intervals');
+        const {loading} = this.state;
+        const {intervals} = this.props;
+        const rootClass = intervals && intervals.length ? cn('train-carousel') : cn('train-carousel no-intervals');
         return (
-            <div className={rootClass}>
-                {!intervals.length ? (<span className="no-schedule">Доктор ещё не определил расписание</span>)
-                    :
-                    (<div>
-                            <div className='calendar-carousel-slide'>
-
-                                <Button className='btn-prev'
-                                        btnText=''
-                                        size='icon'
-                                        type='icon'
-                                        icon='arrow_left'
-                                        svg
-                                        onClick={this.prevCarouselItem}
-                                />
-                                <Button className='btn-next'
-                                        btnText=''
-                                        size='icon'
-                                        type='icon'
-                                        icon='arrow_right'
-                                        svg
-                                        onClick={this.nextCarouselItem}
-                                />
-                                <div className="carouselPosition"
-                                     style={{transform: `translateX(-${this.state.carouselStep * 33}%)`}}>
-                                    {this.renderAvailableAppointments(intervals)}
+            <Card title="Записаться на тренировку">
+                {loading ? <Spinner/> :
+                    <div className={rootClass}>
+                        {!intervals.length ? (<span className="no-schedule">Доктор ещё не определил расписание</span>)
+                            :
+                            (<div>
+                                    <div className='train-carousel-slide'>
+                                        <Button className='btn-prev'
+                                                btnText=''
+                                                size='icon'
+                                                type='icon'
+                                                icon='arrow_left'
+                                                svg
+                                                onClick={this.prevCarouselItem}
+                                        />
+                                        <div className="schedule">
+                                            <div className="carouselPosition"
+                                                 style={{transform: `translateX(-${this.state.carouselStep * 14.3}%)`}}>
+                                                {this.renderAvailableAppointments(intervals)}
+                                            </div>
+                                        </div>
+                                        <Button className='btn-next'
+                                                btnText=''
+                                                size='icon'
+                                                type='icon'
+                                                icon='arrow_right'
+                                                svg
+                                                onClick={this.nextCarouselItem}
+                                        />
+                                        {/*this.props.shouldChooseTime && <Alert message="Выберите время" type="error" style={{marginTop: "10px"}}/>*/}
+                                    </div>
+                                    <div className="table-footer"
+                                         key="btn"
+                                    >
+                                        <Button size='link'
+                                                type='link'
+                                                title='Показать ещё'
+                                                icon={this.state.isFull ? 'circle_arrow_up' : 'circle_arrow_down'}
+                                                onClick={() => this.setState({
+                                                    rowCount: this.state.rowCount === 4 ? 0 : 4,
+                                                    isFull: !this.state.isFull
+                                                })}/>
+                                    </div>
+                                    <NewVisitModalPage
+                                        visible={this.state.modalVisible}
+                                        onOk={() => this.setModalVisible(false)}
+                                        onCancel={() => this.setModalVisible(false)}
+                                    />
                                 </div>
-                            </div>
-                            <div className="table-footer"
-                                 key="btn"
-                            >
-                                <Button size='link'
-                                        type='link'
-                                        title='Показать ещё'
-                                        icon={this.state.isFull ? 'circle_arrow_up' : 'circle_arrow_down'}
-                                        onClick={() => this.setState({
-                                            rowCount: this.state.rowCount === 4 ? 0 : 4,
-                                            isFull: !this.state.isFull
-                                        })}/>
-                            </div>
-                            {this.props.shouldChooseTime && <Alert message="Выберите время" type="error" style={{marginTop: "10px"}}/>}
-                            <NewVisitModalPage
-                                visible={this.state.modalVisible}
-                                onOk={() => this.setModalVisible(false)}
-                                onCancel={() => this.setModalVisible(false)}
-                            />
-                        </div>
-                    )}
-            </div>
+                            )}
+                    </div>}
+            </Card>
         )
     }
 }

@@ -38,6 +38,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ...action.profileDoctor
             };
+        case actionTypes.TRAINER_TRAININGS:
+            return {
+                ...state,
+                trainerTrainings: action.trainerTrainings
+            };
         case actionTypes.GET_ALL_DOC_INTERVALS:
             return {
                 ...state,

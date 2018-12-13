@@ -10,28 +10,23 @@ class CoachPagePerfectStudent extends React.Component {
     state = {};
 
     render() {
-        const { sex, age, homework, qualities } = this.props;
+        const {sex, age, homework, qualities} = this.props;
 
         return (
             <Card title="Идеальный студент">
-                <ScrollArea
-                    speed={0.5}
-                    contentClassName="flex-div"
-                    smoothScrolling={true}
-                >
-                    <div className="perfect-student">
-                            <div className="perfect-student-fields">
-                                <div className="perfect-student-fields-row">Пол <span className="data">{sex === 'm' ? "Мужской" : "Женский"}</span></div>
-                                <div className="perfect-student-fields-row">Возраст <span className="data">{age}</span></div>
-                                <div className="perfect-student-fields-row">Хочет получать домашнее задание <span className="data">{homework ? "Да" : "Нет"}</span></div>
-                                {/*<div className="perfect-student-fields-row">Качества <span className="data">{qualities.join(" ")}</span></div>*/}
-                            </div>
-                        <div className="perfect-student-comment">
-                            <p>Комментарий о студенте</p>
+                <div className="perfect-student">
+                    <div className="perfect-student-fields">
+                        <div className="field">Пол <span className="value">{sex === 'm' ? "Мужской" : "Женский"}</span>
                         </div>
+                        <div className="field">Возраст <span className="value">{age}</span></div>
+                        <div className="field">Хочет получать домашнее задание <span
+                            className="value">{homework ? "Да" : "Нет"}</span></div>
+                        {/*<div className="perfect-student-field">Качества <span className="data">{qualities.join(" ")}</span></div>*/}
                     </div>
-                </ScrollArea>
-
+                    <div className="perfect-student-comment">
+                        <p>Комментарий о студенте</p>
+                    </div>
+                </div>
             </Card>
         )
     }

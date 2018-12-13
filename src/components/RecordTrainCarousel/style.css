@@ -1,129 +1,114 @@
-.calendar-carousel {
-  position: relative;
+.train-carousel {
   width: 100%;
-  max-width: 555px;
 }
-.calendar-carousel.calendar-carousel.no-intervals {
+.train-carousel.train-carousel.no-intervals {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 20px 0;
 }
-.calendar-carousel span.no-schedule {
+.train-carousel span.no-schedule {
   color: #344051;
   font-size: 16px;
   line-height: 40px;
   padding: 0 20px;
-  background-color: #edf4f9;
+  background-color: rgba(255, 201, 4, 0.5);
   border-radius: 5px;
 }
-.calendar-carousel .ant-carousel .slick-initialized .slick-slide {
+.train-carousel-slide {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.calendar-carousel .ant-carousel .slick-dots {
-  display: none !important;
-}
-.calendar-carousel-slide {
+.train-carousel-slide .schedule {
   overflow: hidden;
 }
-.calendar-carousel-slide .carouselPosition {
+.train-carousel-slide .schedule .carouselPosition {
   display: flex;
   justify-content: flex-start;
   transition: 0.2s ease-out;
   position: relative;
 }
-.calendar-carousel-slide .btn-prev {
-  position: absolute;
-  top: 5px;
-  left: 0;
+.train-carousel-slide .btn-prev {
   background-color: transparent;
-  transition: none;
+  padding: 10px;
+  top: 25px;
+  border: none;
 }
-.calendar-carousel-slide .btn-prev .icon {
+.train-carousel-slide .btn-prev .icon {
   color: #344051;
   font-size: 13px !important;
 }
-.calendar-carousel-slide .btn-prev:hover {
+.train-carousel-slide .btn-prev:hover {
   background-color: transparent;
-  border: none;
 }
-.calendar-carousel-slide .btn-prev:hover .icon {
+.train-carousel-slide .btn-prev:hover .icon {
   color: #21bedd;
 }
-.calendar-carousel-slide .btn-next {
-  position: absolute;
-  top: 5px;
-  right: 0;
+.train-carousel-slide .btn-next {
   background-color: transparent;
-  transition: none;
+  padding: 10px;
+  top: 25px;
+  border: none;
 }
-.calendar-carousel-slide .btn-next .icon {
+.train-carousel-slide .btn-next .icon {
   color: #344051;
   font-size: 13px !important;
 }
-.calendar-carousel-slide .btn-next:hover {
+.train-carousel-slide .btn-next:hover {
   background-color: transparent;
-  border: none;
 }
-.calendar-carousel-slide .btn-next:hover .icon {
+.train-carousel-slide .btn-next:hover .icon {
   color: #21bedd;
 }
-.calendar-carousel-col {
+.train-carousel-col {
   width: 100%;
-  min-width: 33%;
+  min-width: 14.3%;
 }
-.calendar-carousel-days {
+.train-carousel-days {
   display: flex;
   flex-wrap: wrap;
 }
-.calendar-carousel-day {
+.train-carousel-day {
+  font-family: RobotoRegularItalic;
+  font-size: 12px;
   text-align: center;
   color: #344051;
-  font-size: 14px;
   line-height: 1;
-  padding: 20px 0;
-  border-bottom: 1px solid #ebebeb;
+  padding: 30px 0 5px;
 }
-.calendar-carousel-time {
+.train-carousel-time {
   color: #344051;
-  background-color: #edf4f9;
+  background-color: #ffc904;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 90px;
+  width: 90%;
   height: 40px;
   font-size: 16px;
   border-radius: 5px;
   margin: 10px auto;
   cursor: pointer;
 }
-.calendar-carousel-time:nth-child(2) {
-  margin-top: 20px;
-}
-.calendar-carousel-time:hover {
-  background-color: #21bedd;
+.train-carousel-time:hover {
+  background-color: #ff90bb;
   color: #fff;
 }
-.calendar-carousel-time.close {
+.train-carousel-time.close {
   background-color: #ffeeb5 !important;
   color: #344051 !important;
   cursor: default;
 }
-.calendar-carousel-time.activeTime {
-  background-color: #204d8d !important;
+.train-carousel-time.activeTime {
+  background-color: #ff7dab !important;
   color: white!important;
 }
-.calendar-carousel-time.unAvailableTime {
-  background-color: #f7f7f7;
+.train-carousel-time.unAvailableTime {
+  background-color: rgba(255, 201, 4, 0.5);
   color: #c6c1c8;
   cursor: not-allowed;
 }
-.calendar-carousel-time.afterAnalyses {
-  background-color: #ffeeb5;
-}
-.calendar-carousel-time.afterAnalyses:hover {
-  background-color: #21bedd;
-  color: #fff;
-}
-.calendar-carousel .table-footer {
+.train-carousel .table-footer {
   text-align: center;
+  padding-bottom: 20px;
 }
