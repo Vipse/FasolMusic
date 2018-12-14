@@ -31,7 +31,7 @@ class Step1Form extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
+            if (true) {
                 const {avatar, facebookLink, googleLink} = this.state;
                 const fields = {
                     ...values,
@@ -94,7 +94,7 @@ class Step1Form extends React.Component{
     };
 
     render(){
-        const { interestsList } = this.props;
+        const { interestsList, professionsList } = this.props;
         const { getFieldDecorator } = this.props.form;
         const { avatar, facebookLink, googleLink } = this.state;
 
@@ -221,7 +221,7 @@ class Step1Form extends React.Component{
                             bubbleplaceholder="*Сфера деятельности"
                             className="step-form-item"
                             tooltip="Сфера деятельности Tooltip"
-                            values={["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"]}
+                            values={professionsList}
                         />
                     )}
                 </FormItem>
@@ -238,7 +238,7 @@ class Step1Form extends React.Component{
                             className="step-form-item"
                             tooltip="Интересы Tooltip"
                             mode="multiple"
-                            values={["Спорт", "Кино и сериалы"]}
+                            values={interestsList}
                         />
                     )}
                 </FormItem>
@@ -277,7 +277,7 @@ class Step1Form extends React.Component{
 
 const Step1 = Form.create({
     mapPropsToFields(props) {
-        let fields ={};
+        let fields = {};
         for (let key in props.data){
             if (key !== 'current'){
                 fields[key] = Form.createFormField({

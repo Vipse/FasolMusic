@@ -7,6 +7,7 @@ import {Form, message} from "antd";
 import Radio from "../RadioBox";
 import RadioGroup from "antd/es/radio/group";
 import Slider from "antd/es/slider";
+import {getSelectorIDs, getSelectorNestedIDs, getSelectorValues} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
@@ -25,21 +26,25 @@ class Step4Form extends React.Component{
     }
 
     prepareDisciplines = (data) => {
+        const {discipline, specialization, level, experience, goals, musicstyles, favoritesingers} = data;
+        const {disciplineList, goalList, stylesList} = data.selectorsValues;
         return [{
-            discipline: data.discipline,
-            specialization: data.specialization,
-            level: data.level,
-            experience: data.experience,
-            goals: data.goals,
-            musicstyles: data.musicstyles,
-            favoritesingers: data.favoritesingers,
+            discipline: getSelectorIDs(disciplineList, discipline),
+            specialization: getSelectorNestedIDs(disciplineList, specialization, discipline),
+            level: level,
+            experiense: experience,
+            goals: getSelectorIDs(goalList, goals),
+            musicstyles: getSelectorIDs(stylesList, musicstyles),
+            favoritesingers: favoritesingers,
         }];
     };
 
     prepareTrainingTime = () => {
+        const {dayList} = this.props.data.selectorsValues;
         let preparedTrainingTime = {};
         for (let i = 0; i < 7; ++i) {
             this.state.enabledDays[i] ? preparedTrainingTime[i] = {
+                day: dayList[getSelectorValues(dayList, true).indexOf(String(i))][0].id,
                 datestart: this.state.selectedTimes[i][0],
                 dateend: this.state.selectedTimes[i][1]
             } : null;
@@ -52,6 +57,7 @@ class Step4Form extends React.Component{
         this.props.form.validateFieldsAndScroll((err, values) => {
             const {name, datebirth, email, phones, sex, country, work, interests, avatar, facebookLink, googleLink,
                 bestsex, bestage, bestishomework, bestqualities, bestcomment} = this.props.data;
+            const {interestsList, qualitiesList, professionsList} = this.props.data.selectorsValues;
             if (!err) {
                 const finalRegData = {
                     name,
@@ -60,18 +66,18 @@ class Step4Form extends React.Component{
                     phones,
                     sex: sex ? sex === "Мужской" ? "m" : "w" : "",
                     country,
-                    work,
-                    interests,
+                    work: getSelectorIDs(professionsList, work),
+                    interests: getSelectorIDs(interestsList, interests),
                     avatar,
-                    facebookLink,
-                    googleLink,
+                    facebooklink: facebookLink,
+                    googlelink: googleLink,
 
                     disciplines: this.prepareDisciplines(this.props.data),
 
                     bestsex: bestsex ? bestsex === "Мужской" ? "m" : "w" : "",
                     bestage,
                     bestishomework: bestishomework ? bestishomework === "Да" : "",
-                    bestqualities,
+                    bestqualities: getSelectorIDs(qualitiesList, bestqualities),
                     bestcomment,
 
                     amountdays: values.amountdays,
