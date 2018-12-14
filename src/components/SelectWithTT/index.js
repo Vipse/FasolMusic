@@ -17,13 +17,11 @@ class SelectWithTT extends React.Component{
     }
 
     componentDidMount() {
-        //if (this.props.value) this.onChange(this.props.value);
         if (this.props.value) this.setState({value: this.props.value});
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        //if (this.props.value && prevProps.value !== this.props.value) this.onChange(this.props.value);
-        if (this.props.value && this.state.value !== this.props.value) this.setState({value: this.props.value});
+        if (this.state.value !== this.props.value) this.setState({value: this.props.value});
     }
 
     onChange = (value) => {

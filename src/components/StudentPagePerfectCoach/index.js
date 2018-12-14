@@ -24,7 +24,7 @@ class StudentPagePerfectCoach extends React.Component {
                                 <div className="perfect-coach-fields-row">Пол <span className="data">{sex === 'm' ? "Мужской" : "Женский"}</span></div>
                                 <div className="perfect-coach-fields-row">Возраст <span className="data">{age}</span></div>
                                 <div className="perfect-coach-fields-row">Дает домашнее задание <span className="data">{homework ? "Да" : "Нет"}</span></div>
-        {/* <div className="perfect-coach-fields-row">Качества <span className="data">{qualities.join(" ")}</span></div>*/}
+                                {/*<div className="perfect-coach-fields-row">Качества <span className="data">{qualities.join(" ")}</span></div>*/}
                             </div>
                         <div className="perfect-coach-comment">
                             <p>Комментарий о студенте</p>

@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 .profile {
-  padding: 25px 35px;
+  padding: 25px 35px 25px;
 }
 .profile-student {
   display: flex;

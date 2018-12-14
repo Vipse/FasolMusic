@@ -33,8 +33,13 @@ class Step2Form extends React.Component{
         });
     };
 
+    resetSpecialization = () => {
+        this.props.form.resetFields(['specialization']);
+    };
+
     render(){
-        const { getFieldDecorator } = this.props.form;
+        const { form, disciplineList, specializationList, goalList, stylesList } = this.props;
+        const { getFieldDecorator } = form;
 
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-2">
@@ -55,7 +60,8 @@ class Step2Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="*Дисциплина"
                                 className="step-form-item"
-                                values={["Вокал", "Гитара"]}
+                                values={disciplineList}
+                                onChange={this.resetSpecialization}
                             />
                         )}
                     </FormItem>
@@ -69,7 +75,7 @@ class Step2Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="Специализация"
                                 className="step-form-item"
-                                values={["Мужской", "Женский"]}
+                                values={specializationList[form.getFieldValue('discipline')]}
                             />
                         )}
                     </FormItem>
@@ -116,7 +122,7 @@ class Step2Form extends React.Component{
                             bubbleplaceholder="Цели"
                             className="step-form-item"
                             mode="multiple"
-                            values={["Играть в группе", "Подбирать на слух"]}
+                            values={goalList}
                         />
                     )}
                 </FormItem>
@@ -130,8 +136,7 @@ class Step2Form extends React.Component{
                         <SelectWithTT
                             bubbleplaceholder="Стиль музыки, который мне нравится"
                             className="step-form-item"
-                            values={["зарубежная поп-музыка", "отечественная поп-музыка",
-                                "зарубежная рок-музыка", "отечественная рок-музыка"]}
+                            values={stylesList}
 
                         />
                     )}
