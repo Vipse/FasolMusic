@@ -3,10 +3,14 @@
 
 		&-comfortTime {
 			width: 70%;
-			display: flex;
-			flex-wrap: wrap;
-			align-items: flex-start;
-			justify-content: space-between;
+
+			.ant-form-item {
+				margin-bottom: 0;
+			}
+
+			.ant-radio-group {
+				display: unset;
+			}
 
 			.radio-label{
 				color: #000;
@@ -16,55 +20,64 @@
 			}
 			.timePlate {
 				position: relative;
-				top: -10px;
-				left: -135px;
+				top: -5.5em;
+				left: 50%;
 				font-size: 10px;
 				width: 70px;
 				height: 3px;
 				font-family: RobotoRegular;
 				color: #000;
+				text-align: center;
 			}
-			.ant-slider {
-				width: 200px;
+			.timeSchedule {
+				display: flow-root;
+				user-select: none;
 
-				&-rail {
-					height: 0.1em;
-					background-color: #000;
-				}
+				.ant-slider {
+					display: flex;
+					flex-direction: row;
+					position: relative;
+					margin: 15px 0;
 
-				&-track {
-					background-color: #21bedd;
-					height: 0.1em;
-				}
+					&-rail {
+						height: 0.1em;
+						background-color: #000;
+					}
 
-				&-disabled {
-					.ant-slider {
-						&-handle, &-track {
-							display: none;
+					&-track {
+						background-color: #21bedd;
+						height: 0.1em;
+					}
+
+					&-disabled {
+						.ant-slider {
+							&-handle, &-track {
+								display: none;
+							}
+						}
+					}
+
+					&-handle {
+						width: 7px;
+						height: 7px;
+						background-color: #21bedd;
+						border: unset;
+						margin: -3px 0 0 -1px;
+
+						&:focus, &:hover {
+							box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
+						}
+
+						&-2 {
+							margin-left: -5px;
 						}
 					}
 				}
-
-				&-handle {
-
-					width: 7px;
-					height: 7px;
-					background-color: #21bedd;
-					border: unset;
-					margin-top: -3px;
-
-					&:focus, &:hover {
-						box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
-					}
-				}
-			}
-			.timeSchedule {
-				display: flex;
-				flex-direction: row;
-				user-select: none;
 			}
 			.dayCheckbox {
 				width: 64px;
+				float: left;
+				margin-right: 12px;
 			}
 		}
 	}

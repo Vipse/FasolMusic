@@ -8,8 +8,8 @@ import '../../icon/style.css'
 import Row from "../Row";
 import Col from "../Col";
 //import WarningModal from "../WarningModal";
-import PersonalChangePassword from "../PersonalChangePassword";
-import PersonalNotifications from "../PersonalNotifications";
+//import PersonalChangePassword from "../PersonalChangePassword";
+//import PersonalNotifications from "../PersonalNotifications";
 import StudentPersonalData from "../StudentPersonalData";
 
 class StudentPersonalProfile extends React.Component {
@@ -25,13 +25,13 @@ class StudentPersonalProfile extends React.Component {
         return (
             <div className={rootClass}>
                 <Row type="flex" gutter={32}>
-                    <Col className="personal-student-items-data" span={14}>
+                    <Col className="personal-student-items-data" xs={24} xxl={18}>
                         <StudentPersonalData
                             profileStudent={profile}
                             onSubmit={this.props.onSubmit}
                         />
                     </Col>
-                    <Col span={7}>
+                    {/*<Col span={7}>
                         <PersonalNotifications
                             profile={profile}
                             onSubmit={this.props.onSubmit}
@@ -40,7 +40,7 @@ class StudentPersonalProfile extends React.Component {
                             profile={profile}
                             onSubmit={this.props.onSubmit}
                         />
-                    </Col>
+                    </Col>*/}
                 </Row>
                 {/*<WarningModal visible={this.state.visible} onClick={this.onVisible}
                               message="Изменения всупят в силу после проверки администратором"/>*/}

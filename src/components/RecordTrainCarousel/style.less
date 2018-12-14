@@ -1,0 +1,132 @@
+.train{
+	&-carousel{
+		width: 100%;
+		&&.no-intervals {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 20px 0;
+		}
+		span.no-schedule {
+			color: #344051;
+			font-size: 16px;
+			line-height: 40px;
+			padding: 0 20px;
+			background-color: rgba(255, 201, 4, 0.5);
+			border-radius: 5px;
+		}
+
+		&-slide{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.schedule {
+				overflow: hidden;
+				.carouselPosition {
+					display: flex;
+					justify-content: flex-start;
+					transition: 0.2s ease-out;
+					position: relative;
+				}
+			}
+
+			.btn-prev{
+				background-color: transparent;
+				padding: 10px;
+				top: 25px;
+				border: none;
+
+				.icon{
+					color: #344051;
+					font-size: 13px !important;
+				}
+
+				&:hover{
+					background-color: transparent;
+
+					.icon{
+						color: #21bedd;
+					}
+				}
+			}
+
+			.btn-next{
+				background-color: transparent;
+				padding: 10px;
+				top: 25px;
+				border: none;
+
+				.icon{
+					color: #344051;
+					font-size: 13px !important;
+				}
+
+				&:hover{
+					background-color: transparent;
+
+					.icon{
+						color: #21bedd;
+					}
+				}
+			}
+		}
+
+		&-col{
+			width: 100%;
+			min-width: 14.3%;
+		}
+
+		&-days{
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		&-day{
+			font-family: RobotoRegularItalic;
+			font-size: 12px;
+			text-align: center;
+			color: #344051;
+			line-height: 1;
+			padding: 30px 0 5px;
+		}
+
+		&-time{
+			color: #344051;
+			background-color: #ffc904;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 90%;
+			height: 40px;
+			font-size: 16px;
+			border-radius: 5px;
+			margin: 10px auto;
+			cursor: pointer;
+
+			&:hover{
+				background-color: #ff90bb;
+				color: #fff;
+			}
+
+			&.close{
+				background-color: #ffeeb5 !important;
+				color: #344051 !important;
+				cursor: default;
+			}
+			&.activeTime {
+				background-color: #ff7dab!important;
+				color: white!important;
+			}
+			&.unAvailableTime {
+				background-color: rgba(255, 201, 4, 0.5);
+				color: #c6c1c8;
+				cursor: not-allowed;
+			}
+		}
+		.table-footer {
+			text-align: center;
+			padding-bottom: 20px;
+		}
+	}
+}

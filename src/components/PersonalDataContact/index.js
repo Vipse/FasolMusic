@@ -10,9 +10,8 @@ import './style.css'
 import '../../icon/style.css'
 import ProfileAvatar from "../ProfileAvatar";
 import InputNew from "../InputNew";
-import Spinner from "../Spinner";
 import SelectNew from "../SelectNew";
-import avatarDefault from "../../img/avatarDefault.png";
+//import avatarDefault from "../../img/avatarDefault.png";
 import SocialAuth from "../SocialAuth";
 
 const FormItem = Form.Item;
@@ -25,20 +24,23 @@ class PersonalDataContact extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.profile.avatar !== this.props.profile.avatar)
+            this.setState({avatar: ""});
+    }
+
     handleChangeAvatar = (e, isReset) => {
         e.preventDefault();
-        if (isReset === true) {
-            this.setState({
-                avatar: "default"
-            });
-            this.props.onChangeAvatar("default");
+        if (isReset) {
+            this.setState({avatar: "default"});
+            this.props.onChangeAvatar("");
             e.target.files = [];
         } else {
             let file = e.target.files[0];
             if (file && file.type.indexOf("image/") !== -1) {
                 const reader = new FileReader();
-                reader.addEventListener('load', () => {this.setState({
-                    avatar: reader.result});
+                reader.addEventListener('load', () => {
+                    this.setState({avatar: reader.result});
                     this.props.onChangeAvatar(reader.result);
                 });
                 reader.readAsDataURL(file);
@@ -47,8 +49,9 @@ class PersonalDataContact extends React.Component {
     };
 
     render() {
-        const {getFieldDecorator} = this.props.form;
-        const {name, phones, email, country, avatar} = this.props.profile;
+        const {getFieldDecorator, isStudent} = this.props;
+        const {onChangeSocial, showChangePasswordModal, showSendSuggestionsModal} = this.props;
+        const {name, phones, email, country, avatar, facebooklink, googlelink} = this.props.profile;
         const rootClass = cn('coach-data-block');
 
         return (
@@ -87,7 +90,7 @@ class PersonalDataContact extends React.Component {
                                 message: 'Введите ФИО, пожалуйста'
                             }],
                         })(
-                            <InputNew width="100%" bubbleplaceholder="ФИО"/>
+                            <InputNew width="100%" bubbleplaceholder="*ФИО"/>
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
@@ -98,7 +101,7 @@ class PersonalDataContact extends React.Component {
                                 message: 'Введите телефоны, пожалуйста'
                             }],
                         })(
-                            <InputNew width="100%" bubbleplaceholder="Телефоны"/>
+                            <InputNew width="100%" bubbleplaceholder="*Телефоны"/>
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
@@ -114,7 +117,7 @@ class PersonalDataContact extends React.Component {
                                         message: 'Неправильный формат'
                                     }],
                         })(
-                            <InputNew width="100%" bubbleplaceholder="E-mail"/>
+                            <InputNew width="100%" bubbleplaceholder="*E-mail"/>
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
@@ -127,18 +130,32 @@ class PersonalDataContact extends React.Component {
                         })(
                             <SelectNew
                                 width="100%"
-                                bubbleplaceholder="Страна пребывания"
+                                bubbleplaceholder="*Страна пребывания"
                                 data={["Беларусь", "Россия"]}/>
                         )}
                     </FormItem>
                 </div>
 
-                <div className='coach-data-social'>
+                <div className='coach-data-toggles'>
                     <SocialAuth
-                        facebookAuth={this.props.facebookAuth}
-                        googleAuth={this.props.googleAuth}
-                        onChange={this.props.onChangeSocial}
+                        facebookLink={facebooklink}
+                        googleLink={googlelink}
+                        onChange={onChangeSocial}
                     />
+                    <Button
+                        className='coach-data-toggles-modalBtn'
+                        onClick={showChangePasswordModal}
+                        btnText='Изменить пароль'
+                        size='default'
+                        type='light-blue'
+                    />
+                    {!isStudent && <Button
+                        className='coach-data-toggles-modalBtn'
+                        onClick={showSendSuggestionsModal}
+                        size='icon'
+                        icon='bulb'
+                        type='light-blue'
+                    />}
                 </div>
             </div>
         )

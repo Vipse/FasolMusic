@@ -42,9 +42,6 @@
 .ant-checkbox-checked + span {
   color: #333;
 }
-.largeChk {
-  margin-bottom: 15px;
-}
 .largeChk .ant-checkbox {
   margin-right: 14px;
 }

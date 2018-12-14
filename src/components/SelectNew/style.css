@@ -2,13 +2,30 @@
   position: relative;
   z-index: 1;
 }
-.new-input .ant-select-selection.ant-select-selection--single,
-.new-input .ant-select-selection.ant-select-selection--multiple {
-  border-bottom: 0;
-  background: transparent;
+.new-input .ant-select {
+  width: 100%;
+  z-index: 1;
+  font: 14px/30px "RobotoMedium", serif;
+  color: #111;
 }
-.new-input .ant-select-selection-selected-value {
-  color: #333;
+.new-input .ant-select .ant-select-selection {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+.new-input .ant-select .ant-select-selection .ant-select-selection__rendered ul li {
+  border-radius: 11px;
+  background-color: #21bedd;
+}
+.new-input .ant-select .ant-select-selection .ant-select-selection__rendered ul li:last-child {
+  background-color: transparent;
+}
+.new-input .ant-select-open {
+  outline: none;
+  border: none;
+}
+.new-input .ant-select-dropdown-menu-item {
+  color: #111;
 }
 .new-input input[type="text"] {
   outline: none;

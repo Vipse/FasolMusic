@@ -43,6 +43,33 @@ export const getInfoDoctor = (id) => {
     }
 };
 
+export const getTrainerTrainings = (id) => {
+    let data = {
+        idMaster: String(id),
+        dateMin: moment().format('X'),
+        dateMax: moment().add(1, 'weeks').endOf('week').format('X')
+    };
+
+    return (dispatch) => {
+
+        return axios.post('/catalog.fasol/getTrainerTraining',
+            JSON.stringify(data))
+            .then(res => {
+                console.log("getTrainerTraining", res);
+
+                dispatch({
+                    type: actionTypes.TRAINER_TRAININGS,
+                    trainerTrainings: res.data.result.result[id],
+                });
+
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+};
+
 export const getNotifications = (id) => {
     return (dispatch) => {
         axios.get('/catalog.doc2/connect/id/' + id)

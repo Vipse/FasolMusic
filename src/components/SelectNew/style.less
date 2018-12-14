@@ -1,16 +1,39 @@
-
-
-
 .new-input {
 	position: relative;
 	z-index: 1;
-	.ant-select-selection.ant-select-selection--single, .ant-select-selection.ant-select-selection--multiple {
-		border-bottom: 0;
-		background: transparent;
+
+	.ant-select {
+		width: 100%;
+		z-index: 1;
+		font: 14px/30px "RobotoMedium", serif;
+		color: #111;
+		.ant-select-selection {
+			border: none;
+			background: transparent;
+			box-shadow: none;
+			.ant-select-selection__rendered {
+				ul {
+					li{
+						border-radius: 11px;
+						background-color: #21bedd;
+						&:last-child {
+							background-color: transparent;
+						}
+					}
+				}
+			}
+		}
+		&-open {
+			outline: none;
+			border: none;
+		}
+
 	}
-	.ant-select-selection-selected-value {
-		color: #333;
+
+	.ant-select-dropdown-menu-item {
+		color: #111;
 	}
+
 	input[type="text"] {
 		outline: none;
 		font-size: 14px;
@@ -19,6 +42,7 @@
 		width: 100%;
 		box-sizing: border-box;
 	}
+
 	.effect {
 		border: 0;
 		padding: 4px 0;

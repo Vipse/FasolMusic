@@ -33,7 +33,7 @@ class PersonalDataInfo extends React.Component {
                         {getFieldDecorator('sex', {
                             initialValue: sex === "m" ? "Мужской" : "Женский",
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите пол, пожалуйста'
                             }],
                         })(
@@ -52,7 +52,7 @@ class PersonalDataInfo extends React.Component {
                             }],
                         })(
                             <DatePickerNew width="100%"
-                                           bubbleplaceholder="Дата рождения"
+                                           bubbleplaceholder="*Дата рождения"
                             />
                         )}
                     </FormItem>
@@ -66,7 +66,7 @@ class PersonalDataInfo extends React.Component {
                         })(
                             <SelectNew className=""
                                        width="100%"
-                                       bubbleplaceholder="Сфера деятельности"
+                                       bubbleplaceholder="*Сфера деятельности"
                                        data={specialityArr}
                             />
                         )}
@@ -80,7 +80,7 @@ class PersonalDataInfo extends React.Component {
                             }],
                         })(
                             <SelectNew width="100%"
-                                       bubbleplaceholder="Интересы"
+                                       bubbleplaceholder="*Интересы"
                                        mode="multiple"
                                        data={interestsArr}
                             />
@@ -90,7 +90,7 @@ class PersonalDataInfo extends React.Component {
                         {getFieldDecorator('aboutme', {
                             initialValue: aboutme,
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Напишите о себе, пожалуйста'
                             }]
                         })(

@@ -34,10 +34,12 @@ class PersonalDataTime extends React.Component {
             <Checkbox className="dayCheckbox largeChk" value={i} checked={enabledDays[i]}
                       onChange={() => this.handleActiveSlider(i)}
                       key={"enableDay" + i}>{daysName[i]}</Checkbox>
-            <Slider className="slider" range step={1} min={0} max={24}
+            <Slider className="slider"
+                    range step={1} min={0} max={24}
                     value={[selectedTimes[i][0], selectedTimes[i][1]]}
                     disabled={!enabledDays[i]}
-                    onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
+                    onChange={(value) => this.handleChangeSlider(i, value)}
+                    key={"timeSelected" + i}/>
             <p className="timePlate">{enabledDays[i] &&
             (selectedTimes[i][1] - selectedTimes[i][0] === 24 ? "Весь день" :
                 selectedTimes[i][0] + ":00 - " + (selectedTimes[i][1] !== 24 ? selectedTimes[i][1] : 0) + ":00")}</p>

@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import moment from 'moment'
-import Hoc from '../Hoc'
-import Checkbox from '../Checkbox'
 import Button from '../Button'
-import Hr from "../Hr";
-import Spinner from "../Spinner";
 import {Form} from "antd";
 import SelectWithTT from "../SelectWithTT";
-import InputWithTT from "../InputWithTT";
 import TextArea from "../TextArea";
 
 const FormItem = Form.Item;
@@ -16,31 +10,27 @@ const FormItem = Form.Item;
 class Step3Form extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            // if (!err) {
-            //
-            //     let fields = {
-            //         ...values,
-            //         avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
-            //     };
-            //     if(!values.avatar.url && !values.avatar.name) {
-            //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
-            //     }
-            this.props.onSubmit(values);
-            this.props.onNext();
-            // }
-        })
+            if (!err) {
+                this.props.onSubmit(values);
+                this.props.onNext();
+            }
+            else
+                console.log(err);
+        });
     };
 
-    handleGoBack = () => {
-        this.props.onPrev();
+    handleGoBack = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            this.props.onSubmit(values);
+            this.props.onPrev();
+        });
     };
 
     render(){
@@ -57,7 +47,7 @@ class Step3Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('bestsex', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите пол, пожалуйста'
                             }],
                         })(
@@ -71,7 +61,7 @@ class Step3Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('bestage', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите возраст, пожалуйста'
                             }],
                         })(
@@ -86,7 +76,7 @@ class Step3Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('bestishomework', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите отношение к домашним заданиям, пожалуйста'
                         }],
                     })(
@@ -101,7 +91,7 @@ class Step3Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('bestqualities', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите качества, пожалуйста'
                         }],
                     })(
@@ -117,7 +107,7 @@ class Step3Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('bestcomment', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Напишите комментарий, пожалуйста'
                         }],
                     })(
@@ -130,11 +120,14 @@ class Step3Form extends React.Component{
                 </FormItem>
 
                 <div className="steps-action">
+                    <Button btnText='Назад'
+                            size='large'
+                            type='pink'
+                            onClick={this.handleGoBack}/>
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
                             type='pink'/>
-
                 </div>
             </Form>
         )

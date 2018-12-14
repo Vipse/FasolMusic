@@ -31,11 +31,6 @@ class LoginPage extends React.Component {
     }
 
     render(){
-        const langs = langsArray;
-        const payments = addInfoObj.payments;
-        const academicTitle = addInfoObj.title ;
-        const academicDegree = addInfoObj.degree ;
-        const category = addInfoObj.category;
 
         return (
             <Hoc>
@@ -74,7 +69,7 @@ class LoginPage extends React.Component {
                                exact
                                render={() => <CreateProfile onSubmit={this.props.onRegisterUser}
                                                             urlLogin="/login"
-                                                            //langs={langs}
+                                                            getSelectors={this.props.getSelectors}
                                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                                             //uploadFile = {this.props.uploadFile}
                                />}
@@ -99,6 +94,7 @@ const mapDispatchToProps = dispatch => {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
         onRegisterUser: (userInfo) => dispatch(actions.registerUser(userInfo)),
         onCheckEmailAvailability: (email) => dispatch(actions.checkEmailAvailability(email)),
+        getSelectors: (name) => dispatch(actions.getSelectors(name)),
         reportBug: (message, href) => dispatch(actions.reportBug(message, href)),
         uploadFile: (file) => dispatch(actions.uploadFile(file))
 	}

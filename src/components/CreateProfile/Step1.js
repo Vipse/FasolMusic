@@ -7,7 +7,6 @@ import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
 
-
 import UploadPhotoImage from "../../img/uploadPhoto.png"
 import SocialAuth from "../SocialAuth";
 
@@ -16,27 +15,37 @@ const FormItem = Form.Item;
 class Step1Form extends React.Component{
     state = {
         avatar: "",
-        facebookAuth: {link: '', name: '', email: ''},
-        googleAuth: {link: '', name: '', email: ''}
+        facebookLink: "",
+        googleLink: ""
     };
+
+    componentDidMount() {
+        if (this.props.data.avatar)
+            this.setState({avatar: this.props.data.avatar});
+        if (this.props.data.facebookLink)
+            this.setState({facebookLink: this.props.data.facebookLink});
+        if (this.props.data.googleLink)
+            this.setState({googleLink: this.props.data.googleLink});
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {facebookAuth, googleAuth} = this.state;
         this.props.form.validateFieldsAndScroll((err, values) => {
-            // if (!err && (facebookAuth.email || googleAuth.email)) {
-            //
-            //     let fields = {
-            //         ...values,
-            //         avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
-            //     };
-            //     if(!values.avatar.url && !values.avatar.name) {
-            //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
-            //     }
-                this.props.onSubmit({...values, ...this.state});
+            if (!err) {
+                const {avatar, facebookLink, googleLink} = this.state;
+                const fields = {
+                    ...values,
+                    avatar: avatar,
+                    facebookLink: facebookLink,
+                    googleLink: googleLink,
+                };
+
+                this.props.onSubmit(fields);
                 this.props.onNext();
-            // }
-        })
+            }
+            else
+                console.log(err);
+        });
     };
 
     /*handleChange = (info) => {
@@ -61,25 +70,35 @@ class Step1Form extends React.Component{
         //         this.setState({avatarUrl: res.data.file[0].url, avatarName: res.data.file[0].name});
         //         message.success("Фото загружено")
         //     });
-        this.setState({loading: true});
-        reader.addEventListener('load', () => this.setState({
-            avatar: reader.result,
-            loading: false
-        }));
+        reader.addEventListener('load', () =>
+            this.setState({avatar: reader.result}));
         reader.readAsDataURL(file[0]);
     };
 
-    handleChangeSocial = (valueObj) => {
+    handleChangeSocial = (name, valuesObj) => {
         const {getFieldValue, setFieldsValue} = this.props.form;
-        this.setState(valueObj);
-        if (!getFieldValue('name') && valueObj.facebookAuth.name)
-            setFieldsValue({name: valueObj[Object.keys(valueObj)[0]].name});
+        const {avatar} = this.state;
+
+        this.setState({[name + 'Link']: valuesObj.link});
+
+        const checkableFields = ['name', 'email'];
+        checkableFields.forEach(item => {
+            if (!getFieldValue(item) && valuesObj[item])
+                setFieldsValue({[item]: valuesObj[item]});
+        });
+
+        if (!avatar && valuesObj.avatar)
+            this.setState({avatar: valuesObj.avatar});
+
+        return new Promise(resolve => resolve({data: {}}));
     };
 
     render(){
+        const { interestsList } = this.props;
         const { getFieldDecorator } = this.props.form;
+        const { avatar, facebookLink, googleLink } = this.state;
 
-        const avatarUrl = this.state.avatar ? this.state.avatar : this.props.data.avatar ? this.props.data.avatar : "";
+        const avatarUrl = avatar;
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-1">
                 <div className="step-title">Личные данные</div>
@@ -98,7 +117,7 @@ class Step1Form extends React.Component{
                         })(
                             <InputWithTT
                                 key="name"
-                                bubbleplaceholder="* ФИО"
+                                bubbleplaceholder="*ФИО"
                                 className="step-form-item"
                                 tooltip="ФИО Tooltip"
                             />
@@ -113,7 +132,7 @@ class Step1Form extends React.Component{
                         })(
                             <InputDateWithToolTip
                                 key="datebirth"
-                                bubbleplaceholder="Дата рождения"
+                                bubbleplaceholder="*Дата рождения"
                                 className="step-form-item"
                                 tooltip="Дата рождения Tooltip"
                             />
@@ -122,9 +141,45 @@ class Step1Form extends React.Component{
                 </div>
                 <div className="step-form-row">
                     <FormItem>
-                        {getFieldDecorator('sex', {
+                        {getFieldDecorator('email', {
                             rules: [{
                                 required: true,
+                                message: 'Введите E-mail, пожалуйста'
+                            },
+                                {
+                                    type: "email",
+                                    message: 'Неправильный формат'
+                                }],
+                        })(
+                            <InputWithTT
+                                key="name"
+                                bubbleplaceholder="*E-mail"
+                                className="step-form-item"
+                                tooltip="E-mail Tooltip"
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        {getFieldDecorator('phones', {
+                            rules: [{
+                                required: true,
+                                message: 'Введите телефоны, пожалуйста'
+                            }],
+                        })(
+                            <InputWithTT
+                                key="name"
+                                bubbleplaceholder="*Телефоны"
+                                className="step-form-item"
+                                tooltip="Телефоны Tooltip"
+                            />
+                        )}
+                    </FormItem>
+                </div>
+                <div className="step-form-row">
+                    <FormItem>
+                        {getFieldDecorator('sex', {
+                            rules: [{
+                                required: false,
                                 message: 'Выберите пол, пожалуйста'
                             }],
                         })(
@@ -146,7 +201,7 @@ class Step1Form extends React.Component{
                         })(
                             <SelectWithTT
                                 key="country"
-                                bubbleplaceholder="Страна пребывания"
+                                bubbleplaceholder="*Страна пребывания"
                                 className="step-form-item"
                                 tooltip="Страна пребывания Tooltip"
                                 values={["Беларусь", "Россия"]}
@@ -163,7 +218,7 @@ class Step1Form extends React.Component{
                     })(
                         <SelectWithTT
                             key="work"
-                            bubbleplaceholder="Сфера деятельности"
+                            bubbleplaceholder="*Сфера деятельности"
                             className="step-form-item"
                             tooltip="Сфера деятельности Tooltip"
                             values={["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"]}
@@ -179,7 +234,7 @@ class Step1Form extends React.Component{
                     })(
                         <SelectWithTT
                             key="interests"
-                            bubbleplaceholder="Интересы"
+                            bubbleplaceholder="*Интересы"
                             className="step-form-item"
                             tooltip="Интересы Tooltip"
                             mode="multiple"
@@ -201,8 +256,8 @@ class Step1Form extends React.Component{
                         <span className="upload-avatar-title">Привяжи свои социалки: </span>
                         <div className="profile-social">
                             <SocialAuth
-                                facebookAuth={this.state.facebookAuth}
-                                googleAuth={this.state.googleAuth}
+                                facebookLink={facebookLink}
+                                googleLink={googleLink}
                                 onChange={this.handleChangeSocial}
                             />
                         </div>
@@ -214,7 +269,6 @@ class Step1Form extends React.Component{
                             btnText='Продолжить'
                             size='large'
                             type='pink'/>
-
                 </div>
             </Form>
         )

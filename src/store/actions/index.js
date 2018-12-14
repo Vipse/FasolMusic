@@ -81,6 +81,7 @@ export {
     resetRegisterStatus,
     setOnlineStatus,
     checkEmailAvailability,
+    getSelectors,
     reportBug
 } from './auth'
 
@@ -106,6 +107,7 @@ export {
 export {
     sendNewInfoDoctor,
     getInfoDoctor,
+    getTrainerTrainings,
     getNotifications,
     readNotification,
     getAllDocIntervals,

@@ -7,11 +7,11 @@ import '../../icon/style.css'
 
 import Row from "../Row";
 import Col from "../Col";
-//import WarningModal from "../WarningModal";
 import CoachPersonalData from "../CoachPersonalData";
-import PersonalSuggestions from "../PersonalSuggestions";
-import PersonalChangePassword from "../PersonalChangePassword";
-import PersonalNotifications from "../PersonalNotifications";
+//import WarningModal from "../WarningModal";
+//import PersonalSuggestions from "../PersonalSuggestions";
+//import PersonalChangePassword from "../PersonalChangePassword";
+//import PersonalNotifications from "../PersonalNotifications";
 
 class CoachPersonalProfile extends React.Component{
 
@@ -26,13 +26,13 @@ class CoachPersonalProfile extends React.Component{
         return (
             <div className={rootClass}>
                 <Row type="flex" gutter={32}>
-                    <Col className="personal-coach-items-data" span={14}>
+                    <Col className="personal-coach-items-data" xs={24} xxl={18}>
                         <CoachPersonalData
                             profileCoach={profile}
                             onSubmit={this.props.onSubmit}
                         />
                     </Col>
-                    <Col span={7}>
+                    {/*<Col span={7}>
                         <PersonalSuggestions
                             profile={profile}
                             onSubmit={this.props.onSubmit}
@@ -45,7 +45,7 @@ class CoachPersonalProfile extends React.Component{
                             profile={profile}
                             onSubmit={this.props.onSubmit}
                         />
-                    </Col>
+                    </Col>*/}
                 </Row>
                 {/*<WarningModal visible={this.state.visible} onClick={this.onVisible}
                               message="Изменения всупят в силу после проверки администратором"/>*/}

@@ -1,0 +1,54 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.profile {
+  padding: 25px 35px 0;
+
+  &-coach {
+    display: flex;
+    justify-content: flex-start;
+
+    &-avatar {
+      margin-right: 30px;
+      width: 20%;
+    }
+
+    &-info {
+      flex-direction: column;
+      width: 40%;
+      margin-right: 50px;
+
+      &-name {
+        color: #21bedd;
+        font-family: "RobotoMediumItalic";
+        text-transform: uppercase;
+      }
+
+      &-count {
+        font-family: RobotoMedium;
+
+        &-number {
+          font-size: 22px;
+        }
+      }
+    }
+
+    &-rate {
+      width: 30%;
+      font-family: RobotoMedium;
+    }
+
+    &-comment {
+      font-family: RobotoMedium;
+      margin: 20px 0;
+    }
+
+    &-promo {
+      .coach-data-promoVideo {
+        width: 100%;
+      }
+    }
+  }
+}

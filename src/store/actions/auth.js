@@ -143,7 +143,7 @@ export const registerUser = (userInfo) => {
         dispatch({
             type: actionTypes.REG_PATIENT_START
         });
-        return axios.post('/catalog.fasol/registration',
+        return axios.post('/catalog.fasol/registratin',
                 JSON.stringify(userInfo))
                     .then(res => res)
                     .catch(err => {
@@ -179,6 +179,20 @@ export const checkEmailAvailability = (email) => {
         };
         return axios.post('/catalog.doc2/emailVerification',
             JSON.stringify(emailObj))
+            .then(res => res)
+            .catch(err => {
+                console.log('error: ', err);
+            })
+    }
+};
+
+export const getSelectors = (name) => {
+    return () => {
+        const selectorNameObj = {
+            code: name
+        };
+        return axios.post('/catalog.fasol/getSelectors',
+            JSON.stringify(selectorNameObj))
             .then(res => res)
             .catch(err => {
                 console.log('error: ', err);

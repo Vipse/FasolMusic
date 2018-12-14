@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+}
+.profile {
+  padding: 25px 35px 0;
+}
+.profile-coach {
+  display: flex;
+  justify-content: flex-start;
+}
+.profile-coach-avatar {
+  margin-right: 30px;
+  width: 20%;
+}
+.profile-coach-info {
+  flex-direction: column;
+  width: 40%;
+  margin-right: 50px;
+}
+.profile-coach-info-name {
+  color: #21bedd;
+  font-family: "RobotoMediumItalic";
+  text-transform: uppercase;
+}
+.profile-coach-info-count {
+  font-family: RobotoMedium;
+}
+.profile-coach-info-count-number {
+  font-size: 22px;
+}
+.profile-coach-rate {
+  width: 30%;
+  font-family: RobotoMedium;
+}
+.profile-coach-comment {
+  font-family: RobotoMedium;
+  margin: 20px 0;
+}
+.profile-coach-promo .coach-data-promoVideo {
+  width: 100%;
+}

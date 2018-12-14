@@ -63,12 +63,18 @@
   background-color: transparent;
 }
 .coach-data-info {
-  width: 40%;
+  width: 52%;
   margin-right: 50px;
 }
 .coach-data-info .input-form-item {
   margin-bottom: 20px;
 }
-.coach-data-social {
-  width: 40%;
+.coach-data-toggles {
+  width: 28%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.coach-data-toggles-modalBtn {
+  margin-top: 20px;
 }

@@ -11,34 +11,40 @@ const Option = Select.Option;
 class SelectWithTT extends React.Component{
     constructor(props){
         super(props);
-        this.state ={
-            focused: false,
+        this.state = {
             value: ""
         }
+    }
+
+    componentDidMount() {
+        //if (this.props.value) this.onChange(this.props.value);
+        if (this.props.value) this.setState({value: this.props.value});
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        //if (this.props.value && prevProps.value !== this.props.value) this.onChange(this.props.value);
+        if (this.props.value && this.state.value !== this.props.value) this.setState({value: this.props.value});
     }
 
     onChange = (value) => {
         if (value) {
             this.setState({value});
             this.props.onChange && this.props.onChange(value)
-
-        } else {
-            this.setState({focused: false, value: ""})
-        }
+        } else
+            this.setState({value: ""})
     };
 
     render() {
-        const labelClassName = this.state.value ? "bubble" : "";
+        const labelClassName = this.state.value && this.state.value.length ? "bubble" : "";
         const valuesArr = this.props.values ? this.props.values : [];
         return (
             <div className = "new-select-wrapper input-effect">
-                <Select onChange={this.onChange} dropdownClassName="new-select-variants" mode={this.props.mode}>
+                <Select onChange={this.onChange} dropdownClassName="new-select-variants" mode={this.props.mode} value={this.props.value}>
                     {valuesArr.map((item, i) => <Option value={item} key={i}>{item}</Option>)}
                 </Select>
                 {this.props.tooltip && <button type="button" data-tip={this.props.tooltip || ""} className='note'>?</button>}
                 <label className={labelClassName}>{this.props.bubbleplaceholder || ""}</label>
                 {this.props.tooltip && <ReactTooltip place="top" type="dark" effect="float"/>}
-
             </div>
         )
     }

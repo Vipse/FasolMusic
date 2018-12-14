@@ -1,9 +1,11 @@
 .coach-data-comfortTime {
   width: 70%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
+}
+.coach-data-comfortTime .ant-form-item {
+  margin-bottom: 0;
+}
+.coach-data-comfortTime .ant-radio-group {
+  display: unset;
 }
 .coach-data-comfortTime .radio-label {
   color: #000;
@@ -13,45 +15,53 @@
 }
 .coach-data-comfortTime .timePlate {
   position: relative;
-  top: -10px;
-  left: -135px;
+  top: -5.5em;
+  left: 50%;
   font-size: 10px;
   width: 70px;
   height: 3px;
   font-family: RobotoRegular;
   color: #000;
+  text-align: center;
 }
-.coach-data-comfortTime .ant-slider {
-  width: 200px;
+.coach-data-comfortTime .timeSchedule {
+  display: flow-root;
+  user-select: none;
 }
-.coach-data-comfortTime .ant-slider-rail {
+.coach-data-comfortTime .timeSchedule .ant-slider {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin: 15px 0;
+}
+.coach-data-comfortTime .timeSchedule .ant-slider-rail {
   height: 0.1em;
   background-color: #000;
 }
-.coach-data-comfortTime .ant-slider-track {
+.coach-data-comfortTime .timeSchedule .ant-slider-track {
   background-color: #21bedd;
   height: 0.1em;
 }
-.coach-data-comfortTime .ant-slider-disabled .ant-slider-handle,
-.coach-data-comfortTime .ant-slider-disabled .ant-slider-track {
+.coach-data-comfortTime .timeSchedule .ant-slider-disabled .ant-slider-handle,
+.coach-data-comfortTime .timeSchedule .ant-slider-disabled .ant-slider-track {
   display: none;
 }
-.coach-data-comfortTime .ant-slider-handle {
+.coach-data-comfortTime .timeSchedule .ant-slider-handle {
   width: 7px;
   height: 7px;
   background-color: #21bedd;
   border: unset;
-  margin-top: -3px;
+  margin: -3px 0 0 -1px;
 }
-.coach-data-comfortTime .ant-slider-handle:focus,
-.coach-data-comfortTime .ant-slider-handle:hover {
+.coach-data-comfortTime .timeSchedule .ant-slider-handle:focus,
+.coach-data-comfortTime .timeSchedule .ant-slider-handle:hover {
   box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
 }
-.coach-data-comfortTime .timeSchedule {
-  display: flex;
-  flex-direction: row;
-  user-select: none;
+.coach-data-comfortTime .timeSchedule .ant-slider-handle-2 {
+  margin-left: -5px;
 }
 .coach-data-comfortTime .dayCheckbox {
   width: 64px;
+  float: left;
+  margin-right: 12px;
 }

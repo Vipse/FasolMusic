@@ -9,9 +9,20 @@ class InputWithTT extends React.Component{
     constructor(props){
         super(props);
         this.input = React.createRef();
-        this.state ={
-            onFocus: false,
+        this.state = {
             value: ""
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.value)
+            this.setState({value: this.props.value});
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.value && prevProps.value !== this.props.value) {
+            this.setState({value: this.props.value});
+            this.props.onChange && this.props.onChange(this.props.value);
         }
     }
 
@@ -20,16 +31,11 @@ class InputWithTT extends React.Component{
         this.props.onChange && this.props.onChange(e.target.value)
     };
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({value: nextProps.value});
-        if (nextProps.value) this.input.current.value = nextProps.value;
-    }
-
     render() {
         const labelClassName = this.state.value ? "bubble" : "";
         return (
             <div className = "new-input-wrapper input-effect">
-                <input onChange={this.onChange} className="effect" type={this.props.type} ref={this.input}/>
+                <input onChange={this.onChange} className="effect" type={this.props.type} value={this.state.value} ref={this.input}/>
                 {this.props.tooltip && <button type="button" data-tip={this.props.tooltip || ""} className='note'>?</button>}
                 <label className={labelClassName}>{this.props.bubbleplaceholder || ""}</label>
                 {this.props.tooltip && <ReactTooltip place="top" type="dark" effect="float"/>}

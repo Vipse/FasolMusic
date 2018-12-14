@@ -7,17 +7,15 @@
   margin-top: 10px;
   align-items: center;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
+}
+.social-row-btn {
+  height: 33px;
+  width: 90px;
 }
 .social-row .icon {
   color: #bbbbbb;
-}
-.social-row-link {
-  padding: 0 10px;
-  font-size: 11px;
-  font-family: RobotoRegular;
-  overflow: hidden;
-  width: min-content;
+  margin-right: 10px;
 }
 .social-row-active {
   display: flex;
@@ -25,8 +23,9 @@
   margin-top: 10px;
   align-items: center;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
 }
 .social-row-active .icon {
   color: #21bedd;
+  margin-right: 10px;
 }

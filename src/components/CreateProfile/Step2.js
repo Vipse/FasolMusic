@@ -2,13 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { Form } from 'antd';
 import Button from '../Button'
-import Hr from '../Hr'
-import Upload from '../Upload'
-import DropZoneUpload from '../DropZoneUpload'
-import SelectNew from "../SelectNew";
-import InputNew from "../InputNew";
 import InputWithTT from "../InputWithTT";
-import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
 import TextArea from "../TextArea";
 
@@ -17,59 +11,27 @@ const FormItem = Form.Item;
 class Step2Form extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        /*this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                let toSubmit = {
-                    ...values,
-                    ...this.state,
-                };
-                this.props.onSubmit(toSubmit);
-                this.props.onNext();
-            }
-        })*/
         this.props.form.validateFieldsAndScroll((err, values) => {
-            // if (!err) {
-            //
-            //     let fields = {
-            //         ...values,
-            //         avatarThumb: this.state.avatarThumb ? this.state.avatarThumb : this.props.data.avatarThumb
-            //     };
-            //     if(!values.avatar.url && !values.avatar.name) {
-            //         fields.avatar = {name: this.state.avatarName, url: this.state.avatarUrl};
-            //     }
-            this.props.onSubmit(values);
-            this.props.onNext();
-            // }
-        })
+            if (!err) {
+                this.props.onSubmit(values);
+                this.props.onNext();
+            } else
+                console.log(err);
+        });
     };
 
-    /*handleGoBack = (e) => {
+    handleGoBack = (e) => {
         e.preventDefault();
-
         this.props.form.validateFields((err, values) => {
-            let fields = {
-                ...values,
-                ...this.state,
-            };
-            console.log("FIELDS WHEN BACK TO 1", fields)
-            this.props.onSubmit(fields);
+            this.props.onSubmit(values);
             this.props.onPrev();
-        })
-    };*/
-
-    increaseStateNum = (e, type) => {
-        e.preventDefault();
-        this.setState(prev =>
-            ({[type]: prev[type] +1}))
+        });
     };
-
 
     render(){
         const { getFieldDecorator } = this.props.form;
@@ -91,7 +53,7 @@ class Step2Form extends React.Component{
                             }],
                         })(
                             <SelectWithTT
-                                bubbleplaceholder="Дисциплина"
+                                bubbleplaceholder="*Дисциплина"
                                 className="step-form-item"
                                 values={["Вокал", "Гитара"]}
                             />
@@ -100,7 +62,7 @@ class Step2Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('specialization', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите специализацию, пожалуйста'
                             }],
                         })(
@@ -116,21 +78,21 @@ class Step2Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('level', {
                             rules: [{
-                                required: true,
-                                message: 'Выберите ваш уровень подготовки, пожалуйста'
+                                required: false,
+                                message: 'Введите ваш уровень подготовки, пожалуйста'
                             }],
                         })(
-                            <SelectWithTT
-                                bubbleplaceholder="Мой уровень подготовки"
+                            <InputWithTT
+                                key="level"
+                                bubbleplaceholder="Уровень подготовки"
                                 className="step-form-item"
-                                values={["Низкий", "Средний", "Высокий"]}
                             />
                         )}
                     </FormItem>
                     <FormItem>
                         {getFieldDecorator('experience', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите опыт занятия музыкой, пожалуйста'
                             }],
                         })(
@@ -145,7 +107,7 @@ class Step2Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('goals', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите цели, пожалуйста'
                         }],
                     })(
@@ -161,7 +123,7 @@ class Step2Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('musicstyles', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите стиль музыки, который вам нравится, пожалуйста'
                         }],
                     })(
@@ -177,7 +139,7 @@ class Step2Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('favoritesingers', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Укажите любимых исполнителей, пожалуйста'
                         }],
                     })(
@@ -190,11 +152,14 @@ class Step2Form extends React.Component{
                 </FormItem>
 
                 <div className="steps-action">
+                    <Button btnText='Назад'
+                            size='large'
+                            type='pink'
+                            onClick={this.handleGoBack}/>
                     <Button htmlType="submit"
                             btnText='Продолжить'
                             size='large'
                             type='pink'/>
-
                 </div>
             </Form>
         )

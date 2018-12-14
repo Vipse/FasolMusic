@@ -26,7 +26,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapsed: true,
+            collapsed: false,
             notifications: []
         };
     }
@@ -145,7 +145,7 @@ class App extends React.Component {
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
-        const isUser = (this.props.mode === "user");
+        const isUser = (this.props.mode === "student");
 
         
         return (
@@ -192,8 +192,8 @@ class App extends React.Component {
                                         }
                                         <Route
                                             render={() => (
-                                                <div style={{textAlign: 'center', padding: '40px 20px'}}>
-                                                    <h3>Страница не найдена</h3>
+                                                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
+                                                    <h3 style={{color: '#fff'}}>Страница не найдена</h3>
                                                     <p>Проверьте введённый адрес</p>
                                                 </div>
                                             )}

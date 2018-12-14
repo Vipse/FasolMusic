@@ -1,0 +1,24 @@
+.SendSuggestionsModal {
+  padding: 10px 25px;
+  justify-content: center;
+}
+.suggestions-column {
+  margin: 25px;
+}
+.suggestions-column p {
+  font-family: RobotoRegularItalic;
+  color: #000011;
+}
+.suggestions-column-input {
+  margin-top: 20px;
+  margin-bottom: 35px;
+  height: 180px;
+}
+.suggestions-column-input .textarea-label {
+  font-family: RobotoRegular;
+  color: #777777;
+  margin-bottom: 7px;
+}
+.suggestions-column-input .textarea-field {
+  border-color: #e1e1e1;
+}

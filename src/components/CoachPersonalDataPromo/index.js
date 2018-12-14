@@ -2,32 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import {Form, message} from 'antd'
-import Button from '../Button'
-import Input from '../Input'
-import Rate from '../Rate'
-import Icon from '../Icon'
-import Popover from '../Popover'
-
-
 import './style.css'
 import '../../icon/style.css'
-import ProfileAvatar from "../ProfileAvatar";
-import InputNew from "../InputNew";
-import Spinner from "../Spinner";
-import SelectNew from "../SelectNew";
-import TextArea from "../TextArea";
-import DatePickerNew from "../DatePickerNew";
-import avatarDefault from "../../img/avatarDefault.png";
+
 import Dropzone from "react-dropzone";
 import UploadVideoImage from "../../img/uploadVideo.png";
-
-const FormItem = Form.Item;
 
 class CoachPersonalDataPromo extends React.Component {
     constructor() {
         super();
         this.state = {
+            loading: false,
             fileList: [],
             videoUrl: "",
             videoThumb: "",
@@ -43,15 +28,15 @@ class CoachPersonalDataPromo extends React.Component {
         //         message.success("Видео загружено")
         //     });
         reader.addEventListener('load', () => this.setState({
-            videoThumb: reader.result,
+            //videoThumb: reader.result,
             loading: false
         }));
         reader.readAsDataURL(file[0]);
     };
 
     render() {
-        const {getFieldDecorator} = this.props;
-        const videoUrl = this.state.videoThumb ? this.state.videoThumb : this.props.profileCoach.videoThumb ? this.props.profileCoach.videoThumb : "";
+        const {promoLink} = this.props;
+        const videoUrl = this.state.videoThumb ? this.state.videoThumb : promoLink ? promoLink : "";
         const rootClass = cn('coach-data-block');
 
         return (
@@ -72,11 +57,11 @@ class CoachPersonalDataPromo extends React.Component {
 }
 
 CoachPersonalDataPromo.propTypes = {
-    profileCoach: PropTypes.object
+    promoLink: PropTypes.string
 };
 
 CoachPersonalDataPromo.defaultProps = {
-    profileCoach: {}
+    profileCoach: ""
 };
 
 export default CoachPersonalDataPromo
