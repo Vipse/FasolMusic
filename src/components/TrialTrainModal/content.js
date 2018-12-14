@@ -82,7 +82,7 @@ class ContentForm extends React.Component {
                             <div className="ant-radio-group">
                                 <RadioGroup style={{display: "flex", flexDirection: "row"}}>
                                     <Radio value='guitar' key='radio-guitar'>Гитара</Radio>
-                                    <Radio value='vocal' key='radio-vocal'>Вокал</Radio>
+                                    <Radio value='vocals' key='radio-vocal'>Вокал</Radio>
                                 </RadioGroup>
                             </div>
                         )}

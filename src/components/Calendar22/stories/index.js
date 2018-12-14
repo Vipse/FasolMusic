@@ -280,7 +280,7 @@ storiesOf('Calendar22', module)
 
                          min={new Date(new Date().setHours(9,0,0,0))}
                          max={new Date(new Date().setHours(23,0,0,0))}
-                         step = {50}
+                         step = {60}
                          events = {events1}
                          intervals={intervals}
                          gotoEditor={() => console.log('go to editor')}

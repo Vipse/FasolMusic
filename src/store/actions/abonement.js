@@ -1,12 +1,5 @@
-// import axios from './axiosSettings'
-
-import axios from 'axios'
+ import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
-
-const instance2 = axios.create({
-    baseURL: 'http://178.172.172.2/~api/json/'
-});
-
 
 
 export const createAbonement = (dataCreate) => {
@@ -14,7 +7,7 @@ export const createAbonement = (dataCreate) => {
 
     return (dispatch, getState) => 
 
-        instance2.post('/catalog.fasol/createSubscription', JSON.stringify(dataCreate))
+        axios.post('/catalog.fasol/createSubscription', JSON.stringify(dataCreate))
             .then(res => {
                 console.log("createSubscription", res);
                 // dispatch({
@@ -28,11 +21,9 @@ export const createAbonement = (dataCreate) => {
         
 }
 
-export const getAbonements = (idStudent) => {
-    idStudent = 1234;
-    return (dispatch, getState) => {
+export const getAbonements = (idStudent) => (dispatch) => {
 
-        instance2.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': '1234',  "pastOnly": false}))
+        axios.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
             .then(res => {
                 console.log("GetSubscriptions", res);
                 dispatch({
@@ -43,16 +34,14 @@ export const getAbonements = (idStudent) => {
             .catch(err => {
                 console.log(err);
         })
-    }    
+        
 }
 
 
 // сделать нормально нужно
-export const getAbonements2 = (idStudent) => {
-    idStudent = 1234;
-    return (dispatch, getState) => {
+export const getAbonements2 = (idStudent) => (dispatch) => {
 
-        instance2.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': '1234',  "pastOnly": true}))
+        axios.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': idStudent,  "pastOnly": true}))
             .then(res => {
                 console.log("GetSubscriptions", res);
                 dispatch({
@@ -63,14 +52,14 @@ export const getAbonements2 = (idStudent) => {
             .catch(err => {
                 console.log(err);
         })
-    }    
+       
 }
 
-export const transferTrainining = (value) => {
+export const transferTrainining = (value) =>  {
     console.log('value :', value);
     return (dispatch, getState) => 
 
-        instance2.post('/catalog.fasol/transferTrainining', JSON.stringify(value))
+        axios.post('/catalog.fasol/transferTrainining', JSON.stringify(value))
             .then(res => {
                 console.log("transferTrainining", res);
                 // dispatch({
@@ -87,8 +76,7 @@ export const transferTrainining = (value) => {
 export const transferTraininingToEnd = (value) => {
     console.log('value :', value);
     return (dispatch, getState) => 
-
-        instance2.post('/catalog.fasol/TransferTraininingToEnd', JSON.stringify(value))
+        axios.post('/catalog.fasol/TransferTraininingToEnd', JSON.stringify(value))
             .then(res => {
                 console.log("TransferTraininingToEnd", res);
                 // dispatch({
@@ -106,8 +94,7 @@ export const changeSubscription = (value) => {
     console.log("changeSubscription1", value);
     value.amount = '10';
     return (dispatch, getState) => 
-   
-        instance2.post('/catalog.fasol/changeSubscription', JSON.stringify(value))
+        axios.post('/catalog.fasol/changeSubscription', JSON.stringify(value))
             .then(res => {
                 console.log("changeSubscription", res);
                 // dispatch({

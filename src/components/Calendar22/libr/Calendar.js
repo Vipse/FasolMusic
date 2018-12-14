@@ -330,6 +330,8 @@ components: PropTypes.shape({
   isShowFreeTrainers: PropTypes.bool,
   transferTraining: PropTypes.func,
   deleteEvent: PropTypes.func,
+  setTransfer_End_Training: PropTypes.func,
+  trainerTraining: PropTypes.object,
 }
 
 Calendar.defaultProps = {

@@ -16,57 +16,23 @@ class PersonalDataSkill extends React.Component {
     constructor() {
         super();
         this.state = {
-            addedNums: []
+            addedCount: 0
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.profile.disciplines.length !== this.props.profile.disciplines.length)
-            this.setState({addedNums: []});
+            this.setState({addedCount: 0});
     }
 
-    addDiscipline = (num) => {
-        const { addedNums } = this.state;
-
-        let newAddedNumsArr = [...addedNums];
-        newAddedNumsArr.push(num);
-
-        this.setState({addedNums: newAddedNumsArr});
-    };
-
-    deleteDiscipline = (num) => {
-        const { profile: { disciplines }, form } = this.props;
-        const { addedNums } = this.state;
-
-        for (let key in disciplines[0])
-            form.resetFields([key + '-' + [num]]);
-        addedNums.splice(addedNums.indexOf(num), 1);
-        this.setState({addedNums: addedNums});
-    };
-
     generateDisciplineItem = (number, data = {}) => {
-        const { isStudent } = this.props;
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, isStudent } = this.props;
         const { discipline, specialization, level, experience, methods, goals, musicstyles, favoritesingers } = data;
         const { length } = this.props.profile.disciplines;
-        const { addedNums } = this.state;
+        const { addedCount } = this.state;
 
         return <div className='coach-data-skill' key={'discipline' + number}>
-            {number >= Math.min(...addedNums) ?
-                <div className="coach-data-skill-footer">
-                    <Button
-                        className="student-data-saveBtn"
-                        onClick={() => this.deleteDiscipline(number)}
-                        btnText='Убрать'
-                        size='small'
-                        icon="minus"
-                        iconSize={14}
-                        type='light-blue'
-                    />
-                    <div className="coach-data-skill-footer-line"/>
-                </div> : (!number || (!length && number === Math.min(...addedNums))) ? <span/> :
-                    <div className="coach-data-skill-footer-line" style={{width: "80%"}}/>}
-            <FormItem className="input-form-item">
+           {/*} <FormItem className="input-form-item">
                 {getFieldDecorator('discipline-' + number, {
                     initialValue: discipline,
                     rules: [{
@@ -78,38 +44,35 @@ class PersonalDataSkill extends React.Component {
                                bubbleplaceholder="Дисциплина"
                                data={["Гитара", "Вокал"]}
                     />
-                )}
-            </FormItem>
-            <FormItem className="input-form-item">
+                )} 
+                </FormItem> */}
+           {/*} <FormItem className="input-form-item">
                 {getFieldDecorator('specialization-' + number, {
                     initialValue: specialization,
                     rules: [{
-                        required: false,
+                        required: true,
                         message: 'Введите специализацию, пожалуйста'
                     }],
                 })(
-                    <SelectNew width="100%"
-                               bubbleplaceholder="Специализация"
-                               data={["Спорт", "Кино и сериалы", "Туризм"]}
-                    />
+                    <InputNew width="100%" bubbleplaceholder="Специализация"/>
                 )}
-            </FormItem>
-            <FormItem className="input-form-item">
+                </FormItem> */}
+            {/*<FormItem className="input-form-item">
                 {getFieldDecorator('level-' + number, {
                     initialValue: level,
                     rules: [{
-                        required: false,
+                        required: true,
                         message: 'Введите уровень подготовки, пожалуйста'
                     }],
                 })(
                     <InputNew width="100%" bubbleplaceholder="Уровень подготовки"/>
                 )}
-            </FormItem>
+                </FormItem> */}
             <FormItem className="input-form-item">
                 {getFieldDecorator('experience-' + number, {
                     initialValue: experience,
                     rules: [{
-                        required: false,
+                        required: true,
                         message: 'Выберите опыт занятия, пожалуйста'
                     }],
                 })(
@@ -123,15 +86,11 @@ class PersonalDataSkill extends React.Component {
                 {getFieldDecorator('goals-' + number, {
                     initialValue: goals,
                     rules: [{
-                        required: false,
+                        required: true,
                         message: 'Введите цели, пожалуйста'
                     }]
                 })(
-                    <SelectNew width="100%"
-                               bubbleplaceholder="Цели"
-                               mode="multiple"
-                               data={["Спорт", "Кино и сериалы", "Туризм"]}
-                    />
+                    <InputNew width="100%" bubbleplaceholder="Цели"/>
                 )}
             </FormItem>
             {!isStudent && <FormItem className="input-form-item">
@@ -153,7 +112,7 @@ class PersonalDataSkill extends React.Component {
                 {getFieldDecorator('musicstyles-' + number, {
                     initialValue: musicstyles,
                     rules: [{
-                        required: false,
+                        required: true,
                         message: 'Выберите предпочитаемые стили музыки, пожалуйста'
                     }]
                 })(
@@ -168,46 +127,60 @@ class PersonalDataSkill extends React.Component {
                 {getFieldDecorator('favoritesingers-' + number, {
                     initialValue: favoritesingers,
                     rules: [{
-                        required: false,
+                        required: true,
                         message: 'Введите любимых исполнителей, пожалуйста'
                     }]
                 })(
                     <InputNew width="100%" bubbleplaceholder="Любимые исполнители"/>
                 )}
             </FormItem>
-            {number === Math.max(...addedNums) || (!addedNums.length && number === length - 1) ?
+            {number < length + addedCount - 1 ?
+                <div className="coach-data-skill-footer-line"/> :
                 <div className="coach-data-skill-footer">
                     <Button
                         className="student-data-saveBtn"
-                        onClick={() => this.addDiscipline(number + 1)}
+                        onClick={() => this.setState({addedCount: addedCount + 1})}
                         btnText='Добавить'
                         size='small'
                         icon="plus"
                         iconSize={14}
                         type='light-blue'
                     />
-                </div> : null
+                    {addedCount > 0 && <Button
+                        className="student-data-saveBtn"
+                        onClick={() => this.setState({addedCount: addedCount - 1})}
+                        btnText='Убрать'
+                        size='small'
+                        icon="minus"
+                        iconSize={14}
+                        type='light-blue'
+                    />}
+                </div>
             }
         </div>
     };
 
     renderOldDisciplines = () => {
         const { disciplines } = this.props.profile;
-
-        return disciplines.map((item, number) => this.generateDisciplineItem(number, item));
+        return Array.isArray(disciplines) ? disciplines.map((item, number) => this.generateDisciplineItem(number, item)) : null;
     };
 
     renderNewDisciplines = () => {
-        const { addedNums } = this.state;
-
-        return addedNums.map((item) => this.generateDisciplineItem(item));
+        if(!Array.isArray(this.props.profile.disciplines)) return;
+        
+        const { length } = this.props.profile.disciplines;
+        const { addedCount } = this.state;
+        let newDisciplinesArr = [];
+        for (let i = length; i < length + addedCount; ++i)
+            newDisciplinesArr.push(this.generateDisciplineItem(i));
+        return newDisciplinesArr;
     };
 
     render() {
         const rootClass = cn('coach-data-block');
 
         return (
-            <div className={rootClass + ' disciplines'}>
+            <div className={rootClass + "disciplines"}>
                 {this.renderOldDisciplines()}
                 {this.renderNewDisciplines()}
             </div>

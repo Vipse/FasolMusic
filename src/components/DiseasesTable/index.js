@@ -27,7 +27,7 @@ class DiseasesTable extends React.Component{
 
         return (
             <div className={rootClass}>
-                <Card title="Хронические болезни/аллергии" extra={<div className="right-icon"><Icon svg iconSize="24" type="caution" /></div>}>
+                <Card title="Записаться на тренировку">
                     <PerfectScrollbar
                             speed={1}
                             className="new-patient-list"

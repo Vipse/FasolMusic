@@ -10,21 +10,24 @@ class MyCoachItem extends React.Component{
     render(){
         const {
             avatar,
-            fio,
+            name,
             discipline,
             setChoosenTrainer,
-            idMaster,
+            id,
             comment,
+            trainerList,
         } = this.props;
+
+console.log("this.", this.props)
         return (
-            <div className='myStudent' onClick={() => setChoosenTrainer(this.props.idMaster)}>
+            <div className='myStudent' onClick={() => setChoosenTrainer(id, trainerList)}>
                 <ProfileAvatar
                     img={avatar}
                     size='small'
                 />
                 <div className='myStudent-info'>
                     <div>
-                        <span className='myStudent-info-name'>{fio}</span>
+                        <span className='myStudent-info-name'>{name}</span>
                         <span className='myStudent-info-discipline'>{discipline}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>

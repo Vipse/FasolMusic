@@ -2,6 +2,7 @@ import MainPage from '../containers/MainPage'
 import Schedule from '../containers/Schedule'
 import Homework from '../containers/Homework'
 import Patients from '../containers/Patients'
+import PatientsPage from '../containers/PatientsPage'
 import StudentPage from '../containers/StudentPage'
 import CoachPage from "../containers/CoachPage"
 import PersonalInfo from '../containers/PersonalInfo'
@@ -11,6 +12,7 @@ import Reviews from '../containers/Reviews'
 import MyDoctors from '../containers/MyDoctors'
 
 import Chat from '../containers/Chat'
+import DoctorPage from "../containers/DoctorPage";
 
 export const docRoutes = [
     {
@@ -31,6 +33,11 @@ export const docRoutes = [
     {
         path: '/app/patients',
         component: Patients,
+        exact: true,
+    },
+    {
+        path: '/app/coach:id',
+        component: DoctorPage,
         exact: true,
     },
     {
@@ -126,7 +133,7 @@ export const menuDoc =[
 
 export const menuPatient =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
-    {name: 'app/calendar', title: 'Календарь', iconType: 'calendar', svg: true},
+    {name: 'app/schedule', title: 'Календарь', iconType: 'calendar', svg: true},
 
     {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
    // {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},

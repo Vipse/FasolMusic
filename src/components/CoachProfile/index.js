@@ -15,6 +15,7 @@ class CoachProfile extends React.Component {
     render() {
         const {img, name, discipline, specialization, rate, ratingsCount} = this.props;
 
+        let speciality1=['Медик',"Доктор"]
         return (
             <Card title="Профиль преподавателя">
                 <ScrollArea
@@ -34,7 +35,7 @@ class CoachProfile extends React.Component {
 
                             <div className="profile-coach-info">
                                 <div className="profile-coach-info-name">{name}</div>
-                                <div className="profile-coach-info-discipline">{discipline}{specialization ? (", " + specialization) : ""}</div>
+                                {/*<div className="profile-coach-info-discipline">{discipline}{specialization ? (", " + specialization) : ""}</div> */}
                                 <div className="profile-coach-btn-row">
                                     <Button onClick={() => console.log('openDialog')}
                                             btnText='Открыть диалог'

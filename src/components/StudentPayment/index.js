@@ -8,6 +8,7 @@ import InputNew from "../InputNew";
 import cardIcon from "../../img/card.png"
 import yandexMoneyIcon from "../../img/yandexMoney.png"
 import PayModal from "../PayModal";
+import moment from 'moment';
 
 import * as actions from '../../store/actions'
 import {connect} from "react-redux";
@@ -64,7 +65,16 @@ class StudentPayment extends React.Component{
     };
 
     render() {
-        const payment = this.props.paymentData;
+        let { deadlinePay} = this.props;
+        let daysToPay = null;
+
+        if( deadlinePay) {
+            let now = moment(new Date()); //todays date
+            let end = moment(deadlinePay.datePay * 1000); // another date
+            let duration = moment.duration(end.diff(now));
+             daysToPay = Math.round(duration.asDays());
+        }
+        
         
         return (
             <div className="payment-student">
@@ -215,7 +225,13 @@ class StudentPayment extends React.Component{
                                 exercitation</p>
                         </div>
                         <div className="payment-student-stats-plate-daysBeforeNextPay">
-                            <div className="title"><span className="count">2</span><p className="name">Дней до оплаты</p></div>
+                            <div className="title">
+                                <span className="count">
+                                {daysToPay ? daysToPay : '-'}
+                                </span>
+
+                                <p className="name">Дней до оплаты</p>
+                            </div>
                             <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                                 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                                 exercitation</p>

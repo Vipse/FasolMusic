@@ -27,14 +27,15 @@ class Homework extends React.Component{
 	};
 
     componentDidMount() {
-    
-        this.props.onGetAbonements2();
+        
+        this.props.onGetAbonements2(this.props.id);
+        this.props.onGetMasterList();
     }
 
     render(){
 
-        console.log('this.props.allAbonements2 :', this.props.allAbonements2);
         let arrAbonement = [];
+        const {trainerList} = this.props;
 
         if(this.props.allAbonements2){
             let {subscriptions} = this.props.allAbonements2;
@@ -42,18 +43,18 @@ class Homework extends React.Component{
             for(let i = 0; i < max; i++){
                 for(let j = 0; j < subscriptions[i].training.length; j++){
 
-                    for(let a = 0; a < apiTrainers.length; a++){
-                        console.log('apiTrainers[a].idMaster :',  apiTrainers[a].idMaster);
+                    for(let a = 0; trainerList && a < trainerList.length; a++){
+                        console.log('trainerList[a].idMaster :',  trainerList[a].idMaster);
                         console.log('subscriptions[i].training[j].idMaster :',  subscriptions[i].training[j].idMaster);
 
-                        if(String(apiTrainers[a].idMaster) === String(subscriptions[i].training[j].idMaster)){
+                        if(String(trainerList[a].id) === String(subscriptions[i].training[j].idMaster)){
 
 
 
                             arrAbonement.push(
                                 {
                                     date: subscriptions[i].training[j].start ,
-                                    name: apiTrainers[a].fio,
+                                    name: trainerList[a].name,
                                     discipline: subscriptions[i].discipline,
                                     trainingRecord: "http://vk.com",
                                     homework: "сделать кучу вещей, сыграть на гитарке",
@@ -101,6 +102,8 @@ const mapStateToProps = state => {
 	return {
         allAbonements2: state.abonement.allAbonements2, // и интервалы
         mode: state.auth.mode,
+        id: state.auth.id,
+        trainerList: state.trainer.trainerList,
 	}
 };
 
@@ -111,6 +114,7 @@ const mapDispatchToProps = dispatch => {
         makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
 
         onGetAbonements2: (idStudent) => dispatch(actions.getAbonements2(idStudent)),
+        onGetMasterList: (discipline) => dispatch(actions.getMasterList(discipline)),
     }
 };
 

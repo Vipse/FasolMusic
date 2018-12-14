@@ -17,10 +17,11 @@ class MyStudents extends React.Component {
 
     render() {
         const {data} = this.props;
+        console.log('MYSTUDENT :', this.props);
         return (
             <div className='myStudents'>
                 <Card title="Мои коучи"
-                      extra={<a className="myStudents-link"><Icon type="circle_arrow_right"/>
+                      extra={<a className="myStudents-link" ><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {data.length ?
                         this.studentsRender(data)

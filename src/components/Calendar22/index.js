@@ -87,6 +87,8 @@ BigCalendar.propTypes = {
     isShowFreeTrainers: PropTypes.bool,
     transferTraining: PropTypes.func,
     deleteEvent: PropTypes.func,
+    setTransfer_End_Training: PropTypes.func,
+    trainerTraining: PropTypes.object,
 };
 
 
@@ -99,6 +101,7 @@ BigCalendar.defaultProps = {
     onPopoverClose: () => {},
     onPopoverEmail: () => {},
     gotoEditor: () => {},
+    trainerTraining: {},
 };
 
 

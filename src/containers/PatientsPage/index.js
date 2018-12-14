@@ -42,6 +42,8 @@ class PatientsPage extends React.Component{
     }
 
     render(){
+
+        console.log('this.props :', this.props);
         const {diseases = [], treatments = [], infoUser = {}} = this.props.info;
         const info = this.props.info.infoUser;
         if (this.state.loading === true) {

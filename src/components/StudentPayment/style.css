@@ -1,5 +1,5 @@
 .payment-student {
-  background-color: #7544ea;
+  background-color: #fff;
   display: grid;
   grid-template-areas: "plans plans" "data stats";
   grid-template-rows: 523px 266px;

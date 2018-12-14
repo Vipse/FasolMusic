@@ -1,5 +1,5 @@
 .payment-coach {
-  background-color: #7544ea;
+  background-color: #fff;
   display: grid;
   grid-template-areas: "record data refer" "record stats refer" "record invite invite";
   grid-template-rows: 266px 266px 244px;
@@ -197,7 +197,7 @@
 .payment-coach-invite img {
   float: left;
   margin-right: 22px;
-  color: #7544ea;
+  color: #fff;
 }
 .payment-coach-invite .title {
   font-family: RobotoMediumItalic;

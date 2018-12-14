@@ -34,7 +34,7 @@ class MyCoach extends React.Component {
                         <div>
                             {freeTrainers.freeTrainers.length ?
                                 this.studentsRender(freeTrainers.freeTrainers)
-                                : <div className='noStudents'>Студентов нет</div>}
+                                : <div className='noStudents'>Коучей нет</div>}
                         </div>
                     </PerfectScrollbar>       
                 </Card>

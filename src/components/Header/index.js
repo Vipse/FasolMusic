@@ -33,7 +33,7 @@ render() {
                     />
                 </div>
                 <div className='header-train'>
-                    {isUser ?
+                    {!isUser ?
                         <React.Fragment>
                             <Button btnText='ЭКСТРЕННЫЙ ВЫЗОВ'
                                 size='small'

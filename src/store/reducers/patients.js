@@ -88,7 +88,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 abonementIntervals: action.abonementIntervals,
             }    
-            
+      
+    
             
         default: return state;
     }

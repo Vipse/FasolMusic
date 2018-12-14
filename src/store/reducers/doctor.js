@@ -39,8 +39,9 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 emergencyAvailable: action.availability
             }
-            
+     
         default: return state;
+        
     }
 };
 

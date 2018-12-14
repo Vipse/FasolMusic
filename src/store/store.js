@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers} from 'redux'
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import patientsReducer from './reducers/patients'
 import reviewsReducer from './reducers/reviews'
@@ -11,6 +12,8 @@ import infoDoctorReducer from './reducers/doctorData'
 import infoPatientReducer from './reducers/patientData'
 import chatWSReducer from './reducers/chatWS'
 import loadingReducer from './reducers/loading'
+import studentReducer from './reducers/student'
+import trainerReducer from './reducers/trainer'
 
 // fasol
 import abonementReducer from './reducers/abonement'
@@ -28,8 +31,10 @@ const rootReducer = combineReducers({
     chatWS: chatWSReducer,
     loading: loadingReducer,
     abonement: abonementReducer,
+    student: studentReducer,
+    trainer: trainerReducer
 });
 
 export default function configureStore() {
-    return createStore(rootReducer, applyMiddleware(thunk));
+    return createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 }

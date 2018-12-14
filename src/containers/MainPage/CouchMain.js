@@ -9,6 +9,8 @@ import Icon from "../../components/Icon";
 import Hoc from '../../hoc'
 import MyStudents from "../../components/MyStudents";
 import LastTrainings from "../../components/LastTrainings";
+import MyCoach from './../../components/MyCoach/index';
+import moment from 'moment'
 
 
 class CouchMain extends React.Component{
@@ -18,11 +20,43 @@ class CouchMain extends React.Component{
     
     gotoHandler = (id) => {
 		this.props.onSelectPatient(id);
-		this.props.history.push('/app/patient'+id);
+		this.props.history.push('/app/coach'+id);
     }
+
+    // следующая тренировка - return 15234500000
+    selectFirstTraining = () => {
+        const {allAbonements} = this.props;
+        let arrFirst = [];
+
+        if(!allAbonements) return arrFirst;
+
+        allAbonements.subscriptions.forEach(el => {
+            if(el && el.hasOwnProperty('training') && Array.isArray(el.training) && el.training.length){
+                arrFirst.push(el.training[0]);
+            }
+        });
+
+        const min = arrFirst.reduce((min, el) => {
+            
+            return (min > (+el.start)) ? +el.start : min
+        }, Infinity);  
+        
+        console.log('1', moment(min*1000))
+        if(min === Infinity) return 0;
+        return min;
+    }
+
     render(){
-    console.log('this.props.all :', this.props.allAbonements);
-    let near = [];
+        const { allAbonements } = this.props;
+        console.log('myCoach :', myCoach);
+
+        let myCoach = [];
+        for(let i = 0; i < this.props.myCoach.length; i++){
+            if(this.props.myCoach[i]){
+                myCoach.push(this.props.myCoach[i])
+            }
+        }
+
 
     // if(this.props.allAbonements)
     //     for(let i = 0; i < this.props.allAbonements.subscriptions.length; i++){
@@ -36,11 +70,16 @@ class CouchMain extends React.Component{
     //         }
     //         break;
     //     }
+
+
     return (
             <Hoc>
                         <Row>
                             <Col span={24} className='section'>
-                                <TopPanel  {...this.props.docTodayInfo}/>
+                                <TopPanel  
+                                    {...this.props.docTodayInfo}
+                                    nextTraining = {this.selectFirstTraining()}
+                                    />
                             </Col>
                         </Row>
 
@@ -99,25 +138,18 @@ class CouchMain extends React.Component{
                             <Col xs={14} xxl={9} className='section'>
                                 <MyStudents
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    data={[{
-                                        profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                        online: true,
-                                        discipline: "Вокал",
-                                        name: "Петров василий чвасильевич",
-                                        lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the " +
-                                            "printing and typesetting industry. Lorem Ipsum has been the industry's " +
-                                            "standard dummy text ever since the 1500s, when a"
-                                    },
-                                    {
-                                        profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                        online: true,
-                                        discipline: "Вокал",
-                                        name: "Петров ВАСКЕ чвасильевич",
-                                        lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the " +
-                                            "printing and typesetting industry. Lorem Ipsum has been the industry's " +
-                                            "standard dummy text ever since the 1500s, when a"
-                                    }
-                                    ]}
+                                    data = { (Array.isArray(myCoach)) ? myCoach.map((el) => {
+                                        if(el)
+                                        return {
+                                            id: el.idMaster,
+                                            profileAvatar: el.avatar,
+                                            online: true,
+                                           // discipline: el.disciplines.map((elem) => elem.discipline),
+                                            name: el.name,
+                                            lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing"+
+                                                        " and typesetting industry. Lorem Ipsum has been the industry's "
+                                        }
+                                    }) : [] }
 
                                 />
                             </Col>

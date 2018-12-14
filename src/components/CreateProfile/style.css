@@ -8,7 +8,7 @@
   background-color: #ffa4c4;
 }
 .create-profile-form .steps .ant-steps .ant-steps-item-process .ant-steps-item-icon {
-  background: #7544ea;
+  background: #fff;
   border: 0;
 }
 .create-profile-form .steps .ant-steps .ant-steps-item-process .ant-steps-item-icon span.ant-steps-icon {
@@ -26,10 +26,10 @@
   display: none;
 }
 .create-profile-form .steps .ant-steps .ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title:after {
-  background-color: #7544ea;
+  background-color: #fff;
 }
 .create-profile-form .steps .ant-steps .ant-steps-item-finish .ant-steps-item-icon {
-  background: #7544ea;
+  background: #fff;
   border: 0;
 }
 .create-profile-form .steps .ant-steps .ant-steps-item-finish .ant-steps-item-icon span.ant-steps-icon {

@@ -21,8 +21,12 @@ class Payment extends React.Component{
         }
     }
 
+    componentDidMount() {
+
+        this.props.onGetDeadlinePay(this.props.id);	
+    }
     onSendDataModal = (data) => {
-        console.log('data :', data);
+
         let array = [];
 
         let time0 = +data.time[0].format('x')
@@ -45,15 +49,15 @@ class Payment extends React.Component{
                                 start: +data.time[0].weekday(i+1).format('X'),
                                 end: +data.time[1].weekday(i+1).format('X')
                             }
-                            ,
-                            {
-                                start: +((time2.weekday(i+1)).add(7, 'd').format('X')),
-                                end: +((time3.weekday(i+1)).add(7, 'd').format('X')),
-                            },
-                            {
-                                start: +((time4.weekday(i+1)).add(14, 'd').format('X')),
-                                end: +((time5.weekday(i+1)).add(14, 'd').format('X')),
-                            }
+                            // ,
+                            // {
+                            //     start: +((time2.weekday(i+1)).add(7, 'd').format('X')),
+                            //     end: +((time3.weekday(i+1)).add(7, 'd').format('X')),
+                            // },
+                            // {
+                            //     start: +((time4.weekday(i+1)).add(14, 'd').format('X')),
+                            //     end: +((time5.weekday(i+1)).add(14, 'd').format('X')),
+                            // }
                         ]
                         }
                     )
@@ -74,15 +78,13 @@ class Payment extends React.Component{
                 }
                    
         }
-
-        console.log('array :', array);
+console.log('QQQ array :', array);
 
         this.setState({visibleTrialModal: true, redirectToSchedule: true});
         this.props.onSetFreeIntervals(array,  data.type);
         //this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 0});
     }
     showTrialModal = (count) => {
-        console.log('showTrialModal :', count);
         this.setState({visibleTrialModal: true, countTraining: count})
         this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: count});
     }
@@ -91,6 +93,7 @@ class Payment extends React.Component{
     }
 
     render() {
+        let {deadlinePay} = this.props;
         let isUser = this.props.auth.mode === "student";
 
         // убрать
@@ -101,6 +104,7 @@ class Payment extends React.Component{
                 {isUser ? (
                     <StudentPayment
                         showTrialModal = {this.showTrialModal}
+                        deadlinePay = {deadlinePay}
                     />)
                     : (<CoachPayment/>)}
 
@@ -123,14 +127,17 @@ const mapStateToProps = state => {
         profileDoctor: state.profileDoctor,
         profilePatient: state.profilePatient,
         auth: state.auth,
+        id: state.auth.id,
+		deadlinePay: state.student.deadlinePay,
+
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
-        onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
-
+        onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
+        onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
         
     }
 };

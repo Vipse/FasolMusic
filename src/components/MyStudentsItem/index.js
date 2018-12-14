@@ -13,9 +13,11 @@ class MyStudentsItem extends React.Component{
             name,
             lastMessage,
             onGoto,
-            profileAvatar
+            profileAvatar,
+            id
         } = this.props;
 
+        console.log('Student this.props :', this.props);
         return (
             <div className='myStudent'>
                 <ProfileAvatar
@@ -24,7 +26,7 @@ class MyStudentsItem extends React.Component{
                 />
                 <div className='myStudent-info'>
                     <div>
-                        <span className='myStudent-info-name'>{name}</span>
+                        <span className='myStudent-info-name' onClick={() => onGoto(id)}>{name}</span>
                         <span className='myStudent-info-discipline'>{discipline}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>

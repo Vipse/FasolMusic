@@ -146,7 +146,7 @@ class App extends React.Component {
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
         const isUser = (this.props.mode === "student");
-
+console.log('isUser :', isUser);
         
         return (
             <div className="main">
@@ -187,13 +187,15 @@ class App extends React.Component {
                                 </div>
                                 <div className="main-content">
                                     <Switch>
-                                        {isUser ?
-                                            patientRoutes.map(route => renderRoutes(route)) : docRoutes.map(route => renderRoutes(route))
+                                        {!isUser ?
+                                            patientRoutes.map(route => renderRoutes(route)) 
+                                            :
+                                            docRoutes.map(route => renderRoutes(route))
                                         }
                                         <Route
                                             render={() => (
                                                 <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
-                                                    <h3 style={{color: '#fff'}}>Страница не найдена</h3>
+                                                    <h3 style={{color: '#fff'}}>Страница не найдена123</h3>
                                                     <p>Проверьте введённый адрес</p>
                                                 </div>
                                             )}

@@ -25,6 +25,7 @@ export {
     sendMessage,
     setFreeIntervals,
     setNeedSaveIntervals,
+   
 } from './patients';
 
 export {
@@ -142,3 +143,15 @@ export {
     transferTraininingToEnd,
     changeSubscription,
 } from './abonement'
+
+export {
+    getMyMasters,
+    getDeadlinePay,
+    getInfoMasters,
+    getUserInfo
+} from './student'
+
+export {
+    getMasterList,
+    getTrainerTraining
+} from './trainer'

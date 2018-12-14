@@ -62,12 +62,12 @@ class Schedule extends React.Component {
         this.setState({isShowFreeTrainers : true});
     }
 
-    setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
+    setChoosenTrainer = (idMaster, trainerList) => { // выбор одного из тренеров
 
-        for(let i = 0; i < apiTrainers.length; i++){
+        for(let i = 0; i < trainerList.length; i++){
    
-            if(apiTrainers[i].idMaster === idMaster){
-                let trainer= {...apiTrainers[i]};
+            if(trainerList[i].id === idMaster){
+                let trainer= {...trainerList[i]};
                 trainer.start = new Date(this.timeEvent);
  
                 apiPatients.push(trainer);
@@ -75,21 +75,22 @@ class Schedule extends React.Component {
             }
         }
 
-        if( apiPatients.length === this.props.abonementIntervals.countTraining){
-            this.setState({amountTraining : false});
-        }
-
+        console.log('apiPatients :', apiPatients);
+        // if( trainerList.length === this.props.abonementIntervals.countTraining){
+        //     this.setState({amountTraining : false});
+        // }
         this.timeEvent = null;
         this.setState({isShowFreeTrainers : false});
     }
 
     fillTrainingWeek = () => { // создание абонемента
-       
-        this.setState({amountTraining : false, sendingModal: true}); // убрать интервалы
+        const {id, abonementIntervals} = this.props;
 
-        this.props.onCreateAbonement(fillTrainingWeek(this.props.abonementIntervals.countTraining))
+        this.setState({ sendingModal: true}); // убрать интервалы
+
+        this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, "Вокал"))
         .then(() => {
-            this.props.onGetAbonements(); // получить уже распредленное время тренировок в абонементе
+            this.props.onGetAbonements(id); // получить уже распредленное время тренировок в абонементе
         });
 
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
@@ -115,22 +116,24 @@ class Schedule extends React.Component {
     }
 
     setTransfer_1_Training = () => {
+            const {id} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
             if(this.delEvent){
                     this.props.onTransferTrainining({idTraining, idMaster, ...this.transferDay})
                         .then(() => {
-                            this.props.onGetAbonements(); 
+                            this.props.onGetAbonements(id); 
                         });
             } 
             this.setState({modalTransferTraining: false});   
     }
 
-    setTransfer_End_Training = () => {
-
-        if(this.delEvent){
-                this.props.onTransferTraininingToEnd({idTraining : this.delEvent.event.id})
+    setTransfer_End_Training = (transferId) => {
+ 
+        const {id} = this.props;
+        if(transferId){
+                this.props.onTransferTraininingToEnd({idTraining : transferId})
                     .then(() => {
-                        this.props.onGetAbonements(); 
+                        this.props.onGetAbonements(id); 
                     });
         } 
         this.setState({modalTransferTraining: false});   
@@ -138,7 +141,7 @@ class Schedule extends React.Component {
 
 
     setAbonement_Training = () => {
-
+        
         const {subscriptions: subs} = this.props.allAbonements;
         const {idSubscription, start} = this.delEvent.event;
         let scheduleForWeek = {}; // это POST
@@ -152,7 +155,7 @@ class Schedule extends React.Component {
             if(subs[i].idSubscription === idSubscription) {
                 scheduleForWeek.dateStart = subs[i].dateStart;
                 scheduleForWeek.idSubscription = subs[i].idSubscription;
-                scheduleForWeek.idStudent = '1234';//subs[i].idStudent;
+                scheduleForWeek.idStudent = subs[i].idStudent;
                 scheduleForWeek.discipline = subs[i].discipline;
 
                 subs[i].training.forEach((item) => {
@@ -206,9 +209,17 @@ class Schedule extends React.Component {
     }
 
     componentDidMount() {
+        const {id} = this.props;
+
         this.setIntervalAndView(this.state.currentDate, 'week');
         this.props.onGetAllUserVisits();
-        this.props.onGetAbonements();
+        this.props.onGetAbonements(id);
+
+        // if (admin)
+
+        const start =  moment().startOf('week').format('X'); 
+        const end = moment().endOf('week').format('X'); 
+        this.props.onGetTrainerTraining(start, end);
     }
 
     componentWillUnmount() {
@@ -371,11 +382,12 @@ class Schedule extends React.Component {
 	}
 
     render() {
-      
+        const {abonementIntervals} = this.props;
+
         let isNeedSaveIntervals = false
-        if(this.props.abonementIntervals){
-            isNeedSaveIntervals = this.props.abonementIntervals.visibleTrialModal;
-            this.countTraining = this.props.abonementIntervals.countTraining; //кол-во трень в абоменте
+        if(abonementIntervals){
+            isNeedSaveIntervals = abonementIntervals.visibleTrialModal;
+            this.countTraining = abonementIntervals.countTraining; //кол-во трень в абоменте
         }
         
 
@@ -426,14 +438,11 @@ class Schedule extends React.Component {
                 console.log('min :', min);
                 console.log('max :', max);
             // надо нормальную проверка для коуча и студента
-        
-            // let checkFreeTrainers = this.state.isShowFreeTrainers ? apiTrainers : []
 
+            
             let freeTrainers = (this.timeEvent && this.state.isShowFreeTrainers) ? 
-                    {idEvent: this.timeEvent, freeTrainers: apiTrainers} : null
+                    {idEvent: this.timeEvent, freeTrainers: this.props.trainerList} : null
    
-
-                    console.log('this.props.allAbonements :', this.props.allAbonements);
                     let arrAbonement = null;
                     let iterator = 0; 
 
@@ -446,6 +455,7 @@ class Schedule extends React.Component {
                             for(let j = 0; j < subscriptions[i].training.length; j++){
 
                                 iterator++
+                               
                                 arrAbonement.push(
                                     {
                                         id:             subscriptions[i].training[j].id,
@@ -463,14 +473,14 @@ class Schedule extends React.Component {
                             }
                         }
                     }
+
+                    console.log('this.props.freeIntervals :', this.props.freeIntervals);
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
                                  icon='setting_edit'/>)
-
-                                 console.log('QQQ this.props :', this.props);
             calendar = (<Calendar 
-                                    receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
+                                  receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   onSelectSlot={(slot) => this.onAddVisit(slot)}
@@ -483,9 +493,9 @@ class Schedule extends React.Component {
                                   onNavigate={this.dateChangeHandler}
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
-                                  step={50}
-                                        events={(arrAbonement && arrAbonement.length) ? arrAbonement : apiPatients} //{this.props.visits}
-                                  intervals={ this.state.amountTraining ? this.props.freeIntervals : []}
+                                  step={60}
+                                  events={(arrAbonement && arrAbonement.length) ? arrAbonement : apiPatients}
+                                  intervals={ isNeedSaveIntervals ? this.props.freeIntervals : []}
                                   
                                   min= {min}
                                   max= {max}
@@ -508,13 +518,15 @@ class Schedule extends React.Component {
                                   transferTraining = {this.transferTraining} // drag and drop
                                   deleteEvent = {this.deleteEvent} // drag and drop
                                   setAbonement_Training = {this.setAbonement_Training}
+                                  setTransfer_End_Training = {this.setTransfer_End_Training}
+                                  trainerTraining = {this.props.trainerTraining}
 
             />)
         }
 
       
-       console.log('this.props.min :', this.props.min);
-       console.log('this.props.max :', this.props.max);
+    //    console.log('this.props.min :', this.props.min);
+    //    console.log('this.props.max :', this.props.max);
 
         return (
             <Hoc>
@@ -553,24 +565,18 @@ class Schedule extends React.Component {
                     className="schedule-message-modal-wrapper"
                 >
                         <div className="schedule-message-modal"> 
-                            <Button btnText='Перенести 1 треню'    
-                                onClick= {this.setTransfer_1_Training}
-                                type='yellow'
-                            />
-                        </div>
-                        <div className="schedule-message-modal"> 
-                            <Button btnText='Перенести треню в конец'    
-                                onClick= {this.setTransfer_End_Training}
-                                type='yellow'
-                            />
-                        </div>    
+                                <div className="schedule-message-btn"> 
+                                    <Button btnText='Перенести 1 треню'    
+                                        onClick= {this.setTransfer_1_Training}
+                                        type='yellow'/>
+                                </div>
 
-                        <div className="schedule-message-modal"> 
-                            <Button btnText='Новое расписание'    
-                                onClick= {this.setAbonement_Training}
-                                type='yellow'
-                            />
-                        </div>   
+                                <div className="schedule-message-btn"> 
+                                    <Button btnText='Новое расписание'    
+                                    onClick= {this.setAbonement_Training}
+                                    type='yellow'/>
+                                </div>
+                        </div>
                 </Modal>
 
                 
@@ -617,12 +623,16 @@ class Schedule extends React.Component {
 const mapStateToProps = state => {
     return {
         allAbonements: state.abonement.allAbonements, // и интервалы
+        id: state.auth.id,
+        trainerList: state.trainer.trainerList,
+        trainerTraining: state.trainer.trainerTraining,
 
         patients:  state.patients.docPatients,
         freeIntervals:  state.patients.freeIntervals,
         abonementIntervals: state.patients.abonementIntervals,
         countTraining: state.patients.countTraining,
         isUser:  state.auth.mode === "user",
+
         visits:  state.schedules.visits,
         intervals: state.schedules.visIntervals,
         min: state.schedules.min,   // !   1540929600
@@ -661,6 +671,7 @@ const mapDispatchToProps = dispatch => {
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),
 
+        onGetTrainerTraining: (dateMin, dateMax) => dispatch(actions.getTrainerTraining(dateMin, dateMax))
     }
 };
 

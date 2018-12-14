@@ -15,7 +15,7 @@ class StudentProfile extends React.Component {
         const {img, name, discipline, level, paidTrainingsCount} = this.props;
 
         return (
-            <Card title="Профиль студента">
+            <Card title="Профиль коуча">
                 <ScrollArea
                     speed={0.5}
                     contentClassName="flex-div"
@@ -33,7 +33,7 @@ class StudentProfile extends React.Component {
 
                             <div className="profile-student-info">
                                 <div className="profile-student-info-name">{name}</div>
-                                <div className="profile-student-info-discipline">{discipline}</div>
+                                {/*<div className="profile-student-info-discipline">{discipline}</div>*/}
                                 <div className="profile-student-info-level">{level}</div>
                                 <div className="profile-student-info-count">Тренировок оплачено: <span className="profile-student-info-count-number">{paidTrainingsCount}</span></div>
                             </div>

@@ -35,7 +35,7 @@ class TopPanel extends React.Component{
     render(){
         console.log("props", this.props);
         const {time} = this.state;
-        const {receptionsToday, receptionsActual, patients} = this.props;
+        const {receptionsToday, receptionsActual, patients, nextTraining} = this.props;
 
         return (
             <div className='top-panel'>
@@ -55,7 +55,7 @@ class TopPanel extends React.Component{
                 <div className="top-panel-items">
                     <TopPanelItem
                         panelTitle="Следующая тренировка"
-                        panelText={"24 дек"}
+                        panelText={ (nextTraining) ? moment(nextTraining*1000).format('D MMM') : '-'}
                     />
                     <TopPanelItem
                         panelTitle="Тренировок на сегодня"
@@ -75,12 +75,14 @@ TopPanel.propTypes = {
     receptionsToday: PropTypes.number,
     receptionsActual: PropTypes.number,
     patients: PropTypes.number,
+    nextTraining: PropTypes.number,
 };
 
 TopPanel.defaultProps = {
     receptionsToday: 0,
     receptionsActual: 0,
     patients: 0,
+    nextTraining: 0,
 };
 
 

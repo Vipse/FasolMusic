@@ -417,6 +417,8 @@ TimeGrid.propTypes = {
   showModalTransferEvent: PropTypes.func,
   setChoosenTrainer: PropTypes.func,
   transferTraining: PropTypes.func,
+  setTransfer_End_Training: PropTypes.func,
+  trainerTraining: PropTypes.object,
 }
 
  

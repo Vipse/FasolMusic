@@ -144,7 +144,7 @@ class StudentPersonalDataForm extends React.Component {
                     work: values.work,
                     interests: values.interests,
 
-                    disciplines: this.prepareDisciplines(values),
+                  //  disciplines: this.prepareDisciplines(values),
 
                     bestsex: values.bestsex === "Мужской" ? "m" : "w",
                     bestage: values.bestage,

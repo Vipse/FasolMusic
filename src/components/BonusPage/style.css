@@ -1,5 +1,5 @@
 .bonus {
-  background-color: #7544ea;
+  background-color: #fff;
   display: grid;
   grid-template-areas: "record invite invite" "record data refer" "record data refer";
   grid-template-rows: 244px 266px 244px;
@@ -20,7 +20,7 @@
   grid-area: record;
 }
 .bonus .offers .ant-card-body {
-  height: calc(100% - 66px);
+  height: calc(34%);
 }
 .bonus .offers-item {
   margin: 25px;
@@ -99,7 +99,7 @@
 .bonus .invite img {
   float: left;
   margin-right: 22px;
-  color: #7544ea;
+  color: #fff;
 }
 .bonus .invite .title {
   font-family: RobotoMediumItalic, sans-serif;
