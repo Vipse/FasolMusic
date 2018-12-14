@@ -2,7 +2,6 @@ import React from 'react'
 
 import Hoc from '../../hoc'
 import {connect} from "react-redux";
-import * as actions from "../../store/actions";
 import BonusPage from "../../components/BonusPage";
 
 class Bonus extends React.Component{
@@ -14,11 +13,12 @@ class Bonus extends React.Component{
     }
 
     render() {
-        let isUser = this.props.auth.mode === "user";
+        let isStudent = this.props.auth.mode === "student";
         return (
             <Hoc>
-                {isUser ? (<p>Unavailable</p>)
-                    : (<BonusPage/>)}
+                {isStudent ?
+                    (<BonusPage/>) :
+                    (<h3 style={{textAlign: "center"}}>В разработке</h3>)}
             </Hoc>
         )
     }
@@ -38,6 +38,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bonus);
-/*
-
-export default Payment;*/

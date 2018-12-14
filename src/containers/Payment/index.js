@@ -94,14 +94,11 @@ console.log('QQQ array :', array);
 
     render() {
         let {deadlinePay} = this.props;
-        let isUser = this.props.auth.mode === "student";
-
-        // убрать
-        isUser = true;
+        let isStudent = this.props.auth.mode === "student";
 
         return (
             <Hoc>
-                {isUser ? (
+                {isStudent ? (
                     <StudentPayment
                         showTrialModal = {this.showTrialModal}
                         deadlinePay = {deadlinePay}

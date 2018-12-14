@@ -47,20 +47,20 @@ class CoachPage extends React.Component{
         const { avatar, name, disciplines } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities } = this.props.profileCoach;
         if (this.state.loading === true) {
-            return <Spinner onBackground tip="Загрузка" size="large"/>;
+            return <Spinner tip="Загрузка" size="large"/>;
         } else if (!this.props.profileCoach.name) {
             return (
-                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
-                    <h3 style={{color: '#fff'}}>Страница не найдена</h3>
+                <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                    <h3>Страница не найдена</h3>
                     <p>Проверьте введённый адрес</p>
                 </div>
             )
         } else {
             return (
                 <Hoc>
-                    <div>
+                    <div className="coach-page">
                         <Row type="flex" gutter={32}>
-                            <Col span={11} className='section'>
+                            <Col span={11}>
                                 <CoachProfile
                                     img={avatar}
                                     name={name}
@@ -70,7 +70,7 @@ class CoachPage extends React.Component{
                                     ratingsCount={19}
                                 />
                             </Col>
-                            <Col span={13}>
+                            <Col span={13} offset={32}>
                                 <RecordTrainCarousel
                                     intervals={trainerTrainings}
                                 />

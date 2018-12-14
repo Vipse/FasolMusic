@@ -19,7 +19,7 @@ class Header extends React.Component {
     }
 
 render() {
-    const {notifications, isUser} = this.props;
+    const {notifications, isStudent} = this.props;
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -29,22 +29,24 @@ render() {
                         onGoto = {this.props.onGoto}
                         findName= {this.props.findName}
                         data={this.props.data}
-                        isUser = {isUser}
+                        isStudent = {isStudent}
                     />
                 </div>
                 <div className='header-train'>
-                    {!isUser ?
+                    {isStudent ?
                         <React.Fragment>
-                            <Button btnText='ЭКСТРЕННЫЙ ВЫЗОВ'
-                                size='small'
-                                type='emergensy'
-                                icon='emergency-call'
-                                onClick = {() => this.setState({emergencyVisit: true})}/>
-                            <Button btnText='ЗАПИСАТЬСЯ НА ПРИЕМ'
-                                onClick={this.handleClick}
-                                size='small'
-                                type='float'
-                                icon='form'/>
+                            <Button
+                                btnText='ДОБАВИТЬ ТРЕНИРОВКУ'
+                                size='default'
+                                type='border-pink'
+                                className="header-btn"
+                            />
+                            <Button
+                                btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
+                                size='default'
+                                type='border-pink'
+                                className="header-btn header-btn-transfer"
+                            />
                         </React.Fragment>
                         :
                         <React.Fragment>
@@ -96,14 +98,14 @@ render() {
 Header.propTypes = {
     notifications: PropTypes.array,
     logout: PropTypes.func,
-    isUser: PropTypes.bool,
+    isStudent: PropTypes.bool,
 
 };
 
 Header.defaultProps = {
     notifications: [],
     logout: () => {},
-    isUser: false,
+    isStudent: false,
 };
 
 export default Header

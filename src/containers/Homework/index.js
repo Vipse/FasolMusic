@@ -22,7 +22,7 @@ class Homework extends React.Component{
 
     gotoHandler = (id) => {
 		this.props.onSelectPatient(id);
-		let link = this.props.mode==="user"?"/app/doctor":"/app/patient";
+		let link = this.props.mode==="student"?"/app/doctor":"/app/patient";
 		this.props.history.push(link+id);
 	};
 
@@ -86,7 +86,7 @@ class Homework extends React.Component{
                         <HomeworkList
 
                             onGoto={this.gotoHandler}
-                            isUser={true}//{this.props.mode === "user"}
+                            isUser={true}//{this.props.mode === "student"}
                             onAddFiles = {this.props.onAddFiles}
                             makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
                             trainings={arrAbonement}

@@ -11,9 +11,8 @@ class Spinner extends Spin{
 
 
     render() {
-        const { isInline, onBackground, tip, size, style } = this.props;
+        const { isInline, tip, size, style } = this.props;
         let cls = isInline ? "inline-spinner" :"spinner-wrapper";
-        cls += onBackground ? " background-spinner" : "";
         return (
             <div className={cls}>
                 <Spin size={size}

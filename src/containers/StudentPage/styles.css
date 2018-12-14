@@ -1,12 +1,12 @@
-.btn {
+.student-page .ant-card {
+  margin-bottom: 32px;
+}
+.student-page .btn {
   white-space: nowrap;
 }
-.page-title {
+.student-page .page-title {
   color: #344051;
   font-weight: 600;
   font-size: 36px;
   letter-spacing: -0.36px;
-}
-.ant-card {
-  margin-bottom: 32px;
 }

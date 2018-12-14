@@ -44,18 +44,18 @@ class StudentPage extends React.Component{
         const { avatar, name, disciplines } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities } = this.props.profileStudent;
         if (this.state.loading === true) {
-            return <Spinner onBackground tip="Загрузка" size="large"/>;
+            return <Spinner tip="Загрузка" size="large"/>;
         } else if (!this.props.profileStudent.name) {
             return (
-                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
-                    <h3 style={{color: '#fff'}}>Страница не найдена</h3>
+                <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                    <h3>Страница не найдена</h3>
                     <p>Проверьте введённый адрес</p>
                 </div>
             )
         } else {
             return (
                 <Hoc>
-                    <div>
+                    <div className="student-page">
                         <Row type="flex" gutter={32}>
                             <Col span={10} className='section'>
                                 <StudentProfile

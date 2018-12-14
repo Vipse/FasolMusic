@@ -24,7 +24,7 @@ class MainPage extends React.Component{
 	}
 	
 	componentWillMount(){
-		if (this.props.mode === "user") {
+		if (this.props.mode === "student") {
 			this.props.onGetPatientDoctors(2);
             this.props.onGetNearVisits(3);
 			this.timer = setInterval(()=>this.props.onGetNearVisits(3), 60000);
@@ -78,26 +78,22 @@ class MainPage extends React.Component{
 
     render(){
 		
-        return (this.props.mode === "user") ? (
-			<PatientPage
-				allAbonements={this.props.allAbonements}
-				isUser = {this.props.mode === "user"}
-				doctors = {this.props.patientDoctors}
-				completedApps = {this.props.completedApps}
-				nearVisits = {this.props.nearVisits}
-                nearVisitsLoaded={this.props.nearVisitsLoaded}
-                myDoctorsLoaded={this.props.myDoctorsLoaded}
-                completedAppsLoaded={this.props.completedAppsLoaded}
-				{...this.props}
-                isNewFreeVisitVisible = {this.state.isNewFreeVisitVisible}
-                onCancel = {()=>this.setState({isNewFreeVisitVisible: false })}
-                onFreeVisit = {this.onNewFreeVisit}
-                onAddVisit = {this.props.onAddNewVisit}
-				getCompletedApps = {this.props.onGetCompletedApp}
-                onSubmitReview={this.props.makeReview}
-                makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
-                cancelAppByPatient = {this.props.cancelAppByPatient}
-            />
+        return (this.props.mode === "student") ? (
+			<CouchMain
+				allAbonements = {this.props.allAbonements}
+				showCancel = {() => {this.setState({cancelModal: true})}}
+				onAdd = {this.onAddVisit}
+				addModal = {this.state.addModal}
+				closeAdd= {() => {this.setState({addModal: false})}}
+				onSaveNewVisit = {this.onSaveNewVisit} // ?
+				cancelModal ={this.state.cancelModal}
+				closeCancel= {() => {this.setState({cancelModal: false})}}
+				saveCancel = {() => {}}
+				getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
+				treatmentsCount={this.props.treatmentsCount}
+				addConclusion = {this.props.addConclusion}
+				makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
+				{...this.props}/>
 		) : (
 			<CouchMain
 				allAbonements = {this.props.allAbonements}

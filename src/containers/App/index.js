@@ -1,5 +1,5 @@
 import React from 'react';
-import {docRoutes, patientRoutes, menuDoc, menuPatient} from '../../routes'
+import {coachRoutes, studentRoutes, menuStudent, menuCoach} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
 import Header from '../../components/Header';
@@ -106,8 +106,8 @@ class App extends React.Component {
     }*/
     componentDidMount() {
         this.props.auth.mode === "student" ? 
-                this.props.onGetInfoPatient(this.props.auth.id) :
-                this.props.onGetInfoDoctor(this.props.auth.id);
+            this.props.onGetInfoPatient(this.props.auth.id) :
+            this.props.onGetInfoDoctor(this.props.auth.id);
     }
 
     componentWillMount() {
@@ -145,8 +145,7 @@ class App extends React.Component {
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
-        const isUser = (this.props.mode === "student");
-console.log('isUser :', isUser);
+        const isStudent = (this.props.mode === "student");
         
         return (
             <div className="main">
@@ -158,7 +157,7 @@ console.log('isUser :', isUser);
                                     avatar={avatar}
                                     name={name}
                                     onLogoClick={this.onLogoClick}
-                                    menuItems={isUser ? menuPatient : menuDoc}
+                                    menuItems={isStudent ? menuStudent : menuCoach}
                                     isShort={this.state.collapsed}
                                 />
 
@@ -178,7 +177,7 @@ console.log('isUser :', isUser);
                                     <Header data={this.props.usersHeaderSearch}
                                             notifications={this.state.notifications}
                                             onGoto={this.gotoHandler}
-                                            isUser={isUser}
+                                            isStudent={isStudent}
                                             findName={(name) => {
                                                 this.props.onGetSearchUsers(name)
                                             }}
@@ -187,15 +186,15 @@ console.log('isUser :', isUser);
                                 </div>
                                 <div className="main-content">
                                     <Switch>
-                                        {!isUser ?
-                                            patientRoutes.map(route => renderRoutes(route)) 
+                                        {isStudent ?
+                                            studentRoutes.map(route => renderRoutes(route))
                                             :
-                                            docRoutes.map(route => renderRoutes(route))
+                                            coachRoutes.map(route => renderRoutes(route))
                                         }
                                         <Route
                                             render={() => (
-                                                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
-                                                    <h3 style={{color: '#fff'}}>Страница не найдена123</h3>
+                                                <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                                                    <h3>Страница не найдена</h3>
                                                     <p>Проверьте введённый адрес</p>
                                                 </div>
                                             )}

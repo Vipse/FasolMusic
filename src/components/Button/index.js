@@ -12,7 +12,7 @@ class Button extends React.Component {
         render() {
             const {className, type, size, btnText, icon, iconSize, title, svg, disable, onClick} = this.props;
 
-            const rootClass = cn( `${className}`, 'btn',`btn-size-${size}`, `btn-type-${type}`)
+            const rootClass = cn( `${className}`, 'btn',`btn-size-${size}`, `btn-type-${type}`);
 
             return (
                 <button className={rootClass}
@@ -42,7 +42,7 @@ Button.propTypes ={
         'gradient','icon','light-blue', 'file', 'link', 'go',
         'blue-float', 'no-brd', 'upload', 'transparent', 'emergency',
         'emergensy', 'pink', 'bright-blue', 'light-pink', 'light-green',
-        'black', 'yellow-black', 'border-pink']),
+        'black', 'yellow-black', 'border-pink', 'border-green']),
     size: PropTypes.oneOf(['small', 'default', 'large', 'icon',
         'file', 'link', 'file all-download', 'go', 'upload', 'mini']),
     btnText: PropTypes.string,

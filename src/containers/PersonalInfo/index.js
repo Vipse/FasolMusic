@@ -32,7 +32,7 @@ class PersonalInfo extends React.Component {
         const isStudent = this.props.auth.mode === "student";
         const {loadingData} = this.state;
         return (
-            loadingData ? <Spinner onBackground tip="Загрузка" size="large"/> :
+            loadingData ? <Spinner tip="Загрузка" size="large"/> :
                 <Hoc>
                     {isStudent ? (
                         <StudentPersonalProfile
