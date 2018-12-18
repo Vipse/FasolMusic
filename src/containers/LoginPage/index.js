@@ -68,7 +68,7 @@ class LoginPage extends React.Component {
                         <Route path="/registration"
                                exact
                                render={() => <CreateProfile onSubmit={this.props.onRegisterUser}
-                                                            urlLogin="/login"
+                                                            urlLogin="/app"
                                                             getSelectors={this.props.getSelectors}
                                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                                             //uploadFile = {this.props.uploadFile}

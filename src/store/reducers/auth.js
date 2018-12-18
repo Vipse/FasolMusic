@@ -2,8 +2,8 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
-    id: sessionStorage.getItem('_appdoc-id') ? sessionStorage.getItem('_appdoc-id') : 0,
-    mode: sessionStorage.getItem('_appdoc-mode') ? sessionStorage.getItem('_appdoc-mode') : "", // doc / user
+    id: sessionStorage.getItem('_fasol-id') ? sessionStorage.getItem('_fasol-id') : 0,
+    mode: sessionStorage.getItem('_fasol-mode') ? sessionStorage.getItem('_fasol-mode') : "", // doc / user
     error: null,
     errorCode: 0,
 };
