@@ -17,7 +17,6 @@ class RecordTrainCarousel extends React.Component {
         modalVisible: false,
         isFull: false,
         rowCount: 4,
-        intervals: [],
         carouselStep: 0,
     };
 
@@ -89,7 +88,8 @@ class RecordTrainCarousel extends React.Component {
             for (let i = 0; i < 24; i++) {
                 let curHourBegin = moment(curDayBegin).add(i, 'hours');
                 let isActive = curTime < curHourBegin
-                    && !intervals.some((item) => curHourBegin.isSame(moment(item.allInfo.date * 1000), 'hour'));
+                    && intervals.some((item) => item.from < curHourBegin.format('X')
+                        && moment(curHourBegin).endOf('hour').format('X') < item.to);
                 time.push({
                     timeToDisplay: curHourBegin.format('H:mm'),
                     timestamp: curHourBegin.format('X'),

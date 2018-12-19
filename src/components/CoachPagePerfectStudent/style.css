@@ -1,24 +1,24 @@
-* {
-  box-sizing: border-box;
-}
 .perfect-student {
   padding: 25px 35px;
   display: flex;
   flex-direction: column;
 }
 .perfect-student-fields {
+  display: flex;
   flex-direction: row;
-  margin-bottom: 15px;
+  margin-top: 15px;
   flex-wrap: wrap;
 }
 .perfect-student-fields .field {
-  margin-right: 20px;
+  margin: 0 60px 20px 0;
   width: auto;
 }
 .perfect-student-fields .field .value {
   font-family: RobotoMedium;
+  color: #000;
   margin-left: 25px;
 }
 .perfect-student-comment {
   font-family: RobotoMedium;
+  color: #000;
 }

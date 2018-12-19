@@ -1,41 +1,49 @@
-* {
-  box-sizing: border-box;
+.profile-card-coach {
+  padding: 12px 35px;
 }
-.profile {
-  padding: 12px 35px ;
-}
-.profile-coach {
+.profile-card-coach .profile-coach {
   display: flex;
   justify-content: flex-start;
 }
-.profile-coach-avatar {
+.profile-card-coach .profile-coach-avatar {
   margin-right: 30px;
-  width: 20%;
 }
-.profile-coach-info {
+.profile-card-coach .profile-coach-info {
   flex-direction: column;
   width: 40%;
   margin-right: 50px;
+  align-self: center;
 }
-.profile-coach-info-name {
+.profile-card-coach .profile-coach-info-name {
   color: #21bedd;
   font-family: "RobotoMediumItalic";
   text-transform: uppercase;
 }
-.profile-coach-info-count {
-  font-family: RobotoMedium;
+.profile-card-coach .profile-coach-info-btn {
+  margin-top: 15px;
+  align-self: flex-end;
 }
-.profile-coach-info-count-number {
-  font-size: 22px;
-}
-.profile-coach-rate {
+.profile-card-coach .profile-coach-rate {
   width: 30%;
   font-family: RobotoMedium;
+  align-self: center;
 }
-.profile-coach-comment {
+.profile-card-coach .profile-coach-rate-count {
+  font-family: RobotoMedium;
+  color: #ffc908;
+}
+.profile-card-coach .profile-coach-rate-count-amount {
+  color: #000;
+}
+.profile-card-coach .profile-coach-rate-info {
+  font-size: 12px;
+  color: #b7b7b7;
+}
+.profile-card-coach .profile-coach-comment {
   font-family: RobotoMedium;
   margin: 20px 0;
+  overflow: hidden;
 }
-.profile-coach-promo .coach-data-promoVideo {
+.profile-card-coach .profile-coach-promo .coach-data-promoVideo {
   width: 100%;
 }

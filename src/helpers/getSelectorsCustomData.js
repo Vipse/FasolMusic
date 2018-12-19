@@ -32,3 +32,15 @@ export function getSelectorNestedIDs(selector, selectedValues, parentName) {
     }
     else return [];
 }
+
+export function getNameFromObjArr(objArr) {
+    if (objArr && objArr.length)
+        return objArr[0].name;
+    else return "";
+}
+
+export function getNamesFromObjArr(objArr) {
+    if (objArr && objArr.length)
+        return objArr.map(item => item.name);
+    else return [];
+}
