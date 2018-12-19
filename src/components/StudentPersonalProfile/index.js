@@ -29,6 +29,7 @@ class StudentPersonalProfile extends React.Component {
                         <StudentPersonalData
                             profileStudent={profile}
                             onSubmit={this.props.onSubmit}
+                            getSelectors={this.props.getSelectors}
                         />
                     </Col>
                     {/*<Col span={7}>

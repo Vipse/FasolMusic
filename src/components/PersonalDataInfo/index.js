@@ -10,6 +10,7 @@ import SelectNew from "../SelectNew";
 import TextArea from "../TextArea";
 import DatePickerNew from "../DatePickerNew";
 import moment from "moment";
+import {getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
@@ -20,10 +21,8 @@ class PersonalDataInfo extends React.Component {
     }
 
     render() {
-        const { getFieldDecorator, isStudent } = this.props;
+        const { getFieldDecorator, isStudent, interestsList, professionsList } = this.props;
         const { sex, datebirth, work, interests, aboutme } = this.props.profile;
-        const specialityArr = ["Сфера деятельности 1", "Сфера деятельности 2", "Сфера деятельности 3"];
-        const interestsArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-block');
 
         return (
@@ -58,7 +57,7 @@ class PersonalDataInfo extends React.Component {
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('work', {
-                            initialValue: work,
+                            initialValue: getNamesFromObjArr(work),
                             rules: [{
                                 required: true,
                                 message: 'Выберите сферу деятельности, пожалуйста'
@@ -67,13 +66,13 @@ class PersonalDataInfo extends React.Component {
                             <SelectNew className=""
                                        width="100%"
                                        bubbleplaceholder="*Сфера деятельности"
-                                       data={specialityArr}
+                                       data={professionsList}
                             />
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('interests', {
-                            initialValue: interests,
+                            initialValue: getNamesFromObjArr(interests),
                             rules: [{
                                 required: true,
                                 message: 'Выберите интересы, пожалуйста'
@@ -82,7 +81,7 @@ class PersonalDataInfo extends React.Component {
                             <SelectNew width="100%"
                                        bubbleplaceholder="*Интересы"
                                        mode="multiple"
-                                       data={interestsArr}
+                                       data={interestsList}
                             />
                         )}
                     </FormItem>

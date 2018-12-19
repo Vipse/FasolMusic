@@ -9,6 +9,7 @@ import CoachPersonalProfile from "../../components/CoachPersonalProfile";
 import StudentPersonalProfile from "../../components/StudentPersonalProfile";
 import {message} from "antd";
 import Spinner from "../../components/Spinner";
+import CreateProfile from "../../components/CreateProfile";
 
 class PersonalInfo extends React.Component {
     constructor(props) {
@@ -52,12 +53,14 @@ class PersonalInfo extends React.Component {
                         <StudentPersonalProfile
                             profileStudent={this.props.profileStudent}
                             onSubmit={this.props.onSaveUserEdit}
+                            getSelectors={this.props.getSelectors}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
                             //onUploadFile={this.props.uploadFile}
                         />) : (
                         <CoachPersonalProfile
                             profileCoach={this.props.profileCoach}
                             onSubmit={this.props.onSaveUserEdit}
+                            getSelectors={this.props.getSelectors}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
                             //onUploadFile={this.props.uploadFile}
                         />)}

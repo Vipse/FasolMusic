@@ -30,6 +30,7 @@ class CoachPersonalProfile extends React.Component{
                         <CoachPersonalData
                             profileCoach={profile}
                             onSubmit={this.props.onSubmit}
+                            getSelectors={this.props.getSelectors}
                         />
                     </Col>
                     {/*<Col span={7}>
