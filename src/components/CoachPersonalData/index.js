@@ -54,7 +54,7 @@ class CoachPersonalDataForm extends React.Component {
         this.loadTrainingTime();
 
         const {getSelectors} = this.props;
-        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day', 'reception'];
 
         selectorsNames.forEach((name) => {
             getSelectors(name)
@@ -121,7 +121,7 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareDisciplines = (data) => {
-        const {disciplineList, goalList, stylesList} = this.state.selectorsValues;
+        const {disciplineList, receptionList, goalList, stylesList} = this.state.selectorsValues;
         let disciplinesNumsArr = [];
         for (let key in data)
             if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
@@ -131,6 +131,7 @@ class CoachPersonalDataForm extends React.Component {
             preparedDisciplines.push({
                 discipline: getSelectorIDs(disciplineList, data["discipline-" + i]),
                 specialization: getSelectorNestedIDs(disciplineList, data["specialization-" + i], data["discipline-" + i]),
+                //receptions: getSelectorIDs(receptionList, data["receptions-" + i]),
                 level: data["level-" + i],
                 experiense: data["experience-" + i],
                 goals: getSelectorIDs(goalList, data["goals-" + i]),
@@ -209,7 +210,7 @@ class CoachPersonalDataForm extends React.Component {
         const { promoLink } = this.state;
         const { form, profileCoach } = this.props;
         const { getFieldDecorator } = form;
-        const {interestsList, professionsList, disciplineList, goalList, stylesList, qualitiesList} = this.state.selectorsValues;
+        const {interestsList, professionsList, disciplineList, receptionList, goalList, stylesList, qualitiesList} = this.state.selectorsValues;
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
@@ -245,6 +246,7 @@ class CoachPersonalDataForm extends React.Component {
                             form={form}
                             disciplineList={getSelectorValues(disciplineList)}
                             specializationList={getSelectorNestedValues(disciplineList)}
+                            receptionList={getSelectorValues(receptionList)}
                             goalList={getSelectorValues(goalList)}
                             stylesList={getSelectorValues(stylesList)}
                         />

@@ -9,7 +9,6 @@ import CoachPersonalProfile from "../../components/CoachPersonalProfile";
 import StudentPersonalProfile from "../../components/StudentPersonalProfile";
 import {message} from "antd";
 import Spinner from "../../components/Spinner";
-import CreateProfile from "../../components/CreateProfile";
 
 class PersonalInfo extends React.Component {
     constructor(props) {

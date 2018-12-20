@@ -46,9 +46,9 @@ class PersonalDataSkill extends React.Component {
     };
 
     generateDisciplineItem = (number, data = {}) => {
-        const {form, isStudent, disciplineList, specializationList, goalList, stylesList} = this.props;
+        const {form, isStudent, disciplineList, specializationList, receptionList, goalList, stylesList} = this.props;
         const {getFieldDecorator} = form;
-        const {discipline, specialization, level, experiense, methods, goals, musicstyles, favoritesingers} = data;
+        const {discipline, specialization, level, experiense, receptions, goals, musicstyles, favoritesingers} = data;
         const {length} = this.props.profile.disciplines;
         const {addedNums} = this.state;
 
@@ -164,8 +164,8 @@ class PersonalDataSkill extends React.Component {
                 )}
             </FormItem>
             {!isStudent && <FormItem className="input-form-item">
-                {getFieldDecorator('methods-' + number, {
-                    initialValue: methods,
+                {getFieldDecorator('receptions-' + number, {
+                    initialValue: getNamesFromObjArr(receptions),
                     rules: [{
                         required: false,
                         message: 'Выберите приемы, пожалуйста'
@@ -174,7 +174,7 @@ class PersonalDataSkill extends React.Component {
                     <SelectNew width="100%"
                                bubbleplaceholder="Приемы"
                                mode="multiple"
-                               data={["Спорт", "Кино и сериалы", "Туризм"]}
+                               data={receptionList}
                     />
                 )}
             </FormItem>}
