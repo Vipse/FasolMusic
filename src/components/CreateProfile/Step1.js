@@ -31,7 +31,7 @@ class Step1Form extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            if (true) {
+            if (!err) {
                 const {avatar, facebookLink, googleLink} = this.state;
                 const fields = {
                     ...values,
@@ -212,13 +212,13 @@ class Step1Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('work', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите сферу деятельности, пожалуйста'
                         }],
                     })(
                         <SelectWithTT
                             key="work"
-                            bubbleplaceholder="*Сфера деятельности"
+                            bubbleplaceholder="Сфера деятельности"
                             className="step-form-item"
                             tooltip="Сфера деятельности Tooltip"
                             values={professionsList}
@@ -228,13 +228,13 @@ class Step1Form extends React.Component{
                 <FormItem>
                     {getFieldDecorator('interests', {
                         rules: [{
-                            required: true,
+                            required: false,
                             message: 'Выберите интересы, пожалуйста'
                         }],
                     })(
                         <SelectWithTT
                             key="interests"
-                            bubbleplaceholder="*Интересы"
+                            bubbleplaceholder="Интересы"
                             className="step-form-item"
                             tooltip="Интересы Tooltip"
                             mode="multiple"

@@ -87,11 +87,16 @@ class Step4Form extends React.Component{
                 };
 
                 console.log("FINAL REG DATA", finalRegData);
+
+                localStorage.setItem('_fasol-user', email);
+                localStorage.setItem('_fasol-pass', finalRegData.password);
+
                 this.props.onFinish(finalRegData).then(res => {
                     if (res && !res.data.error)
                         this.props.onNext();
                     else {
-                        console.log(res.data.error);
+                        localStorage.removeItem('_fasol-user');
+                        localStorage.removeItem('_fasol-pass');
                         message.error('Ошибка ' + res.data.error.code + ': ' + res.data.error.text, 10);
                         //message.error('Заполнены не все обязательные поля', 4);
                     }

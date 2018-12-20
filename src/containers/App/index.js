@@ -111,8 +111,8 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        const login = localStorage.getItem('_appdoc-user'),
-            pass = localStorage.getItem('_appdoc-pass');
+        const login = localStorage.getItem('_fasol-user'),
+            pass = localStorage.getItem('_fasol-pass');
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
             userName: login,
@@ -123,7 +123,7 @@ class App extends React.Component {
     }
 
     gotoHandler = (id) => {
-        this.props.auth.mode !== "student" ? this.props.history.push('/app/patient' + id) : this.props.history.push('/app/doctor' + id)
+        this.props.auth.mode === "student" ? this.props.history.push('/app/coach' + id) : this.props.history.push('/app/student' + id)
     };
 
     onLogoClick = () => {

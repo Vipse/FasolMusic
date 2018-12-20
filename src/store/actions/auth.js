@@ -6,8 +6,8 @@ import moment from "moment";
 export const autoLogin = (history) => {
     return (dispatch) => {
 
-        const login = localStorage.getItem('_appdoc-user');
-        const passw = localStorage.getItem('_appdoc-pass');
+        const login = localStorage.getItem('_fasol-user');
+        const passw = localStorage.getItem('_fasol-pass');
 
         if(login && passw){
             dispatch(login(login, passw, false, history, true));
@@ -48,8 +48,8 @@ export const login = (userName, password, remember, history, isAuto) => {
                             ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
                                 dispatch(setOnlineStatus(res.data.result.id, true)),
-                                sessionStorage.setItem('_appdoc-id', res.data.result.id),
-                                sessionStorage.setItem('_appdoc-mode', res.data.result.usergroup),
+                                sessionStorage.setItem('_fasol-id', res.data.result.id),
+                                sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
 
                                 history.push('/app')
@@ -58,10 +58,10 @@ export const login = (userName, password, remember, history, isAuto) => {
                                 dispatch(authFail(res.data.error)),
                                     isAuto && (
                                         // TODO: test
-                                        localStorage.removeItem('_appdoc-user'),
-                                        localStorage.removeItem('_appdoc-pass'),
-                                        sessionStorage.removeItem('_appdoc-id'),
-                                        sessionStorage.removeItem('_appdoc-mode')
+                                        localStorage.removeItem('_fasol-user'),
+                                        localStorage.removeItem('_fasol-pass'),
+                                        sessionStorage.removeItem('_fasol-id'),
+                                        sessionStorage.removeItem('_fasol-mode')
                                     )
                             );
                     })
@@ -162,10 +162,10 @@ export const resetRegisterStatus = () => {
 
 export const logout = () => {
     return (dispatch, getState) => {
-        localStorage.removeItem('_appdoc-user');
-        localStorage.removeItem('_appdoc-pass');
-        sessionStorage.removeItem('_appdoc-id');
-        sessionStorage.removeItem('_appdoc-mode');
+        localStorage.removeItem('_fasol-user');
+        localStorage.removeItem('_fasol-pass');
+        sessionStorage.removeItem('_fasol-id');
+        sessionStorage.removeItem('_fasol-mode');
         dispatch(setOnlineStatus(getState().auth.id, false));
         dispatch(authSuccess(0, ''));
     }
@@ -202,8 +202,8 @@ export const getSelectors = (name) => {
 
 const rememberMe = (flag, userName, password) => {
     flag ?
-        (localStorage.setItem('_appdoc-user',userName),
-        localStorage.setItem('_appdoc-pass',password))
+        (localStorage.setItem('_fasol-user',userName),
+        localStorage.setItem('_fasol-pass',password))
         : null;
 }
 
