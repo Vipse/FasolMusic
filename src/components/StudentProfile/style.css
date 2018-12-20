@@ -1,26 +1,24 @@
-* {
-  box-sizing: border-box;
+.profile-card-student {
+  padding: 25px 35px;
 }
-.profile {
-  padding: 25px 35px 25px;
-}
-.profile-student {
+.profile-card-student .profile-student {
   display: flex;
 }
-.profile-student-avatar {
+.profile-card-student .profile-student-avatar {
   margin-right: 30px;
 }
-.profile-student-info {
+.profile-card-student .profile-student-info {
   flex-direction: column;
+  align-self: center;
 }
-.profile-student-info-name {
+.profile-card-student .profile-student-info-name {
   color: #21bedd;
   font-family: "RobotoMediumItalic";
   text-transform: uppercase;
 }
-.profile-student-info-count {
+.profile-card-student .profile-student-info-count {
   font-family: RobotoMedium;
 }
-.profile-student-info-count-number {
+.profile-card-student .profile-student-info-count-number {
   font-size: 22px;
 }

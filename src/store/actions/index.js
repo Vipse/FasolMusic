@@ -109,6 +109,7 @@ export {
     sendNewInfoDoctor,
     getInfoDoctor,
     getTrainerTrainings,
+    getMasterSchedule,
     getNotifications,
     readNotification,
     getAllDocIntervals,

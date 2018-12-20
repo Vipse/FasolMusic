@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import ProfileAvatar from '../ProfileAvatar'
 import Card from '../Card'
 import Button from '../Button'
-import ScrollArea from 'react-scrollbar'
 import './style.css'
 import '../../icon/style.css'
 import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
@@ -13,17 +12,11 @@ class CoachProfile extends React.Component {
     state = {};
 
     render() {
-        const {img, name, discipline, specialization, rate, ratingsCount} = this.props;
+        const {img, name, discipline, specialization, aboutMe, rate, ratingsCount} = this.props;
 
-        let speciality1=['Медик',"Доктор"]
         return (
             <Card title="Профиль преподавателя">
-                <ScrollArea
-                    speed={0.5}
-                    contentClassName="flex-div"
-                    smoothScrolling={true}
-                >
-                    <div className="profile">
+                    <div className="profile-card-coach">
                         <div className='profile-coach'>
                             <div className="profile-coach-avatar">
                                 <ProfileAvatar
@@ -35,8 +28,8 @@ class CoachProfile extends React.Component {
 
                             <div className="profile-coach-info">
                                 <div className="profile-coach-info-name">{name}</div>
-                                {/*<div className="profile-coach-info-discipline">{discipline}{specialization ? (", " + specialization) : ""}</div> */}
-                                <div className="profile-coach-btn-row">
+                                <div className="profile-coach-info-discipline">{discipline.join(', ')}{specialization ? ('; ' + specialization.join(', ')) : ""}</div>
+                                <div className="profile-coach-info-btn">
                                     <Button onClick={() => console.log('openDialog')}
                                             btnText='Открыть диалог'
                                             size='default'
@@ -46,21 +39,19 @@ class CoachProfile extends React.Component {
                             </div>
 
                             <div className="profile-coach-rate">
-                                <div className="profile-coach-info-count">Rate: <span className="profile-coach-info-count-number">{rate} ({ratingsCount})</span></div>
+                                <div className="profile-coach-rate-count">★★★★★{/*rate*/} <span className="profile-coach-rate-count-amount">({ratingsCount} оценок)</span></div>
                                 <div className="profile-coach-rate-info">
-                                    Comment
+                                    <p>Предложение оценить препода в несколько строк</p>
                                 </div>
                             </div>
                         </div>
                         <div className="profile-coach-comment">
-                            Comment
+                            <p>{aboutMe}</p>
                         </div>
                         <div className="profile-coach-promo">
                             <CoachPersonalDataPromo/>
                         </div>
                     </div>
-                </ScrollArea>
-
             </Card>
         )
     }
