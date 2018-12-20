@@ -1,6 +1,7 @@
 .coach {
 	&-data {
-		.disciplines {
+		&-block.disciplines {
+			display: flex;
 			flex-direction: column;
 		}
 
@@ -12,12 +13,8 @@
 			justify-content: space-between;
 
 			.input-form-item {
-				&:nth-child(1) {
-					width: 100%;
-				}
-
 				&:nth-child(2) {
-					width: 47.5%;
+					width: 100%;
 				}
 
 				&:nth-child(3) {
@@ -33,7 +30,7 @@
 				}
 
 				&:nth-child(6) {
-					width: 100%;
+					width: 47.5%;
 				}
 
 				&:nth-child(7) {
@@ -43,10 +40,15 @@
 				&:nth-child(8) {
 					width: 100%;
 				}
+
+				&:nth-child(9) {
+					width: 100%;
+				}
 			}
 
 			&-footer {
 				display: flex;
+				width: 100%;
 
 				button {
 					margin: 0 20px 10px 0;
@@ -57,9 +59,9 @@
 				}
 
 				&-line {
-					margin: 10px auto 40px;
+					margin: 17px auto 40px;
 					border-bottom: #21bedd 1px solid;
-					width: 50%;
+					width: 100%;
 				}
 			}
 		}

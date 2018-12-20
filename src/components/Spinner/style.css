@@ -5,6 +5,9 @@
 .spinner-wrapper .ant-spin-dot i {
   background-color: #21bedd;
 }
+.spinner-wrapper .ant-spin-text {
+  color: #21bedd;
+}
 .inline-spinner {
   display: inline-block;
 }
