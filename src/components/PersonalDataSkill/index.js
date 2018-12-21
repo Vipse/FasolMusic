@@ -9,7 +9,12 @@ import {Form} from 'antd'
 import Button from '../Button'
 import InputNew from "../InputNew";
 import SelectNew from "../SelectNew";
-import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
+import {
+    getNameFromObjArr,
+    getNamesFromObjArr,
+    getSelectorNestedValues,
+    getSelectorValues
+} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
@@ -46,14 +51,14 @@ class PersonalDataSkill extends React.Component {
     };
 
     generateDisciplineItem = (number, data = {}) => {
-        const {form, isStudent, disciplineList, specializationList, receptionList, goalList, stylesList} = this.props;
+        const {form, isStudent, disciplineObj, goalList, stylesList} = this.props;
         const {getFieldDecorator} = form;
         const {discipline, specialization, level, experiense, receptions, goals, musicstyles, favoritesingers} = data;
         const {length} = this.props.profile.disciplines;
         const {addedNums} = this.state;
 
-        const resetSpecialization = () => {
-            this.props.form.setFieldsValue({['specialization-' + number]: ""});
+        const resetFields = (names) => {
+            names.forEach((item) => this.props.form.setFieldsValue({[item + '-' + number]: []}));
         };
 
         return <div className='coach-data-skill' key={'discipline' + number}>
@@ -81,8 +86,8 @@ class PersonalDataSkill extends React.Component {
                 })(
                     <SelectNew width="100%"
                                bubbleplaceholder="Дисциплина"
-                               data={disciplineList}
-                               onChange={resetSpecialization}
+                               data={getSelectorValues(disciplineObj)}
+                               onChange={() => resetFields(['specialization', 'receptions'])}
                     />
                 )}
             </FormItem>
@@ -96,8 +101,8 @@ class PersonalDataSkill extends React.Component {
                 })(
                     <SelectNew width="100%"
                                bubbleplaceholder="Специализация"
-                               data={specializationList[form.getFieldValue('discipline-' + number)] ?
-                                   specializationList[form.getFieldValue('discipline-' + number)] : []}
+                               data={getSelectorNestedValues(disciplineObj, [form.getFieldValue('discipline-' + number)])}
+                               onChange={() => resetFields(['receptions'])}
                     />
                 )}
             </FormItem>
@@ -174,7 +179,8 @@ class PersonalDataSkill extends React.Component {
                     <SelectNew width="100%"
                                bubbleplaceholder="Приемы"
                                mode="multiple"
-                               data={receptionList}
+                               data={getSelectorNestedValues(disciplineObj,
+                                   [form.getFieldValue('discipline-' + number), form.getFieldValue('specialization-' + number)])}
                     />
                 )}
             </FormItem>}
