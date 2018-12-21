@@ -21,9 +21,8 @@ import {Form, message} from "antd";
 import Spinner from "../Spinner";
 import moment from "moment";
 import {
-    getSelectorIDs,
-    getSelectorNestedIDs,
-    getSelectorNestedValues,
+    getSelectedIDs,
+    getSelectedNestedIDs,
     getSelectorValues
 } from "../../helpers/getSelectorsCustomData";
 
@@ -54,7 +53,7 @@ class CoachPersonalDataForm extends React.Component {
         this.loadTrainingTime();
 
         const {getSelectors} = this.props;
-        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day', 'reception'];
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
 
         selectorsNames.forEach((name) => {
             getSelectors(name)
@@ -121,7 +120,7 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareDisciplines = (data) => {
-        const {disciplineList, receptionList, goalList, stylesList} = this.state.selectorsValues;
+        const {disciplineList, goalList, stylesList} = this.state.selectorsValues;
         let disciplinesNumsArr = [];
         for (let key in data)
             if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
@@ -129,13 +128,13 @@ class CoachPersonalDataForm extends React.Component {
         let preparedDisciplines = [];
         disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({
-                discipline: getSelectorIDs(disciplineList, data["discipline-" + i]),
-                specialization: getSelectorNestedIDs(disciplineList, data["specialization-" + i], data["discipline-" + i]),
-                //receptions: getSelectorIDs(receptionList, data["receptions-" + i]),
+                discipline: getSelectedIDs(disciplineList, data["discipline-" + i]),
+                specialization: getSelectedNestedIDs(disciplineList, data["specialization-" + i], [data["discipline-" + i]]),
+                receptions: getSelectedNestedIDs(disciplineList, data["receptions-" + i], [data["discipline-" + i], data["specialization-" + i]]),
                 level: data["level-" + i],
                 experiense: data["experience-" + i],
-                goals: getSelectorIDs(goalList, data["goals-" + i]),
-                musicstyles: getSelectorIDs(stylesList, data["musicstyles-" + i]),
+                goals: getSelectedIDs(goalList, data["goals-" + i]),
+                musicstyles: getSelectedIDs(stylesList, data["musicstyles-" + i]),
                 favoritesingers: data["favoritesingers-" + i]
             });
         });
@@ -148,7 +147,7 @@ class CoachPersonalDataForm extends React.Component {
         let preparedTrainingTime = {};
         for (let i = 0; i < 7; ++i) {
             this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
-                day: dayList[getSelectorValues(dayList, true).indexOf(String(i))][0].id,
+                day: getSelectedIDs(dayList, String(i), true),
                 datestart: this.state.trainingTime.selectedTimes[i][0],
                 dateend: this.state.trainingTime.selectedTimes[i][1]
             } : null;
@@ -173,8 +172,8 @@ class CoachPersonalDataForm extends React.Component {
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
-                    work: getSelectorIDs(professionsList, values.work),
-                    interests: getSelectorIDs(interestsList, values.interests),
+                    work: getSelectedIDs(professionsList, values.work),
+                    interests: getSelectedIDs(interestsList, values.interests),
                     aboutme: values.aboutme,
 
                     promovideo: this.state.promoLink,
@@ -184,7 +183,7 @@ class CoachPersonalDataForm extends React.Component {
                     bestsex: values.bestsex === "Мужской" ? "m" : "w",
                     bestage: values.bestage,
                     bestishomework: values.bestishomework === "Да",
-                    bestqualities: getSelectorIDs(qualitiesList, values.bestqualities),
+                    bestqualities: getSelectedIDs(qualitiesList, values.bestqualities),
                     bestcomment: values.bestcomment,
 
                     trainingtime: this.prepareTrainingTime()
@@ -210,7 +209,7 @@ class CoachPersonalDataForm extends React.Component {
         const { promoLink } = this.state;
         const { form, profileCoach } = this.props;
         const { getFieldDecorator } = form;
-        const {interestsList, professionsList, disciplineList, receptionList, goalList, stylesList, qualitiesList} = this.state.selectorsValues;
+        const {interestsList, professionsList, disciplineList, goalList, stylesList, qualitiesList} = this.state.selectorsValues;
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
@@ -244,9 +243,7 @@ class CoachPersonalDataForm extends React.Component {
                         <PersonalDataSkill
                             profile={profileCoach}
                             form={form}
-                            disciplineList={getSelectorValues(disciplineList)}
-                            specializationList={getSelectorNestedValues(disciplineList)}
-                            receptionList={getSelectorValues(receptionList)}
+                            disciplineObj={disciplineList}
                             goalList={getSelectorValues(goalList)}
                             stylesList={getSelectorValues(stylesList)}
                         />

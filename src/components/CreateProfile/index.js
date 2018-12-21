@@ -32,8 +32,7 @@ class CreateProfile extends React.Component{
                                            onNext={this.next}
                                            onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
-                                           disciplineList={getSelectorValues(state.selectorsValues.disciplineList)}
-                                           specializationList={getSelectorNestedValues(state.selectorsValues.disciplineList)}
+                                           disciplineObj={state.selectorsValues.disciplineList}
                                            goalList={getSelectorValues(state.selectorsValues.goalList)}
                                            stylesList={getSelectorValues(state.selectorsValues.stylesList)}
                 />,

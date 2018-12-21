@@ -1,35 +1,43 @@
 export function getSelectorValues(selector, englishMode) {
     if (selector && selector.length)
-        return selector.map(item => englishMode ? item[0].nameEng : item[0].nameRus);
+        return selector.map(item => englishMode ? item.nameEng : item.nameRus);
     else return [];
 }
 
-export function getSelectorNestedValues(selector) {
-    let nestedValuesObj = {};
-    if (selector && selector.length)
-        selector.forEach(item => {
-            if (item[0].connect)
-                nestedValuesObj[item[0].nameRus] = item[0].connect[0].map(item => item[0].nameRus);
-        });
-    return nestedValuesObj;
-}
-
-export function getSelectorIDs(selector, selectedValues) {
+export function getSelectedIDs(selector, selectedValues, englishMode = false) {
     if (selectedValues && selectedValues.length && selector && selector.length) {
-        const selectorValues = getSelectorValues(selector);
-        if (!Array.isArray(selectedValues)) return [selector[selectorValues.indexOf(selectedValues)][0].id];
-        else return selectedValues.map(item => selector[selectorValues.indexOf(item)][0].id);
+        const selectorValues = getSelectorValues(selector, englishMode);
+        if (!Array.isArray(selectedValues)) return [selector[selectorValues.indexOf(selectedValues)].id];
+        else return selectedValues.map(item => selector[selectorValues.indexOf(item)].id);
     }
     else return [];
 }
 
-export function getSelectorNestedIDs(selector, selectedValues, parentName) {
-    if (selectedValues && selectedValues.length && selector && selector.length) {
-        const indexOfParent = getSelectorValues(selector).indexOf(parentName);
-        const selectorValues = getSelectorNestedValues(selector)[parentName];
-        if (!Array.isArray(selectedValues)) return [selector[indexOfParent][0].connect[0][selectorValues.indexOf(selectedValues)][0].id];
-        else return selectedValues.map(item => selector[indexOfParent][0].connect[0][selectorValues.indexOf(item)][0].id);
-    }
+export function getSelectorNestedObjs(selector, parentsArr, englishMode = false) {
+    let targetChild = selector;
+    if (selector && selector.length && parentsArr && parentsArr.length)
+        if (parentsArr.every(parent => {
+            return targetChild.some(item => {
+                if (item.connect && item.connect.length && (englishMode ?
+                    item.nameEng === parent : item.nameRus === parent)) {
+                    targetChild = item.connect;
+                    return true;
+                }
+                else return false;
+            });
+        })) return targetChild;
+    return [];
+}
+
+export function getSelectorNestedValues(selector, parentsArr, englishMode = false) {
+    if (parentsArr && parentsArr.length && selector && selector.length)
+        return getSelectorValues(getSelectorNestedObjs(selector, parentsArr, englishMode));
+    else return [];
+}
+
+export function getSelectedNestedIDs(selector, selectedValues, parentsArr, englishMode = false) {
+    if (selectedValues && selectedValues.length && selector && selector.length && parentsArr && parentsArr.length)
+        return getSelectedIDs(getSelectorNestedObjs(selector, parentsArr, englishMode), selectedValues, englishMode);
     else return [];
 }
 

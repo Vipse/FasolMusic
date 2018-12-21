@@ -5,6 +5,7 @@ import Button from '../Button'
 import InputWithTT from "../InputWithTT";
 import SelectWithTT from "../SelectWithTT";
 import TextArea from "../TextArea";
+import {getSelectorNestedValues, getSelectorValues} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
@@ -38,7 +39,7 @@ class Step2Form extends React.Component{
     };
 
     render(){
-        const { form, disciplineList, specializationList, goalList, stylesList } = this.props;
+        const { form, disciplineObj, goalList, stylesList } = this.props;
         const { getFieldDecorator } = form;
 
         return (
@@ -60,7 +61,7 @@ class Step2Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="*Дисциплина"
                                 className="step-form-item"
-                                values={disciplineList}
+                                values={getSelectorValues(disciplineObj)}
                                 onChange={this.resetSpecialization}
                             />
                         )}
@@ -75,7 +76,7 @@ class Step2Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="Специализация"
                                 className="step-form-item"
-                                values={specializationList[form.getFieldValue('discipline')]}
+                                values={getSelectorNestedValues(disciplineObj, [form.getFieldValue('discipline')])}
                             />
                         )}
                     </FormItem>

@@ -18,9 +18,8 @@ import Spinner from "../Spinner";
 import moment from "moment";
 import ChangePasswordModal from "../ChangePasswordModal";
 import {
-    getSelectorIDs,
-    getSelectorNestedIDs,
-    getSelectorNestedValues,
+    getSelectedIDs,
+    getSelectedNestedIDs,
     getSelectorValues
 } from "../../helpers/getSelectorsCustomData";
 
@@ -123,12 +122,12 @@ class StudentPersonalDataForm extends React.Component {
         let preparedDisciplines = [];
         disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({
-                discipline: getSelectorIDs(disciplineList, data["discipline-" + i]),
-                specialization: getSelectorNestedIDs(disciplineList, data["specialization-" + i], data["discipline-" + i]),
+                discipline: getSelectedIDs(disciplineList, data["discipline-" + i]),
+                specialization: getSelectedNestedIDs(disciplineList, data["specialization-" + i], [data["discipline-" + i]]),
                 level: data["level-" + i],
                 experiense: data["experience-" + i],
-                goals: getSelectorIDs(goalList, data["goals-" + i]),
-                musicstyles: getSelectorIDs(stylesList, data["musicstyles-" + i]),
+                goals: getSelectedIDs(goalList, data["goals-" + i]),
+                musicstyles: getSelectedIDs(stylesList, data["musicstyles-" + i]),
                 favoritesingers: data["favoritesingers-" + i]
             });
         });
@@ -141,7 +140,7 @@ class StudentPersonalDataForm extends React.Component {
         let preparedTrainingTime = {};
         for (let i = 0; i < 7; ++i) {
             this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
-                day: dayList[getSelectorValues(dayList, true).indexOf(String(i))][0].id,
+                day: getSelectedIDs(dayList, String(i), true),
                 datestart: this.state.trainingTime.selectedTimes[i][0],
                 dateend: this.state.trainingTime.selectedTimes[i][1]
             } : null;
@@ -166,15 +165,15 @@ class StudentPersonalDataForm extends React.Component {
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
-                    work: getSelectorIDs(professionsList, values.work),
-                    interests: getSelectorIDs(interestsList, values.interests),
+                    work: getSelectedIDs(professionsList, values.work),
+                    interests: getSelectedIDs(interestsList, values.interests),
 
                     disciplines: this.prepareDisciplines(values),
 
                     bestsex: values.bestsex === "Мужской" ? "m" : "w",
                     bestage: values.bestage,
                     bestishomework: values.bestishomework === "Да",
-                    bestqualities: getSelectorIDs(qualitiesList, values.bestqualities),
+                    bestqualities: getSelectedIDs(qualitiesList, values.bestqualities),
                     bestcomment: values.bestcomment,
 
                     trainingtime: this.prepareTrainingTime()
@@ -225,8 +224,7 @@ class StudentPersonalDataForm extends React.Component {
                         <PersonalDataSkill
                             profile={profileStudent}
                             form={form}
-                            disciplineList={getSelectorValues(disciplineList)}
-                            specializationList={getSelectorNestedValues(disciplineList)}
+                            disciplineObj={disciplineList}
                             goalList={getSelectorValues(goalList)}
                             stylesList={getSelectorValues(stylesList)}
                             isStudent={true}
