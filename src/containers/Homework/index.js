@@ -44,8 +44,6 @@ class Homework extends React.Component{
                 for(let j = 0; j < subscriptions[i].training.length; j++){
 
                     for(let a = 0; trainerList && a < trainerList.length; a++){
-                        console.log('trainerList[a].idMaster :',  trainerList[a].idMaster);
-                        console.log('subscriptions[i].training[j].idMaster :',  subscriptions[i].training[j].idMaster);
 
                         if(String(trainerList[a].idMaster) === String(subscriptions[i].training[j].idMaster)){
 

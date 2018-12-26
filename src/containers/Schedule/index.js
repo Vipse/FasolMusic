@@ -554,6 +554,7 @@ class Schedule extends React.Component {
                 <Row>
                     <Col span={24}>
                         {calendar}
+                     />
                     </Col>
                 </Row>
 
@@ -668,7 +669,7 @@ const mapStateToProps = state => {
         freeIntervals:  state.patients.freeIntervals,
         abonementIntervals: state.patients.abonementIntervals,
         countTraining: state.patients.countTraining,
-        isUser:  state.auth.mode === "student",
+        isUser:  state.auth.mode === "user",
 
         visits:  state.schedules.visits,
         intervals: state.schedules.visIntervals,

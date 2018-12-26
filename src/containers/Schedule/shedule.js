@@ -31,7 +31,7 @@ export function fillTrainingWeek(idStudent, amount, discipline,) {
 
         abonement.trainingtime[week].push( 
             {
-                id: el.id,
+                id: el.idMaster,
                 start: Math.floor(+el.start.getTime() / 1000) 
             }     
         );

@@ -1,7 +1,6 @@
 import React from 'react';
-
+import {docRoutes, patientRoutes, adminRoutes, menuDoc, menuPatient} from '../../routes'
 import {coachRoutes, studentRoutes, menuStudent, menuCoach} from '../../routes'
-
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
 import Header from '../../components/Header';
@@ -110,18 +109,15 @@ class App extends React.Component {
            // this.runNotificationsWS();
             this.runChatWS();
         }
-
-    }
-    componentDidMount() {
-        this.props.auth.mode === "student" ? 
-            this.props.onGetInfoPatient(this.props.auth.id) :
+        else{
             this.props.onGetInfoDoctor(this.props.auth.id);
-
+        }
+                
     }
 
     componentWillMount() {
-        const login = localStorage.getItem('_fasol-user'),
-            pass = localStorage.getItem('_fasol-pass');
+        const login = localStorage.getItem('_appdoc-user'),
+            pass = localStorage.getItem('_appdoc-pass');
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
             userName: login,
@@ -156,7 +152,9 @@ class App extends React.Component {
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
+        const isUser = (this.props.mode === "student");
         const isStudent = (this.props.mode === "student");
+console.log('isUser :', isUser);
         
         return (
             <div className="main">
@@ -188,6 +186,7 @@ class App extends React.Component {
                                     <Header data={this.props.usersHeaderSearch}
                                             notifications={this.state.notifications}
                                             onGoto={this.gotoHandler}
+                                            isUser={isUser}
                                             isStudent={isStudent}
                                             findName={(name) => {
                                                 this.props.onGetSearchUsers(name)
@@ -204,8 +203,8 @@ class App extends React.Component {
                                         }
                                         <Route
                                             render={() => (
-                                                <div style={{textAlign: 'center', padding: '40px 20px'}}>
-                                                    <h3>Страница не найдена</h3>
+                                                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
+                                                    <h3 style={{color: '#fff'}}>Страница не найдена123</h3>
                                                     <p>Проверьте введённый адрес</p>
                                                 </div>
                                             )}
