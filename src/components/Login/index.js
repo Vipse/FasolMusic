@@ -67,7 +67,7 @@ class LoginForm extends React.Component{
                 </FormItem>
                 <FormItem {...error[1]}>
                     {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Введите ваш пароль, пожалуйста' }],
+                        rules: [{ required: false, message: 'Введите ваш пароль, пожалуйста' }],
                     })(
                         <Input placeholder='* Пароль'
                                addonAfter={<NavLink className="login-form-navlink"

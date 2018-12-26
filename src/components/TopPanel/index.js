@@ -33,7 +33,6 @@ class TopPanel extends React.Component{
     };
 
     render(){
-        console.log("props", this.props);
         const {time} = this.state;
         const {receptionsToday, receptionsActual, patients, nextTraining} = this.props;
 
@@ -55,7 +54,7 @@ class TopPanel extends React.Component{
                 <div className="top-panel-items">
                     <TopPanelItem
                         panelTitle="Следующая тренировка"
-                        panelText={ (nextTraining) ? moment(nextTraining*1000).format('D MMM') : '-'}
+                        panelText={ (nextTraining) ? moment(nextTraining).format('D MMM') : '-'}
                     />
                     <TopPanelItem
                         panelTitle="Тренировок на сегодня"

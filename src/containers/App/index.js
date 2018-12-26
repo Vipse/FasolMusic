@@ -1,5 +1,5 @@
 import React from 'react';
-import {docRoutes, patientRoutes, menuDoc, menuPatient} from '../../routes'
+import {docRoutes, patientRoutes, adminRoutes, menuDoc, menuPatient} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
 import Header from '../../components/Header';
@@ -7,7 +7,8 @@ import { Modal } from 'antd';
 import Adapter from 'webrtc-adapter'
 
 import {connect} from 'react-redux';
-
+import {createSocket, closeSocket, register} from './chatWs';
+import ab from '../../autobahn.js'
 
 import * as actions from '../../store/actions'
 import './styles.css';
@@ -40,13 +41,13 @@ class App extends React.Component {
 
     /* Notifications and chat */
 
-    /*import ab from '../../autobahn.js'*/
-    /*componentWillUnmount(){
+  
+    componentWillUnmount(){
         closeSocket();
         this.props.setOnlineStatus(this.props.id, false)
-    }*/
-    /*import {createSocket, closeSocket, register} from './chatWs'*/
-    /*runNotificationsWS = () => {
+    }
+    
+    runNotificationsWS = () => {
         let that = this;
         let conn = new ab.Session('wss://appdoc.by/wss2/',
             function() {
@@ -65,14 +66,15 @@ class App extends React.Component {
             },
             {'skipSubprotocolCheck': true}
         );
-    }*/
-    /* runChatWS = () => {
+    }
+     runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
             setChatStory, onSelectReception, setNewTimer} = this.props;
         //'wss://appdoc.by:8443/one2one'
         //'wss://localhost:8443/one2one'
-        createSocket(
-            'wss://appdoc.by:8443/one2one',
+        let sock = createSocket(
+           // 'wss://appdoc.by:8443/one2one',
+            'ws://localhost:3000/one2one',
             chatProps,
             {
                 setChatFromId,
@@ -84,30 +86,32 @@ class App extends React.Component {
                 setNewTimer,
 
                 get_from: () => this.props.from,
-            get_to: () => this.props.to,
-            get_receptionStarts: () => this.props.receptionStarts,
-            get_isCalling: () => this.props.isCalling,
-            get_user_mode: () => this.props.mode,
-            get_chatStory: () => this.props.chatStory,
-            get_shortDocInfo: () => this.props.shortDocInfo,
-            get_visitInfo: () => this.props.visitInfo,
-            get_timer: () => this.props.timer,
-            get_history: () => this.props.history,
+                get_to: () => this.props.to,
+                get_receptionStarts: () => this.props.receptionStarts,
+                get_isCalling: () => this.props.isCalling,
+                get_user_mode: () => this.props.mode,
+                get_chatStory: () => this.props.chatStory,
+                get_shortDocInfo: () => this.props.shortDocInfo,
+                get_visitInfo: () => this.props.visitInfo,
+                get_timer: () => this.props.timer,
+                get_history: () => this.props.history,
             }
         );
-        register(''+this.props.id, ''/!*+this.props.user_id*!/, this.props.auth.mode);
-    }*/
+        console.log('sock :', sock);
+        register(''+this.props.id, ''/*+this.props.user_id*/, this.props.auth.mode);
+    }
 
-    /*componentDidMount() {
-        if(this.props.id){
-            this.runNotificationsWS();
+    componentDidMount() {
+        if(this.props.auth.mode === "student"){
+            this.props.onGetInfoPatient(this.props.auth.id);
+
+           // this.runNotificationsWS();
             this.runChatWS();
         }
-    }*/
-    componentDidMount() {
-        this.props.auth.mode === "student" ? 
-                this.props.onGetInfoPatient(this.props.auth.id) :
-                this.props.onGetInfoDoctor(this.props.auth.id);
+        else{
+            this.props.onGetInfoDoctor(this.props.auth.id);
+        }
+                
     }
 
     componentWillMount() {
@@ -121,6 +125,8 @@ class App extends React.Component {
 
         this.props.id && (this.props.getDocShortInfo());
     }
+
+
 
     gotoHandler = (id) => {
         this.props.auth.mode !== "student" ? this.props.history.push('/app/patient' + id) : this.props.history.push('/app/doctor' + id)

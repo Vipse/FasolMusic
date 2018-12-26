@@ -137,7 +137,6 @@ class ChatSend extends React.Component{
                         className='message__send-send'
                         btnText=''
                         title='Отправить сообщение'
-                        
                         onClick = {this.sendHandler}
                     />}
                     {this.props.isUser ?
@@ -145,14 +144,12 @@ class ChatSend extends React.Component{
                         btnText='оставить отзыв'
                         size='default'
                         type='yellow'
-                        
                         onClick={this.props.makeReview}
                     />)
                     : (<Button
                         btnText='завершить прием'
                         size='default'
                         type='yellow'
-                       
                         onClick={this.props.closeVisit}
                     />)}
                 </div>

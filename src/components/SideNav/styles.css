@@ -30,7 +30,7 @@
 .sidenav-root .icon,
 .sidenav-root .anticon,
 .sidenav-root .item-title {
-  transition: 0.2s color linear !important;
+  transition: 0.2s color linear!important;
 }
 .sidenav-root .doctorProfileCard-specialty {
   margin-bottom: 25px;

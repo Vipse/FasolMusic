@@ -62,7 +62,7 @@ class EventSlot extends Component {
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
                             <div className="event-group-cross">
-                                <Icon type='close' size={7} onClick={() => this.props.setTransfer_End_Training(event.id)}/>
+                                <Icon type='close' size={7} onClick={() => this.props.onCancelTraining(event.id, event.idSubscription)}/>
                             </div>
                             <p className="event-group-text" >
                                 {event.fio}
@@ -74,13 +74,13 @@ class EventSlot extends Component {
 
         
         return (
-            <div key = {event.id} className="event-group" style={{backgroundColor}}>
+            <div key = {event.idMaster ? event.idMaster: event.id} className="event-group" style={{backgroundColor}}>
                     <div>
                         <div className="event-group-cross">
                             <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>
                         </div>
                         <p className="event-group-text" >
-                            {event.fio}
+                            {event.name ? event.name : event.fio}
                         </p>
                     </div>
             </div>

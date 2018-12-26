@@ -36,6 +36,7 @@ const reducer = (state = initialState, action) => {
                 to: action.id,
             }
         case actionTypes.SET_CHAT_STORY:
+            console.log("SET_CHAT_STORY")
             return {
                 ...state,
                 chatStory: action.chat,

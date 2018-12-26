@@ -14,6 +14,7 @@ import chatWSReducer from './reducers/chatWS'
 import loadingReducer from './reducers/loading'
 import studentReducer from './reducers/student'
 import trainerReducer from './reducers/trainer'
+import trainingReducer from './reducers/training'
 
 // fasol
 import abonementReducer from './reducers/abonement'
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
     loading: loadingReducer,
     abonement: abonementReducer,
     student: studentReducer,
-    trainer: trainerReducer
+    trainer: trainerReducer,
+    training: trainingReducer,
 });
 
 export default function configureStore() {

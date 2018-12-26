@@ -177,6 +177,5 @@ const loadStories = () => {
     require('../src/components/PopoverRemedyButton/stories');
     require('../src/components/MapsModal/stories');
     require('../src/components/ReviewsModal/stories');
-};
 
 configure(loadStories, module);

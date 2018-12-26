@@ -41,7 +41,7 @@ class Chat extends React.Component{
 
         const chatProps = {
             //wsURL: 'wss://appdoc.by:8443/one2one',
-            wsURL: 'wss://localhost:8443/one2one',
+            wsURL: 'wss://localhost:3001/',
             callback: this.props.callback,
             clearCallback: this.props.clearCallback,
             timer: this.props.timer,
@@ -50,7 +50,7 @@ class Chat extends React.Component{
             isCalling: this.props.isCalling,
             receptionId: visitId,
             callerID: this.props.id,
-            calledID: isUser ? id_doc : id_user,
+            calledID: this.props.idTo,//isUser ? id_doc : id_user,
             user_mode: this.props.user_mode,
             user_id: +id_user,
             patientName: isUser ? name_doc : name,
@@ -68,12 +68,42 @@ class Chat extends React.Component{
             appShouldStartAt: this.props.visitInfo.date
         }
 
+
+        let arr = [
+            {
+                id: 126012,
+                fio: "тестовый пациент",
+                avatar: "https://appdoc.by/media/img/zaglushka.jpg",
+                start: "1525692821",
+                end: 1523598900,
+                id_doc: "2697",
+                id_user: "2663",
+                del: "1",
+                comment: "Подозрения на бронхит",
+                delComment: "",
+                diagnosis: null,
+                type: "video"
+            },{
+                id: 126013,
+                fio: "тестовый пациент2",
+                avatar: "https://appdoc.by/media/img/zaglushka.jpg",
+                start: "1525692821",
+                end: 1523598900,
+                id_doc: "2697",
+                id_user: "2663",
+                del: "1",
+                comment: "Подозрения на бронхит",
+                delComment: "",
+                diagnosis: null,
+                type: "chat"
+            } ];
+
+
         return (
             <Hoc>
                 <Row>
-                    {
-                        !isUser && (<Col xs={24} xxl={7} className='section'>
-                            <ChatDialogs  data={this.props.visits}
+                    <Col xs={24} xxl={7} className='section'>
+                            <ChatDialogs  data={arr}//{this.props.visits}
                                           onGotoChat={id =>
                                               {
                                                   this.props.onSelectReception(id);
@@ -81,8 +111,8 @@ class Chat extends React.Component{
                                               }
                                           }
                             />
-                        </Col>)
-                    }
+                        </Col>
+                    
                     {this.state.displayChat && <Col xs={24} xxl={17} className='section'>
                         {
                             isUser ? (
@@ -126,13 +156,14 @@ const mapStateToProps = state =>{
         treatInfo: state.treatments.treatInfo,
         treatmFiles: state.treatments.treatmFiles,
         fromTR_VIS: state.treatments.from,
-
         callback: state.treatments.callback,
-
         chatStory: state.chatWS.chatStory,
         receptionStarts: state.chatWS.receptionStarts,
         isCalling: state.chatWS.isCalling,
         timer: state.chatWS.timer,
+
+
+        idTo: state.chatWS.to,
     }
 }
 

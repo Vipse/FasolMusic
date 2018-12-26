@@ -2,7 +2,6 @@ import MainPage from '../containers/MainPage'
 import Schedule from '../containers/Schedule'
 import Homework from '../containers/Homework'
 import Patients from '../containers/Patients'
-import PatientsPage from '../containers/PatientsPage'
 import StudentPage from '../containers/StudentPage'
 import CoachPage from "../containers/CoachPage"
 import PersonalInfo from '../containers/PersonalInfo'
@@ -12,7 +11,6 @@ import Reviews from '../containers/Reviews'
 import MyDoctors from '../containers/MyDoctors'
 
 import Chat from '../containers/Chat'
-import DoctorPage from "../containers/DoctorPage";
 
 export const docRoutes = [
     {
@@ -37,7 +35,7 @@ export const docRoutes = [
     },
     {
         path: '/app/coach:id',
-        component: DoctorPage,
+        component: CoachPage,
         exact: true,
     },
     {
@@ -119,6 +117,29 @@ export const patientRoutes = [
         component: Reviews,
         exact: true,
     },
+];
+
+
+export const adminRoutes = [
+    {
+        path: '/app/calendar',
+        component: Schedule,
+        exact: true,
+    },
+    {
+        path: '/app/coach:id',
+        component: CoachPage,
+        exact: true,
+    },
+    {
+        path: '/app/student:id',
+        component: StudentPage,
+        exact: true,
+    }
+]
+
+export const menuAdmin =[
+    {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true}
 ];
 
 export const menuDoc =[

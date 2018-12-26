@@ -110,22 +110,9 @@ class TimeSlotGroup extends Component {
       setChoosenTrainer,
       showLabels,
       handleDrop,
-      setTransfer_End_Training,
+      onCancelTraining,
       trainerTraining
     } = this.props;
-
-    console.log('train', trainerTraining)
-    
-    for( let j  = 0; j < trainerTraining.length; j++ ) {
-
-      console.log(trainerTraining[j])
-        //  for(let i = 0; i < el.length; i++){
-        //    let el1 = el[i]
-        //     console.log(el1)
-            
-        //  }
-    }
-
 
     const valueTime = this.props.value.getTime()
     for( let i = 0; i < events.length; i++){
@@ -141,7 +128,7 @@ class TimeSlotGroup extends Component {
                   idEvent={events[i].start.getTime()}
                   handleDrop={handleDrop}
                   setAbonement_Training = {this.props.setAbonement_Training}
-                  setTransfer_End_Training = {setTransfer_End_Training}
+                  onCancelTraining = {onCancelTraining}
                  
             />)
           }

@@ -34,10 +34,13 @@ export const setVideoOut = (video) => {
 }
 
 export function createSocket(wsUrl,_props,_callbacks) {
+    console.log("createSocket", wsUrl, _props, _callbacks);
+
     ws = new WebSocket(wsUrl);
     props = _props;
     callbacks = _callbacks;
     ws.onmessage = (message) => {
+        console.log("MES", message)
         let parsedMessage = JSON.parse(message.data);
         switch (parsedMessage.id){
             case 'registerResponse':
@@ -89,6 +92,9 @@ export function createSocket(wsUrl,_props,_callbacks) {
         }
     }
 
+    ws.onopen = () => {
+        console.log("Open socket")
+    }
     return ws;
 }
 export function closeSocket() {
@@ -183,7 +189,7 @@ const callResponse = (message) => {
     let msg = {
         id : 'chat',
         type: message.response != 'accepted' ? "notBegin" : "begin",
-        name: callbacks.get_user_mode() === "student" ? name_doc : name,
+        name: callbacks.get_user_mode() === "user" ? name_doc : name,
         from: callbacks.get_from(),
         to: callbacks.get_to(),
         date: Math.ceil(Date.now()/1000),

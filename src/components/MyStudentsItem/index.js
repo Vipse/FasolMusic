@@ -30,7 +30,7 @@ class MyStudentsItem extends React.Component{
                         <span className='myStudent-info-discipline'>{discipline}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>
-                        {lastMessage}
+                    {lastMessage}
                     </div>
                     <div className='myStudent-info-openChat'>
                         <Button

@@ -39,8 +39,8 @@ class ChatDialogs extends React.Component{
     dialogRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<ChatDialog {...item} 
-                onGotoChat={this.props.onGotoChat}
-                key={item.id}/>)
+                        onGotoChat={this.props.onGotoChat}
+                        key={item.id}/>)
         });
     };
 
@@ -51,7 +51,7 @@ class ChatDialogs extends React.Component{
 
         return (
             <div className={rootClass}>
-                <div className='dialog-title'>Ожидают приема<span className='dialog-num_item'>{data.length}</span></div>
+                <div className='dialog-title'>Диалог<span className='dialog-num_item'>{data.length}</span></div>
                 <ScrollArea
                     speed={1}
                     className="dialog-list"

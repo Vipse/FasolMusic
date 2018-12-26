@@ -1,10 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux';
 import CouchMain from "./CouchMain"
-import PatientPage from "./PatientPage"
 import * as actions from '../../store/actions'
 import moment from 'moment'
 import './styles.css'
+import StudentMain from './StudentMain';
+import NearTrainings from './../../components/NearTrainings/index';
 
 class MainPage extends React.Component{
 	constructor(props) {
@@ -21,6 +22,14 @@ class MainPage extends React.Component{
 	componentDidMount() {
 		this.props.onGetAbonements(this.props.id);
 		this.props.onGetMyMasters(this.props.id);
+
+		if (this.props.mode === "student") {
+			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X') , '1');
+		}
+		else {
+
+		}
+		
 	}
 	
 	componentWillMount(){
@@ -76,28 +85,33 @@ class MainPage extends React.Component{
 			|| this.props.patients.length !== nextProps.patients.length;
 	}*/
 
+
+	    // Fasol
+	goToChat = (idTo) => {  
+		this.props.onSetChatToId(idTo);
+		this.props.history.push('/app/chat');
+	}
+
     render(){
 		
-        return (this.props.mode === "user") ? (
-			<PatientPage
-				allAbonements={this.props.allAbonements}
-				isUser = {this.props.mode === "user"}
-				doctors = {this.props.patientDoctors}
-				completedApps = {this.props.completedApps}
-				nearVisits = {this.props.nearVisits}
-                nearVisitsLoaded={this.props.nearVisitsLoaded}
-                myDoctorsLoaded={this.props.myDoctorsLoaded}
-                completedAppsLoaded={this.props.completedAppsLoaded}
-				{...this.props}
-                isNewFreeVisitVisible = {this.state.isNewFreeVisitVisible}
-                onCancel = {()=>this.setState({isNewFreeVisitVisible: false })}
-                onFreeVisit = {this.onNewFreeVisit}
-                onAddVisit = {this.props.onAddNewVisit}
-				getCompletedApps = {this.props.onGetCompletedApp}
-                onSubmitReview={this.props.makeReview}
-                makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
-                cancelAppByPatient = {this.props.cancelAppByPatient}
-            />
+        return (this.props.mode === "student") ? (
+			<StudentMain
+				allAbonements = {this.props.allAbonements}
+				showCancel = {() => {this.setState({cancelModal: true})}}
+				onAdd = {this.onAddVisit}
+				addModal = {this.state.addModal}
+				closeAdd= {() => {this.setState({addModal: false})}}
+				onSaveNewVisit = {this.onSaveNewVisit} // ?
+				cancelModal ={this.state.cancelModal}
+                closeCancel= {() => {this.setState({cancelModal: false})}}
+				saveCancel = {() => {}}
+				getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
+                treatmentsCount={this.props.treatmentsCount}
+                addConclusion = {this.props.addConclusion}
+				makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
+				nearTraining = {this.props.nearTraining}
+				goToChat = {this.goToChat}
+				{...this.props}/>
 		) : (
 			<CouchMain
 				allAbonements = {this.props.allAbonements}
@@ -124,6 +138,7 @@ const mapStateToProps = state => {
 		id: state.auth.id,
 		mode: state.auth.mode,
 		myCoach: state.student.myCoach,
+		nearTraining: state.training.nearTraining,
 
 		patients: state.patients.docPatients,
 		visits: state.schedules.visits,
@@ -170,6 +185,9 @@ const mapDispatchToProps = dispatch => {
 		onGetAbonements: (idStudent) => dispatch(actions.getAbonements(idStudent)),
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
 		onGetMyMasters: (idStudent) => dispatch(actions.getMyMasters(idStudent)),
+		onGetTrainingNotFinished:(idStudent, dateMax, max) => dispatch(actions.getTrainingNotFinished(idStudent, dateMax, max)),
+		onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
+		
     }
 };
 

@@ -25,7 +25,7 @@ import SmallCalendar from './../../SmallCalendar/index';
 import Button from './../../Button/index';
 import CancelVisitModal from './../../CancelVisitModal/index';
 import Week from './Week';
-import MyCoach from './../../MyCoach/index';
+import FreeTrainers from './../../FreeTrainers/index';
 
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
@@ -156,7 +156,7 @@ class Calendar extends React.Component {
             
             
             { this.props.isShowFreeTrainers ?
-              <MyCoach 
+              <FreeTrainers 
                   freeTrainers={freeTrainers} 
                   setChoosenTrainer={setChoosenTrainer}
               /> 
@@ -330,7 +330,7 @@ components: PropTypes.shape({
   isShowFreeTrainers: PropTypes.bool,
   transferTraining: PropTypes.func,
   deleteEvent: PropTypes.func,
-  setTransfer_End_Training: PropTypes.func,
+  onCancelTraining: PropTypes.func,
   trainerTraining: PropTypes.object,
 }
 

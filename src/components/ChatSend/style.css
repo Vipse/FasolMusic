@@ -1,3 +1,15 @@
+/* fonts */
+/* COLORS */
+/* VAR */
+.entry-list {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.25rem;
+  color: #eee;
+}
 .message__send {
   width: 100%;
   display: flex;
@@ -24,7 +36,7 @@
   background-color: transparent;
 }
 .message__send-smileys .btn:hover .icon {
-  color: #21bedd;
+  color: #0495ff;
 }
 .message__send-area {
   position: relative;
@@ -76,10 +88,10 @@
   background-color: transparent;
 }
 .message__send-btns .btn:hover .icon {
-  color: #21bedd;
+  color: #0495ff;
 }
 .message__send-btns .btn-type-blue {
-  background-color: #21bedd;
+  background-color: #0495ff;
   padding: 8px;
   margin-right: 40px;
 }

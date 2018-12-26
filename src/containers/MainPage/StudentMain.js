@@ -9,43 +9,30 @@ import Icon from "../../components/Icon";
 import Hoc from '../../hoc'
 import LastTrainings from "../../components/LastTrainings";
 import moment from 'moment'
-import MyStudents from './../../components/MyStudents/index';
+import MyCoach from '../../components/MyCoach';
 
-class CouchMain extends React.Component{
+class StudentMain extends React.Component{
 	constructor(props) {
 		super(props);
     }
     
     gotoHandler = (id) => {
 		this.props.onSelectPatient(id);
-		this.props.history.push('/app/coach'+id); // надо student
+		this.props.history.push('/app/coach'+id);
     }
 
     // следующая тренировка - return 15234500000
     selectFirstTraining = () => {
-        const {allAbonements} = this.props;
-        let arrFirst = [];
-
-        if(!allAbonements) return arrFirst;
-
-        allAbonements.subscriptions.forEach(el => {
-            if(el && el.hasOwnProperty('training') && Array.isArray(el.training) && el.training.length && el.training.status){
-                arrFirst.push(el.training[0]);
-            }
-        });
-
-        const min = arrFirst.reduce((min, el) => {
-            
-            return (min > (+el.start)) ? +el.start : min
-        }, Infinity);  
+        const {nearTraining} = this.props;
         
-        console.log('1', moment(min*1000))
-        if(min === Infinity) return 0;
-        return min;
+        if(Array.isArray(nearTraining) && nearTraining.length) {
+            return nearTraining[0].start * 1000;
+        }
+        return null;
     }
 
     render(){
-        const { allAbonements } = this.props;
+        const { allAbonements, goToChat } = this.props;
         console.log('myCoach :', myCoach);
 
         let myCoach = [];
@@ -134,7 +121,8 @@ class CouchMain extends React.Component{
                             </Col>
 
                             <Col xs={14} xxl={9} className='section'>
-                                <MyStudents
+                                <MyCoach
+                                    goToChat = {goToChat}
                                     onGoto={(val) => this.gotoHandler(val)}
                                     data = { (Array.isArray(myCoach)) ? myCoach.map((el) => {
                                         if(el)
@@ -158,4 +146,4 @@ class CouchMain extends React.Component{
                             }
 }
 
-export default CouchMain;
+export default StudentMain;

@@ -20,12 +20,12 @@ class MyStudents extends React.Component {
         console.log('MYSTUDENT :', this.props);
         return (
             <div className='myStudents'>
-                <Card title="Мои коучи"
+                <Card title="Мои студенты"
                       extra={<a className="myStudents-link" ><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {data.length ?
                         this.studentsRender(data)
-                        : <div className='noStudents'>Коучей нет</div>}
+                        : <div className='noStudents'>Студентов нет</div>}
                 </Card>
             </div>
         )

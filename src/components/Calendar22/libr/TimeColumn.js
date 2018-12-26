@@ -30,7 +30,7 @@ export default class TimeColumn extends Component {
     showModalTransferEvent: PropTypes.func,
     setChoosenTrainer: PropTypes.func,
     transferTraining: PropTypes.func,
-    setTransfer_End_Training: PropTypes.func,
+    onCancelTraining: PropTypes.func,
     trainerTraining: PropTypes.object,
   }
   static defaultProps = {
@@ -60,7 +60,7 @@ export default class TimeColumn extends Component {
       intervals,
       handleDrop,
       transferTraining,
-      setTransfer_End_Training,
+      onCancelTraining,
       trainerTraining
     } = this.props;
 
@@ -89,7 +89,7 @@ export default class TimeColumn extends Component {
         handleDrop = {handleDrop}
         transferTraining = {transferTraining}
         setAbonement_Training = {this.props.setAbonement_Training}
-        setTransfer_End_Training = {setTransfer_End_Training}
+        onCancelTraining = {onCancelTraining}
         trainerTraining = {trainerTraining}
 
       />

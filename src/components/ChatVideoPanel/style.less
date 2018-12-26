@@ -1,89 +1,109 @@
-.message {
-    &__panel {
-        position: relative;
-        background-color: rgba(0, 0, 0, .77);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        max-width: 430px;
-        border-radius: 4px;
-        padding: 13px 25px;
-        &-duration {
-            position: relative;
-            color: #fff;
-            font-size: 12px;
-            letter-spacing: 0.3px;
-            width: 76px;
-        }
-        &-btns {
-            display: flex;
-            &.startcall {
-                margin: 0 auto;
-            }
-            .btn {
-                min-width: auto;
-                border-radius: 50%;
-                background-color: #21bedd;
-                width: 38px;
-                height: 38px;
-                padding: 0;
-                margin: 0 10px;
-                &:hover {
-                    background-color: #216ca2;
-                }
-                &.btn-call {
-                    background-color: #00c853;
-                    &:hover {
-                        background-color: #078c3c
-                    }
-                }
-                &.btn-endcall {
-                    background-color: #ef5350;
-                    &:hover {
-                        background-color: #ad3735;
-                    }
-                }
-                .icon {
-                    margin-right: 0;
-                    color: #fff;
-                    font-weight: 300;
-                }
-            }
-        }
-        &-full {
-            .btn {
-                min-width: auto;
-                border-radius: 50%;
-                width: 38px;
-                height: 38px;
-                padding: 0;
-                &:hover {
-                    background-color: transparent;
-                    .icon {
-                        color: #21bedd;
-                    }
-                }
-                .icon {
-                    color: #fff;
-                    margin-right: 0;
-                    font-weight: 300;
-                }
-            }
-        }
-        &-dialog {
-            .btn {
-                min-width: auto;
-                border-radius: 50%;
-                width: 38px;
-                height: 38px;
-                padding: 0;
-                .icon {
-                    color: #fff;
-                    margin-right: 0;
-                    font-weight: 300;
-                }
-            }
-        }
-    }
+@import url("../../styles/variables");
+
+.message{
+
+	&__panel{
+		position: relative;
+		background-color: rgba(0,0,0,.77);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		max-width: 430px;
+		border-radius: 4px;
+		padding: 13px 25px;
+
+		&-duration{
+			position: relative;
+			color: #fff;
+			font-size: 12px;
+			letter-spacing: 0.3px;
+			width: 76px;
+		}
+
+		&-btns{
+			display: flex;
+
+			&.startcall{
+				margin: 0 auto;
+			}
+
+			.btn{
+				min-width: auto;
+				border-radius: 50%;
+				background-color: @blue;
+				width: 38px;
+				height: 38px;
+				padding: 0;
+				margin: 0 10px;
+
+				&:hover{
+					background-color: #216ca2;
+				}
+
+				&.btn-call{
+					background-color: #00c853;
+
+					&:hover{
+						background-color: #078c3c
+					}
+				}
+
+				&.btn-endcall{
+					background-color: #ef5350;
+
+					&:hover{
+						background-color: #ad3735;
+					}
+				}
+
+				.icon{
+					margin-right: 0;
+					color: #fff;
+					font-weight: 300;
+				}
+			}
+		}
+
+		&-full{
+
+			.btn{
+				min-width: auto;
+				border-radius: 50%;
+				width: 38px;
+				height: 38px;
+				padding: 0;
+
+				&:hover{
+					background-color: transparent;
+
+					.icon{
+						color: @blue;
+					}
+				}
+				
+				.icon{
+					color: #fff;
+					margin-right: 0;
+					font-weight: 300;
+				}
+			}
+		}
+
+		&-dialog{
+			.btn{
+				min-width: auto;
+				border-radius: 50%;
+				width: 38px;
+				height: 38px;
+				padding: 0;
+
+				.icon{
+					color: #fff;
+					margin-right: 0;
+					font-weight: 300;
+				}
+			}
+		}
+	}
 }

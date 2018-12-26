@@ -3,8 +3,17 @@ import * as actionTypes from './actionTypes';
 
 
 export const createAbonement = (dataCreate) => {
-    console.log('POST dataCreate :', dataCreate);
+    
+    let type = {vocals : '125485', guitar : '125470'};
+  
+    for( let key in type ){
+        if(String(key) === dataCreate.discipline){
+            dataCreate.discipline =  [ type[key] ];
+            
+        }
+    }
 
+    console.log("POST abon", dataCreate)
     return (dispatch, getState) => 
 
         axios.post('/catalog.fasol/createSubscription', JSON.stringify(dataCreate))
@@ -23,9 +32,20 @@ export const createAbonement = (dataCreate) => {
 
 export const getAbonements = (idStudent) => (dispatch) => {
 
+        // let type = {vocals : '125485', guitar : '125470'};
+    
+        // for( let key in type ){
+        //     if(String(key) === dataCreate.discipline){
+        //         dataCreate.discipline =  [ type[key] ];
+                
+        //     }
+        // }
+
         axios.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
             .then(res => {
                 console.log("GetSubscriptions", res);
+
+
                 dispatch({
                     type: actionTypes.GET_ABONEMENTS,
                     allAbonements: res.data.result,
@@ -107,3 +127,25 @@ export const changeSubscription = (value) => {
         })
         
 }
+
+
+export const freezeAbonement = (idSubscription) => {
+    const obj = {
+        idSubscription
+    }
+    return (dispatch, getState) => 
+        axios.post('/catalog.fasol/frozenTraining', JSON.stringify(obj))
+            .then(res => {
+                console.log("frozenTraining", res);
+                // dispatch({
+                //     type: actionTypes.GET_ABONEMENTS2,
+                //     allAbonements2: res.data.result,
+                // });
+            })
+            .catch(err => {
+                console.log(err);
+        })
+        
+}
+
+

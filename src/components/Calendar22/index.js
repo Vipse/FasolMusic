@@ -87,7 +87,7 @@ BigCalendar.propTypes = {
     isShowFreeTrainers: PropTypes.bool,
     transferTraining: PropTypes.func,
     deleteEvent: PropTypes.func,
-    setTransfer_End_Training: PropTypes.func,
+    onCancelTraining: PropTypes.func,
     trainerTraining: PropTypes.object,
 };
 

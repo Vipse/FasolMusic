@@ -97,3 +97,6 @@ export const GET_MY_MASTERS = 'GET_MY_MASTERS',  // student
 
 export const GET_MASTER_LIST = 'GET_MASTER_LIST',
     GET_TRAINER_TRAINING = 'GET_TRAINER_TRAINING'; // coach
+
+
+export const GET_TRAINING_NOT_FINISHED = 'GET_TRAINING_NOT_FINISHED'; //training

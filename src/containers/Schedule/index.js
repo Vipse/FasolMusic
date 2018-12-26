@@ -49,6 +49,7 @@ class Schedule extends React.Component {
             isShowFreeTrainers: false, 
             amountTraining: true,
             modalTransferTraining: false,
+            modalCancelTraining: false,
         }
     };
 
@@ -62,11 +63,14 @@ class Schedule extends React.Component {
         this.setState({isShowFreeTrainers : true});
     }
 
-    setChoosenTrainer = (idMaster, trainerList) => { // выбор одного из тренеров
+    setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
+        
+        let {trainerList} = this.props;
+        
 
         for(let i = 0; i < trainerList.length; i++){
    
-            if(trainerList[i].id === idMaster){
+            if(trainerList[i].idMaster === idMaster){
                 let trainer= {...trainerList[i]};
                 trainer.start = new Date(this.timeEvent);
  
@@ -88,7 +92,7 @@ class Schedule extends React.Component {
 
         this.setState({ sendingModal: true}); // убрать интервалы
 
-        this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, "Вокал"))
+        this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, 'vocals'))
         .then(() => {
             this.props.onGetAbonements(id); // получить уже распредленное время тренировок в абонементе
         });
@@ -115,6 +119,7 @@ class Schedule extends React.Component {
         }   
     }
 
+
     setTransfer_1_Training = () => {
             const {id} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
@@ -127,18 +132,40 @@ class Schedule extends React.Component {
             this.setState({modalTransferTraining: false});   
     }
 
-    setTransfer_End_Training = (transferId) => {
- 
+    onCancelTraining = (transferId, idSubscription) => {
+        this.cancelId = transferId; // для переноса в конец
+        this.freezeIdSubscription = idSubscription; // для заморозки
+
+        this.setState({modalCancelTraining: true});   
+        
+    }
+
+    setTransfer_End_Training = () => {
+        //this.cancelId 
+
         const {id} = this.props;
-        if(transferId){
-                this.props.onTransferTraininingToEnd({idTraining : transferId})
+        if(this.cancelId){
+                this.props.onTransferTraininingToEnd({idTraining : this.cancelId})
                     .then(() => {
                         this.props.onGetAbonements(id); 
                     });
         } 
-        this.setState({modalTransferTraining: false});   
+        this.setState({modalCancelTraining: false});   
     }
 
+    freezeAbonement = () => {
+        //this.freezeIdSubscription 
+
+        const {id} = this.props;
+        if(this.freezeIdSubscription) {
+            this.props.onFreezeAbonement(this.freezeIdSubscription)
+                .then(() => {
+                    this.props.onGetAbonements(id); 
+                })
+        }
+       
+        this.setState({modalCancelTraining: false});   
+    }
 
     setAbonement_Training = () => {
         
@@ -382,7 +409,7 @@ class Schedule extends React.Component {
 	}
 
     render() {
-        const {abonementIntervals} = this.props;
+        const {abonementIntervals, trainerList} = this.props;
 
         let isNeedSaveIntervals = false
         if(abonementIntervals){
@@ -409,6 +436,7 @@ class Schedule extends React.Component {
             });
 
         } 
+        console.log('apiPatients :', apiPatients);
         if (this.props.isUser) {
             calendar = (<Calendar receptionNum={this.getCountOfReceptionsAtCurMonth()}
                                   isUser = {true}
@@ -433,16 +461,9 @@ class Schedule extends React.Component {
 
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
-                
-
-                console.log('min :', min);
-                console.log('max :', max);
+  
             // надо нормальную проверка для коуча и студента
 
-            
-            let freeTrainers = (this.timeEvent && this.state.isShowFreeTrainers) ? 
-                    {idEvent: this.timeEvent, freeTrainers: this.props.trainerList} : null
-   
                     let arrAbonement = null;
                     let iterator = 0; 
 
@@ -474,7 +495,6 @@ class Schedule extends React.Component {
                         }
                     }
 
-                    console.log('this.props.freeIntervals :', this.props.freeIntervals);
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
                                  type='yellow'
@@ -494,7 +514,7 @@ class Schedule extends React.Component {
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
-                                  events={(arrAbonement && arrAbonement.length) ? arrAbonement : apiPatients}
+                                  events={(arrAbonement && arrAbonement.length) ? [...arrAbonement, ...apiPatients] : apiPatients}
                                   intervals={ isNeedSaveIntervals ? this.props.freeIntervals : []}
                                   
                                   min= {min}
@@ -509,7 +529,7 @@ class Schedule extends React.Component {
                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
 
                                   showTransferEvent={this.showTransferEvent} // my
-                                  freeTrainers={freeTrainers} //my
+                                  freeTrainers={trainerList} //my
                                   showModalTransferEvent={this.showModalTransferEvent}
                                   setChoosenTrainer={this.setChoosenTrainer}
                                   isNeedSaveIntervals={isNeedSaveIntervals}
@@ -518,15 +538,11 @@ class Schedule extends React.Component {
                                   transferTraining = {this.transferTraining} // drag and drop
                                   deleteEvent = {this.deleteEvent} // drag and drop
                                   setAbonement_Training = {this.setAbonement_Training}
-                                  setTransfer_End_Training = {this.setTransfer_End_Training}
+                                  onCancelTraining = {this.onCancelTraining}
                                   trainerTraining = {this.props.trainerTraining}
 
             />)
         }
-
-      
-    //    console.log('this.props.min :', this.props.min);
-    //    console.log('this.props.max :', this.props.max);
 
         return (
             <Hoc>
@@ -574,6 +590,28 @@ class Schedule extends React.Component {
                                 <div className="schedule-message-btn"> 
                                     <Button btnText='Новое расписание'    
                                     onClick= {this.setAbonement_Training}
+                                    type='yellow'/>
+                                </div>
+                        </div>
+                </Modal>
+
+                <Modal 
+                    title='Сообщение'
+                    visible={this.state.modalCancelTraining}
+                    onCancel={() => this.setState({modalTransferTraining : false})}
+                    width={360}
+                    className="schedule-message-modal-wrapper"
+                >
+                        <div className="schedule-message-modal"> 
+                                <div className="schedule-message-btn"> 
+                                    <Button btnText='Перенести треню в конец'    
+                                        onClick= {this.setTransfer_End_Training}
+                                        type='yellow'/>
+                                </div>
+
+                                <div className="schedule-message-btn"> 
+                                    <Button btnText='Заморозка расписания'    
+                                    onClick= {this.freezeAbonement}
                                     type='yellow'/>
                                 </div>
                         </div>
@@ -671,7 +709,8 @@ const mapDispatchToProps = dispatch => {
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),
 
-        onGetTrainerTraining: (dateMin, dateMax) => dispatch(actions.getTrainerTraining(dateMin, dateMax))
+        onGetTrainerTraining: (dateMin, dateMax) => dispatch(actions.getTrainerTraining(dateMin, dateMax)),
+        onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription))
     }
 };
 

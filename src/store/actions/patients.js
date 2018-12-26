@@ -423,7 +423,6 @@ export const setFreeIntervals = (freeIntervals, discipline ) => {
                 obj.discipline.push(type[key]);
             }
         }
-debugger;
         dispatch({
             type: actionTypes.SET_FREE_INTERVALS,
             freeIntervals: freeIntervals,

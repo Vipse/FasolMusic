@@ -4,53 +4,39 @@ import './style.css'
 import '../../icon/style.css'
 import Icon from '../Icon'
 import MyCoachItem from "../MyCoachItem";
-import { PropTypes } from 'prop-types';
-import PerfectScrollbar from 'react-perfect-scrollbar'
 
 class MyCoach extends React.Component {
-
     studentsRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<MyCoachItem {...item}
                                     key={index}
                                     onGoto={this.props.onGoto}
-                                    setChoosenTrainer={this.props.setChoosenTrainer}
+                                    goToChat={this.props.goToChat}
             />)
         });
     };
 
-
     render() {
-        const {freeTrainers} = this.props;
-
-        console.log('freeTrainers :', freeTrainers);
+        const {data} = this.props;
+        console.log('MYSTUDENT :', this.props);
         return (
-            <div className='my-coach' id="my-coach-wrapper">
-                <Card title="Выбери коуча">
-                    
-                    <PerfectScrollbar
-                        className="auto__complete-results"
-                    >
-                        <div>
-                            {freeTrainers.freeTrainers.length ?
-                                this.studentsRender(freeTrainers.freeTrainers)
-                                : <div className='noStudents'>Коучей нет</div>}
-                        </div>
-                    </PerfectScrollbar>       
+            <div className='myStudents'>
+                <Card title="Мои студенты"
+                      extra={<a className="myStudents-link" ><Icon type="circle_arrow_right"/>
+                          <span>Весь список</span></a>}>
+                    {data.length ?
+                        this.studentsRender(data)
+                        : <div className='noStudents'>Студентов нет</div>}
                 </Card>
             </div>
         )
     }
 }
 
-MyCoach.propTypes = {
-    freeTrainers: PropTypes.array,
-    setChoosenTrainer: PropTypes.func,
-};
+MyCoach.propTypes = {};
 
 MyCoach.defaultProps = {
-    freeTrainers: [],
-    setChoosenTrainer: () => {}
+    data: []
 };
 
 

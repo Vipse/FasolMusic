@@ -9,29 +9,36 @@ import Button from "../Button";
 class MyCoachItem extends React.Component{
     render(){
         const {
-            avatar,
-            name,
             discipline,
-            setChoosenTrainer,
+            name,
+            lastMessage,
+            onGoto,
+            profileAvatar,
             id,
-            comment,
-            trainerList,
+            goToChat
         } = this.props;
 
-console.log("this.", this.props)
+        console.log('Student this.props :', this.props);
         return (
-            <div className='myStudent' onClick={() => setChoosenTrainer(id, trainerList)}>
+            <div className='myStudent'>
                 <ProfileAvatar
-                    img={avatar}
+                    img={profileAvatar}
                     size='small'
                 />
                 <div className='myStudent-info'>
                     <div>
-                        <span className='myStudent-info-name'>{name}</span>
+                        <span className='myStudent-info-name' onClick={() => onGoto(id)}>{name}</span>
                         <span className='myStudent-info-discipline'>{discipline}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>
-                        {comment}
+                    {lastMessage}
+                    </div>
+                    <div className='myStudent-info-openChat'>
+                        <Button
+                            btnText="Открыть чат"
+                            type="border-green"
+                            onClick={() => goToChat(id)}
+                        />
                     </div>
                 </div>
             </div>

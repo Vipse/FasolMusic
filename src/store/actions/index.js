@@ -142,6 +142,7 @@ export {
     transferTrainining,
     transferTraininingToEnd,
     changeSubscription,
+    freezeAbonement
 } from './abonement'
 
 export {
@@ -155,3 +156,8 @@ export {
     getMasterList,
     getTrainerTraining
 } from './trainer'
+
+
+export { 
+    getTrainingNotFinished
+} from './training'
