@@ -1,10 +1,8 @@
 import MainPage from '../containers/MainPage'
 import Schedule from '../containers/Schedule'
 import Homework from '../containers/Homework'
-<<<<<<< HEAD
+
 import Patients from '../containers/Patients'
-=======
->>>>>>> 01c05586d23a621ed1865f84afc2bb92ad397d92
 import StudentPage from '../containers/StudentPage'
 import CoachPage from "../containers/CoachPage"
 import PersonalInfo from '../containers/PersonalInfo'
@@ -30,24 +28,6 @@ export const coachRoutes = [
         exact: true,
     },
     {
-<<<<<<< HEAD
-        path: '/app/patients',
-        component: Patients,
-        exact: true,
-    },
-    {
-        path: '/app/coach:id',
-        component: CoachPage,
-        exact: true,
-    },
-    {
-        path: '/app/student:id',
-        component: StudentPage,
-        exact: true,
-    },
-    {
-=======
->>>>>>> 01c05586d23a621ed1865f84afc2bb92ad397d92
         path: '/app/personal-info',
         component: PersonalInfo,
         exact: true,
@@ -117,7 +97,6 @@ export const studentRoutes = [
     }
 ];
 
-<<<<<<< HEAD
 
 export const adminRoutes = [
     {
@@ -141,10 +120,13 @@ export const menuAdmin =[
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true}
 ];
 
-export const menuDoc =[
-=======
+// export const menuDoc =[
+//         exact: true,
+//     }
+// ];
+
 export const menuCoach =[
->>>>>>> 01c05586d23a621ed1865f84afc2bb92ad397d92
+
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
     {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
