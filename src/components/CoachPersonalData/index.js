@@ -20,6 +20,11 @@ import Card from "antd/es/card";
 import {Form, message} from "antd";
 import Spinner from "../Spinner";
 import moment from "moment";
+import {
+    getSelectedIDs,
+    getSelectedNestedIDs,
+    getSelectorValues
+} from "../../helpers/getSelectorsCustomData";
 
 class CoachPersonalDataForm extends React.Component {
 
@@ -34,28 +39,43 @@ class CoachPersonalDataForm extends React.Component {
                 selectedTimes: new Array(7).fill([10, 23])
             },
             isChangePasswordModalVisible: false,
-            isSendSuggestionsModalVisible: false
+            isSendSuggestionsModalVisible: false,
+            selectorsValues: {}
         }
     }
 
     componentDidMount() {
-        const { avatar, facebooklink, googlelink, promovideo } = this.props.profileCoach;
+        const { avatar, promovideo } = this.props.profileCoach;
         this.setState({
             avatar: avatar,
             promoLink: promovideo
         });
         this.loadTrainingTime();
+
+        const {getSelectors} = this.props;
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
+
+        selectorsNames.forEach((name) => {
+            getSelectors(name)
+                .then(res => this.setState({
+                    selectorsValues: {
+                        ...this.state.selectorsValues,
+                        [name + "List"]: res.data
+                    }}))
+                .catch(err => console.log(err))
+        });
     }
 
     loadTrainingTime = () => {
         const { trainingtime } = this.props.profileCoach;
-        for (let num in trainingtime) {
+        trainingtime.length && trainingtime.forEach((item) => {
+            let num = item.day[0].value;
             this.handleChangeTrainingTime('enabledDays', num, true);
             this.handleChangeTrainingTime('selectedTimes', num, [
-                trainingtime[num].datestart,
-                trainingtime[num].dateend
+                +item.datestart,
+                +item.dateend
             ]);
-        }
+        });
     };
 
     handleChangeAvatar = (newAvatar) => {
@@ -100,6 +120,7 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareDisciplines = (data) => {
+        const {disciplineList, goalList, stylesList} = this.state.selectorsValues;
         let disciplinesNumsArr = [];
         for (let key in data)
             if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
@@ -107,12 +128,13 @@ class CoachPersonalDataForm extends React.Component {
         let preparedDisciplines = [];
         disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({
-                discipline: data["discipline-" + i],
-                specialization: data["specialization-" + i],
+                discipline: getSelectedIDs(disciplineList, data["discipline-" + i]),
+                specialization: getSelectedNestedIDs(disciplineList, data["specialization-" + i], [data["discipline-" + i]]),
+                receptions: getSelectedNestedIDs(disciplineList, data["receptions-" + i], [data["discipline-" + i], data["specialization-" + i]]),
                 level: data["level-" + i],
-                experience: data["experience-" + i],
-                goals: data["goals-" + i],
-                musicstyles: data["musicstyles-" + i],
+                experiense: data["experience-" + i],
+                goals: getSelectedIDs(goalList, data["goals-" + i]),
+                musicstyles: getSelectedIDs(stylesList, data["musicstyles-" + i]),
                 favoritesingers: data["favoritesingers-" + i]
             });
         });
@@ -121,9 +143,11 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareTrainingTime = () => {
+        const {dayList} = this.state.selectorsValues;
         let preparedTrainingTime = {};
         for (let i = 0; i < 7; ++i) {
             this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
+                day: getSelectedIDs(dayList, String(i), true),
                 datestart: this.state.trainingTime.selectedTimes[i][0],
                 dateend: this.state.trainingTime.selectedTimes[i][1]
             } : null;
@@ -136,19 +160,20 @@ class CoachPersonalDataForm extends React.Component {
 
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err && this.props.profileCoach.id) {
+                const {interestsList, qualitiesList, professionsList} = this.state.selectorsValues;
 
                 const finalData = {
                     id: this.props.profileCoach.id,
                     name: values.name,
-                    phones: values.phones.split(' ').join('').split(',', 2),
+                    phones: values.phones,
                     email: values.email,
                     country: values.country,
                     avatar: this.state.avatar,
 
                     sex: values.sex === "Мужской" ? "m" : "w",
                     datebirth: moment(values.datebirth).format('X'),
-                    work: values.work,
-                    interests: values.interests,
+                    work: getSelectedIDs(professionsList, values.work),
+                    interests: getSelectedIDs(interestsList, values.interests),
                     aboutme: values.aboutme,
 
                     promovideo: this.state.promoLink,
@@ -158,7 +183,7 @@ class CoachPersonalDataForm extends React.Component {
                     bestsex: values.bestsex === "Мужской" ? "m" : "w",
                     bestage: values.bestage,
                     bestishomework: values.bestishomework === "Да",
-                    bestqualities: values.bestqualities,
+                    bestqualities: getSelectedIDs(qualitiesList, values.bestqualities),
                     bestcomment: values.bestcomment,
 
                     trainingtime: this.prepareTrainingTime()
@@ -184,6 +209,7 @@ class CoachPersonalDataForm extends React.Component {
         const { promoLink } = this.state;
         const { form, profileCoach } = this.props;
         const { getFieldDecorator } = form;
+        const {interestsList, professionsList, disciplineList, goalList, stylesList, qualitiesList} = this.state.selectorsValues;
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
@@ -201,6 +227,8 @@ class CoachPersonalDataForm extends React.Component {
                         <PersonalDataInfo
                             profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
+                            interestsList={getSelectorValues(interestsList)}
+                            professionsList={getSelectorValues(professionsList)}
                         />
                         <div className='coach-data-title'>Проморолик</div>
                         <CoachPersonalDataPromo
@@ -215,12 +243,15 @@ class CoachPersonalDataForm extends React.Component {
                         <PersonalDataSkill
                             profile={profileCoach}
                             form={form}
-                            getFieldDecorator={getFieldDecorator}
+                            disciplineObj={disciplineList}
+                            goalList={getSelectorValues(goalList)}
+                            stylesList={getSelectorValues(stylesList)}
                         />
                         <div className='coach-data-title'>Идеальный студент</div>
                         <PersonalDataPreferences
                             profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
+                            qualitiesList={getSelectorValues(qualitiesList)}
                         />
                         <div className='coach-data-title'>Удобное время проведения тренировок</div>
                         <PersonalDataTime

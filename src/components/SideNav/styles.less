@@ -13,14 +13,6 @@
     background-color: transparent !important;
 }
 
-.ant-menu-inline .ant-menu-item {
-    &:last-child {
-        .selectedNavLink {
-            padding: 0 25px;
-        }
-    }
-}
-
 .ant-menu-inline .ant-menu-item:after {
     border: none;
 }
@@ -169,6 +161,9 @@
             } //&-selected{
             //  background-color: #21bedd;
             //}
+        }
+        .ant-menu-item-selected > a {
+            color: rgba(0, 0, 0, 0.65);
         }
     }
     &-menu-short {

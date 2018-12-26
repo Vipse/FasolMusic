@@ -12,19 +12,35 @@ import * as actions from '../../store/actions'
 
 import './styles.css';
 import Spinner from "../../components/Spinner";
+import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
+import moment from "moment";
 
 class CoachPage extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            selectorsValues: {}
         }
     }
 
     componentDidMount(){
+        const {getSelectors} = this.props;
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
+
+        selectorsNames.forEach((name) => {
+            getSelectors(name)
+                .then(res => this.setState({
+                    selectorsValues: {
+                        ...this.state.selectorsValues,
+                        [name + "List"]: res.data
+                    }}))
+                .catch(err => console.log(err))
+        });
+
         this.props.onGetInfoDoctor(this.props.match.params.id);
-        this.props.onGetTrainerTrainings(this.props.match.params.id);
+        this.props.onGetMasterSchedule(this.props.match.params.id, moment().format('X'), moment().add(1, 'weeks').endOf('week').format('X'));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -33,7 +49,7 @@ class CoachPage extends React.Component{
                 loading: true
             });
             this.props.onGetInfoDoctor(nextProps.match.params.id);
-            this.props.onGetTrainerTrainings(nextProps.match.params.id);
+            this.props.onGetMasterSchedule(nextProps.match.params.id, moment().format('X'), moment().add(1, 'weeks').endOf('week').format('X'));
         }
         else {
             this.setState({
@@ -42,43 +58,67 @@ class CoachPage extends React.Component{
         }
     }
 
+    getDisciplinesList = () => {
+        const {disciplines} = this.props.profileCoach;
+        if (disciplines.length)
+            return disciplines.map(item => getNameFromObjArr(item.discipline))
+    };
+
+    getSpecializationsList = () => {
+        const {disciplines} = this.props.profileCoach;
+        if (disciplines.length)
+            return disciplines.map(item => getNameFromObjArr(item.specialization))
+    };
+
+    prepareAvailableIntervals = () => {
+        const {masterSchedule} = this.props;
+        let intervalsArr = [];
+        for (let key in masterSchedule)
+            intervalsArr.push({
+                from: key,
+                to: masterSchedule[key][0][0].end
+            });
+        return intervalsArr;
+    };
+
     render() {
-        const { trainerTrainings } = this.props;
-        const { avatar, name, disciplines } = this.props.profileCoach;
-        const { bestsex, bestage, bestishomework, bestqualities } = this.props.profileCoach;
+        const { avatar, name, aboutme } = this.props.profileCoach;
+        const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
         if (this.state.loading === true) {
-            return <Spinner onBackground tip="Загрузка" size="large"/>;
+            return <Spinner tip="Загрузка" size="large"/>;
         } else if (!this.props.profileCoach.name) {
             return (
-                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
-                    <h3 style={{color: '#fff'}}>Страница не найдена</h3>
+                <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                    <h3>Страница не найдена</h3>
                     <p>Проверьте введённый адрес</p>
                 </div>
             )
         } else {
             return (
                 <Hoc>
-                    <div>
+                    <div className="coach-page">
                         <Row type="flex" gutter={32}>
-                            <Col span={11} className='section'>
+                            <Col span={11}>
                                 <CoachProfile
                                     img={avatar}
                                     name={name}
-                                    discipline={disciplines.length ? disciplines[0].discipline : null}
-                                    specialization={disciplines.length ? disciplines[0].specialization : null}
+                                    discipline={this.getDisciplinesList()}
+                                    specialization={this.getSpecializationsList()}
+                                    aboutMe={aboutme}
                                     rate={5}
                                     ratingsCount={19}
                                 />
                             </Col>
-                            <Col span={13}>
+                            <Col span={13} offset={32}>
                                 <RecordTrainCarousel
-                                    intervals={trainerTrainings}
+                                    intervals={this.prepareAvailableIntervals()}
                                 />
                                 <CoachPagePerfectStudent
                                     sex={bestsex}
                                     age={bestage}
                                     homework={bestishomework}
-                                    qualities={bestqualities}
+                                    qualities={getNamesFromObjArr(bestqualities)}
+                                    comment={bestcomment}
                                 />
                             </Col>
                         </Row>
@@ -94,7 +134,7 @@ class CoachPage extends React.Component{
 const mapStateToProps = state => {
     return {
         profileCoach: state.profileDoctor,
-        trainerTrainings: state.profileDoctor.trainerTrainings,
+        masterSchedule: state.profileDoctor.masterSchedule,
         //info: state.patients.selectedPatientInfo,
         intervals: state.patients.intervals,
         availableIntervals: state.profileDoctor.workIntervals,
@@ -106,7 +146,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
-        onGetTrainerTrainings: (id) => dispatch(actions.getTrainerTrainings(id)),
+        onGetMasterSchedule: (id, dateStart, dateEnd) => dispatch(actions.getMasterSchedule(id, dateStart, dateEnd)),
+        getSelectors: (name) => dispatch(actions.getSelectors(name)),
         //getPatientInfo: (id) => dispatch(actions.getSelectedPatientInfo(id)),
         onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
         addPatient: (id) => dispatch(actions.addPatient(id, '', true)),

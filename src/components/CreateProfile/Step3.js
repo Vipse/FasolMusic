@@ -34,6 +34,7 @@ class Step3Form extends React.Component{
     };
 
     render(){
+        const { qualitiesList } = this.props;
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-3">
@@ -100,7 +101,7 @@ class Step3Form extends React.Component{
                             bubbleplaceholder="Качества"
                             className="step-form-item"
                             mode="multiple"
-                            values={["С юмором", "Требовательный"]}
+                            values={qualitiesList}
                         />
                     )}
                 </FormItem>

@@ -14,7 +14,7 @@ class SelectNew extends AntSelect{
 
     renderOptions = (data) => {
         let dataArr =[];
-        data.forEach((item, index) => {
+        if (data) data.forEach((item, index) => {
             dataArr.push( <Option value={item} key = {index}>{item}</Option>)
         });
         return dataArr

@@ -10,6 +10,7 @@ import '../../icon/style.css'
 import InputNew from "../InputNew";
 import SelectNew from "../SelectNew";
 import TextArea from "../TextArea";
+import {getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
@@ -20,9 +21,8 @@ class PersonalDataPreferences extends React.Component {
     }
 
     render() {
-        const { getFieldDecorator, isStudent } = this.props;
+        const { getFieldDecorator, isStudent, qualitiesList } = this.props;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profile;
-        const qualitiesArr = ["Спорт", "Кино и сериалы", "Туризм"];
         const rootClass = cn('coach-data-block');
         const userTypeWord = isStudent ? 'студента' : 'тренера';
 
@@ -73,7 +73,7 @@ class PersonalDataPreferences extends React.Component {
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('bestqualities', {
-                            initialValue: bestqualities,
+                            initialValue: getNamesFromObjArr(bestqualities),
                             rules: [{
                                 required: false,
                                 message: 'Выберите качества ' + userTypeWord + ', пожалуйста'
@@ -82,7 +82,7 @@ class PersonalDataPreferences extends React.Component {
                             <SelectNew width="100%"
                                        bubbleplaceholder="Качества"
                                        mode="multiple"
-                                       data={qualitiesArr}
+                                       data={qualitiesList}
                             />
                         )}
                     </FormItem>

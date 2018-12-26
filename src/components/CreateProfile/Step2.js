@@ -5,6 +5,7 @@ import Button from '../Button'
 import InputWithTT from "../InputWithTT";
 import SelectWithTT from "../SelectWithTT";
 import TextArea from "../TextArea";
+import {getSelectorNestedValues, getSelectorValues} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
@@ -33,8 +34,13 @@ class Step2Form extends React.Component{
         });
     };
 
+    resetSpecialization = () => {
+        this.props.form.resetFields(['specialization']);
+    };
+
     render(){
-        const { getFieldDecorator } = this.props.form;
+        const { form, disciplineObj, goalList, stylesList } = this.props;
+        const { getFieldDecorator } = form;
 
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-2">
@@ -55,7 +61,8 @@ class Step2Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="*Дисциплина"
                                 className="step-form-item"
-                                values={["Вокал", "Гитара"]}
+                                values={getSelectorValues(disciplineObj)}
+                                onChange={this.resetSpecialization}
                             />
                         )}
                     </FormItem>
@@ -69,7 +76,7 @@ class Step2Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="Специализация"
                                 className="step-form-item"
-                                values={["Мужской", "Женский"]}
+                                values={getSelectorNestedValues(disciplineObj, [form.getFieldValue('discipline')])}
                             />
                         )}
                     </FormItem>
@@ -116,7 +123,7 @@ class Step2Form extends React.Component{
                             bubbleplaceholder="Цели"
                             className="step-form-item"
                             mode="multiple"
-                            values={["Играть в группе", "Подбирать на слух"]}
+                            values={goalList}
                         />
                     )}
                 </FormItem>
@@ -130,8 +137,7 @@ class Step2Form extends React.Component{
                         <SelectWithTT
                             bubbleplaceholder="Стиль музыки, который мне нравится"
                             className="step-form-item"
-                            values={["зарубежная поп-музыка", "отечественная поп-музыка",
-                                "зарубежная рок-музыка", "отечественная рок-музыка"]}
+                            values={stylesList}
 
                         />
                     )}

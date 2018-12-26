@@ -7,19 +7,22 @@ import Step5 from './Step5'
 import Steps from '../Step'
 import './style.css'
 import '../../icon/style.css'
+import {getSelectorNestedValues, getSelectorValues} from "../../helpers/getSelectorsCustomData";
 
 class CreateProfile extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             current: 0,
+            selectorsValues: {}
         };
         this.steps = [
             {
                 content: (state) => <Step1 data={state}
                                            onNext={this.next}
                                            onSubmit={(data) => this.setState({...data})}
-                                           interestsList={this.state.interestsList}
+                                           interestsList={getSelectorValues(state.selectorsValues.interestsList)}
+                                           professionsList={getSelectorValues(state.selectorsValues.professionsList)}
                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                             //uploadFile={this.props.uploadFile}
                     />,
@@ -29,6 +32,9 @@ class CreateProfile extends React.Component{
                                            onNext={this.next}
                                            onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
+                                           disciplineObj={state.selectorsValues.disciplineList}
+                                           goalList={getSelectorValues(state.selectorsValues.goalList)}
+                                           stylesList={getSelectorValues(state.selectorsValues.stylesList)}
                 />,
             },
             {
@@ -36,6 +42,7 @@ class CreateProfile extends React.Component{
                                            onNext = {this.next}
                                            onPrev={this.prev}
                                            onSubmit={(data) => this.setState({...data})}
+                                           qualitiesList={getSelectorValues(state.selectorsValues.qualitiesList)}
                 />,
             },
             {
@@ -55,10 +62,17 @@ class CreateProfile extends React.Component{
 
     componentDidMount() {
         const {getSelectors} = this.props;
-        const selectorsNames = ['interests', 'specialization', 'discipline', 'qualities', 'professions'];
-        selectorsNames.forEach((name) => getSelectors(name)
-            .then(res => this.setState({[name + "List"]: res.data}))
-            .catch(err => console.log(err)));
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
+
+        selectorsNames.forEach((name) => {
+            getSelectors(name)
+                .then(res => this.setState({
+                    selectorsValues: {
+                        ...this.state.selectorsValues,
+                        [name + "List"]: res.data
+                    }}))
+                .catch(err => console.log(err))
+        });
     }
 
     next = () => {

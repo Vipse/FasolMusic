@@ -53,8 +53,8 @@ class AutoComplete extends React.Component{
     onDeletePatientHandler = (id, patientName) => {
         let that = this;
         Modal.confirm({
-            title: `Вы действительно хотите удалить ${this.props.isUser ? `доктора` : `пациента`}?`,
-            content: `${patientName} будет удален из списка ${this.props.isUser ? `докторов` : `пациентов`}`,
+            title: `Вы действительно хотите удалить ${this.props.isStudent ? `доктора` : `пациента`}?`,
+            content: `${patientName} будет удален из списка ${this.props.isStudent ? `докторов` : `пациентов`}`,
             width: '445px',
             okText: 'Да',
             cancelText: 'Нет',
@@ -150,7 +150,7 @@ class AutoComplete extends React.Component{
                                         (this.state.searchRes).length ?
                                             this.patientsRender(this.state.searchRes)
                                             : <div
-                                                className='entry-list'>{this.props.isUser ? "Докторов нет" : "Пациентов нет"}</div>
+                                                className='entry-list'>{this.props.isStudent ? "Докторов нет" : "Пациентов нет"}</div>
                                     )
                                     : (<div className='entry-list'>Введите больше символов для поиска</div>)}
                             </div>

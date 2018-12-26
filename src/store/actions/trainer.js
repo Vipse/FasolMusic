@@ -9,8 +9,8 @@ import { dateMath } from 'date-arithmetic';
 export const autoLogin = (history) => {
     return (dispatch) => {
 
-        const login = localStorage.getItem('_appdoc-user');
-        const passw = localStorage.getItem('_appdoc-pass');
+        const login = localStorage.getItem('_fasol-user');
+        const passw = localStorage.getItem('_fasol-pass');
 
         if(login && passw){
             dispatch(login(login, passw, false, history, true));

@@ -12,17 +12,32 @@ import * as actions from '../../store/actions'
 
 import './styles.css';
 import Spinner from "../../components/Spinner";
+import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 
 class StudentPage extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            selectorsValues: {}
         }
     }
 
     componentDidMount(){
+        const {getSelectors} = this.props;
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
+
+        selectorsNames.forEach((name) => {
+            getSelectors(name)
+                .then(res => this.setState({
+                    selectorsValues: {
+                        ...this.state.selectorsValues,
+                        [name + "List"]: res.data
+                    }}))
+                .catch(err => console.log(err))
+        });
+
         this.props.onGetInfoPatient(this.props.match.params.id);
     }
 
@@ -40,36 +55,49 @@ class StudentPage extends React.Component{
         }
     }
 
+    getDisciplinesList = () => {
+        const {disciplines} = this.props.profileStudent;
+        if (disciplines.length)
+            return disciplines.map(item => getNameFromObjArr(item.discipline))
+    };
+
+    getLevelsList = () => {
+        const {disciplines} = this.props.profileStudent;
+        if (disciplines.length)
+            return disciplines.map(item => item.level)
+    };
+
     render() {
-        const { avatar, name, disciplines } = this.props.profileStudent;
-        const { bestsex, bestage, bestishomework, bestqualities } = this.props.profileStudent;
+        const { avatar, name } = this.props.profileStudent;
+        const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
         if (this.state.loading === true) {
-            return <Spinner onBackground tip="Загрузка" size="large"/>;
+            return <Spinner tip="Загрузка" size="large"/>;
         } else if (!this.props.profileStudent.name) {
             return (
-                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
-                    <h3 style={{color: '#fff'}}>Страница не найдена</h3>
+                <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                    <h3>Страница не найдена</h3>
                     <p>Проверьте введённый адрес</p>
                 </div>
             )
         } else {
             return (
                 <Hoc>
-                    <div>
+                    <div className="student-page">
                         <Row type="flex" gutter={32}>
                             <Col span={10} className='section'>
                                 <StudentProfile
                                     img={avatar}
                                     name={name}
-                                    discipline={disciplines.length ? disciplines[0].discipline : null}
-                                    level={disciplines.length ? disciplines[0].level : null}
+                                    discipline={this.getDisciplinesList().join(', ')}
+                                    level={this.getLevelsList().join(', ')}
                                     paidTrainingsCount={0}
                                 />
                                 <StudentPagePerfectCoach
                                     sex={bestsex}
                                     age={bestage}
                                     homework={bestishomework}
-                                    qualities={bestqualities}
+                                    qualities={getNamesFromObjArr(bestqualities)}
+                                    comment={bestcomment}
                                 />
                             </Col>
                             <Col span={14}>
@@ -112,6 +140,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
+        getSelectors: (name) => dispatch(actions.getSelectors(name)),
         //getPatientInfo: (id) => dispatch(actions.getSelectedPatientInfo(id)),
         onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
         addPatient: (id) => dispatch(actions.addPatient(id, '', true)),

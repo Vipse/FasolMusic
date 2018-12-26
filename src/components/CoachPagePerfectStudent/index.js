@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 import Card from '../Card'
-import ScrollArea from 'react-scrollbar'
 import './style.css'
 import '../../icon/style.css'
 
@@ -10,7 +9,7 @@ class CoachPagePerfectStudent extends React.Component {
     state = {};
 
     render() {
-        const {sex, age, homework, qualities} = this.props;
+        const {sex, age, homework, qualities, comment} = this.props;
 
         return (
             <Card title="Идеальный студент">
@@ -21,10 +20,10 @@ class CoachPagePerfectStudent extends React.Component {
                         <div className="field">Возраст <span className="value">{age}</span></div>
                         <div className="field">Хочет получать домашнее задание <span
                             className="value">{homework ? "Да" : "Нет"}</span></div>
-                        {/*<div className="perfect-student-field">Качества <span className="data">{qualities.join(" ")}</span></div>*/}
+                        <div className="field">Качества <span className="value">{qualities.join(", ")}</span></div>
                     </div>
                     <div className="perfect-student-comment">
-                        <p>Комментарий о студенте</p>
+                        <p>{comment}</p>
                     </div>
                 </div>
             </Card>

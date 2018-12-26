@@ -1,6 +1,3 @@
-* {
-  box-sizing: border-box;
-}
 .perfect-coach {
   padding: 25px 35px;
   display: flex;
@@ -12,7 +9,6 @@
 }
 .perfect-coach-fields-row {
   margin-bottom: 15px;
-  width: 70%;
 }
 .perfect-coach-fields .data {
   font-family: RobotoMedium;

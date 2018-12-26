@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import ProfileAvatar from '../ProfileAvatar'
 import Card from '../Card'
 import Button from '../Button'
-import ScrollArea from 'react-scrollbar'
 import './style.css'
 import '../../icon/style.css'
 
@@ -15,13 +14,8 @@ class StudentProfile extends React.Component {
         const {img, name, discipline, level, paidTrainingsCount} = this.props;
 
         return (
-            <Card title="Профиль коуча">
-                <ScrollArea
-                    speed={0.5}
-                    contentClassName="flex-div"
-                    smoothScrolling={true}
-                >
-                    <div className="profile">
+            <Card title="Профиль студента">
+                    <div className="profile-card-student">
                         <div className='profile-student'>
                             <div className="profile-student-avatar">
                                 <ProfileAvatar
@@ -33,7 +27,7 @@ class StudentProfile extends React.Component {
 
                             <div className="profile-student-info">
                                 <div className="profile-student-info-name">{name}</div>
-                                {/*<div className="profile-student-info-discipline">{discipline}</div>*/}
+                                <div className="profile-student-info-discipline">{discipline}</div>
                                 <div className="profile-student-info-level">{level}</div>
                                 <div className="profile-student-info-count">Тренировок оплачено: <span className="profile-student-info-count-number">{paidTrainingsCount}</span></div>
                             </div>
@@ -46,8 +40,6 @@ class StudentProfile extends React.Component {
                             />
                         </div>
                     </div>
-                </ScrollArea>
-
             </Card>
         )
     }

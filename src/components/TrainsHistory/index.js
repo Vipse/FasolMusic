@@ -188,7 +188,7 @@ class TrainsHistory extends React.Component {
                         <Col span={24} className='section'>
                             <HomeworkList
                                 onGoto={this.gotoHandler}
-                                isUser={true}//{this.props.mode === "user"}
+                                isUser={true}//{this.props.mode === "student"}
                                 onAddFiles={this.props.onAddFiles}
                                 makeArchiveOfFiles={this.props.makeArchiveOfFiles}
                                 trainings={arrAbonement}

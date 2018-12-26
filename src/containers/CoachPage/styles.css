@@ -1,12 +1,12 @@
-.btn {
+.coach-page .ant-card {
+  margin-bottom: 32px;
+}
+.coach-page .btn {
   white-space: nowrap;
 }
-.page-title {
+.coach-page .page-title {
   color: #344051;
   font-weight: 600;
   font-size: 36px;
   letter-spacing: -0.36px;
-}
-.ant-card {
-  margin-bottom: 32px;
 }

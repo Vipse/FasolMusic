@@ -95,7 +95,7 @@ class PersonalDataContact extends React.Component {
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('phones', {
-                            initialValue: Array.isArray(phones) ? phones.join(', ') : null,
+                            initialValue: phones,
                             rules: [{
                                 required: true,
                                 message: 'Введите телефоны, пожалуйста'

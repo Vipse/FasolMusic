@@ -206,14 +206,14 @@
   background-color: #21bedd;
 }
 .btn-type-border-pink {
-  background-color: #fff;
-  color: #ff7daa;
+  background-color: #ff7daa;
+  color: #fff;
   border: 1px solid #ff7daa;
   font-family: RobotoMedium, sans-serif;
 }
 .btn-type-border-pink:hover {
-  color: #fff;
-  background-color: #ff7daa;
+  color: #ff7daa;
+  background-color: #fff;
 }
 .btn-type-dark-blue {
   font-family: RobotoMediumItalic;
@@ -249,21 +249,21 @@
 .btn-type-light-blue {
   font-family: RobotoMediumItalic;
   font-size: 14px;
-  background-color: transparent;
-  color: #21bedd;
+  background-color: #21bedd;
+  color: #fff;
   text-transform: none;
   border: 1px solid #21bedd;
 }
 .btn-type-light-blue .icon {
-  color: #21bedd;
+  color: #fff;
 }
 .btn-type-light-blue:hover {
-  background-color: #21bedd;
-  color: #fff;
+  background-color: transparent;
+  color: #21bedd;
   border-color: #21bedd;
 }
 .btn-type-light-blue:hover .icon {
-  color: #fff;
+  color: #21bedd;
 }
 .btn-type-pink {
   background-color: #ff7daa;
@@ -286,46 +286,46 @@
 .btn-type-light-pink {
   font-family: RobotoMedium;
   font-size: 14px;
-  background-color: transparent;
-  color: #ff7daa;
+  background-color: #ff7daa;
+  color: #fff;
   text-transform: none;
   border: 1px solid #ff7daa;
 }
 .btn-type-light-pink:hover {
-  background-color: #ff7daa;
-  color: #fff;
+  background-color: #fff;
+  color: #ff7daa;
 }
 .btn-type-light-green {
   font-family: RobotoMedium;
   font-size: 14px;
-  background-color: transparent;
-  color: #2abb6c;
+  background-color: #2abb6c;
+  color: #fff;
   text-transform: none;
   border: 1px solid #2abb6c;
 }
 .btn-type-light-green:hover {
-  background-color: #2abb6c;
-  color: #fff;
+  background-color: #fff;
+  color: #2abb6c;
 }
 .btn-type-black {
   font-family: RobotoMedium;
   font-size: 14px;
-  background-color: transparent;
-  color: #000;
+  background-color: #000;
+  color: #fff;
   text-transform: none;
   border: 1px solid #000;
 }
 .btn-type-black:hover {
-  background-color: #000;
-  color: #fff;
+  background-color: transparent;
+  color: #000;
 }
 .btn-type-yellow-black {
   background-color: #ffd000;
   color: #000;
 }
 .btn-type-border-green {
-  background-color: #fff;
-  color: #2abc6c;
+  background-color: #2abc6c;
+  color: #fff;
   font-family: RobotoMedium, sans-serif;
   font-size: 12px;
   border: 1px solid #2abc6c;
@@ -333,8 +333,8 @@
   text-transform: none;
 }
 .btn-type-border-green:hover {
-  background-color: #2abc6c;
-  color: #fff;
+  background-color: #fff;
+  color: #2abc6c;
 }
 .btn-type-bright-blue {
   background-color: #21bedd;

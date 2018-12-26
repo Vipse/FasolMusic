@@ -1,24 +1,19 @@
+.profile-card-coach {
+  padding: 12px 35px;
 
-* {
-  box-sizing: border-box;
-}
-
-.profile {
-  padding: 12px 35px ;
-
-  &-coach {
+  .profile-coach {
     display: flex;
     justify-content: flex-start;
 
     &-avatar {
       margin-right: 30px;
-      width: 20%;
     }
 
     &-info {
       flex-direction: column;
       width: 40%;
       margin-right: 50px;
+      align-self: center;
 
       &-name {
         color: #21bedd;
@@ -26,23 +21,36 @@
         text-transform: uppercase;
       }
 
-      &-count {
-        font-family: RobotoMedium;
-
-        &-number {
-          font-size: 22px;
-        }
+      &-btn {
+        margin-top: 15px;
+        align-self: flex-end;
       }
     }
 
     &-rate {
       width: 30%;
       font-family: RobotoMedium;
+      align-self: center;
+
+      &-count {
+        font-family: RobotoMedium;
+        color: #ffc908;
+
+        &-amount {
+          color: #000;
+        }
+      }
+
+      &-info {
+        font-size: 12px;
+        color: #b7b7b7;
+      }
     }
 
     &-comment {
       font-family: RobotoMedium;
       margin: 20px 0;
+      overflow: hidden;
     }
 
     &-promo {
