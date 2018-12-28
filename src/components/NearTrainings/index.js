@@ -21,11 +21,11 @@ class NearTrainings extends React.Component {
 
     render() {
         const rootClass = cn('schedule-all');
-        const {data} = this.props;
+        const {data, openNearTrains} = this.props;
         return (
             <div className={rootClass}>
                 <Card title="Ближайшие тренировки"
-                      extra={<a className="schedule-all-link"><Icon type="circle_arrow_right"/> <span>Все</span></a>}>
+                      extra={<a className="schedule-all-link" onClick={this.props.openNearTrains}><Icon type="circle_arrow_right"/> <span>Все</span></a>}>
                     {data.length ?
                         this.scheduleRender(data)
                         : <div className='entry-list no-trainings'>Тренировок нет</div>}

@@ -17,11 +17,11 @@ class LastTrainings extends React.Component {
     };
 
     render() {
-        const {data} = this.props;
+        const {data, openLastTrains} = this.props;
         return (
             <div className='lastTrainings'>
                 <Card title="Последние тренировки"
-                      extra={<a className="lastTrainings-link"><Icon type="circle_arrow_right"/>
+                      extra={<a className="lastTrainings-link" onClick={openLastTrains}><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     <PerfectScrollbar className="lastTrainings-scroll">
                     {data.length ?

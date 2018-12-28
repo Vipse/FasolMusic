@@ -105,8 +105,8 @@ console.log('QQQ array :', array);
                     />)
                     : (<CoachPayment/>)}
 
-                <TrialTrainModal  
-                    title='Запишись на пробную тренировку'
+                <TrialTrainModal
+                    title='Запишись на тренировку'
                     width={770}
                     visible={this.state.visibleTrialModal}
                     onCancel={this.hideTrialModal} 

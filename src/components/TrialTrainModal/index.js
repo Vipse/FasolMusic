@@ -8,7 +8,7 @@ import './styles.css'
 const TrialTrainModal = (props) => {
     
     return (
-        <Modal title='Запишись на пробную тренировку'
+        <Modal title={props.title}
                width={770}
                visible={props.visible}
                onCancel={props.onCancel}

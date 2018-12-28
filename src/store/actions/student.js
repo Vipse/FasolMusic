@@ -83,3 +83,11 @@ export const getDeadlinePay = (idStudent) => {
             })
     }
 }
+
+export const createTraining = (obj) => {
+    return () => {
+        return axios.post('/catalog.fasol/createTraining', JSON.stringify(obj))
+            .then(res => res)
+            .catch(err => {console.log(err);})
+    }
+}

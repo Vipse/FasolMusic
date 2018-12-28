@@ -150,7 +150,8 @@ export {
     getMyMasters,
     getDeadlinePay,
     getInfoMasters,
-    getUserInfo
+    getUserInfo,
+    createTraining
 } from './student'
 
 export {

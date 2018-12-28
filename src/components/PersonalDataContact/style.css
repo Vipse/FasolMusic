@@ -62,6 +62,14 @@
 .coach-data-avatar-controls .btn:focus {
   background-color: transparent;
 }
+.coach-data-id {
+  width: 100%;
+  color: #21bedd;
+  font-family: "RobotoMediumItalic";
+  text-transform: uppercase;
+  margin: 20px 0 30px;
+  text-align: center;
+}
 .coach-data-info {
   width: 52%;
   margin-right: 50px;

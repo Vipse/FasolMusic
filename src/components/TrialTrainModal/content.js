@@ -14,6 +14,7 @@ import Radio from "../RadioBox";
 import RadioGroup from "antd/es/radio/group";
 import RangeTp from "../TimePicker/RangeTP";
 import Slider from "antd/es/slider";
+import InputNew from "../InputNew";
 
 const FormItem = Form.Item;
 
@@ -21,8 +22,15 @@ class ContentForm extends React.Component {
     state = {
         message: '',
         loading: false,
-        selectedDays: []
+        selectedDays: [],
+        promoCodeStep: true,
+        promoCode: ""
     };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.visible && prevProps.visible !== this.props.visible)
+            this.setState({promoCodeStep: true});
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -34,12 +42,21 @@ class ContentForm extends React.Component {
                 this.state.selectedDays.forEach((item, i) => this.state.selectedDays[i] ? selectedDaysObj[i] = item : null);
                 let finalData = {
                     ...values,
-                    selectedDays: selectedDaysObj
+                    selectedDays: selectedDaysObj,
+                    promoCode: this.state.promoCode
                 };
                 this.props.onSave(finalData);
             }
             else console.log("error", err);
         })
+    };
+
+    acceptPromo = (e) => {
+        e.preventDefault();
+        this.setState({
+            promoCode: this.props.form.getFieldsValue().code,
+            promoCodeStep: false
+        });
     };
 
     handleDayCheck = (num) => {
@@ -63,10 +80,34 @@ class ContentForm extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        const {promoCodeStep} = this.state;
 
-        return (
-        <Form onSubmit={this.handleSubmit}
+        if (promoCodeStep)
+            return (
+                <Form onSubmit={this.acceptPromo}
                       className="TrialTrainModal">
+                    <div className="code">
+                        <FormItem>
+                            <div className='radio-label'>Укажите промокод:</div>
+                            {getFieldDecorator('code')(
+                                <InputNew width="100%" bubbleplaceholder="Промокод"/>
+                            )}
+                        </FormItem>
+                    </div>
+                    <div className="submitPlate">
+                        <Button className="saveBtn"
+                                btnText='Далее'
+                                onClick={() => {
+                                }}
+                                size='default'
+                                type='light-pink'
+                        />
+                        {this.state.loading && <Spinner/>}
+                    </div>
+                </Form>);
+        else return (
+            <Form onSubmit={this.handleSubmit}
+                  className="TrialTrainModal">
                 <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                 </p>

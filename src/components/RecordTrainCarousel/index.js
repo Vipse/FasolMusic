@@ -6,7 +6,7 @@ import NewVisitModalPage from '../NewVisitModalPage'
 import Button from '../Button'
 import './style.css'
 import '../../icon/style.css'
-import {Alert} from 'antd'
+import {Alert, message} from 'antd'
 import Spinner from "../Spinner";
 import Card from "antd/es/card";
 
@@ -94,7 +94,8 @@ class RecordTrainCarousel extends React.Component {
                     timeToDisplay: curHourBegin.format('H:mm'),
                     timestamp: curHourBegin.format('X'),
                     type: 'default',
-                    isActive: isActive
+                    isActive: isActive,
+                    ordered: false
                 });
             }
 
@@ -110,8 +111,8 @@ class RecordTrainCarousel extends React.Component {
                 {(this.state.rowCount ? timeIntervals[indexDay].slice(0, this.state.rowCount) : timeIntervals[indexDay])
                     .map((item, indexTime) =>
                         <div
-                            className={item.isActive ? 'train-carousel-time' : 'train-carousel-time unAvailableTime'}
-                            onClick={item.isActive ? (e) => console.log("clicked: " + item.timestamp) : null}
+                            className={!item.ordered ? 'train-carousel-time' : 'train-carousel-time unAvailableTime'}
+                            onClick={!item.ordered ? () => {this.props.handleOrderTrain(item)} : null}
                             key={indexTime + 1}
                             data-timestamp={item.timestamp}
                             data-interval-type={item.type}
@@ -133,7 +134,7 @@ class RecordTrainCarousel extends React.Component {
             <Card title="Записаться на тренировку">
                 {loading ? <Spinner/> :
                     <div className={rootClass}>
-                        {!intervals.length ? (<span className="no-schedule">Доктор ещё не определил расписание</span>)
+                        {!intervals/*.length*/ ? (<span className="no-schedule">Доктор ещё не определил расписание</span>)
                             :
                             (<div>
                                     <div className='train-carousel-slide'>

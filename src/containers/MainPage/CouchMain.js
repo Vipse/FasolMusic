@@ -85,6 +85,7 @@ class CouchMain extends React.Component{
                             <Col xs={14} xxl={7} className='section'>
                                 <NearTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
+                                    openNearTrains={() => this.props.history.push('/app/schedule')}
                                     data={[
                                         {
                                             profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
@@ -110,6 +111,7 @@ class CouchMain extends React.Component{
                             <Col xs={14} xxl={8} className='section'>
                                 <LastTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
+                                    openLastTrains={() => this.props.history.push('/app/homework')}
                                     data={[
                                         {
                                             profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',

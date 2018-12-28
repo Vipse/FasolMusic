@@ -51,7 +51,7 @@ class PersonalDataContact extends React.Component {
     render() {
         const {getFieldDecorator, isStudent} = this.props;
         const {onChangeSocial, showChangePasswordModal, showSendSuggestionsModal} = this.props;
-        const {name, phones, email, country, avatar, facebooklink, googlelink} = this.props.profile;
+        const {name, phones, email, country, avatar, facebooklink, googlelink, id} = this.props.profile;
         const rootClass = cn('coach-data-block');
 
         return (
@@ -156,6 +156,7 @@ class PersonalDataContact extends React.Component {
                         icon='bulb'
                         type='light-blue'
                     />}
+                    <div className='coach-data-id'>id профиля: {id}</div>
                 </div>
             </div>
         )

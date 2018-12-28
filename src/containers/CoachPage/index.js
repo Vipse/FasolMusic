@@ -14,6 +14,7 @@ import './styles.css';
 import Spinner from "../../components/Spinner";
 import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 import moment from "moment";
+import {message} from "antd";
 
 class CoachPage extends React.Component{
 
@@ -81,6 +82,23 @@ class CoachPage extends React.Component{
         return intervalsArr;
     };
 
+    handleOrderTrain = (item) => {
+        item.ordered = true;
+        console.log(this.props);
+
+        let obj = {
+            date: item.timestamp,
+            ancestorId: 111,
+            idStudent: this.props.id,
+            idMaster: this.props.profileCoach.id
+        };
+
+        this.props.onOrderTrain(obj)
+            .then(res => {if (res && res.data && res.data.code)
+                message.success("Вы успешно записаны на тренировку");
+            else message.error("Произошла ошибка, попробуйте ещё раз");})
+    };
+
     render() {
         const { avatar, name, aboutme } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
@@ -112,6 +130,7 @@ class CoachPage extends React.Component{
                             <Col span={13} offset={32}>
                                 <RecordTrainCarousel
                                     intervals={this.prepareAvailableIntervals()}
+                                    handleOrderTrain={this.handleOrderTrain}
                                 />
                                 <CoachPagePerfectStudent
                                     sex={bestsex}
@@ -135,6 +154,7 @@ const mapStateToProps = state => {
     return {
         profileCoach: state.profileDoctor,
         masterSchedule: state.profileDoctor.masterSchedule,
+        id: state.auth.id,
         //info: state.patients.selectedPatientInfo,
         intervals: state.patients.intervals,
         availableIntervals: state.profileDoctor.workIntervals,
@@ -148,6 +168,7 @@ const mapDispatchToProps = dispatch => {
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
         onGetMasterSchedule: (id, dateStart, dateEnd) => dispatch(actions.getMasterSchedule(id, dateStart, dateEnd)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
+        onOrderTrain: (obj) => dispatch(actions.createTraining(obj)),
         //getPatientInfo: (id) => dispatch(actions.getSelectedPatientInfo(id)),
         onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
         addPatient: (id) => dispatch(actions.addPatient(id, '', true)),
