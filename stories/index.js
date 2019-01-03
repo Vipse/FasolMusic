@@ -49,6 +49,7 @@ const loadStories = () => {
     require('../src/components/TrialTrainModal/stories');
     require('../src/components/NewRecordScheduleModal/stories');
     require('../src/components/RecordCompleteModal/stories');
+    require('../src/components/ShortRegistrationModal/stories');
     require('../src/components/CoachPersonalProfile/stories');
     require('../src/components/CoachPersonalData/stories');
     require('../src/components/PersonalDataContact/stories');
@@ -177,5 +178,6 @@ const loadStories = () => {
     require('../src/components/PopoverRemedyButton/stories');
     require('../src/components/MapsModal/stories');
     require('../src/components/ReviewsModal/stories');
+};
 
 configure(loadStories, module);
