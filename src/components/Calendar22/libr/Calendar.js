@@ -128,6 +128,10 @@ class Calendar extends React.Component {
               {...formats}
               messages={messages}
               culture={culture}
+
+              masterList={this.props.masterList}
+              isAdmin = {this.props.isAdmin}
+
               events={events}
               date={current}
               length={length}

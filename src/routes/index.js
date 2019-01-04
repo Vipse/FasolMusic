@@ -122,7 +122,7 @@ export const studentRoutes = [
 
 export const adminRoutes = [
     {
-        path: '/app/calendar',
+        path: '/app/schedule',
         component: Schedule,
         exact: true,
     },
@@ -149,7 +149,6 @@ export const menuCoach =[
     //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
-    {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true},
     {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true}
 ];
 

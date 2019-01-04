@@ -42,13 +42,13 @@ export function getSelectedNestedIDs(selector, selectedValues, parentsArr, engli
 }
 
 export function getNameFromObjArr(objArr) {
-    if (objArr && objArr.length)
+    if (Array.isArray(objArr) && objArr.length)
         return objArr[0].name;
     else return "";
 }
 
 export function getNamesFromObjArr(objArr) {
-    if (objArr && objArr.length)
+    if (Array.isArray(objArr) && objArr.length)
         return objArr.map(item => item.name);
     else return [];
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
+import { getFreeAndBusyMasterList } from './admin';
 
 export {
     getDocPatients,
@@ -151,7 +152,8 @@ export {
     getDeadlinePay,
     getInfoMasters,
     getUserInfo,
-    createTraining
+    createTraining,
+    getAvailableInterval
 } from './student'
 
 export {
@@ -163,3 +165,9 @@ export {
 export { 
     getTrainingNotFinished
 } from './training'
+
+
+export {
+    getFreeAndBusyMasterList,
+    getAllInfoMasters
+} from './admin'

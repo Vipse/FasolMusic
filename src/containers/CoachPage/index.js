@@ -77,7 +77,7 @@ class CoachPage extends React.Component{
         for (let key in masterSchedule)
             intervalsArr.push({
                 from: key,
-                to: masterSchedule[key][0][0].end
+                to: masterSchedule[key][0].end
             });
         return intervalsArr;
     };

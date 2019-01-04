@@ -171,7 +171,6 @@ class PatientAccardionContactItemForm extends React.Component{
                                 initialValue: contactEmail,
                                 rules:
                                     [{
-                                        required: true,
                                         message: 'Введите email, пожалуйста'
                                     },
                                     {

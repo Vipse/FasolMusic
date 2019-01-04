@@ -106,9 +106,6 @@ class RegistrationPatientForm extends React.Component{
                                 {
                                     required: true,
                                     message: 'Введите ваш e-mail, пожалуйста'
-                                },
-                                {
-                                    validator: this.checkEmail
                                 }],
                         })(
                             <InputNew width ="100%" bubbleplaceholder="* E-mail" className="step-form-item"/>

@@ -37,6 +37,7 @@ class Week extends React.Component {
                   range={range} 
                   eventOffset={15} 
                   handleDrop = {(id) => this.deleteEvent(id)} 
+                  
                 
                   />
         </div>  

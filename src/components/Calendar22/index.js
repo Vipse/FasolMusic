@@ -34,13 +34,21 @@ class BigCalendar extends React.Component{
     };
     
     render() {
+        if(this.props.isAdmin) {
+            return <Calendar
+                masterList = {this.props.masterList}
+                isAdmin
+                {...this.props}
+            />
+        }
+
         return (<div>
             {
                 true ? // this.props.isUser
                     <Calendar
                         events = {this.changeEvents()}
                         isUser={true} // это для коуча
-                        
+                        isAdmin
                         {...this.props}
 
                    />
@@ -89,6 +97,8 @@ BigCalendar.propTypes = {
     deleteEvent: PropTypes.func,
     onCancelTraining: PropTypes.func,
     trainerTraining: PropTypes.object,
+    isAdmin: PropTypes.bool,
+    showMasterList: PropTypes.func,
 };
 
 
@@ -102,6 +112,7 @@ BigCalendar.defaultProps = {
     onPopoverEmail: () => {},
     gotoEditor: () => {},
     trainerTraining: {},
+    isAdmin: false,
 };
 
 

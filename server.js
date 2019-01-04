@@ -10,8 +10,7 @@ var http = require('http');
 
 var argv = minimist(process.argv.slice(2), {
   default: {
-      //as_uri: "https://localhost:8443/",
-      as_uri: "ws://localhost:3000",
+      as_uri: "ws://localhost:3000/",
       ws_uri: "ws://localhost:8888/kurento",
       video_uri: 'file:///tmp/recorder_demo.mp4',
       audio_uri: 'file:///tmp/recorder_demo.mp3',
@@ -296,7 +295,6 @@ var wss = new ws.Server({
 wss.on('connection', function(ws) {
     var sessionId = nextUniqueId();
 
-    console.log("SERVER", 'connnection');
     ws.on('error', function(error) {
         stop(sessionId);
     });
@@ -307,9 +305,9 @@ wss.on('connection', function(ws) {
     });
 
     ws.on('message', function(_message) {
-        console.log("SERVER", 'Message', _message);
         var message = JSON.parse(_message);
 
+        console.log('message.id', message.id)
         switch (message.id) {
         case 'register':
             register(sessionId, message.name, message.other_name, ws, message.mode);
@@ -376,7 +374,7 @@ function sendCurrentChat(whom, doc_id, user_id){
 }
 
 function chatting(callerId, to, from, text, date){
-console.log("CHAT",callerId, to, from, text, date )
+
     var caller = userRegistry.getById(callerId);
     var callee = userRegistry.getByName(to);
         callee && (callee.peer = from);
@@ -390,6 +388,7 @@ console.log("CHAT",callerId, to, from, text, date )
         };
 
         if(chatStories.doctorsChat[from]){
+            console.log("if", to, from , message);
             chatStories.addMessage(from, to, message);
             try{
                 callee && callee.sendMessage(message);
@@ -401,6 +400,7 @@ console.log("CHAT",callerId, to, from, text, date )
         }
         else{
             if(chatStories.doctorsChat[to] && chatStories.isChatOpen(to, from)){
+                console.log("if", to, from , message);
                 chatStories.addMessage(to, from, message);
                 try{
                     callee && callee.sendMessage(message);
