@@ -10,6 +10,7 @@ import Calendar from "../../components/Calendar22";
 import CancelVisitModal from "../../components/CancelVisitModal";
 import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
+import MyCoach from '../../components/MyCoach';
 import ReceptionsScheduleModal from "../../components/ReceptionsScheduleModal";
 import Modal from './../../components/Modal/index';
 import * as actions from '../../store/actions'
@@ -19,6 +20,10 @@ import {timePeriod} from './mock-data'
 
 import { apiPatients, apiTrainers, fasolIntervals} from './mock-data';
 import { fillTrainingWeek } from './shedule';
+import FreeTrainers from '../../components/FreeTrainers';
+import FreeTrainersItem from '../../components/FreeTrainersItem';
+import { PerfectScrollbar } from 'react-perfect-scrollbar';
+import Card from './../../components/Card/index';
 
 
 class Schedule extends React.Component {
@@ -50,9 +55,21 @@ class Schedule extends React.Component {
             amountTraining: true,
             modalTransferTraining: false,
             modalCancelTraining: false,
+            modalMasterList: false,
         }
     };
 
+    showMasterList = (freetrainers, busytrainers) =>{
+        this.freetrainers = freetrainers;
+        this.busytrainers = busytrainers;
+
+        this.props.onGetAllInfoMasters('free', [...freetrainers])
+            .then(this.props.onGetAllInfoMasters('busy', [ ...busytrainers])
+                .then(() => {
+                    this.setState({modalMasterList: true})
+                }));
+              
+    }
 
     showTransferEvent = (id) => { // нажатие на крестик
         this.deleteId = id;
@@ -242,10 +259,16 @@ class Schedule extends React.Component {
         this.props.onGetAllUserVisits();
         this.props.onGetAbonements(id);
 
-        // if (admin)
+         
 
         const start =  moment().startOf('week').format('X'); 
         const end = moment().endOf('week').format('X'); 
+
+        if (this.props.isAdmin) {
+            console.log("if admin")
+            this.props.onGetFreeAndBusyMasterList(start, end);
+         }
+
         this.props.onGetTrainerTraining(start, end);
     }
 
@@ -409,7 +432,7 @@ class Schedule extends React.Component {
 	}
 
     render() {
-        const {abonementIntervals, trainerList} = this.props;
+        const {abonementIntervals, trainerList, masterList} = this.props;
 
         let isNeedSaveIntervals = false
         if(abonementIntervals){
@@ -436,8 +459,68 @@ class Schedule extends React.Component {
             });
 
         } 
-        console.log('apiPatients :', apiPatients);
-        if (this.props.isUser) {
+
+        if(this.props.isAdmin) {
+            debugger;
+            const currDate = this.state.currentDate,
+            currY = currDate.getFullYear(),
+            currM = currDate.getMonth(),
+            currD = currDate.getDate();
+
+            let minFasol = this.props.min;
+            let maxFasol = this.props.max;
+
+            let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
+                max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
+
+            calendar = (<Calendar 
+                    /*receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length} */
+                    selectable
+                    onSelectEvent={this.props.onSelectEvent}
+                    onSelectSlot={(slot) => this.onAddVisit(slot)}
+                    defaultView="week"
+                    onView={(view, date) => {
+                        !date ? this.setIntervalAndView(this.state.currentDate, view) : () => {
+                        };
+                    }}
+                    date={this.state.currentDate}
+                    onNavigate={this.dateChangeHandler}
+                    gotoEditor={() => this.changeToEditorMode(true)}
+                    onGotoPatient={this.gotoHandler}
+                    step={60}
+                    masterList={(masterList) ? masterList : {}}
+                    isAdmin = {this.props.isAdmin}
+                    showMasterList = {this.showMasterList}
+
+                    intervals={ isNeedSaveIntervals ? this.props.freeIntervals : []}
+                    
+                    min= {min}
+                    max= {max}
+                    minFasol={minFasol}
+                    maxFasol={maxFasol}
+
+                    onPopoverClose={this.eventDeleteHandler}
+                    onPopoverEmail={this.onPatientEmail}
+
+                    onChange={this.dateChangeHandler}
+                    highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+
+                    showTransferEvent={this.showTransferEvent} // my
+                    freeTrainers={trainerList} //my
+                    showModalTransferEvent={this.showModalTransferEvent}
+                    setChoosenTrainer={this.setChoosenTrainer}
+                    isNeedSaveIntervals={isNeedSaveIntervals}
+                    fillTrainingWeek = {this.fillTrainingWeek}
+                    isShowFreeTrainers = {this.state.isShowFreeTrainers}
+                    transferTraining = {this.transferTraining} // drag and drop
+                    deleteEvent = {this.deleteEvent} // drag and drop
+                    setAbonement_Training = {this.setAbonement_Training}
+                    onCancelTraining = {this.onCancelTraining}
+                    trainerTraining = {this.props.trainerTraining}
+
+                    />)    
+        }
+        else if (this.props.isUser) {
             calendar = (<Calendar receptionNum={this.getCountOfReceptionsAtCurMonth()}
                                   isUser = {true}
                                   events = {apiPatients}//{this.props.allUserVisits} //
@@ -481,9 +564,9 @@ class Schedule extends React.Component {
                                     {
                                         id:             subscriptions[i].training[j].id,
                                         avatar:         "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
-                                        fio:            'Дисциплина - ' + subscriptions[i].discipline + ' #'+iterator,
+                                        fio:            'Дисциплина - ' + subscriptions[i].discipline.map((el) => el.name) + ' #'+ (j+1),
                                         idMaster:       subscriptions[i].training[j].idMaster,
-                                        discipline:     'Дисциплина - ' + subscriptions[i].discipline + ' #'+iterator,
+                                        discipline:     'Дисциплина - ' + subscriptions[i].discipline.map((el) => el.name) + ' #'+ (j+1),
                                         comment:        "Строгий полицейский",
                                         start:          new Date(subscriptions[i].training[j].start * 1000),
                                         status:         subscriptions[i].training[j].status,
@@ -618,6 +701,35 @@ class Schedule extends React.Component {
                 </Modal>
 
                 
+                <Modal 
+                    title='Список коучей'
+                    visible={this.state.modalMasterList}
+                    onCancel={() => this.setState({modalMasterList : false})}
+                    width={360}
+                    className="schedule-message-modal-wrapper"
+                >
+                <div>
+                    <p>Свободные тренера</p>
+                    {this.props.freetrainers && this.props.freetrainers.map((item, index) => {
+                        return (<FreeTrainersItem {...item}
+                                                key={index}
+                                                onGoto= {(id) => this.props.history.push('/app/coach'+id)}
+                                                
+                        />)
+                    })}
+                    <p>Занятые тренера</p>
+                    {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
+                        return (<FreeTrainersItem {...item}
+                                                key={index}
+                                                
+                        />)
+                    })}
+                 </div>
+                   
+                        
+                </Modal>
+
+                
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}
                                   onSave={(obj) => {
@@ -670,6 +782,11 @@ const mapStateToProps = state => {
         abonementIntervals: state.patients.abonementIntervals,
         countTraining: state.patients.countTraining,
         isUser:  state.auth.mode === "user",
+        isAdmin:  state.auth.mode === "admin",
+
+        masterList: state.admin.masterList.interval,
+        freetrainers: state.admin.freetrainers,
+        busytrainers: state.admin.busytrainers,
 
         visits:  state.schedules.visits,
         intervals: state.schedules.visIntervals,
@@ -710,7 +827,10 @@ const mapDispatchToProps = dispatch => {
         onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),
 
         onGetTrainerTraining: (dateMin, dateMax) => dispatch(actions.getTrainerTraining(dateMin, dateMax)),
-        onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription))
+        onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
+
+        onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
+        onGetAllInfoMasters: (typeMasters, masterList) => dispatch(actions.getAllInfoMasters(typeMasters,masterList))
     }
 };
 

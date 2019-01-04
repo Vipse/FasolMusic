@@ -109,7 +109,6 @@ class PersonalDataContact extends React.Component {
                             initialValue: email,
                             rules:
                                 [{
-                                    required: true,
                                     message: 'Введите email, пожалуйста'
                                 },
                                     {

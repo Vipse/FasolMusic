@@ -41,7 +41,6 @@ export const getMyMasters = (idStudent) => {
 
         axios.post('/catalog.fasol/getMyMastersOrStudents', JSON.stringify(obj))
             .then(rez => {
-console.log('myMast :', rez);
                 let arr = [];
                 rez.data.result.result.forEach(el => {
                    
@@ -119,5 +118,25 @@ export const createTraining = (obj) => {
                 return res;
             })
             .catch(err => {console.log(err);})
+    }
+}
+
+export const getAvailableInterval = (dateStart, dateEnd, intervals, discipline) => {
+    let obj =  { dateStart , dateEnd, intervals, discipline};
+
+    console.log("GET", obj)
+    return (dispatch) => {
+       
+        axios.post('/catalog.fasol/getAvailableInterval', JSON.stringify(obj))
+            .then(rez => {
+                    console.log('AVAIL rez :', rez);
+                dispatch({
+                    type: actionTypes.GET_AVAILABLE_INTERVAL,
+                    freeInterval: rez.data.result.result,
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 }

@@ -7,6 +7,7 @@ import { elementType, dateFormat } from './utils/propTypes'
 import BackgroundWrapper from './BackgroundWrapper'
 import TimeSlotGroup from './TimeSlotGroup'
 import ColumnGroup from 'antd/lib/table/ColumnGroup';
+import moment from 'moment';
 
 export default class TimeColumn extends Component {
   static propTypes = {
@@ -61,8 +62,19 @@ export default class TimeColumn extends Component {
       handleDrop,
       transferTraining,
       onCancelTraining,
-      trainerTraining
+      trainerTraining,
+      masterList,
+      isAdmin,
+      showMasterList
     } = this.props;
+
+    let slotMasterList = null;
+    for(let el in masterList){
+      
+        if(+el * 1000 === date.getTime()){
+            slotMasterList = masterList[el];
+        }
+    }
 
     return (
       <TimeSlotGroup
@@ -71,6 +83,9 @@ export default class TimeColumn extends Component {
         events={events}
         value={date}
         step={step}
+        masterList={slotMasterList}
+        isAdmin={isAdmin}
+
         slotPropGetter={slotPropGetter}
         dayPropGetter={dayPropGetter}
         intervals={intervals}
@@ -91,6 +106,9 @@ export default class TimeColumn extends Component {
         setAbonement_Training = {this.props.setAbonement_Training}
         onCancelTraining = {onCancelTraining}
         trainerTraining = {trainerTraining}
+        showMasterList  = {showMasterList}
+
+        
 
       />
     )
@@ -106,6 +124,7 @@ export default class TimeColumn extends Component {
       max,
       step,
       resource,
+      
     } = this.props;
 
       let timeslots = 1;

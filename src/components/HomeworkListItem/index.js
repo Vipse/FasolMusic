@@ -47,7 +47,6 @@ class HomeworkListItem extends React.Component {
             homework,
         } = this.props;
 
-
         return (
             <div className="homework-list-item">
                 <div className="flex-col">
@@ -58,12 +57,13 @@ class HomeworkListItem extends React.Component {
                         </div>
                         : <span>&mdash;</span>}</div>
                 </div>
+                
                 <div className="flex-col">
                     <div className="name">{name ? name : <span>&mdash;</span>}</div>
                 </div>
                 <div className="flex-col">
-                    <div className="discipline">{discipline ? discipline : <span>&mdash;</span>}</div>
-                </div>
+                    <div className="discipline">{Array.isArray(discipline) ? discipline.map((el) => el.name) : <span>&mdash;</span>}</div>
+                    </div> 
                 <div className="flex-col">
                     <div className="patient-price">{trainingRecord ?
                         <a target='_blank' href={trainingRecord}>

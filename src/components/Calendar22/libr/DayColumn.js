@@ -6,6 +6,7 @@ import dates from './utils/dates'
 import { accessor, elementType, dateFormat } from './utils/propTypes'
 
 import TimeColumn from './TimeColumn'
+import moment from 'moment';
 
 class DayColumn extends React.Component {
 
@@ -23,8 +24,18 @@ class DayColumn extends React.Component {
       selectRangeFormat,
       culture,
       dayPropGetter,
+      masterList,
+      date,
       ...props
     } = this.props
+
+    let columnMasterList = null;
+    for (let el in masterList){
+        if(moment(el * 1000).day() === moment(date.getTime()).day()){
+          columnMasterList = masterList[el];
+          break;
+        }
+    }
 
     return (
       <TimeColumn
@@ -37,6 +48,7 @@ class DayColumn extends React.Component {
         min={min}
         max={max}
         step={step}
+        masterList={columnMasterList}
       > 
         
       </TimeColumn>

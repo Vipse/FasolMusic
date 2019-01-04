@@ -8,6 +8,7 @@ import { elementType, dateFormat } from './utils/propTypes'
 
 import EventSlot from './EventSlot';
 import { DropTarget } from 'react-dnd';
+import MasterListSlot from './MasterListSlot';
 
 const squareTarget = {
   drop(props) {
@@ -148,6 +149,33 @@ class TimeSlotGroup extends Component {
     return null;
   }
 
+
+  renderMasterList = () => {
+    const {masterList, value, showMasterList} = this.props;
+    let freetrainers = [];
+    let busytrainers = [];
+      
+    for(let elem in masterList){
+          if(elem === 'freetrainers')  {
+            freetrainers = masterList[elem]
+          }
+          if(elem === 'busytrainers'){
+            busytrainers = masterList[elem]
+          }
+    }
+
+    if(freetrainers.length || busytrainers.length)
+      return (
+          <MasterListSlot 
+              freetrainers = {freetrainers}
+              busytrainers = {busytrainers}
+              value = {value.getTime()}
+              showMasterList = {showMasterList}
+          />
+      )
+     
+  }
+
   showModalTransferEvent = (idValue) => {
      this.props.showModalTransferEvent(idValue);
   }
@@ -159,7 +187,7 @@ class TimeSlotGroup extends Component {
     const { connectDropTarget, hovered, item} = this.props;
     const backgroundColor= hovered ? '#e8f8fc ' : 'white';
 
-    const {intervals, value, freeTrainers} = this.props;
+    const {intervals, value, freeTrainers, isAdmin} = this.props;
 
 
     const flag = Array.isArray(intervals) ? intervals.some(el => {
@@ -175,6 +203,16 @@ class TimeSlotGroup extends Component {
     
     let cellClass = cn('rbc-timeslot-group', flag && !isViewTrainer && !currentEvent ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
     const modalTransferEvent = flag && !isViewTrainer && !currentEvent ? this.showModalTransferEvent : () => {}; // перенос тренировки
+
+    
+    if(isAdmin) {
+      return (
+        <div className={cellClass} style={{backgroundColor}} onClick={(e) => modalTransferEvent(value.getTime())}>
+          {this.renderSlices()}
+          {this.renderMasterList()}
+        </div>
+      )
+    }
 
     if(Date.now() <= value.getTime()){
       return connectDropTarget(

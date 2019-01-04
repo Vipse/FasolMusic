@@ -24,6 +24,9 @@
   line-height: 18px;
   margin-right: 20px;
 }
+.myStudent-info-name:hover {
+  color: black;
+}
 .myStudent-info-discipline {
   font-size: 12px;
   line-height: 24px;

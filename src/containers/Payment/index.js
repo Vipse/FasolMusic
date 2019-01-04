@@ -29,6 +29,7 @@ class Payment extends React.Component{
 
         let array = [];
 
+        let intervals = []; // post
         let time0 = +data.time[0].format('x')
         let time1 = +data.time[1].format('x')
 
@@ -42,6 +43,11 @@ class Payment extends React.Component{
 
 
                 if(data.selectedDays.hasOwnProperty(i)){
+                    intervals.push({
+                        timeStart: +data.time[0].weekday(i+1).format('X'),
+                        timeEnd: +data.time[1].weekday(i+1).format('X')
+                    });
+
                     array.push(
                         {
                             day: i, 
@@ -79,6 +85,17 @@ class Payment extends React.Component{
                    
         }
 console.log('QQQ array :', array);
+
+
+console.log("timeo", time0);
+
+console.log("time1", time1);
+
+console.log("intervals", intervals);
+this.props.onGetAvailableInterval(Math.floor(time0 / 1000), Math.floor(time1 / 1000), intervals, [125470]);
+//getAvailableInterval(time0, time1, intervals, [125470])
+
+
 
         this.setState({visibleTrialModal: true, redirectToSchedule: true});
         this.props.onSetFreeIntervals(array,  data.type);
@@ -135,6 +152,7 @@ const mapDispatchToProps = dispatch => {
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
         onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
+        onGetAvailableInterval: (dateStart, dateEnd, intervals, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, intervals, discipline)),
         
     }
 };

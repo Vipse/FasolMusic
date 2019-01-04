@@ -75,6 +75,17 @@ class CoachPage extends React.Component{
             return disciplines.map(item => getNameFromObjArr(item.specialization))
     };
 
+    prepareAvailableIntervals = () => {
+        const {masterSchedule} = this.props;
+        let intervalsArr = [];
+        for (let key in masterSchedule)
+            intervalsArr.push({
+                from: key,
+                to: masterSchedule[key][0].end
+            });
+        return intervalsArr;
+    };
+
     handleOrderTrain = (item) => {
         let obj = {
             date: item.timestamp,

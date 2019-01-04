@@ -26,6 +26,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 userInfo: action.userInfo
+            } 
+        case actionTypes.GET_AVAILABLE_INTERVAL:
+            return {
+                ...state,
+                freeInterval: action.freeInterval
             }  
             
             

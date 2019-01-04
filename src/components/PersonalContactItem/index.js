@@ -168,7 +168,6 @@ class PersonalContactItemForm extends React.Component{
                                 initialValue: email,
                                 rules:
                                     [{
-                                        required: true,
                                         message: 'Введите email, пожалуйста'
                                     },
                                         {

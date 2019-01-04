@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
@@ -81,7 +80,7 @@ class ChatContent extends React.Component {
                                 />)
                             })
                         }
-                        {this.props.fromTR_VIS === 2 && !this.props.receptionStarts && this.props.user_mode !== "student"
+                        {this.props.fromTR_VIS === 2 && !this.props.receptionStarts && this.props.user_mode !== "user"
                         && <div className='btn-start'>
                             <Button
                                 btnText='Начать приём'
@@ -100,7 +99,7 @@ class ChatContent extends React.Component {
                         <ChatSend
                             disable={!this.props.receptionStarts}
                             isCurVisEnd={this.props.isCurVisEnd}
-                            isUser={this.props.user_mode === "student"}
+                            isUser={this.props.user_mode === "user"}
                             closeVisit={this.props.onEnd}
                             uploadFiles={this.props.uploadFile}
                             send={message => this.props.onSend(message)}/>

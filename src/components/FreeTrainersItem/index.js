@@ -16,6 +16,7 @@ class FreeTrainersItem extends React.Component{
             idMaster,
             comment,
             trainerList,
+            onGoto,
         } = this.props;
 
 console.log("WW this.", this.props)
@@ -27,7 +28,7 @@ console.log("WW this.", this.props)
                 />
                 <div className='myStudent-info'>
                     <div>
-                        <span className='myStudent-info-name'>{name}</span>
+                        <span className='myStudent-info-name' onClick={() => onGoto(idMaster)}>{name}</span>
                         <span className='myStudent-info-discipline'>{discipline}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>
@@ -44,7 +45,8 @@ FreeTrainersItem.propTypes = {
 };
 
 FreeTrainersItem.defaultProps = {
-
+    setChoosenTrainer: () => {},
+    onGoto: () => {}
 };
 
 export default FreeTrainersItem

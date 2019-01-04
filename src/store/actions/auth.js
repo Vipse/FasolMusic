@@ -44,6 +44,13 @@ export const login = (userName, password, remember, history, isAuto) => {
                     .then(res => {
                         console.log("AUTH", res);
                         console.log('res.data.error :', res.data.hasOwnProperty('error'));
+
+                        // dispatch(authSuccess(130130, 'admin'));
+                        // dispatch(setOnlineStatus(130130, true));
+                        // sessionStorage.setItem('_fasol-id', 130130);
+                        // sessionStorage.setItem('_fasol-mode', 'admin');
+                        // history.push('/app')
+                        // //
                         !res.data.hasOwnProperty('error')
                             ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),

@@ -143,7 +143,6 @@ class Step1Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('email', {
                             rules: [{
-                                required: true,
                                 message: 'Введите E-mail, пожалуйста'
                             },
                                 {
