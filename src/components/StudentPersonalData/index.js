@@ -66,8 +66,8 @@ class StudentPersonalDataForm extends React.Component {
             let num = item.day[0].value;
             this.handleChangeTrainingTime('enabledDays', num, true);
             this.handleChangeTrainingTime('selectedTimes', num, [
-                +item.datestart,
-                +item.dateend
+                moment(item.datestart * 1000).hours(),
+                moment(item.dateend * 1000).hours()
             ]);
         });
     };
@@ -141,8 +141,8 @@ class StudentPersonalDataForm extends React.Component {
         for (let i = 0; i < 7; ++i) {
             this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
                 day: getSelectedIDs(dayList, String(i), true),
-                datestart: this.state.trainingTime.selectedTimes[i][0],
-                dateend: this.state.trainingTime.selectedTimes[i][1]
+                datestart: moment(this.state.trainingTime.selectedTimes[i][0], 'HH').format('X'),
+                dateend: moment(this.state.trainingTime.selectedTimes[i][1], 'HH').format('X')
             } : null;
         }
         return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileStudent.trainingtime;

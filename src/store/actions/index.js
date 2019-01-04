@@ -109,7 +109,6 @@ export {
     sendNewInfoDoctor,
     getInfoDoctor,
     getTrainerTrainings,
-    getMasterSchedule,
     getNotifications,
     readNotification,
     getAllDocIntervals,
@@ -151,6 +150,7 @@ export {
     getDeadlinePay,
     getInfoMasters,
     getUserInfo,
+    getMasterSchedule,
     createTraining
 } from './student'
 

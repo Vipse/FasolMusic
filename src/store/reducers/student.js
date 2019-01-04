@@ -16,7 +16,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 myCoach: action.myCoach
-            }  
+            }
+        case actionTypes.MASTER_SCHEDULE:
+            return {
+                ...state,
+                masterSchedule: Array.isArray(action.masterSchedule) ? {} : action.masterSchedule
+            }
         case actionTypes.GET_USER_INFO:
             return {
                 ...state,

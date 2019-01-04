@@ -84,10 +84,40 @@ export const getDeadlinePay = (idStudent) => {
     }
 }
 
+export const getMasterSchedule = (id, dateStart, dateEnd) => {
+    let data = {
+        idMaster: String(id),
+        dateStart: dateStart ? dateStart : moment().startOf('week').format('X'),
+        dateEnd: dateEnd ? dateEnd : moment().startOf('week').add(30, 'days').endOf('day').format('X')
+    };
+
+    return (dispatch) => {
+
+        return axios.post('/catalog.fasol/masterSchedule',
+            JSON.stringify(data))
+            .then(res => {
+                console.log("masterSchedule", res);
+
+                dispatch({
+                    type: actionTypes.MASTER_SCHEDULE,
+                    masterSchedule: res.data.result.interval
+                });
+
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+}
+
 export const createTraining = (obj) => {
-    return () => {
+    return (dispatch) => {
         return axios.post('/catalog.fasol/createTraining', JSON.stringify(obj))
-            .then(res => res)
+            .then(res => {
+                dispatch(getMasterSchedule(obj.idMaster));
+                return res;
+            })
             .catch(err => {console.log(err);})
     }
 }

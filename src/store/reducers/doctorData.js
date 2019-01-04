@@ -43,11 +43,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 trainerTrainings: action.trainerTrainings
             };
-        case actionTypes.MASTER_SCHEDULE:
-            return {
-                ...state,
-                masterSchedule: action.masterSchedule
-            };
         case actionTypes.GET_ALL_DOC_INTERVALS:
             return {
                 ...state,

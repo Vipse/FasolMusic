@@ -70,33 +70,6 @@ export const getTrainerTrainings = (id) => {
     }
 };
 
-export const getMasterSchedule = (id, dateStart, dateEnd) => {
-    let data = {
-        idMaster: String(id),
-        dateStart,
-        dateEnd
-    };
-
-    return (dispatch) => {
-
-        return axios.post('/catalog.fasol/masterSchedule',
-            JSON.stringify(data))
-            .then(res => {
-                console.log("masterSchedule", res);
-
-                dispatch({
-                    type: actionTypes.MASTER_SCHEDULE,
-                    masterSchedule: res.data.result.interval
-                });
-
-                return res;
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-};
-
 export const getNotifications = (id) => {
     return (dispatch) => {
         axios.get('/catalog.doc2/connect/id/' + id)

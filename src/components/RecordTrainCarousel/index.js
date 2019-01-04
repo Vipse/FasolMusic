@@ -71,6 +71,20 @@ class RecordTrainCarousel extends React.Component {
         }
     };
 
+    findWorkIntervalsForDay = (dayOfWeek) => {
+        const {trainingTime} = this.props;
+        let workIntervalsForDay = [];
+        trainingTime.some(item => {
+            if (+item.day[0].value === dayOfWeek) {
+                workIntervalsForDay[0] = moment(item.datestart * 1000).hours();
+                workIntervalsForDay[1] = moment(item.dateend * 1000).hours();
+                return true;
+            }
+            else return false;
+        });
+        return workIntervalsForDay;
+    };
+
     renderAvailableAppointments = (intervals) => {
         const curTime = moment();
         let curWeekBegin = moment().startOf('week');
@@ -82,21 +96,25 @@ class RecordTrainCarousel extends React.Component {
         let headers = [];
         let timeIntervals = [];
 
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 30; i++) {
             let curDayBegin = moment(curWeekBegin).add(i, 'days');
             let time = [];
-            for (let i = 0; i < 24; i++) {
-                let curHourBegin = moment(curDayBegin).add(i, 'hours');
-                let isActive = curTime < curHourBegin
-                    && intervals.some((item) => item.from < curHourBegin.format('X')
-                        && moment(curHourBegin).endOf('hour').format('X') < item.to);
-                time.push({
-                    timeToDisplay: curHourBegin.format('H:mm'),
-                    timestamp: curHourBegin.format('X'),
-                    type: 'default',
-                    isActive: isActive,
-                    ordered: false
-                });
+            if (intervals[moment(curDayBegin).format('X')]) {
+                let dayIntervals = intervals[moment(curDayBegin).format('X')];
+                let workTimeIntervals = this.findWorkIntervalsForDay(moment(curDayBegin).day());
+                for (let i = workTimeIntervals[0]; i < workTimeIntervals[1]; i++) {
+                    let curHourBegin = moment(curDayBegin).add(i, 'hours');
+                    let isActive = curTime < curHourBegin
+                        && dayIntervals.some((item) => item.start <= curHourBegin.format('X')
+                            && moment(curHourBegin).endOf('hour').format('X') <= item.end);
+                    time.push({
+                        timeToDisplay: curHourBegin.format('H:mm'),
+                        timestamp: curHourBegin.format('X'),
+                        type: 'default',
+                        isActive: isActive,
+                        ordered: false
+                    });
+                }
             }
 
             if (time.length) {
@@ -111,8 +129,8 @@ class RecordTrainCarousel extends React.Component {
                 {(this.state.rowCount ? timeIntervals[indexDay].slice(0, this.state.rowCount) : timeIntervals[indexDay])
                     .map((item, indexTime) =>
                         <div
-                            className={!item.ordered ? 'train-carousel-time' : 'train-carousel-time unAvailableTime'}
-                            onClick={!item.ordered ? () => {this.props.handleOrderTrain(item)} : null}
+                            className={item.isActive ? 'train-carousel-time' : 'train-carousel-time unAvailableTime'}
+                            onClick={item.isActive ? () => {this.props.handleOrderTrain(item)} : null}
                             key={indexTime + 1}
                             data-timestamp={item.timestamp}
                             data-interval-type={item.type}
@@ -129,12 +147,12 @@ class RecordTrainCarousel extends React.Component {
     render() {
         const {loading} = this.state;
         const {intervals} = this.props;
-        const rootClass = intervals && intervals.length ? cn('train-carousel') : cn('train-carousel no-intervals');
+        const rootClass = (intervals && JSON.stringify(intervals) !== '{}') ? cn('train-carousel') : cn('train-carousel no-intervals');
         return (
             <Card title="Записаться на тренировку">
                 {loading ? <Spinner/> :
                     <div className={rootClass}>
-                        {!intervals/*.length*/ ? (<span className="no-schedule">Доктор ещё не определил расписание</span>)
+                        {JSON.stringify(intervals) === '{}' ? (<span className="no-schedule">Коуч ещё не определил расписание</span>)
                             :
                             (<div>
                                     <div className='train-carousel-slide'>
@@ -148,7 +166,7 @@ class RecordTrainCarousel extends React.Component {
                                         />
                                         <div className="schedule">
                                             <div className="carouselPosition"
-                                                 style={{transform: `translateX(-${this.state.carouselStep * 14.3}%)`}}>
+                                                 style={{transform: `translateX(-${this.state.carouselStep * 50 / Object.keys(intervals).length}%)`}}>
                                                 {this.renderAvailableAppointments(intervals)}
                                             </div>
                                         </div>
