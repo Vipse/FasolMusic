@@ -153,9 +153,8 @@ export {
     getUserInfo,
 
     createTraining,
-    getAvailableInterval
+    getAvailableInterval,
     getMasterSchedule,
-    createTraining
 
 } from './student'
 
