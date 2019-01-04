@@ -41,7 +41,9 @@ class CoachPage extends React.Component{
         });
 
         this.props.onGetInfoDoctor(this.props.match.params.id);
-        this.props.onGetMasterSchedule(this.props.match.params.id, moment().format('X'), moment().add(1, 'weeks').endOf('week').format('X'));
+        this.props.onGetMasterSchedule(this.props.match.params.id,
+            moment().startOf('week').format('X'),
+            moment().startOf('week').add(30, 'days').endOf('day').format('X'));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,7 +52,9 @@ class CoachPage extends React.Component{
                 loading: true
             });
             this.props.onGetInfoDoctor(nextProps.match.params.id);
-            this.props.onGetMasterSchedule(nextProps.match.params.id, moment().format('X'), moment().add(1, 'weeks').endOf('week').format('X'));
+            this.props.onGetMasterSchedule(nextProps.match.params.id,
+                moment().startOf('week').format('X'),
+                moment().startOf('week').add(30, 'days').endOf('day').format('X'));
         }
         else {
             this.setState({
@@ -83,9 +87,6 @@ class CoachPage extends React.Component{
     };
 
     handleOrderTrain = (item) => {
-        item.ordered = true;
-        console.log(this.props);
-
         let obj = {
             date: item.timestamp,
             ancestorId: 111,
@@ -100,8 +101,9 @@ class CoachPage extends React.Component{
     };
 
     render() {
-        const { avatar, name, aboutme } = this.props.profileCoach;
+        const { avatar, name, aboutme, trainingtime } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
+        const {masterSchedule} = this.props;
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
         } else if (!this.props.profileCoach.name) {
@@ -129,7 +131,8 @@ class CoachPage extends React.Component{
                             </Col>
                             <Col span={13} offset={32}>
                                 <RecordTrainCarousel
-                                    intervals={this.prepareAvailableIntervals()}
+                                    intervals={masterSchedule}
+                                    trainingTime={trainingtime}
                                     handleOrderTrain={this.handleOrderTrain}
                                 />
                                 <CoachPagePerfectStudent
@@ -153,7 +156,7 @@ class CoachPage extends React.Component{
 const mapStateToProps = state => {
     return {
         profileCoach: state.profileDoctor,
-        masterSchedule: state.profileDoctor.masterSchedule,
+        masterSchedule: state.student.masterSchedule,
         id: state.auth.id,
         //info: state.patients.selectedPatientInfo,
         intervals: state.patients.intervals,

@@ -154,9 +154,11 @@ class App extends React.Component {
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
         const isUser = (this.props.mode === "student");
         const isStudent = (this.props.mode === "student");
+
         const isAdmin = (this.props.mode === "admin");
         
 console.log('isAdmin :', isAdmin);
+
         
         return (
             <div className="main">

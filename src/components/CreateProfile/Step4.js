@@ -45,8 +45,8 @@ class Step4Form extends React.Component{
         for (let i = 0; i < 7; ++i) {
             this.state.enabledDays[i] ? preparedTrainingTime[i] = {
                 day: getSelectedIDs(dayList, String(i), true),
-                datestart: this.state.selectedTimes[i][0],
-                dateend: this.state.selectedTimes[i][1]
+                datestart: moment(this.state.selectedTimes[i][0], 'HH').format('X'),
+                dateend: moment(this.state.selectedTimes[i][1], 'HH').format('X')
             } : null;
         }
         return preparedTrainingTime;
