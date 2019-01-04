@@ -23,6 +23,7 @@ export const createAbonement = (dataCreate) => {
                 //     type: actionTypes.GET_DOCTOR_SHORT_INFO,
                 //     info: res.data.result,
                 // });
+                return res;
             })
             .catch(err => {
                 console.log(err);

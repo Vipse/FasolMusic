@@ -103,16 +103,15 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.auth.mode === "student"){
-            this.props.onGetInfoPatient(this.props.auth.id);
-
-           // this.runNotificationsWS();
-            this.runChatWS();
-        }
-        else{
+        if (this.props.auth.mode === "coach"){
             this.props.onGetInfoDoctor(this.props.auth.id);
         }
-                
+        else {
+            this.props.onGetInfoPatient(this.props.auth.id);
+
+            // this.runNotificationsWS();
+            this.runChatWS();
+        }
     }
 
     componentWillMount() {
@@ -140,13 +139,14 @@ class App extends React.Component {
     render() {
         let name, avatar;
 
-        if (this.props.auth.mode === "student" && this.props.profileStudent) {
-            name = this.props.profileStudent.name;
-            avatar = this.props.profileStudent.avatar;
-        } 
-        else if (this.props.profileCoach) {
+
+        if (this.props.auth.mode === "coach" && this.props.profileCoach) {
             name = this.props.profileCoach.name;
             avatar = this.props.profileCoach.avatar;
+        }
+        else if (this.props.profileStudent) {
+            name = this.props.profileStudent.name;
+            avatar = this.props.profileStudent.avatar;
         }
 
         const {collapsed} = this.state;

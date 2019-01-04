@@ -15,6 +15,7 @@ import Spinner from "../../components/Spinner";
 import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 import moment from "moment";
 import {message} from "antd";
+import AdminCreateTrainingModal from "../../components/AdminCreateTrainingModal";
 
 class CoachPage extends React.Component{
 
@@ -22,7 +23,8 @@ class CoachPage extends React.Component{
         super(props);
         this.state = {
             loading: true,
-            selectorsValues: {}
+            selectorsValues: {},
+            adminModalSelectedTime: null
         }
     }
 
@@ -75,35 +77,53 @@ class CoachPage extends React.Component{
             return disciplines.map(item => getNameFromObjArr(item.specialization))
     };
 
-    prepareAvailableIntervals = () => {
-        const {masterSchedule} = this.props;
-        let intervalsArr = [];
-        for (let key in masterSchedule)
-            intervalsArr.push({
-                from: key,
-                to: masterSchedule[key][0].end
-            });
-        return intervalsArr;
+    onSubmitAdminModal = (idStudent) => {
+        let submitObj = {
+            amount: 1,
+            dateStart: +this.state.adminModalSelectedTime,
+            discipline: 'vocals',
+            idStudent,
+            trainingtime: {
+                [moment(this.state.adminModalSelectedTime * 1000).day()]: [{id: +this.props.profileCoach.id, start: +this.state.adminModalSelectedTime}]
+            }
+        };
+        this.props.onCreateAbonement(submitObj)
+            .then(res => {
+            if (res && res.data && res.data.result)
+                message.success("Абонемент успешно создан");
+            else message.error("Произошла ошибка, попробуйте ещё раз");
+        });
+        this.setState({adminModalSelectedTime: null});
     };
 
     handleOrderTrain = (item) => {
-        let obj = {
-            date: item.timestamp,
-            ancestorId: 111,
-            idStudent: this.props.id,
-            idMaster: this.props.profileCoach.id
-        };
+        const isAdmin = this.props.mode === 'admin';
+        if (isAdmin) {
+            this.setState({adminModalSelectedTime: item.timestamp});
+        }
+        else {
+            let obj = {
+                date: item.timestamp,
+                ancestorId: 111,
+                idStudent: this.props.id,
+                idMaster: this.props.profileCoach.id
+            };
 
-        this.props.onOrderTrain(obj)
-            .then(res => {if (res && res.data && res.data.code)
-                message.success("Вы успешно записаны на тренировку");
-            else message.error("Произошла ошибка, попробуйте ещё раз");})
+            this.props.onOrderTrain(obj)
+                .then(res => {
+                    if (res && res.data && res.data.code)
+                        message.success("Вы успешно записаны на тренировку");
+                    else message.error("Произошла ошибка, попробуйте ещё раз");
+                })
+        }
     };
 
     render() {
         const { avatar, name, aboutme, trainingtime } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
         const {masterSchedule} = this.props;
+        const isAdmin = this.props.mode === 'admin';
+
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
         } else if (!this.props.profileCoach.name) {
@@ -144,6 +164,12 @@ class CoachPage extends React.Component{
                                 />
                             </Col>
                         </Row>
+                        <AdminCreateTrainingModal
+                            width={770}
+                            visible={this.state.adminModalSelectedTime}
+                            onCancel={() => this.setState({adminModalSelectedTime: null})}
+                            onSave={this.onSubmitAdminModal}
+                        />
                     </div>
                 </Hoc>
             )
@@ -158,6 +184,7 @@ const mapStateToProps = state => {
         profileCoach: state.profileDoctor,
         masterSchedule: state.student.masterSchedule,
         id: state.auth.id,
+        mode: state.auth.mode,
         //info: state.patients.selectedPatientInfo,
         intervals: state.patients.intervals,
         availableIntervals: state.profileDoctor.workIntervals,
@@ -172,6 +199,7 @@ const mapDispatchToProps = dispatch => {
         onGetMasterSchedule: (id, dateStart, dateEnd) => dispatch(actions.getMasterSchedule(id, dateStart, dateEnd)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         onOrderTrain: (obj) => dispatch(actions.createTraining(obj)),
+        onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         //getPatientInfo: (id) => dispatch(actions.getSelectedPatientInfo(id)),
         onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
         addPatient: (id) => dispatch(actions.addPatient(id, '', true)),
