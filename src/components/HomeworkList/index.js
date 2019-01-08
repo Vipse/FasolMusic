@@ -53,6 +53,7 @@ class HomeworkList extends React.Component {
 
 
     historyRender = (dataArr) => {
+        console.log(dataArr);
         let history = [];
         if (!dataArr.length && !this.state.loading) {
             return <div className="table-footer"
@@ -67,7 +68,7 @@ class HomeworkList extends React.Component {
         } else {
             history = dataArr.map((item, i) => {
                 return (<HomeworkListItem {...item}
-                                          onGoto={this.props.onGoto}
+                                          onGoto={() => this.props.onGoto(this.props.idMaster)}
                                           key={'histRecept' + i}
                                           isUser={this.props.isUser}
                                           onAddFiles={this.props.onAddFiles}
