@@ -103,10 +103,10 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.auth.mode === "coach"){
+        if (this.props.auth.mode === "master"){
             this.props.onGetInfoDoctor(this.props.auth.id);
         }
-        else {
+        else if (this.props.auth.mode === "student") {
             this.props.onGetInfoPatient(this.props.auth.id);
 
             // this.runNotificationsWS();
@@ -140,11 +140,11 @@ class App extends React.Component {
         let name, avatar;
 
 
-        if (this.props.auth.mode === "coach" && this.props.profileCoach) {
+        if (this.props.auth.mode === "master" && this.props.profileCoach) {
             name = this.props.profileCoach.name;
             avatar = this.props.profileCoach.avatar;
         }
-        else if (this.props.profileStudent) {
+        else if (this.props.auth.mode === "student" && this.props.profileStudent) {
             name = this.props.profileStudent.name;
             avatar = this.props.profileStudent.avatar;
         }
@@ -156,9 +156,7 @@ class App extends React.Component {
         const isStudent = (this.props.mode === "student");
 
         const isAdmin = (this.props.mode === "admin");
-        
-console.log('isAdmin :', isAdmin);
-
+        console.log('isAdmin :', isAdmin);
         
         return (
             <div className="main">
@@ -200,17 +198,17 @@ console.log('isAdmin :', isAdmin);
                                 </div>
                                 <div className="main-content">
                                     <Switch>
-                                        {isAdmin ? adminRoutes.map(route => renderRoutes(route)) 
+                                        {isAdmin ? adminRoutes.map(route => renderRoutes(route))
                                                 : isStudent ?
                                                     studentRoutes.map(route => renderRoutes(route))
                                                     :
                                                     coachRoutes.map(route => renderRoutes(route))
-                                                    
+
                                          }
                                         <Route
                                             render={() => (
-                                                <div style={{textAlign: 'center', padding: '40px 20px', color: '#fff'}}>
-                                                    <h3 style={{color: '#fff'}}>Страница не найдена123</h3>
+                                                <div style={{textAlign: 'center', padding: '40px 20px', color: '#000'}}>
+                                                    <h3 style={{color: '#000'}}>Страница не найдена</h3>
                                                     <p>Проверьте введённый адрес</p>
                                                 </div>
                                             )}

@@ -47,15 +47,18 @@ export const getInfoPatient = (id) => {
         return axios.post('/catalog.fasol/getUserInfo',
             JSON.stringify(obj))
             .then(res => {
-                console.log("receivedStudentData", res);
-                res.data.result.data.id = obj.id;
+                if (!res.data.result.data || res.data.result.data.userGroup === 'student') {
+                    console.log("receivedStudentData", res);
+                    res.data.result.data.id = obj.id;
 
-                dispatch({
-                    type: actionTypes.INFO_PATIENT,
-                    profilePatient: res.data.result.data,
-                });
+                    dispatch({
+                        type: actionTypes.INFO_PATIENT,
+                        profilePatient: res.data.result.data,
+                    });
+                    return res;
+                }
 
-                return res;
+                return null;
             })
             .catch(err => {
                 console.log(err);

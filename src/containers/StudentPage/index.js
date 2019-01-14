@@ -38,20 +38,15 @@ class StudentPage extends React.Component{
                 .catch(err => console.log(err))
         });
 
-        this.props.onGetInfoPatient(this.props.match.params.id);
+        this.props.onGetInfoPatient(this.props.match.params.id)
+            .then(res => this.setState({loading: false}));
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.id !== this.props.match.params.id) {
-            this.props.onGetInfoPatient(nextProps.match.params.id);
-            this.setState({
-                loading: true
-            });
-        }
-        else {
-            this.setState({
-                loading: false
-            });
+            this.setState({loading: true});
+            this.props.onGetInfoPatient(nextProps.match.params.id)
+                .then(res => this.setState({loading: false}));
         }
     }
 
