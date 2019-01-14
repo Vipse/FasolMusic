@@ -27,15 +27,18 @@ export const getInfoDoctor = (id) => {
         return axios.post('/catalog.fasol/getUserInfo',
          JSON.stringify(ids))
             .then(res => {
-                console.log("receivedCoachData", res);
-                res.data.result.data.id = ids.id;
+                if (!res.data.result.data || res.data.result.data.userGroup === 'master') {
+                    console.log("receivedCoachData", res);
+                    res.data.result.data.id = ids.id;
 
-                dispatch({
-                    type: actionTypes.INFO_DOCTOR,
-                    profileDoctor: res.data.result.data,
-                });
+                    dispatch({
+                        type: actionTypes.INFO_DOCTOR,
+                        profileDoctor: res.data.result.data,
+                    });
+                    return res;
+                }
 
-                return res;
+                return null;
             })
             .catch(err => {
                 console.log(err);
