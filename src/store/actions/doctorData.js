@@ -43,11 +43,11 @@ export const getInfoDoctor = (id) => {
     }
 };
 
-export const getTrainerTrainings = (id) => {
+export const getTrainerTrainings = (idMaster, dateMin, dateMax) => {
     let data = {
-        idMaster: String(id),
-        dateMin: moment().format('X'),
-        dateMax: moment().add(1, 'weeks').endOf('week').format('X')
+        idMaster,
+        dateMin,
+        dateMax
     };
 
     return (dispatch) => {
@@ -57,9 +57,11 @@ export const getTrainerTrainings = (id) => {
             .then(res => {
                 console.log("getTrainerTraining", res);
 
+                res.data.result.result.dateStart = dateMin;
+
                 dispatch({
                     type: actionTypes.TRAINER_TRAININGS,
-                    trainerTrainings: res.data.result.result[id],
+                    trainerTrainings: res.data.result.result,
                 });
 
                 return res;

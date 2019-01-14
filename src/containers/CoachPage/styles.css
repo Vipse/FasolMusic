@@ -1,4 +1,4 @@
-.coach-page .ant-card {
+.coach-page .ant-card:not(:last-child) {
   margin-bottom: 32px;
 }
 .coach-page .btn {
