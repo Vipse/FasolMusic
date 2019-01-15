@@ -41,7 +41,6 @@ class App extends React.Component {
 
 
     /* Notifications and chat */
-
   
     componentWillUnmount(){
         closeSocket();
@@ -67,7 +66,8 @@ class App extends React.Component {
             },
             {'skipSubprotocolCheck': true}
         );
-    }
+    };
+
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
             setChatStory, onSelectReception, setNewTimer} = this.props;
@@ -92,22 +92,21 @@ class App extends React.Component {
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_chatStory: () => this.props.chatStory,
-                get_shortDocInfo: () => this.props.shortDocInfo,
                 get_visitInfo: () => this.props.visitInfo,
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
             }
         );
         console.log('sock :', sock);
-        register(''+this.props.id, ''/*+this.props.user_id*/, this.props.auth.mode);
-    }
+        register(''+this.props.id, ''/*+this.props.user_id*/, this.props.mode);
+    };
 
     componentDidMount() {
-        if (this.props.auth.mode === "master"){
-            this.props.onGetInfoDoctor(this.props.auth.id);
+        if (this.props.mode === "master"){
+            this.props.onGetInfoDoctor(this.props.id);
         }
-        else if (this.props.auth.mode === "student") {
-            this.props.onGetInfoPatient(this.props.auth.id);
+        else if (this.props.mode === "student") {
+            this.props.onGetInfoPatient(this.props.id);
 
             // this.runNotificationsWS();
             this.runChatWS();
@@ -122,25 +121,25 @@ class App extends React.Component {
             userName: login,
             password: pass,
         }, this.props.history);
-
-        this.props.id && (this.props.getDocShortInfo());
     }
 
-
-
     gotoHandler = (id) => {
-        this.props.auth.mode === "student" ? this.props.history.push('/app/coach' + id) : this.props.history.push('/app/student' + id)
+        const {mode, history} = this.props;
+        if (mode === "student")
+            history.push('/app/coach' + id);
+        else if (mode === "coach")
+            history.push('/app/student' + id);
+        else history.push('/app/student' + id);
     };
 
     onLogoClick = () => {
         (this.props.history.location.pathname !== "/app") && this.props.history.push('/app');
-    }
+    };
 
     render() {
         let name, avatar;
 
-
-        if (this.props.auth.mode === "master" && this.props.profileCoach) {
+        if (this.props.mode === "master" && this.props.profileCoach) {
             name = this.props.profileCoach.name;
             avatar = this.props.profileCoach.avatar;
         }
@@ -152,11 +151,9 @@ class App extends React.Component {
         const {collapsed} = this.state;
         const siderClass = collapsed ? 'main-sidebar collapsed' : 'main-sidebar';
         const wrapperClass = collapsed ? 'main-wrapper collapsed' : 'main-wrapper';
-        const isUser = (this.props.mode === "student");
-        const isStudent = (this.props.mode === "student");
+        const isStudent = this.props.mode === "student";
 
-        const isAdmin = (this.props.mode === "admin");
-        console.log('isAdmin :', isAdmin);
+        const isAdmin = this.props.mode === "admin";
         
         return (
             <div className="main">
@@ -185,26 +182,21 @@ class App extends React.Component {
                                             )
                                         }
                                     </button>
-                                    <Header data={this.props.usersHeaderSearch}
-                                            notifications={this.state.notifications}
+                                    <Header findName={this.props.onGetSearchUsers}
+                                            authMode={this.props.mode}
+                                            searchData={this.props.usersHeaderSearch}
                                             onGoto={this.gotoHandler}
-                                            isUser={isUser}
-                                            isStudent={isStudent}
-                                            findName={(name) => {
-                                                this.props.onGetSearchUsers(name)
-                                            }}
+                                            notifications={this.state.notifications}
                                             logout={this.props.onLogout}
                                     />
                                 </div>
                                 <div className="main-content">
                                     <Switch>
                                         {isAdmin ? adminRoutes.map(route => renderRoutes(route))
-                                                : isStudent ?
-                                                    studentRoutes.map(route => renderRoutes(route))
-                                                    :
-                                                    coachRoutes.map(route => renderRoutes(route))
-
-                                         }
+                                            : isStudent ?
+                                                studentRoutes.map(route => renderRoutes(route)) :
+                                                coachRoutes.map(route => renderRoutes(route))
+                                        }
                                         <Route
                                             render={() => (
                                                 <div style={{textAlign: 'center', padding: '40px 20px', color: '#000'}}>
@@ -231,9 +223,8 @@ const mapStateToProps = state => {
         mode: state.auth.mode,
         profileCoach: state.profileDoctor,
         profileStudent: state.profilePatient,
+        usersHeaderSearch: state.loading.usersHeaderSearch,
 
-        shortDocInfo: state.doctor.shortInfo,
-        usersHeaderSearch: state.patients.usersHeaderSearch,
         isIn: state.doctor.isEx,
         isUserSet: state.doctor.isUserSetEx,
         isEmergRequsetConfirmed: state.loading.isConfirmed,
@@ -253,15 +244,14 @@ const mapDispatchToProps = dispatch => {
     return {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
         onLogout: () => dispatch(actions.logout()),
-        getDocShortInfo: () => dispatch(actions.getDocShortInfo()),
+        onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
+        onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onGetSearchUsers: (name) => dispatch(actions.searchUsers(name)),
+
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-        onAddUser: (id, name) => dispatch(actions.addOrDeleteUserFromSearch(id, name, "add")),
-        onDeleteUser: (id, name) => dispatch(actions.addOrDeleteUserFromSearch(id, name, "delete")),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
         getNotifications: (id) => dispatch(actions.getNotifications(id)),
         readNotification: (id) => dispatch(actions.readNotification(id)),
-        onMakeVisit: (info) => dispatch(actions.setReceptionByPatient(info)),
         setOnlineStatus: (id, isOnline) => dispatch(actions.setOnlineStatus(id, isOnline)),
         setChatFromId: (id) => dispatch(actions.setChatFromId(id)),
         setChatToId: (id) => dispatch(actions.setChatToId(id)),
@@ -272,9 +262,6 @@ const mapDispatchToProps = dispatch => {
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
-
-        onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
-        onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
     }
 };
 

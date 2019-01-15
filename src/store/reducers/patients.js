@@ -19,11 +19,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 notDocPatients: action.patients,
             }
-        case actionTypes.GET_RESULTS_HEADER_SEARCH:
-            return {
-                ...state,
-                usersHeaderSearch: action.usersHeaderSearch,
-            }
         case actionTypes.GET_SELECTED_PATIENT_INFO:
             return {
                 ...state,
