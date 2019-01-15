@@ -21,8 +21,7 @@ class Homework extends React.Component{
 
 
     gotoHandler = (id) => {
-		this.props.onSelectPatient(id);
-		let link = this.props.mode==="student"?"/app/doctor":"/app/patient";
+		let link = this.props.mode==="student"?"/app/coach":"/app/student";
 		this.props.history.push(link+id);
 	};
 
@@ -33,6 +32,7 @@ class Homework extends React.Component{
     }
 
     render(){
+        console.log(this.props);
 
         let arrAbonement = [];
         const {trainerList} = this.props;
@@ -55,7 +55,7 @@ class Homework extends React.Component{
                                     trainingRecord: "http://vk.com",
                                     homework: "сделать кучу вещей, сыграть на гитарке",
                                     files: [],
-                                   
+                                    idMaster: subscriptions[i].training[j].idMaster
                                 })
                             a = Infinity;
                         }
@@ -70,9 +70,8 @@ class Homework extends React.Component{
             	<Row>
             		<Col span={24} className='section'>
                         <HomeworkList
-
                             onGoto={this.gotoHandler}
-                            isUser={true}//{this.props.mode === "student"}
+                            isUser={this.props.mode === "student"}
                             onAddFiles = {this.props.onAddFiles}
                             makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
                             trainings={arrAbonement}

@@ -34,11 +34,6 @@ export const coachRoutes = [
         exact: true,
     },
     {
-        path: '/app/coach:id',
-        component: CoachPage,
-        exact: true,
-    },
-    {
         path: '/app/student:id',
         component: StudentPage,
         exact: true,

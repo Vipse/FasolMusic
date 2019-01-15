@@ -59,7 +59,7 @@ class HomeworkListItem extends React.Component {
                 </div>
                 
                 <div className="flex-col">
-                    <div className="name">{name ? name : <span>&mdash;</span>}</div>
+                    <div className="name" onClick={onGoto}>{name ? name : <span>&mdash;</span>}</div>
                 </div>
                 <div className="flex-col">
                     <div className="discipline">{Array.isArray(discipline) ? discipline.map((el) => el.name) : <span>&mdash;</span>}</div>

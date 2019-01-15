@@ -1,8 +1,7 @@
 .AdminCreateTrainingModal {
   padding: 10px 40px 40px 40px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
 }
 .AdminCreateTrainingModal .info {

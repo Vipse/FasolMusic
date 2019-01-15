@@ -4,13 +4,14 @@ import PropTypes from 'prop-types'
 import Modal from '../Modal'
 import Content from './content'
 import './styles.css'
+import moment from "moment";
 
 const AdminCreateTrainingModal = (props) => {
     
     return (
-        <Modal title='Быстрая регистрация'
+        <Modal title={props.params.item ? moment(props.params.item.timestamp * 1000).format('HH:mm DD.MM.YYYY') : ''}
                width={400}
-               visible={props.visible}
+               visible={props.params.visible}
                onCancel={props.onCancel}
         >
              <Content {...props}/>

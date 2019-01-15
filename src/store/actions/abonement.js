@@ -104,6 +104,7 @@ export const transferTraininingToEnd = (value) => {
                 //     type: actionTypes.GET_ABONEMENTS2,
                 //     allAbonements2: res.data.result,
                 // });
+                return res;
             })
             .catch(err => {
                 console.log(err);
@@ -142,6 +143,7 @@ export const freezeAbonement = (idSubscription) => {
                 //     type: actionTypes.GET_ABONEMENTS2,
                 //     allAbonements2: res.data.result,
                 // });
+                return res;
             })
             .catch(err => {
                 console.log(err);
