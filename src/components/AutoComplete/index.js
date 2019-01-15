@@ -38,7 +38,7 @@ class AutoComplete extends React.Component{
         });
     }
 
-    onClickHandler = (id, flag) => {
+    onClickHandler = (id, flag, userGroup) => {
         let user;
         flag === 'goto' ? (
                 this.state.searchRes.some((el, i) => {
@@ -46,7 +46,7 @@ class AutoComplete extends React.Component{
                     return el.id === id;
                 }),
                 this.input.inp.input.value = "",
-                this.props.onGoto(id),
+                this.props.onGoto(id, userGroup),
                 this.setState({isVisible: false})
             )
             : flag === 'add' ? (
@@ -80,8 +80,8 @@ class AutoComplete extends React.Component{
                     this.onClickHandler(id, 'add')
                 }}
                 onDelete={this.onDeletePatientHandler}
-                onGoto={(id) => {
-                    this.onClickHandler(id, 'goto')
+                onGoto={(id, userGroup) => {
+                    this.onClickHandler(id, 'goto', userGroup)
                 }}
                 key={item.id}
                 searchQuery={this.state.inputValue}

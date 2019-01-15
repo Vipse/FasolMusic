@@ -122,6 +122,11 @@ export const studentRoutes = [
 
 export const adminRoutes = [
     {
+        path: '/app',
+        component: MainPage,
+        exact: true,
+    },
+    {
         path: '/app/schedule',
         component: Schedule,
         exact: true,
@@ -137,10 +142,6 @@ export const adminRoutes = [
         exact: true,
     }
 ]
-
-export const menuAdmin =[
-    {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true}
-];
 
 export const menuCoach =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
@@ -167,4 +168,7 @@ export const menuStudent =[
     //{name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
 
-
+export const menuAdmin =[
+    {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
+    {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true}
+];

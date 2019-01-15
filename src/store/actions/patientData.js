@@ -41,24 +41,22 @@ export const hasNoReviewToFreeApp = () => {
 };
 
 export const getInfoPatient = (id) => {
-    const idstr = String(id);
-    let obj = {"id":idstr};
+    let obj = {id};
     return (dispatch) => {
         return axios.post('/catalog.fasol/getUserInfo',
             JSON.stringify(obj))
             .then(res => {
-                if (!res.data.result.data || res.data.result.data.userGroup === 'student') {
-                    console.log("receivedStudentData", res);
-                    res.data.result.data.id = obj.id;
+                console.log("receivedStudentData", res);
 
+                if (res.data.result && res.data.result.data.userGroup === 'student') {
+                    res.data.result.data.id = id;
                     dispatch({
                         type: actionTypes.INFO_PATIENT,
                         profilePatient: res.data.result.data,
                     });
-                    return res;
                 }
 
-                return null;
+                return res;
             })
             .catch(err => {
                 console.log(err);

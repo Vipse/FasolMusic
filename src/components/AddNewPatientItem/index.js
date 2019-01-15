@@ -27,7 +27,7 @@ class AddNewPatientItem extends React.Component{
         const { name, avatar, online, isSearchItem, id, isAdmin, discipline, userGroup, onGoto } = this.props;
 
         return (
-            <div className='new-patient-item' onClick={() => onGoto(id)}>
+            <div className='new-patient-item' onClick={() => onGoto(id, userGroup)}>
                 <div className='new-patient-avatar'>
                     <ProfileAvatar owner="patient" online={online} img={avatar} size='small'/>
                 </div>

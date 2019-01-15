@@ -63,14 +63,14 @@ class StudentPage extends React.Component{
     };
 
     render() {
-        const { avatar, name } = this.props.profileStudent;
+        const { id, avatar, name } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
-        } else if (!this.props.profileStudent.name) {
+        } else if (id !== this.props.match.params.id) {
             return (
                 <div style={{textAlign: 'center', padding: '40px 20px'}}>
-                    <h3>Страница не найдена</h3>
+                    <h3>Страница студента не найдена</h3>
                     <p>Проверьте введённый адрес</p>
                 </div>
             )
