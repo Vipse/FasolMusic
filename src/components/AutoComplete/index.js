@@ -1,4 +1,3 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -32,6 +31,13 @@ class AutoComplete extends React.Component{
         this.timer = null;
     }
 
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            searchRes: nextProps.data,
+            loading: false
+        });
+    }
+
     onClickHandler = (id, flag) => {
         let user;
         flag === 'goto' ? (
@@ -52,10 +58,11 @@ class AutoComplete extends React.Component{
     };
 
     onDeletePatientHandler = (id, patientName) => {
+        const {authMode} = this.props;
         let that = this;
         Modal.confirm({
-            title: `Вы действительно хотите удалить ${this.props.isStudent ? `доктора` : `пациента`}?`,
-            content: `${patientName} будет удален из списка ${this.props.isStudent ? `докторов` : `пациентов`}`,
+            title: `Вы действительно хотите удалить ${authMode === 'student' ? `коуча` : `студента`}?`,
+            content: `${patientName} будет удален из списка ${authMode === 'student' ? `коуча` : `студента`}`,
             width: '445px',
             okText: 'Да',
             cancelText: 'Нет',
@@ -63,9 +70,7 @@ class AutoComplete extends React.Component{
                 that.onClickHandler(id, 'delete');
             },
           });
-
-
-    }
+    };
 
     patientsRender = (dataArr) => {
         return dataArr.map((item) => {
@@ -79,8 +84,8 @@ class AutoComplete extends React.Component{
                     this.onClickHandler(id, 'goto')
                 }}
                 key={item.id}
-                searchQuery = {this.state.inputValue}
-
+                searchQuery={this.state.inputValue}
+                isAdmin={this.props.authMode === 'admin'}
             />)
         });
     };
@@ -88,7 +93,7 @@ class AutoComplete extends React.Component{
     changeHandleSearch = (e) => {
         this.setState({inputValue: e.target.value});
         clearTimeout(this.timer);
-        if(e.target.value.length === 3) {
+        if (e.target.value.length === 3) {
             this.triggerChange(e.target.value);
             return
         }
@@ -103,8 +108,8 @@ class AutoComplete extends React.Component{
     };
 
     handleKeyDown = (e) => {
-        if(e.keyCode===13) {
-            if( e.target.value.length > 2 ) {
+        if (e.keyCode===13) {
+            if ( e.target.value.length > 2 ) {
                 clearTimeout(this.timer);
                 this.setState({isVisible: true});
                 this.triggerChange();
@@ -112,14 +117,8 @@ class AutoComplete extends React.Component{
         }
     };
 
-    componentWillReceiveProps(nextProps){
-        this.setState({
-            searchRes: nextProps.data,
-            loading: false
-        });
-    }
-
     render() {
+        const {authMode} = this.props;
         const resultClass = (this.state.isVisible)? 'auto__complete-result auto__complete-result-focus' : 'auto__complete-result';
         const overlayClass = (this.state.isVisible)? 'auto__complete-overlay auto__complete-overlay-focus' : 'auto__complete-overlay';
 
@@ -143,7 +142,6 @@ class AutoComplete extends React.Component{
                         <PerfectScrollbar
                             style={{height: 500}}
                             className="auto__complete-results"
-
                         >
                             <div>
                                 {this.state.inputValue.length > 2 ?
@@ -151,14 +149,14 @@ class AutoComplete extends React.Component{
                                         (this.state.searchRes).length ?
                                             this.patientsRender(this.state.searchRes)
                                             : <div
-                                                className='entry-list'>{this.props.isStudent ? "Докторов нет" : "Пациентов нет"}</div>
+                                                className='entry-list'>{(authMode === "student" ? "Коучи" :
+                                            authMode === "master" ? "Студенты" : "Пользователи") + " не найдены"}</div>
                                     )
                                     : (<div className='entry-list'>Введите больше символов для поиска</div>)}
                             </div>
                         </PerfectScrollbar>
                     </div>
                 </div>
-
             </div>
         )
     }

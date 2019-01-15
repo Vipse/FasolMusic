@@ -21,7 +21,14 @@
   line-height: 18px;
   color: #21bedd;
 }
-.new-patient-age {
+.new-patient-userGroup {
+  font-family: "RobotoBlack", sans-serif;
+  font-weight: 400;
+  color: #111;
+  font-size: 14px;
+  line-height: 18px;
+}
+.new-patient-discipline {
   font-family: "Myriad", sans-serif;
   font-weight: 400;
   color: #111;

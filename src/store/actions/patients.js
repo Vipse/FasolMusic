@@ -211,26 +211,7 @@ export const getNotDocPatients = (name) => {
             })
     }
 }
-export const searchUsers = (name) => {
-    return (dispatch, getState) => {
-        let obj = {
-            id: getState().auth.id,
-            filter: getState().auth.mode === "user" ? "doc" : "user",
-            name,
-        };
-        axios.post('/catalog.doc2/getDoctorOrPatientsListShortById', JSON.stringify(obj))
-            .then(rez => {
-              dispatch({
-                    type: actionTypes.GET_RESULTS_HEADER_SEARCH,
-                    usersHeaderSearch: rez.data,
-                })
-            })
-            .catch(err => {
-                console.log(err);
-                return err;
-            })
-    }
-}
+
 export const getNotPatientDoctors = (name) => {
     if (name === "" || name === " ") {
         return (dispatch) => {
@@ -290,7 +271,8 @@ export const addPatient = (id, name, getInfo = false) => {
             })
     }
 }
-export const addOrDeleteUserFromSearch = (id, name, flag) => {
+
+/*export const addOrDeleteUserFromSearch = (id, name, flag) => {
     return (dispatch, getState) => {
         if (getState().auth.mode === "user") {
             flag === "add" ?
@@ -347,7 +329,7 @@ export const addOrDeleteUserFromSearch = (id, name, flag) => {
 
 
     }
-};
+};*/
 
 
 export const addDoctor = (id, name) => {

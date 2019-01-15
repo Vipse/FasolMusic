@@ -11,25 +11,21 @@ import '../../icon/style.css'
 
 
 class Header extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {
-
-        };
+        this.state = {};
     }
 
-render() {
-    const {notifications, isStudent} = this.props;
+    render() {
+        const {notifications, isStudent, findName, authMode, searchData, onGoto} = this.props;
         return (
             <div className='header'>
                 <div className='header-search'>
                     <AutoComplete
-                        onAdd = {this.props.onAdd}
-                        onDelete = {this.props.onDelete}
-                        onGoto = {this.props.onGoto}
-                        findName= {this.props.findName}
-                        data={this.props.data}
-                        isStudent = {isStudent}
+                        findName={findName}
+                        authMode={authMode}
+                        data={searchData}
+                        onGoto={onGoto}
                     />
                 </div>
                 <div className='header-train'>
@@ -70,7 +66,7 @@ render() {
                         data={notifications}
                         getNotifications={this.props.getNotifications}
                         getId={this.props.getNotifId}>
-                         <Icon
+                        <Icon
                             svg
                             type='notification'
                             size={20}
@@ -99,7 +95,6 @@ Header.propTypes = {
     notifications: PropTypes.array,
     logout: PropTypes.func,
     isStudent: PropTypes.bool,
-
 };
 
 Header.defaultProps = {

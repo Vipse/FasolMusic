@@ -62,3 +62,38 @@ export const makeArchiveOfFiles = (obj) => {
             });
     }
 };
+
+export const getSelectors = (name) => {
+    return () => {
+        const selectorNameObj = {
+            code: name
+        };
+        return axios.post('/catalog.fasol/getSelectors',
+            JSON.stringify(selectorNameObj))
+            .then(res => res)
+            .catch(err => {
+                console.log('error: ', err);
+            })
+    }
+};
+
+export const searchUsers = (name) => {
+    return (dispatch, getState) => {
+        let obj = {
+            inputText: name,
+            typePeople: getState().auth.mode
+        };
+
+        axios.post('/catalog.fasol/searchUser', JSON.stringify(obj))
+            .then(rez => {
+                dispatch({
+                    type: actionTypes.GET_RESULTS_HEADER_SEARCH,
+                    usersHeaderSearch: rez.data.result.interval,
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                return err;
+            })
+    }
+};

@@ -30,7 +30,12 @@ const reducer = (state = initialState, action) => {
                 isConfirmed: action.isConfirmed,
                 visitId: action.visitId,
                 isReceived: true,
-            }; 
+            };
+        case actionTypes.GET_RESULTS_HEADER_SEARCH:
+            return {
+                ...state,
+                usersHeaderSearch: action.usersHeaderSearch,
+            };
 
         default: return state;
 
