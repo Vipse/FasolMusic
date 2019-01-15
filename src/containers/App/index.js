@@ -123,13 +123,13 @@ class App extends React.Component {
         }, this.props.history);
     }
 
-    gotoHandler = (id) => {
-        const {mode, history} = this.props;
-        if (mode === "student")
+    gotoHandler = (id, userGroup) => {
+        const {history} = this.props;
+
+        if (userGroup === "master")
             history.push('/app/coach' + id);
-        else if (mode === "coach")
+        else if (userGroup === "student")
             history.push('/app/student' + id);
-        else history.push('/app/student' + id);
     };
 
     onLogoClick = () => {

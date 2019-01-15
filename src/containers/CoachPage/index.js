@@ -158,14 +158,14 @@ class CoachPage extends React.Component{
     };
 
     render() {
-        const { avatar, name, aboutme } = this.props.profileCoach;
+        const { id, avatar, name, aboutme } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
         const {masterSchedule, trainerTrainings, auth} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
 
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
-        } else if (!this.props.profileCoach.name) {
+        } else if (id !== this.props.match.params.id) {
             return (
                 <div style={{textAlign: 'center', padding: '40px 20px'}}>
                     <h3>Страница коуча не найдена</h3>

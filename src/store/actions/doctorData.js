@@ -20,25 +20,24 @@ export const sendNewInfoDoctor = (data) => {
 };
 
 export const getInfoDoctor = (id) => {
-    const idstr = String(id);
-    let ids = {"id":idstr}; //задать самому id доктора
+    let obj = {id};
     return (dispatch) => {
 
         return axios.post('/catalog.fasol/getUserInfo',
-         JSON.stringify(ids))
+         JSON.stringify(obj))
             .then(res => {
-                if (!res.data.result.data || res.data.result.data.userGroup === 'master') {
-                    console.log("receivedCoachData", res);
-                    res.data.result.data.id = ids.id;
+                console.log("receivedCoachData", res);
+
+                if (res.data.result && res.data.result.data.userGroup === 'master') {
+                    res.data.result.data.id = id;
 
                     dispatch({
                         type: actionTypes.INFO_DOCTOR,
                         profileDoctor: res.data.result.data,
                     });
-                    return res;
                 }
 
-                return null;
+                return res;
             })
             .catch(err => {
                 console.log(err);

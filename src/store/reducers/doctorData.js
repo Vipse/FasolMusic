@@ -1,29 +1,6 @@
 import * as actionTypes from '../actions/actionTypes'
 
-let profileDoctor = {
-    "id": "",
-    "name": "",
-    "avatar": "",
-    "email": "",
-    "country": "",
-    "sex": "",
-    "datebirth": "",
-    "aboutme": "",
-    "interests": [],
-    "facebooklink": "",
-    "googlelink": "",
-    "promovideo": "",
-    "improvetext": "",
-    "disciplines": [],
-    "best": "",
-    "amountdays": "",
-    "trainingtime": {},
-    "active": "",
-    "__nodeChanged": "",
-    "phones": [],
-    "work": "",
-    "defaultPrice": ""
-};
+let profileDoctor = {};
 
 const initialState = profileDoctor;
 
