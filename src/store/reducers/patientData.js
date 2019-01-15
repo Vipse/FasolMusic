@@ -26,15 +26,9 @@ let profilePatient = {
     "defaultPrice": ""
 };
 
-let userInfoShort = {
-    "PatientAge": 0,
-    "PatientWeight": "",
-    "PatientHeight": "",
-    "PatientPressure": "",
-    "PatientPulse": ""
-};
 
-const initialState = {...profilePatient, ...userInfoShort};
+
+const initialState = {...profilePatient};
 
 const reducer = (state = initialState, action) => {
     switch (action.type){

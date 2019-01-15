@@ -18,6 +18,7 @@ import { notify } from './utils/helpers'
 import { accessor as get } from './utils/accessors'
 
 import { inRange, sortEvents, segStyle } from './utils/eventLevels'
+import moment from 'moment';
 
 class TimeGrid extends Component {
   constructor(props) {
@@ -59,19 +60,23 @@ class TimeGrid extends Component {
   }
 
   // fasol - для каждого DayColumn соответствующий intervals
-  getCurrentIntervalsDay = () => { 
+  getCurrentIntervalsDay = (date) => { 
+    
     let {intervals} = this.props;
 
+    let answer = [];
     if( Array.isArray(intervals) && intervals.length > 0){
 
         for(let i = 0; i < intervals.length; i++){
-              if(intervals[i].day === this.numberDay){
-                this.numberDay++;
-                return [...intervals[i].intervals];
+              if(intervals[i].day === moment(date.getTime()).day()){
+                //this.numberDay++;
+
+                
+                answer = [...answer, ...intervals[i].intervals];
               }
         }
     }
-    return [];
+    return answer;
   }
 
   render() {
@@ -196,7 +201,7 @@ class TimeGrid extends Component {
           <DayColumn
             {...this.props}
 
-            intervals={this.getCurrentIntervalsDay()}
+            intervals={this.getCurrentIntervalsDay(date)}
             min={dates.merge(date, min)}
             max={dates.merge(date, max)}
             resource={resource && resource.id}

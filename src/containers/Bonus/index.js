@@ -22,6 +22,13 @@ class Bonus extends React.Component{
                     (<h3 style={{textAlign: "center"}}>В разработке</h3>)}
             </Hoc>
         )
+        // return (
+        //     <Hoc>
+        //         {isStudent ?
+        //             (<BonusPage/>) :
+        //             (<h3 style={{textAlign: "center"}}>В разработке</h3>)}
+        //     </Hoc>
+        // )
     }
 }
 

@@ -32,6 +32,23 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 freeInterval: action.freeInterval
             }  
+        case actionTypes.SET_WEEKDAYS_AND_DISCIPLINE_AND_ARRMASTERS:
+            return {
+                ...state,
+                weekdays: action.weekdays,
+                discipline: action.discipline,
+                masters: action.masters
+            }  
+        case actionTypes.GET_FULL_INFO_MASTERS:
+            return {
+                ...state,
+                fullInfoMasters: action.fullInfoMasters
+            }  
+        case actionTypes.GET_THE_MASTER_INTERVAL:
+            return {
+                ...state,
+                theMasterInterval: action.theMasterInterval
+            }  
             
             
         default: return state;

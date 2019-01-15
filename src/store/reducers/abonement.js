@@ -2,6 +2,16 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
     dataForCreate: {},
+    disciplines: {
+        'guitar' : {
+            ruText: 'гитара',
+            code: 125470
+        },
+        'vocals' : {
+            ruText: 'вокал',
+            code: 125485
+        }
+    }
 };
 
 const reducer = (state = initialState, action) => {

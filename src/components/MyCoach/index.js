@@ -18,10 +18,9 @@ class MyCoach extends React.Component {
 
     render() {
         const {data} = this.props;
-        console.log('MYSTUDENT :', this.props);
         return (
             <div className='myStudents'>
-                <Card title="Мои студенты"
+                <Card title="Мои коучи"
                       extra={<a className="myStudents-link" ><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {data.length ?

@@ -39,7 +39,6 @@ class StudentPayment extends React.Component{
 
     selectPlan = (count) => {
         // здесь должно быть typeSubscription
-       
         this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: count});
     }
 

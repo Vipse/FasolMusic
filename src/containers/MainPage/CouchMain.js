@@ -46,7 +46,6 @@ class CouchMain extends React.Component{
 
     render(){
         const { allAbonements } = this.props;
-        console.log('myCoach :', myCoach);
 
         let myCoach = [];
         for(let i = 0; i < this.props.myCoach.length; i++){

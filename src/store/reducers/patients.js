@@ -87,6 +87,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 abonementIntervals: action.abonementIntervals,
+                amountTraining: action.amountTraining
             }    
       
     

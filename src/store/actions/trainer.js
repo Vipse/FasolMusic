@@ -60,3 +60,11 @@ export const getTrainerTraining = (dateMin, dateMax) => {
     }
 }
 
+export const setChooseMasterAllInfo = (allInfo) => {
+    
+    return ({
+        type: actionTypes.SET_CHOOSE_MASTER,
+        chooseMaster: allInfo            
+    });
+ 
+}

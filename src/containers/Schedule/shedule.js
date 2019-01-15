@@ -1,10 +1,9 @@
 // покупаем абонемент - выбираем желаемое время - редирект в расписание и 
-import { apiPatients } from './mock-data';
 import { moment } from 'moment';
 // нажатие на кнопку сохранить
 // заполняем выбранную неделю и дозаполняем будующие
 
-export function fillTrainingWeek(idStudent, amount, discipline,) {
+export function fillTrainingWeek(idStudent, amount, discipline, apiPatients) {
  
     console.log('amount :', amount);
     //if(Array.isArray(apiPatients) && apiPatients.length) return null;  

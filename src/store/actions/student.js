@@ -121,18 +121,34 @@ export const createTraining = (obj) => {
     }
 }
 
-export const getAvailableInterval = (dateStart, dateEnd, intervals, discipline) => {
-    let obj =  { dateStart , dateEnd, intervals, discipline};
+export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) => {
+    let obj =  { dateStart , dateEnd, weekdays, discipline};
 
     console.log("GET", obj)
     return (dispatch) => {
        
-        axios.post('/catalog.fasol/getAvailableInterval', JSON.stringify(obj))
+        return axios.post('/catalog.fasol/getIntervalOnWeekdays', JSON.stringify(obj))
             .then(rez => {
                     console.log('AVAIL rez :', rez);
+                    let answer = []
+                    let freeInterval = rez.data.result.interval;
+
+                    for(let elem in freeInterval){
+                        answer.push({
+                            day: moment(+elem * 1000).day(),
+                            intervals: freeInterval[elem]
+                        })
+                    }
+
                 dispatch({
                     type: actionTypes.GET_AVAILABLE_INTERVAL,
-                    freeInterval: rez.data.result.result,
+                    freeInterval: answer,
+                })
+                dispatch({
+                    type: actionTypes.SET_WEEKDAYS_AND_DISCIPLINE_AND_ARRMASTERS,
+                    weekdays: weekdays,
+                    discipline: discipline,
+                    masters: rez.data.result.masters
                 })
             })
             .catch(err => {
@@ -140,3 +156,55 @@ export const getAvailableInterval = (dateStart, dateEnd, intervals, discipline) 
             })
     }
 }
+
+
+export const masterFreeOnDate = (date, chooseMasters) => {
+   
+    let obj = {
+        date, 
+        arrMaster: chooseMasters
+    };
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/masterFreeOnDate', JSON.stringify(obj))
+            .then(res => {
+                dispatch({
+                    type: actionTypes.GET_FULL_INFO_MASTERS,
+                    fullInfoMasters: res.data.result.masters,
+                })
+                return res;
+            })
+            .catch(err => {console.log(err);})
+    }
+}
+
+export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays) => {
+   
+    let obj = {
+        dateStart, 
+        dateEnd,
+        idMaster,
+        weekdays
+    };
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/getMasterInterval', JSON.stringify(obj))
+            .then(res => {
+                let answer = []
+                let freeInterval = res.data.result.interval;
+
+                for(let elem in freeInterval){
+                    answer.push({
+                        day: moment(+elem * 1000).day(),
+                        intervals: freeInterval[elem]
+                    })
+                }
+
+                dispatch({
+                    type: actionTypes.GET_THE_MASTER_INTERVAL,
+                    theMasterInterval: answer,
+                })
+                return res;
+            })
+            .catch(err => {console.log(err);})
+    }
+}
+

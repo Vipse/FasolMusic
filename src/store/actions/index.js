@@ -78,13 +78,13 @@ export {
 export {
     login,
     logout,
-    registerDoctor,
     registerUser,
     resetRegisterStatus,
     setOnlineStatus,
     checkEmailAvailability,
     getSelectors,
-    reportBug
+    reportBug,
+    registerTrainer
 } from './auth'
 
 export {
@@ -155,12 +155,16 @@ export {
     createTraining,
     getAvailableInterval,
     getMasterSchedule,
+    masterFreeOnDate,
+    getTheMasterInterval,
 
 } from './student'
 
 export {
     getMasterList,
-    getTrainerTraining
+    getTrainerTraining,
+    setChooseMasterAllInfo,
+    
 } from './trainer'
 
 

@@ -14,21 +14,21 @@ class FreeTrainersItem extends React.Component{
             discipline,
             setChoosenTrainer,
             idMaster,
+            id,
             comment,
             trainerList,
             onGoto,
         } = this.props;
 
-console.log("WW this.", this.props)
         return (
-            <div className='myStudent' onClick={() => setChoosenTrainer(idMaster)}>
+            <div className='myStudent' onClick={() => setChoosenTrainer(id ? id : idMaster)}>
                 <ProfileAvatar
                     img={avatar}
                     size='small'
                 />
                 <div className='myStudent-info'>
                     <div>
-                        <span className='myStudent-info-name' onClick={() => onGoto(idMaster)}>{name}</span>
+                        <span className='myStudent-info-name' onClick={() => onGoto(id ? id : idMaster)}>{name}</span>
                         <span className='myStudent-info-discipline'>{discipline}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>

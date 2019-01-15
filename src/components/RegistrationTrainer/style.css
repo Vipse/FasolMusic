@@ -1,0 +1,50 @@
+.login-form {
+  max-width: 770px;
+  width: 100%;
+  padding: 75px 100px;
+  border-radius: 2px;
+  border: none;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+  /* Параметры тени */
+  background-color: #ffffff;
+}
+.login-form .ant-form-item {
+  position: relative;
+  margin-bottom: 35px;
+}
+.login-form .ant-form-item .ant-form-explain {
+  position: absolute;
+  top: 45px;
+}
+.login-form-item .ant-input-group-addon:first-child {
+  text-align: left;
+}
+.login-form-navlink {
+  color: #21bedd;
+  font-size: 14px;
+  line-height: 1;
+}
+.login-form-navlink:hover {
+  color: #21bedd;
+}
+.login-form-control {
+  text-align: center;
+}
+.login-form-control button {
+  margin-bottom: 50px;
+}
+.login-title {
+  font-family: "RobotoBold";
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: -0.88px;
+  color: #333;
+  margin-bottom: 40px;
+}
+.login-notification {
+  font-family: "RobotoLight";
+  font-size: 12px;
+  line-height: 1;
+  color: #333;
+  margin-bottom: 50px;
+}

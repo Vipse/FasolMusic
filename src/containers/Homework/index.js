@@ -47,8 +47,6 @@ class Homework extends React.Component{
 
                         if(String(trainerList[a].idMaster) === String(subscriptions[i].training[j].idMaster)){
 
-
-
                             arrAbonement.push(
                                 {
                                     date: subscriptions[i].training[j].start ,
@@ -59,20 +57,10 @@ class Homework extends React.Component{
                                     files: [],
                                    
                                 })
-                            console.log("AAAA")
                             a = Infinity;
                         }
                     }
 
-                    // arrAbonement.push(
-                    //     {
-                    //         date: subscriptions[i].training[j].start ,
-                    //         name: fio,
-                    //         discipline: subscriptions[i].discipline,
-                    //         trainingRecord: "http://vk.com",
-                    //         homework: "сделать кучу вещей, сыграть на гитарке",
-                    //         files: [],
-                    //     })
                 }
             }
         }

@@ -79,72 +79,6 @@ export const login = (userName, password, remember, history, isAuto) => {
     }
 }
 
-export const registerDoctor = (data) => {
-    delete data.avatarThumb;
-    return () => {
-
-        const fillNewField = (res, name) => {
-            const info = name.split('-');
-            let array = [];
-            if (res[info[0]])
-                array = [...res[info[0]]];
-
-            array[+info[2]] = (info[1] === 'ucationyears' && data[name])
-                ? {
-                    ...array[+info[2]],
-                    [info[1]]: [
-                        moment(data[name][0]).format("X"),
-                        moment(data[name][1]).format("X"),
-                    ],
-                }
-                : {
-                    ...array[+info[2]],
-                    [info[1]]: (info[1].indexOf('photo')+1 || info[1].indexOf('copycontract')+1)
-                        ? data[name]
-                            ? data[name]
-                            : []
-                        : data[name],
-                };
-            return {
-                ...res,
-                [info[0]]: array,
-            }
-        };
-
-
-        let result = {};
-        for (let key in data){
-            result = (key.indexOf('educationsgroup')+1 || key.indexOf('work')+1)
-                ? fillNewField(result,key)
-                : (key.indexOf('doc')+1 || key.indexOf('photos')+1 || key.indexOf('copycontract')+1 || key.indexOf('avatar')+1 )
-                    ? data[key]
-                        ? {
-                            ...result,
-                            [key]: data[key],
-                        }
-                        : {
-                            ...result,
-                            [key]: [],
-                        }
-                    : (key === 'workdate' || key === 'datebirth')
-                        ? {
-                            ...result,
-                            [key]: moment(data[key]).format("X"),
-                        }
-                        : {
-                            ...result,
-                            [key]: data[key],
-                        };
-        }
-        console.log(result, "TO  REGISTER DOCTOR")
-        return axios.post('/fusers.doc/createUserDoc',
-            JSON.stringify(result))
-            .then(res => res)
-            .catch(err => {
-                console.log('error: ',err);
-            })
-    }
-};
 export const registerUser = (userInfo) => {
     return (dispatch) => {
         dispatch({
@@ -158,6 +92,38 @@ export const registerUser = (userInfo) => {
                     })
     }
 }
+
+
+
+export const registerTrainer = (userInfo, history) => {
+
+    return (dispatch) => {
+       
+        return axios.post('/catalog.fasol/registratin',
+                JSON.stringify({"catalogGroup": "master", ...userInfo}))
+                    .then(res => {
+                        if( !res.data.hasOwnProperty('error'))
+                        {
+                            dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                            dispatch(setOnlineStatus(res.data.result.id, true)),
+                            sessionStorage.setItem('_fasol-id', res.data.result.id),
+                            sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                           // rememberMe(remember, userName, password),
+
+                            history.push('/app')
+                        }
+                        // dispatch({
+                        //     type: actionTypes.AUTH_SUCCESS,
+                        //     id: res.data.result.id,
+                        //     usergroup: res.data.result.usergroup,
+                        // });
+                    })
+                    .catch(err => {
+                        console.log('error: ',err);
+                    })
+    }
+}
+
 
 export const resetRegisterStatus = () => {
     return (dispatch) => {

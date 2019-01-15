@@ -20,6 +20,8 @@ import addInfoObj from "../../helpers/addInfoObj"
 import * as actions from '../../store/actions'
 import './styles.css'
 import ReportBugModal from "../../components/ReportBugModal";
+import ShortRegistrationModal from './../../components/ShortRegistrationModal/index';
+import RegistrationTrainer from '../../components/RegistrationTrainer';
 
 class LoginPage extends React.Component {
 
@@ -74,6 +76,12 @@ class LoginPage extends React.Component {
                                                             //uploadFile = {this.props.uploadFile}
                                />}
                         />
+                        <Route path="/registration-trainer"
+                               exact
+                               render={() => <RegistrationTrainer  errorCode={this.props.errorCode}
+                                                                    onSubmit={(userInfo) => this.props.onRegisterTrainer(userInfo, this.props.history)}
+                               />}
+                        />
                     </Col>
                 </Row>
             </Hoc>
@@ -96,7 +104,8 @@ const mapDispatchToProps = dispatch => {
         onCheckEmailAvailability: (email) => dispatch(actions.checkEmailAvailability(email)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         reportBug: (message, href) => dispatch(actions.reportBug(message, href)),
-        uploadFile: (file) => dispatch(actions.uploadFile(file))
+        uploadFile: (file) => dispatch(actions.uploadFile(file)),
+        onRegisterTrainer: (userInfo, history) => dispatch(actions.registerTrainer(userInfo, history))
 	}
 };
 

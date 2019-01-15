@@ -147,31 +147,7 @@ class ContentForm extends React.Component {
                             </div>
                         )}
                     </FormItem>
-                    <FormItem>
-                        <div className='radio-label'>Интервал предпочитаемого времени</div>
-                        {getFieldDecorator('time', {
-                            rules: [{
-                                required: true,
-                                message: 'Выберите интервал времени, пожалуйста'
-                            }],
-                        })(
-                            <TimePicker
-                                range
-                                isReset={false}
-                                rangeSet={[
-                                    {
-                                        defaultStartValue: moment(1318781876),
-                                        defaultEndValue: moment(1378781876)
-                                    }
-                                ]}
-                                delimiter='&mdash;'
-                                availableArea={[{
-                                    from: 1528318800000,
-                                    to: 1528318800000 - 1
-                                }]}
-                            />
-                        )}
-                    </FormItem>
+                    
                 </div>
                 <div className="submitPlate">
                     <Button className="saveBtn"

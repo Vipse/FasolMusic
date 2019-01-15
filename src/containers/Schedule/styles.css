@@ -28,3 +28,11 @@
 .schedule-message-modal-wrapper .schedule-message-btn button {
   width: 100px;
 }
+.block-free-trainer {
+  padding: 10px;
+}
+.free-trainer {
+  margin: 10px;
+  text-align: center;
+  font-weight: bold;
+}

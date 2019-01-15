@@ -448,7 +448,8 @@ export const setFreeIntervals = (freeIntervals, discipline ) => {
 export const setNeedSaveIntervals = (countTraining) => {
     return {
         type: actionTypes.SET_NEED_SAVE_INTERVALS,
-        abonementIntervals: { visibleTrialModal: countTraining.visibleTrialModal, countTraining: countTraining.countTraining}
+        abonementIntervals: { visibleTrialModal: countTraining.visibleTrialModal, countTraining: countTraining.countTraining},
+        amountTraining: countTraining.countTraining
     }
 }
 
