@@ -118,8 +118,8 @@ class RecordTrainCarousel extends React.Component {
                                         : item.isOwn ? isAdmin ? 'reservedTime' : 'ownTime' : ''}
                                     key={indexTime + 1}
                                     onClick={item.isAvailable ?
-                                        e => this.props.handleTrainModal(e, item, isAdmin, false)
-                                        : (isAdmin && item.isOwn) ? e => this.props.handleTrainModal(e, item, isAdmin, true)
+                                        e => this.props.handleTrainModal(e, item, false, isAdmin)
+                                        : (item.isOwn) ? e => this.props.handleTrainModal(e, item, true, isAdmin)
                                             : null}
                                     data-timestamp={item.timestamp}
                                     data-interval-type={item.type}
