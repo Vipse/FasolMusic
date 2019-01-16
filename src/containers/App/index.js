@@ -108,7 +108,7 @@ class App extends React.Component {
         }
         else if (this.props.auth.mode === "student") {
             this.props.onGetInfoPatient(this.props.auth.id);
-
+           
             // this.runNotificationsWS();
             this.runChatWS();
         }

@@ -19,15 +19,39 @@ class MainPage extends React.Component{
 
 	}
 
+	getPastAndFutureTraining = () => {
+		const {id} = this.props;
+		let start = null,
+			end = null;
+			
+		start = moment(Date.now()).startOf('day').format('X');
+		end = moment(Date.now()).endOf('day').format('X');
+		this.props.onGetTodayTrainerTraining(id, end, start);
+
+		start = moment(Date.now()).add(1, 'weeks').format('X');
+		end = moment(Date.now()).format('X');
+
+		this.props.onGetFutureTrainerTraining(id, end, start);
+
+		start = moment(Date.now()).format('X');
+		end = moment(Date.now()).subtract(1, 'weeks').format('X');  
+		this.props.onGetPostTrainerTraining(id, end, start);
+		
+	}
+
 	componentDidMount() {
 		this.props.onGetAbonements(this.props.id);
-		this.props.onGetMyMasters(this.props.id);
 
 		if (this.props.mode === "student") {
 			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X') , '1');
-		}
-		else {
 
+			this.props.onGetMyMastersOrStudents({idStudent : this.props.id});
+            this.props.onGetNextTraining(this.props.id);
+		}
+		else if (this.props.mode === "master"){
+			this.props.onGetMyMastersOrStudents({idMaster : this.props.id});
+			this.props.onGetNextTraining(this.props.id);
+			this.getPastAndFutureTraining();
 		}
 		
 	}
@@ -109,12 +133,24 @@ class MainPage extends React.Component{
                 treatmentsCount={this.props.treatmentsCount}
                 addConclusion = {this.props.addConclusion}
 				makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
+
 				nearTraining = {this.props.nearTraining}
+				nextTrainingTime = {this.props.nextTrainingTime}
+				myCoachOrStudents = {this.props.myCoachOrStudents}
+				todayTraining = {this.props.todayTraining}
+				futureTraining = {this.props.futureTraining}
+				postTraining = {this.props.postTraining}
 				goToChat = {this.goToChat}
 				{...this.props}/>
 		) : (
 			<CouchMain
 				allAbonements = {this.props.allAbonements}
+				nextTrainingTime = {this.props.nextTrainingTime}
+				myCoachOrStudents = {this.props.myCoachOrStudents}
+				todayTraining = {this.props.todayTraining}
+				futureTraining = {this.props.futureTraining}
+				postTraining = {this.props.postTraining}
+
 				showCancel = {() => {this.setState({cancelModal: true})}}
 				onAdd = {this.onAddVisit}
 				addModal = {this.state.addModal}
@@ -137,8 +173,12 @@ const mapStateToProps = state => {
 		allAbonements: state.abonement.allAbonements, // и интервалы
 		id: state.auth.id,
 		mode: state.auth.mode,
-		myCoach: state.student.myCoach,
+		myCoachOrStudents: state.training.myCoachOrStudents,
 		nearTraining: state.training.nearTraining,
+		nextTrainingTime: state.training.nextTrainingTime,
+		todayTraining: (state.auth.mode ==='master') ? state.trainer.todayTraining : null,
+		postTraining: (state.auth.mode ==='master') ? state.trainer.postTraining : null,
+		futureTraining: (state.auth.mode ==='master') ? state.trainer.futureTraining : null,
 
 		patients: state.patients.docPatients,
 		visits: state.schedules.visits,
@@ -184,9 +224,15 @@ const mapDispatchToProps = dispatch => {
 		
 		onGetAbonements: (idStudent) => dispatch(actions.getAbonements(idStudent)),
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
-		onGetMyMasters: (idStudent) => dispatch(actions.getMyMasters(idStudent)),
+
+		onGetMyMastersOrStudents: (obj) => dispatch(actions.getMyMastersOrStudents(obj)),
+
 		onGetTrainingNotFinished:(idStudent, dateMax, max) => dispatch(actions.getTrainingNotFinished(idStudent, dateMax, max)),
-		onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
+		onSetChatToId: (id) => dispatch(actions.setChatToId(id)),	
+		onGetNextTraining: (id) => dispatch(actions.getNextTraining(id)),
+		onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
+		onGetFutureTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getFutureTrainerTraining(idMaster, dateMin, dateMax)),
+		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
 		
     }
 };

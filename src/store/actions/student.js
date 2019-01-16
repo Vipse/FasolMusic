@@ -35,35 +35,7 @@ export const getInfoMasters = (idMaster) => {
     
 }
 
-export const getMyMasters = (idStudent) => {
-    return (dispatch) => {
-        let obj = { idStudent };
 
-        axios.post('/catalog.fasol/getMyMastersOrStudents', JSON.stringify(obj))
-            .then(rez => {
-                let arr = [];
-                rez.data.result.result.forEach(el => {
-                   
-                    arr.push(getInfoMasters(el.idMaster)
-                        .catch((err) => { console.log(err)}));
-                });
-                          
-                return Promise.all(arr)
-                    .then((rez) => {
-                            dispatch({
-                                type: actionTypes.GET_MY_MASTERS,
-                                myCoach: rez,
-                            })
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-}
 
 export const getDeadlinePay = (idStudent) => {
     let obj =  { idStudent };

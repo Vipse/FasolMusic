@@ -45,29 +45,14 @@ class CouchMain extends React.Component{
     }
 
     render(){
-        const { allAbonements } = this.props;
+        const { allAbonements, myCoachOrStudents, postTraining } = this.props;
 
         let myCoach = [];
-        for(let i = 0; i < this.props.myCoach.length; i++){
-            if(this.props.myCoach[i]){
-                myCoach.push(this.props.myCoach[i])
+        for(let i = 0; i < myCoachOrStudents.length; i++){
+            if(myCoachOrStudents[i]){
+                myCoach.push(myCoachOrStudents[i])
             }
         }
-
-
-    // if(this.props.allAbonements)
-    //     for(let i = 0; i < this.props.allAbonements.subscriptions.length; i++){
-    //         for(let j = 0; j < 5; j++){ debugger;
-    //             near.push({
-    //                 start: this.props.allAbonements.subscriptions[i].training[j],
-    //                 end: this.props.allAbonements.subscriptions[i].training[j],
-    //                 discipline: "Вокал",
-    //                 name: this.props.allAbonements.subscriptions[i].training[j]
-    //             })
-    //         }
-    //         break;
-    //     }
-
 
     return (
             <Hoc>
@@ -75,7 +60,9 @@ class CouchMain extends React.Component{
                             <Col span={24} className='section'>
                                 <TopPanel  
                                     {...this.props.docTodayInfo}
-                                    nextTraining = {this.selectFirstTraining()}
+                                    nextTrainingTime = {this.props.nextTrainingTime}
+                                    myCoachOrStudents = {this.props.myCoachOrStudents}
+                                    todayTraining = {this.props.todayTraining}
                                     />
                             </Col>
                         </Row>
@@ -85,6 +72,7 @@ class CouchMain extends React.Component{
                                 <NearTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
+                                   // data = //{postTraining}
                                     data={[
                                         {
                                             profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
@@ -104,6 +92,7 @@ class CouchMain extends React.Component{
                                             homework: ''
                                         }
                                     ]}
+                                                               
 
                                 />
                             </Col>
@@ -143,7 +132,7 @@ class CouchMain extends React.Component{
                                             id: el.idMaster,
                                             profileAvatar: el.avatar,
                                             online: true,
-                                           // discipline: el.disciplines.map((elem) => elem.discipline),
+                                            disciplines: el.disciplines,
                                             name: el.name,
                                             lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing"+
                                                         " and typesetting industry. Lorem Ipsum has been the industry's "

@@ -4,6 +4,7 @@ import './style.css'
 import '../../icon/style.css'
 import Icon from '../Icon'
 import MyStudentsItem from "../MyStudentsItem";
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 class MyStudents extends React.Component {
     studentsRender = (dataArr) => {
@@ -16,16 +17,21 @@ class MyStudents extends React.Component {
     };
 
     render() {
+
+
         const {data} = this.props;
         console.log('MYSTUDENT :', this.props);
         return (
-            <div className='myStudents'>
+            <div className='lastTrainings'>
                 <Card title="Мои студенты"
-                      extra={<a className="myStudents-link" ><Icon type="circle_arrow_right"/>
-                          <span>Весь список</span></a>}>
-                    {data.length ?
-                        this.studentsRender(data)
-                        : <div className='noStudents'>Студентов нет</div>}
+                      extra={<a className="myStudents-link" >
+                            <Icon type="circle_arrow_right"/>
+                            <span>Весь список</span></a>}>
+                            <PerfectScrollbar className="lastTrainings-scroll">    
+                                        {data.length ?
+                                            this.studentsRender(data)
+                                            : <div className='noStudents'>Студентов нет</div>}
+                            </PerfectScrollbar>
                 </Card>
             </div>
         )

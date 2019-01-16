@@ -34,7 +34,14 @@ class TopPanel extends React.Component{
 
     render(){
         const {time} = this.state;
-        const {receptionsToday, receptionsActual, patients, nextTraining} = this.props;
+        const {myCoachOrStudents, nextTrainingTime, todayTraining} = this.props;
+
+        let lenghtToday = 0;
+        for (let el in todayTraining) {
+            if(todayTraining.hasOwnProperty(el) && Array.isArray(todayTraining[el]) ) {
+                lenghtToday += todayTraining[el].length;
+            } 
+        }
 
         return (
             <div className='top-panel'>
@@ -54,15 +61,15 @@ class TopPanel extends React.Component{
                 <div className="top-panel-items">
                     <TopPanelItem
                         panelTitle="Следующая тренировка"
-                        panelText={ (nextTraining) ? moment(nextTraining).format('D MMM') : '-'}
+                        panelText={ (nextTrainingTime) ? moment(nextTrainingTime).format('D MMM') : '-'}
                     />
                     <TopPanelItem
                         panelTitle="Тренировок на сегодня"
-                        panelText={"3"}
+                        panelText={lenghtToday}
                     />
                     <TopPanelItem
                         panelTitle="Мои коучи"
-                        panelText={"24"}
+                        panelText={Array.isArray(myCoachOrStudents) ? myCoachOrStudents.filter((el) => (el) ? true : false).length : '-'} // в массиве бывают null
                     />
                 </div>
             </div>
@@ -75,6 +82,7 @@ TopPanel.propTypes = {
     receptionsActual: PropTypes.number,
     patients: PropTypes.number,
     nextTraining: PropTypes.number,
+    nextTrainingTime: PropTypes.number,
 };
 
 TopPanel.defaultProps = {

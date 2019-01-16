@@ -4,6 +4,7 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
     nearTraining: [],
+    myCoachOrStudents: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,6 +14,18 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 nearTraining: action.nearTraining,
             }
+        case actionTypes.GET_NEXT_TRAINING: 
+            return {
+                ...state,
+                nextTraining: action.nextTraining,
+                nextTrainingTime: action.nextTrainingTime
+            }
+        case actionTypes.GET_MY_MASTERS_OR_STUDENTS: 
+            return {
+                ...state,
+                myCoachOrStudents: action.myCoachOrStudents
+            }
+            
             
         default: return state;
     }

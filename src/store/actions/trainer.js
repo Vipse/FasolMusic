@@ -60,11 +60,63 @@ export const getTrainerTraining = (dateMin, dateMax) => {
     }
 }
 
+
+export const getPostTrainerTraining = (idMaster, dateMin, dateMax) => {
+    return dispatch => {
+        const obj = {idMaster, dateMin,dateMax}
+        axios.post('/catalog.fasol/getTrainerTraining',
+            JSON.stringify(obj))
+            .then(res => {
+                dispatch({
+                    type: actionTypes.GET_POST_TRAINER_TRAINING,
+                    postTraining: res.data.result.result,
+                })
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
+export const getFutureTrainerTraining = (idMaster, dateMin, dateMax) => {
+    return dispatch => {
+        const obj = {idMaster, dateMin,dateMax}
+        axios.post('/catalog.fasol/getTrainerTraining',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log('GET_FUTURE_TRAINER_TRAINING :', res.data.result.result);
+                dispatch({
+                    type: actionTypes.GET_FUTURE_TRAINER_TRAINING,
+                    futureTraining: res.data.result.result,
+                })
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
+export const getTodayTrainerTraining = (idMaster, dateMin, dateMax) => {
+    return dispatch => {
+        const obj = {idMaster, dateMin,dateMax}
+        axios.post('/catalog.fasol/getTrainerTraining',
+            JSON.stringify(obj))
+            .then(res => {
+                dispatch({
+                    type: actionTypes.GET_TODAY_TRAINER_TRAINING,
+                    todayTraining: res.data.result.result,
+                })
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
+
 export const setChooseMasterAllInfo = (allInfo) => {
     
     return ({
         type: actionTypes.SET_CHOOSE_MASTER,
         chooseMaster: allInfo            
     });
- 
 }
+
+

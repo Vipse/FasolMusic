@@ -32,38 +32,25 @@ class StudentMain extends React.Component{
     }
 
     render(){
-        const { allAbonements, goToChat } = this.props;
+        const { allAbonements, goToChat, myCoachOrStudents } = this.props;
         console.log('myCoach :', myCoach);
 
         let myCoach = [];
-        for(let i = 0; i < this.props.myCoach.length; i++){
-            if(this.props.myCoach[i]){
-                myCoach.push(this.props.myCoach[i])
+        for(let i = 0; i < myCoachOrStudents.length; i++){
+            if(myCoachOrStudents[i]){
+                myCoach.push(myCoachOrStudents[i])
             }
         }
 
 
-    // if(this.props.allAbonements)
-    //     for(let i = 0; i < this.props.allAbonements.subscriptions.length; i++){
-    //         for(let j = 0; j < 5; j++){ debugger;
-    //             near.push({
-    //                 start: this.props.allAbonements.subscriptions[i].training[j],
-    //                 end: this.props.allAbonements.subscriptions[i].training[j],
-    //                 discipline: "Вокал",
-    //                 name: this.props.allAbonements.subscriptions[i].training[j]
-    //             })
-    //         }
-    //         break;
-    //     }
-
-
-    return (
+        return (
             <Hoc>
                         <Row>
                             <Col span={24} className='section'>
                                 <TopPanel  
                                     {...this.props.docTodayInfo}
-                                    nextTraining = {this.selectFirstTraining()}
+                                    nextTrainingTime = {this.props.nextTrainingTime}
+                                    myCoachOrStudents = {this.props.myCoachOrStudents}
                                     />
                             </Col>
                         </Row>
@@ -132,7 +119,7 @@ class StudentMain extends React.Component{
                                             id: el.idMaster,
                                             profileAvatar: el.avatar,
                                             online: true,
-                                           // discipline: el.disciplines.map((elem) => elem.discipline),
+                                            disciplines: el.disciplines,
                                             name: el.name,
                                             lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing"+
                                                         " and typesetting industry. Lorem Ipsum has been the industry's "

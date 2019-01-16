@@ -164,12 +164,17 @@ export {
     getMasterList,
     getTrainerTraining,
     setChooseMasterAllInfo,
+    getPostTrainerTraining,
+    getFutureTrainerTraining,
+    getTodayTrainerTraining,
     
 } from './trainer'
 
 
 export { 
-    getTrainingNotFinished
+    getTrainingNotFinished,
+    getNextTraining,
+    getMyMastersOrStudents,
 } from './training'
 
 

@@ -9,7 +9,7 @@ import Button from "../Button";
 class MyStudentsItem extends React.Component{
     render(){
         const {
-            discipline,
+            disciplines,
             name,
             lastMessage,
             onGoto,
@@ -17,7 +17,8 @@ class MyStudentsItem extends React.Component{
             id
         } = this.props;
 
-        console.log('Student this.props :', this.props);
+        const allDisciplines = Array.isArray(disciplines) ? disciplines.map( (elem) => elem.discipline.map((el) => el.name) ).join(', ') : []
+
         return (
             <div className='myStudent'>
                 <ProfileAvatar
@@ -27,7 +28,7 @@ class MyStudentsItem extends React.Component{
                 <div className='myStudent-info'>
                     <div>
                         <span className='myStudent-info-name' onClick={() => onGoto(id)}>{name}</span>
-                        <span className='myStudent-info-discipline'>{discipline}</span>
+                        <span className='myStudent-info-discipline'>{allDisciplines}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>
                     {lastMessage}

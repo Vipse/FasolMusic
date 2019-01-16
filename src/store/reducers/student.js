@@ -12,11 +12,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 deadlinePay: action.deadlinePay,
             }
-        case actionTypes.GET_MY_MASTERS:
-            return {
-                ...state,
-                myCoach: action.myCoach
-            }
         case actionTypes.MASTER_SCHEDULE:
             return {
                 ...state,

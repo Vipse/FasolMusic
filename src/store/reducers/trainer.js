@@ -2,6 +2,9 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
     trainerList : [],
+    postTraining: {},
+    futureTraining:{},
+    todayTraining: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,6 +19,25 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 trainerTraining: action.trainerTraining,
             }
+        case actionTypes.GET_POST_TRAINER_TRAINING:
+            return {
+             
+                ...state,
+                postTraining: action.postTraining,
+            }
+        case actionTypes.GET_FUTURE_TRAINER_TRAINING:
+            return {
+                ...state,
+                futureTraining: action.futureTraining,
+            }
+           case actionTypes.GET_TODAY_TRAINER_TRAINING:
+            return {
+                ...state,
+                todayTraining: action.todayTraining,
+            }
+            
+            
+            
             
 
         default: return state;
