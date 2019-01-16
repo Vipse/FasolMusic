@@ -5,19 +5,6 @@ import * as actionTypes from './actionTypes';
 import moment from "moment";
 import { dateMath } from 'date-arithmetic';
 
-
-export const autoLogin = (history) => {
-    return (dispatch) => {
-
-        const login = localStorage.getItem('_fasol-user');
-        const passw = localStorage.getItem('_fasol-pass');
-
-        if(login && passw){
-            dispatch(login(login, passw, false, history, true));
-        }
-    }
-}
-
 export const getMasterList = (discipline = "") => {
     return dispatch => {
         const obj = {

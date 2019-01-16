@@ -159,20 +159,6 @@ export const checkEmailAvailability = (email) => {
     }
 };
 
-export const getSelectors = (name) => {
-    return () => {
-        const selectorNameObj = {
-            code: name
-        };
-        return axios.post('/catalog.fasol/getSelectors',
-            JSON.stringify(selectorNameObj))
-            .then(res => res)
-            .catch(err => {
-                console.log('error: ', err);
-            })
-    }
-};
-
 const rememberMe = (flag, userName, password) => {
     flag ?
         (localStorage.setItem('_fasol-user',userName),

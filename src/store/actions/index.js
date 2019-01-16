@@ -1,5 +1,3 @@
-import axios from "axios";
-import * as actionTypes from "./actionTypes";
 import { getFreeAndBusyMasterList } from './admin';
 
 export {
@@ -21,12 +19,9 @@ export {
     getNotPatientDoctors,
     clearNotPatientDoctors,
     getSelectedPatientInfo,
-    searchUsers,
-    addOrDeleteUserFromSearch,
     sendMessage,
     setFreeIntervals,
     setNeedSaveIntervals,
-   
 } from './patients';
 
 export {
@@ -82,7 +77,6 @@ export {
     resetRegisterStatus,
     setOnlineStatus,
     checkEmailAvailability,
-    getSelectors,
     reportBug,
     registerTrainer
 } from './auth'
@@ -124,6 +118,8 @@ export {
     docEmergancyCallSend,
     docEmergancyCallReceivedMark,
     makeArchiveOfFiles,
+    getSelectors,
+    searchUsers
 } from './loading'
 
 export {
@@ -133,7 +129,6 @@ export {
     setIsCallingStatus,
     setChatStory,
     setNewTimer,
-
 } from './chatWS'
 
 export {
@@ -157,7 +152,6 @@ export {
     getMasterSchedule,
     masterFreeOnDate,
     getTheMasterInterval,
-
 } from './student'
 
 export {

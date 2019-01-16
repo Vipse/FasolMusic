@@ -1,11 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux';
-import CouchMain from "./CouchMain"
 import * as actions from '../../store/actions'
 import moment from 'moment'
 import './styles.css'
+
 import StudentMain from './StudentMain';
-import NearTrainings from './../../components/NearTrainings/index';
+import CouchMain from "./CouchMain"
+import AdminMain from "./AdminMain";
 
 class MainPage extends React.Component{
 	constructor(props) {
@@ -142,7 +143,7 @@ class MainPage extends React.Component{
 				postTraining = {this.props.postTraining}
 				goToChat = {this.goToChat}
 				{...this.props}/>
-		) : (
+		) : (this.props.mode === "master") ? (
 			<CouchMain
 				allAbonements = {this.props.allAbonements}
 				nextTrainingTime = {this.props.nextTrainingTime}
@@ -164,7 +165,8 @@ class MainPage extends React.Component{
                 addConclusion = {this.props.addConclusion}
                 makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 				{...this.props}/>
-		)
+		) :
+			<AdminMain/>
     }
 }
 
