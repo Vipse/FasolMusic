@@ -137,14 +137,14 @@ class CoachPage extends React.Component{
             });
     };*/
 
-    handleTrainModal = (e, item, isAdmin, isDelete) => {
+    handleTrainModal = (e, item, isDelete, isAdmin) => {
         e.preventDefault();
         this.setState({
             trainModal: {
                 visible: true,
                 item: item,
-                isAdmin: isAdmin ? isAdmin : false,
-                isDelete: isAdmin ? isDelete : false,
+                isDelete: isDelete ? isDelete : false,
+                isAdmin: isAdmin ? isAdmin : false
             }
         });
     };

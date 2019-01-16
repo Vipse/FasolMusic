@@ -92,7 +92,16 @@
 						width: 100%;
 						background-color: rgba(33, 190, 221, 0.2);
 						border: 1px solid #21bedd;
-						cursor: not-allowed;
+						cursor: pointer;
+
+						&:hover {
+							background-color: rgba(33, 190, 221, 0.5);
+							line-height: 1;
+
+							&:after {
+								content: '-';
+							}
+						}
 					}
 
 					.reservedTime {
