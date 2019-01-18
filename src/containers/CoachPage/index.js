@@ -101,7 +101,7 @@ class CoachPage extends React.Component{
         this.props.onTransferTraininingToEnd(obj)
             .then(res => {
                 if (res && res.data && res.data.result)
-                    message.success("Тренировки успешно перенесены в конец");
+                    message.success("Тренировка успешно перенесены в конец");
                 else message.error("Произошла ошибка, попробуйте ещё раз");
                 this.handleCloseModal();
             });
@@ -111,31 +111,12 @@ class CoachPage extends React.Component{
         console.log("onFreezeAbonement", idSubscription);
         this.props.onFreezeAbonement(idSubscription)
             .then(res => {
-                if (res && res.data && res.data.result)
+                if (res && res.data && res.data.process)
                     message.success("Абонемент успешно заморожен");
                 else message.error("Произошла ошибка, попробуйте ещё раз");
                 this.handleCloseModal();
             });
     };
-
-    /*onOrderTrain = (timestamp) => {
-        let obj = {
-            date: timestamp,
-            ancestorId: 111,
-            idStudent: this.props.auth.id,
-            idMaster: this.props.profileCoach.id
-        };
-
-        console.log("onOrderTrain", obj);
-
-        this.props.onOrderTrain(obj)
-            .then(res => {
-                if (res && res.data && res.data.code === 200)
-                    message.success("Вы успешно записаны на тренировку");
-                else message.error("Произошла ошибка, попробуйте ещё раз");
-                this.handleCloseModal();
-            });
-    };*/
 
     handleTrainModal = (e, item, isDelete, isAdmin) => {
         e.preventDefault();
@@ -152,7 +133,7 @@ class CoachPage extends React.Component{
     handleCloseModal = () => {
         const {timestamp} = this.state.trainModal.item;
         this.getIntervals(moment(+timestamp * 1000).startOf('week').format('X'),
-            moment(+timestamp * 1000).add(1, 'weeks').format('X'));
+            moment(+timestamp * 1000).startOf('week').add(1, 'weeks').format('X'));
 
         this.setState({trainModal: {visible: false}})
     };

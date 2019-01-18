@@ -60,18 +60,19 @@ class ContentForm extends React.Component {
                             )}
                         </FormItem>
                     </div>
-                    <div className="submitPlate">
-                        <Button className="saveBtn"
+                    {this.state.loading ? <Spinner size="large"/> :
+                        <div className="submitPlate">
+                            <Button className="saveBtn"
                                 btnText='Создать абонемент'
                                 size='large'
                                 type='light-pink'
-                        />
-                        {this.state.loading && <Spinner/>}
-                    </div>
+                            />
+                        </div>}
                 </Form> :
                 isDelete ?
                     <div className="AdminCreateTrainingModal">
-                        <div className="submitPlate">
+                        {this.state.loading ? <Spinner size="large"/> :
+                            <div className="submitPlate">
                             <Button className="saveBtn"
                                     btnText='Перенести тренировку в конец'
                                     size='default'
@@ -84,13 +85,13 @@ class ContentForm extends React.Component {
                                     type='light-pink'
                                     onClick={this.handleFreezeAbonement}
                             />
-                            {this.state.loading && <Spinner/>}
-                        </div>
+                        </div>}
                     </div> :
                     <div className="AdminCreateTrainingModal">
                         <p>Хотите записаться к этому коучу на тренировку?</p>
-                        <div className="submitPlate">
-                            <Button className="saveBtn"
+                        {this.state.loading ? <Spinner size="large"/> :
+                            <div className="submitPlate">
+                                <Button className="saveBtn"
                                     btnText='Да'
                                     size='default'
                                     type='light-pink'
@@ -102,8 +103,7 @@ class ContentForm extends React.Component {
                                     type='light-pink'
                                     onClick={this.props.onCancel}
                             />
-                            {this.state.loading && <Spinner/>}
-                        </div>
+                        </div>}
                     </div>
         );
     }
