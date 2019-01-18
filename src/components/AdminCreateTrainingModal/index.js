@@ -10,7 +10,7 @@ const AdminCreateTrainingModal = (props) => {
     
     return (
         <Modal title={props.params.item ? moment(props.params.item.timestamp * 1000).format('HH:mm DD.MM.YYYY') : ''}
-               width={400}
+               width={500}
                visible={props.params.visible}
                onCancel={props.onCancel}
         >

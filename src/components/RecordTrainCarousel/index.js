@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 import moment from 'moment'
-import NewVisitModalPage from '../NewVisitModalPage'
 import Button from '../Button'
 import './style.css'
 import '../../icon/style.css'
-import {Alert, message, Table} from 'antd'
 import Spinner from "../Spinner";
 import Card from "antd/es/card";
 
@@ -87,13 +85,16 @@ class RecordTrainCarousel extends React.Component {
                 let isOwn = ownTrains.length ?
                     ownTrains.indexOf(moment(curHourBegin).format('X')) !== -1 : false;
 
+                let curHourTraining = curDayTrainerTrainings ? curDayTrainerTrainings.find(item =>
+                    item.allInfo && item.allInfo.date === curHourBegin.format('X')) : null;
+
                 time.push({
                     timestamp: curHourBegin.format('X'),
                     type: 'default',
                     isAvailable,
                     isOwn,
-                    idTraining: curDayTrainerTrainings ? curDayTrainerTrainings.find(item => item.allInfo.data === item.timestamp).allInfo.idTraining : null,
-                    idSubscription: curDayTrainerTrainings ? curDayTrainerTrainings.find(item => item.allInfo.data === item.timestamp).allInfo.idTraining : null
+                    idTraining: curHourTraining && curHourTraining.allInfo.idTraining,
+                    idSubscription: curHourTraining && curHourTraining.allInfo.idSubscription
                 });
             }
 

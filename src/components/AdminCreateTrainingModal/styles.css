@@ -8,19 +8,8 @@
   font-family: RobotoRegularItalic;
   color: #000;
   width: 100%;
-}
-.AdminCreateTrainingModal .info-small {
-  font-family: RobotoRegularItalic;
-  color: #c6c1c8;
-  font-size: 12px;
-  width: 270px;
-}
-.AdminCreateTrainingModal .info-complete {
-  padding: 20px;
-}
-.AdminCreateTrainingModal .radio-label {
-  color: #000;
-  font-family: RobotoMedium;
+  text-align: center;
+  margin-top: 20px;
 }
 .AdminCreateTrainingModal .item {
   width: 50%;
@@ -32,32 +21,17 @@
 .AdminCreateTrainingModal .fields {
   width: 100%;
 }
+.AdminCreateTrainingModal .fields .ant-row {
+  margin: 20px 0 0;
+}
 .AdminCreateTrainingModal .submitPlate {
   display: flex;
-  margin-top: 20px;
+  margin: 20px 0 0;
   align-items: center;
   justify-content: space-evenly;
 }
-.AdminCreateTrainingModal .submitPlate .saveBtn {
-  width: 20%;
-}
-.AdminCreateTrainingModal .submitPlate .spinner-wrapper {
-  padding-left: 10px;
-}
-.AdminCreateTrainingModal .payment-fields {
-  display: flex;
-  flex-direction: column;
-}
-.AdminCreateTrainingModal .payment-fields .input-form-item {
-  margin-bottom: 25px;
-}
-.AdminCreateTrainingModal-submit {
-  display: flex;
-  align-items: center;
-}
-.AdminCreateTrainingModal-submit-error {
-  color: #f5222d;
-  margin-left: 30px;
+.AdminCreateTrainingModal .submitPlate .trainBtn {
+  width: 45%;
 }
 .modal-row {
   display: flex;
