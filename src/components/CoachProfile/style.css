@@ -3,15 +3,14 @@
 }
 .profile-card-coach .profile-coach {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 .profile-card-coach .profile-coach-avatar {
-  margin-right: 30px;
+  width: 132px;
 }
 .profile-card-coach .profile-coach-info {
   flex-direction: column;
-  width: 40%;
-  margin-right: 50px;
+  width: 250px;
   align-self: center;
 }
 .profile-card-coach .profile-coach-info-name {
@@ -24,7 +23,7 @@
   align-self: flex-end;
 }
 .profile-card-coach .profile-coach-rate {
-  width: 30%;
+  width: 175px;
   font-family: RobotoMedium;
   align-self: center;
 }

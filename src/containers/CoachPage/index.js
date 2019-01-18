@@ -135,7 +135,7 @@ class CoachPage extends React.Component{
         this.getIntervals(moment(+timestamp * 1000).startOf('week').format('X'),
             moment(+timestamp * 1000).startOf('week').add(1, 'weeks').format('X'));
 
-        this.setState({trainModal: {visible: false}})
+        this.setState({trainModal: {...this.state.trainModal, visible: false}})
     };
 
     render() {

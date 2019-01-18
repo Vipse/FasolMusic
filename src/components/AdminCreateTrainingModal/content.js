@@ -24,8 +24,7 @@ class ContentForm extends React.Component {
             if (!err) {
                 this.setState({loading: true});
                 this.props.onSaveAbonement(params.item.timestamp, values.studentID)
-            }
-            else console.log("error", err);
+            } else console.log("error", err);
         });
     };
 
@@ -63,9 +62,9 @@ class ContentForm extends React.Component {
                     {this.state.loading ? <Spinner size="large"/> :
                         <div className="submitPlate">
                             <Button className="saveBtn"
-                                btnText='Создать абонемент'
-                                size='large'
-                                type='light-pink'
+                                    btnText='Создать абонемент'
+                                    size='large'
+                                    type='light-pink'
                             />
                         </div>}
                 </Form> :
@@ -73,37 +72,37 @@ class ContentForm extends React.Component {
                     <div className="AdminCreateTrainingModal">
                         {this.state.loading ? <Spinner size="large"/> :
                             <div className="submitPlate">
-                            <Button className="saveBtn"
-                                    btnText='Перенести тренировку в конец'
-                                    size='default'
-                                    type='light-pink'
-                                    onClick={this.handleTailAbonement}
-                            />
-                            <Button className="saveBtn"
-                                    btnText='Заморозить тренировку'
-                                    size='default'
-                                    type='light-pink'
-                                    onClick={this.handleFreezeAbonement}
-                            />
-                        </div>}
+                                <Button className="trainBtn"
+                                        btnText='Перенести тренировку в конец'
+                                        size='large'
+                                        type='light-pink'
+                                        onClick={this.handleTailAbonement}
+                                />
+                                <Button className="trainBtn"
+                                        btnText='Заморозить тренировку'
+                                        size='large'
+                                        type='light-pink'
+                                        onClick={this.handleFreezeAbonement}
+                                />
+                            </div>}
                     </div> :
                     <div className="AdminCreateTrainingModal">
-                        <p>Хотите записаться к этому коучу на тренировку?</p>
+                        <p className="info">Хотите записаться к этому коучу на тренировку?</p>
                         {this.state.loading ? <Spinner size="large"/> :
                             <div className="submitPlate">
                                 <Button className="saveBtn"
-                                    btnText='Да'
-                                    size='default'
-                                    type='light-pink'
-                                    onClick={this.handleSaveAbonement}
-                            />
-                            <Button className="saveBtn"
-                                    btnText='Нет'
-                                    size='default'
-                                    type='light-pink'
-                                    onClick={this.props.onCancel}
-                            />
-                        </div>}
+                                        btnText='Да'
+                                        size='default'
+                                        type='light-pink'
+                                        onClick={this.handleSaveAbonement}
+                                />
+                                <Button className="saveBtn"
+                                        btnText='Нет'
+                                        size='default'
+                                        type='light-pink'
+                                        onClick={this.props.onCancel}
+                                />
+                            </div>}
                     </div>
         );
     }
