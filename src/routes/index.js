@@ -150,7 +150,8 @@ export const menuCoach =[
     //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
-    {name: 'app/bonus', title: 'Получить бонусы', iconType: 'bonus', svg: true}
+    {name: 'app/bonus', title: 'Получить бонусы', iconType: 'bonus', svg: true},
+    {name: 'app/chat', title: 'Чат', iconType: 'order-form', svg: true}
 ];
 
 export const menuStudent =[
@@ -164,7 +165,8 @@ export const menuStudent =[
 
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
-    {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true}
+    {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true},
+    {name: 'app/chat', title: 'Чат', iconType: 'order-form', svg: true}
     //{name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
 

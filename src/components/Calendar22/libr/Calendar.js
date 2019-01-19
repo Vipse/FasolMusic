@@ -120,6 +120,9 @@ class Calendar extends React.Component {
                 isUser = {this.props.isUser}
                 isNeedSaveIntervals = {isNeedSaveIntervals}
                 fillTrainingWeek = {fillTrainingWeek}
+                selectDisciplines = {this.props.selectDisciplines}
+                currDiscipline = {this.props.currDiscipline}
+                onChangeCurrDiscipline = {this.props.onChangeCurrDiscipline}
               />
             )}
             <Week
@@ -145,18 +148,6 @@ class Calendar extends React.Component {
           </div>
           <div className='rbc-smallcalendar-wrapper'>
           
-            {this.props.isUser ?
-              <Button
-                    className="change-worktime"
-                    btnText={"Изменить рабочее время"}
-                    size='small'
-                    type='dark-blue'
-                    onClick={this.changeWorkTime}
-              />
-              :
-              <div style={{width: '20px', height: '50px'}} ></div>
-            }
-           
             
             
             { this.props.isShowFreeTrainers ?

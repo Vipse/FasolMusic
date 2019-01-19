@@ -27,7 +27,7 @@ class MyStudentsItem extends React.Component{
                 />
                 <div className='myStudent-info'>
                     <div>
-                        <span className='myStudent-info-name' onClick={() => onGoto(id)}>{name}</span>
+                        <span className='myStudent-info-name' onClick={() => onGoto(id, 'student')}>{name}</span>
                         <span className='myStudent-info-discipline'>{allDisciplines}</span>
                     </div>
                     <div className='myStudent-info-lastMessage'>

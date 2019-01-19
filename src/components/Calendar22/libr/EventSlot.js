@@ -44,7 +44,8 @@ class EventSlot extends Component {
 
     render() {
         const {
-            event
+            event,
+            mode
         } = this.props;
 
         //drag and drop
@@ -57,7 +58,7 @@ class EventSlot extends Component {
         let backgroundColor = event.status ? {} : '#eee'; // цвет на была ли тренировка
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
-        if(event.status && !event.isBooking){
+        if(event.status && !event.isBooking && mode !== 'master'){
             return connectDragSource(
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>

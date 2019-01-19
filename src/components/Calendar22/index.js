@@ -41,6 +41,7 @@ class BigCalendar extends React.Component{
                 {...this.props}
             />
         }
+        console.log('this.props :', this.props);
 
         return (<div>
             {
@@ -49,6 +50,7 @@ class BigCalendar extends React.Component{
                         events = {this.changeEvents()}
                         isUser={true} // это для коуча
                         isAdmin
+                         
                         {...this.props}
 
                    />

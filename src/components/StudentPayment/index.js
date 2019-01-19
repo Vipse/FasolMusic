@@ -64,7 +64,7 @@ class StudentPayment extends React.Component{
     };
 
     render() {
-        let { deadlinePay} = this.props;
+        let { deadlinePay, frozenTraining} = this.props;
         let daysToPay = null;
 
         if( deadlinePay) {
@@ -212,13 +212,21 @@ class StudentPayment extends React.Component{
                 <Card className="payment-student-stats">
                     <div className="payment-student-stats-plate">
                         <div className="payment-student-stats-plate-nextDate">
-                            <div className="title"><span className="date">24 дек</span><p className="name">Следующая тренировка</p></div>
+                            <div className="title">
+                                <span className="date">{ (this.props.nextTrainingTime) ? moment(this.props.nextTrainingTime).format('D MMM') : '-'} 
+                                </span>
+                                <p className="name">Следующая тренировка</p>
+                            </div>
                             <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                                 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                                 exercitation</p>
                         </div>
                         <div className="payment-student-stats-plate-paid">
-                            <div className="title"><span className="count">3</span><p className="name">Оплачено тренировок</p></div>
+                            <div className="title">
+                                <span className="count"> {frozenTraining} 
+                                </span>
+                                <p className="name">Оплачено тренировок</p>
+                            </div>
                             <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                                 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                                 exercitation</p>

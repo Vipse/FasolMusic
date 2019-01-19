@@ -112,7 +112,8 @@ class TimeSlotGroup extends Component {
       showLabels,
       handleDrop,
       onCancelTraining,
-      trainerTraining
+      trainerTraining,
+      mode
     } = this.props;
 
     const valueTime = this.props.value.getTime()
@@ -130,6 +131,7 @@ class TimeSlotGroup extends Component {
                   handleDrop={handleDrop}
                   setAbonement_Training = {this.props.setAbonement_Training}
                   onCancelTraining = {onCancelTraining}
+                  mode = {mode}
                  
             />)
           }
@@ -214,7 +216,7 @@ class TimeSlotGroup extends Component {
       )
     }
 
-    if(Date.now() <= value.getTime()){
+    if(Date.now() <= value.getTime() &&  flag && !isViewTrainer && !currentEvent){
       return connectDropTarget(
         <div className={cellClass} style={{backgroundColor}} onClick={(e) => modalTransferEvent(value.getTime())}>
            {this.renderSlices()}

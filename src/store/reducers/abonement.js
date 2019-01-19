@@ -2,6 +2,10 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
     dataForCreate: {},
+    currDiscipline: {
+        ruText: 'вокал',
+        code: 125485
+    },
     disciplines: {
         'guitar' : {
             ruText: 'гитара',
@@ -11,7 +15,8 @@ const initialState = {
             ruText: 'вокал',
             code: 125485
         }
-    }
+    },
+    weekInterval : null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,6 +37,18 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 allAbonements2: action.allAbonements2,
             }    
+        case actionTypes.CHANGE_CURRENT_DISCIPLINE:
+            return {
+                ...state,
+                currDiscipline: action.currDiscipline,
+            } 
+        case actionTypes.SET_WEEK_INTERVAL:
+            return {
+                ...state,
+                weekInterval: action.weekInterval,
+            }   
+              
+            
         default: return state;
     }
 };

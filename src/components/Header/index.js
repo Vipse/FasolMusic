@@ -17,7 +17,7 @@ class Header extends React.Component {
     }
 
     render() {
-        const {notifications, isStudent, findName, authMode, searchData, onGoto} = this.props;
+        const {notifications, isStudent, findName, authMode, searchData, onGoto, frozenTraining} = this.props;
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -28,37 +28,27 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
+                <div className="balance"><span >Баланс {frozenTraining}</span></div>
                 <div className='header-train'>
                     {isStudent ?
                         <React.Fragment>
+                       
+                        
                             <Button
                                 btnText='ДОБАВИТЬ ТРЕНИРОВКУ'
                                 size='default'
                                 type='border-pink'
                                 className="header-btn"
+                                onClick={this.props.isPushBtnAdd}
                             />
                             <Button
                                 btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                 size='default'
                                 type='border-pink'
                                 className="header-btn header-btn-transfer"
+                                onClick={this.props.isPushBtnTransfer}
                             />
-                        </React.Fragment>
-                        :
-                        <React.Fragment>
-                            <Button
-                                btnText='ДОБАВИТЬ ТРЕНИРОВКУ'
-                                size='default'
-                                type='border-pink'
-                                className="header-btn"
-                            />
-                            <Button
-                                btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
-                                size='default'
-                                type='border-pink'
-                                className="header-btn header-btn-transfer"
-                            />
-                        </React.Fragment>
+                        </React.Fragment> : null
                     }
                 </div>
                 <div className='header-notification'>

@@ -4,6 +4,7 @@ import React from 'react'
 import Hoc from '../../hoc'
 import {connect} from "react-redux";
 import BonusPage from "../../components/BonusPage";
+import CoachPayment from '../../components/CoachPayment';
 
 class Bonus extends React.Component{
     constructor(props){
@@ -17,9 +18,7 @@ class Bonus extends React.Component{
         let isStudent = this.props.auth.mode === "student";
         return (
             <Hoc>
-                {isStudent ?
-                    (<BonusPage/>) :
-                    (<h3 style={{textAlign: "center"}}>В разработке</h3>)}
+                {isStudent ? <BonusPage/> : <CoachPayment/>}
             </Hoc>
         )
         // return (

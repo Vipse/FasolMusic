@@ -44,6 +44,17 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 theMasterInterval: action.theMasterInterval
             }  
+        case actionTypes.SET_IS_PUSH_BTN_TRANSFER:
+            return {
+                ...state,
+                isPushBtnTransfer: !state.isPushBtnTransfer
+            }  
+        case actionTypes.SET_IS_PUSH_BTN_ADD:
+            return {
+                ...state,
+                isPushBtnAdd: !state.isPushBtnAdd
+            }    
+            
             
             
         default: return state;

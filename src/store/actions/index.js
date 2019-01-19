@@ -138,7 +138,9 @@ export {
     transferTrainining,
     transferTraininingToEnd,
     changeSubscription,
-    freezeAbonement
+    freezeAbonement,
+    changeCurrDiscipline,
+    setWeekInterval,
 } from './abonement'
 
 export {
@@ -152,6 +154,8 @@ export {
     getMasterSchedule,
     masterFreeOnDate,
     getTheMasterInterval,
+    setPushBtnTransferTraining,
+    setPushBtnAddTraining,
 } from './student'
 
 export {

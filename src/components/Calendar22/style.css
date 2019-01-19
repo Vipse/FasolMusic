@@ -17,7 +17,7 @@
   text-transform: capitalize;
 }
 .rbc-toolbar-receptionCount {
-  margin: auto auto auto 10px;
+  margin: auto 25px auto 10px;
   height: 20px;
   width: auto;
   font-size: 12px;
@@ -25,6 +25,9 @@
   background-color: #21bedd;
   border-radius: 10px;
   padding: 0 10px;
+}
+.rbc-toolbar-discipline {
+  margin-right: auto;
 }
 .rbc-header {
   font-size: 12px;
@@ -108,7 +111,6 @@
   display: table;
   position: relative;
   width: 100%;
-  background-color: white;
   z-index: 2;
 }
 .rbc-month-row .month-row-segment-schedule .schedule-isDayOff-item {
@@ -220,19 +222,19 @@
   line-height: 52px;
 }
 .rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK {
-  background-color: #fff9e5 !important;
+  background-color: rgba(0, 255, 0, 0.2) !important;
+  border: 1px solid #00ff00;
 }
 .rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK:hover {
   position: relative;
   z-index: 5;
-  background-color: #fdc401 !important;
-  opacity: 0.4;
-  border: 2px yellow dotted;
+  background-color: rgba(0, 255, 0, 0.6);
+  line-height: 1;
   cursor: pointer;
 }
-.rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK:hover:before {
-  content: "\E900";
-  color: yellow;
+.rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK:hover:after {
+  margin-top: 12px;
+  content: '+';
 }
 .rbc-time-slot.rbc-label {
   color: #21bedd;
@@ -315,12 +317,12 @@
 .event-group {
   position: relative;
   background-color: #fdc401;
-  height: 85%;
-  margin: 4px;
-  border-radius: 5px;
+  height: 100%;
+  background-color: rgba(33, 190, 221, 0.2);
+  border: 1px solid #21bedd;
   font-size: 12px;
   color: #000;
-  padding: 5px 10px 5px 6px;
+  padding: 5px 15px 5px 6px;
   font-weight: bold;
 }
 .event-group-freetrainers {

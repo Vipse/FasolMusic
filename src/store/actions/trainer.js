@@ -24,9 +24,10 @@ export const getMasterList = (discipline = "") => {
     }
 }
 
-export const getTrainerTraining = (dateMin, dateMax) => {
+export const getTrainerTraining = (idMaster, dateMin, dateMax) => {
     return dispatch => {
         const obj = {
+            idMaster,
             dateMin,
             dateMax
         }
@@ -35,10 +36,39 @@ export const getTrainerTraining = (dateMin, dateMax) => {
         axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
-                console.log("REEES", res.data.result)
+                console.log("REEES", res.data.result);
+                const allTraining = res.data.result.result;
+                let formatTrainng = [];
+
+                for (let key in allTraining) {
+                    if (allTraining.hasOwnProperty(key)){
+                        allTraining[key].forEach((el) => {
+                                if(el.hasOwnProperty('allInfo')){
+                                    
+                                   const elem = el.allInfo;
+                                    formatTrainng.push({
+                                        fio: elem.idStudent,
+                                        id: elem.date,
+                                        idMaster: elem.idMaster,
+                                        idSubscription:elem.idSubscription,
+                                        isBooking: elem.isBooking,
+                                        start: new Date(elem.date * 1000),
+                                        status: elem.status
+                                        
+
+                                    });
+                                }
+                            //el.hasOwnProperty('allInfo') ? formatTrainng.push( (el.allInfo['fio']=el.allInfo.id ?  el.allInfo : null)) : null
+                        })
+                    }
+                }
                 dispatch({
                     type: actionTypes.GET_TRAINER_TRAINING,
                     trainerTraining: res.data.result.result,
+                })
+                dispatch({
+                    type: actionTypes.GET_TRAINER_TRAINING_BY_TRAINER,
+                    eventTraining: formatTrainng,
                 })
             })
             .catch(err => {
@@ -105,5 +135,4 @@ export const setChooseMasterAllInfo = (allInfo) => {
         chooseMaster: allInfo            
     });
 }
-
 

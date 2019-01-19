@@ -18,7 +18,7 @@ class CouchMain extends React.Component{
     
     gotoHandler = (id) => {
 		this.props.onSelectPatient(id);
-		this.props.history.push('/app/coach'+id); // надо student
+		this.props.history.push('/app/student'+id); // надо student
     }
 
     // следующая тренировка - return 15234500000

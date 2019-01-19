@@ -47,7 +47,7 @@ export const getInfoPatient = (id) => {
             JSON.stringify(obj))
             .then(res => {
                 console.log("receivedStudentData", res);
-
+                res.data.result.data.mainUser = 128555;
                 if (res.data.result && res.data.result.data.userGroup === 'student') {
                     res.data.result.data.id = id;
                     dispatch({

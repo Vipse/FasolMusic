@@ -10,6 +10,7 @@ import Adapter from 'webrtc-adapter'
 import {connect} from 'react-redux';
 import {createSocket, closeSocket, register} from './chatWs';
 import ab from '../../autobahn.js'
+import moment from 'moment'
 
 import * as actions from '../../store/actions'
 import './styles.css';
@@ -18,6 +19,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 
 import Icon from "../../components/Icon";
+import { freezeAbonement } from './../../store/actions/abonement';
 
 const renderRoutes = ({path, component, exact}) => (
     <Route key={path} exact={exact} path={path} component={component}/>
@@ -107,6 +109,7 @@ class App extends React.Component {
         }
         else if (this.props.mode === "student") {
             this.props.onGetInfoPatient(this.props.id);
+            this.props.onGetMasterList();
 
             // this.runNotificationsWS();
             this.runChatWS();
@@ -136,6 +139,31 @@ class App extends React.Component {
         (this.props.history.location.pathname !== "/app") && this.props.history.push('/app');
     };
 
+    pushBtnTransfer = () => {
+        const {weekInterval} = this.props;
+        if(weekInterval){
+            let idMaster = this.props.profileStudent.mainUser;
+            let chooseWeekdays = [1,2,3,4,5,6,7];
+     
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
+             .then(() => this.props.onSetPushBtnTransferTraining())
+        }
+        // const start =  moment(Date.now()).startOf('week').format('X'); 
+        // const end = moment(Date.now()).endOf('week').format('X'); 
+     
+    }
+
+    pushBtnAdd = () => {
+        const {weekInterval} = this.props;
+        if(weekInterval){
+            let idMaster = this.props.profileStudent.mainUser;
+            let chooseWeekdays = [1,2,3,4,5,6,7];
+     
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
+             .then(() => this.props.onSetPushBtnAddTraining())
+        }
+
+    }
     render() {
         let name, avatar;
 
@@ -188,6 +216,10 @@ class App extends React.Component {
                                             onGoto={this.gotoHandler}
                                             notifications={this.state.notifications}
                                             logout={this.props.onLogout}
+                                            isPushBtnTransfer={this.pushBtnTransfer}
+                                            isPushBtnAdd = {this.pushBtnAdd}
+                                            isStudent ={(this.props.mode ==='student') ? true : false}
+                                            frozenTraining = {this.props.frozenTraining}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -223,7 +255,9 @@ const mapStateToProps = state => {
         mode: state.auth.mode,
         profileCoach: state.profileDoctor,
         profileStudent: state.profilePatient,
+        frozenTraining: (state.profilePatient) ? state.profilePatient.frozenTraining : '-',
         usersHeaderSearch: state.loading.usersHeaderSearch,
+        weekInterval: state.abonement.weekInterval,
 
         isIn: state.doctor.isEx,
         isUserSet: state.doctor.isUserSetEx,
@@ -247,6 +281,7 @@ const mapDispatchToProps = dispatch => {
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onGetSearchUsers: (name) => dispatch(actions.searchUsers(name)),
+        onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
 
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
@@ -262,6 +297,9 @@ const mapDispatchToProps = dispatch => {
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
+        onSetPushBtnTransferTraining: (type) => dispatch(actions.setPushBtnTransferTraining(type)),
+        onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
+        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)), 
     }
 };
 

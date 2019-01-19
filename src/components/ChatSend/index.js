@@ -147,7 +147,7 @@ class ChatSend extends React.Component{
                         onClick={this.props.makeReview}
                     />)
                     : (<Button
-                        btnText='завершить прием'
+                        btnText='завершить тренировку'
                         size='default'
                         type='yellow'
                         onClick={this.props.closeVisit}

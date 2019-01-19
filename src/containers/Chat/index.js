@@ -102,17 +102,6 @@ class Chat extends React.Component{
         return (
             <Hoc>
                 <Row>
-                    <Col xs={24} xxl={7} className='section'>
-                            <ChatDialogs  data={arr}//{this.props.visits}
-                                          onGotoChat={id =>
-                                              {
-                                                  this.props.onSelectReception(id);
-                                                  this.setState({displayChat: true})
-                                              }
-                                          }
-                            />
-                        </Col>
-                    
                     {this.state.displayChat && <Col xs={24} xxl={17} className='section'>
                         {
                             isUser ? (

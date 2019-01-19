@@ -26,19 +26,21 @@ class Payment extends React.Component{
         this.props.onGetDeadlinePay(this.props.id);	
     }
     onSendDataModal = (data) => {
-
+        const {disciplines} = this.props;
         let array = [];
         let weekdays = []; // post
+        let currDiscipline = null;
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
-        const codeDisc = this.props.disciplines[data.type].code;
+        const codeDisc = disciplines[data.type].code;
 
         for(let i = 0; i < 7; i++){
                 if(data.selectedDays.hasOwnProperty(i)){
                     weekdays.push(i+1)
                 }                 
         }
-
+        
+        this.props.onChangeCurrDiscipline(disciplines[data.type]);
         this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
         this.props.onSetFreeIntervals(array,  data.type);
 
@@ -63,6 +65,8 @@ class Payment extends React.Component{
                     <StudentPayment
                         showTrialModal = {this.showTrialModal}
                         deadlinePay = {deadlinePay}
+                        frozenTraining = {this.props.frozenTraining}
+                        nextTrainingTime={this.props.nextTrainingTime}
                     />)
                     : (<CoachPayment/>)}
 
@@ -83,11 +87,13 @@ class Payment extends React.Component{
 const mapStateToProps = state => {
     return {
         profileDoctor: state.profileDoctor,
-        profilePatient: state.profilePatient,
+        profileStudent: state.profilePatient,
+        frozenTraining: (state.profilePatient) ? state.profilePatient.frozenTraining : '-',
         auth: state.auth,
         id: state.auth.id,
         deadlinePay: state.student.deadlinePay,
         disciplines: state.abonement.disciplines,
+        nextTrainingTime: state.training.nextTrainingTime,
 
     }
 };
@@ -98,6 +104,7 @@ const mapDispatchToProps = dispatch => {
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
         onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
+        onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         
     }
 };

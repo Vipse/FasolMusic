@@ -30,14 +30,18 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 futureTraining: action.futureTraining,
             }
-           case actionTypes.GET_TODAY_TRAINER_TRAINING:
+        case actionTypes.GET_TODAY_TRAINER_TRAINING:
             return {
                 ...state,
                 todayTraining: action.todayTraining,
             }
+        case actionTypes.GET_TRAINER_TRAINING_BY_TRAINER:
+            return {
+                ...state,
+                eventTraining: action.eventTraining,
+            }    
             
-            
-            
+           
             
 
         default: return state;
