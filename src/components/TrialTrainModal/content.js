@@ -79,8 +79,9 @@ class ContentForm extends React.Component {
     };
 
     render() {
-        const {getFieldDecorator} = this.props.form;
-        const {promoCodeStep} = this.state;
+        const {unauthorized, form} = this.props;
+        const {getFieldDecorator} = form;
+        const {promoCodeStep, loading} = this.state;
 
         if (promoCodeStep)
             return (
@@ -88,7 +89,7 @@ class ContentForm extends React.Component {
                       className="TrialTrainModal">
                     <div className="code">
                         <FormItem>
-                            <div className='radio-label'>Укажите промокод:</div>
+                            <div className='radio-label'>Укажите промокод</div>
                             {getFieldDecorator('code')(
                                 <InputNew width="100%" bubbleplaceholder="Промокод"/>
                             )}
@@ -97,12 +98,10 @@ class ContentForm extends React.Component {
                     <div className="submitPlate">
                         <Button className="saveBtn"
                                 btnText='Далее'
-                                onClick={() => {
-                                }}
                                 size='default'
                                 type='light-pink'
                         />
-                        {this.state.loading && <Spinner/>}
+                        {loading && <Spinner/>}
                     </div>
                 </Form>);
         else return (
@@ -147,7 +146,20 @@ class ContentForm extends React.Component {
                             </div>
                         )}
                     </FormItem>
-                    
+                    {unauthorized && <FormItem>
+                        <div className='radio-label'>Введите e-mail</div>
+                        {getFieldDecorator('email', {
+                            rules: [{
+                                required: true,
+                                message: 'Введите e-mail, пожалуйста'
+                            }, {
+                                type: "email",
+                                message: 'Неправильный формат'
+                            }],
+                        })(
+                            <InputNew width="100%" bubbleplaceholder="E-mail"/>
+                        )}
+                    </FormItem>}
                 </div>
                 <div className="submitPlate">
                     <Button className="saveBtn"
@@ -157,7 +169,7 @@ class ContentForm extends React.Component {
                             size='default'
                             type='light-pink'
                     />
-                    {this.state.loading && <Spinner/>}
+                    {loading && <Spinner/>}
                 </div>
             </Form>
         )

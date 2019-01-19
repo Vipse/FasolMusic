@@ -24,6 +24,7 @@ TrialTrainModal.propTypes = {
     date: PropTypes.number,
     patients: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
+    unauthorized: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 };
@@ -33,6 +34,7 @@ TrialTrainModal.defaultProps = {
     date: null,
     patients: [],
     isChoosebleTime: false,
+    unauthorized: false,
     onSave: () => {},
     onCancel: () => {},
 };

@@ -5,6 +5,7 @@ import {Redirect} from 'react-router'
 
 import LoginPage from '../LoginPage'
 import App from '../App'
+import Schedule from '../Schedule'
 
 class Root extends React.Component{
 
@@ -14,6 +15,7 @@ class Root extends React.Component{
             <Route path="/login" component={LoginPage}/>
             <Route path="/registration" component={LoginPage}/>
             <Route path="/registration-trainer" component={LoginPage}/>
+            <Route path="/schedule" component={Schedule}/>
             <Route path="/app" component={App} />
             <Route exact path="/" render={() => <Redirect to="/app"/> }/>
         </Switch>)
