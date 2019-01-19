@@ -198,7 +198,7 @@ for(let el in disciplines){
             if(this.delEvent){
                     this.props.onTransferTrainining({idTraining, idMaster, ...this.transferDay})
                         .then(() => {
-                            this.props.onGetAbonements(id,currDiscipline); 
+                            this.props.onGetAbonements(id,currDiscipline);
                         });
             } 
             this.setState({modalTransferTraining: false});   
@@ -310,6 +310,7 @@ for(let el in disciplines){
     }
 
     onSendDataTrialModal = (data) => {
+        const {id, currDiscipline} = this.props;
 
         let array = [];
         let weekdays = []; // post
@@ -319,20 +320,21 @@ for(let el in disciplines){
 
         for(let i = 0; i < 7; i++){
             if(data.selectedDays.hasOwnProperty(i)){
-                weekdays.push(i+1)
+                weekdays.push(i + 1)
             }
         }
 
         this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
-        this.props.onSetFreeIntervals(array,  data.type);
+        this.props.onSetFreeIntervals(array, data.type);
+        this.props.onGetAbonements(id, currDiscipline);
 
-        this.setState({visibleTrialModal: true, redirectToSchedule: true});
-    }
+        this.setState({modalTrial: false});
+    };
 
     showTrialModal = (count) => {
         this.setState({modalTrial: true, countTraining: count});
         this.props.onSetNeedSaveIntervals({modalTrial: true, countTraining: count});
-    }
+    };
 
     componentDidMount() {
         const {id, currDiscipline} = this.props;
@@ -345,7 +347,8 @@ for(let el in disciplines){
         this.props.onGetAllUserVisits();
         this.props.onGetAbonements(id, currDiscipline);
 
-         
+
+        if (this.props.id === 0) this.showTrialModal();
         if(this.props.isAdmin) {
             this.props.onGetFreeAndBusyMasterList(start, end);
         }
@@ -578,14 +581,74 @@ for(let el in disciplines){
         }
 
         if (!this.props.id) {
-            calendar = (<Calendar receptionNum={this.getCountOfReceptionsAtCurMonth()}
-                                  isUser = {true}
-                                  events = {this.state.apiPatients}//{this.props.allUserVisits} //
-                                  onNavigate={this.dateChangeHandler}
-                                  date={this.state.currentDate}
+            const currDate = this.state.currentDate,
+                currY = currDate.getFullYear(),
+                currM = currDate.getMonth(),
+                currD = currDate.getDate();
 
-                                  onChange={this.dateChangeHandler}
-                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+            let minFasol = this.props.min;
+            let maxFasol = this.props.max;
+
+            let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
+                max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
+
+            // надо нормальную проверка для коуча и студента
+
+            editorBtn = (<Button btnText='Редактор графика'
+                                 onClick={() => this.changeToEditorMode(true)}
+                                 type='yellow'
+                                 icon='setting_edit'/>)
+
+
+            calendar = (<Calendar
+                receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length}
+                selectable
+                onSelectEvent={this.props.onSelectEvent}
+                onSelectSlot={(slot) => this.onAddVisit(slot)}
+                defaultView="week"
+                onView={(view, date) => {
+                    !date ? this.setIntervalAndView(this.state.currentDate, view) : () => {
+                    };
+                }}
+                date={this.state.currentDate}
+                onNavigate={this.dateChangeHandler}
+                gotoEditor={() => this.changeToEditorMode(true)}
+                onGotoPatient={this.gotoHandler}
+                step={60}
+                events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
+                intervals={ (this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd)? this.props.theMasterInterval : isNeedSaveIntervals ? this.props.superFreeInterval : []}
+                superFreeInterval = { (this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd) ? this.props.theMasterInterval : this.props.superFreeInterval}
+                selectDisciplines = {this.props.selectDisciplines}
+                currDiscipline = {this.props.currDiscipline}
+                onChangeCurrDiscipline = {(disc) => {
+                    this.props.onChangeCurrDiscipline(disc)
+                    this.props.onGetAbonements(id, disc);
+                }}
+
+                min= {min}
+                max= {max}
+                minFasol={minFasol}
+                maxFasol={maxFasol}
+
+                onPopoverClose={this.eventDeleteHandler}
+                onPopoverEmail={this.onPatientEmail}
+
+                onChange={this.dateChangeHandler}
+                highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+
+                showTransferEvent={this.showTransferEvent} // my
+                freeTrainers={this.props.fullInfoMasters} //my
+                showModalTransferEvent={this.showModalTransferEvent}
+                setChoosenTrainer={this.setChoosenTrainer}
+                isNeedSaveIntervals={isNeedSaveIntervals}
+                fillTrainingWeek = {this.fillTrainingWeek}
+                isShowFreeTrainers = {this.state.isShowFreeTrainers}
+                transferTraining = {this.transferTraining} // drag and drop
+                deleteEvent = {this.deleteEvent} // drag and drop
+                setAbonement_Training = {this.setAbonement_Training}
+                onCancelTraining = {this.onCancelTraining}
+                trainerTraining = {this.props.trainerTraining}
+
             />)
         }
 
@@ -970,6 +1033,7 @@ const mapDispatchToProps = dispatch => {
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetAllInfoMasters: (typeMasters, masterList) => dispatch(actions.getAllInfoMasters(typeMasters,masterList)),
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
+        onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onMasterFreeOnDate: (dateStart, chooseArrMasters) => dispatch(actions.masterFreeOnDate(dateStart, chooseArrMasters)),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)), 
     }
