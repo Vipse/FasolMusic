@@ -5,7 +5,7 @@ import * as actionTypes from './actionTypes';
 export const createAbonement = (dataCreate) => {
     
     let type = {vocals : '125485', guitar : '125470'};
-  
+  debugger;
     for( let key in type ){
         if(String(key) === dataCreate.discipline){
             dataCreate.discipline =  [ type[key] ];

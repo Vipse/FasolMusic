@@ -150,12 +150,22 @@ class Schedule extends React.Component {
     }
 
     fillTrainingWeek = () => { // создание абонемента
-        const {id, abonementIntervals, currDiscipline} = this.props;
+        const {id, abonementIntervals, currDiscipline, disciplines} = this.props;
         message.success("Тренировки распределены по расписанию");
         
         this.setState({ sendingModal: true, theMasterSelect: false}); // убрать интервалы
 
-        this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, 'vocals', [...this.state.apiPatients]))
+
+let buf = 'vocals';
+
+for(let el in disciplines){
+   
+    if(disciplines[el].code === currDiscipline.code){
+        buf = el;
+    }
+}
+
+        this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
         .then(() => {
             this.props.onGetAbonements(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
         });
@@ -899,6 +909,7 @@ const mapStateToProps = state => {
         profileStudent: state.profilePatient,
         selectDisciplines: state.abonement.disciplines,
         currDiscipline: state.abonement.currDiscipline,
+        disciplines: state.abonement.disciplines,
 
         patients:  state.patients.docPatients,
         freeIntervals:  state.patients.freeIntervals,

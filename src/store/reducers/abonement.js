@@ -9,11 +9,13 @@ const initialState = {
     disciplines: {
         'guitar' : {
             ruText: 'гитара',
-            code: 125470
+            code: 125470,
+            name: 'guitar'
         },
         'vocals' : {
             ruText: 'вокал',
-            code: 125485
+            code: 125485,
+            name: 'vocals'
         }
     },
     weekInterval : null,
