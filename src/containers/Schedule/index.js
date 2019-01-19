@@ -27,6 +27,7 @@ import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
 import ProfilePatient from './../../components/ProfilePatient/index';
+import TrialTrainModal from "../../components/TrialTrainModal";
 
 
 class Schedule extends React.Component {
@@ -60,6 +61,7 @@ class Schedule extends React.Component {
             modalTransferTraining: false,
             modalCancelTraining: false,
             modalMasterList: false,
+            modalTrial: false,
             showSpinner: false,
             theMasterSelect: false,
         }
@@ -295,6 +297,31 @@ class Schedule extends React.Component {
             },
             view,
         })
+    }
+
+    onSendDataTrialModal = (data) => {
+
+        let array = [];
+        let weekdays = []; // post
+        const time0 = moment(Date.now()).startOf('week').format('X');
+        const time1 = moment(Date.now()).endOf('week').format('X');
+        const codeDisc = this.props.disciplines[data.type].code;
+
+        for(let i = 0; i < 7; i++){
+            if(data.selectedDays.hasOwnProperty(i)){
+                weekdays.push(i+1)
+            }
+        }
+
+        this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
+        this.props.onSetFreeIntervals(array,  data.type);
+
+        this.setState({visibleTrialModal: true, redirectToSchedule: true});
+    }
+
+    showTrialModal = (count) => {
+        this.setState({modalTrial: true, countTraining: count});
+        this.props.onSetNeedSaveIntervals({modalTrial: true, countTraining: count});
     }
 
     componentDidMount() {
@@ -538,9 +565,21 @@ class Schedule extends React.Component {
                 }
             });
 
-        } 
+        }
 
-        if(this.props.isAdmin) {
+        if (!this.props.id) {
+            calendar = (<Calendar receptionNum={this.getCountOfReceptionsAtCurMonth()}
+                                  isUser = {true}
+                                  events = {this.state.apiPatients}//{this.props.allUserVisits} //
+                                  onNavigate={this.dateChangeHandler}
+                                  date={this.state.currentDate}
+
+                                  onChange={this.dateChangeHandler}
+                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
+            />)
+        }
+
+        else if(this.props.isAdmin) {
             const currDate = this.state.currentDate,
             currY = currDate.getFullYear(),
             currM = currDate.getMonth(),
@@ -830,7 +869,14 @@ class Schedule extends React.Component {
                                          isDayOff={!!(+isDayOff)}
                                          emergencyAvailable={this.props.emergencyAvailable}
                 />
-               
+                <TrialTrainModal
+                    title='Запишись на пробную тренировку'
+                    width={770}
+                    visible={this.state.modalTrial}
+                    unauthorized={true}
+                    onCancel={() => {}}
+                    onSave={this.onSendDataTrialModal}
+                />
             </Hoc>
         )
     }
