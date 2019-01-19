@@ -154,6 +154,7 @@ class App extends React.Component {
         const isStudent = this.props.mode === "student";
 
         const isAdmin = this.props.mode === "admin";
+        console.log(this.props);
         
         return (
             <div className="main">
