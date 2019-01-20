@@ -17,6 +17,7 @@ import Button from '../Button';
 import Spinner from "../Spinner";
 import moment from "moment";
 import ChangePasswordModal from "../ChangePasswordModal";
+import SendSuggestionsModal from "../SendSuggestionsModal";
 import {
     getSelectedIDs,
     getSelectedNestedIDs,
@@ -35,6 +36,7 @@ class StudentPersonalDataForm extends React.Component {
                 selectedTimes: new Array(7).fill([10, 23])
             },
             isChangePasswordModalVisible: false,
+            isSendSuggestionsModalVisible: false,
             selectorsValues: {}
         }
     }
@@ -261,6 +263,12 @@ class StudentPersonalDataForm extends React.Component {
                         visible={this.state.isChangePasswordModalVisible}
                         onSubmit = {this.props.onSubmit}
                         onCancel={() => this.setState({isChangePasswordModalVisible: false})}
+                    />
+                    <SendSuggestionsModal
+                        profile={profileStudent}
+                        visible={this.state.isSendSuggestionsModalVisible}
+                        onSubmit = {this.props.onSubmit}
+                        onCancel={() => this.setState({isSendSuggestionsModalVisible: false})}
                     />
                 </Card>
             </div>
