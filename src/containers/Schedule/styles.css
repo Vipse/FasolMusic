@@ -1,12 +1,6 @@
 .row-schedule {
   border-top: 15px !important;
 }
-.schedule-title {
-  font-size: 32px;
-  color: #344051;
-  background-color: #ff7daa;
-  padding: 6px 0px 6px 15px !important;
-}
 .schedule-editBtn {
   text-align: center;
 }
