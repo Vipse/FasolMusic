@@ -94,7 +94,8 @@ class RecordTrainCarousel extends React.Component {
                     isAvailable,
                     isOwn,
                     idTraining: curHourTraining && curHourTraining.allInfo.idTraining,
-                    idSubscription: curHourTraining && curHourTraining.allInfo.idSubscription
+                    idSubscription: curHourTraining && curHourTraining.allInfo.idSubscription,
+                    studentName: curHourTraining && curHourTraining.allInfo.fio
                 });
             }
 
@@ -124,8 +125,6 @@ class RecordTrainCarousel extends React.Component {
                                             : null}
                                     data-timestamp={item.timestamp}
                                     data-interval-type={item.type}
-                                    data-id-training={item.idTraining}
-                                    data-id-subscription={item.idSubscription}
                                 />
                             </div>
                         )
