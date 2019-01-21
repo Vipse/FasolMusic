@@ -17,10 +17,7 @@ class MyStudents extends React.Component {
     };
 
     render() {
-
-
         const {data} = this.props;
-        console.log('MYSTUDENT :', this.props);
         return (
             <div className='lastTrainings'>
                 <Card title="Мои студенты"
