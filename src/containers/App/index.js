@@ -117,8 +117,9 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        const login = localStorage.getItem('_appdoc-user'),
-            pass = localStorage.getItem('_appdoc-pass');
+        const login = localStorage.getItem('_fasol-user'),
+            pass = localStorage.getItem('_fasol-pass');
+
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
             userName: login,

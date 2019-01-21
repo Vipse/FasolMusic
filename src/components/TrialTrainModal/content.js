@@ -45,6 +45,8 @@ class ContentForm extends React.Component {
                     selectedDays: selectedDaysObj,
                     promoCode: this.state.promoCode
                 };
+                if (this.props.unauthorized) finalData.amount = 1;
+
                 this.props.onSave(finalData);
             }
             else console.log("error", err);

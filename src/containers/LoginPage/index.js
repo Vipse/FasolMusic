@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux';
-import {NavLink, Route} from 'react-router-dom'
+import {NavLink, Redirect, Route} from 'react-router-dom'
 import Hoc from '../../hoc'
 import Icon from "../../components/Icon/index.js";
 import Row from "../../components/Row/index.js";
@@ -19,9 +19,8 @@ import addInfoObj from "../../helpers/addInfoObj"
 
 import * as actions from '../../store/actions'
 import './styles.css'
-import ReportBugModal from "../../components/ReportBugModal";
-import ShortRegistrationModal from './../../components/ShortRegistrationModal/index';
 import RegistrationTrainer from '../../components/RegistrationTrainer';
+import TrialTrainModal from "../../components/TrialTrainModal";
 
 class LoginPage extends React.Component {
 
@@ -32,8 +31,32 @@ class LoginPage extends React.Component {
         };
     }
 
-    render(){
+    onSendDataTrialModal = (data) => {
+        const {disciplinesList} = this.props;
+        const {email, type} = data;
 
+        const registerData = {
+            email,
+            password: "123456",
+            disciplines: [{discipline: [disciplinesList[type].code]}]
+        };
+
+        let newUserData = {};
+
+        this.props.onRegisterUser(registerData)
+            .then(res => {
+                if (res && res.data.code === 200) {
+                    newUserData.id = res.data.result.id;
+                    this.props.onUnauthorizedTrialDataSave(data);
+                    message.info("Вы зарегистрированы. Выберите время для пробной тренировки", 10);
+                    this.props.history.push('app/schedule');
+                }
+                else message.error("Произошла ошибка, попробуйте ещё раз");
+            })
+            .catch(err => console.log(err));
+    };
+
+    render(){
         return (
             <Hoc>
 
@@ -42,7 +65,6 @@ class LoginPage extends React.Component {
                         <NavLink to="/login" onClick={this.onOk}>
                             <Icon type='close' svg />
                         </NavLink>
-
                     </div>
                 </div>
 
@@ -82,18 +104,28 @@ class LoginPage extends React.Component {
                                                                     onSubmit={(userInfo) => this.props.onRegisterTrainer(userInfo, this.props.history)}
                                />}
                         />
+                        <Route path="/trial-training"
+                               exact
+                               render={() => <TrialTrainModal
+                                   title='Запишись на пробную тренировку'
+                                   width={770}
+                                   visible={true}
+                                   unauthorized={true}
+                                   closable={false}
+                                   onSave={this.onSendDataTrialModal}
+                               />}
+                        />
                     </Col>
                 </Row>
             </Hoc>
         )
     }
-
-
 }
 
 const mapStateToProps = state => {
 	return {
         errorCode: state.auth.errorCode,
+        disciplinesList: state.abonement.disciplines
 	}
 };
 
@@ -105,7 +137,8 @@ const mapDispatchToProps = dispatch => {
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         reportBug: (message, href) => dispatch(actions.reportBug(message, href)),
         uploadFile: (file) => dispatch(actions.uploadFile(file)),
-        onRegisterTrainer: (userInfo, history) => dispatch(actions.registerTrainer(userInfo, history))
+        onRegisterTrainer: (userInfo, history) => dispatch(actions.registerTrainer(userInfo, history)),
+        onUnauthorizedTrialDataSave: (data) => dispatch(actions.unauthorizedTrialDataSave(data))
 	}
 };
 
