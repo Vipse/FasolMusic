@@ -64,7 +64,7 @@ class StudentPersonalDataForm extends React.Component {
 
     loadTrainingTime = () => {
         const { trainingtime } = this.props.profileStudent;
-        trainingtime.length && trainingtime.forEach((item) => {
+        Array.isArray(trainingtime) && trainingtime.length && trainingtime.forEach((item) => {
             let num = item.day ? item.day[0].value : null;
             this.handleChangeTrainingTime('enabledDays', num, true);
             this.handleChangeTrainingTime('selectedTimes', num, [

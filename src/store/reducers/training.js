@@ -25,8 +25,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 myCoachOrStudents: action.myCoachOrStudents
             }
-            
-            
+        case actionTypes.UNAUTHORIZED_TRIAL_DATA:
+            return {
+                ...state,
+                unauthorizedTrialData: action.data
+            }
         default: return state;
     }
 }

@@ -87,6 +87,7 @@ class Step4Form extends React.Component{
                 };
 
                 console.log("FINAL REG DATA", finalRegData);
+
                 this.props.onFinish(finalRegData).then(res => {
                     if (res && res.data && !res.data.error)
                         this.props.onNext();

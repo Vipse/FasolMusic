@@ -81,3 +81,12 @@ export const getMyMastersOrStudents = (obj) => {
             })
     }
 }
+
+export const unauthorizedTrialDataSave = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.UNAUTHORIZED_TRIAL_DATA,
+            data: data
+        })
+    }
+};

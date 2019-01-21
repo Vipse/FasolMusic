@@ -34,7 +34,7 @@ export const setOnlineStatus = (id,isOnline) => {
 
 export const login = (userName, password, remember, history, isAuto) => {
 
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(authStart());
         axios.post('/catalog.fasol/authorization',
                 JSON.stringify({
@@ -59,7 +59,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                                 sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
 
-                                history.push('/app')
+                                history.push(getState().training.unauthorizedTrialData ? '/app/schedule' : '/app')
                             )
                             : (
                                 dispatch(authFail(res.data.error)),
@@ -86,7 +86,13 @@ export const registerUser = (userInfo) => {
         });
         return axios.post('/catalog.fasol/registratin',
                 JSON.stringify(userInfo))
-                    .then(res => res)
+                    .then(res => {
+                        if (res && res.data && !res.data.error) {
+                            localStorage.setItem('_fasol-user', userInfo.email);
+                            localStorage.setItem('_fasol-pass', userInfo.password);
+                        }
+                        return res;
+                    })
                     .catch(err => {
                         console.log('error: ',err);
                     })

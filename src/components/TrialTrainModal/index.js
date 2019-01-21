@@ -12,6 +12,7 @@ const TrialTrainModal = (props) => {
                width={770}
                visible={props.visible}
                onCancel={props.onCancel}
+               closable={props.closable}
         >
              <Content {...props}/>
         </Modal>
@@ -25,6 +26,7 @@ TrialTrainModal.propTypes = {
     patients: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     unauthorized: PropTypes.bool,
+    closable: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 };
@@ -35,6 +37,7 @@ TrialTrainModal.defaultProps = {
     patients: [],
     isChoosebleTime: false,
     unauthorized: false,
+    closable: true,
     onSave: () => {},
     onCancel: () => {},
 };

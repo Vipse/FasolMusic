@@ -26,8 +26,6 @@ import FreeTrainersItem from '../../components/FreeTrainersItem';
 import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
-import ProfilePatient from './../../components/ProfilePatient/index';
-import TrialTrainModal from "../../components/TrialTrainModal";
 
 
 class Schedule extends React.Component {
@@ -61,7 +59,6 @@ class Schedule extends React.Component {
             modalTransferTraining: false,
             modalCancelTraining: false,
             modalMasterList: false,
-            modalTrial: false,
             showSpinner: false,
             theMasterSelect: false,
         }
@@ -327,13 +324,6 @@ for(let el in disciplines){
         this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
         this.props.onSetFreeIntervals(array, data.type);
         this.props.onGetAbonements(id, currDiscipline);
-
-        this.setState({modalTrial: false});
-    };
-
-    showTrialModal = (count) => {
-        this.setState({modalTrial: true, countTraining: count});
-        this.props.onSetNeedSaveIntervals({modalTrial: true, countTraining: count});
     };
 
     componentDidMount() {
@@ -347,8 +337,6 @@ for(let el in disciplines){
         this.props.onGetAllUserVisits();
         this.props.onGetAbonements(id, currDiscipline);
 
-
-        if (this.props.id === 0) this.showTrialModal();
         if(this.props.isAdmin) {
             this.props.onGetFreeAndBusyMasterList(start, end);
         }
@@ -580,79 +568,7 @@ for(let el in disciplines){
 
         }
 
-        if (!this.props.id) {
-            const currDate = this.state.currentDate,
-                currY = currDate.getFullYear(),
-                currM = currDate.getMonth(),
-                currD = currDate.getDate();
-
-            let minFasol = this.props.min;
-            let maxFasol = this.props.max;
-
-            let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
-                max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
-
-            // надо нормальную проверка для коуча и студента
-
-            editorBtn = (<Button btnText='Редактор графика'
-                                 onClick={() => this.changeToEditorMode(true)}
-                                 type='yellow'
-                                 icon='setting_edit'/>)
-
-
-            calendar = (<Calendar
-                receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length}
-                selectable
-                onSelectEvent={this.props.onSelectEvent}
-                onSelectSlot={(slot) => this.onAddVisit(slot)}
-                defaultView="week"
-                onView={(view, date) => {
-                    !date ? this.setIntervalAndView(this.state.currentDate, view) : () => {
-                    };
-                }}
-                date={this.state.currentDate}
-                onNavigate={this.dateChangeHandler}
-                gotoEditor={() => this.changeToEditorMode(true)}
-                onGotoPatient={this.gotoHandler}
-                step={60}
-                events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
-                intervals={ (this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd)? this.props.theMasterInterval : isNeedSaveIntervals ? this.props.superFreeInterval : []}
-                superFreeInterval = { (this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd) ? this.props.theMasterInterval : this.props.superFreeInterval}
-                selectDisciplines = {this.props.selectDisciplines}
-                currDiscipline = {this.props.currDiscipline}
-                onChangeCurrDiscipline = {(disc) => {
-                    this.props.onChangeCurrDiscipline(disc)
-                    this.props.onGetAbonements(id, disc);
-                }}
-
-                min= {min}
-                max= {max}
-                minFasol={minFasol}
-                maxFasol={maxFasol}
-
-                onPopoverClose={this.eventDeleteHandler}
-                onPopoverEmail={this.onPatientEmail}
-
-                onChange={this.dateChangeHandler}
-                highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
-
-                showTransferEvent={this.showTransferEvent} // my
-                freeTrainers={this.props.fullInfoMasters} //my
-                showModalTransferEvent={this.showModalTransferEvent}
-                setChoosenTrainer={this.setChoosenTrainer}
-                isNeedSaveIntervals={isNeedSaveIntervals}
-                fillTrainingWeek = {this.fillTrainingWeek}
-                isShowFreeTrainers = {this.state.isShowFreeTrainers}
-                transferTraining = {this.transferTraining} // drag and drop
-                deleteEvent = {this.deleteEvent} // drag and drop
-                setAbonement_Training = {this.setAbonement_Training}
-                onCancelTraining = {this.onCancelTraining}
-                trainerTraining = {this.props.trainerTraining}
-
-            />)
-        }
-
-        else if(this.props.isAdmin) {
+        if (this.props.isAdmin) {
             const currDate = this.state.currentDate,
             currY = currDate.getFullYear(),
             currM = currDate.getMonth(),
@@ -934,14 +850,6 @@ for(let el in disciplines){
                                          onSave={(info) => this.onSaveReceptionSchedule(info)}
                                          isDayOff={!!(+isDayOff)}
                                          emergencyAvailable={this.props.emergencyAvailable}
-                />
-                <TrialTrainModal
-                    title='Запишись на пробную тренировку'
-                    width={770}
-                    visible={this.state.modalTrial}
-                    unauthorized={true}
-                    onCancel={() => {}}
-                    onSave={this.onSendDataTrialModal}
                 />
             </Hoc>
         )
