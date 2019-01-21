@@ -42,7 +42,7 @@ class ContentForm extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {isAdmin, isDelete} = this.props.params;
+        const {isAdmin, isDelete, item: {studentName}} = this.props.params;
 
         return ((isAdmin && !isDelete) ?
                 <Form onSubmit={this.handleSaveAbonement}
@@ -71,19 +71,22 @@ class ContentForm extends React.Component {
                 isDelete ?
                     <div className="AdminCreateTrainingModal">
                         {this.state.loading ? <Spinner size="large"/> :
-                            <div className="submitPlate">
-                                <Button className="trainBtn"
-                                        btnText='Перенести тренировку в конец'
-                                        size='large'
-                                        type='light-pink'
-                                        onClick={this.handleTailAbonement}
-                                />
-                                <Button className="trainBtn"
-                                        btnText='Заморозить тренировку'
-                                        size='large'
-                                        type='light-pink'
-                                        onClick={this.handleFreezeAbonement}
-                                />
+                            <div className="fields">
+                                {isAdmin && <p className="studentName">Студент: {studentName}</p>}
+                                <div className="submitPlate">
+                                    <Button className="trainBtn"
+                                            btnText='Перенести тренировку в конец'
+                                            size='large'
+                                            type='light-pink'
+                                            onClick={this.handleTailAbonement}
+                                    />
+                                    <Button className="trainBtn"
+                                            btnText='Заморозить тренировку'
+                                            size='large'
+                                            type='light-pink'
+                                            onClick={this.handleFreezeAbonement}
+                                    />
+                                </div>
                             </div>}
                     </div> :
                     <div className="AdminCreateTrainingModal">

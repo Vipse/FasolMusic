@@ -139,6 +139,10 @@ class App extends React.Component {
         (this.props.history.location.pathname !== "/app") && this.props.history.push('/app');
     };
 
+    onProfileClick = () => {
+        (this.props.history.location.pathname !== "/app/personal-info") && this.props.history.push('/app/personal-info');
+    };
+
     pushBtnTransfer = () => {
         const {weekInterval} = this.props;
         if(weekInterval){
@@ -182,7 +186,6 @@ class App extends React.Component {
         const isStudent = this.props.mode === "student";
 
         const isAdmin = this.props.mode === "admin";
-        console.log(this.props);
         
         return (
             <div className="main">
@@ -196,6 +199,7 @@ class App extends React.Component {
                                     onLogoClick={this.onLogoClick}
                                     menuItems={isAdmin ? menuAdmin : isStudent ? menuStudent : menuCoach}
                                     isShort={this.state.collapsed}
+                                    onProfileClick={this.onProfileClick}
                                 />
 
                             </div>

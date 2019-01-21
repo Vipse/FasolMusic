@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ProfileAvatar from '../ProfileAvatar'
 
 import './styles.css'
+import {Redirect} from "react-router-dom";
 
 class ProfileCard extends React.Component{
     shouldComponentUpdate(nextProps) {
@@ -14,10 +15,10 @@ class ProfileCard extends React.Component{
         )
     }
     render(){
-        const {isShort, name, img} = this.props;
+        const {isShort, name, img, onClick} = this.props;
         const rootClass = isShort ? "profileCard-short" : "profileCard";
         return (
-            <div className={rootClass}>
+            <div className={rootClass} onClick={onClick}>
                 <ProfileAvatar img={img} short={isShort} size={(isShort ? 'medium' : 'large')}/>
                 <div className={'profileCard-name'}>{name}</div>
             </div>

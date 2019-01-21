@@ -757,17 +757,10 @@ for(let el in disciplines){
 
         return (
             <Hoc>
-                <Row className="row-schedule" style={{margin: 0, marginTop: -7, borderTop: 7}}>
-                    <Col span={24} className='schedule-title'>
-                        Расписание тренировок
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
+                <Card title='Расписание тренировок'>
                         {this.state.showSpinner ? <Spinner /> : null}
                         {calendar}
-                    </Col>
-                </Row>
+                </Card>
 
             
                 <Modal 

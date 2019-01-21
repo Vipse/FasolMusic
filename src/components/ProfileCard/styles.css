@@ -3,6 +3,7 @@
   text-align: center;
   padding: 25px 30px;
   border-bottom: 1px solid #ebebeb;
+  cursor: pointer;
 }
 .profileCard-name {
   margin-bottom: 15px;
