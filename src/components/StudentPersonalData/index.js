@@ -17,6 +17,7 @@ import Button from '../Button';
 import Spinner from "../Spinner";
 import moment from "moment";
 import ChangePasswordModal from "../ChangePasswordModal";
+import SendSuggestionsModal from "../SendSuggestionsModal";
 import {
     getSelectedIDs,
     getSelectedNestedIDs,
@@ -35,6 +36,7 @@ class StudentPersonalDataForm extends React.Component {
                 selectedTimes: new Array(7).fill([10, 23])
             },
             isChangePasswordModalVisible: false,
+            isSendSuggestionsModalVisible: false,
             selectorsValues: {}
         }
     }
@@ -62,8 +64,8 @@ class StudentPersonalDataForm extends React.Component {
 
     loadTrainingTime = () => {
         const { trainingtime } = this.props.profileStudent;
-        trainingtime.length && trainingtime.forEach((item) => {
-            let num = item.day[0].value;
+        Array.isArray(trainingtime) && trainingtime.length && trainingtime.forEach((item) => {
+            let num = item.day ? item.day[0].value : null;
             this.handleChangeTrainingTime('enabledDays', num, true);
             this.handleChangeTrainingTime('selectedTimes', num, [
                 moment(item.datestart * 1000).hours(),
@@ -261,6 +263,12 @@ class StudentPersonalDataForm extends React.Component {
                         visible={this.state.isChangePasswordModalVisible}
                         onSubmit = {this.props.onSubmit}
                         onCancel={() => this.setState({isChangePasswordModalVisible: false})}
+                    />
+                    <SendSuggestionsModal
+                        profile={profileStudent}
+                        visible={this.state.isSendSuggestionsModalVisible}
+                        onSubmit = {this.props.onSubmit}
+                        onCancel={() => this.setState({isSendSuggestionsModalVisible: false})}
                     />
                 </Card>
             </div>

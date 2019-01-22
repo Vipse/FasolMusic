@@ -6,13 +6,6 @@
     border-top: 15px !important;
 }
 
-.schedule-title {
-    font-size: 32px;
-    color: #344051;
-    background-color: #ff7daa;
-    padding: 6px 0px 6px 15px !important;
-}
-
 .schedule-editBtn {
     text-align: center;
 }
@@ -28,23 +21,32 @@
     margin: 5px 0 25px 0;
     background-color: transparent;
 }
-.schedule-message-modal-wrapper{
-    top: 30%;
-    
-    .schedule-message-btn{
-        display: inline-block;
-        margin: 10px;
-        button{
-            width: 100px;
+
+
+.schedule-message-modal {
+    display: flex;
+    justify-content: center;
+
+    &-wrapper {
+        top: 30%;
+
+        .schedule-message-btn {
+            display: inline-block;
+            margin: 10px;
+
+            button {
+                width: 100px;
+            }
+        }
+
+        .block-free-trainer {
+            padding: 10px;
+        }
+
+        .free-trainer {
+            margin: 10px;
+            text-align: center;
+            font-weight: bold;
         }
     }
-}
-
-.block-free-trainer{
-    padding: 10px;
-}
-.free-trainer{
-    margin: 10px;
-    text-align: center;
-    font-weight: bold;
 }

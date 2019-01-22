@@ -1,12 +1,6 @@
 .row-schedule {
   border-top: 15px !important;
 }
-.schedule-title {
-  font-size: 32px;
-  color: #344051;
-  background-color: #ff7daa;
-  padding: 6px 0px 6px 15px !important;
-}
 .schedule-editBtn {
   text-align: center;
 }
@@ -18,6 +12,10 @@
   margin: 5px 0 25px 0;
   background-color: transparent;
 }
+.schedule-message-modal {
+  display: flex;
+  justify-content: center;
+}
 .schedule-message-modal-wrapper {
   top: 30%;
 }
@@ -28,10 +26,10 @@
 .schedule-message-modal-wrapper .schedule-message-btn button {
   width: 100px;
 }
-.block-free-trainer {
+.schedule-message-modal-wrapper .block-free-trainer {
   padding: 10px;
 }
-.free-trainer {
+.schedule-message-modal-wrapper .free-trainer {
   margin: 10px;
   text-align: center;
   font-weight: bold;

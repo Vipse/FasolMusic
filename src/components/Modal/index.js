@@ -8,7 +8,7 @@ import './styles.css'
 class Modal extends React.Component{
 
     render(){
-        const {visible, title, warning, width, className} = this.props;
+        const {visible, title, warning, width, className, closable} = this.props;
         
         return (
             <AntModal visible={visible}
@@ -16,7 +16,7 @@ class Modal extends React.Component{
                       width={width}
                       footer={null}
                       className = {(warning ? 'warning' : '') + ' ' + className}
-                      closable = {!warning}
+                      closable = {!warning && closable}
                       onCancel={this.props.onCancel}
                       afterClose={this.props.afterClose}
             >
@@ -32,6 +32,7 @@ Modal.propTypes = {
     title: PropTypes.string,
     width: PropTypes.number,
     warning: PropTypes.bool,
+    closable: PropTypes.bool,
     onCancel: PropTypes.func,
 };
 
@@ -40,6 +41,7 @@ Modal.defaultProps = {
     title: '',
     width: 395,
     warning: false,
+    closable: true,
     onCancel: () => {},
     className: '',
 };

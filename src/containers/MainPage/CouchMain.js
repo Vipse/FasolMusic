@@ -25,12 +25,13 @@ class CouchMain extends React.Component{
     render(){
         const { allAbonements, myCoachOrStudents, postTraining } = this.props;
 
-        let myCoach = [];
+        let myStudents = [];
         for(let i = 0; i < myCoachOrStudents.length; i++){
             if(myCoachOrStudents[i]){
-                myCoach.push(myCoachOrStudents[i])
+                myStudents.push(myCoachOrStudents[i])
             }
         }
+        console.log(myStudents);
 
     return (
             <Hoc>
@@ -105,7 +106,7 @@ class CouchMain extends React.Component{
                                 <MyStudents
                                     goToChat = {this.props.goToChat}
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    data = { (Array.isArray(myCoach)) ? myCoach.map((el) => {
+                                    data = { (Array.isArray(myStudents)) ? myStudents.map((el) => {
                                         if(el)
                                         return {
                                             id: el.idMaster,

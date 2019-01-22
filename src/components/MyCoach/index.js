@@ -6,7 +6,7 @@ import Icon from '../Icon'
 import MyCoachItem from "../MyCoachItem";
 
 class MyCoach extends React.Component {
-    studentsRender = (dataArr) => {
+    coachItemsRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<MyCoachItem {...item}
                                     key={index}
@@ -24,8 +24,8 @@ class MyCoach extends React.Component {
                       extra={<a className="myStudents-link" ><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {data.length ?
-                        this.studentsRender(data)
-                        : <div className='noStudents'>Студентов нет</div>}
+                        this.coachItemsRender(data)
+                        : <div className='noStudents'>Коучей нет</div>}
                 </Card>
             </div>
         )

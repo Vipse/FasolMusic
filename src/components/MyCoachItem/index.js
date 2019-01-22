@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 
 import './style.css'
 import '../../icon/style.css'
@@ -18,7 +17,7 @@ class MyCoachItem extends React.Component{
             goToChat
         } = this.props;
 
-        const allDisciplines = Array.isArray(disciplines) ? disciplines.map( (elem) => elem.discipline.map((el) => el.name) ).join(', ') : []
+        const allDisciplines = Array.isArray(disciplines) ? disciplines.map((elem) => elem.discipline ? elem.discipline[0].name : null).join(', ') : [];
 
         return (
             <div className='myStudent'>

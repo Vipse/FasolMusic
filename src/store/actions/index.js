@@ -173,6 +173,7 @@ export {
     getTrainingNotFinished,
     getNextTraining,
     getMyMastersOrStudents,
+    unauthorizedTrialDataSave
 } from './training'
 
 

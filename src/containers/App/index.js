@@ -144,8 +144,9 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        const login = localStorage.getItem('_appdoc-user'),
-            pass = localStorage.getItem('_appdoc-pass');
+        const login = localStorage.getItem('_fasol-user'),
+            pass = localStorage.getItem('_fasol-pass');
+
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
             userName: login,
@@ -164,6 +165,10 @@ class App extends React.Component {
 
     onLogoClick = () => {
         (this.props.history.location.pathname !== "/app") && this.props.history.push('/app');
+    };
+
+    onProfileClick = () => {
+        (this.props.history.location.pathname !== "/app/personal-info") && this.props.history.push('/app/personal-info');
     };
 
     pushBtnTransfer = () => {
@@ -209,7 +214,6 @@ class App extends React.Component {
         const isStudent = this.props.mode === "student";
 
         const isAdmin = this.props.mode === "admin";
-        console.log(this.props);
         
         return (
             <div className="main">
@@ -223,6 +227,7 @@ class App extends React.Component {
                                     onLogoClick={this.onLogoClick}
                                     menuItems={isAdmin ? menuAdmin : isStudent ? menuStudent : menuCoach}
                                     isShort={this.state.collapsed}
+                                    onProfileClick={this.onProfileClick}
                                 />
 
                             </div>
