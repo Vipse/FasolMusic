@@ -39,16 +39,18 @@ class Chat extends React.Component{
         )
         const isUser = this.props.user_mode === "student";
 
+      
+      
         const chatProps = {
             //wsURL: 'wss://appdoc.by:8443/one2one',
-            wsURL: 'ws://localhost:3001/',
+            wsURL: 'wss://fasolonline.ru:8443/one2one',
             callback: this.props.callback,
             clearCallback: this.props.clearCallback,
             timer: this.props.timer,
             chatStory: this.props.chatStory,
             receptionStarts: this.props.receptionStarts,
             isCalling: this.props.isCalling,
-            receptionId: visitId,
+            receptionId: '130290',//visitId,
             callerID: this.props.id,
             calledID: this.props.idTo,//isUser ? id_doc : id_user,
             user_mode: this.props.user_mode,
@@ -68,37 +70,7 @@ class Chat extends React.Component{
             appShouldStartAt: this.props.visitInfo.date
         }
 
-
-        let arr = [
-            {
-                id: 126012,
-                fio: "тестовый пациент",
-                avatar: "https://appdoc.by/media/img/zaglushka.jpg",
-                start: "1525692821",
-                end: 1523598900,
-                id_doc: "2697",
-                id_user: "2663",
-                del: "1",
-                comment: "Подозрения на бронхит",
-                delComment: "",
-                diagnosis: null,
-                type: "video"
-            },{
-                id: 126013,
-                fio: "тестовый пациент2",
-                avatar: "https://appdoc.by/media/img/zaglushka.jpg",
-                start: "1525692821",
-                end: 1523598900,
-                id_doc: "2697",
-                id_user: "2663",
-                del: "1",
-                comment: "Подозрения на бронхит",
-                delComment: "",
-                diagnosis: null,
-                type: "chat"
-            } ];
-
-
+        console.log('chatProps', chatProps)
         return (
             <Hoc>
                 <Row>
@@ -138,6 +110,8 @@ const mapStateToProps = state =>{
     return {
         id: state.auth.id,
         user_mode: state.auth.mode,
+        abonement: state.abonement,
+        profileStudent: state.profileStudent,
 
         schedules: state.schedules.schedules,
         visits: state.schedules.visits,

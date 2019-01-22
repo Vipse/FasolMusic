@@ -21,19 +21,9 @@ class StudentMain extends React.Component{
 		this.props.history.push('/app/coach'+id);
     }
 
-    // следующая тренировка - return 15234500000
-    selectFirstTraining = () => {
-        const {nearTraining} = this.props;
-        
-        if(Array.isArray(nearTraining) && nearTraining.length) {
-            return nearTraining[0].start * 1000;
-        }
-        return null;
-    }
 
     render(){
         const { allAbonements, goToChat, myCoachOrStudents } = this.props;
-        console.log('myCoach :', myCoach);
 
         let myCoach = [];
         for(let i = 0; i < myCoachOrStudents.length; i++){

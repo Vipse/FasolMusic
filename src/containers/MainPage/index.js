@@ -151,6 +151,7 @@ class MainPage extends React.Component{
 				todayTraining = {this.props.todayTraining}
 				futureTraining = {this.props.futureTraining}
 				postTraining = {this.props.postTraining}
+				goToChat = {this.goToChat}
 
 				showCancel = {() => {this.setState({cancelModal: true})}}
 				onAdd = {this.onAddVisit}

@@ -23,13 +23,16 @@ var callState = null;
 let timerInterval;
 
 export const sendMessage = (message) => {
+  
     ws.send(JSON.stringify(message));
 }
 
 export const setVideoIn = (video) => {
+ 
     videoInput = video;
 }
 export const setVideoOut = (video) => {
+  
     videoOutput = video;
 }
 
@@ -40,7 +43,8 @@ export function createSocket(wsUrl,_props,_callbacks) {
     props = _props;
     callbacks = _callbacks;
     ws.onmessage = (message) => {
-        console.log("MES", message)
+        console.log("Onmessage", message)
+
         let parsedMessage = JSON.parse(message.data);
         switch (parsedMessage.id){
             case 'registerResponse':
@@ -183,6 +187,7 @@ export const stop = (flag) => {
 }
 
 const callResponse = (message) => {
+ 
     const visitInfo = callbacks.get_visitInfo();
     const {name, name_doc} = visitInfo;
 
@@ -208,6 +213,7 @@ const callResponse = (message) => {
 }
 
 const onIceCandidate = (candidate) => {
+    
     sendMessage({
         id : 'onIceCandidate',
         candidate : candidate
@@ -229,7 +235,7 @@ const incomingCall = (message) => {
     if(browser && browser.name==="safari") {
         console.log("this is safari")
         Modal.confirm({
-            title: `Доктор ${message.userData.name} звонит вам, хотите ли вы принять вызов?`,
+            title: ` хотите ли вы принять вызов?`,
             width: '300px',
             okText: 'Да',
             cancelText: 'Нет',
@@ -245,7 +251,7 @@ const incomingCall = (message) => {
         let call = new Audio("/project/templates/_ares/static/media/incoming_call.mp3");
         call.play().then(
             Modal.confirm({
-                title: `Доктор ${message.userData.name} звонит вам, хотите ли вы принять вызов?`, //4124
+                title: ` хотите ли вы принять вызов?`, //4124
                 width: '300px',
                 okText: 'Да',
                 cancelText: 'Нет',
@@ -277,7 +283,7 @@ const incomingCall = (message) => {
         const visitInfo = callbacks.get_visitInfo();
         const {visitId} = visitInfo;
 
-
+        if(!visitId) continueCall();
         !visitId ? callbacks.onSelectReception(message.receptionId, function(){
             continueCall();
             return;
@@ -285,7 +291,7 @@ const incomingCall = (message) => {
 
         function continueCall(){
             let _visitInfo = callbacks.get_visitInfo();
-            let {contactLevel} = _visitInfo;
+            let contactLevel = 'video';
             let options = contactLevel === 'video' ?
                 {
                     localVideo : videoInput,
@@ -341,13 +347,13 @@ const startCommunication = (message) => {
 };
 
 export const startReception = () => {
-    const visitInfo = callbacks.get_visitInfo();
-    const {id: receptionId} = visitInfo;
+   // const visitInfo = callbacks.get_visitInfo();
+   // const {id: receptionId} = visitInfo;
     sendMessage({
         id : 'startReception',
         name: callbacks.get_from(),
         other_name: callbacks.get_to(),
-        receptionId,
+        receptionId: '130290'//receptionId,
     });
     sendMessage({
         id : 'chat',
@@ -364,8 +370,9 @@ export const call = () => {
     callbacks.setIsCallingStatus(true);
     setCallState(PROCESSING_CALL);
 
-    const visitInfo = callbacks.get_visitInfo();
-    const {contactLevel} = visitInfo;
+    //const visitInfo = callbacks.get_visitInfo();
+   // const {contactLevel} = visitInfo;
+   let contactLevel = 'video';
 
     
     let options = contactLevel === 'video' ?
@@ -389,8 +396,8 @@ export const call = () => {
             setCallState(NO_CALL);
         }
 
-        const visitInfo = callbacks.get_visitInfo();
-        const {id: receptionId} = visitInfo;
+        //const visitInfo = callbacks.get_visitInfo();
+        //const {id: receptionId} = visitInfo;
 
         this.generateOffer(function(error, offerSdp) {
             if (error) {
@@ -401,8 +408,8 @@ export const call = () => {
                 id : 'call',
                 from: callbacks.get_from(),
                 to: callbacks.get_to(),
-                receptionId,
-                userData: callbacks.get_shortDocInfo(),
+                receptionId: '130290', //receptionId,
+                userData: null, //callbacks.get_shortDocInfo(),
                 sdpOffer : offerSdp
             });
         });

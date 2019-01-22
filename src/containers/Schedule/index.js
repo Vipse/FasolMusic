@@ -86,13 +86,18 @@ class Schedule extends React.Component {
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         const {profileStudent, isPushBtnAdd} = this.props;
         let master = this.chooseMaster;
-
+debugger
         if(!this.props.isPushBtnTransfer){
             if(isPushBtnAdd) {
                 master = profileStudent.mainUser ? profileStudent.mainUser : this.chooseMaster;
+
+                let fdata = profileStudent;
+                fdata.frozenTraining = +fdata.frozenTraining - 1
+                this.props.onSaveUserEdit(fdata);
+               // this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
+                
             }
             console.log(master)
-            debugger;
             if(this.state.theMasterSelect || isPushBtnAdd){
                 let {trainerList} = this.props;
                 for(let i = 0; i < trainerList.length; i++){
@@ -970,7 +975,8 @@ const mapDispatchToProps = dispatch => {
         onGetInfoMasters: (idMaster) => dispatch(actions.getInfoMasters(idMaster)),
         onSetChooseMasterAllInfo: (allInfo) => dispatch(actions.setChooseMasterAllInfo(allInfo)),
 
-     
+        onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
+        onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
         
         
 

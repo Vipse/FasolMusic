@@ -14,10 +14,13 @@ class MyStudentsItem extends React.Component{
             lastMessage,
             onGoto,
             profileAvatar,
-            id
+            id,
+            goToChat
         } = this.props;
 
-        const allDisciplines = Array.isArray(disciplines) ? disciplines.map( (elem) => elem.discipline.map((el) => el.name) ).join(', ') : []
+        const allDisciplines = Array.isArray(disciplines) ? disciplines.map( (elem) => {
+            return (elem.discipline) ? elem.discipline.map((el) => el.name) : ''
+         } ).join(', ') : []
 
         return (
             <div className='myStudent'>
@@ -37,6 +40,7 @@ class MyStudentsItem extends React.Component{
                         <Button
                             btnText="Открыть чат"
                             type="border-green"
+                            onClick={() => goToChat(id)}
 
                         />
                     </div>

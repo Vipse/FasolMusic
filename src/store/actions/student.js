@@ -163,6 +163,7 @@ export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays) => 
     return (dispatch) => {
         return axios.post('/catalog.fasol/getMasterInterval', JSON.stringify(obj))
             .then(res => {
+                debugger
                 let answer = []
                 let freeInterval = res.data.result.interval;
 

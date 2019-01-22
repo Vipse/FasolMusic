@@ -94,7 +94,7 @@ class ChatContent extends React.Component {
                     </PerfectScrollbar>
                 </div>
                 {
-                    this.props.fromTR_VIS === 2 &&
+                   /* this.props.fromTR_VIS === 2 && */
                     (<div className='chat-card-message__send'>
                         <ChatSend
                             disable={!this.props.receptionStarts}

@@ -139,6 +139,7 @@ class ChatCard extends React.Component {
 	}
     getIconByType = () => {
 		let icon;
+		
         switch (this.state.mode) {
             case 'chat':
                 icon = "chat1";
@@ -197,7 +198,9 @@ class ChatCard extends React.Component {
 			isEnded: this.props.isEnded,
         }
 
-        switch (this.state.mode) {
+		//this.state.mode
+		
+        switch ('video') {
             case 'chat':
                 content = <ChatTextContent isActive={this.state.isActive}
                                            {...chatProps}

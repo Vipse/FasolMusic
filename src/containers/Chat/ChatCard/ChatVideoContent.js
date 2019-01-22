@@ -100,7 +100,7 @@ class ChatVideoContent extends React.Component {
 	renderVideos = () => (
 		<Hoc>
 			<video className='chat-card-video__box'
-						poster={this.props.avatar}
+						poster={'https://www.sunhome.ru/i/wallpapers/61/pozitivnie-kartinki.orig.jpg'}
 						autoPlay
 						ref={this.setVideoOutRef}
 						></video>
@@ -129,6 +129,7 @@ class ChatVideoContent extends React.Component {
 		const panelClass = cn('chat-card-video__panel', {'chat-card-video__panel-active': this.props.isActiveChat});
 
 		let {s, m, h} = this.props.timer;
+
 		return (<Hoc>
 			<div className='chat-card-video__area'>
 				{this.isSafari ? this.renderSafariVideos() : this.renderVideos()}

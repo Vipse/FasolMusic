@@ -33,7 +33,6 @@ export const getNextTraining = (id) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/nextTraining', JSON.stringify(obj))
             .then(res => {
-                console.log("nextTraining", res);
                 res.data.result.trainingInfo.start *= 1000;
                 
                 dispatch({

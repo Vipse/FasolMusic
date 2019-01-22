@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var path = require('path');
 var express = require('express');
 var ws = require('ws');
@@ -6,11 +7,10 @@ var url = require('url');
 var kurento = require('kurento-client');
 var fs    = require('fs');
 var https = require('https');
-var http = require('http');
 
 var argv = minimist(process.argv.slice(2), {
   default: {
-      as_uri: "ws://localhost:3000/",
+      as_uri: "https://localhost:8443/",
       ws_uri: "ws://localhost:8888/kurento",
       video_uri: 'file:///tmp/recorder_demo.mp4',
       audio_uri: 'file:///tmp/recorder_demo.mp3',
@@ -19,9 +19,14 @@ var argv = minimist(process.argv.slice(2), {
 
 var options =
 {
+  key:  fs.readFileSync('/etc/ssl/fasol/private.key'),
+  cert: fs.readFileSync('/etc/ssl/fasol/certificate.pem')
+};
+/*var options =
+{
   key:  fs.readFileSync('keys/server.key'),
   cert: fs.readFileSync('keys/server.crt')
-};
+};*/
 
 var app = express();
 
@@ -96,7 +101,6 @@ function ChatStories(){
 ChatStories.prototype.addDoctor = function(id){
     this.doctorsChat[id]
         ? null : this.doctorsChat[id] = {};
-    //console.log('add doctor', id);
 }
 
 ChatStories.prototype.addPatient = function(doc_id, user_id){
@@ -115,6 +119,10 @@ ChatStories.prototype.addMessage = function(doc_id, user_id, message){
 
 ChatStories.prototype.getMessages = function(doc_id, user_id){
     return this.doctorsChat[doc_id][user_id];
+}
+
+ChatStories.prototype.clearChat = function(doc_id){
+    delete this.doctorsChat[doc_id];
 }
 
 // Represents a B2B active call
@@ -201,10 +209,11 @@ CallMediaPipeline.prototype.createPipeline = function(callerId, calleeId, ws, mo
                                     }
 
                                     recordsCounter++;
+									time=Math.floor(Date.now() / 1000);
                                     var recorderParams = {
                                         uri : mode === 'video'
-                                            ? 'file:///media/audiovideo/'+receptionId+'.mp4'
-                                            : 'file:///media/audiovideo/'+receptionId+'.mp3',
+                                            ? 'file:///tmp/'+receptionId+'_'+time+'.mp4'
+                                            : 'file:///tmp/'+receptionId+'_'+time+'.mp3',
                                     }
 
                                     pipeline.create('RecorderEndpoint', recorderParams, function(error, recorderEndpoint) {
@@ -285,7 +294,7 @@ CallMediaPipeline.prototype.release = function() {
 
 var asUrl = url.parse(argv.as_uri);
 var port = asUrl.port;
-var server = http.createServer(options, app).listen(port, function() {});
+var server = https.createServer(options, app).listen(port, function() {});
 
 var wss = new ws.Server({
     server : server,
@@ -294,6 +303,7 @@ var wss = new ws.Server({
 
 wss.on('connection', function(ws) {
     var sessionId = nextUniqueId();
+
 
     ws.on('error', function(error) {
         stop(sessionId);
@@ -306,8 +316,7 @@ wss.on('connection', function(ws) {
 
     ws.on('message', function(_message) {
         var message = JSON.parse(_message);
-
-        console.log('message.id', message.id)
+             console.log(message);
         switch (message.id) {
         case 'register':
             register(sessionId, message.name, message.other_name, ws, message.mode);
@@ -326,11 +335,15 @@ wss.on('connection', function(ws) {
             break;
 
         case 'chat':
-            chatting(sessionId, message.to, message.from, message.text, message.date);
+            chatting(sessionId, message.to, message.from, message.text, message.date, message);
             break;
 
         case 'startReception':
-            startReception(message.name, message.other_name);
+            startReception(message.name, message.other_name, message.receptionId);
+            break;
+
+        case 'closeReception':
+            closeReception(message.name, message.other_name, message.receptionId);
             break;
 
         case 'onIceCandidate':
@@ -373,23 +386,21 @@ function sendCurrentChat(whom, doc_id, user_id){
     userRegistry.getByName(whom).sendMessage(message);
 }
 
-function chatting(callerId, to, from, text, date){
+function chatting(callerId, to, from, text, date, _message){
 
     var caller = userRegistry.getById(callerId);
     var callee = userRegistry.getByName(to);
         callee && (callee.peer = from);
         caller && (caller.peer = to);
-        var message = {
-            id: 'chat',
-            from,
-            to,
-            text,
-            date,
-        };
+
+var message = text ? {
+	id: 'chat',from,to,text,date
+} : Object.assign({
+    id:'chat',from,to,date},_message);
 
         if(chatStories.doctorsChat[from]){
-            console.log("if", to, from , message);
-            chatStories.addMessage(from, to, message);
+            if (!_message.isVisEnd) chatStories.addMessage(from, to, message);
+            else chatStories.clearChat(from);
             try{
                 callee && callee.sendMessage(message);
                 caller && caller.sendMessage(message);
@@ -400,7 +411,6 @@ function chatting(callerId, to, from, text, date){
         }
         else{
             if(chatStories.doctorsChat[to] && chatStories.isChatOpen(to, from)){
-                console.log("if", to, from , message);
                 chatStories.addMessage(to, from, message);
                 try{
                     callee && callee.sendMessage(message);
@@ -470,7 +480,7 @@ function incomingCallResponse(calleeId, from, callResponse, calleeSdp, ws, mode,
     if (!from || !userRegistry.getByName(from)) {
         return onError(null, 'unknown from = ' + from);
     }
-    var caller = userRegistry.getByName(from);
+    var caller = userRegistry.getByName(from) ? userRegistry.getByName(from) : {};
 
     if (callResponse === 'accept') {
         var pipeline = new CallMediaPipeline();
@@ -522,35 +532,38 @@ function call(callerId, to, from, sdpOffer, receptionId, userData) {
 
 
     var caller = userRegistry.getById(callerId);
-    var rejectCause = 'User ' + to + ' is not registered';
-    if (userRegistry.getByName(to)) {
-        var callee = userRegistry.getByName(to);
-        caller.sdpOffer = sdpOffer
-        callee.peer = from;
-        caller.peer = to;
-        var message = {
-            id: 'incomingCall',
-            from: from,
-            receptionId: receptionId,
-            userData: userData
-        };
-        try{
-            return callee.sendMessage(message);
-        } catch(exception) {
-            rejectCause = "Error " + exception;
-        }
-    }
-    var message  = {
-        id: 'callResponse',
-        response: 'rejected: ',
-        message: rejectCause
-    };
-    caller.sendMessage(message);
+	
+		var rejectCause = 'User ' + to + ' is not registered';
+		if (caller && userRegistry.getByName(to)) {
+			var callee = userRegistry.getByName(to);
+			
+			 caller.sdpOffer = sdpOffer
+			
+			callee.peer = from;
+			caller.peer = to;
+			var message = {
+				id: 'incomingCall',
+				from: from,
+				receptionId: receptionId,
+				userData: userData
+			};
+			try{
+				return callee.sendMessage(message);
+			} catch(exception) {
+				rejectCause = "Error " + exception;
+			}
+		}
+	
+		var message  = {
+			id: 'callResponse',
+			response: 'rejected: ',
+			message: rejectCause
+			};
+			
+		caller.sendMessage(message);
 }
 
-function startReception(name, other_name){
-    /*if(+name !== 2){
-        console.log('name', name, 'other_name', other_name);*/
+function startReception(name, other_name, receptionId){
         !chatStories.isChatOpen(name, other_name) && (
             chatStories.addDoctor(name),
             chatStories.addPatient(name, other_name)
@@ -559,12 +572,27 @@ function startReception(name, other_name){
         try{
             callee && callee.sendMessage({
                 id: 'startReception',
+                receptionId,
+                by: name,
             });
             return;
         } catch(exception) {
             console.log("Error " + exception);
         }
-   // }
+}
+
+function closeReception(name, other_name, receptionId){
+        var callee = userRegistry.getByName(other_name);
+        try{
+            callee && callee.sendMessage({
+                id: 'closeReception',
+                by: name,
+                receptionId
+            });
+            return;
+        } catch(exception) {
+            console.log("Error " + exception);
+        }
 }
 
 function register(id, name, other_name, ws, mode, callback) {
@@ -580,7 +608,7 @@ function register(id, name, other_name, ws, mode, callback) {
         return onError("User " + name + " is already registered");
     }
 
-    //console.log("register", name)
+    console.log("register", name);
     userRegistry.register(new UserSession(id, name, ws));
 
     mode === 'doc'
@@ -620,4 +648,4 @@ function onIceCandidate(sessionId, _candidate) {
     }
 }
 
-app.use(express.static(path.join(__dirname), ));
+app.use(express.static(path.join(__dirname)));

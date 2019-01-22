@@ -21,28 +21,6 @@ class CouchMain extends React.Component{
 		this.props.history.push('/app/student'+id); // надо student
     }
 
-    // следующая тренировка - return 15234500000
-    selectFirstTraining = () => {
-        const {allAbonements} = this.props;
-        let arrFirst = [];
-
-        if(!allAbonements) return arrFirst;
-
-        allAbonements.subscriptions.forEach(el => {
-            if(el && el.hasOwnProperty('training') && Array.isArray(el.training) && el.training.length && el.training.status){
-                arrFirst.push(el.training[0]);
-            }
-        });
-
-        const min = arrFirst.reduce((min, el) => {
-            
-            return (min > (+el.start)) ? +el.start : min
-        }, Infinity);  
-        
-        console.log('1', moment(min*1000))
-        if(min === Infinity) return 0;
-        return min;
-    }
 
     render(){
         const { allAbonements, myCoachOrStudents, postTraining } = this.props;
@@ -125,6 +103,7 @@ class CouchMain extends React.Component{
 
                             <Col xs={14} xxl={9} className='section'>
                                 <MyStudents
+                                    goToChat = {this.props.goToChat}
                                     onGoto={(val) => this.gotoHandler(val)}
                                     data = { (Array.isArray(myCoach)) ? myCoach.map((el) => {
                                         if(el)

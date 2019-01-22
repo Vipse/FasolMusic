@@ -73,11 +73,34 @@ class App extends React.Component {
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
             setChatStory, onSelectReception, setNewTimer} = this.props;
-        //'wss://appdoc.by:8443/one2one'
-        //'wss://localhost:8443/one2one'
+        
+        //     let idReception = null;
+        //     if(this.props.mode === 'student') {
+        //         if(this.props.id === this.props.from){
+        //             idReception += '' + this.props.id + this.props.to;
+        //         }
+        //         else{
+        //             idReception += '' + this.props.id + this.props.from;
+        //         }
+        //     }
+        //     if(this.props.mode === 'master') {
+        //         if(this.props.id === this.props.from){
+        //             idReception += '' + this.props.to + this.props.id  ;
+        //         }
+        //         else{
+        //             idReception += '' + this.props.from + this.props.id;
+        //         }
+        //     }
+
+        // let visit = {
+        //     contactLevel: 'video',
+        //     id: idReception, 
+        // }
+
+        
         let sock = createSocket(
            // 'wss://appdoc.by:8443/one2one',
-            'ws://localhost:3000/one2one',
+            'wss://fasolonline.ru:8443/one2one',
             chatProps,
             {
                 setChatFromId,
@@ -94,7 +117,7 @@ class App extends React.Component {
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_chatStory: () => this.props.chatStory,
-                get_visitInfo: () => this.props.visitInfo,
+                get_visitInfo: () => 130290,
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
             }
@@ -104,11 +127,15 @@ class App extends React.Component {
     };
 
     componentDidMount() {
+        const {id, currDiscipline} = this.props;
         if (this.props.mode === "master"){
-            this.props.onGetInfoDoctor(this.props.id);
+            this.props.onGetInfoDoctor(id);
+            this.runChatWS();
         }
         else if (this.props.mode === "student") {
-            this.props.onGetInfoPatient(this.props.id);
+            //this.props.onGetAbonements(id, currDiscipline);
+
+            this.props.onGetInfoPatient(id);
             this.props.onGetMasterList();
 
             // this.runNotificationsWS();
@@ -144,7 +171,7 @@ class App extends React.Component {
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
-     
+ 
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => this.props.onSetPushBtnTransferTraining())
         }
@@ -237,6 +264,7 @@ class App extends React.Component {
                                                     <p>Проверьте введённый адрес</p>
                                                 </div>
                                             )}
+                                            fl = {1}
                                         />
                                     </Switch>
                                 </div>
@@ -283,6 +311,7 @@ const mapDispatchToProps = dispatch => {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onGetSearchUsers: (name) => dispatch(actions.searchUsers(name)),
         onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
+        onGetAbonements: (idStudent, currDiscipline) => dispatch(actions.getAbonements(idStudent, currDiscipline)),
 
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),

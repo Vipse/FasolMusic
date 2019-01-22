@@ -12,6 +12,8 @@ class MyStudents extends React.Component {
             return (<MyStudentsItem {...item}
                                     key={index}
                                     onGoto={this.props.onGoto}
+                                    goToChat={this.props.goToChat}
+                                    
             />)
         });
     };
@@ -20,7 +22,6 @@ class MyStudents extends React.Component {
 
 
         const {data} = this.props;
-        console.log('MYSTUDENT :', this.props);
         return (
             <div className='lastTrainings'>
                 <Card title="Мои студенты"
