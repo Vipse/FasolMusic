@@ -72,12 +72,12 @@ class CoachPage extends React.Component{
         this.props.onGetOwnTrainings(id, dateStart, dateEnd);
     };
 
-    onCreateAbonement = (timestamp, idStudent) => {
+    onCreateAbonement = (timestamp, type, studentID) => {
         let submitObj = {
             amount: 1,
             dateStart: +timestamp,
-            discipline: 'vocals',
-            idStudent: idStudent ? idStudent : this.props.auth.id,
+            discipline: type,
+            idStudent: studentID ? studentID : this.props.auth.id,
             trainingtime: {
                 [moment(timestamp * 1000).day()]: [{id: +this.props.profileCoach.id, start: +timestamp}]
             }
