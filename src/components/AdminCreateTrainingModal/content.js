@@ -3,6 +3,8 @@ import {Form, message} from 'antd';
 import Button from '../Button'
 import Spinner from "../Spinner";
 import InputNew from "../InputNew";
+import Radio from "../RadioBox";
+import RadioGroup from "antd/es/radio/group";
 
 const FormItem = Form.Item;
 
@@ -23,7 +25,7 @@ class ContentForm extends React.Component {
         form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 this.setState({loading: true});
-                this.props.onSaveAbonement(params.item.timestamp, values.studentID)
+                this.props.onSaveAbonement(params.item.timestamp, values.type, values.studentID)
             } else console.log("error", err);
         });
     };
@@ -58,6 +60,22 @@ class ContentForm extends React.Component {
                                 <InputNew width="100%" bubbleplaceholder="ID студента"/>
                             )}
                         </FormItem>
+                        <FormItem>
+                            <div className='radio-label'>Выбор дисциплины</div>
+                            {getFieldDecorator('type', {
+                                rules: [{
+                                    required: true,
+                                    message: 'Выберите дисциплину, пожалуйста'
+                                }],
+                            })(
+                                <div className="ant-radio-group">
+                                    <RadioGroup>
+                                        <Radio value='guitar' key='radio-guitar'>Гитара</Radio>
+                                        <Radio value='vocals' key='radio-vocal'>Вокал</Radio>
+                                    </RadioGroup>
+                                </div>
+                            )}
+                        </FormItem>
                     </div>
                     {this.state.loading ? <Spinner size="large"/> :
                         <div className="submitPlate">
@@ -89,24 +107,34 @@ class ContentForm extends React.Component {
                                 </div>
                             </div>}
                     </div> :
-                    <div className="AdminCreateTrainingModal">
-                        <p className="info">Хотите записаться к этому коучу на тренировку?</p>
+                    <Form className="AdminCreateTrainingModal" onSubmit={this.handleSaveAbonement}>
+                        <div className="fields">
+                            <FormItem>
+                                <div className='radio-label'>Выбор дисциплины</div>
+                                {getFieldDecorator('type', {
+                                    rules: [{
+                                        required: true,
+                                        message: 'Выберите дисциплину, пожалуйста'
+                                    }],
+                                })(
+                                    <div className="ant-radio-group">
+                                        <RadioGroup>
+                                            <Radio value='guitar' key='radio-guitar'>Гитара</Radio>
+                                            <Radio value='vocals' key='radio-vocal'>Вокал</Radio>
+                                        </RadioGroup>
+                                    </div>
+                                )}
+                            </FormItem>
+                        </div>
                         {this.state.loading ? <Spinner size="large"/> :
                             <div className="submitPlate">
-                                <Button className="saveBtn"
-                                        btnText='Да'
+                                <Button className="trainBtn"
+                                        btnText='Записаться'
                                         size='default'
                                         type='light-pink'
-                                        onClick={this.handleSaveAbonement}
-                                />
-                                <Button className="saveBtn"
-                                        btnText='Нет'
-                                        size='default'
-                                        type='light-pink'
-                                        onClick={this.props.onCancel}
                                 />
                             </div>}
-                    </div>
+                    </Form>
         );
     }
 }
