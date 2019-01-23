@@ -79,7 +79,7 @@ export const login = (userName, password, remember, history, isAuto) => {
     }
 }
 
-export const registerUser = (userInfo) => {
+export const registerUser = (userInfo, history) => {
     return (dispatch) => {
         dispatch({
             type: actionTypes.REG_PATIENT_START
@@ -88,8 +88,12 @@ export const registerUser = (userInfo) => {
                 JSON.stringify(userInfo))
                     .then(res => {
                         if (res && res.data && !res.data.error) {
+                            dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                            dispatch(setOnlineStatus(res.data.result.id, true)),
                             localStorage.setItem('_fasol-user', userInfo.email);
                             localStorage.setItem('_fasol-pass', userInfo.password);
+
+                            
                         }
                         return res;
                     })

@@ -200,3 +200,11 @@ export const setPushBtnAddTraining = (type) => {
         isPushBtnAdd: type            
     });
 }
+
+export const setPushTrialTraining = (type) => {
+    
+    return ({
+        type: actionTypes.SET_IS_PUSH_TRIAL_TRAINING,
+        isPushBtnTrialTraining: type            
+    });
+}

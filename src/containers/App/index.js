@@ -317,7 +317,7 @@ const mapDispatchToProps = dispatch => {
         onGetSearchUsers: (name) => dispatch(actions.searchUsers(name)),
         onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
         onGetAbonements: (idStudent, currDiscipline) => dispatch(actions.getAbonements(idStudent, currDiscipline)),
-
+       
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
         getNotifications: (id) => dispatch(actions.getNotifications(id)),

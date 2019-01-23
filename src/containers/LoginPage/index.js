@@ -16,7 +16,7 @@ import RegistrationPatient from "../../components/RegistrationPatient/index.js";
 import langsArray from "../../helpers/langsArray"
 import addInfoObj from "../../helpers/addInfoObj"
 
-
+import moment from 'moment'
 import * as actions from '../../store/actions'
 import './styles.css'
 import RegistrationTrainer from '../../components/RegistrationTrainer';
@@ -34,22 +34,32 @@ class LoginPage extends React.Component {
     onSendDataTrialModal = (data) => {
         const {disciplinesList} = this.props;
         const {email, type} = data;
-
+       // debugger
         const registerData = {
             email,
             password: "123456",
-            disciplines: [{discipline: [disciplinesList[type].code]}]
+            disciplines: [{discipline: [disciplinesList[type].code]}],
+            frozenTraining : 1
         };
 
         let newUserData = {};
 
-        this.props.onRegisterUser(registerData)
+        this.props.onRegisterUser(registerData,  this.props.history)
             .then(res => {
+                //debugger;
                 if (res && res.data.code === 200) {
                     newUserData.id = res.data.result.id;
                     this.props.onUnauthorizedTrialDataSave(data);
+                    
+                    
+                    const time0 = moment(Date.now()).startOf('week').format('X');
+                    const time1 = moment(Date.now()).endOf('week').format('X');
+                    this.props.onGetAvailableInterval(time0 ,time1, Object.keys(data.selectedDays),  [disciplinesList[type].code]);
+                    this.props.onSetPushTrialTraining(true);
+                    this.props.onChangeCurrDiscipline(disciplinesList[type]);
+
+                    this.props.history.push('/app/schedule');
                     message.info("Вы зарегистрированы. Выберите время для пробной тренировки", 10);
-                    this.props.history.push('app/schedule');
                 }
                 else message.error("Произошла ошибка, попробуйте ещё раз");
             })
@@ -132,13 +142,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
-        onRegisterUser: (userInfo) => dispatch(actions.registerUser(userInfo)),
+        onRegisterUser: (userInfo, history) => dispatch(actions.registerUser(userInfo, history)),
         onCheckEmailAvailability: (email) => dispatch(actions.checkEmailAvailability(email)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         reportBug: (message, href) => dispatch(actions.reportBug(message, href)),
         uploadFile: (file) => dispatch(actions.uploadFile(file)),
         onRegisterTrainer: (userInfo, history) => dispatch(actions.registerTrainer(userInfo, history)),
-        onUnauthorizedTrialDataSave: (data) => dispatch(actions.unauthorizedTrialDataSave(data))
+        onUnauthorizedTrialDataSave: (data) => dispatch(actions.unauthorizedTrialDataSave(data)),
+        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
+        onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
+        onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
+        onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
 	}
 };
 

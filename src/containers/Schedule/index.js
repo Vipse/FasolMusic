@@ -83,7 +83,8 @@ class Schedule extends React.Component {
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         const {profileStudent, isPushBtnAdd} = this.props;
         let master = this.chooseMaster;
-debugger
+
+       
         if(!this.props.isPushBtnTransfer){
             if(isPushBtnAdd) {
                 master = profileStudent.mainUser ? profileStudent.mainUser : this.chooseMaster;
@@ -119,6 +120,7 @@ debugger
             }  
         }
            
+       
     }
 
     setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
@@ -144,7 +146,8 @@ debugger
             .then(() => {
                 this.setState({theMasterSelect: true})
             });
-            
+        this.props.onSetPushTrialTraining(false); // если путь пробной тренировки то убираем 
+
         this.setState({isShowFreeTrainers : false});  
         message.success('Тренер выбран');
         message.info('Выберите дату тренировки выбранного тренера');
@@ -158,14 +161,14 @@ debugger
         this.setState({ sendingModal: true, theMasterSelect: false}); // убрать интервалы
 
 
-let buf = 'vocals';
+        let buf = 'vocals';
 
-for(let el in disciplines){
-   
-    if(disciplines[el].code === currDiscipline.code){
-        buf = el;
-    }
-}
+        for(let el in disciplines){
+        
+            if(disciplines[el].code === currDiscipline.code){
+                buf = el;
+            }
+        }
 
         this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
         .then(() => {
@@ -545,7 +548,7 @@ for(let el in disciplines){
 	}
 
     render() {
-        const {abonementIntervals, trainerList, masterList, allAbonements, id, currDiscipline, isPushBtnTransfer, isPushBtnAdd} = this.props;
+        const {abonementIntervals, trainerList, masterList, allAbonements, id, currDiscipline, isPushBtnTransfer, isPushBtnAdd,isPushBtnTrialTraining} = this.props;
        
         let isNeedSaveIntervals = false
         if(abonementIntervals){
@@ -686,7 +689,19 @@ for(let el in disciplines){
                                  type='yellow'
                                  icon='setting_edit'/>)
 
-                             
+                            let filterInterval = [];
+                             if(isPushBtnTrialTraining){
+                                filterInterval = this.props.superFreeInterval;
+                             }
+                             else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd){
+                                filterInterval = this.props.theMasterInterval ;
+
+                             }
+                             else if(isNeedSaveIntervals){
+                                filterInterval =  this.props.superFreeInterval
+                             }
+
+                         
             calendar = (<Calendar 
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
@@ -702,9 +717,14 @@ for(let el in disciplines){
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
+
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
-                                  intervals={ (this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd)? this.props.theMasterInterval : isNeedSaveIntervals ? this.props.superFreeInterval : []}
-                                  superFreeInterval = { (this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd) ? this.props.theMasterInterval : this.props.superFreeInterval}
+
+                                  intervals={filterInterval}
+
+                                  superFreeInterval = {filterInterval}
+
+
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {(disc) => {
@@ -875,6 +895,7 @@ const mapStateToProps = state => {
         eventTraining: state.trainer.eventTraining,
         isPushBtnTransfer: state.student.isPushBtnTransfer,
         isPushBtnAdd: state.student.isPushBtnAdd,
+        isPushBtnTrialTraining: state.student.isPushBtnTrialTraining,
         profileStudent: state.profilePatient,
         selectDisciplines: state.abonement.disciplines,
         currDiscipline: state.abonement.currDiscipline,
@@ -938,6 +959,7 @@ const mapDispatchToProps = dispatch => {
         onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
         onGetInfoMasters: (idMaster) => dispatch(actions.getInfoMasters(idMaster)),
         onSetChooseMasterAllInfo: (allInfo) => dispatch(actions.setChooseMasterAllInfo(allInfo)),
+        onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),

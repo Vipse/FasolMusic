@@ -156,6 +156,7 @@ export {
     getTheMasterInterval,
     setPushBtnTransferTraining,
     setPushBtnAddTraining,
+    setPushTrialTraining,
 } from './student'
 
 export {
