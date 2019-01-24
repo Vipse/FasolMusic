@@ -15,30 +15,33 @@ class LastTrainingsItem extends React.Component{
             discipline,
             name,
             homework,
-            onGoto,
-            profileAvatar,
-            date
+            avatar,
+            date,
+            idStudent,
+            onGoto
         } = this.props;
 
         return (
             <div className='lastTraining'>
                 <div className="lastTraining-contactInfo">
-                    <ProfileAvatar
-                        img={profileAvatar}
-                        size='small'
-                    />
+                    <div className="lastTraining-contactInfo-avatar" onClick={() => onGoto(idStudent)}>
+                        <ProfileAvatar
+                            img={avatar}
+                            size='small'
+                        />
+                    </div>
                     <div className="lastTraining-contactInfo-nameAndDate">
-                        <span className='lastTraining-contactInfo-name'>{name}</span>
-                        <span className='lastTraining-contactInfo-date'>{moment(date).format("DD.MM.YYYY")}</span>
+                        <span className='lastTraining-contactInfo-name' onClick={() => onGoto(idStudent)}>{name}</span>
+                        <span className='lastTraining-contactInfo-date' onClick={() => onGoto(idStudent)}>{moment(date).format("DD.MM.YYYY")}</span>
                     </div>
                     <span className='lastTraining-contactInfo-discipline'>{discipline}</span>
                 </div>
                 <div className='lastTraining-homework'>
-                    {homework ? homework:
+                    {homework ? homework :
                         <div className="sendHomework">
-                            <textarea className="sendHomework-area" name="homework" rows="10" placeholder='Домашнее задание...'></textarea>
+                            <textarea className="sendHomework-area" name="homework" rows="10" placeholder='Домашнее задание...'>{homework ? homework.info : ''}</textarea>
                             <button className="sendHomework-btn">
-                                <Icon type="message" size={25}></Icon>
+                                <Icon type="message" size={25}/>
                             </button>
                         </div>}
                 </div>
@@ -48,12 +51,13 @@ class LastTrainingsItem extends React.Component{
                         <Button
                             btnText="Загрузить"
                             type="border-pink"
+                            link={homework ? homework.recordlink : ''}
                         />
                     </div>
                     <div className='files'>
                         <span className='files-title'>Материалы</span>
                         <PopoverFile
-                            data={[]}
+                            data={homework ? homework.attachments : []}
                         >
                         </PopoverFile>
                     </div>

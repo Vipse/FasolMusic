@@ -13,15 +13,8 @@ import Spinner from "../Spinner";
 class NearTrainings extends React.Component {
 
     state = {
-        loading: true,
-        disciplineValues: []
+        loading: true
     };
-
-    componentDidMount() {
-        this.props.getSelectors('discipline')
-                .then(res => this.setState({disciplineValues: res.data}))
-                .catch(err => console.log(err));
-    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.data !== this.props.data)
@@ -44,8 +37,8 @@ class NearTrainings extends React.Component {
     };
 
     render() {
-        const {data} = this.props;
-        const {loading, disciplineValues} = this.state;
+        const {data, disciplineSelectors} = this.props;
+        const {loading} = this.state;
         const rootClass = cn('schedule-future');
 
         let arrData = [];
@@ -56,7 +49,7 @@ class NearTrainings extends React.Component {
                     start: +item.allInfo.date * 1000,
                     end: +item.allInfo.date * 1000 + 3600000,
                     discipline: item.allInfo.disciplines.length ?
-                        disciplineValues.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null
+                        disciplineSelectors.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null
                 };
             })));
         }

@@ -16,8 +16,7 @@ class MainPage extends React.Component{
 	state = {
 		cancelModal: false,
 		addModal: false,
-        isNewFreeVisitVisible: false,
-
+        isNewFreeVisitVisible: false
 	}
 
 	getPastAndFutureTraining = () => {
@@ -29,8 +28,8 @@ class MainPage extends React.Component{
 		end = moment(Date.now()).endOf('day').format('X');
 		this.props.onGetTodayTrainerTraining(id, end, start);
 
-		start = moment(Date.now()).format('X');
-		end = moment(Date.now()).add(1, 'weeks').format('X');
+		start = moment(Date.now()).subtract(1, 'weeks').format('X');
+		end = moment(Date.now()).format('X');
 		this.props.onGetFutureTrainerTraining(id, start, end);
 
 		start = moment(Date.now()).format('X');
@@ -40,6 +39,7 @@ class MainPage extends React.Component{
 
 	componentDidMount() {
 		this.props.onGetAbonements(this.props.id);
+		this.props.getSelectors('discipline');
 
 		if (this.props.mode === "student") {
 			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), '1');
@@ -122,7 +122,7 @@ class MainPage extends React.Component{
 				todayTraining = {this.props.todayTraining}
 				futureTraining = {this.props.futureTraining}
 				postTraining = {this.props.postTraining}
-				getSelectors = {this.props.getSelectors}
+				selectors = {this.props.selectors}
 				goToChat = {this.goToChat}
 
 				showCancel = {() => {this.setState({cancelModal: true})}}
@@ -154,6 +154,7 @@ const mapStateToProps = state => {
 		todayTraining: (state.auth.mode ==='master') ? state.trainer.todayTraining : null,
 		postTraining: (state.auth.mode ==='master') ? state.trainer.postTraining : null,
 		futureTraining: (state.auth.mode ==='master') ? state.trainer.futureTraining : null,
+		selectors: state.loading.selectors,
 
 		patients: state.patients.docPatients,
 		visits: state.schedules.visits,

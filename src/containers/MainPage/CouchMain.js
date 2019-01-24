@@ -4,11 +4,9 @@ import Col from "../../components/Col";
 import TopPanel from "../../components/TopPanel";
 import Reviews from "../../components/Reviews";
 import NearTrainings from "../../components/NearTrainings";
-import Icon from "../../components/Icon";
 
 import Hoc from '../../hoc'
 import LastTrainings from "../../components/LastTrainings";
-import moment from 'moment'
 import MyStudents from './../../components/MyStudents/index';
 
 class CouchMain extends React.Component {
@@ -18,12 +16,11 @@ class CouchMain extends React.Component {
 
     gotoHandler = (id) => {
         this.props.onSelectPatient(id);
-        this.props.history.push('/app/student' + id); // надо student
-    }
-
+        this.props.history.push('/app/student' + id);
+    };
 
     render() {
-        const {allAbonements, myCoachOrStudents, postTraining, futureTraining} = this.props;
+        const {allAbonements, myCoachOrStudents, postTraining, futureTraining, selectors} = this.props;
 
         let myStudents = [];
         for (let i = 0; i < myCoachOrStudents.length; i++) {
@@ -51,7 +48,7 @@ class CouchMain extends React.Component {
                             onGoto={(val) => this.gotoHandler(val)}
                             openNearTrains={() => this.props.history.push('/app/schedule')}
                             data={futureTraining}
-                            getSelectors = {this.props.getSelectors}
+                            disciplineSelectors={selectors.discipline}
                         />
                     </Col>
                     <Col xs={14} xxl={8} className='section'>
@@ -59,6 +56,7 @@ class CouchMain extends React.Component {
                             onGoto={(val) => this.gotoHandler(val)}
                             openLastTrains={() => this.props.history.push('/app/homework')}
                             data={postTraining}
+                            disciplineSelectors={selectors.discipline}
                         />
                     </Col>
 
