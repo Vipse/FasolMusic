@@ -175,7 +175,7 @@ class CoachPage extends React.Component{
                                     intervals={masterSchedule}
                                     trainerTrainings={trainerTrainings}
                                     handleTrainModal={this.handleTrainModal}
-                                    myID={auth.id}
+                                    studentID={auth.id}
                                     isAdmin={isAdmin}
                                 />
                                 <CoachPagePerfectStudent

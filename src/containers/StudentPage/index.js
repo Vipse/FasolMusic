@@ -5,9 +5,9 @@ import Col from "../../components/Col";
 import StudentProfile from "../../components/StudentProfile";
 import StudentPagePerfectCoach from "../../components/StudentPagePerfectCoach";
 import TrainsHistory from "../../components/TrainsHistory";
+import RecordTrainCarousel from "../../components/RecordTrainCarousel";
 
 import Hoc from '../../hoc'
-
 import * as actions from '../../store/actions'
 
 import './styles.css';
@@ -62,9 +62,17 @@ class StudentPage extends React.Component{
             return disciplines.map(item => item.level)
     };
 
+    getSchedule = (dateStart, dateEnd) => {
+        const idVisitor = this.props.auth.id;
+        this.props.onGetOwnTrainings(idVisitor, dateStart, dateEnd);
+    };
+
     render() {
         const { id, avatar, name } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
+        const {trainerTrainings, match} = this.props;
+        const isAdmin = this.props.auth.mode === 'admin';
+
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
         } else if (id !== this.props.match.params.id) {
@@ -110,6 +118,13 @@ class StudentPage extends React.Component{
                                                    addConclusion={this.props.addConclusion}
                                                    makeArchiveOfFiles={this.props.makeArchiveOfFiles}
                                 />
+                                <RecordTrainCarousel
+                                    onGetIntervals={this.getSchedule}
+                                    trainerTrainings={trainerTrainings}
+                                    studentID={match.params.id}
+                                    isAdmin={isAdmin}
+                                    isStudentPage={true}
+                                />
                             </Col>
                         </Row>
                     </div>
@@ -123,12 +138,9 @@ class StudentPage extends React.Component{
 
 const mapStateToProps = state => {
     return {
+        auth: state.auth,
         profileStudent: state.profilePatient,
-        //info: state.patients.selectedPatientInfo,
-        intervals: state.patients.intervals,
-        availableIntervals: state.profileDoctor.workIntervals,
-        appsBetween: state.treatments.appsBetween,
-        appsBetweenCount: state.treatments.appsBetweenCount
+        trainerTrainings: state.profileDoctor.trainerTrainings
     }
 };
 
@@ -136,17 +148,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
-        //getPatientInfo: (id) => dispatch(actions.getSelectedPatientInfo(id)),
-        onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
-        addPatient: (id) => dispatch(actions.addPatient(id, '', true)),
-        onGetIntervalForDate: (beginDay, endDay) => dispatch(actions.getDateIntervalWithoutMakingApp(beginDay, endDay)),
-        onGetAllDocIntervals: (id) => dispatch(actions.getAllDocIntervals(id)),
-        onSaveReception: (reception) => dispatch(actions.setReception(reception)),
-        onGetAppointments: (obj) => dispatch(actions.getAppsBetweenDocAndUser(obj)),
-        onSelectTretment: (id) => dispatch(actions.selectTreatment(id)),
-        addConclusion:(id_zap, file) => dispatch(actions.uploadConclusion(id_zap, file)),
-        makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files))
-
+        onGetOwnTrainings: (id, weekStart, weekEnd) => dispatch(actions.getTrainerTrainings(id, weekStart, weekEnd))
     }
 };
 

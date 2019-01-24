@@ -21,12 +21,15 @@ class RecordTrainCarousel extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.intervals && this.props.trainerTrainings && this.state.loadingDate &&
-            this.props.intervals.dateStart === this.state.loadingDate.format('X') &&
-            this.props.trainerTrainings.dateStart === this.state.loadingDate.format('X')
+        const {intervals, trainerTrainings, isStudentPage} = this.props;
+        const {loadingDate} = this.state;
+
+        if (loadingDate &&
+            (isStudentPage || (intervals && intervals.dateStart === loadingDate.format('X'))) &&
+            trainerTrainings && trainerTrainings.dateStart === loadingDate.format('X')
         ) this.setState({loadingDate: null});
 
-        if (prevState.loadingDate !== this.state.loadingDate) {
+        if (prevState.loadingDate !== loadingDate) {
             const {weekStart} = this.state;
             this.props.onGetIntervals(weekStart.format('X'), moment(weekStart).add(1, 'weeks').format('X'));
         }
@@ -52,10 +55,10 @@ class RecordTrainCarousel extends React.Component {
         });
     };
 
-    renderAvailableAppointments = (intervals, trainerTrainings) => {
+    renderAvailableAppointments = (trainerTrainings, intervals = {}) => {
         const availableHoursArea = [8, 23];
         const {weekStart, loadingDate} = this.state;
-        const {isAdmin, myID} = this.props;
+        const {isAdmin, studentID, isStudentPage} = this.props;
         const curTime = moment();
         let curWeekBegin = weekStart;
 
@@ -72,7 +75,7 @@ class RecordTrainCarousel extends React.Component {
 
             let curDayTrainerTrainings = trainerTrainings[moment(curDayBegin).format('X')];
             let ownTrains = curDayTrainerTrainings ? curDayTrainerTrainings.map((item) => {
-                if (isAdmin || item.allInfo.idStudent === myID)
+                if (isAdmin || item.allInfo.idStudent === studentID)
                     return item.allInfo.date;
             }) : [];
 
@@ -116,12 +119,13 @@ class RecordTrainCarousel extends React.Component {
                         .map((item, indexTime) =>
                             <div className='table-main-time'>
                                 <div
-                                    className={item.isAvailable ? 'availableTime'
-                                        : item.isOwn ? isAdmin ? 'reservedTime' : 'ownTime' : ''}
+                                    className={(item.isAvailable ? 'availableTime'
+                                        : item.isOwn ? isAdmin ? 'reservedTime' : 'ownTime' : '')
+                                        + (isStudentPage ? ' notActive' : '')}
                                     key={indexTime + 1}
                                     onClick={item.isAvailable ?
                                         e => this.props.handleTrainModal(e, item, false, isAdmin)
-                                        : (item.isOwn) ? e => this.props.handleTrainModal(e, item, true, isAdmin)
+                                        : (item.isOwn && !isStudentPage) ? e => this.props.handleTrainModal(e, item, true, isAdmin)
                                             : null}
                                     data-timestamp={item.timestamp}
                                     data-interval-type={item.type}
@@ -136,10 +140,10 @@ class RecordTrainCarousel extends React.Component {
 
     render() {
         const {weekStart} = this.state;
-        const {intervals, trainerTrainings, isAdmin} = this.props;
+        const {intervals, trainerTrainings, isAdmin, isStudentPage} = this.props;
         const rootClass = cn('train-carousel');
         return (
-            <Card title="Записаться на тренировку">
+            <Card title={isStudentPage ? "Расписание тренировок" : "Записаться на тренировку"}>
                 <div className={rootClass}>
                     <div>
                         <div className='table-header'>
@@ -162,13 +166,13 @@ class RecordTrainCarousel extends React.Component {
                             />
                         </div>
                         <div className="table-main">
-                            {this.renderAvailableAppointments(intervals, trainerTrainings)}
+                            {this.renderAvailableAppointments(trainerTrainings, intervals)}
                         </div>
                         <div className="table-footer">
-                            <div className="type">
+                            {!isStudentPage && <div className="type">
                                 <div className='type-color-available'/>
                                 <div className='type-name'>Свободно</div>
-                            </div>
+                            </div>}
                             {isAdmin ?
                             <div className="type">
                                 <div className='type-color-reserved'/>
