@@ -4,6 +4,10 @@
 .section-tablenohead.ant-card-body {
   margin-top: 20px;
 }
+.ant-card-bordered {
+  border: none;
+  border-radius: 10px;
+}
 .ant-card-head {
   font-family: RobotoRegularItalic;
   background-color: #ff7daa;

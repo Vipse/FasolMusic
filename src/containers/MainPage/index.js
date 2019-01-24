@@ -11,8 +11,8 @@ import AdminMain from "./AdminMain";
 class MainPage extends React.Component{
 	constructor(props) {
 		super(props);
-        this.timer;
 	}
+
 	state = {
 		cancelModal: false,
 		addModal: false,
@@ -29,57 +29,28 @@ class MainPage extends React.Component{
 		end = moment(Date.now()).endOf('day').format('X');
 		this.props.onGetTodayTrainerTraining(id, end, start);
 
-		start = moment(Date.now()).add(1, 'weeks').format('X');
-		end = moment(Date.now()).format('X');
-
-		this.props.onGetFutureTrainerTraining(id, end, start);
+		start = moment(Date.now()).format('X');
+		end = moment(Date.now()).add(1, 'weeks').format('X');
+		this.props.onGetFutureTrainerTraining(id, start, end);
 
 		start = moment(Date.now()).format('X');
-		end = moment(Date.now()).subtract(1, 'weeks').format('X');  
-		this.props.onGetPostTrainerTraining(id, end, start);
-		
-	}
+		end = moment(Date.now()).add(1, 'weeks').format('X');
+		this.props.onGetPostTrainerTraining(id, start, end);
+	};
 
 	componentDidMount() {
 		this.props.onGetAbonements(this.props.id);
 
 		if (this.props.mode === "student") {
-			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X') , '1');
-			this.props.onGetMyMastersOrStudents({idStudent : this.props.id});
-            this.props.onGetNextTraining(this.props.id);
-		}
-		else if (this.props.mode === "master"){
-			this.props.onGetMyMastersOrStudents({idMaster : this.props.id});
+			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), '1');
+			this.props.onGetMyMastersOrStudents({idStudent: this.props.id});
+			this.props.onGetNextTraining(this.props.id);
+		} else if (this.props.mode === "master") {
+			this.props.onGetMyMastersOrStudents({idMaster: this.props.id});
 			this.props.onGetNextTraining(this.props.id);
 			this.getPastAndFutureTraining();
 		}
-		
 	}
-	
-	componentWillMount(){
-		if (this.props.mode === "user") {
-			this.props.onGetPatientDoctors(2);
-            this.props.onGetNearVisits(3);
-			this.timer = setInterval(()=>this.props.onGetNearVisits(3), 60000);
-            this.props.onGetUserInfoShort();
-		}
-		else {
-			this.props.reviews && this.props.onGetAllReviews();
-			let now = new Date();
-            this.props.onGetTodayVisits(new Date(now.getFullYear(), now.getMonth(), now.getDate()),
-                new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20));
-			this.timer = setInterval(()=>this.props.onGetTodayVisits(new Date(now.getFullYear(), now.getMonth(), now.getDate()),
-											new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20)), 60000);
-
-			//this.props.getDocTodayInfo();
-			this.props.onGetIntervalForDate(moment(+new Date()).format('X'), moment(+new Date()).format('X'), );
-		}
-
-	}
-
-    componentWillUnmount() {
-		clearInterval(this.timer)
-    }
 
     onAddVisit = () => {
 		this.props.onGetDocPatients();
@@ -99,7 +70,8 @@ class MainPage extends React.Component{
 
 	onNewFreeVisit = () => {
 	    this.setState({isNewFreeVisitVisible: true})
-}
+	}
+
 	/*shouldComponentUpdate(nextProps, nextState){
 		return this.props.visits.length !== nextProps.visits.length
 			|| this.props.docTodayInfo.receptionsToday !== nextProps.docTodayInfo.receptionsToday
@@ -110,7 +82,7 @@ class MainPage extends React.Component{
 	}*/
 
 
-	    // Fasol
+	// Fasol
 	goToChat = (idTo) => {  
 		this.props.onSetChatToId(idTo);
 		this.props.history.push('/app/chat');
@@ -150,6 +122,7 @@ class MainPage extends React.Component{
 				todayTraining = {this.props.todayTraining}
 				futureTraining = {this.props.futureTraining}
 				postTraining = {this.props.postTraining}
+				getSelectors = {this.props.getSelectors}
 				goToChat = {this.goToChat}
 
 				showCancel = {() => {this.setState({cancelModal: true})}}
@@ -235,7 +208,7 @@ const mapDispatchToProps = dispatch => {
 		onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
 		onGetFutureTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getFutureTrainerTraining(idMaster, dateMin, dateMax)),
 		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
-		
+		getSelectors: (name) => dispatch(actions.getSelectors(name)),
     }
 };
 

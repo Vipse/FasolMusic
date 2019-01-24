@@ -8,8 +8,26 @@ import Card from '../Card'
 import './style.css'
 import '../../icon/style.css'
 import Icon from '../Icon'
+import Spinner from "../Spinner";
 
 class NearTrainings extends React.Component {
+
+    state = {
+        loading: true,
+        disciplineValues: []
+    };
+
+    componentDidMount() {
+        this.props.getSelectors('discipline')
+                .then(res => this.setState({disciplineValues: res.data}))
+                .catch(err => console.log(err));
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.data !== this.props.data)
+            this.setState({loading: false});
+    }
+
     scheduleRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<NearTrainingsItem {...item}
@@ -19,47 +37,40 @@ class NearTrainings extends React.Component {
         });
     };
 
+    compareTrainsByTime = (trainsArr) => {
+        return trainsArr.sort(function compare(a, b) {
+            return a.start < b.start ? -1 : a.start > b.start ? 1 : 0;
+        });
+    };
+
     render() {
         const {data} = this.props;
-        const rootClass = cn('schedule-all');
+        const {loading, disciplineValues} = this.state;
+        const rootClass = cn('schedule-future');
 
         let arrData = [];
-        for (let el in data) {
-            if(data.hasOwnProperty(el) && Array.isArray(data[el]) ) {
-                arrData.push(data[el]);
-            } 
+        for (let dayItem in data) {
+            arrData.push(...this.compareTrainsByTime(data[dayItem].map(item => {
+                return {
+                    name: item.allInfo.fio,
+                    start: +item.allInfo.date * 1000,
+                    end: +item.allInfo.date * 1000 + 3600000,
+                    discipline: item.allInfo.disciplines.length ?
+                        disciplineValues.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null
+                };
+            })));
         }
 
-        
-        // data={[
-        //     {
-        //         profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-        //         online: true,
-        //         date: 1540813960,
-        //         discipline: "Вокал",
-        //         name: "Петров василий чвасильевич",
-        //         homework: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the " +
-        //             "printing and typesetting industry. Lorem Ipsum has been the industry's " +
-        //             "standard dummy text ever since the 1500s, when a"
-        //     },
-        //     {
-        //         profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-        //         online: true,
-        //         discipline: "Вокал",
-        //         name: "Петров ВАСКЕ чвасильевич",
-        //         homework: ''
-        //     }
-        // ]}
-
-       
-     
         return (
             <div className={rootClass}>
                 <Card title="Ближайшие тренировки"
-                      extra={<a className="schedule-all-link" onClick={this.props.openNearTrains}><Icon type="circle_arrow_right"/> <span>Все</span></a>}>
-                    {arrData.length ?
-                        this.scheduleRender(arrData)
-                        : <div className='entry-list no-trainings'>Тренировок нет</div>}
+                      extra={<a className="schedule-future-link" onClick={this.props.openNearTrains}><Icon
+                          type="circle_arrow_right"/><span>Все</span></a>}>
+                    {loading ? <Spinner size='large'/> :
+                        <PerfectScrollbar className="futureTrainings-scroll">
+                            {arrData.length ? this.scheduleRender(arrData) :
+                                <div className='entry-list no-trainings'>Тренировок нет</div>}
+                        </PerfectScrollbar>}
                 </Card>
             </div>
         )
