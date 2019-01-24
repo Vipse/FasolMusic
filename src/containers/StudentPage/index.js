@@ -4,6 +4,7 @@ import Row from "../../components/Row";
 import Col from "../../components/Col";
 import StudentProfile from "../../components/StudentProfile";
 import StudentPagePerfectCoach from "../../components/StudentPagePerfectCoach";
+import FrozenTrainingChanger from "../../components/FrozenTrainingChanger";
 import TrainsHistory from "../../components/TrainsHistory";
 import RecordTrainCarousel from "../../components/RecordTrainCarousel";
 
@@ -50,6 +51,13 @@ class StudentPage extends React.Component{
         }
     }
 
+    changeFrozenBalance = (frozenTrainingCount) => {
+        return this.props.onSaveUserEdit({
+            id: this.props.match.params.id,
+            frozenTraining: frozenTrainingCount
+        });
+    };
+
     getDisciplinesList = () => {
         const {disciplines} = this.props.profileStudent;
         if (disciplines.length)
@@ -68,7 +76,7 @@ class StudentPage extends React.Component{
     };
 
     render() {
-        const { id, avatar, name } = this.props.profileStudent;
+        const { id, avatar, name, frozenTraining } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
         const {trainerTrainings, match} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
@@ -102,6 +110,10 @@ class StudentPage extends React.Component{
                                     qualities={getNamesFromObjArr(bestqualities)}
                                     comment={bestcomment}
                                 />
+                                {isAdmin && <FrozenTrainingChanger
+                                    frozenCount={frozenTraining}
+                                    onSaveFrozenBalance={this.changeFrozenBalance}
+                                />}
                             </Col>
                             <Col span={14}>
                                 <TrainsHistory data={this.props.appsBetween}
@@ -134,8 +146,6 @@ class StudentPage extends React.Component{
     }
 }
 
-
-
 const mapStateToProps = state => {
     return {
         auth: state.auth,
@@ -148,7 +158,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
-        onGetOwnTrainings: (id, weekStart, weekEnd) => dispatch(actions.getTrainerTrainings(id, weekStart, weekEnd))
+        onGetOwnTrainings: (id, weekStart, weekEnd) => dispatch(actions.getTrainerTrainings(id, weekStart, weekEnd)),
+        onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data, 'student'))
     }
 };
 
