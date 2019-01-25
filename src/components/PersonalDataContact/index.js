@@ -148,13 +148,13 @@ class PersonalDataContact extends React.Component {
                         size='default'
                         type='light-blue'
                     />
-                    {!isStudent && <Button
+                    <Button
                         className='coach-data-toggles-modalBtn'
                         onClick={showSendSuggestionsModal}
                         size='icon'
                         icon='bulb'
                         type='light-blue'
-                    />}
+                    />
                     <div className='coach-data-id'>id профиля: {id}</div>
                 </div>
             </div>

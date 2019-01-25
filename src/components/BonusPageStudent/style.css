@@ -1,0 +1,110 @@
+.bonus-student {
+  display: grid;
+  grid-template-areas: "record invite invite" "record data refer" "record data refer";
+  grid-template-rows: 244px 266px 244px;
+  grid-template-columns: 493px 481px 480px;
+  grid-gap: 30px;
+}
+.bonus-student .ant-card-body {
+  color: #000;
+}
+.bonus-student .new-input input[type="text"] {
+  border-bottom: 1px solid #000;
+}
+.bonus-student .new-input label {
+  font-family: RobotoMedium, sans-serif;
+  color: #000;
+}
+.bonus-student .offers {
+  grid-area: record;
+}
+.bonus-student .offers .ant-card-body {
+  height: calc(100% - 66px);
+}
+.bonus-student .offers-item {
+  margin: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #777;
+}
+.bonus-student .offers-item-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.bonus-student .offers-item-header .date {
+  font-family: RobotoMedium, sans-serif;
+  font-size: 24px;
+  line-height: 24px;
+  color: #21bedd;
+  text-align: center;
+  margin-right: 40px;
+}
+.bonus-student .offers-item-header .title {
+  font-size: 18px;
+  line-height: 18px;
+  font-family: RobotoMediumItalic, sans-serif;
+  color: #111;
+}
+.bonus-student .offers-item-body .info {
+  font-family: RobotoRegular, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  color: #111;
+}
+.bonus-student .offers-item-body .link {
+  color: #21bedd;
+  font-size: 12px;
+  line-height: 24px;
+  font-family: RobotoRegular, sans-serif;
+}
+.bonus-student .second-subscription {
+  grid-area: data;
+}
+.bonus-student .second-subscription-container {
+  padding: 25px;
+}
+.bonus-student .second-subscription-container .title {
+  font-family: RobotoMediumItalic, sans-serif;
+  font-size: 20px;
+}
+.bonus-student .referLink {
+  grid-area: refer;
+}
+.bonus-student .referLink-column {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+.bonus-student .referLink-column .title {
+  font-family: RobotoMediumItalic, sans-serif;
+  font-size: 20px;
+}
+.bonus-student .referLink-column .info {
+  font-family: RobotoRegular, sans-serif;
+  margin-bottom: 90px;
+}
+.bonus-student .referLink-column .input {
+  width: 90%;
+  align-self: center;
+  margin-bottom: 60px;
+}
+.bonus-student .referLink-column .copyBtn {
+  align-self: center;
+}
+.bonus-student .invite {
+  grid-area: invite;
+}
+.bonus-student .invite img {
+  float: left;
+  margin-right: 22px;
+  color: #fff;
+}
+.bonus-student .invite .title {
+  font-family: RobotoMediumItalic, sans-serif;
+  font-size: 20px;
+  margin-top: 22px;
+}
+.bonus-student .invite .info {
+  font-family: RobotoRegular, sans-serif;
+}

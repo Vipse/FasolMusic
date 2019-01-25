@@ -60,7 +60,7 @@ class LastTrainings extends React.Component {
                     {loading ? <Spinner size='large'/> : <PerfectScrollbar className="lastTrainings-scroll">
                     {arrData.length ?
                         this.studentsRender(arrData)
-                        : <div className='noTrainings'>Тренировок ещё не было</div>}
+                        : <div className='entry-list no-trainings'>Тренировок ещё не было</div>}
                     </PerfectScrollbar>}
                 </Card>
             </div>
