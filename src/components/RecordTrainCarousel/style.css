@@ -115,6 +115,12 @@
 .train-carousel .table-main-time .availableTime:hover:after {
   content: '+';
 }
+.train-carousel .table-main-time .notActive {
+  cursor: not-allowed;
+}
+.train-carousel .table-main-time .notActive:hover:after {
+  content: '';
+}
 .train-carousel .table-main-row {
   display: flex;
   width: 100%;

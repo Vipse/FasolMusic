@@ -64,15 +64,25 @@ export const makeArchiveOfFiles = (obj) => {
 };
 
 export const getSelectors = (name) => {
-    return () => {
+    return (dispatch) => {
         const selectorNameObj = {
             code: name
         };
+
         return axios.post('/catalog.fasol/getSelectors',
             JSON.stringify(selectorNameObj))
-            .then(res => res)
+            .then(res => {
+                dispatch({
+                    type: actionTypes.GET_SELECTORS,
+                    selectorType: name,
+                    values: res.data
+                });
+
+                return res;
+            })
             .catch(err => {
                 console.log('error: ', err);
+                return err;
             })
     }
 };

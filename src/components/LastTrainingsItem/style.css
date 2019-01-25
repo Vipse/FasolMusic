@@ -10,6 +10,9 @@
 .lastTraining-contactInfo {
   display: flex;
 }
+.lastTraining-contactInfo-avatar:hover {
+  cursor: pointer;
+}
 .lastTraining-contactInfo-nameAndDate {
   display: flex;
   flex-direction: column;
@@ -21,10 +24,18 @@
   line-height: 18px;
   margin-right: 20px;
 }
+.lastTraining-contactInfo-name:hover {
+  cursor: pointer;
+  color: #111;
+}
 .lastTraining-contactInfo-date {
   color: #111;
   font-family: RobotoMediumItalic, sans-serif;
   font-size: 12px;
+}
+.lastTraining-contactInfo-date:hover {
+  cursor: pointer;
+  color: #111;
 }
 .lastTraining-contactInfo-discipline {
   font-size: 12px;

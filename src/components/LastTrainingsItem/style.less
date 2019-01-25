@@ -9,6 +9,11 @@
 
   &-contactInfo {
     display: flex;
+    &-avatar {
+      &:hover {
+        cursor: pointer;
+      }
+    }
     &-nameAndDate {
       display: flex;
       flex-direction: column;
@@ -19,17 +24,26 @@
       font-family: RobotoBlack, sans-serif;
       line-height: 18px;
       margin-right: 20px;
+
+      &:hover {
+        cursor: pointer;
+        color: #111;
+      }
     }
     &-date {
       color: #111;
       font-family: RobotoMediumItalic, sans-serif;
       font-size: 12px;
+
+      &:hover {
+        cursor: pointer;
+        color: #111;
+      }
     }
     &-discipline {
       font-size: 12px;
       line-height: 14px;
       color: #777777;
-
     }
   }
   &-homework {

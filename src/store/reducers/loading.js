@@ -4,6 +4,7 @@ const initialState = {
     isConfirmed: false,
     isReceived: false,
     visitId: 0,
+    selectors: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -30,6 +31,11 @@ const reducer = (state = initialState, action) => {
                 isConfirmed: action.isConfirmed,
                 visitId: action.visitId,
                 isReceived: true,
+            };
+        case actionTypes.GET_SELECTORS:
+            return {
+                ...state,
+                selectors: {...state.selectors, [action.selectorType]: action.values}
             };
         case actionTypes.GET_RESULTS_HEADER_SEARCH:
             return {

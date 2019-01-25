@@ -28,12 +28,10 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
-                <div className="balance"><span >Баланс {frozenTraining}</span></div>
+                <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
                 <div className='header-train'>
                     {isStudent ?
                         <React.Fragment>
-                       
-                        
                             <Button
                                 btnText='ДОБАВИТЬ ТРЕНИРОВКУ'
                                 size='default'
