@@ -59,6 +59,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isPushBtnTrialTraining: action.isPushBtnTrialTraining
             }     
+ 
             
             
             

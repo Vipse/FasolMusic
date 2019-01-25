@@ -43,7 +43,7 @@ class Chat extends React.Component{
       
         const chatProps = {
             //wsURL: 'wss://appdoc.by:8443/one2one',
-            wsURL: 'wss://fasolonline.ru:8443/one2one',
+            wsURL: 'wss://web.fasolonline.ru:8443/one2one',
             callback: this.props.callback,
             clearCallback: this.props.clearCallback,
             timer: this.props.timer,

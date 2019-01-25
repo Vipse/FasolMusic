@@ -100,7 +100,7 @@ class App extends React.Component {
         
         let sock = createSocket(
            // 'wss://appdoc.by:8443/one2one',
-            'wss://fasolonline.ru:8443/one2one',
+            'wss://web.fasolonline.ru:8443/one2one',
             chatProps,
             {
                 setChatFromId,

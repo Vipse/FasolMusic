@@ -141,6 +141,7 @@ export {
     freezeAbonement,
     changeCurrDiscipline,
     setWeekInterval,
+    setChooseTheMasterByStudent,
 } from './abonement'
 
 export {

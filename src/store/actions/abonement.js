@@ -191,3 +191,11 @@ export const changeCurrDiscipline = (currDiscipline) => {
     });
 }
 
+export const setChooseTheMasterByStudent = (master) => {
+    
+    return ({
+        type: actionTypes.SET_CHOOSE_THE_MASTER_BY_STUDENT,
+        chooseTheMaster: master            
+    });
+}
+

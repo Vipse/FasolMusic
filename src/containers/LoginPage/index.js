@@ -55,7 +55,7 @@ class LoginPage extends React.Component {
                     const time0 = moment(Date.now()).startOf('week').format('X');
                     const time1 = moment(Date.now()).endOf('week').format('X');
                     this.props.onGetAvailableInterval(time0 ,time1, Object.keys(data.selectedDays),  [disciplinesList[type].code]);
-                    this.props.onSetPushTrialTraining(true);
+                    this.props.onSetPushTrialTraining('trial');
                     this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
                     this.props.history.push('/app/schedule');

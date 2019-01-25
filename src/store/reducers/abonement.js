@@ -49,7 +49,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 weekInterval: action.weekInterval,
             }   
-              
+        case actionTypes.SET_CHOOSE_THE_MASTER_BY_STUDENT:
+            return {
+                ...state,
+                chooseTheMaster: action.chooseTheMaster
+            }
+               
             
         default: return state;
     }
