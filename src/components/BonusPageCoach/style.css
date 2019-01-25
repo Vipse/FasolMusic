@@ -1,38 +1,38 @@
-.bonus {
+.bonus-coach {
   display: grid;
   grid-template-areas: "record invite invite" "record data refer" "record data refer";
   grid-template-rows: 244px 266px 244px;
   grid-template-columns: 493px 581px 380px;
   grid-gap: 30px;
 }
-.bonus .ant-card-body {
+.bonus-coach .ant-card-body {
   color: #000;
 }
-.bonus .new-input input[type="text"] {
+.bonus-coach .new-input input[type="text"] {
   border-bottom: 1px solid #000;
 }
-.bonus .new-input label {
+.bonus-coach .new-input label {
   font-family: RobotoMedium, sans-serif;
   color: #000;
 }
-.bonus .offers {
+.bonus-coach .offers {
   grid-area: record;
 }
-.bonus .offers .ant-card-body {
+.bonus-coach .offers .ant-card-body {
   height: calc(100% - 66px);
 }
-.bonus .offers-item {
+.bonus-coach .offers-item {
   margin: 25px;
   padding-bottom: 15px;
   border-bottom: 1px dashed #777;
 }
-.bonus .offers-item-header {
+.bonus-coach .offers-item-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 25px;
 }
-.bonus .offers-item-header .date {
+.bonus-coach .offers-item-header .date {
   font-family: RobotoMedium, sans-serif;
   font-size: 24px;
   line-height: 24px;
@@ -40,71 +40,71 @@
   text-align: center;
   margin-right: 40px;
 }
-.bonus .offers-item-header .title {
+.bonus-coach .offers-item-header .title {
   font-size: 18px;
   line-height: 18px;
   font-family: RobotoMediumItalic, sans-serif;
   color: #111;
 }
-.bonus .offers-item-body .info {
+.bonus-coach .offers-item-body .info {
   font-family: RobotoRegular, sans-serif;
   font-size: 14px;
   line-height: 24px;
   color: #111;
 }
-.bonus .offers-item-body .link {
+.bonus-coach .offers-item-body .link {
   color: #21bedd;
   font-size: 12px;
   line-height: 24px;
   font-family: RobotoRegular, sans-serif;
 }
-.bonus .second-subscription {
+.bonus-coach .second-subscription {
   grid-area: data;
 }
-.bonus .second-subscription-container {
+.bonus-coach .second-subscription-container {
   padding: 25px;
 }
-.bonus .second-subscription-container .title {
+.bonus-coach .second-subscription-container .title {
   font-family: RobotoMediumItalic, sans-serif;
   font-size: 20px;
 }
-.bonus .referLink {
+.bonus-coach .referLink {
   grid-area: refer;
 }
-.bonus .referLink-column {
+.bonus-coach .referLink-column {
   display: flex;
   flex-direction: column;
   padding: 25px;
 }
-.bonus .referLink-column .title {
+.bonus-coach .referLink-column .title {
   font-family: RobotoMediumItalic, sans-serif;
   font-size: 20px;
 }
-.bonus .referLink-column .info {
+.bonus-coach .referLink-column .info {
   font-family: RobotoRegular, sans-serif;
   margin-bottom: 90px;
 }
-.bonus .referLink-column .input {
+.bonus-coach .referLink-column .input {
   width: 90%;
   align-self: center;
   margin-bottom: 60px;
 }
-.bonus .referLink-column .copyBtn {
+.bonus-coach .referLink-column .copyBtn {
   align-self: center;
 }
-.bonus .invite {
+.bonus-coach .invite {
   grid-area: invite;
 }
-.bonus .invite img {
+.bonus-coach .invite img {
   float: left;
   margin-right: 22px;
   color: #fff;
 }
-.bonus .invite .title {
+.bonus-coach .invite .title {
   font-family: RobotoMediumItalic, sans-serif;
   font-size: 20px;
   margin-top: 22px;
 }
-.bonus .invite .info {
+.bonus-coach .invite .info {
   font-family: RobotoRegular, sans-serif;
 }

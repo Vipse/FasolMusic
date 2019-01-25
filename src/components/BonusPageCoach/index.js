@@ -2,15 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import Button from '../Button'
-
 import './style.css'
 import '../../icon/style.css'
 import Card from "antd/es/card";
 import InputNew from "../InputNew";
-import inviteFriendsPic from "../../img/inviteFriendsPic.png"
-import PaymentEditModal from "../PaymentEditModal";
+import inviteFriendsPic from "../../img/inviteFriendsPic.png";
 
-class CoachPayment extends React.Component{
+class BonusPageCoach extends React.Component{
 
     constructor() {
         super();
@@ -32,6 +30,17 @@ class CoachPayment extends React.Component{
                 linked: !this.state[method].linked
             }
         });
+    };
+
+    copyLink = (e) => {
+        const textField = document.createElement('textarea');
+        if (this.state.refLink) {
+            textField.innerText = this.state.refLink;
+            document.body.appendChild(textField);
+            textField.select();
+            document.execCommand('copy');
+            textField.remove();
+        }
     };
 
     renderInput = (type) => {
@@ -57,8 +66,8 @@ class CoachPayment extends React.Component{
 
     render() {
         return (
-            <div className="bonus">
-                <Card className="offers" title="Акции"> {/*title="Акты выполненных работ">*/}
+            <div className="bonus-coach">
+                <Card className="offers" title="Акции">
                     <PerfectScrollbar>
                         <div className="offers-item">
                             <div className='offers-item-header'>
@@ -224,16 +233,23 @@ class CoachPayment extends React.Component{
                     </div>
                 </Card>
 
-                <Card className="referLink" title="Заголовок карточки">
-                <div className="referLink-column">
-                    <p className="title">Купи абонемент на вторую дисциплину</p>
-                    <p className="info">
-                        Тот получит 1 бесплатное занятие если оплатят, а препод получит денежное вознаграждение
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
-                        eligendi harum hic neque porro recusandae.
-                    </p>
-                </div>
-            </Card>
+                <Card className="referLink" title="Реферальная ссылка">
+                    <div className="referLink-column">
+                        <p className="title">Скинуть ссылку потенциальному новому клиенту</p>
+                        <p className="info">
+                            Тот получит 1 бесплатное занятие если оплатят, а препод получит денежное вознаграждение
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
+                            eligendi harum hic neque porro recusandae.
+                        </p>
+                        <InputNew className="input" bubbleplaceholder="Ссылка" onChange={(e) => this.setState({refLink: e.target.value})} onPressEnter={this.copyLink}/>
+                        <Button className="copyBtn"
+                                btnText='Скопировать'
+                                onClick={this.copyLink}
+                                size='default'
+                                type='light-pink'
+                        />
+                    </div>
+                </Card>
 
                 <Card className="invite" title="Пригласи друзей">
                     <img src={inviteFriendsPic}/>
@@ -242,23 +258,19 @@ class CoachPayment extends React.Component{
                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                         exercitation</p>
                 </Card>
-                <PaymentEditModal
-                    visible={this.state.modalVisible}
-                    onSave = {() => {}}
-                    onCancel={() => this.setState({modalVisible: false})}/>
             </div>
         )
     }
 }
 
-CoachPayment.propTypes = {
+BonusPageCoach.propTypes = {
     paymentData: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
-CoachPayment.defaultProps = {
+BonusPageCoach.defaultProps = {
     paymentData: {},
     onSubmit: () => {}
 };
 
-export default CoachPayment
+export default BonusPageCoach

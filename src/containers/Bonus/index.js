@@ -1,10 +1,9 @@
-
 import React from 'react'
 
 import Hoc from '../../hoc'
 import {connect} from "react-redux";
-import BonusPage from "../../components/BonusPage";
-import CoachPayment from '../../components/CoachPayment';
+import BonusPageStudent from "../../components/BonusPageStudent";
+import BonusPageCoach from '../../components/BonusPageCoach';
 
 class Bonus extends React.Component{
     constructor(props){
@@ -18,16 +17,9 @@ class Bonus extends React.Component{
         let isStudent = this.props.auth.mode === "student";
         return (
             <Hoc>
-                {isStudent ? <BonusPage/> : <CoachPayment/>}
+                {isStudent ? <BonusPageStudent/> : <BonusPageCoach/>}
             </Hoc>
         )
-        // return (
-        //     <Hoc>
-        //         {isStudent ?
-        //             (<BonusPage/>) :
-        //             (<h3 style={{textAlign: "center"}}>В разработке</h3>)}
-        //     </Hoc>
-        // )
     }
 }
 
