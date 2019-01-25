@@ -23,8 +23,7 @@ class NearTrainingsItem extends React.Component{
                 </div>
                 <div className="nearTraining-info">
                     <div className="nearTraining-info-time">
-                        {`${moment(start).format("H:mm")}-${moment(end).format("H:mm")}`}
-
+                        {`${moment(start).format("H:mm")} — ${moment(end).format("H:mm")}`}
                     </div>
                     <div className="nearTraining-info-name">
                         {name}
@@ -33,7 +32,6 @@ class NearTrainingsItem extends React.Component{
                         {discipline}
                     </div>
                 </div>
-
             </div>
         )
     }

@@ -22,6 +22,9 @@
   font-size: 20px;
   color: #777;
 }
+.lastTrainings .ant-card-body {
+  justify-content: center;
+}
 .lastTrainings-link {
   padding: 0 !important;
   padding-right: 8px !important;
