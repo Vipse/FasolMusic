@@ -25,7 +25,7 @@ class ContentForm extends React.Component {
         form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 this.setState({loading: true});
-                this.props.onSaveAbonement(params.item.timestamp, values.type, values.studentID)
+                this.props.onSaveAbonement(params.item.timestamp, values.studentID)
             } else console.log("error", err);
         });
     };
@@ -45,6 +45,7 @@ class ContentForm extends React.Component {
     render() {
         const {getFieldDecorator} = this.props.form;
         const {isAdmin, isDelete, item: {studentName}} = this.props.params;
+        const {discipline} = this.props;
 
         return ((isAdmin && !isDelete) ?
                 <Form onSubmit={this.handleSaveAbonement}
@@ -60,7 +61,7 @@ class ContentForm extends React.Component {
                                 <InputNew width="100%" bubbleplaceholder="ID студента"/>
                             )}
                         </FormItem>
-                        <FormItem>
+                        /*<FormItem>
                             <div className='radio-label'>Выбор дисциплины</div>
                             {getFieldDecorator('type', {
                                 rules: [{
@@ -75,7 +76,7 @@ class ContentForm extends React.Component {
                                     </RadioGroup>
                                 </div>
                             )}
-                        </FormItem>
+                        </FormItem>*/
                     </div>
                     {this.state.loading ? <Spinner size="large"/> :
                         <div className="submitPlate">
@@ -109,7 +110,9 @@ class ContentForm extends React.Component {
                     </div> :
                     <Form className="AdminCreateTrainingModal" onSubmit={this.handleSaveAbonement}>
                         <div className="fields">
-                            <FormItem>
+                            <p className="fields-info">Дисциплина: {discipline ? discipline.join(', ') : ''}.</p>
+                            <p>Хотите записаться на тренировку?</p>
+                            {/*<FormItem>
                                 <div className='radio-label'>Выбор дисциплины</div>
                                 {getFieldDecorator('type', {
                                     rules: [{
@@ -124,7 +127,7 @@ class ContentForm extends React.Component {
                                         </RadioGroup>
                                     </div>
                                 )}
-                            </FormItem>
+                            </FormItem>*/}
                         </div>
                         {this.state.loading ? <Spinner size="large"/> :
                             <div className="submitPlate">

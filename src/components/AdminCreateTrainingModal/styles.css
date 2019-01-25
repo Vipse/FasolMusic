@@ -9,6 +9,9 @@
   align-self: center;
   text-align: center;
 }
+.AdminCreateTrainingModal .fields-info {
+  font-family: RobotoMedium;
+}
 .AdminCreateTrainingModal .submitPlate {
   display: flex;
   align-items: center;
