@@ -64,19 +64,22 @@ export const getInfoPatient = (id) => {
     }
 };
 
-export const saveUserEdit = (data) => {
+export const saveUserEdit = (data, userGroup) => {
     return (dispatch, getState) => {
+        const userType = userGroup ? userGroup : getState().auth.mode;
         console.log("savingUserData", data);
+
         return axios.post('/catalog.fasol/saveUserEdit',
             JSON.stringify(data))
             .then(res => {
-                getState().auth.mode === 'student' ?
+                userType === 'student' ?
                     dispatch(getInfoPatient(data.id)) :
                     dispatch(getInfoDoctor(data.id));
                 return res;
             })
             .catch(err => {
                 console.log('error: ', err);
+                return err;
             });
     };
 };

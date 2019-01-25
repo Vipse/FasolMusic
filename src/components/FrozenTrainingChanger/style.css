@@ -1,0 +1,12 @@
+.profile-card-frozen {
+  padding: 25px 35px;
+}
+.profile-card-frozen .profile-student {
+  display: flex;
+}
+.profile-card-frozen .profile-student-balance {
+  margin-bottom: 20px;
+}
+.profile-card-frozen .profile-student-balance-input {
+  margin-top: 30px;
+}
