@@ -72,14 +72,15 @@ class CoachPage extends React.Component{
         this.props.onGetOwnTrainings(id, dateStart, dateEnd);
     };
 
-    onCreateAbonement = (timestamp, type, studentID) => {
+    onCreateAbonement = (timestamp, studentID) => {
+        const {profileCoach, auth} = this.props;
         let submitObj = {
             amount: 1,
             dateStart: +timestamp,
-            discipline: type,
-            idStudent: studentID ? studentID : this.props.auth.id,
+            discipline: profileCoach.disciplines[0].discipline[0].value,
+            idStudent: studentID ? studentID : auth.id,
             trainingtime: {
-                [moment(timestamp * 1000).day()]: [{id: +this.props.profileCoach.id, start: +timestamp}]
+                [moment(timestamp * 1000).day()]: [{id: +profileCoach.id, start: +timestamp}]
             }
         };
 
@@ -194,6 +195,7 @@ class CoachPage extends React.Component{
                             onSaveAbonement={this.onCreateAbonement}
                             onTailAbonement={this.onTailAbonement}
                             onFreezeAbonement={this.onFreezeAbonement}
+                            discipline={this.getDisciplinesList()}
                         />
                     </div>
                 </Hoc>
