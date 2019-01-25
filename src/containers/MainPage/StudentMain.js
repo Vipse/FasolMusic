@@ -49,25 +49,7 @@ class StudentMain extends React.Component{
                                 <NearTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
-                                    data={[
-                                        {
-                                            profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                            online: true,
-                                            date: 1540813960,
-                                            discipline: "Вокал",
-                                            name: "Петров василий чвасильевич",
-                                            homework: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the " +
-                                                "printing and typesetting industry. Lorem Ipsum has been the industry's " +
-                                                "standard dummy text ever since the 1500s, when a"
-                                        },
-                                        {
-                                            profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                            online: true,
-                                            discipline: "Вокал",
-                                            name: "Петров ВАСКЕ чвасильевич",
-                                            homework: ''
-                                        }
-                                    ]}
+                                    data={[]}
 
                                 />
                             </Col>
@@ -75,26 +57,7 @@ class StudentMain extends React.Component{
                                 <LastTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
                                     openLastTrains={() => this.props.history.push('/app/homework')}
-                                    data={[
-                                        {
-                                            profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                            online: true,
-                                            date: 1540813960,
-                                            discipline: "Вокал",
-                                            name: "Петров василий чвасильевич",
-                                            homework: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the " +
-                                                "printing and typesetting industry. Lorem Ipsum has been the industry's " +
-                                                "standard dummy text ever since the 1500s, when a"
-                                        },
-                                        {
-                                            profileAvatar: 'https://pp.userapi.com/c850020/v850020281/649d7/mOIcjm823rA.jpg',
-                                            online: true,
-                                            discipline: "Вокал",
-                                            name: "Петров ВАСКЕ чвасильевич",
-                                            homework: ''
-                                        }
-                                    ]}
-
+                                    data={[]}
                                 />
                             </Col>
 
