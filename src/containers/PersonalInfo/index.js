@@ -53,15 +53,15 @@ class PersonalInfo extends React.Component {
                             profileStudent={this.props.profileStudent}
                             onSubmit={this.props.onSaveUserEdit}
                             getSelectors={this.props.getSelectors}
+                            uploadFile={this.props.uploadFile}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
-                            //onUploadFile={this.props.uploadFile}
                         />) : (
                         <CoachPersonalProfile
                             profileCoach={this.props.profileCoach}
                             onSubmit={this.props.onSaveUserEdit}
                             getSelectors={this.props.getSelectors}
+                            uploadFile={this.props.uploadFile}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
-                            //onUploadFile={this.props.uploadFile}
                         />)}
                 </Hoc>
         )
@@ -82,8 +82,8 @@ const mapDispatchToProps = dispatch => {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
+        uploadFile: (file) => dispatch(actions.uploadFile(file)),
         //onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),
-        //uploadFile: (file) => dispatch(actions.uploadFile(file)),
     }
 };
 

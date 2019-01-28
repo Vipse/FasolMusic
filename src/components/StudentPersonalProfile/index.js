@@ -7,10 +7,8 @@ import '../../icon/style.css'
 
 import Row from "../Row";
 import Col from "../Col";
-//import WarningModal from "../WarningModal";
-//import PersonalChangePassword from "../PersonalChangePassword";
-//import PersonalNotifications from "../PersonalNotifications";
 import StudentPersonalData from "../StudentPersonalData";
+//import WarningModal from "../WarningModal";
 
 class StudentPersonalProfile extends React.Component {
 
@@ -30,18 +28,9 @@ class StudentPersonalProfile extends React.Component {
                             profileStudent={profile}
                             onSubmit={this.props.onSubmit}
                             getSelectors={this.props.getSelectors}
+                            uploadFile={this.props.uploadFile}
                         />
                     </Col>
-                    {/*<Col span={7}>
-                        <PersonalNotifications
-                            profile={profile}
-                            onSubmit={this.props.onSubmit}
-                        />
-                        <PersonalChangePassword
-                            profile={profile}
-                            onSubmit={this.props.onSubmit}
-                        />
-                    </Col>*/}
                 </Row>
                 {/*<WarningModal visible={this.state.visible} onClick={this.onVisible}
                               message="Изменения всупят в силу после проверки администратором"/>*/}

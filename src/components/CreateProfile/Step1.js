@@ -6,6 +6,7 @@ import Button from '../Button'
 import InputWithTT from "../InputWithTT";
 import InputDateWithToolTip from "../InputDateWithTT";
 import SelectWithTT from "../SelectWithTT";
+import {message} from 'antd';
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
 import SocialAuth from "../SocialAuth";
@@ -48,31 +49,13 @@ class Step1Form extends React.Component{
         });
     };
 
-    /*handleChange = (info) => {
-        const reader = new FileReader();
-        this.setState({ loading: true });
-        this.props.uploadFile(info.file)
+    handleChangeAvatar = (files) => {
+        this.props.uploadFile(files[0])
             .then((res) => {
-                this.setState({avatarUrl: res.data.file[0].url, avatarName: res.data.file[0].name});
-                message.success("Фото загружено")
-            });
-        reader.addEventListener('load', () => this.setState({
-            avatarThumb: reader.result,
-            loading: false
-        }));
-        reader.readAsDataURL(info.file);
-    };*/
-
-    onDrop = (file) => {
-        const reader = new FileReader();
-        // this.props.uploadFile(info.file)
-        //     .then((res) => {
-        //         this.setState({avatarUrl: res.data.file[0].url, avatarName: res.data.file[0].name});
-        //         message.success("Фото загружено")
-        //     });
-        reader.addEventListener('load', () =>
-            this.setState({avatar: reader.result}));
-        reader.readAsDataURL(file[0]);
+                this.setState({avatar: res.data.file[0].url});
+                message.success("Фото загружено");
+            })
+            .catch((err) => console.log(err));
     };
 
     handleChangeSocial = (name, valuesObj) => {
@@ -98,7 +81,6 @@ class Step1Form extends React.Component{
         const { getFieldDecorator } = this.props.form;
         const { avatar, facebookLink, googleLink } = this.state;
 
-        const avatarUrl = avatar;
         return (
             <Form onSubmit={this.handleSubmit} className="step-form step-1">
                 <div className="step-title">Личные данные</div>
@@ -244,9 +226,9 @@ class Step1Form extends React.Component{
                 <div className="step-form-row">
                     <div className="create-profile-avatar">
                         <span className="upload-avatar-title">Загрузи сюда свою крутую аву: </span>
-                        <Dropzone multiple = {false} onDrop = {this.onDrop} className="react-dropzone-avatar">
-                            {avatarUrl ?
-                                <img src={avatarUrl} alt="avatar" className="avatar-image"/> :
+                        <Dropzone multiple={false} onDrop={this.handleChangeAvatar} className="react-dropzone-avatar">
+                            {avatar ?
+                                <img src={avatar} alt="avatar" className="avatar-image"/> :
                                 <img src={UploadPhotoImage} alt="avatar" className="avatar-image"/>}
                         </Dropzone>
                         <span className="upload-avatar-photo-click">Нажми на фотоаппарат, чтобы загрузить фото</span>
