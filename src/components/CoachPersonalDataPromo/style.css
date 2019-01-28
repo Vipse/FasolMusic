@@ -24,6 +24,23 @@
   flex-direction: column;
   justify-content: center;
 }
+.coach-data-promoVideo .video-loading {
+  display: none;
+}
+.coach-data-promoVideo .video-wrapper {
+  width: 100%;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+.coach-data-promoVideo .video-wrapper iframe {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  max-height: 360px;
+  max-width: 640px;
+  height: 100%;
+}
 .coach-data-promoVideo .upload-video-photo-click {
   text-align: center;
   font-family: "RobotoRegular", serif;

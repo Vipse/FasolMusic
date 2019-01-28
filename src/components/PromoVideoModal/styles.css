@@ -8,9 +8,10 @@
   justify-content: center;
   align-self: center;
   text-align: center;
+  width: 100%;
 }
-.PromoVideoModal .fields-info {
-  font-family: RobotoMedium;
+.PromoVideoModal .fields .ant-input {
+  text-align: center;
 }
 .PromoVideoModal .submitPlate {
   display: flex;

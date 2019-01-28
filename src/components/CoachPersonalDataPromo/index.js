@@ -14,7 +14,8 @@ class CoachPersonalDataPromo extends React.Component {
     constructor() {
         super();
         this.state = {
-            videoModalVisible: false
+            videoModalVisible: false,
+            youtubeLoading: true
         }
     }
 
@@ -28,8 +29,13 @@ class CoachPersonalDataPromo extends React.Component {
         return videoID;
     };
 
+    youtubeReadyHandler = () => {
+        this.setState({youtubeLoading: false})
+    };
+
     render() {
         const {profile} = this.props;
+        const {youtubeLoading} = this.state;
         const videoUrl = profile.promovideo ? profile.promovideo : "";
         const rootClass = cn('coach-data-block');
         const youtubeOpts = {
@@ -49,11 +55,14 @@ class CoachPersonalDataPromo extends React.Component {
                             </div>
                             <span className="upload-video-photo-click">Нажми на значок, чтобы добавить видео</span>
                         </div> :
-                        <div className="video">
-                            <YouTube
-                                videoId={this.convertLink(videoUrl)}
-                                opts={youtubeOpts}
-                            />
+                        <div className={youtubeLoading ? 'video-loading' : 'video'}>
+                            <div className='video-wrapper'>
+                                <YouTube
+                                    videoId={this.convertLink(videoUrl)}
+                                    opts={youtubeOpts}
+                                    onReady={this.youtubeReadyHandler}
+                                />
+                            </div>
                             <Button btnText='Изменить ролик'
                                     onClick={() => this.setState({videoModalVisible: true})}
                                     type='light-blue'/>

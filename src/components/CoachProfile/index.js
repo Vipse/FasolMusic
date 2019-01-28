@@ -24,8 +24,8 @@ class CoachProfile extends React.Component {
     render() {
         const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink} = this.props;
         const youtubeOpts = {
-            height: '320',
-            width: '568',
+            height: '360',
+            width: '640',
             playerVars: {autoplay: 0}
         };
 
