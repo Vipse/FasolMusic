@@ -43,6 +43,16 @@
   margin: 20px 0;
   overflow: hidden;
 }
-.profile-card-coach .profile-coach-promo .coach-data-promoVideo {
+.profile-card-coach .profile-coach-promo {
   width: 100%;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+.profile-card-coach .profile-coach-promo iframe {
+  position: absolute;
+  width: 100%;
+  max-height: 360px;
+  max-width: 640px;
+  height: 100%;
 }

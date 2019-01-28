@@ -140,7 +140,7 @@ class CoachPage extends React.Component{
     };
 
     render() {
-        const { id, avatar, name, aboutme } = this.props.profileCoach;
+        const { id, avatar, name, aboutme, promovideo } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
         const {masterSchedule, trainerTrainings, auth} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
@@ -166,6 +166,7 @@ class CoachPage extends React.Component{
                                     discipline={this.getDisciplinesList()}
                                     specialization={this.getSpecializationsList()}
                                     aboutMe={aboutme}
+                                    promoLink={promovideo}
                                     rate={5}
                                     ratingsCount={19}
                                 />

@@ -1,0 +1,23 @@
+.PromoVideoModal {
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.PromoVideoModal .fields {
+  justify-content: center;
+  align-self: center;
+  text-align: center;
+  width: 100%;
+}
+.PromoVideoModal .fields .ant-input {
+  text-align: center;
+}
+.PromoVideoModal .submitPlate {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.PromoVideoModal .submitPlate .trainBtn {
+  width: 45%;
+}

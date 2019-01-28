@@ -53,8 +53,17 @@
     }
 
     &-promo {
-      .coach-data-promoVideo {
+      width: 100%;
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+
+      iframe {
+        position: absolute;
         width: 100%;
+        max-height: 360px;
+        max-width: 640px;
+        height: 100%;
       }
     }
   }

@@ -6,13 +6,28 @@ import Card from '../Card'
 import Button from '../Button'
 import './style.css'
 import '../../icon/style.css'
-import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
+import YouTube from "react-youtube";
 
 class CoachProfile extends React.Component {
     state = {};
 
+    convertLink = (link) => {
+        let videoID = link.split('v=')[1];
+        let ampersandPosition = videoID.indexOf('&');
+        if(ampersandPosition !== -1) {
+            videoID = videoID.substring(0, ampersandPosition);
+        }
+
+        return videoID;
+    };
+
     render() {
-        const {img, name, discipline, specialization, aboutMe, rate, ratingsCount} = this.props;
+        const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink} = this.props;
+        const youtubeOpts = {
+            height: '360',
+            width: '640',
+            playerVars: {autoplay: 0}
+        };
 
         return (
             <Card title="Профиль преподавателя">
@@ -48,9 +63,12 @@ class CoachProfile extends React.Component {
                         <div className="profile-coach-comment">
                             <p>{aboutMe}</p>
                         </div>
-                        <div className="profile-coach-promo">
-                            <CoachPersonalDataPromo/>
-                        </div>
+                        {promoLink && <div className="profile-coach-promo">
+                            <YouTube
+                                videoId={this.convertLink(promoLink)}
+                                opts={youtubeOpts}
+                            />
+                        </div>}
                     </div>
             </Card>
         )
