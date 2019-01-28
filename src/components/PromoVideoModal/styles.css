@@ -1,0 +1,22 @@
+.PromoVideoModal {
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.PromoVideoModal .fields {
+  justify-content: center;
+  align-self: center;
+  text-align: center;
+}
+.PromoVideoModal .fields-info {
+  font-family: RobotoMedium;
+}
+.PromoVideoModal .submitPlate {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.PromoVideoModal .submitPlate .trainBtn {
+  width: 45%;
+}

@@ -5,52 +5,67 @@ import cn from 'classnames'
 import './style.css'
 import '../../icon/style.css'
 
-import Dropzone from "react-dropzone";
 import UploadVideoImage from "../../img/uploadVideo.png";
+import Button from "../Button";
+import PromoVideoModal from "../PromoVideoModal";
+import YouTube from 'react-youtube';
 
 class CoachPersonalDataPromo extends React.Component {
     constructor() {
         super();
         this.state = {
-            loading: false,
-            fileList: [],
-            videoUrl: "",
-            videoThumb: "",
+            videoModalVisible: false
         }
     }
 
-    onDrop = (file) => {
-        console.log(file);
-        const reader = new FileReader();
-        // this.props.uploadFile(info.file)
-        //     .then((res) => {
-        //         this.setState({videoUrl: res.data.file[0].url, videoName: res.data.file[0].name});
-        //         message.success("Видео загружено")
-        //     });
-        reader.addEventListener('load', () => this.setState({
-            //videoThumb: reader.result,
-            loading: false
-        }));
-        reader.readAsDataURL(file[0]);
+    convertLink = (link) => {
+        let videoID = link.split('v=')[1];
+        let ampersandPosition = videoID.indexOf('&');
+        if(ampersandPosition !== -1) {
+            videoID = videoID.substring(0, ampersandPosition);
+        }
+
+        return videoID;
     };
 
     render() {
-        const {promoLink} = this.props;
-        const videoUrl = this.state.videoThumb ? this.state.videoThumb : promoLink ? promoLink : "";
+        const {profile} = this.props;
+        const videoUrl = profile.promovideo ? profile.promovideo : "";
         const rootClass = cn('coach-data-block');
+        const youtubeOpts = {
+            height: '360',
+            width: '640',
+            playerVars: {autoplay: 0}
+        };
 
         return (
             <div className={rootClass}>
                 <div className='coach-data-promoVideo'>
-                    <div className="add-video">
-                        <Dropzone multiple={false} onDrop={this.onDrop} className="react-dropzone-video">
-                            {videoUrl ?
-                                <img src={videoUrl} alt="video" className="video-image"/> :
-                                <img src={UploadVideoImage} alt="video" className="video-image"/>}
-                        </Dropzone>
-                        <span className="upload-video-photo-click">Нажми на значок, чтобы загрузить видео</span>
-                    </div>
+                    {!videoUrl ?
+                        <div>
+                            <div onClick={() => this.setState({videoModalVisible: true})}
+                                 className="dropzone-video">
+                                <img src={UploadVideoImage} alt="video" className="video-image"/>
+                            </div>
+                            <span className="upload-video-photo-click">Нажми на значок, чтобы добавить видео</span>
+                        </div> :
+                        <div className="video">
+                            <YouTube
+                                videoId={this.convertLink(videoUrl)}
+                                opts={youtubeOpts}
+                            />
+                            <Button btnText='Изменить ролик'
+                                    onClick={() => this.setState({videoModalVisible: true})}
+                                    type='light-blue'/>
+                        </div>}
                 </div>
+
+                <PromoVideoModal
+                    profile={profile}
+                    visible={this.state.videoModalVisible}
+                    onSubmit={this.props.onChangePromo}
+                    onCancel={() => this.setState({videoModalVisible: false})}
+                />
             </div>
         )
     }

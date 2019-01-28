@@ -43,6 +43,8 @@
   margin: 20px 0;
   overflow: hidden;
 }
-.profile-card-coach .profile-coach-promo .coach-data-promoVideo {
+.profile-card-coach .profile-coach-promo {
   width: 100%;
+  height: 320px;
+  overflow: hidden;
 }
