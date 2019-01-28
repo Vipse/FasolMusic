@@ -78,8 +78,16 @@ class CoachPersonalDataForm extends React.Component {
         });
     };
 
-    handleChangeAvatar = (newAvatar) => {
-        this.setState({avatar: newAvatar});
+    handleChangeAvatar = (file) => {
+        if (file && file.name !== 'default')
+            return this.props.uploadFile(file)
+                .then((res) => {
+                    this.setState({avatar: res.data.file[0].url});
+                    message.success("Фото загружено");
+                    return res;
+                })
+                .catch((err) => {console.log(err); return err});
+        else this.setState({avatar: ''});
     };
 
     handleChangeSocial = (name, valuesObj) => {

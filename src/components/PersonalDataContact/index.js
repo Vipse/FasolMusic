@@ -33,17 +33,14 @@ class PersonalDataContact extends React.Component {
         e.preventDefault();
         if (isReset) {
             this.setState({avatar: "default"});
-            this.props.onChangeAvatar("");
+            this.props.onChangeAvatar({name: "default"});
             e.target.files = [];
         } else {
             let file = e.target.files[0];
             if (file && file.type.indexOf("image/") !== -1) {
-                const reader = new FileReader();
-                reader.addEventListener('load', () => {
-                    this.setState({avatar: reader.result});
-                    this.props.onChangeAvatar(reader.result);
-                });
-                reader.readAsDataURL(file);
+                this.props.onChangeAvatar(file)
+                    .then(res => this.setState({avatar: res.data.file[0].url}))
+                    .catch(err => console.log(err));
             }
         }
     };

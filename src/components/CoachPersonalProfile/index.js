@@ -9,9 +9,6 @@ import Row from "../Row";
 import Col from "../Col";
 import CoachPersonalData from "../CoachPersonalData";
 //import WarningModal from "../WarningModal";
-//import PersonalSuggestions from "../PersonalSuggestions";
-//import PersonalChangePassword from "../PersonalChangePassword";
-//import PersonalNotifications from "../PersonalNotifications";
 
 class CoachPersonalProfile extends React.Component{
 
@@ -31,22 +28,9 @@ class CoachPersonalProfile extends React.Component{
                             profileCoach={profile}
                             onSubmit={this.props.onSubmit}
                             getSelectors={this.props.getSelectors}
+                            uploadFile={this.props.uploadFile}
                         />
                     </Col>
-                    {/*<Col span={7}>
-                        <PersonalSuggestions
-                            profile={profile}
-                            onSubmit={this.props.onSubmit}
-                        />
-                        <PersonalChangePassword
-                            profile={profile}
-                            onSubmit={this.props.onSubmit}
-                        />
-                        <PersonalNotifications
-                            profile={profile}
-                            onSubmit={this.props.onSubmit}
-                        />
-                    </Col>*/}
                 </Row>
                 {/*<WarningModal visible={this.state.visible} onClick={this.onVisible}
                               message="Изменения всупят в силу после проверки администратором"/>*/}

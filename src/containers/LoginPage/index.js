@@ -104,6 +104,7 @@ class LoginPage extends React.Component {
                                render={() => <CreateProfile onSubmit={this.props.onRegisterUser}
                                                             urlLogin="/app"
                                                             getSelectors={this.props.getSelectors}
+                                                            uploadFile={this.props.uploadFile}
                                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                                             //uploadFile = {this.props.uploadFile}
                                />}
