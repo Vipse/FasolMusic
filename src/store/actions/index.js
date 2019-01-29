@@ -158,6 +158,7 @@ export {
     setPushBtnTransferTraining,
     setPushBtnAddTraining,
     setPushTrialTraining,
+    noSetBtnTraining,
 } from './student'
 
 export {

@@ -58,7 +58,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isPushBtnTrialTraining: action.isPushBtnTrialTraining
+            } 
+        case actionTypes.SET_NO_PUSH_BTN:
+            return {
+                ...state,
+                isPushBtnAdd: action.isPushBtnAdd,
+                isPushBtnTransfer: action.isPushBtnTransfer
             }     
+
+            
  
             
             

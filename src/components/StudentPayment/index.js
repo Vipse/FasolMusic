@@ -82,34 +82,15 @@ class StudentPayment extends React.Component{
                     <div className="plansPlate">
                         <div className="plan">
                             <div className="plan-title">
-                                <div className="plan-title-number">1</div>
-                                <div className="plan-title-text">Тренировка</div>
-                            </div>
-                            <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">28 р.</p>
-                                <p className="plan-lessonCost-text">за тренировку</p>
-                            </div>
-                            <div className="plan-select">
-                                <div className="plan-select-totalPrice">28 р.</div>
-                                <Button className="plan-select-selectBtn"
-                                        btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(1); this.selectPlan(1) }}
-                                        size='small'
-                                        type='black'
-                                />
-                            </div>
-                        </div>
-                        <div className="plan">
-                            <div className="plan-title">
                                 <div className="plan-title-number">4</div>
                                 <div className="plan-title-text">Тренировки</div>
                             </div>
                             <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">26 р.</p>
+                                <p className="plan-lessonCost-number">50 бр.</p>
                                 <p className="plan-lessonCost-text">за тренировку</p>
                             </div>
                             <div className="plan-select">
-                                <div className="plan-select-totalPrice">107 р.</div>
+                                <div className="plan-select-totalPrice">203 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
                                         onClick={() => { this.props.showTrialModal(4); this.selectPlan(4) }}
@@ -124,11 +105,11 @@ class StudentPayment extends React.Component{
                                 <div className="plan-title-text">Тренировок</div>
                             </div>
                             <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">23 р.</p>
+                                <p className="plan-lessonCost-number">47 бр.</p>
                                 <p className="plan-lessonCost-text">за тренировку</p>
                             </div>
                             <div className="plan-select">
-                                <div className="plan-select-totalPrice">184 р.</div>
+                                <div className="plan-select-totalPrice">379 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
                                         onClick={() => { this.props.showTrialModal(8); this.selectPlan(8) }}
@@ -143,11 +124,11 @@ class StudentPayment extends React.Component{
                                 <div className="plan-title-text">Тренировок</div>
                             </div>
                             <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">23 р.</p>
+                                <p className="plan-lessonCost-number">58 бр.</p>
                                 <p className="plan-lessonCost-text">за тренировку</p>
                             </div>
                             <div className="plan-select">
-                                <div className="plan-select-totalPrice">279 р.</div>
+                                <div className="plan-select-totalPrice">705 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
                                         onClick={() => { this.props.showTrialModal(12); this.selectPlan(12) }}
@@ -162,11 +143,11 @@ class StudentPayment extends React.Component{
                                 <div className="plan-title-text">Тренировки</div>
                             </div>
                             <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">20 р.</p>
+                                <p className="plan-lessonCost-number">41 бр.</p>
                                 <p className="plan-lessonCost-text">за тренировку</p>
                             </div>
                             <div className="plan-select">
-                                <div className="plan-select-totalPrice">488 р.</div>
+                                <div className="plan-select-totalPrice">1009 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
                                         onClick={() => { this.props.showTrialModal(24); this.selectPlan(24) }}
@@ -175,6 +156,26 @@ class StudentPayment extends React.Component{
                                 />
                             </div>
                         </div>
+                        <div className="plan">
+                            <div className="plan-title">
+                                <div className="plan-title-number">32</div>
+                                <div className="plan-title-text">Тренировки</div>
+                            </div>
+                            <div className="plan-lessonCost">
+                                <p className="plan-lessonCost-number">39 бр.</p>
+                                <p className="plan-lessonCost-text">за тренировку</p>
+                            </div>
+                            <div className="plan-select">
+                                <div className="plan-select-totalPrice">1268 бр.</div>
+                                <Button className="plan-select-selectBtn"
+                                        btnText='Выбрать'
+                                        onClick={() => { this.props.showTrialModal(32); this.selectPlan(32) }}
+                                        size='small'
+                                        type='black'
+                                />
+                            </div>
+                        </div>
+
                     </div>
                 </Card>
                 <Card className="payment-student-paymentData" title="Варианты оплаты">

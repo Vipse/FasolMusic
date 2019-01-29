@@ -38,19 +38,19 @@ class LastTrainings extends React.Component {
         const {loading} = this.state;
 
         let arrData = [];
-        for (let dayItem in data) {
-            arrData.push(...this.compareTrainsByTime(data[dayItem].map(item => {
-                return {
-                    name: item.allInfo.fio,
-                    date: +item.allInfo.date * 1000,
-                    discipline: item.allInfo.disciplines.length ?
-                        disciplineSelectors.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null,
-                    avatar: item.allInfo.avatar,
-                    homework: item.allInfo.homework,
-                    idStudent: item.allInfo.idStudent
-                };
-            })));
-        }
+        // for (let dayItem in data) {
+            // debugger;
+            // arrData.push(...this.compareTrainsByTime(data.map(item => {
+            //     return {
+            //         name: item.fio,
+            //         date: +item.date * 1000,
+            //         discipline: item.discipline,
+            //         avatar: item.avatar,
+            //         homework: item.homework,
+            //         idStudent: item.idStudent
+            //     };
+            // })));
+       // }
 
         return (
             <div className='lastTrainings'>

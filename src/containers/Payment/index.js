@@ -47,14 +47,18 @@ class Payment extends React.Component{
         this.props.onChangeCurrDiscipline(disciplines[data.type]);
         this.props.onSetFreeIntervals(array,  data.type);
 
+
         this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
         // if(this.props.mainUser){
         //     this.props.onGetTheMasterInterval(time0, time1, this.props.mainUser, [1,2,3,4,5,6,7])
             
         // }
         // else{
-            
-        //     this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
+        //     const {chooseWeekdays} = this.props;
+        //     const dateStart = Math.floor( + start.getTime() / 1000);
+        //     const dateEnd   = Math.floor( + end.getTime() / 1000);
+
+        //     this.props.onGetTheMasterInterval(dateStart, dateEnd, this.props.mainUser, chooseWeekdays);
 
         // }
         
