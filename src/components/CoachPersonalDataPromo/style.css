@@ -1,14 +1,16 @@
 .coach-data-promoVideo {
   width: 70%;
-  height: 420px;
   display: flex;
   flex-direction: column;
   text-align: center;
+  max-height: 410px;
+  max-width: 640px;
 }
 .coach-data-promoVideo .dropzone-video {
   width: 100%;
   height: 360px;
   border-radius: 15px;
+  margin-bottom: 10px;
   border: 2px dashed #21bedd;
   cursor: pointer;
   display: flex;
@@ -28,10 +30,11 @@
   display: none;
 }
 .coach-data-promoVideo .video-wrapper {
-  width: 100%;
   position: relative;
-  padding-bottom: 56.25%;
+  width: 100%;
   height: 0;
+  padding-bottom: 56.25%;
+  align-self: center;
 }
 .coach-data-promoVideo .video-wrapper iframe {
   position: absolute;
@@ -40,6 +43,9 @@
   max-height: 360px;
   max-width: 640px;
   height: 100%;
+}
+.coach-data-promoVideo .video-wrapper-changeBtn {
+  margin-top: 5px;
 }
 .coach-data-promoVideo .upload-video-photo-click {
   text-align: center;

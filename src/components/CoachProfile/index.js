@@ -13,9 +13,11 @@ class CoachProfile extends React.Component {
 
     convertLink = (link) => {
         let videoID = link.split('v=')[1];
-        let ampersandPosition = videoID.indexOf('&');
-        if(ampersandPosition !== -1) {
-            videoID = videoID.substring(0, ampersandPosition);
+        if (videoID) {
+            let ampersandPosition = videoID.indexOf('&');
+            if (ampersandPosition !== -1) {
+                videoID = videoID.substring(0, ampersandPosition);
+            }
         }
 
         return videoID;

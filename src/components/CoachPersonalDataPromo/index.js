@@ -21,9 +21,11 @@ class CoachPersonalDataPromo extends React.Component {
 
     convertLink = (link) => {
         let videoID = link.split('v=')[1];
-        let ampersandPosition = videoID.indexOf('&');
-        if(ampersandPosition !== -1) {
-            videoID = videoID.substring(0, ampersandPosition);
+        if (videoID) {
+            let ampersandPosition = videoID.indexOf('&');
+            if (ampersandPosition !== -1) {
+                videoID = videoID.substring(0, ampersandPosition);
+            }
         }
 
         return videoID;
@@ -51,7 +53,7 @@ class CoachPersonalDataPromo extends React.Component {
                         <div>
                             <div onClick={() => this.setState({videoModalVisible: true})}
                                  className="dropzone-video">
-                                <img src={UploadVideoImage} alt="video" className="video-image"/>
+                                <img src={UploadVideoImage} alt="Выбрать видео" className="video-image"/>
                             </div>
                             <span className="upload-video-photo-click">Нажми на значок, чтобы добавить видео</span>
                         </div> :
@@ -63,7 +65,8 @@ class CoachPersonalDataPromo extends React.Component {
                                     onReady={this.youtubeReadyHandler}
                                 />
                             </div>
-                            <Button btnText='Изменить ролик'
+                            <Button className='video-wrapper-changeBtn'
+                                    btnText='Изменить ролик'
                                     onClick={() => this.setState({videoModalVisible: true})}
                                     type='light-blue'/>
                         </div>}

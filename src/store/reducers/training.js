@@ -30,6 +30,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 unauthorizedTrialData: action.data
             }
+        case actionTypes.GET_ALL_STUDENT_TRAININGS:
+            return {
+                ...state,
+                studentTrainings: action.studentTrainings
+            }
         default: return state;
     }
 }
