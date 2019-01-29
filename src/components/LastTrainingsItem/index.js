@@ -17,22 +17,22 @@ class LastTrainingsItem extends React.Component{
             homework,
             avatar,
             date,
-            idStudent,
+            idProfile,
             onGoto
         } = this.props;
 
         return (
             <div className='lastTraining'>
                 <div className="lastTraining-contactInfo">
-                    <div className="lastTraining-contactInfo-avatar" onClick={() => onGoto(idStudent)}>
+                    <div className="lastTraining-contactInfo-avatar" onClick={() => onGoto(idProfile)}>
                         <ProfileAvatar
                             img={avatar}
                             size='small'
                         />
                     </div>
                     <div className="lastTraining-contactInfo-nameAndDate">
-                        <span className='lastTraining-contactInfo-name' onClick={() => onGoto(idStudent)}>{name}</span>
-                        <span className='lastTraining-contactInfo-date' onClick={() => onGoto(idStudent)}>{moment(date).format("DD.MM.YYYY")}</span>
+                        <span className='lastTraining-contactInfo-name' onClick={() => onGoto(idProfile)}>{name}</span>
+                        <span className='lastTraining-contactInfo-date' onClick={() => onGoto(idProfile)}>{moment(date).format("DD.MM.YYYY")}</span>
                     </div>
                     <span className='lastTraining-contactInfo-discipline'>{discipline}</span>
                 </div>

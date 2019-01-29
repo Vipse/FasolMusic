@@ -34,7 +34,7 @@ class TopPanel extends React.Component{
 
     render(){
         const {time} = this.state;
-        const {myCoachOrStudents, nextTrainingTime, todayTraining} = this.props;
+        const {myCoachOrStudents, nextTrainingTime, todayTraining, isStudent} = this.props;
 
         let lenghtToday = 0;
         for (let el in todayTraining) {
@@ -68,7 +68,7 @@ class TopPanel extends React.Component{
                         panelText={lenghtToday}
                     />
                     <TopPanelItem
-                        panelTitle="Мои коучи"
+                        panelTitle={isStudent ? "Мои коучи" : 'Мои студенты'}
                         panelText={Array.isArray(myCoachOrStudents) ? myCoachOrStudents.filter((el) => (el) ? true : false).length : '-'} // в массиве бывают null
                     />
                 </div>

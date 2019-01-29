@@ -15,14 +15,59 @@ class StudentMain extends React.Component{
 	constructor(props) {
 		super(props);
     }
+
+    state = {
+        nearTrainings: [],
+        lastTrainings: []
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.nearTraining !== this.props.nearTraining)
+            this.setState({nearTrainings: this.prepareNearTrainings()});
+        if (prevProps.lastTrainings !== this.props.lastTrainings)
+            this.setState({lastTrainings: this.prepareLastTrainings()});
+    }
     
     gotoHandler = (id) => {
 		this.props.onSelectPatient(id);
 		this.props.history.push('/app/coach'+id);
-    }
+    };
 
+    prepareNearTrainings = () => {
+	    const {nearTraining, selectors} = this.props;
+
+        if (selectors.discipline) {
+            return nearTraining.map((item) => {
+                return {
+                    name: item.fioMaster,
+                    start: +item.start * 1000,
+                    end: +item.start * 1000 + 3600000,
+                    discipline: item.disciplineSubscription.length ?
+                        selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null
+                }
+            });
+        }
+    };
+
+    prepareLastTrainings = () => {
+        const {lastTrainings, selectors} = this.props;
+
+        if (selectors.discipline) {
+                return lastTrainings.map((item) => {return {
+                        name: item.fioMaster,
+                        date: +item.start * 1000,
+                        //discipline: item.allInfo.disciplines.length ?
+                        //    selectors.discipline.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null,
+                        avatar: item.avatarMaster,
+                        homework: item.homework,
+                        idProfile: item.idMaster
+                    };
+            });
+        }
+    };
 
     render(){
+        const {nearTrainings, lastTrainings} = this.state;
         const { allAbonements, goToChat, myCoachOrStudents } = this.props;
 
         let myCoaches = [];
@@ -40,7 +85,8 @@ class StudentMain extends React.Component{
                                     {...this.props.docTodayInfo}
                                     nextTrainingTime = {this.props.nextTrainingTime}
                                     myCoachOrStudents = {this.props.myCoachOrStudents}
-                                    />
+                                    isStudent={true}
+                                />
                             </Col>
                         </Row>
 
@@ -49,15 +95,14 @@ class StudentMain extends React.Component{
                                 <NearTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
-                                    data={[]}
-
+                                    data={nearTrainings}
                                 />
                             </Col>
                             <Col xs={14} xxl={8} className='section'>
                                 <LastTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
                                     openLastTrains={() => this.props.history.push('/app/homework')}
-                                    data={[]}
+                                    data={lastTrainings}
                                 />
                             </Col>
 
