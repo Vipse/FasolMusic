@@ -1,4 +1,5 @@
 import React from 'react';
+import * as PropTypes from "prop-types";
 import Card from '../Card'
 import './style.css'
 import '../../icon/style.css'
@@ -14,8 +15,9 @@ class LastTrainings extends React.Component {
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.data !== this.props.data)
+        if (prevProps.data !== this.props.data) {
             this.setState({loading: false});
+        }
     }
 
     studentsRender = (dataArr) => {
@@ -27,30 +29,8 @@ class LastTrainings extends React.Component {
         });
     };
 
-    compareTrainsByTime = (trainsArr) => {
-        return trainsArr.sort(function compare(a, b) {
-            return a.start < b.start ? -1 : a.start > b.start ? 1 : 0;
-        });
-    };
-
     render() {
-        const {data, openLastTrains, disciplineSelectors} = this.props;
-        const {loading} = this.state;
-
-        let arrData = [];
-        // for (let dayItem in data) {
-            // debugger;
-            // arrData.push(...this.compareTrainsByTime(data.map(item => {
-            //     return {
-            //         name: item.fio,
-            //         date: +item.date * 1000,
-            //         discipline: item.discipline,
-            //         avatar: item.avatar,
-            //         homework: item.homework,
-            //         idStudent: item.idStudent
-            //     };
-            // })));
-       // }
+        const {data, openLastTrains} = this.props;
 
         return (
             <div className='lastTrainings'>
@@ -58,9 +38,9 @@ class LastTrainings extends React.Component {
                       extra={<a className="lastTrainings-link" onClick={openLastTrains}><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {loading ? <Spinner size='large'/> : <PerfectScrollbar className="lastTrainings-scroll">
-                    {arrData.length ?
-                        this.studentsRender(arrData)
-                        : <div className='noTrainings'>Тренировок ещё не было</div>}
+                    {data.length ?
+                        this.studentsRender(data)
+                        : <div className='entry-list no-trainings'>Тренировок ещё не было</div>}
                     </PerfectScrollbar>}
                 </Card>
             </div>
@@ -68,7 +48,9 @@ class LastTrainings extends React.Component {
     }
 }
 
-LastTrainings.propTypes = {};
+LastTrainings.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object)
+};
 
 LastTrainings.defaultProps = {
     data: []

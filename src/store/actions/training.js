@@ -10,11 +10,10 @@ export const getTrainingNotFinished = (idUser, dateMax, max) => {
         obj = (dateMax) ? {...obj, dateMax} : obj;
         obj = (max) ? {...obj, max} : obj;
 
-        console.log("getTrainingNotFinished", obj)
         axios.post('/catalog.fasol/getTrainingNotFinished',
             JSON.stringify(obj))
             .then(res => {
-                console.log('res :', res.data.result.result);
+                console.log('getTrainingNotFinished', res.data.result.result);
                 dispatch({
                     type: actionTypes.GET_TRAINING_NOT_FINISHED,
                     nearTraining: res.data.result.result,
@@ -80,6 +79,25 @@ export const getMyMastersOrStudents = (obj) => {
             })
     }
 }
+
+export const getAllTrainingStudent = (id, dateStart, dateEnd) => {
+    const obj = {
+        idStudent: id,
+        dateStart,
+        dateEnd
+    };
+    return (dispatch) => {
+        axios.post('/catalog.fasol/getAllTrainingStudent', JSON.stringify(obj))
+            .then(res => {
+                console.log("getAllTrainingStudent", res);
+                    dispatch({
+                        type: actionTypes.GET_ALL_STUDENT_TRAININGS,
+                        studentTrainings: res.data.result
+                    })
+            })
+            .catch(err => console.log(err));
+    }
+};
 
 export const unauthorizedTrialDataSave = (data) => {
     return (dispatch) => {

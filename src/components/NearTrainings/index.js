@@ -30,41 +30,10 @@ class NearTrainings extends React.Component {
         });
     };
 
-    compareTrainsByTime = (trainsArr) => {
-        return trainsArr.sort(function compare(a, b) {
-            return a.start < b.start ? -1 : a.start > b.start ? 1 : 0;
-        });
-    };
-
     render() {
-        const {data, disciplineSelectors} = this.props;
+        const {data} = this.props;
         const {loading} = this.state;
         const rootClass = cn('schedule-future');
-
-        let arrData = [];
-
-        // arrData.push(...this.compareTrainsByTime(data.map(item => {
-        //     return {
-        //         name: item.fio,
-        //         date: +item.date * 1000,
-        //         discipline: item.discipline,
-        //         avatar: item.avatar,
-        //         homework: item.homework,
-        //         idStudent: item.idStudent
-        //     };
-        // })));
-
-        // for (let dayItem in data) {
-        //     arrData.push(...this.compareTrainsByTime(data[dayItem].map(item => {
-        //         return {
-        //             name: item.allInfo.fio,
-        //             start: +item.allInfo.date * 1000,
-        //             end: +item.allInfo.date * 1000 + 3600000,
-        //             discipline: item.allInfo.disciplines.length ?
-        //                 disciplineSelectors.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null
-        //         };
-        //     })));
-        // }
 
         return (
             <div className={rootClass}>
@@ -73,7 +42,7 @@ class NearTrainings extends React.Component {
                           type="circle_arrow_right"/><span>Все</span></a>}>
                     {loading ? <Spinner size='large'/> :
                         <PerfectScrollbar className="futureTrainings-scroll">
-                            {arrData.length ? this.scheduleRender(arrData) :
+                            {data.length ? this.scheduleRender(data) :
                                 <div className='entry-list no-trainings'>Тренировок нет</div>}
                         </PerfectScrollbar>}
                 </Card>

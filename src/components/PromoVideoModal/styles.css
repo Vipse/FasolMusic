@@ -1,22 +1,23 @@
-.AdminCreateTrainingModal {
+.PromoVideoModal {
   padding: 20px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.AdminCreateTrainingModal .fields {
+.PromoVideoModal .fields {
   justify-content: center;
   align-self: center;
   text-align: center;
+  width: 100%;
 }
-.AdminCreateTrainingModal .fields-info {
-  font-family: RobotoMedium;
+.PromoVideoModal .fields .ant-input {
+  text-align: center;
 }
-.AdminCreateTrainingModal .submitPlate {
+.PromoVideoModal .submitPlate {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
-.AdminCreateTrainingModal .submitPlate .trainBtn {
+.PromoVideoModal .submitPlate .trainBtn {
   width: 45%;
 }

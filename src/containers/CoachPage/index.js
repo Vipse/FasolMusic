@@ -72,14 +72,15 @@ class CoachPage extends React.Component{
         this.props.onGetOwnTrainings(id, dateStart, dateEnd);
     };
 
-    onCreateAbonement = (timestamp, type, studentID) => {
+    onCreateAbonement = (timestamp, studentID) => {
+        const {profileCoach, auth} = this.props;
         let submitObj = {
             amount: 1,
             dateStart: +timestamp,
-            discipline: type,
-            idStudent: studentID ? studentID : this.props.auth.id,
+            discipline: profileCoach.disciplines[0].discipline[0].value,
+            idStudent: studentID ? studentID : auth.id,
             trainingtime: {
-                [moment(timestamp * 1000).day()]: [{id: +this.props.profileCoach.id, start: +timestamp}]
+                [moment(timestamp * 1000).day()]: [{id: +profileCoach.id, start: +timestamp}]
             }
         };
 
@@ -139,7 +140,7 @@ class CoachPage extends React.Component{
     };
 
     render() {
-        const { id, avatar, name, aboutme } = this.props.profileCoach;
+        const { id, avatar, name, aboutme, promovideo } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
         const {masterSchedule, trainerTrainings, auth} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
@@ -165,6 +166,7 @@ class CoachPage extends React.Component{
                                     discipline={this.getDisciplinesList()}
                                     specialization={this.getSpecializationsList()}
                                     aboutMe={aboutme}
+                                    promoLink={promovideo}
                                     rate={5}
                                     ratingsCount={19}
                                 />
@@ -194,6 +196,7 @@ class CoachPage extends React.Component{
                             onSaveAbonement={this.onCreateAbonement}
                             onTailAbonement={this.onTailAbonement}
                             onFreezeAbonement={this.onFreezeAbonement}
+                            discipline={this.getDisciplinesList()}
                         />
                     </div>
                 </Hoc>

@@ -77,13 +77,13 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax) => {
     }
 }
 
-
 export const getPostTrainerTraining = (idMaster, dateMin, dateMax) => {
     return dispatch => {
         const obj = {idMaster, dateMin, dateMax};
         axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
+                console.log('getPostTrainerTraining:', res.data.result.result);
                 dispatch({
                     type: actionTypes.GET_POST_TRAINER_TRAINING,
                     postTraining: res.data.result.result,
@@ -94,13 +94,14 @@ export const getPostTrainerTraining = (idMaster, dateMin, dateMax) => {
             })
     }
 }
+
 export const getFutureTrainerTraining = (idMaster, dateMin, dateMax) => {
     return dispatch => {
-        const obj = {idMaster, dateMin,dateMax}
+        const obj = {idMaster, dateMin,dateMax};
         axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
-                console.log('GET_FUTURE_TRAINER_TRAINING :', res.data.result.result);
+                console.log('getFutureTrainerTraining:', res.data.result.result);
                 dispatch({
                     type: actionTypes.GET_FUTURE_TRAINER_TRAINING,
                     futureTraining: res.data.result.result,

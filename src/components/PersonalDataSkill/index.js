@@ -75,7 +75,7 @@ class PersonalDataSkill extends React.Component {
                     />
                     <div className="coach-data-skill-footer-line"/>
                 </div> : (!number || (!length && number === Math.min(...addedNums))) ? <span/> :
-                    <div className="coach-data-skill-footer-line" style={{width: "80%"}}/>}
+                    isStudent && <div className="coach-data-skill-footer-line" style={{width: "80%"}}/>}
             <FormItem className="input-form-item">
                 {getFieldDecorator('discipline-' + number, {
                     initialValue: getNameFromObjArr(discipline),
@@ -184,7 +184,7 @@ class PersonalDataSkill extends React.Component {
                     />
                 )}
             </FormItem>}
-            {number === Math.max(...addedNums) || (!addedNums.length && number === length - 1) ?
+            {isStudent && (number === Math.max(...addedNums) || (!addedNums.length && number === length - 1)) ?
                 <div className="coach-data-skill-footer">
                     <Button
                         className="student-data-saveBtn"
@@ -211,12 +211,13 @@ class PersonalDataSkill extends React.Component {
     };
 
     render() {
+        const {isStudent} = this.props;
         const rootClass = cn('coach-data-block');
 
         return (
             <div className={rootClass + "disciplines"}>
                 {this.renderOldDisciplines()}
-                {this.renderNewDisciplines()}
+                {isStudent && this.renderNewDisciplines()}
             </div>
         )
     }

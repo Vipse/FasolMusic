@@ -6,7 +6,6 @@ import Button from '../Button';
 import PersonalDataContact from '../PersonalDataContact';
 import PersonalDataInfo from "../PersonalDataInfo";
 import CoachPersonalDataPromo from "../CoachPersonalDataPromo";
-//import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
 import PersonalDataTime from "../PersonalDataTime";
@@ -25,6 +24,7 @@ import {
     getSelectedNestedIDs,
     getSelectorValues
 } from "../../helpers/getSelectorsCustomData";
+//import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 
 class CoachPersonalDataForm extends React.Component {
 
@@ -40,6 +40,7 @@ class CoachPersonalDataForm extends React.Component {
             },
             isChangePasswordModalVisible: false,
             isSendSuggestionsModalVisible: false,
+            isChangePromoModalVisible: false,
             selectorsValues: {}
         }
     }
@@ -78,8 +79,16 @@ class CoachPersonalDataForm extends React.Component {
         });
     };
 
-    handleChangeAvatar = (newAvatar) => {
-        this.setState({avatar: newAvatar});
+    handleChangeAvatar = (file) => {
+        if (file && file.name !== 'default')
+            return this.props.uploadFile(file)
+                .then((res) => {
+                    this.setState({avatar: res.data.file[0].url});
+                    message.success("Фото загружено");
+                    return res;
+                })
+                .catch((err) => {console.log(err); return err});
+        else this.setState({avatar: ''});
     };
 
     handleChangeSocial = (name, valuesObj) => {
@@ -103,6 +112,17 @@ class CoachPersonalDataForm extends React.Component {
             this.handleChangeAvatar(valuesObj.avatar);
             updateData.avatar = valuesObj.avatar;
         }
+
+        return this.props.onSubmit(updateData);
+    };
+
+    handleChangePromo = (link) => {
+        this.setState({promoLink: link});
+
+        let updateData = {
+            id: this.props.profileCoach.id,
+            promovideo: link
+        };
 
         return this.props.onSubmit(updateData);
     };
@@ -206,7 +226,6 @@ class CoachPersonalDataForm extends React.Component {
 
     render() {
         const rootClass = cn('coach-data');
-        const { promoLink } = this.state;
         const { form, profileCoach } = this.props;
         const { getFieldDecorator } = form;
         const {interestsList, professionsList, disciplineList, goalList, stylesList, qualitiesList} = this.state.selectorsValues;
@@ -232,7 +251,8 @@ class CoachPersonalDataForm extends React.Component {
                         />
                         <div className='coach-data-title'>Проморолик</div>
                         <CoachPersonalDataPromo
-                            promoLink={promoLink}
+                            profile={profileCoach}
+                            onChangePromo={this.handleChangePromo}
                         />
                         {/*<div className='coach-data-title'>Платежные данные</div>
                         <CoachPersonalDataPayment
@@ -276,13 +296,13 @@ class CoachPersonalDataForm extends React.Component {
                     <ChangePasswordModal
                         profile={profileCoach}
                         visible={this.state.isChangePasswordModalVisible}
-                        onSubmit = {this.props.onSubmit}
+                        onSubmit={this.props.onSubmit}
                         onCancel={() => this.setState({isChangePasswordModalVisible: false})}
                     />
                     <SendSuggestionsModal
                         profile={profileCoach}
                         visible={this.state.isSendSuggestionsModalVisible}
-                        onSubmit = {this.props.onSubmit}
+                        onSubmit={this.props.onSubmit}
                         onCancel={() => this.setState({isSendSuggestionsModalVisible: false})}
                     />
                 </Card>

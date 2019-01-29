@@ -7,7 +7,7 @@ import Step5 from './Step5'
 import Steps from '../Step'
 import './style.css'
 import '../../icon/style.css'
-import {getSelectorNestedValues, getSelectorValues} from "../../helpers/getSelectorsCustomData";
+import {getSelectorValues} from "../../helpers/getSelectorsCustomData";
 
 class CreateProfile extends React.Component{
     constructor(props){
@@ -23,6 +23,7 @@ class CreateProfile extends React.Component{
                                            onSubmit={(data) => this.setState({...data})}
                                            interestsList={getSelectorValues(state.selectorsValues.interestsList)}
                                            professionsList={getSelectorValues(state.selectorsValues.professionsList)}
+                                           uploadFile={this.props.uploadFile}
                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                             //uploadFile={this.props.uploadFile}
                     />,

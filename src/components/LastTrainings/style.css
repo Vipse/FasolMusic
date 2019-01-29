@@ -16,12 +16,6 @@
   font-size: 14px;
   color: #111;
 }
-.lastTrainings .noTrainings {
-  font-family: RobotoBlack, sans-serif;
-  text-align: center;
-  font-size: 20px;
-  color: #777;
-}
 .lastTrainings .ant-card-body {
   justify-content: center;
 }
@@ -39,14 +33,4 @@
 }
 .lastTrainings-link span {
   color: #000;
-}
-.ant-card-head {
-  border-radius: 10px 10px 0 0;
-}
-.ant-card-head-title {
-  font-size: 20px;
-  font-family: RobotoRegularItalic, sans-serif;
-  padding-right: 0;
-  color: #111;
-  font-style: italic;
 }
