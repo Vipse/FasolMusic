@@ -178,7 +178,8 @@ export {
     getNextTraining,
     getMyMastersOrStudents,
     unauthorizedTrialDataSave,
-    getAllTrainingStudent
+    getAllTrainingStudent,
+    setHomeworkEdit
 } from './training'
 
 

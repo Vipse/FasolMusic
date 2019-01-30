@@ -45,7 +45,8 @@ class EventSlot extends Component {
     render() {
         const {
             event,
-            mode
+            mode,
+            onGotoPage
         } = this.props;
 
         //drag and drop
@@ -73,9 +74,9 @@ class EventSlot extends Component {
             )
         }
 
-        
+        const eventKey = event.idMaster ? event.idMaster: event.id
         return (
-            <div key = {event.idMaster ? event.idMaster: event.id} className="event-group" style={{backgroundColor}}>
+            <div key = {eventKey} onClick={()=> onGotoPage(eventKey)}  className="event-group" style={{backgroundColor}}>
                     <div>
                         <div className="event-group-cross">
                             <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>

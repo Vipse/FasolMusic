@@ -154,6 +154,7 @@ class Calendar extends React.Component {
               <FreeTrainers 
                   freeTrainers={freeTrainers} 
                   setChoosenTrainer={setChoosenTrainer}
+                  selectAnyTrainer = {this.props.selectAnyTrainer}
               /> 
               :
               <SmallCalendar 

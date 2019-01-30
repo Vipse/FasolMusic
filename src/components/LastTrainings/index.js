@@ -25,6 +25,7 @@ class LastTrainings extends React.Component {
             return (<LastTrainingsItem {...item}
                                        key={index}
                                        onGoto={this.props.onGoto}
+                                       onSetHomeworkEdit = {this.props.onSetHomeworkEdit}
             />)
         });
     };

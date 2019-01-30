@@ -64,6 +64,15 @@ class Schedule extends React.Component {
         }
     };
 
+    selectAnyTrainer = () => {
+        let {fullInfoMasters} = this.props;
+        const min = 0;
+        const max = fullInfoMasters.length - 1;
+        let rand = min + Math.random() * (max + 1 - min);
+
+        rand = Math.floor(rand);
+        this.setChoosenTrainer(fullInfoMasters[rand].id)    
+    }
     showMasterList = (freetrainers, busytrainers) =>{
         this.freetrainers = freetrainers;
         this.busytrainers = busytrainers;
@@ -765,6 +774,8 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
                                         this.props.onChangeCurrDiscipline(disc)
                                         this.props.onGetAbonementsFilter(id, currDiscipline); 
                                 }}
+                                
+                                onGotoPage= { (id) => this.props.history.push('/app/student' + id)}
 
                                   onChange={this.dateChangeHandler}
                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
@@ -823,6 +834,8 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
+                                  onGotoPage= { (id) => this.props.history.push('/app/coach' + id)}
+                                  selectAnyTrainer = {this.selectAnyTrainer}
 
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
 

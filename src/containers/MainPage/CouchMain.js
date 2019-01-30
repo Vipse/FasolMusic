@@ -125,6 +125,7 @@ class CouchMain extends React.Component {
                             onGoto={(val) => this.gotoHandler(val)}
                             openLastTrains={() => this.props.history.push('/app/homework')}
                             data={lastTrainings}
+                            onSetHomeworkEdit = {this.props.onSetHomeworkEdit}
                         />
                     </Col>
                     <Col xs={14} xxl={9} className='section'>

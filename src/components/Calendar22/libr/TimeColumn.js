@@ -66,7 +66,8 @@ export default class TimeColumn extends Component {
       masterList,
       isAdmin,
       showMasterList,
-      mode
+      mode,
+      onGotoPage
     } = this.props;
 
     let slotMasterList = null;
@@ -109,8 +110,7 @@ export default class TimeColumn extends Component {
         trainerTraining = {trainerTraining}
         showMasterList  = {showMasterList}
         mode = {mode}
-
-        
+        onGotoPage = {onGotoPage}
 
       />
     )

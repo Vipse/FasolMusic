@@ -123,6 +123,7 @@ class MainPage extends React.Component{
 				postTraining = {this.props.postTraining}
 				selectors = {this.props.selectors}
 				goToChat = {this.goToChat}
+				onSetHomeworkEdit = {this.props.onSetHomeworkEdit}
 
 				showCancel = {() => {this.setState({cancelModal: true})}}
 				onAdd = {this.onAddVisit}
@@ -199,6 +200,8 @@ const mapDispatchToProps = dispatch => {
 		cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id)),
 		
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
+		onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),
+		
 
 		onGetMyMastersOrStudents: (obj) => dispatch(actions.getMyMastersOrStudents(obj)),
 

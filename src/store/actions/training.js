@@ -99,6 +99,22 @@ export const getAllTrainingStudent = (id, dateStart, dateEnd) => {
     }
 };
 
+export const setHomeworkEdit = (idTraining, homework) => {
+    const obj = {
+        idTraining,
+        homework
+    };
+    return (dispatch) => {
+        axios.post('/catalog.fasol/homeworkEdit', JSON.stringify(obj))
+            .then(res => {
+                    console.log("homeworkEdit", res);
+            })
+            .catch(err => console.log(err));
+    }
+};
+
+
+
 export const unauthorizedTrialDataSave = (data) => {
     return (dispatch) => {
         dispatch({

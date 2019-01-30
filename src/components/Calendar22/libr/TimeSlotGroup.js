@@ -113,7 +113,8 @@ class TimeSlotGroup extends Component {
       handleDrop,
       onCancelTraining,
       trainerTraining,
-      mode
+      mode,
+      onGotoPage,
     } = this.props;
 
     const valueTime = this.props.value.getTime()
@@ -132,6 +133,7 @@ class TimeSlotGroup extends Component {
                   setAbonement_Training = {this.props.setAbonement_Training}
                   onCancelTraining = {onCancelTraining}
                   mode = {mode}
+                  onGotoPage = {onGotoPage}
                  
             />)
           }
@@ -144,6 +146,7 @@ class TimeSlotGroup extends Component {
             freeTrainers={freeTrainers}
             setChoosenTrainer={this.props.setChoosenTrainer}
             idEvent={freeTrainers.idEvent}
+            onGotoPage = {onGotoPage}
             
         />
     }

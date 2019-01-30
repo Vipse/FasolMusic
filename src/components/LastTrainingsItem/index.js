@@ -10,6 +10,10 @@ import PopoverFile from "../PopoverFile";
 import Icon from "../Icon";
 
 class LastTrainingsItem extends React.Component{
+    homeworkEdit = () => {
+        this.props.onSetHomeworkEdit();
+    }
+    
     render(){
         const {
             discipline,
@@ -21,6 +25,7 @@ class LastTrainingsItem extends React.Component{
             onGoto
         } = this.props;
 
+        
         return (
             <div className='lastTraining'>
                 <div className="lastTraining-contactInfo">
@@ -40,7 +45,7 @@ class LastTrainingsItem extends React.Component{
                     {homework ? homework :
                         <div className="sendHomework">
                             <textarea className="sendHomework-area" name="homework" rows="10" placeholder='Домашнее задание...'>{homework ? homework.info : ''}</textarea>
-                            <button className="sendHomework-btn">
+                            <button className="sendHomework-btn" onClick={this.homeworkEdit}>
                                 <Icon type="message" size={25}/>
                             </button>
                         </div>}
