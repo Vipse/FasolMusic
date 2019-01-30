@@ -92,7 +92,7 @@ export const getAllTrainingStudent = (id, dateStart, dateEnd) => {
                 console.log("getAllTrainingStudent", res);
                     dispatch({
                         type: actionTypes.GET_ALL_STUDENT_TRAININGS,
-                        studentTrainings: res.data.result
+                        studentTrainings: !res.data.error ? res.data.result : []
                     })
             })
             .catch(err => console.log(err));

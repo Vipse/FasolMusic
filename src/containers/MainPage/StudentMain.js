@@ -36,15 +36,16 @@ class StudentMain extends React.Component{
     prepareNearTrainings = () => {
 	    const {nearTraining, selectors} = this.props;
 
-        debugger;
         if (selectors.discipline) {
             return nearTraining.map((item) => {
                 return {
                     name: item.fioMaster,
                     start: +item.start * 1000,
                     end: +item.start * 1000 + 3600000,
-                    discipline: (Array.isArray(item.disciplineSubscription) && item.disciplineSubscription.length) ?
-                        selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null
+                    discipline: item.disciplineSubscription.length ?
+                        selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null,
+                    idProfile: item.idMaster,
+                    idTraining: item.id
                 }
             });
         }
@@ -95,6 +96,7 @@ class StudentMain extends React.Component{
                             <Col xs={14} xxl={7} className='section'>
                                 <NearTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
+                                    goToChat = {goToChat}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
                                     data={nearTrainings}
                                 />

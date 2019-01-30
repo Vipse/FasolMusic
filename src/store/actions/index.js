@@ -126,6 +126,7 @@ export {
     setReceptionStatus,
     setChatFromId,
     setChatToId,
+    setChatTrainingId,
     setIsCallingStatus,
     setChatStory,
     setNewTimer,

@@ -65,7 +65,7 @@ export function createSocket(wsUrl,_props,_callbacks) {
 				break;
 			case 'closeReception':
                 callbacks.setReceptionStatus(false);
-                callbacks.show_review_modal(parsedMessage.receptionId, parsedMessage.by);
+                //callbacks.show_review_modal(parsedMessage.receptionId, parsedMessage.by);
                 break;
             case 'callResponse':
 				callResponse(parsedMessage);
@@ -347,13 +347,13 @@ const startCommunication = (message) => {
 };
 
 export const startReception = () => {
-   // const visitInfo = callbacks.get_visitInfo();
-   // const {id: receptionId} = visitInfo;
+   const visitInfo = callbacks.get_visitInfo();
+   const {id: receptionId} = visitInfo;
     sendMessage({
         id : 'startReception',
         name: callbacks.get_from(),
         other_name: callbacks.get_to(),
-        receptionId: '130290'//receptionId,
+        receptionId: receptionId,
     });
     sendMessage({
         id : 'chat',
@@ -396,8 +396,8 @@ export const call = () => {
             setCallState(NO_CALL);
         }
 
-        //const visitInfo = callbacks.get_visitInfo();
-        //const {id: receptionId} = visitInfo;
+        const visitInfo = callbacks.get_visitInfo();
+        const {id: receptionId} = visitInfo;
 
         this.generateOffer(function(error, offerSdp) {
             if (error) {
@@ -408,7 +408,7 @@ export const call = () => {
                 id : 'call',
                 from: callbacks.get_from(),
                 to: callbacks.get_to(),
-                receptionId: '130290', //receptionId,
+                receptionId: receptionId,
                 userData: null, //callbacks.get_shortDocInfo(),
                 sdpOffer : offerSdp
             });

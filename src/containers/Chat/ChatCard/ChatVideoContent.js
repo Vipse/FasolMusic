@@ -100,8 +100,9 @@ class ChatVideoContent extends React.Component {
 	renderVideos = () => (
 		<Hoc>
 			<video className='chat-card-video__box'
-						poster={'https://www.sunhome.ru/i/wallpapers/61/pozitivnie-kartinki.orig.jpg'}
-						autoPlay
+				   		poster={'https://www.sunhome.ru/i/wallpapers/61/pozitivnie-kartinki.orig.jpg'}
+
+				   		autoPlay
 						ref={this.setVideoOutRef}
 						></video>
 			<video className='chat-card-video__mini'

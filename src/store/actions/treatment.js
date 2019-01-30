@@ -130,11 +130,11 @@ export const getAppsBetweenDocAndUser = (obj) => {
 
 export const completeReception = (obj) => {
     return dispatch => {
-        axios.post('/catalog.doc2/toFinishReception',
+        return axios.post('/catalog.fasol/trainingComplete',
             JSON.stringify(obj))
             .then(res => {
-                console.log('[completeReception]',JSON.stringify(obj))
-                console.log(res.data)
+                console.log('completeReception', res);
+                return res;
             })
             .catch(err => {
                 console.log(err);

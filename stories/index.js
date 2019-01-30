@@ -76,7 +76,7 @@ const loadStories = () => {
     require('../src/components/ReceptionsScheduleModal/stories');
     require('../src/components/ProfileAvatar/stories');
     require('../src/components/ProfileCard/stories');
-    require('../src/components/CompletionReceptionModal/stories');
+    require('../src/components/CompletionTrainingModal/stories');
     require('../src/components/Review/stories');
     require('../src/components/Card/stories');
     require('../src/components/Reviews/stories');
