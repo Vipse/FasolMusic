@@ -1,0 +1,8 @@
+.completionTrainingModal {
+  padding: 35px 30px;
+  text-align: center;
+}
+.completionTrainingModal .btnPlate {
+  display: flex;
+  justify-content: space-evenly;
+}
