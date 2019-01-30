@@ -7,7 +7,7 @@ import {message} from "antd"
 
 
 import Button from '../../../components/Button'
-import CompletionReceptionModal from "../../../components/CompletionReceptionModal";
+import CompletionTrainingModal from "../../../components/CompletionTrainingModal";
 import CompleteAppeal from '../../../components/CompleteAppeal'
 import NewVisitModalPage from "../../../components/NewVisitModalPage";
 import ChatTextContent from './ChatTextContent'
@@ -92,31 +92,30 @@ class ChatCard extends React.Component {
 		this.setState({reception_vis: true});
 	}
 
-	onCloseReception = (obj) => {
+	onCloseReception = () => {
 		/* завершение чата, обнуление истории на сервере */
 		console.log("Завершение приёма и чата", this.props.receptionId)
 		messAboutStop();
 		stop();
 		messForCloseReception(this.props.receptionId);
 		let new_obj = {
-			...obj,
-			id: this.props.receptionId,
-			chat: this.props.chatStory,
+			idTraining: this.props.receptionId,
+			//chat: this.props.chatStory,
 		}
 		this.props.completeReception(new_obj);
 		this.props.setReceptionStatus(false);
 		this.props.changeReceptionStatus(this.props.receptionId, "finish");
 
-		this.setState({reception_vis: false,treatment_vis: true, isCurVisEnd: true});
+		this.setState({reception_vis: false, treatment_vis: false, isCurVisEnd: true});
 		this.props.extr ?
 			this.setState({reception_vis: false})
-			: this.setState({reception_vis: false,treatment_vis: true});
+			: this.setState({reception_vis: false, treatment_vis: true});
 	}
 
 	onCloseTreatment = () => {
 		this.props.closeTreatm(this.props.id_treatment);
 		this.setState({treatment_vis: false});
-	}
+	};
 
 	onAddVisit = (obj) => {
 		this.setState({reception_vis: false,treatment_vis: true});
@@ -261,17 +260,17 @@ class ChatCard extends React.Component {
 
                 </div>
             </div>
-			<CompletionReceptionModal
+			<CompletionTrainingModal
 				visible={this.state.reception_vis}
 				onComplete={this.onCloseReception}
 				onCancel={() => this.setState({reception_vis: false})}
 			/>
-			<CompleteAppeal
+			{/*<CompleteAppeal
 				visible={this.state.treatment_vis}
 				onCancel={() =>  this.setState({treatment_vis: false})}
 				onAdd={() => this.setState({treatment_vis: false, visit_vis: true})}
 				onComplete={this.onCloseTreatment}
-			/>
+			/>*/}
 			<NewVisitModalPage
 				visible={this.state.visit_vis}
 				onCancel={() => this.setState({visit_vis: false, treatment_vis: true})}
