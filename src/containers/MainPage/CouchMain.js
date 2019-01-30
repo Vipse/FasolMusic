@@ -34,26 +34,21 @@ class CouchMain extends React.Component {
     prepareNearTrainings = () => {
         const {futureTraining, selectors} = this.props;
         let arrData = [];
-        function compareTrainsByTime(trainsArr) {
-            return trainsArr.sort(function compare(a, b) {
-                return a.start < b.start ? -1 : a.start > b.start ? 1 : 0;
-            });
-        }
 
         if (selectors.discipline) {
-            for (let dayItem in futureTraining) {
-                arrData.push(...compareTrainsByTime(futureTraining[dayItem].map(item => {
-                    return {
-                        name: item.allInfo.fio,
-                        start: +item.allInfo.date * 1000,
-                        end: +item.allInfo.date * 1000 + 3600000,
-                        discipline: item.allInfo.disciplines.length ?
-                            selectors.discipline.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null,
-                        idProfile: item.allInfo.idStudent,
-                        idTraining: item.allInfo.idTraining
-                    };
-                })));
-            }
+            for (let dayItem in futureTraining)
+                for (let trainItem in futureTraining[dayItem]) {
+                    let train = futureTraining[dayItem][trainItem];
+                    arrData.push({
+                        name: train.allInfo.fio,
+                        start: +train.allInfo.date * 1000,
+                        end: +train.allInfo.date * 1000 + 3600000,
+                        discipline: train.allInfo.disciplines.length ?
+                            selectors.discipline.find(discipline => discipline.id === +train.allInfo.disciplines[0]).nameRus : null,
+                        idProfile: train.allInfo.idStudent,
+                        idTraining: train.allInfo.idTraining
+                    });
+                }
 
             return arrData;
         }
@@ -62,26 +57,21 @@ class CouchMain extends React.Component {
     prepareLastTrainings = () => {
         const {postTraining, selectors} = this.props;
         let arrData = [];
-        function compareTrainsByTime(trainsArr) {
-            return trainsArr.sort(function compare(a, b) {
-                return a.start < b.start ? -1 : a.start > b.start ? 1 : 0;
-            });
-        }
 
         if (selectors.discipline) {
-            for (let dayItem in postTraining) {
-                arrData.push(...compareTrainsByTime(postTraining[dayItem].map(item => {
-                    return {
-                        name: item.allInfo.fio,
-                        date: +item.allInfo.date * 1000,
-                        discipline: item.allInfo.disciplines.length ?
-                            selectors.discipline.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null,
-                        avatar: item.allInfo.avatar,
-                        homework: item.allInfo.homework,
-                        idProfile: item.allInfo.idStudent
-                    };
-                })));
-            }
+            for (let dayItem in postTraining)
+                for (let trainItem in postTraining[dayItem]) {
+                    let train = postTraining[dayItem][trainItem];
+                    arrData.push({
+                        name: train.allInfo.fio,
+                        date: +train.allInfo.date * 1000,
+                        discipline: train.allInfo.disciplines.length ?
+                            selectors.discipline.find(discipline => discipline.id === +train.allInfo.disciplines[0]).nameRus : null,
+                        avatar: train.allInfo.avatar,
+                        homework: train.allInfo.homework,
+                        idProfile: train.allInfo.idStudent
+                    });
+                }
 
             return arrData;
         }

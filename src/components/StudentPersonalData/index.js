@@ -220,6 +220,7 @@ class StudentPersonalDataForm extends React.Component {
                             onChangeSocial={this.handleChangeSocial}
                             getFieldDecorator={getFieldDecorator}
                             showChangePasswordModal={() => this.setState({isChangePasswordModalVisible: true})}
+                            showSendSuggestionsModal={() => this.setState({isSendSuggestionsModalVisible: true})}
                             isStudent={true}
                         />
                         <div className='student-data-title'>Дополнительная информация</div>
