@@ -35,7 +35,6 @@ class NearTrainings extends React.Component {
         const {loading} = this.state;
         const rootClass = cn('schedule-future');
 
-        debugger
         return (
             <div className={rootClass}>
                 <Card title="Ближайшие тренировки"
@@ -43,7 +42,7 @@ class NearTrainings extends React.Component {
                           type="circle_arrow_right"/><span>Все</span></a>}>
                     {loading ? <Spinner size='large'/> :
                         <PerfectScrollbar className="futureTrainings-scroll">
-                            {(Array.isArray(data) && data.length) ? this.scheduleRender(data) :
+                            {data.length ? this.scheduleRender(data) :
                                 <div className='entry-list no-trainings'>Тренировок нет</div>}
                         </PerfectScrollbar>}
                 </Card>

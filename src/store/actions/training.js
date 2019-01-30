@@ -10,7 +10,7 @@ export const getTrainingNotFinished = (idUser, dateMax, max) => {
         obj = (dateMax) ? {...obj, dateMax} : obj;
         obj = (max) ? {...obj, max} : obj;
 
-        axios.post('/catalog.fasol/getTrainingNotFinished',
+        axios.post('https://web.fasolonline.ru/~api/json/catalog.fasol/getTrainingNotFinished',
             JSON.stringify(obj))
             .then(res => {
                 console.log('getTrainingNotFinished', res.data.result.result);
@@ -87,12 +87,12 @@ export const getAllTrainingStudent = (id, dateStart, dateEnd) => {
         dateEnd
     };
     return (dispatch) => {
-        axios.post('/catalog.fasol/getAllTrainingStudent', JSON.stringify(obj))
+        axios.post('https://web.fasolonline.ru/~api/json/catalog.fasol/getAllTrainingStudent', JSON.stringify(obj))
             .then(res => {
                 console.log("getAllTrainingStudent", res);
                     dispatch({
                         type: actionTypes.GET_ALL_STUDENT_TRAININGS,
-                        studentTrainings: res.data.result
+                        studentTrainings: !res.data.error ? res.data.result : []
                     })
             })
             .catch(err => console.log(err));
