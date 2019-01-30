@@ -51,6 +51,7 @@ class App extends React.Component {
     
     runNotificationsWS = () => {
         let that = this;
+        debugger;
         let conn = new ab.Session('wss://appdoc.by/wss2/',
             function() {
                 that.props.getNotifications(that.props.id);
@@ -316,7 +317,7 @@ const mapDispatchToProps = dispatch => {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onGetSearchUsers: (name) => dispatch(actions.searchUsers(name)),
         onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
-        onGetAbonements: (idStudent, currDiscipline) => dispatch(actions.getAbonements(idStudent, currDiscipline)),
+        onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
        
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),

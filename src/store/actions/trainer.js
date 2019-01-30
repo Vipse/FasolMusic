@@ -24,7 +24,7 @@ export const getMasterList = (discipline = "") => {
     }
 }
 
-export const getTrainerTraining = (idMaster, dateMin, dateMax) => {
+export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) => {
     return dispatch => {
         const obj = {
             idMaster,
@@ -39,24 +39,28 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax) => {
                 console.log("REEES", res.data.result);
                 const allTraining = res.data.result.result;
                 let formatTrainng = [];
-
+debugger
                 for (let key in allTraining) {
                     if (allTraining.hasOwnProperty(key)){
                         allTraining[key].forEach((el) => {
                                 if(el.hasOwnProperty('allInfo')){
                                     
-                                   const elem = el.allInfo;
-                                    formatTrainng.push({
-                                        fio: elem.idStudent,
-                                        id: elem.date,
-                                        idMaster: elem.idMaster,
-                                        idSubscription:elem.idSubscription,
-                                        isBooking: elem.isBooking,
-                                        start: new Date(elem.date * 1000),
-                                        status: elem.status
-                                        
-
-                                    });
+                                    const elem = el.allInfo;
+                                    
+                                    if(elem.disciplines.includes(currDiscipline.code)){
+                                        formatTrainng.push({
+                                            fio: elem.idStudent,
+                                            id: elem.date,
+                                            idMaster: elem.idMaster,
+                                            idSubscription:elem.idSubscription,
+                                            isBooking: elem.isBooking,
+                                            start: new Date(elem.date * 1000),
+                                            status: elem.status
+                                            
+    
+                                        });
+                                    }
+                                    
                                 }
                             //el.hasOwnProperty('allInfo') ? formatTrainng.push( (el.allInfo['fio']=el.allInfo.id ?  el.allInfo : null)) : null
                         })

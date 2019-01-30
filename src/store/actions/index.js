@@ -133,7 +133,6 @@ export {
 
 export {
     createAbonement,
-    getAbonements,
     getAbonements2,
     transferTrainining,
     transferTraininingToEnd,
@@ -142,6 +141,7 @@ export {
     changeCurrDiscipline,
     setWeekInterval,
     setChooseTheMasterByStudent,
+    getAbonementsFilter,
 } from './abonement'
 
 export {

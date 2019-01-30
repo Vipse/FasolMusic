@@ -235,7 +235,7 @@ class Schedule extends React.Component {
     }
 
     fillTrainingWeek = () => { // создание абонемента
-        debugger;
+        
         const {id, abonementIntervals, currDiscipline, disciplines, isPushBtnTrialTraining} = this.props;
         message.success("Тренировки распределены по расписанию");
         
@@ -264,7 +264,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
         debugger;
         this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
         .then(() => {
-            this.props.onGetAbonements(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
+            this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
         });
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
         this.setState({apiPatients: []})
@@ -296,7 +296,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
             if(this.delEvent){
                     this.props.onTransferTrainining({idTraining, idMaster, ...this.transferDay})
                         .then(() => {
-                            this.props.onGetAbonements(id,currDiscipline);
+                            this.props.onGetAbonementsFilter(id,currDiscipline);
                         });
             } 
 
@@ -319,7 +319,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
         if(this.cancelId){
                 this.props.onTransferTraininingToEnd({idTraining : this.cancelId})
                     .then(() => {
-                        this.props.onGetAbonements(id, currDiscipline); 
+                        this.props.onGetAbonementsFilter(id, currDiscipline); 
                     });
         } 
         this.setState({modalCancelTraining: false});   
@@ -332,7 +332,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
         if(this.freezeIdSubscription) {
             this.props.onFreezeAbonement(this.freezeIdSubscription)
                 .then(() => {
-                    this.props.onGetAbonements(id, currDiscipline); 
+                    this.props.onGetAbonementsFilter(id, currDiscipline); 
                 })
         }
        
@@ -393,7 +393,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
 
         console.log('scheduleForWeek :', scheduleForWeek);
         this.props.onChangeSubscription(scheduleForWeek, this.props.amountTraining)
-            .then(() => this.props.onGetAbonements(id, currDiscipline));
+            .then(() => this.props.onGetAbonementsFilter(id, currDiscipline));
     }
 
 
@@ -411,6 +411,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
     }
 
     onSendDataTrialModal = (data) => {
+
         const {id, currDiscipline} = this.props;
 
         let array = [];
@@ -427,7 +428,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
 
         this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
         this.props.onSetFreeIntervals(array, data.type);
-        this.props.onGetAbonements(id, currDiscipline);
+        this.props.onGetAbonementsFilter(id, currDiscipline);
     };
 
     componentDidMount() {
@@ -439,7 +440,10 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
 
         this.setIntervalAndView(this.state.currentDate, 'week');
         this.props.onGetAllUserVisits();
-        this.props.onGetAbonements(id, currDiscipline);
+
+        console.log('currDiscipline', currDiscipline)
+        this.props.onGetAbonementsFilter(id, currDiscipline);
+        //this.props.onGetAbonementsFilter(id, currDiscipline);
 
         
 
@@ -447,7 +451,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
             this.props.onGetFreeAndBusyMasterList(start, end);
         }
         if(this.props.mode === 'master'){
-            this.props.onGetTrainerTraining(id, start, end);
+            this.props.onGetTrainerTraining(id, start, end, currDiscipline);
         }       
     }
 
@@ -515,10 +519,10 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
         if(mode === 'master'){
             const dateStart = Math.floor(+start.getTime() / 1000);
             const dateEnd = Math.floor(+end.getTime() / 1000);
-            this.props.onGetTrainerTraining(id, dateStart, dateEnd);
+            this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline);
         }
         if(mode === 'master' || mode === 'student'){
-            this.props.onGetAbonements(id, currDiscipline)
+            this.props.onGetAbonementsFilter(id, currDiscipline)
         }
         if(this.props.isPushBtnTransfer){
 
@@ -759,7 +763,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {(disc) => {
                                         this.props.onChangeCurrDiscipline(disc)
-                                        this.props.onGetAbonements(id, currDiscipline); 
+                                        this.props.onGetAbonementsFilter(id, currDiscipline); 
                                 }}
 
                                   onChange={this.dateChangeHandler}
@@ -831,7 +835,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {(disc) => {
                                     this.props.onChangeCurrDiscipline(disc)
-                                    this.props.onGetAbonements(id, disc); 
+                                    this.props.onGetAbonementsFilter(id, disc); 
                                     }}
 
                                   min= {min}
@@ -1052,20 +1056,22 @@ const mapDispatchToProps = dispatch => {
 
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
-        onGetAbonements: (idStudent, currDiscipline) => dispatch(actions.getAbonements(idStudent, currDiscipline)),
+        
         onTransferTrainining: (value) => dispatch(actions.transferTrainining(value)),
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         onChangeSubscription: (data, amountTraining) => dispatch(actions.changeSubscription(data, amountTraining)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSetWeekInterval: (interval) => dispatch(actions.setWeekInterval(interval)),
 
-        onGetTrainerTraining: (id, dateMin, dateMax) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax)),
+        onGetTrainerTraining: (id, dateMin, dateMax, currDiscipline) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, currDiscipline)),
         onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
         onGetInfoMasters: (idMaster) => dispatch(actions.getInfoMasters(idMaster)),
         onSetChooseMasterAllInfo: (allInfo) => dispatch(actions.setChooseMasterAllInfo(allInfo)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onSetChooseTheMasterByStudent: (master) => dispatch(actions.setChooseTheMasterByStudent(master)),
         onNoSetBtnTraining: () => dispatch(actions.noSetBtnTraining()),
+        onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
+        
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),

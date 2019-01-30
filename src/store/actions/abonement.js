@@ -1,7 +1,6 @@
  import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 
-
 export const createAbonement = (dataCreate) => {
     let type = {vocals : '125485', guitar : '125470'};
 
@@ -29,56 +28,82 @@ export const createAbonement = (dataCreate) => {
         
 }
 
-export const getAbonements = (idStudent, currDiscipline) => (dispatch) => {
 
-        axios.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
-            .then(res => {
-                console.log("GetSubscriptions", res);
-
-                let arrAbonement = null;
-                let {subscriptions} = res.data.result;
-                let iterator = 1;
-
-                    if(subscriptions){
-                        arrAbonement = [];
-                        const max = subscriptions.length;
-                        for(let i = 0; i < max; i++){
-                            if(!subscriptions[i].discipline.every((el) => {
-                                
-                                return +el.id === currDiscipline.code 
-                            })) continue;
-
-                            for(let j = 0; j < subscriptions[i].training.length; j++){
-
-                                arrAbonement.push(
-                                    {
-                                        id:             subscriptions[i].training[j].id,
-                                        avatar:         "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
-                                        fio:            'Дисциплина - ' + subscriptions[i].discipline.map((el) => el.name) + ' #'+ (j+1),
-                                        idMaster:       subscriptions[i].training[j].idMaster,
-                                        discipline:     'Дисциплина - ' + subscriptions[i].discipline.map((el) => el.name) + ' #'+ (j+1),
-                                        comment:        "Строгий полицейский",
-                                        start:          new Date(subscriptions[i].training[j].start * 1000),
-                                        status:         subscriptions[i].training[j].status,
-                                        isBooking:      subscriptions[i].training[j].isBooking,
-
-                                        idSubscription: subscriptions[i].idSubscription, // для поиска
-                                    })
-                            }
-                        }
-                        
-                    }
-
-                dispatch({
-                    type: actionTypes.GET_ABONEMENTS,
-                    allAbonements: arrAbonement,
-                });
+export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => {
+    
+    axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
+        .then(res => {
+            console.log("GetSubscriptions", res);
+            console.log("currDiscipline", currDiscipline);
+            res.data.result[currDiscipline.code].map((el) => {
+                el.fio = '#'+el.key;
+                el.start = new Date(+el.start * 1000);
+                el.discipline = el.discipline.map( elem => elem.name).join(',')
+                el.comment = 'comment';
             })
-            .catch(err => {
-                console.log(err);
+
+            dispatch({
+                type: actionTypes.GET_ABONEMENTS,
+                allAbonements: res.data.result[currDiscipline.code],
+            });
         })
-        
+        .catch(err => {
+            console.log(err);
+    })
+    
 }
+
+
+// export const getAbonements = (idStudent, currDiscipline) => (dispatch) => {
+
+//         axios.post('/catalog.fasol/GetSubscriptions', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
+//             .then(res => {
+//                 console.log("GetSubscriptions", res);
+
+//                 let arrAbonement = null;
+//                 let {subscriptions} = res.data.result;
+//                 let iterator = 1;
+
+//                     if(subscriptions){
+//                         arrAbonement = [];
+//                         const max = subscriptions.length;
+//                         for(let i = 0; i < max; i++){
+//                             if(!subscriptions[i].discipline.every((el) => {
+                                
+//                                 return +el.id === currDiscipline.code 
+//                             })) continue;
+
+//                             for(let j = 0; j < subscriptions[i].training.length; j++){
+
+//                                 arrAbonement.push(
+//                                     {
+//                                         id:             subscriptions[i].training[j].id,
+//                                         avatar:         "https://appdoc.by/media/userDocuments/avatars/3095/IMG_4788.JPG",
+//                                         fio:            'Дисциплина - ' + subscriptions[i].discipline.map((el) => el.name) + ' #'+ (j+1),
+//                                         idMaster:       subscriptions[i].training[j].idMaster,
+//                                         discipline:     'Дисциплина - ' + subscriptions[i].discipline.map((el) => el.name) + ' #'+ (j+1),
+//                                         comment:        "Строгий полицейский",
+//                                         start:          new Date(subscriptions[i].training[j].start * 1000),
+//                                         status:         subscriptions[i].training[j].status,
+//                                         isBooking:      subscriptions[i].training[j].isBooking,
+
+//                                         idSubscription: subscriptions[i].idSubscription, // для поиска
+//                                     })
+//                             }
+//                         }
+                        
+//                     }
+
+//                 dispatch({
+//                     type: actionTypes.GET_ABONEMENTS,
+//                     allAbonements: arrAbonement,
+//                 });
+//             })
+//             .catch(err => {
+//                 console.log(err);
+//         })
+        
+// }
 
 
 // сделать нормально нужно

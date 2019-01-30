@@ -197,7 +197,6 @@ const mapDispatchToProps = dispatch => {
         makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
 		cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id)),
 		
-		onGetAbonements: (idStudent) => dispatch(actions.getAbonements(idStudent)),
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
 
 		onGetMyMastersOrStudents: (obj) => dispatch(actions.getMyMastersOrStudents(obj)),
