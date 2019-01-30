@@ -74,10 +74,12 @@ class RecordTrainCarousel extends React.Component {
             let dayIntervals = intervals[moment(curDayBegin).format('X')];
 
             let curDayTrainerTrainings = trainerTrainings[moment(curDayBegin).format('X')];
-            let ownTrains = curDayTrainerTrainings ? curDayTrainerTrainings.map((item) => {
-                if (isAdmin || item.allInfo.idStudent === studentID)
-                    return item.allInfo.date;
-            }) : [];
+
+            let ownTrains = [];
+            if (curDayTrainerTrainings)
+                for (let train in curDayTrainerTrainings)
+                    if (isAdmin || curDayTrainerTrainings[train].allInfo.idStudent === studentID)
+                        ownTrains.push(curDayTrainerTrainings[train].allInfo.date);
 
             for (let i = availableHoursArea[0]; i < availableHoursArea[1]; i++) {
                 let curHourBegin = moment(curDayBegin).add(i, 'hours');
@@ -88,8 +90,13 @@ class RecordTrainCarousel extends React.Component {
                 let isOwn = ownTrains.length ?
                     ownTrains.indexOf(moment(curHourBegin).format('X')) !== -1 : false;
 
-                let curHourTraining = curDayTrainerTrainings ? curDayTrainerTrainings.find(item =>
-                    item.allInfo && item.allInfo.date === curHourBegin.format('X')) : null;
+                let curHourTraining = null;
+                if (curDayTrainerTrainings)
+                    for (let train in curDayTrainerTrainings)
+                        if (curDayTrainerTrainings[train].allInfo && curDayTrainerTrainings[train].allInfo.date === curHourBegin.format('X')) {
+                            curHourTraining = curDayTrainerTrainings[train];
+                            break;
+                        }
 
                 time.push({
                     timestamp: curHourBegin.format('X'),
