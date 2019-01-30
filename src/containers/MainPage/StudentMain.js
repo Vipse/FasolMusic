@@ -44,7 +44,8 @@ class StudentMain extends React.Component{
                     end: +item.start * 1000 + 3600000,
                     discipline: item.disciplineSubscription.length ?
                         selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null,
-                    idProfile: item.idMaster
+                    idProfile: item.idMaster,
+                    idTraining: item.id
                 }
             });
         }

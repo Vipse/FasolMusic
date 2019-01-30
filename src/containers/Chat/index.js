@@ -38,6 +38,7 @@ class Chat extends React.Component{
             {id_user,id_doc,name, name_doc, id: visitId, contactLevel,comment, chat, avatar, avatar_doc, status, id_treatment} = this.props.visitInfo
         )
         const isUser = this.props.user_mode === "student";
+        console.log();
 
       
       
@@ -50,9 +51,9 @@ class Chat extends React.Component{
             chatStory: this.props.chatStory,
             receptionStarts: this.props.receptionStarts,
             isCalling: this.props.isCalling,
-            receptionId: '130290',//visitId,
+            receptionId: this.props.idTraining,
             callerID: this.props.id,
-            calledID: this.props.idTo,//isUser ? id_doc : id_user,
+            calledID: this.props.idTo,
             user_mode: this.props.user_mode,
             user_id: +id_user,
             patientName: isUser ? name_doc : name,
@@ -127,6 +128,7 @@ const mapStateToProps = state =>{
 
 
         idTo: state.chatWS.to,
+        idTraining: state.chatWS.idTraining
     }
 }
 

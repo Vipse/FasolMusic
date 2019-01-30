@@ -14,6 +14,7 @@ class NearTrainingsItem extends React.Component{
             discipline,
             name,
             goToChat,
+            idTraining,
             idProfile,
             onGoto
         } = this.props;
@@ -40,7 +41,7 @@ class NearTrainingsItem extends React.Component{
                         btnText="Открыть чат"
                         type="border-green"
                         size='small'
-                        onClick={() => goToChat(idProfile)}
+                        onClick={() => goToChat(idProfile, idTraining)}
                     />
                 </div>
             </div>

@@ -88,20 +88,20 @@ class ChatCard extends React.Component {
 	}
 
 	beforeCloseReseption = () => {
-		/* НЕ ДЕЛАЕМ завершение чата, обнуление истории на сервере*/
 		this.setState({reception_vis: true});
-	}
+	};
 
 	onCloseReception = () => {
 		/* завершение чата, обнуление истории на сервере */
-		console.log("Завершение приёма и чата", this.props.receptionId)
+		console.log("Training and chat ending, id: ", this.props.receptionId);
 		messAboutStop();
 		stop();
 		messForCloseReception(this.props.receptionId);
+
 		let new_obj = {
 			idTraining: this.props.receptionId,
 			//chat: this.props.chatStory,
-		}
+		};
 		this.props.completeReception(new_obj);
 		this.props.setReceptionStatus(false);
 		this.props.changeReceptionStatus(this.props.receptionId, "finish");
@@ -110,7 +110,7 @@ class ChatCard extends React.Component {
 		this.props.extr ?
 			this.setState({reception_vis: false})
 			: this.setState({reception_vis: false, treatment_vis: true});
-	}
+	};
 
 	onCloseTreatment = () => {
 		this.props.closeTreatm(this.props.id_treatment);

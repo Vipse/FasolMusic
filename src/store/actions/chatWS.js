@@ -29,6 +29,13 @@ export const setChatToId = (id) => {
     });
 }
 
+export const setChatTrainingId = (idTraining) => {
+    return ({
+        type: actionTypes.SET_CHAT_TRAINING_ID,
+        idTraining,
+    });
+}
+
 export const setChatStory = (chat) => {
     return ({
         type: actionTypes.SET_CHAT_STORY,

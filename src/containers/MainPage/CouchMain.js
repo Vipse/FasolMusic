@@ -43,14 +43,14 @@ class CouchMain extends React.Component {
         if (selectors.discipline) {
             for (let dayItem in futureTraining) {
                 arrData.push(...compareTrainsByTime(futureTraining[dayItem].map(item => {
-                    console.log(item);
                     return {
                         name: item.allInfo.fio,
                         start: +item.allInfo.date * 1000,
                         end: +item.allInfo.date * 1000 + 3600000,
                         discipline: item.allInfo.disciplines.length ?
                             selectors.discipline.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null,
-                        idProfile: item.allInfo.idStudent
+                        idProfile: item.allInfo.idStudent,
+                        idTraining: item.allInfo.idTraining
                     };
                 })));
             }
