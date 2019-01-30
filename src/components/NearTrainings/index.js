@@ -26,6 +26,7 @@ class NearTrainings extends React.Component {
             return (<NearTrainingsItem {...item}
                                        key={index}
                                        onGoto={this.props.onGoto}
+                                       goToChat = {this.props.goToChat}
             />)
         });
     };
@@ -42,7 +43,7 @@ class NearTrainings extends React.Component {
                           type="circle_arrow_right"/><span>Все</span></a>}>
                     {loading ? <Spinner size='large'/> :
                         <PerfectScrollbar className="futureTrainings-scroll">
-                            {data.length ? this.scheduleRender(data) :
+                            {data && data.length ? this.scheduleRender(data) :
                                 <div className='entry-list no-trainings'>Тренировок нет</div>}
                         </PerfectScrollbar>}
                 </Card>

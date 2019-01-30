@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes'
 const initialState = {
     from: 0,
     to: 0,
+    trainingId: 0,
     receptionStarts: false,
     isCalling: false,
     chatStory: [],
@@ -34,6 +35,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 to: action.id,
+            }
+        case actionTypes.SET_CHAT_TRAINING_ID:
+            return {
+                ...state,
+                idTraining: action.idTraining,
             }
         case actionTypes.SET_CHAT_STORY:
             console.log("SET_CHAT_STORY")

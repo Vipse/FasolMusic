@@ -71,7 +71,7 @@ class App extends React.Component {
     };
 
      runChatWS = () => {
-        const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
+        const {chatProps, setChatFromId, setChatToId, setChatTrainingId, setReceptionStatus, setIsCallingStatus,
             setChatStory, onSelectReception, setNewTimer} = this.props;
         
         //     let idReception = null;
@@ -96,7 +96,6 @@ class App extends React.Component {
         //     contactLevel: 'video',
         //     id: idReception, 
         // }
-
         
         let sock = createSocket(
            // 'wss://appdoc.by:8443/one2one',
@@ -105,6 +104,7 @@ class App extends React.Component {
             {
                 setChatFromId,
                 setChatToId,
+                setChatTrainingId,
                 setReceptionStatus,
                 setIsCallingStatus,
                 setChatStory,
@@ -117,7 +117,7 @@ class App extends React.Component {
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_chatStory: () => this.props.chatStory,
-                get_visitInfo: () => 130290,
+                get_visitInfo: () => {return {id: this.props.idTraining}},
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
             }
@@ -300,6 +300,7 @@ const mapStateToProps = state => {
         isEmergRequsetReceived: state.loading.isReceived,
         from: state.chatWS.from,
         to: state.chatWS.to,
+        idTraining: state.chatWS.idTraining,
         receptionStarts: state.chatWS.receptionStarts,
         isCalling: state.chatWS.isCalling,
         chatStory: state.chatWS.chatStory,

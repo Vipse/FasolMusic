@@ -48,7 +48,9 @@ class CouchMain extends React.Component {
                         start: +item.allInfo.date * 1000,
                         end: +item.allInfo.date * 1000 + 3600000,
                         discipline: item.allInfo.disciplines.length ?
-                            selectors.discipline.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null
+                            selectors.discipline.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null,
+                        idProfile: item.allInfo.idStudent,
+                        idTraining: item.allInfo.idTraining
                     };
                 })));
             }
@@ -87,7 +89,7 @@ class CouchMain extends React.Component {
 
     render() {
         const {nearTrainings, lastTrainings} = this.state;
-        const {allAbonements, myCoachOrStudents} = this.props;
+        const {allAbonements, myCoachOrStudents, goToChat} = this.props;
 
         let myStudents = [];
         for (let i = 0; i < myCoachOrStudents.length; i++) {
@@ -113,6 +115,7 @@ class CouchMain extends React.Component {
                     <Col xs={14} xxl={7} className='section'>
                         <NearTrainings
                             onGoto={(val) => this.gotoHandler(val)}
+                            goToChat = {goToChat}
                             openNearTrains={() => this.props.history.push('/app/schedule')}
                             data={nearTrainings}
                         />
@@ -126,7 +129,7 @@ class CouchMain extends React.Component {
                     </Col>
                     <Col xs={14} xxl={9} className='section'>
                         <MyStudents
-                            goToChat={this.props.goToChat}
+                            goToChat={goToChat}
                             onGoto={(val) => this.gotoHandler(val)}
                             data={(Array.isArray(myStudents)) ? myStudents.map((el) => {
                                 if (el)

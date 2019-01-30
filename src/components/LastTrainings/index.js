@@ -39,7 +39,7 @@ class LastTrainings extends React.Component {
                       extra={<a className="lastTrainings-link" onClick={openLastTrains}><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {loading ? <Spinner size='large'/> : <PerfectScrollbar className="lastTrainings-scroll">
-                    {data.length ? this.studentsRender(data) :
+                    {data && data.length ? this.studentsRender(data) :
                         <div className='entry-list no-trainings'>Тренировок ещё не было</div>}
                     </PerfectScrollbar>}
                 </Card>
