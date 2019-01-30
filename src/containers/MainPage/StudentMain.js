@@ -36,14 +36,13 @@ class StudentMain extends React.Component{
     prepareNearTrainings = () => {
 	    const {nearTraining, selectors} = this.props;
 
-        debugger;
         if (selectors.discipline) {
             return nearTraining.map((item) => {
                 return {
                     name: item.fioMaster,
                     start: +item.start * 1000,
                     end: +item.start * 1000 + 3600000,
-                    discipline: (Array.isArray(item.disciplineSubscription) && item.disciplineSubscription.length) ?
+                    discipline: item.disciplineSubscription.length ?
                         selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null
                 }
             });
