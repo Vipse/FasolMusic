@@ -4,6 +4,7 @@ import moment from 'moment'
 
 import './style.css'
 import '../../icon/style.css'
+import Button from "../Button";
 
 class NearTrainingsItem extends React.Component{
     render(){
@@ -12,7 +13,9 @@ class NearTrainingsItem extends React.Component{
             end,
             discipline,
             name,
-            onGoto,
+            goToChat,
+            idProfile,
+            onGoto
         } = this.props;
 
         return (
@@ -31,6 +34,14 @@ class NearTrainingsItem extends React.Component{
                     <div className="nearTraining-info-discipline">
                         {discipline}
                     </div>
+                </div>
+                <div className='nearTraining-chatBtn'>
+                    <Button
+                        btnText="Открыть чат"
+                        type="border-green"
+                        size='small'
+                        onClick={() => goToChat(idProfile)}
+                    />
                 </div>
             </div>
         )

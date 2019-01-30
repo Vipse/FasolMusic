@@ -43,7 +43,8 @@ class StudentMain extends React.Component{
                     start: +item.start * 1000,
                     end: +item.start * 1000 + 3600000,
                     discipline: item.disciplineSubscription.length ?
-                        selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null
+                        selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null,
+                    idProfile: item.idMaster
                 }
             });
         }
@@ -94,6 +95,7 @@ class StudentMain extends React.Component{
                             <Col xs={14} xxl={7} className='section'>
                                 <NearTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
+                                    goToChat = {goToChat}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
                                     data={nearTrainings}
                                 />

@@ -26,6 +26,7 @@ class NearTrainings extends React.Component {
             return (<NearTrainingsItem {...item}
                                        key={index}
                                        onGoto={this.props.onGoto}
+                                       goToChat = {this.props.goToChat}
             />)
         });
     };
