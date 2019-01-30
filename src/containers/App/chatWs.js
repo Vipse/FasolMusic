@@ -65,7 +65,7 @@ export function createSocket(wsUrl,_props,_callbacks) {
 				break;
 			case 'closeReception':
                 callbacks.setReceptionStatus(false);
-                callbacks.show_review_modal(parsedMessage.receptionId, parsedMessage.by);
+                //callbacks.show_review_modal(parsedMessage.receptionId, parsedMessage.by);
                 break;
             case 'callResponse':
 				callResponse(parsedMessage);

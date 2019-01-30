@@ -61,7 +61,7 @@ export const getAbonements = (idStudent, currDiscipline) => (dispatch) => {
                                         start:          new Date(subscriptions[i].training[j].start * 1000),
                                         status:         subscriptions[i].training[j].status,
                                         isBooking:      subscriptions[i].training[j].isBooking,
-
+                                        isComplete:     subscriptions[i].training[j].isComplete,
                                         idSubscription: subscriptions[i].idSubscription, // для поиска
                                     })
                             }
