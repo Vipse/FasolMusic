@@ -4,7 +4,7 @@ import {coachRoutes, studentRoutes, menuStudent, menuCoach, menuAdmin} from '../
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
 import Header from '../../components/Header';
-import { Modal } from 'antd';
+import {message, Modal} from 'antd';
 import Adapter from 'webrtc-adapter'
 
 import {connect} from 'react-redux';
@@ -127,6 +127,18 @@ class App extends React.Component {
         register(''+this.props.id, ''/*+this.props.user_id*/, this.props.mode);
     };
 
+    TrialTrainingAvailabilityAlert = () => {
+        const {id, selectors: {discipline}} = this.props;
+        console.log(discipline);
+        discipline.forEach((item) =>
+            this.props.onGetTrainingTrialStatusByDiscipline(item.id, id)
+                .then(res => {
+                    if (res) !res.isTrialTraining ?
+                        message.info('Запишитесь на пробную тренировку по дисциплине ' + item.nameRus, 7)
+                        : null})
+                .catch(err => console.log(err)))
+    };
+
     componentDidMount() {
         const {id, currDiscipline} = this.props;
         if (this.props.mode === "master"){
@@ -168,6 +180,10 @@ class App extends React.Component {
 
     onProfileClick = () => {
         (this.props.history.location.pathname !== "/app/personal-info") && this.props.history.push('/app/personal-info');
+    };
+
+    onGoToSchedule = () => {
+        this.props.history.push('/app/schedule');
     };
 
     pushBtnTransfer = () => {
@@ -252,6 +268,12 @@ class App extends React.Component {
                                             isPushBtnAdd = {this.pushBtnAdd}
                                             isStudent ={(this.props.mode ==='student') ? true : false}
                                             frozenTraining = {this.props.frozenTraining}
+                                            disciplinesList={this.props.disciplinesList}
+                                            onGetAvailableInterval={this.props.onGetAvailableInterval}
+                                            onSetPushTrialTraining={this.props.onSetPushTrialTraining}
+                                            onChangeCurrDiscipline={this.props.onChangeCurrDiscipline}
+                                            onGoToSchedule={this.onGoToSchedule}
+                                            trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -288,9 +310,12 @@ const mapStateToProps = state => {
         mode: state.auth.mode,
         profileCoach: state.profileDoctor,
         profileStudent: state.profilePatient,
+        selectors: state.loading.selectors,
+        trialTrainingForDisciplines: state.student.trialTrainingForDisciplines,
         frozenTraining: (state.profilePatient) ? state.profilePatient.frozenTraining : '-',
         usersHeaderSearch: state.loading.usersHeaderSearch,
         weekInterval: state.abonement.weekInterval,
+        disciplinesList: state.abonement.disciplines,
 
         isIn: state.doctor.isEx,
         isUserSet: state.doctor.isUserSetEx,
@@ -334,7 +359,12 @@ const mapDispatchToProps = dispatch => {
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
         onSetPushBtnTransferTraining: (type) => dispatch(actions.setPushBtnTransferTraining(type)),
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
-        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)), 
+        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)),
+        getSelectors: (name) => dispatch(actions.getSelectors(name)),
+        onGetTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),
+        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
+        onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
+        onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
     }
 };
 

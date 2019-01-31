@@ -27,8 +27,8 @@
     margin-left: auto;
   }
 }
-.header-train .header-btn-transfer {
-  margin-left: 10px;
+.header-train .header-btn {
+  margin-left: auto;
 }
 .header-notification {
   position: relative;

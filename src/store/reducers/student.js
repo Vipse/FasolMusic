@@ -50,7 +50,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 trialTrainingForDisciplines: {
                     ...state.trialTrainingForDisciplines,
-                    [action.discipline]: action.status
+                    [action.disciplineId]: action.status
                 }
             }
         case actionTypes.SET_IS_PUSH_BTN_TRANSFER:
