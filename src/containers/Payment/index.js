@@ -30,13 +30,13 @@ class Payment extends React.Component{
         this.props.onGetDeadlinePay(this.props.id);	
     }
     onSendDataModal = (data) => {
-        const {disciplines} = this.props;
+        const {disciplinesList} = this.props;
         let array = [];
         let weekdays = []; // post
         let currDiscipline = null;
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
-        const codeDisc = disciplines[data.type].code;
+        const codeDisc = disciplinesList[data.type].code;
 
         for(let i = 0; i < 7; i++){
                 if(data.selectedDays.hasOwnProperty(i)){
@@ -44,7 +44,7 @@ class Payment extends React.Component{
                 }                 
         }
         
-        this.props.onChangeCurrDiscipline(disciplines[data.type]);
+        this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array,  data.type);
 
 
