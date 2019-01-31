@@ -77,9 +77,10 @@ class RecordTrainCarousel extends React.Component {
 
             let ownTrains = [];
             if (curDayTrainerTrainings)
-                for (let train in curDayTrainerTrainings)
-                    if (isAdmin || curDayTrainerTrainings[train].allInfo.idStudent === studentID)
+                for (let train in curDayTrainerTrainings) {
+                    if (isAdmin || +curDayTrainerTrainings[train].allInfo.idStudent === +studentID)
                         ownTrains.push(curDayTrainerTrainings[train].allInfo.date);
+                }
 
             for (let i = availableHoursArea[0]; i < availableHoursArea[1]; i++) {
                 let curHourBegin = moment(curDayBegin).add(i, 'hours');
