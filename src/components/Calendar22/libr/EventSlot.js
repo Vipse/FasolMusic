@@ -60,7 +60,7 @@ class EventSlot extends Component {
         backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
-        if(event.status && !event.isBooking && mode !== 'master'){
+        if(event.status && !event.isBooking && !event.isComplete && mode !== 'master'){
             return connectDragSource(
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
@@ -75,6 +75,7 @@ class EventSlot extends Component {
             )
         }
 
+        debugger;
         const eventKey = event.idMaster ? event.idMaster: event.id
         return (
             <div key = {eventKey} onClick={()=> onGotoPage(eventKey)}  className="event-group" style={{backgroundColor}}>

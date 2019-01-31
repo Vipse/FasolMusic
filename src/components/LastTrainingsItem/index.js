@@ -11,9 +11,9 @@ import Icon from "../Icon";
 
 class LastTrainingsItem extends React.Component{
     homeworkEdit = () => {
-        this.props.onSetHomeworkEdit();
+        //this.props.onSetHomeworkEdit();
     }
-    
+
     render(){
         const {
             discipline,

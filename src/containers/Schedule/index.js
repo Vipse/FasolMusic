@@ -245,7 +245,7 @@ class Schedule extends React.Component {
 
     fillTrainingWeek = () => { // создание абонемента
         
-        const {id, abonementIntervals, currDiscipline, disciplines, isPushBtnTrialTraining} = this.props;
+        const {id, abonementIntervals, currDiscipline, disciplines, isPushBtnTrialTraining, profileStudent} = this.props;
         message.success("Тренировки распределены по расписанию");
         
         this.setState({ sendingModal: true, theMasterSelect: false}); // убрать интервалы
@@ -264,18 +264,23 @@ class Schedule extends React.Component {
             this.props.onSetPushTrialTraining('choose_trial');
         }
 
-        const newFrozen = +this.props.profileStudent.frozenTraining - (+abonementIntervals.countTraining);
-        let profile = {...this.props.profileStudent};
+        const newFrozen = +profileStudent.frozenTraining - (+abonementIntervals.countTraining);
+        let profile = {...profileStudent};
         profile.frozenTraining = newFrozen;
         this.props.onSaveUserEdit(profile);
 
-console.log('this.state.apiPatients :', this.state.apiPatients);
-        debugger;
+        
         this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
         .then(() => {
             this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
         });
+
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
+
+        let fdata = {...profileStudent}
+        fdata.frozenTraining = fdata.frozenTraining - abonementIntervals.countTraining;
+        this.props.onSaveUserEdit(fdata);
+
         this.setState({apiPatients: []})
 
     }
@@ -834,7 +839,7 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
-                                  onGotoPage= { (id) => this.props.history.push('/app/coach' + id)}
+                                  onGotoPage= { (id) => {console.log(id); debugger; this.props.history.push('/app/coach' + id)}}
                                   selectAnyTrainer = {this.selectAnyTrainer}
 
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}

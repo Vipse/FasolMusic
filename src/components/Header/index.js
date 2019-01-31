@@ -28,7 +28,7 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
-                <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
+                {isStudent ? <div className="header-balance"><span>Баланс {frozenTraining}</span></div> : null }
                 <div className='header-train'>
                     {isStudent ?
                         <React.Fragment>

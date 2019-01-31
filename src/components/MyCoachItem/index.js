@@ -33,13 +33,7 @@ class MyCoachItem extends React.Component{
                     <div className='myStudent-info-lastMessage'>
                     {lastMessage}
                     </div>
-                    <div className='myStudent-info-openChat'>
-                        <Button
-                            btnText="Открыть чат"
-                            type="border-green"
-                            onClick={() => goToChat(id)}
-                        />
-                    </div>
+                   
                 </div>
             </div>
         )

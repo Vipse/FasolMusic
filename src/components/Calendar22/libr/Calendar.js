@@ -148,7 +148,7 @@ class Calendar extends React.Component {
           </div>
           <div className='rbc-smallcalendar-wrapper'>
           
-            
+         
             
             { this.props.isShowFreeTrainers ?
               <FreeTrainers 
@@ -157,18 +157,45 @@ class Calendar extends React.Component {
                   selectAnyTrainer = {this.props.selectAnyTrainer}
               /> 
               :
-              <SmallCalendar 
-                  date={current}
-                  onChange={onChange}
-                  isUser = {this.props.isUser}
-                  highlightedDates = {highlightedDates}
-              />
+              <div className="wrapper-small-calendar">
+              
+                <SmallCalendar 
+                    date={current}
+                    onChange={onChange}
+                    isUser = {this.props.isUser}
+                    highlightedDates = {highlightedDates}
+                />
+              </div>
+              
             }
               
+            <div className="table-footer">
+                <div className="type">
+                    <div className='type-color-available'/>
+                    <div className='type-name'>Свободно</div>
+                </div>
+                <div className="type">
+                    <div className='type-color-bron'/>
+                    <div className='type-name'>Забронированная тренировка</div>
+                </div> 
+                <div className="type">
+                    <div className='type-color-own'/>
+                    <div className='type-name'>Ваша тренировка</div>
+                </div>
+                <div className="type">
+                    <div className='type-color-done'/>
+                    <div className='type-name'>Проведенная тренировка</div>
+                </div>
+            
+            </div>
+
+
             <CancelVisitModal visible={this.state.isWorkTime}
                               onCancel={() => this.setState({isWorkTime: false})}
                 />
           </div> 
+
+          
         </div>
        
       </div>
