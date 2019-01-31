@@ -277,7 +277,8 @@ console.log('this.state.apiPatients :', this.state.apiPatients);
         });
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
         this.setState({apiPatients: []})
-
+        console.log(currDiscipline.code);
+        this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id)
     }
 
     transferTraining = (transferDay) => {
@@ -1096,7 +1097,8 @@ const mapDispatchToProps = dispatch => {
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onMasterFreeOnDate: (dateStart, chooseArrMasters) => dispatch(actions.masterFreeOnDate(dateStart, chooseArrMasters)),
-        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)), 
+        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)),
+        onGetTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),
     }
 };
 
