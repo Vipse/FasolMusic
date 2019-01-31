@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
             email,
             password: "123456",
             disciplines: [{discipline: [disciplinesList[type].code]}],
-            frozenTraining : 1
+            frozenTraining : Object.keys(disciplinesList).length
         };
 
         let newUserData = {};
@@ -67,6 +67,7 @@ class LoginPage extends React.Component {
     };
 
     render(){
+        const {disciplinesList} = this.props;
         return (
             <Hoc>
 
@@ -88,6 +89,7 @@ class LoginPage extends React.Component {
                                exact
                                render={() => <Login urlForget={this.props.match.url + '/forget'}
                                                     urlRegistrationStudent='/registration'
+                                                    urlTrialTraining='trial-training'
                                                     errorCode={this.props.errorCode}
                                                     onSubmit={(obj) => this.props.onLogin(obj, this.props.history)}
                                />}
@@ -123,6 +125,7 @@ class LoginPage extends React.Component {
                                    visible={true}
                                    unauthorized={true}
                                    closable={false}
+                                   disciplinesList={disciplinesList}
                                    onSave={this.onSendDataTrialModal}
                                />}
                         />

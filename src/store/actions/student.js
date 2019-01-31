@@ -183,6 +183,27 @@ export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays) => 
     }
 }
 
+export const getTrainingTrialStatusByDiscipline = (disciplineId, idStudent) => {
+    let obj = {
+        discipline: disciplineId,
+        idStudent
+    };
+
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/isTrainingTrial', JSON.stringify(obj))
+            .then(res => {
+                console.log("getTrainingTrialStatusByDiscipline", res);
+                dispatch({
+                    type: actionTypes.GET_TRAINING_TRIAL_STATUS,
+                    disciplineId,
+                    status: res.data.result.isTrialTraining
+                });
+                return res.data.result;
+            })
+            .catch(err => {console.log(err)})
+    }
+}
+
 export const setPushBtnTransferTraining = (type) => {
     
     return ({

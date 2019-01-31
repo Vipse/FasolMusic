@@ -8,16 +8,44 @@ import AutoComplete from '../AutoComplete'
 
 import './style.css'
 import '../../icon/style.css'
+import TrialTrainModal from "../../components/TrialTrainModal";
+import moment from "moment";
 
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
     }
 
+    state = {
+        isTrialTrainingModalVisible: false
+    };
+
+    isAvailableTrialCheck = () => {
+        const {trialTrainingForDisciplines} = this.props;
+        for (let key in trialTrainingForDisciplines)
+            if (!trialTrainingForDisciplines[key]) return true;
+
+        return false;
+    };
+
+    onSendDataTrialModal = (data) => {
+        const {disciplinesList, id} = this.props;
+        const {type} = data;
+        // debugger
+
+        const time0 = moment(Date.now()).startOf('week').format('X');
+        const time1 = moment(Date.now()).endOf('week').format('X');
+        this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code]);
+        this.props.onSetPushTrialTraining('trial');
+        this.props.onChangeCurrDiscipline(disciplinesList[type]);
+
+        this.props.onGoToSchedule();
+        this.setState({isTrialTrainingModalVisible: false});
+    };
+
     render() {
-        const {notifications, isStudent, findName, authMode, searchData, onGoto, frozenTraining} = this.props;
+        const {notifications, isStudent, findName, authMode, searchData, onGoto, frozenTraining, trialTrainingForDisciplines, disciplinesList} = this.props;
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -28,10 +56,17 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
-                <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
-                <div className='header-train'>
-                    {isStudent ?
-                        <React.Fragment>
+                {isStudent ?
+                    <React.Fragment>
+                        <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
+                        <div className='header-train'>
+                            {this.isAvailableTrialCheck() && <Button
+                                btnText='ЗАПИСАТЬСЯ НА ПРОБНУЮ'
+                                size='default'
+                                type='border-pink'
+                                className="header-btn"
+                                onClick={() => this.setState({isTrialTrainingModalVisible: true})}
+                            />}
                             <Button
                                 btnText='ДОБАВИТЬ ТРЕНИРОВКУ'
                                 size='default'
@@ -43,12 +78,11 @@ class Header extends React.Component {
                                 btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                 size='default'
                                 type='border-pink'
-                                className="header-btn header-btn-transfer"
+                                className="header-btn"
                                 onClick={this.props.isPushBtnTransfer}
                             />
-                        </React.Fragment> : null
-                    }
-                </div>
+                        </div>
+                    </React.Fragment> : null}
                 <div className='header-notification'>
                     <NotificationApp
                         data={notifications}
@@ -74,6 +108,19 @@ class Header extends React.Component {
                         onClick={this.props.logout}
                     />
                 </div>
+                <TrialTrainModal
+                    title='Запишись на пробную тренировку'
+                    width={770}
+                    visible={this.state.isTrialTrainingModalVisible}
+                    availableDisciplines={trialTrainingForDisciplines}
+                    disciplinesList={disciplinesList}
+                    unauthorized={false}
+                    closable={true}
+                    onCancel={() => {
+                        this.setState({isTrialTrainingModalVisible: false})
+                    }}
+                    onSave={this.onSendDataTrialModal}
+                />
             </div>
         )
     }
@@ -87,7 +134,8 @@ Header.propTypes = {
 
 Header.defaultProps = {
     notifications: [],
-    logout: () => {},
+    logout: () => {
+    },
     isStudent: false,
 };
 

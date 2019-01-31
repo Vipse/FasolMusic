@@ -1,6 +1,7 @@
 import React from 'react'
 import Row from "../../components/Row";
 import Col from "../../components/Col";
+import {message} from 'antd';
 import TopPanel from "../../components/TopPanel";
 import Reviews from "../../components/Reviews";
 import NearTrainings from "../../components/NearTrainings";
@@ -22,15 +23,25 @@ class StudentMain extends React.Component{
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.selectors !== this.props.selectors && this.props.selectors.discipline)
+            this.TrialTrainingAvailabilityAlert();
+
         if (prevProps.nearTraining !== this.props.nearTraining)
             this.setState({nearTrainings: this.prepareNearTrainings()});
         if (prevProps.lastTrainings !== this.props.lastTrainings)
             this.setState({lastTrainings: this.prepareLastTrainings()});
     }
-    
-    gotoHandler = (id) => {
-		this.props.onSelectPatient(id);
-		this.props.history.push('/app/coach'+id);
+
+    TrialTrainingAvailabilityAlert = () => {
+        const {id, selectors: {discipline}} = this.props;
+
+        discipline.forEach((item) =>
+            this.props.onGetTrainingTrialStatusByDiscipline(item.id, id)
+            .then(res => {
+                if (res) !res.isTrialTraining ?
+                    message.info('Запишитесь на пробную тренировку по дисциплине ' + item.nameRus, 5)
+                    : null})
+            .catch(err => console.log(err)))
     };
 
     prepareNearTrainings = () => {
@@ -66,6 +77,11 @@ class StudentMain extends React.Component{
                     };
             });
         }
+    };
+
+    gotoHandler = (id) => {
+        this.props.onSelectPatient(id);
+        this.props.history.push('/app/coach'+id);
     };
 
     render(){

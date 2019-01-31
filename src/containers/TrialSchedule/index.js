@@ -30,7 +30,7 @@ class TrialSchedule extends React.Component{
             email,
             password: "123456",
             disciplines: [{discipline: [disciplinesList[type].code]}],
-            frozenTraining : 1
+            frozenTraining : Object.keys(disciplinesList).length
         };
 
         let newUserData = {};
@@ -64,6 +64,7 @@ class TrialSchedule extends React.Component{
 
 
     render() {
+        const {disciplinesList} = this.props;
 
             return (
                 <Hoc>
@@ -73,6 +74,7 @@ class TrialSchedule extends React.Component{
                         visible={true}
                         unauthorized={true}
                         closable={false}
+                        disciplinesList={disciplinesList}
                         onSave={this.onSendDataTrialModal}
                     />
                    <Calendar />
@@ -88,7 +90,8 @@ class TrialSchedule extends React.Component{
 const mapStateToProps = state => {
     return {
         profileStudent: state.profilePatient,
-        appsBetweenCount: state.treatments.appsBetweenCount
+        appsBetweenCount: state.treatments.appsBetweenCount,
+        disciplinesList: state.abonement.disciplines
     }
 };
 
