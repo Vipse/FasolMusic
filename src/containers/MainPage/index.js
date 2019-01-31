@@ -39,15 +39,14 @@ class MainPage extends React.Component{
 
 	componentDidMount() {
 		this.props.getSelectors('discipline');
+		this.props.onGetNextTraining(this.props.id);
 
 		if (this.props.mode === "student") {
 			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), 10);
 			this.props.onGetMyMastersOrStudents({idStudent: this.props.id});
-			this.props.onGetNextTraining(this.props.id);
 			this.props.onGetAllTrainingStudent(this.props.id, moment(Date.now()).subtract(1, 'weeks').format('X'), moment(Date.now()).format('X'));
 		} else if (this.props.mode === "master") {
 			this.props.onGetMyMastersOrStudents({idMaster: this.props.id});
-			this.props.onGetNextTraining(this.props.id);
 			this.getPastAndFutureCoachTrainings();
 		}
 	}
@@ -214,6 +213,7 @@ const mapDispatchToProps = dispatch => {
 		onGetAllTrainingStudent: (idMaster, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idMaster, dateMin, dateMax)),
 		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
 		getSelectors: (name) => dispatch(actions.getSelectors(name)),
+		onGetTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent))
     }
 };
 

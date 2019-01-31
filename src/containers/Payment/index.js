@@ -30,13 +30,13 @@ class Payment extends React.Component{
         this.props.onGetDeadlinePay(this.props.id);	
     }
     onSendDataModal = (data) => {
-        const {disciplines} = this.props;
+        const {disciplinesList} = this.props;
         let array = [];
         let weekdays = []; // post
         let currDiscipline = null;
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
-        const codeDisc = disciplines[data.type].code;
+        const codeDisc = disciplinesList[data.type].code;
 
         for(let i = 0; i < 7; i++){
                 if(data.selectedDays.hasOwnProperty(i)){
@@ -44,7 +44,7 @@ class Payment extends React.Component{
                 }                 
         }
         
-        this.props.onChangeCurrDiscipline(disciplines[data.type]);
+        this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array,  data.type);
 
 
@@ -81,7 +81,7 @@ class Payment extends React.Component{
     }
 
     render() {
-        let {deadlinePay} = this.props;
+        let {deadlinePay, disciplinesList} = this.props;
         let isStudent = this.props.auth.mode === "student";
 
         return (
@@ -99,6 +99,7 @@ class Payment extends React.Component{
                     title='Запишись на тренировку'
                     width={770}
                     visible={this.state.visibleTrialModal}
+                    disciplinesList={disciplinesList}
                     onCancel={this.hideTrialModal} 
                     onSave={this.onSendDataModal}
                 />
@@ -141,7 +142,7 @@ const mapStateToProps = state => {
         auth: state.auth,
         id: state.auth.id,
         deadlinePay: state.student.deadlinePay,
-        disciplines: state.abonement.disciplines,
+        disciplinesList: state.abonement.disciplines,
         nextTrainingTime: state.training.nextTrainingTime,
         amountTraining: state.profilePatient.amountTraining,
 
