@@ -3,17 +3,17 @@ import * as actionTypes from '../actions/actionTypes'
 const initialState = {
     dataForCreate: {},
     currDiscipline: {
-        ruText: 'вокал',
+        ruText: 'Вокал',
         code: 125485
     },
     disciplines: {
         'guitar' : {
-            ruText: 'гитара',
+            ruText: 'Гитара',
             code: 125470,
             name: 'guitar'
         },
         'vocals' : {
-            ruText: 'вокал',
+            ruText: 'Вокал',
             code: 125485,
             name: 'vocals'
         }

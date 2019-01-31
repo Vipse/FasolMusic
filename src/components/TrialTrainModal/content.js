@@ -22,28 +22,19 @@ class ContentForm extends React.Component {
     state = {
         message: '',
         loading: false,
-        selectedDays: [],
-        promoCodeStep: true,
-        promoCode: ""
+        selectedDays: []
     };
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.visible && prevProps.visible !== this.props.visible)
-            this.setState({promoCodeStep: true});
-    }
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 //this.setState({loading: true});
-                this.setState({completed: true});
                 let selectedDaysObj = {};
                 this.state.selectedDays.forEach((item, i) => this.state.selectedDays[i] ? selectedDaysObj[i] = item : null);
                 let finalData = {
                     ...values,
                     selectedDays: selectedDaysObj,
-                    promoCode: this.state.promoCode
                 };
                 if (this.props.unauthorized) finalData.amount = 1;
 
@@ -53,20 +44,27 @@ class ContentForm extends React.Component {
         })
     };
 
-    acceptPromo = (e) => {
-        e.preventDefault();
-        this.setState({
-            promoCode: this.props.form.getFieldsValue().code,
-            promoCodeStep: false
-        });
-    };
-
     handleDayCheck = (num) => {
         let newSelectedState = this.state.selectedDays;
         newSelectedState[num] = !newSelectedState[num];
         this.setState({
             selectedDays: newSelectedState
         });
+    };
+
+    renderDisciplines = () => {
+        const {availableDisciplines, disciplinesList} = this.props;
+        let radioDisciplinesArr = [];
+
+        for (let discipline in disciplinesList) {
+            let item = disciplinesList[discipline];
+            if (!availableDisciplines || !availableDisciplines[item.code])
+                radioDisciplinesArr.push(<Radio value={item.name} key={'radio-' + item.name}>
+                    {item.ruText}
+                </Radio>);
+        }
+
+        return radioDisciplinesArr;
     };
 
     renderTimeSchedule = () => {
@@ -83,30 +81,9 @@ class ContentForm extends React.Component {
     render() {
         const {unauthorized, form} = this.props;
         const {getFieldDecorator} = form;
-        const {promoCodeStep, loading} = this.state;
+        const {loading} = this.state;
 
-        if (promoCodeStep)
-            return (
-                <Form onSubmit={this.acceptPromo}
-                      className="TrialTrainModal">
-                    <div className="code">
-                        <FormItem>
-                            <div className='radio-label'>Укажите промокод</div>
-                            {getFieldDecorator('code')(
-                                <InputNew width="100%" bubbleplaceholder="Промокод"/>
-                            )}
-                        </FormItem>
-                    </div>
-                    <div className="submitPlate">
-                        <Button className="saveBtn"
-                                btnText='Далее'
-                                size='default'
-                                type='light-pink'
-                        />
-                        {loading && <Spinner/>}
-                    </div>
-                </Form>);
-        else return (
+        return (
             <Form onSubmit={this.handleSubmit}
                   className="TrialTrainModal">
                 <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -123,8 +100,9 @@ class ContentForm extends React.Component {
                         })(
                             <div className="ant-radio-group">
                                 <RadioGroup style={{display: "flex", flexDirection: "row"}}>
-                                    <Radio value='guitar' key='radio-guitar'>Гитара</Radio>
-                                    <Radio value='vocals' key='radio-vocal'>Вокал</Radio>
+                                    {/*<Radio value='guitar' key='radio-guitar'>Гитара</Radio>
+                                    <Radio value='vocals' key='radio-vocal'>Вокал</Radio>*/}
+                                    {this.renderDisciplines()}
                                 </RadioGroup>
                             </div>
                         )}

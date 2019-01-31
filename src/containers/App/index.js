@@ -127,18 +127,6 @@ class App extends React.Component {
         register(''+this.props.id, ''/*+this.props.user_id*/, this.props.mode);
     };
 
-    TrialTrainingAvailabilityAlert = () => {
-        const {id, selectors: {discipline}} = this.props;
-        console.log(discipline);
-        discipline.forEach((item) =>
-            this.props.onGetTrainingTrialStatusByDiscipline(item.id, id)
-                .then(res => {
-                    if (res) !res.isTrialTraining ?
-                        message.info('Запишитесь на пробную тренировку по дисциплине ' + item.nameRus, 7)
-                        : null})
-                .catch(err => console.log(err)))
-    };
-
     componentDidMount() {
         const {id, currDiscipline} = this.props;
         if (this.props.mode === "master"){
@@ -196,8 +184,8 @@ class App extends React.Component {
              .then(() => this.props.onSetPushBtnTransferTraining())
         }
         // const start =  moment(Date.now()).startOf('week').format('X'); 
-        // const end = moment(Date.now()).endOf('week').format('X'); 
-     
+        // const end = moment(Date.now()).endOf('week').format('X');
+
     }
 
     pushBtnAdd = () => {
@@ -244,7 +232,6 @@ class App extends React.Component {
                                     isShort={this.state.collapsed}
                                     onProfileClick={this.onProfileClick}
                                 />
-
                             </div>
                             <div className={wrapperClass}>
                                 <div className="main-header">
@@ -265,9 +252,9 @@ class App extends React.Component {
                                             notifications={this.state.notifications}
                                             logout={this.props.onLogout}
                                             isPushBtnTransfer={this.pushBtnTransfer}
-                                            isPushBtnAdd = {this.pushBtnAdd}
-                                            isStudent ={(this.props.mode ==='student') ? true : false}
-                                            frozenTraining = {this.props.frozenTraining}
+                                            isPushBtnAdd={this.pushBtnAdd}
+                                            isStudent={(this.props.mode === 'student')}
+                                            frozenTraining={this.props.frozenTraining}
                                             disciplinesList={this.props.disciplinesList}
                                             onGetAvailableInterval={this.props.onGetAvailableInterval}
                                             onSetPushTrialTraining={this.props.onSetPushTrialTraining}

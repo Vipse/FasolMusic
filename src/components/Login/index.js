@@ -25,7 +25,7 @@ class LoginForm extends React.Component{
     };
 
     render(){
-        const {errorCode, urlForget, urlRegistrationStudent} = this.props;
+        const {errorCode, urlForget, urlRegistrationStudent, urlTrialTraining} = this.props;
 
         const { getFieldDecorator } = this.props.form;
 
@@ -96,6 +96,12 @@ class LoginForm extends React.Component{
                             className="login-form-navlink"
                         >
                             Зарегистрироваться
+                        </NavLink><br/>
+                        <NavLink
+                            to={urlTrialTraining}
+                            className="login-form-navlink"
+                        >
+                            Записаться на пробную
                         </NavLink>
 
                     </div>

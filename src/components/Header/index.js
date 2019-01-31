@@ -21,8 +21,16 @@ class Header extends React.Component {
         isTrialTrainingModalVisible: false
     };
 
+    isAvailableTrialCheck = () => {
+        const {trialTrainingForDisciplines} = this.props;
+        for (let key in trialTrainingForDisciplines)
+            if (!trialTrainingForDisciplines[key]) return true;
+
+        return false;
+    };
+
     onSendDataTrialModal = (data) => {
-        const {disciplinesList} = this.props;
+        const {disciplinesList, id} = this.props;
         const {type} = data;
         // debugger
 
@@ -37,7 +45,7 @@ class Header extends React.Component {
     };
 
     render() {
-        const {notifications, isStudent, findName, authMode, searchData, onGoto, frozenTraining, trialTrainingForDisciplines} = this.props;
+        const {notifications, isStudent, findName, authMode, searchData, onGoto, frozenTraining, trialTrainingForDisciplines, disciplinesList} = this.props;
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -48,11 +56,11 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
-                <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
-                <div className='header-train'>
-                    {isStudent ?
-                        <React.Fragment>
-                            {Object.keys(trialTrainingForDisciplines).length !== 0 && <Button
+                {isStudent ?
+                    <React.Fragment>
+                        <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
+                        <div className='header-train'>
+                            {this.isAvailableTrialCheck() && <Button
                                 btnText='ЗАПИСАТЬСЯ НА ПРОБНУЮ'
                                 size='default'
                                 type='border-pink'
@@ -70,12 +78,11 @@ class Header extends React.Component {
                                 btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                 size='default'
                                 type='border-pink'
-                                className="header-btn header-btn-transfer"
+                                className="header-btn"
                                 onClick={this.props.isPushBtnTransfer}
                             />
-                        </React.Fragment> : null
-                    }
-                </div>
+                        </div>
+                    </React.Fragment> : null}
                 <div className='header-notification'>
                     <NotificationApp
                         data={notifications}
@@ -105,9 +112,13 @@ class Header extends React.Component {
                     title='Запишись на пробную тренировку'
                     width={770}
                     visible={this.state.isTrialTrainingModalVisible}
+                    availableDisciplines={trialTrainingForDisciplines}
+                    disciplinesList={disciplinesList}
                     unauthorized={false}
                     closable={true}
-                    onCancel={() => {this.setState({isTrialTrainingModalVisible: false})}}
+                    onCancel={() => {
+                        this.setState({isTrialTrainingModalVisible: false})
+                    }}
                     onSave={this.onSendDataTrialModal}
                 />
             </div>
@@ -123,7 +134,8 @@ Header.propTypes = {
 
 Header.defaultProps = {
     notifications: [],
-    logout: () => {},
+    logout: () => {
+    },
     isStudent: false,
 };
 

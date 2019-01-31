@@ -81,7 +81,7 @@ class Payment extends React.Component{
     }
 
     render() {
-        let {deadlinePay} = this.props;
+        let {deadlinePay, disciplinesList} = this.props;
         let isStudent = this.props.auth.mode === "student";
 
         return (
@@ -99,6 +99,7 @@ class Payment extends React.Component{
                     title='Запишись на тренировку'
                     width={770}
                     visible={this.state.visibleTrialModal}
+                    disciplinesList={disciplinesList}
                     onCancel={this.hideTrialModal} 
                     onSave={this.onSendDataModal}
                 />
@@ -141,7 +142,7 @@ const mapStateToProps = state => {
         auth: state.auth,
         id: state.auth.id,
         deadlinePay: state.student.deadlinePay,
-        disciplines: state.abonement.disciplines,
+        disciplinesList: state.abonement.disciplines,
         nextTrainingTime: state.training.nextTrainingTime,
         amountTraining: state.profilePatient.amountTraining,
 

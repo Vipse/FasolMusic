@@ -34,12 +34,12 @@ class StudentMain extends React.Component{
 
     TrialTrainingAvailabilityAlert = () => {
         const {id, selectors: {discipline}} = this.props;
-        console.log(discipline);
+
         discipline.forEach((item) =>
             this.props.onGetTrainingTrialStatusByDiscipline(item.id, id)
             .then(res => {
                 if (res) !res.isTrialTraining ?
-                    message.info('Запишитесь на пробную тренировку по дисциплине ' + item.nameRus, 7)
+                    message.info('Запишитесь на пробную тренировку по дисциплине ' + item.nameRus, 5)
                     : null})
             .catch(err => console.log(err)))
     };
