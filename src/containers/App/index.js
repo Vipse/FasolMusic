@@ -131,17 +131,15 @@ class App extends React.Component {
         const {id, currDiscipline} = this.props;
         if (this.props.mode === "master"){
             this.props.onGetInfoDoctor(id);
-            this.runChatWS();
         }
         else if (this.props.mode === "student") {
             //this.props.onGetAbonements(id, currDiscipline);
-
             this.props.onGetInfoPatient(id);
             this.props.onGetMasterList();
-
-            // this.runNotificationsWS();
-            this.runChatWS();
         }
+
+        this.runChatWS();
+        // this.runNotificationsWS();
     }
 
     componentWillMount() {

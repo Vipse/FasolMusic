@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes'
 const initialState = {
     myCoach: [],
     deadlinePay: {},
+    trialTrainingForDisciplines: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,7 +32,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 weekdays: action.weekdays,
-                discipline: action.discipline,
+                disciplineId: action.disciplineId,
                 masters: action.masters
             }  
         case actionTypes.GET_FULL_INFO_MASTERS:
@@ -43,7 +44,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 theMasterInterval: action.theMasterInterval
-            }  
+            }
+        case actionTypes.GET_TRAINING_TRIAL_STATUS:
+            return {
+                ...state,
+                trialTrainingForDisciplines: {
+                    ...state.trialTrainingForDisciplines,
+                    [action.discipline]: action.status
+                }
+            }
         case actionTypes.SET_IS_PUSH_BTN_TRANSFER:
             return {
                 ...state,
