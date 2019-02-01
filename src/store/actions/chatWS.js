@@ -25,7 +25,14 @@ export const setChatFromId = (id) => {
 export const setChatToId = (id) => {
     return ({
         type: actionTypes.SET_CHAT_TO_ID,
-        id,
+        id
+    });
+}
+
+export const setChatInterlocutorInfo = (interlocutorName) => {
+    return ({
+        type: actionTypes.SET_CHAT_INTERLOCUTOR_INFO,
+        interlocutorName
     });
 }
 

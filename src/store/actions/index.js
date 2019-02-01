@@ -130,6 +130,7 @@ export {
     setIsCallingStatus,
     setChatStory,
     setNewTimer,
+    setChatInterlocutorInfo
 } from './chatWS'
 
 export {

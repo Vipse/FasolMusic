@@ -27,7 +27,7 @@ class PersonalDataSkill extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.profile.disciplines.length !== this.props.profile.disciplines.length)
+        if (this.props.profile.disciplines && prevProps.profile.disciplines.length !== this.props.profile.disciplines.length)
             this.setState({addedNums: []});
     }
 
@@ -41,11 +41,11 @@ class PersonalDataSkill extends React.Component {
     };
 
     deleteDiscipline = (num) => {
-        const { profile: { disciplines }, form } = this.props;
+        const { form } = this.props;
         const { addedNums } = this.state;
+        const fieldsName = ['disciplines', 'specialization', 'level', 'experience', 'musicstyles', 'favoritesingers', 'goals', 'receptions'];
 
-        for (let key in disciplines[0])
-            form.resetFields([key + '-' + [num]]);
+        fieldsName.forEach((key) => form.resetFields([key + '-' + [num]]));
         addedNums.splice(addedNums.indexOf(num), 1);
         this.setState({addedNums: addedNums});
     };
@@ -54,7 +54,7 @@ class PersonalDataSkill extends React.Component {
         const {form, isStudent, disciplineObj, goalList, stylesList} = this.props;
         const {getFieldDecorator} = form;
         const {discipline, specialization, level, experiense, receptions, goals, musicstyles, favoritesingers} = data;
-        const {length} = this.props.profile.disciplines;
+        const length = this.props.profile.disciplines ? this.props.profile.disciplines.length : 0;
         const {addedNums} = this.state;
 
         const resetFields = (names) => {
@@ -186,18 +186,22 @@ class PersonalDataSkill extends React.Component {
             </FormItem>}
             {isStudent && (number === Math.max(...addedNums) || (!addedNums.length && number === length - 1)) ?
                 <div className="coach-data-skill-footer">
-                    <Button
-                        className="student-data-saveBtn"
-                        onClick={() => this.addDiscipline(number + 1)}
-                        btnText='Добавить'
-                        size='small'
-                        icon="plus"
-                        iconSize={14}
-                        type='light-blue'
-                    />
+                    {this.renderAddBtn(number)}
                 </div> : null
             }
         </div>
+    };
+
+    renderAddBtn = (number) => {
+        return (<Button
+            className="student-data-saveBtn"
+            onClick={() => this.addDiscipline(number + 1)}
+            btnText='Добавить'
+            size='small'
+            icon="plus"
+            iconSize={14}
+            type='light-blue'
+        />);
     };
 
     renderOldDisciplines = () => {
@@ -211,13 +215,15 @@ class PersonalDataSkill extends React.Component {
     };
 
     render() {
-        const {isStudent} = this.props;
+        const {disciplines} = this.props.profile;
+        const {addedNums} = this.state;
         const rootClass = cn('coach-data-block');
 
         return (
             <div className={rootClass + "disciplines"}>
-                {this.renderOldDisciplines()}
-                {isStudent && this.renderNewDisciplines()}
+                {(!disciplines && !addedNums.length) ? this.renderAddBtn(0) : null}
+                {disciplines && this.renderOldDisciplines()}
+                {this.renderNewDisciplines()}
             </div>
         )
     }

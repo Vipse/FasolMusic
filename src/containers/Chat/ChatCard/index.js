@@ -47,7 +47,7 @@ class ChatCard extends React.Component {
 
 	componentWillReceiveProps(nextProps){
 		// ---- TO FIX (chack)
-		((''+this.props.receptionId != ''+nextProps.receptionId) && nextProps.user_mode === "doc")
+		((''+this.props.receptionId != ''+nextProps.receptionId) && nextProps.user_mode === "master")
 				&& (
 					this.props.setReceptionStatus(false),
 					this.setState({isCurVisEnd: false}),
@@ -230,9 +230,8 @@ class ChatCard extends React.Component {
                         <Button
                             icon={iconType}
                             title='Тип приёма'
-                            style={{color: "white", padding: 0, width: "auto"}}
+							type='go'
                         />
-
                         <div className='chat-card-namePatient'>{patientName}</div>
                         <div className={statusClass}>{online}</div>
                     </div>
@@ -242,9 +241,8 @@ class ChatCard extends React.Component {
                             <Button
                                 btnText=''
                                 size='small'
-                                type='no-brd'
+                                type='upload no-brd'
                                 icon='file'
-                                svg
                                 title='Открыть прикреплённые файлы'
                                 style={{width: 30}}
                                 onClick={this.toggleFilesArea}

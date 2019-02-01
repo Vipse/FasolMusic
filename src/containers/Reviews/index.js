@@ -67,7 +67,7 @@ const mapStateToProps = state => {
 		reviews: state.reviews.reviews,
 		ratingAll: state.reviews.ratingAll,
 		commentCount: state.reviews.commentCount,
-		isDoctor: state.auth.mode !== "user",
+		isDoctor: state.auth.mode === "master",
 		reviewsByPatient: state.reviews.reviewsByPatient,
 	}
 };

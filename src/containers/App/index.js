@@ -74,32 +74,13 @@ class App extends React.Component {
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setChatTrainingId, setReceptionStatus, setIsCallingStatus,
             setChatStory, onSelectReception, setNewTimer} = this.props;
-        
-        //     let idReception = null;
-        //     if(this.props.mode === 'student') {
-        //         if(this.props.id === this.props.from){
-        //             idReception += '' + this.props.id + this.props.to;
-        //         }
-        //         else{
-        //             idReception += '' + this.props.id + this.props.from;
-        //         }
-        //     }
-        //     if(this.props.mode === 'master') {
-        //         if(this.props.id === this.props.from){
-        //             idReception += '' + this.props.to + this.props.id  ;
-        //         }
-        //         else{
-        //             idReception += '' + this.props.from + this.props.id;
-        //         }
-        //     }
 
-        // let visit = {
-        //     contactLevel: 'video',
-        //     id: idReception, 
-        // }
+        let visitInfoObj = {
+            id: this.props.idTraining,
+            contactLevel: 'video'
+        };
         
-        let sock = createSocket(
-           // 'wss://appdoc.by:8443/one2one',
+        createSocket(
             'wss://web.fasolonline.ru:8443/one2one',
             chatProps,
             {
@@ -114,17 +95,17 @@ class App extends React.Component {
 
                 get_from: () => this.props.from,
                 get_to: () => this.props.to,
-                get_receptionStarts: () => this.props.receptionStarts,
+                get_receptionStarts: () => this.props.trainingStarts,
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_chatStory: () => this.props.chatStory,
-                get_visitInfo: () => {return {id: this.props.idTraining}},
+                get_visitInfo: () => visitInfoObj,
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
             }
         );
-        console.log('sock :', sock);
-        register(''+this.props.id, ''/*+this.props.user_id*/, this.props.mode);
+
+        register('' + this.props.id, ''/*+this.props.user_id*/, this.props.mode);
     };
 
     componentDidMount() {
@@ -304,20 +285,14 @@ const mapStateToProps = state => {
         weekInterval: state.abonement.weekInterval,
         disciplinesList: state.abonement.disciplines,
 
-        isIn: state.doctor.isEx,
-        isUserSet: state.doctor.isUserSetEx,
-        isEmergRequsetConfirmed: state.loading.isConfirmed,
-        emergVisitId: state.loading.visitId,
-        isEmergRequsetReceived: state.loading.isReceived,
         from: state.chatWS.from,
         to: state.chatWS.to,
         idTraining: state.chatWS.idTraining,
-        receptionStarts: state.chatWS.receptionStarts,
+        trainingStarts: state.chatWS.trainingStarts,
         isCalling: state.chatWS.isCalling,
         chatStory: state.chatWS.chatStory,
         visitInfo: state.treatments.visitInfo,
         timer: state.chatWS.timer,
-
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -334,6 +309,7 @@ const mapDispatchToProps = dispatch => {
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
         getNotifications: (id) => dispatch(actions.getNotifications(id)),
         readNotification: (id) => dispatch(actions.readNotification(id)),
+
         setOnlineStatus: (id, isOnline) => dispatch(actions.setOnlineStatus(id, isOnline)),
         setChatFromId: (id) => dispatch(actions.setChatFromId(id)),
         setChatToId: (id) => dispatch(actions.setChatToId(id)),
@@ -342,6 +318,7 @@ const mapDispatchToProps = dispatch => {
         setChatStory: (chat) => dispatch(actions.setChatStory(chat)),
         onSelectReception: (id, callback) => dispatch(actions.seletVisit(id, callback)),
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),
+
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
         onSetPushBtnTransferTraining: (type) => dispatch(actions.setPushBtnTransferTraining(type)),

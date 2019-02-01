@@ -31,7 +31,7 @@ class PersonalDataPreferences extends React.Component {
                 <div className='coach-data-studentPreferences'>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('bestsex', {
-                            initialValue: bestsex === "m" ? "Мужской" : "Женский",
+                            initialValue: bestsex === 'm' ? "Мужской" : bestsex === 'w' ? "Женский" : null,
                             rules: [{
                                 required: false,
                                 message: 'Выберите пол ' + userTypeWord + ', пожалуйста'

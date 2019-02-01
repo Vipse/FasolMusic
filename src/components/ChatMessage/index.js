@@ -103,7 +103,7 @@ const ChatMessage = props => {
                     isDate ?
                         ( <div className='message-today'>{moment(date*1000).format("D MMMM YYYY")}</div>)
                         : isVisEnd ?
-                            (<div className='message-visit-end'>Прием завершен</div>)
+                            (<div className='message-visit-end'>Тренировка завершена</div>)
                             : (
                             content
                 )

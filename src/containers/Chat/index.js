@@ -43,20 +43,19 @@ class Chat extends React.Component{
       
       
         const chatProps = {
-            //wsURL: 'wss://appdoc.by:8443/one2one',
             wsURL: 'wss://web.fasolonline.ru:8443/one2one',
             callback: this.props.callback,
             clearCallback: this.props.clearCallback,
             timer: this.props.timer,
             chatStory: this.props.chatStory,
-            receptionStarts: this.props.receptionStarts,
+            receptionStarts: this.props.trainingStarts,
             isCalling: this.props.isCalling,
             receptionId: this.props.idTraining,
             callerID: this.props.id,
             calledID: this.props.idTo,
             user_mode: this.props.user_mode,
             user_id: +id_user,
-            patientName: isUser ? name_doc : name,
+            patientName: this.props.interlocutorName,
             id_treatment,
             online: +status,
             avatar: isUser? avatar_doc: avatar,
@@ -75,28 +74,28 @@ class Chat extends React.Component{
         return (
             <Hoc>
                 <Row>
-                    {this.state.displayChat && <Col xs={24} xxl={17} className='section'>
+                    {this.state.displayChat && <Col xs={24} xxl={24} className='section'>
                         {
                             isUser ? (
                                 <ChatCard {...chatProps}
                                           mode={contactLevel}
-                                    //isEnded = {true}
+                                        //isEnded = {true}
                                           onSelectReception={this.props.onSelectReception}
                                           completeReception={this.props.completeReception}
                                           closeTreatm={this.props.closeTreatment}
                                           fromTR_VIS={2}
-                                          isUser ={true}
+                                          isUser={true}
                                 />
                             ) : (
                                 <ChatCard {...chatProps}
                                           mode={contactLevel}
-                                    //isEnded = {true}
+                                        //isEnded = {true}
                                           onSelectReception={this.props.onSelectReception}
                                           changeReceptionStatus={this.props.changeReceptionStatus}
                                           completeReception={this.props.completeReception}
                                           closeTreatm={this.props.closeTreatment}
                                           uploadConclusion={this.props.uploadConclusion}
-                                          fromTR_VIS={this.props.fromTR_VIS}/>
+                                          fromTR_VIS={2}/>
                             )
                         }
                     </Col>
@@ -122,13 +121,14 @@ const mapStateToProps = state =>{
         fromTR_VIS: state.treatments.from,
         callback: state.treatments.callback,
         chatStory: state.chatWS.chatStory,
-        receptionStarts: state.chatWS.receptionStarts,
+        trainingStarts: state.chatWS.trainingStarts,
         isCalling: state.chatWS.isCalling,
         timer: state.chatWS.timer,
 
 
         idTo: state.chatWS.to,
-        idTraining: state.chatWS.idTraining
+        idTraining: state.chatWS.idTraining,
+        interlocutorName: state.chatWS.interlocutorName
     }
 }
 

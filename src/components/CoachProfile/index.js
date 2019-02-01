@@ -45,7 +45,8 @@ class CoachProfile extends React.Component {
 
                             <div className="profile-coach-info">
                                 <div className="profile-coach-info-name">{name}</div>
-                                <div className="profile-coach-info-discipline">{discipline.join(', ')}{specialization ? ('; ' + specialization.join(', ')) : ""}</div>
+                                <div className="profile-coach-info-discipline">{discipline ? discipline.join(', ') : ''}
+                                {specialization ? ('; ' + specialization.join(', ')) : ""}</div>
                                 <div className="profile-coach-info-btn">
                                     <Button onClick={() => console.log('openDialog')}
                                             btnText='Открыть диалог'
