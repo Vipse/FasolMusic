@@ -1,6 +1,7 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 import { getInfoMasters } from './student'
+import { setChatStory } from './chatWS'
 
 export const getTrainingNotFinished = (idUser, dateMax, max) => {
     return dispatch => {
@@ -121,5 +122,37 @@ export const unauthorizedTrialDataSave = (data) => {
             type: actionTypes.UNAUTHORIZED_TRIAL_DATA,
             data: data
         })
+    }
+};
+
+export const uploadTrainingChatHistory = (idTraining, chatStory) => {
+    const obj = {
+        idTraining,
+        chatStory
+    };
+
+    return () => {
+        axios.post('/catalog.fasol/saveChat', JSON.stringify(obj))
+            .then(res => {
+                console.log("saveChat", res);
+                return res;
+            })
+            .catch(err => console.log(err));
+    }
+};
+
+export const getTrainingChatHistory = (idTraining) => {
+    const obj = {
+        idTraining
+    };
+
+    return (dispatch) => {
+        axios.post('/catalog.fasol/getChatByTrainingId', JSON.stringify(obj))
+            .then(res => {
+                //if (res && !res.error) dispatch(setChatStory(res.data.result)); waiting for correct data type from server
+                console.log("getChatByTrainingId", res);
+                return res.result;
+            })
+            .catch(err => console.log(err));
     }
 };

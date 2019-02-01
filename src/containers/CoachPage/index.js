@@ -56,13 +56,13 @@ class CoachPage extends React.Component{
 
     getDisciplinesList = () => {
         const {disciplines} = this.props.profileCoach;
-        if (disciplines.length)
+        if (disciplines && disciplines.length)
             return disciplines.map(item => getNameFromObjArr(item.discipline))
     };
 
     getSpecializationsList = () => {
         const {disciplines} = this.props.profileCoach;
-        if (disciplines.length)
+        if (disciplines && disciplines.length)
             return disciplines.map(item => getNameFromObjArr(item.specialization))
     };
 

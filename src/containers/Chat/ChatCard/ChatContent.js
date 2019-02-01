@@ -80,7 +80,7 @@ class ChatContent extends React.Component {
                                 />)
                             })
                         }
-                        {this.props.fromTR_VIS === 2 && !this.props.receptionStarts && this.props.user_mode !== "user"
+                        {this.props.fromTR_VIS === 2 && !this.props.receptionStarts && this.props.user_mode === "master"
                         && <div className='btn-start'>
                             <Button
                                 btnText='Начать тренировку'
@@ -99,7 +99,7 @@ class ChatContent extends React.Component {
                         <ChatSend
                             disable={!this.props.receptionStarts}
                             isCurVisEnd={this.props.isCurVisEnd}
-                            isUser={this.props.user_mode === "user"}
+                            isUser={this.props.user_mode === "student"}
                             closeVisit={this.props.onEnd}
                             uploadFiles={this.props.uploadFile}
                             send={message => this.props.onSend(message)}/>

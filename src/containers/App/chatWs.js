@@ -194,7 +194,7 @@ const callResponse = (message) => {
     let msg = {
         id : 'chat',
         type: message.response != 'accepted' ? "notBegin" : "begin",
-        name: callbacks.get_user_mode() === "user" ? name_doc : name,
+        name: callbacks.get_user_mode() === "student" ? name_doc : name,
         from: callbacks.get_from(),
         to: callbacks.get_to(),
         date: Math.ceil(Date.now()/1000),
@@ -232,10 +232,10 @@ const incomingCall = (message) => {
     }
     setCallState(PROCESSING_CALL);
 
-    if(browser && browser.name==="safari") {
-        console.log("this is safari")
+    if(browser && browser.name === "safari") {
+        console.log("this is safari");
         Modal.confirm({
-            title: ` хотите ли вы принять вызов?`,
+            title: `Хотите ли вы принять вызов?`,
             width: '300px',
             okText: 'Да',
             cancelText: 'Нет',
@@ -251,7 +251,7 @@ const incomingCall = (message) => {
         let call = new Audio("/project/templates/_ares/static/media/incoming_call.mp3");
         call.play().then(
             Modal.confirm({
-                title: ` хотите ли вы принять вызов?`, //4124
+                title: `Хотите ли вы принять вызов?`, //4124
                 width: '300px',
                 okText: 'Да',
                 cancelText: 'Нет',

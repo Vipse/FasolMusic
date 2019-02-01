@@ -12,7 +12,6 @@ const reducer = (state = initialState, action) => {
             };
         case actionTypes.INFO_DOCTOR:
             return {
-                ...state,
                 ...action.profileDoctor
             };
         case actionTypes.TRAINER_TRAININGS:

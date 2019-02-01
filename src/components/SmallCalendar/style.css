@@ -16,7 +16,7 @@
   align-items: center;
 }
 .react-calendar__tile--active {
-  background-color: #21bedd!important;
+  background-color: #21bedd !important;
 }
 .react-calendar__month-view .react-calendar__month-view__weekdays {
   padding: 15px 6px;

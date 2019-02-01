@@ -100,7 +100,7 @@ class ChatVideoContent extends React.Component {
 	renderVideos = () => (
 		<Hoc>
 			<video className='chat-card-video__box'
-				   		poster={'https://www.sunhome.ru/i/wallpapers/61/pozitivnie-kartinki.orig.jpg'}
+				   		poster=''
 
 				   		autoPlay
 						ref={this.setVideoOutRef}
@@ -135,7 +135,7 @@ class ChatVideoContent extends React.Component {
 			<div className='chat-card-video__area'>
 				{this.isSafari ? this.renderSafariVideos() : this.renderVideos()}
                 <div className={panelClass}>
-                    {this.props.receptionId &&(
+                    {this.props.receptionId ? (
                         <ChatVideoPanel
                             onStop={() => {
                                 this.props.onStop();
@@ -151,7 +151,7 @@ class ChatVideoContent extends React.Component {
                             min={m}
 							isUser={this.props.isUser}
                             hour={h}
-                            isCalling={this.props.isCalling}/>)}
+                            isCalling={this.props.isCalling}/>) : null}
 
                 </div>
 			</div>

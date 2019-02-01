@@ -130,6 +130,7 @@ export {
     setIsCallingStatus,
     setChatStory,
     setNewTimer,
+    setChatInterlocutorInfo
 } from './chatWS'
 
 export {
@@ -180,7 +181,9 @@ export {
     getMyMastersOrStudents,
     unauthorizedTrialDataSave,
     getAllTrainingStudent,
-    setHomeworkEdit
+    setHomeworkEdit,
+    uploadTrainingChatHistory,
+    getTrainingChatHistory
 } from './training'
 
 
