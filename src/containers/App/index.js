@@ -77,7 +77,7 @@ class App extends React.Component {
 
         let visitInfoObj = {
             id: this.props.idTraining,
-            contactLevel: 'video'
+            contactLevel: this.props.conversationMode
         };
         
         createSocket(
@@ -291,7 +291,7 @@ const mapStateToProps = state => {
         trainingStarts: state.chatWS.trainingStarts,
         isCalling: state.chatWS.isCalling,
         chatStory: state.chatWS.chatStory,
-        visitInfo: state.treatments.visitInfo,
+        conversationMode: state.chatWS.conversationMode,
         timer: state.chatWS.timer,
     }
 }

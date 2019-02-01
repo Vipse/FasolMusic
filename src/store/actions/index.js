@@ -181,7 +181,9 @@ export {
     getMyMastersOrStudents,
     unauthorizedTrialDataSave,
     getAllTrainingStudent,
-    setHomeworkEdit
+    setHomeworkEdit,
+    uploadTrainingChatHistory,
+    getTrainingChatHistory
 } from './training'
 
 

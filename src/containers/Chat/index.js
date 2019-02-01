@@ -12,12 +12,14 @@ import * as actions from '../../store/actions'
 class Chat extends React.Component{
     state = {
         displayChat: true //TO DO make it false and just display for selected user
-    }
+    };
 
     componentDidMount(){
         this.props.onGetTodayVisits();
         console.log('chat version 1.0');
+        this.props.onGetChatHistory(this.props.idTraining);
     }
+
     componentWillMount(){
         //this.props.getTodayReceptions();
     }
@@ -68,9 +70,9 @@ class Chat extends React.Component{
             getAllFilesTreatment: this.props.getAllFilesTreatment,
             treatmFiles: this.props.treatmFiles,
             appShouldStartAt: this.props.visitInfo.date
-        }
+        };
 
-        console.log('chatProps', chatProps)
+        console.log('chatProps', chatProps);
         return (
             <Hoc>
                 <Row>
@@ -78,7 +80,7 @@ class Chat extends React.Component{
                         {
                             isUser ? (
                                 <ChatCard {...chatProps}
-                                          mode={contactLevel}
+                                          mode={this.props.conversationMode}
                                         //isEnded = {true}
                                           onSelectReception={this.props.onSelectReception}
                                           completeReception={this.props.completeReception}
@@ -88,12 +90,13 @@ class Chat extends React.Component{
                                 />
                             ) : (
                                 <ChatCard {...chatProps}
-                                          mode={contactLevel}
+                                          mode={this.props.conversationMode}
                                         //isEnded = {true}
                                           onSelectReception={this.props.onSelectReception}
                                           changeReceptionStatus={this.props.changeReceptionStatus}
                                           completeReception={this.props.completeReception}
                                           closeTreatm={this.props.closeTreatment}
+                                          onUploadChatHistory={this.props.onUploadChatHistory}
                                           uploadConclusion={this.props.uploadConclusion}
                                           fromTR_VIS={2}/>
                             )
@@ -120,14 +123,14 @@ const mapStateToProps = state =>{
         treatmFiles: state.treatments.treatmFiles,
         fromTR_VIS: state.treatments.from,
         callback: state.treatments.callback,
+
         chatStory: state.chatWS.chatStory,
         trainingStarts: state.chatWS.trainingStarts,
         isCalling: state.chatWS.isCalling,
         timer: state.chatWS.timer,
-
-
         idTo: state.chatWS.to,
         idTraining: state.chatWS.idTraining,
+        conversationMode: state.chatWS.conversationMode,
         interlocutorName: state.chatWS.interlocutorName
     }
 }
@@ -136,6 +139,8 @@ const mapDispatchToProps = dispatch => {
 	return {
         completeReception: (obj) => dispatch(actions.completeReception(obj)),
         closeTreatment: (id) => dispatch(actions.closeTreatment(id)),
+        onUploadChatHistory: (id, chatHistory) => dispatch(actions.uploadTrainingChatHistory(id, chatHistory)),
+        onGetChatHistory: (id, chatHistory) => dispatch(actions.getTrainingChatHistory(id, chatHistory)),
         //getTodayReceptions: () => dispatch(),
         onSelectReception: (id) => dispatch(actions.seletVisit(id)),
         clearTodayReceptions: () => dispatch(actions.clearIntervals()),

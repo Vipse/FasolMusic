@@ -7,6 +7,7 @@ const initialState = {
     trainingStarts: false,
     isCalling: false,
     chatStory: [],
+    conversationMode: 'video',
     timer: {
         s: 0,
         m: 0,
