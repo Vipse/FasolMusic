@@ -30,7 +30,7 @@ class PersonalDataInfo extends React.Component {
                 <div className='coach-data-additionalInfo'>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('sex', {
-                            initialValue: sex === "m" ? "Мужской" : "Женский",
+                            initialValue: sex === 'm' ? "Мужской" : sex === 'w' ? "Женский" : null,
                             rules: [{
                                 required: false,
                                 message: 'Выберите пол, пожалуйста'

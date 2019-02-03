@@ -1,15 +1,16 @@
 .chat-card {
     position: relative;
     max-width: calc(100% - 20px);
-    box-shadow: 0 10px 15px 2px rgba(0, 0, 0, .1)
+    box-shadow: 0 10px 15px 2px rgba(0, 0, 0, .1);
+    border-radius: 5px;
 }
 
 .chat-card-head {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background-color: #0495ff;
-    border-radius: 2px
+    background-color: #ff7daa;
+    border-radius: 5px 5px 0 0;
 }
 
 .chat-card-title {
@@ -30,10 +31,15 @@
     margin-right: 0
 }
 
+.chat-card-title .btn:hover .icon {
+    color: #21bedd;
+    margin-right: 0
+}
+
 .chat-card-btns {
     display: flex;
     align-items: center;
-    margin-left: auto
+    margin-left: auto;
 }
 
 .chat-card-btns .ant-radio-group {
@@ -68,13 +74,14 @@
 }
 
 .chat-card-archive {
-    background-color: #204d8d;
+    background-color: #21bedd;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 19px 19.79px;
-    margin-left: 25px
+    margin-left: 25px;
+    border-radius: 0 5px 0 0;
 }
 
 .chat-card-archive .btn {
@@ -93,7 +100,7 @@
 }
 
 .chat-card-archive .btn:hover .icon {
-    color: #0495ff
+    color: #ff7daa;
 }
 
 .chat-card-namePatient {
@@ -143,7 +150,8 @@
 
 .chat-card-body {
     display: flex;
-    height: 750px
+    height: 750px;
+    border-radius: 0 0 5px 5px;
 }
 
 .chat-card-dialogs {
@@ -155,6 +163,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-radius: 0 0 5px 5px;
 }
 
 .chat-card-dialogs-row {
@@ -305,7 +314,7 @@
 .chat-card-video__box {
     position: relative;
     width: 100%;
-    height: 80%;
+    height: 100%;
     display: block
 }
 

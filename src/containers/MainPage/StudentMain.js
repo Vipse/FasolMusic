@@ -47,6 +47,7 @@ class StudentMain extends React.Component{
     prepareNearTrainings = () => {
 	    const {nearTraining, selectors} = this.props;
 
+	    console.log(nearTraining);
         if (selectors.discipline) {
             return nearTraining.map((item) => {
                 return {

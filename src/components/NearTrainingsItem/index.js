@@ -41,7 +41,7 @@ class NearTrainingsItem extends React.Component{
                         btnText="Открыть чат"
                         type="border-green"
                         size='small'
-                        onClick={() => goToChat(idProfile, idTraining)}
+                        onClick={() => goToChat(idProfile, idTraining, name)}
                     />
                 </div>
             </div>
