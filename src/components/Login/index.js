@@ -97,13 +97,6 @@ class LoginForm extends React.Component{
                         >
                             Зарегистрироваться
                         </NavLink><br/>
-                        <NavLink
-                            to={urlTrialTraining}
-                            className="login-form-navlink"
-                        >
-                            Записаться на пробную
-                        </NavLink>
-
                     </div>
                 </div>
             </Form>

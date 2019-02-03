@@ -556,6 +556,16 @@ class Schedule extends React.Component {
         
     };
 
+    changeCurrDiscipline = (disc) => {
+        const {start, end} = this.state.isEditorMode;
+        const {currDiscipline, id} = this.props;
+
+            this.props.onChangeCurrDiscipline(disc)
+
+            this.props.onGetTrainerTraining(id, start, end, disc);
+            //this.props.onGetAbonementsFilter(id, currDiscipline); 
+    
+    }
     onAddVisit = (info) => {
         this.props.patients.length === 0 ?
             this.props.onGetDocPatients() : null;
@@ -776,10 +786,7 @@ class Schedule extends React.Component {
                                   mode = {this.props.mode}
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
-                                  onChangeCurrDiscipline = {(disc) => {
-                                        this.props.onChangeCurrDiscipline(disc)
-                                        this.props.onGetAbonementsFilter(id, currDiscipline); 
-                                }}
+                                  onChangeCurrDiscipline = {this.changeCurrDiscipline} 
                                 
                                 onGotoPage= { (id) => this.props.history.push('/app/student' + id)}
 
@@ -840,7 +847,7 @@ class Schedule extends React.Component {
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
-                                  onGotoPage= { (id) => {console.log(id); debugger; this.props.history.push('/app/coach' + id)}}
+                                  onGotoPage= { (id) => this.props.history.push('/app/coach' + id)}
                                   selectAnyTrainer = {this.selectAnyTrainer}
 
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}

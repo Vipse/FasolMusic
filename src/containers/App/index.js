@@ -20,6 +20,7 @@ import '../../styles/fonts.css';
 
 import Icon from "../../components/Icon";
 import { freezeAbonement } from './../../store/actions/abonement';
+import cookie from 'react-cookies'
 
 const renderRoutes = ({path, component, exact}) => (
     <Route key={path} exact={exact} path={path} component={component}/>
@@ -128,6 +129,7 @@ class App extends React.Component {
     };
 
     componentDidMount() {
+
         const {id, currDiscipline} = this.props;
         if (this.props.mode === "master"){
             this.props.onGetInfoDoctor(id);

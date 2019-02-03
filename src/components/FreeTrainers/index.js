@@ -14,7 +14,7 @@ class FreeTrainers extends React.Component {
         return dataArr.map((item, index) => {
             return (<FreeTrainersItem {...item}
                                     key={index}
-                                    onGoto={this.props.onGoto}
+                                    onGotoPage={this.props.onGotoPage}
                                     setChoosenTrainer={this.props.setChoosenTrainer}
                                     
             />)

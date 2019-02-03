@@ -75,7 +75,6 @@ class EventSlot extends Component {
             )
         }
 
-        debugger;
         const eventKey = event.idMaster ? event.idMaster: event.id
         return (
             <div key = {eventKey} onClick={()=> onGotoPage(eventKey)}  className="event-group" style={{backgroundColor}}>

@@ -27,8 +27,11 @@ class PersonalDataSkill extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.profile.disciplines.length !== this.props.profile.disciplines.length)
-            this.setState({addedNums: []});
+        if(Array.isArray(prevProps.profile.disciplines) && Array.isArray(this.props.profile.disciplines)){
+            if (prevProps.profile.disciplines.length !== this.props.profile.disciplines.length)
+                this.setState({addedNums: []});
+        }
+           
     }
 
     addDiscipline = (num) => {
@@ -202,7 +205,8 @@ class PersonalDataSkill extends React.Component {
 
     renderOldDisciplines = () => {
         const {disciplines} = this.props.profile;
-        return disciplines.map((item, number) => this.generateDisciplineItem(number, item));
+        return Array.isArray(disciplines) ? disciplines.map((item, number) => this.generateDisciplineItem(number, item)) : []
+        
     };
 
     renderNewDisciplines = () => {

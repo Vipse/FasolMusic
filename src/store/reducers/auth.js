@@ -1,9 +1,12 @@
 
 import * as actionTypes from '../actions/actionTypes'
 
+import cookie from 'react-cookies'
+
+
 const initialState = {
-    id: sessionStorage.getItem('_fasol-id') ? sessionStorage.getItem('_fasol-id') : 0,
-    mode: sessionStorage.getItem('_fasol-mode') ? sessionStorage.getItem('_fasol-mode') : "", // doc / user
+    id:  cookie.load('_fasol-id') ? cookie.load('_fasol-id') : ( sessionStorage.getItem('_fasol-id') ? sessionStorage.getItem('_fasol-id') : 0) ,
+    mode: cookie.load('_fasol-mode') ? cookie.load('_fasol-mode'): (sessionStorage.getItem('_fasol-mode') ? sessionStorage.getItem('_fasol-mode') : ""), // doc / user
     error: null,
     errorCode: 0,
 };

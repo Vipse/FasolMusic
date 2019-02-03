@@ -56,12 +56,6 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
-<<<<<<< HEAD
-                {isStudent ? <div className="header-balance"><span>Баланс {frozenTraining}</span></div> : null }
-                <div className='header-train'>
-                    {isStudent ?
-                        <React.Fragment>
-=======
                 {isStudent ?
                     <React.Fragment>
                         <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
@@ -73,14 +67,6 @@ class Header extends React.Component {
                                 className="header-btn"
                                 onClick={() => this.setState({isTrialTrainingModalVisible: true})}
                             />}
->>>>>>> df31e0e129a84be4e843112c1920cc3a231ec208
-                            <Button
-                                btnText='ДОБАВИТЬ ТРЕНИРОВКУ'
-                                size='default'
-                                type='border-pink'
-                                className="header-btn"
-                                onClick={this.props.isPushBtnAdd}
-                            />
                             <Button
                                 btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                 size='default'

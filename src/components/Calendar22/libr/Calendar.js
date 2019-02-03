@@ -155,6 +155,7 @@ class Calendar extends React.Component {
                   freeTrainers={freeTrainers} 
                   setChoosenTrainer={setChoosenTrainer}
                   selectAnyTrainer = {this.props.selectAnyTrainer}
+                  onGotoPage = {this.props.onGotoPage}
               /> 
               :
               <div className="wrapper-small-calendar">

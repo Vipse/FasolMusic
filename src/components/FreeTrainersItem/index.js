@@ -17,25 +17,36 @@ class FreeTrainersItem extends React.Component{
             id,
             comment,
             trainerList,
-            onGoto,
+            onGotoPage,
         } = this.props;
 
         return (
-            <div className='myStudent' onClick={() => setChoosenTrainer(id ? id : idMaster)}>
-                <ProfileAvatar
-                    img={avatar}
-                    size='small'
-                />
-                <div className='myStudent-info'>
-                    <div>
-                        <span className='myStudent-info-name' onClick={() => onGoto(id ? id : idMaster)}>{name}</span>
-                        <span className='myStudent-info-discipline'>{discipline}</span>
+            <div className='myStudent-wrapper'>
+                <div className='myStudent' >
+                    <ProfileAvatar
+                        img={avatar}
+                        size='small'
+                    />
+                    <div className='myStudent-info'>
+                        <div>
+                            <a className='myStudent-info-name' onClick={() => this.props.onGotoPage(id ? id : idMaster)}>{name}</a>
+                            <span className='myStudent-info-discipline'>{discipline}</span>
+                        </div>
+                        <div className='myStudent-info-lastMessage'>
+                            {comment}
+                        </div>
                     </div>
-                    <div className='myStudent-info-lastMessage'>
-                        {comment}
-                    </div>
+                    
                 </div>
+                <Button 
+                        btnText='Выбрать'
+                        size='small'
+                        type='border-pink'
+                        className="header-btn "
+                        onClick={() => setChoosenTrainer(id ? id : idMaster)}
+                    />
             </div>
+                
         )
     }
 }

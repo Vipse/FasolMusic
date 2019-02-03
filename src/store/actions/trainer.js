@@ -39,33 +39,35 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                 console.log("REEES", res.data.result);
                 const allTraining = res.data.result.result;
                 let formatTrainng = [];
-debugger
+
                 for (let key in allTraining) {
                     if (allTraining.hasOwnProperty(key)){
-                        allTraining[key].forEach((el) => {
-                                if(el.hasOwnProperty('allInfo')){
-                                    
-                                    const elem = el.allInfo;
-                                    
-                                    if(elem.disciplines.includes(currDiscipline.code)){
-                                        formatTrainng.push({
-                                            fio: elem.idStudent,
-                                            id: elem.date,
-                                            idMaster: elem.idMaster,
-                                            idSubscription:elem.idSubscription,
-                                            isBooking: elem.isBooking,
-                                            start: new Date(elem.date * 1000),
-                                            status: elem.status
-                                            
-    
-                                        });
-                                    }
-                                    
-                                }
-                            //el.hasOwnProperty('allInfo') ? formatTrainng.push( (el.allInfo['fio']=el.allInfo.id ?  el.allInfo : null)) : null
-                        })
+
+                        console.log('allTraining[key] :', allTraining[key]);
+                        
+                        for(let element in allTraining[key]){
+                            for(let el in allTraining[key][element]){
+
+                                        const elem = allTraining[key][element].allInfo;
+                                        if(elem.disciplines.includes(String(currDiscipline.code))){
+                                            formatTrainng.push({
+                                                fio: elem.fio,
+                                                id: elem.date,
+                                                idMaster: elem.idMaster,
+                                                idSubscription:elem.idSubscription,
+                                                isBooking: elem.isBooking,
+                                                start: new Date(elem.date * 1000),
+                                                status: elem.status
+                                                
+
+                                            });
+                                        }
+                            }
+                        }
+                        
                     }
                 }
+                debugger
                 dispatch({
                     type: actionTypes.GET_TRAINER_TRAINING,
                     trainerTraining: res.data.result.result,
