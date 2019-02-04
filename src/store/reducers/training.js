@@ -5,6 +5,7 @@ import * as actionTypes from '../actions/actionTypes'
 const initialState = {
     nearTraining: [],
     myCoachOrStudents: [],
+    studentTrainings: []
 };
 
 const reducer = (state = initialState, action) => {

@@ -1,7 +1,7 @@
 .homework-list-item {
   display: flex;
-  align-items: flex-start;
-  cursor: pointer;
+  justify-content: space-around;
+  align-items: center;
 }
 .homework-list-item:hover {
   background-color: rgba(33, 190, 221, 0.1);
@@ -18,30 +18,29 @@
 .homework-list-item .flex-col:first-child {
   margin-left: 1%;
 }
-.homework-list-item .flex-col:nth-child(1) {
-  width: 10%;
+.homework-list-item .flex-col.date {
+  width: 9%;
 }
-.homework-list-item .flex-col:nth-child(2) {
-  width: 10%;
-}
-.homework-list-item .flex-col:nth-child(3) {
-  width: 10%;
-}
-.homework-list-item .flex-col:nth-child(4) {
-  width: 13%;
-}
-.homework-list-item .flex-col:nth-child(5) {
-  width: 40%;
-}
-.homework-list-item .flex-col:nth-child(6) {
-  width: 10%;
-}
-.homework-list-item .flex-col .name {
+.homework-list-item .flex-col.name {
+  width: 15%;
   font-size: 14px;
   line-height: 24px;
   color: #21bedd;
   font-family: "RobotoBlack", sans-serif;
   font-weight: 800;
+  cursor: pointer;
+}
+.homework-list-item .flex-col.discipline {
+  width: 15%;
+}
+.homework-list-item .flex-col.record {
+  width: 15%;
+}
+.homework-list-item .flex-col.homework {
+  width: 30%;
+}
+.homework-list-item .flex-col.attachments {
+  width: 15%;
 }
 .homework-list-item .flex-col .training-date .time {
   font-size: 12px;
@@ -51,7 +50,7 @@
 .homework-list-item .flex-col .sendHomework {
   position: relative;
   width: 80%;
-  margin-left: auto;
+  margin: auto;
 }
 .homework-list-item .flex-col .sendHomework-textArea .textarea-field {
   height: 40px;

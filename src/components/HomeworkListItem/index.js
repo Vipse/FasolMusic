@@ -26,7 +26,6 @@ class HomeworkListItem extends React.Component {
 
         this.props.onSetHomeworkEdit(idTraining, homeworkText)
             .then(res => {
-                console.log(res);
                 if (res && res.data && !res.data.error) {
                     this.setState({savedHomework: homeworkText});
                     message.success("Домашнее задание сохранено");
@@ -42,7 +41,7 @@ class HomeworkListItem extends React.Component {
     };
 
     refactorFiles = (file) => {
-        if (file.length) {
+        if (file && file.length) {
             let files = [];
             file.forEach((item) => {
                 if (item.data.length) {
@@ -60,18 +59,20 @@ class HomeworkListItem extends React.Component {
             files,
             onGoto,
             isStudent,
+            onStudentPage,
             date,
             name,
             discipline,
             trainingRecord,
             homework,
+            idProfile
         } = this.props;
 
         const {savedHomework, homeworkText} = this.state;
 
         return (
             <div className="homework-list-item">
-                <div className="flex-col">
+                <div className="flex-col date">
                     <div className="date">{date ?
                         <div className="training-date">
                             <div className="date">{moment(date*1000).format("D.MM.YYYY")}</div>
@@ -79,22 +80,22 @@ class HomeworkListItem extends React.Component {
                         </div>
                         : <span>&mdash;</span>}</div>
                 </div>
-                
-                <div className="flex-col">
-                    <div className="name" onClick={onGoto}>{name ? name : <span>&mdash;</span>}</div>
-                </div>
-                <div className="flex-col">
-                    <div className="discipline">{Array.isArray(discipline) ? discipline.map((el) => el.name) : <span>&mdash;</span>}</div>
+
+                {!onStudentPage && <div className="flex-col name">
+                    <div className="name" onClick={() => onGoto(idProfile)}>{name ? name : <span>&mdash;</span>}</div>
+                </div>}
+                <div className="flex-col discipline">
+                    <div className="discipline">{discipline ? discipline : <span>&mdash;</span>}</div>
                     </div> 
-                <div className="flex-col">
-                    <div className="patient-price">{trainingRecord ?
+                <div className="flex-col record">
+                    <div className="record">{trainingRecord ?
                         <a target='_blank' href={trainingRecord}>
-                            <Button btnText="Просмотр" type="border-pink"/>
+                            <Button btnText="Просмотр" type="border-pink" size='small'/>
                         </a>
                         : <span>&mdash;</span>}</div>
                 </div>
-                <div className="flex-col">
-                    <div className="patient-price">{homework ? homework : savedHomework ? savedHomework : isStudent ? <span className="homeworkEmpty">—</span> :
+                <div className="flex-col homework">
+                    <div className="homework">{homework ? homework : savedHomework ? savedHomework : isStudent ? <span className="homeworkEmpty">&mdash;</span> :
                         <div className="sendHomework">
                             <TextArea className="sendHomework-textArea"
                                       placeholder='Домашнее задание...'
@@ -106,9 +107,9 @@ class HomeworkListItem extends React.Component {
                             </button>
                         </div>}</div>
                 </div>
-                <div className="flex-col"
-                     onClick={this.handleClick}>
-                    <PopoverFile data={this.refactorFiles(files)}
+                <div className="flex-col attachments" onClick={this.handleClick}>
+                    <PopoverFile className="attachments"
+                                 data={this.refactorFiles(files)}
                                  onAddFiles={this.props.onAddFiles}
                                  refresh={this.props.refresh}
                                  makeArchiveOfFiles={this.props.makeArchiveOfFiles}

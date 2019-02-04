@@ -82,6 +82,7 @@
 }
 .lastTraining-materials {
   display: flex;
+  text-align: center;
 }
 .lastTraining-materials .trainingRecord {
   display: flex;

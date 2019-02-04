@@ -38,15 +38,15 @@ class CouchMain extends React.Component {
         if (selectors.discipline) {
             for (let dayItem in futureTraining)
                 for (let trainItem in futureTraining[dayItem]) {
-                    let train = futureTraining[dayItem][trainItem];
+                    let train = futureTraining[dayItem][trainItem].allInfo;
                     arrData.push({
-                        name: train.allInfo.fio,
-                        start: +train.allInfo.date * 1000,
-                        end: +train.allInfo.date * 1000 + 3600000,
-                        discipline: train.allInfo.disciplines.length ?
-                            selectors.discipline.find(discipline => discipline.id === +train.allInfo.disciplines[0]).nameRus : null,
-                        idProfile: train.allInfo.idStudent,
-                        idTraining: train.allInfo.idTraining
+                        name: train.fio,
+                        start: +train.date * 1000,
+                        end: +train.date * 1000 + 3600000,
+                        discipline: train.disciplines.length ?
+                            selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
+                        idProfile: train.idStudent,
+                        idTraining: train.idTraining
                     });
                 }
 
@@ -61,20 +61,20 @@ class CouchMain extends React.Component {
         if (selectors.discipline) {
             for (let dayItem in postTraining)
                 for (let trainItem in postTraining[dayItem]) {
-                    let train = postTraining[dayItem][trainItem];
+                    let train = postTraining[dayItem][trainItem].allInfo;
                     arrData.push({
-                        name: train.allInfo.fio,
-                        date: +train.allInfo.date * 1000,
-                        discipline: train.allInfo.disciplines.length ?
-                            selectors.discipline.find(discipline => discipline.id === +train.allInfo.disciplines[0]).nameRus : null,
-                        avatar: train.allInfo.avatar,
-                        homework: train.allInfo.homework,
-                        idProfile: train.allInfo.idStudent,
-                        idTraining: train.allInfo.idTraining
+                        name: train.fio,
+                        date: +train.date * 1000,
+                        discipline: train.disciplines.length ?
+                            selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
+                        avatar: train.avatar,
+                        homework: train.homework,
+                        idProfile: train.idStudent,
+                        idTraining: train.idTraining
                     });
                 }
 
-            return arrData;
+            return arrData.reverse();
         }
     };
 

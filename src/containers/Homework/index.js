@@ -10,56 +10,64 @@ import Hoc from '../../hoc'
 import * as actions from '../../store/actions'
 
 import './styles.css'
+import moment from "moment";
 
-class Homework extends React.Component{
+class Homework extends React.Component {
     state = {
-        cancelModal: false,
-        addModal: false,
-        isNewFreeVisitVisible: false,
+        loadingData: true
     };
 
-
-    gotoHandler = (id) => {
-		let link = this.props.mode === "student" ? "/app/coach" : "/app/student";
-		this.props.history.push(link + id);
-	};
-
     componentDidMount() {
-        this.props.onGetAbonements2(this.props.id);
-        this.props.onGetMasterList();
+        this.props.getSelectors('discipline');
+        const {mode, id} = this.props;
+        const start = null;
+        const end = moment().format('X');
+
+        if (mode === "student")
+            this.props.onGetAllTrainingStudent(id, start, end);
+        else if (mode === "master")
+            this.props.onGetPostTrainerTraining(id, start, end);
     }
 
+    gotoHandler = (id) => {
+        let link = this.props.mode === "student" ? "/app/coach" : "/app/student";
+        this.props.history.push(link + id);
+    };
+
     render(){
-        console.log(this.props);
+        const {mode, selectors, masterTrainings, studentTrainings} = this.props;
+        let trainingsArr = [];
 
-        let arrAbonement = [];
-        const {trainerList} = this.props;
-
-        if(this.props.allAbonements2){
-            let {subscriptions} = this.props.allAbonements2;
-            let max = subscriptions.length;
-            for(let i = 0; i < max; i++){
-                for(let j = 0; j < subscriptions[i].training.length; j++){
-
-                    for(let a = 0; trainerList && a < trainerList.length; a++){
-
-                        if(String(trainerList[a].idMaster) === String(subscriptions[i].training[j].idMaster)){
-
-                            arrAbonement.push({
-                                date: subscriptions[i].training[j].start,
-                                name: trainerList[a].name,
-                                discipline: subscriptions[i].discipline,
-                                trainingRecord: "http://vk.com",
-                                homework: subscriptions[i].training[j].homework,
-                                files: [],
-                                idMaster: subscriptions[i].training[j].idMaster,
-                                idTraining: subscriptions[i].training[j].id
-                            });
-                            a = Infinity;
-                        }
+        if (selectors.discipline) {
+            if (mode === 'student') {
+                trainingsArr = studentTrainings.map((train) => {
+                    return {
+                        date: train.start,
+                        name: train.fioMaster,
+                        discipline: train.disciplineMaster.length ? selectors.discipline.find(discipline => discipline.id === +train.disciplineMaster[0]).nameRus : null,
+                        trainingRecord: train.videofile,
+                        homework: train.homework,
+                        files: train.attachments,
+                        idProfile: train.idMaster,
+                        idTraining: train.id
+                    };
+                });
+            }
+            else {
+                for (let day in masterTrainings)
+                    for (let train in masterTrainings[day]) {
+                        let train = masterTrainings[day][train].allInfo;
+                        trainingsArr.push({
+                            date: train.date,
+                            name: train.fio,
+                            discipline: train.disciplines.length ? selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
+                            trainingRecord: train.videofile,
+                            homework: train.homework,
+                            files: train.attachments,
+                            idProfile: train.idStudent,
+                            idTraining: train.idTraining
+                        });
                     }
-
-                }
             }
         }
 
@@ -69,10 +77,10 @@ class Homework extends React.Component{
             		<Col span={24} className='section'>
                         <HomeworkList
                             onGoto={this.gotoHandler}
-                            isStudent={this.props.mode === "student"}
+                            isStudent={mode === "student"}
                             onAddFiles = {this.props.onAddFiles}
                             makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
-                            trainings={arrAbonement}
+                            trainings={trainingsArr.reverse()}
                             onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                         />
             		</Col>
@@ -84,23 +92,23 @@ class Homework extends React.Component{
 
 const mapStateToProps = state => {
 	return {
-        allAbonements2: state.abonement.allAbonements2, // и интервалы
         mode: state.auth.mode,
         id: state.auth.id,
-        trainerList: state.trainer.trainerList,
+        selectors: state.loading.selectors,
+        masterTrainings: state.trainer.postTraining,
+        studentTrainings: state.training.studentTrainings
 	}
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-        onGetTreatments: (obj) => dispatch(actions.getPaginationTreatments(obj)),
         onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
         makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
 
-        onGetAbonements2: (idStudent) => dispatch(actions.getAbonements2(idStudent)),
-        onGetMasterList: (discipline) => dispatch(actions.getMasterList(discipline)),
-
-        onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework))
+        onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
+        onGetAllTrainingStudent: (idMaster, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idMaster, dateMin, dateMax)),
+        onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),
+        getSelectors: (name) => dispatch(actions.getSelectors(name))
     }
 };
 

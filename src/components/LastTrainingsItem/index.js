@@ -81,11 +81,11 @@ class LastTrainingsItem extends React.Component{
                 <div className='lastTraining-materials'>
                     <div className="trainingRecord">
                         <span className='trainingRecord-title'>ЗАПИСЬ ТРЕНИРОВКИ</span>
-                        <Button
+                        {videofile ? <Button
                             btnText="Загрузить"
                             type="border-pink"
-                            link={videofile ? videofile : ''}
-                        />
+                            link={videofile}
+                        /> : <span>&mdash;</span>}
                     </div>
                     <div className='files'>
                         <span className='files-title'>Материалы</span>
