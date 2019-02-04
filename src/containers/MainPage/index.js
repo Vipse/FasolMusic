@@ -96,10 +96,10 @@ class MainPage extends React.Component{
 				showCancel = {() => {this.setState({cancelModal: true})}}
 				onAdd = {this.onAddVisit}
 				addModal = {this.state.addModal}
-				closeAdd= {() => {this.setState({addModal: false})}}
+				closeAdd = {() => {this.setState({addModal: false})}}
 				onSaveNewVisit = {this.onSaveNewVisit} // ?
 				cancelModal ={this.state.cancelModal}
-                closeCancel= {() => {this.setState({cancelModal: false})}}
+                closeCancel = {() => {this.setState({cancelModal: false})}}
 				saveCancel = {() => {}}
 				getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
                 treatmentsCount={this.props.treatmentsCount}
@@ -128,9 +128,9 @@ class MainPage extends React.Component{
 				showCancel = {() => {this.setState({cancelModal: true})}}
 				onAdd = {this.onAddVisit}
 				addModal = {this.state.addModal}
-				closeAdd= {() => {this.setState({addModal: false})}}
+				closeAdd = {() => {this.setState({addModal: false})}}
 				onSaveNewVisit = {this.onSaveNewVisit} // ?
-				cancelModal ={this.state.cancelModal}
+				cancelModal = {this.state.cancelModal}
                 closeCancel= {() => {this.setState({cancelModal: false})}}
 				saveCancel = {() => {}}
 				getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
