@@ -105,10 +105,11 @@ export const setHomeworkEdit = (idTraining, homework) => {
         idTraining,
         homework
     };
-    return (dispatch) => {
-        axios.post('/catalog.fasol/homeworkEdit', JSON.stringify(obj))
+    return () => {
+        return axios.post('/catalog.fasol/homeworkEdit', JSON.stringify(obj))
             .then(res => {
-                    console.log("homeworkEdit", res);
+                console.log("homeworkEdit", res);
+                return res;
             })
             .catch(err => console.log(err));
     }

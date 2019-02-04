@@ -4,26 +4,50 @@ import PropTypes from 'prop-types'
 import './style.css'
 import '../../icon/style.css'
 import ProfileAvatar from "../ProfileAvatar";
+import {message} from 'antd';
 import Button from "../Button";
 import moment from "moment";
 import PopoverFile from "../PopoverFile";
 import Icon from "../Icon";
+import TextArea from "../TextArea";
 
 class LastTrainingsItem extends React.Component{
+    state = {
+        homeworkText: '',
+        savedHomework: ''
+    };
+
     homeworkEdit = () => {
-        //this.props.onSetHomeworkEdit();
-    }
+        const {idTraining} = this.props;
+        const {homeworkText} = this.state;
+
+        this.props.onSetHomeworkEdit(idTraining, homeworkText)
+            .then(res => {
+                console.log(res);
+                if (res && res.data && !res.data.error) {
+                    this.setState({savedHomework: homeworkText});
+                    message.success("Домашнее задание сохранено");
+                }
+                else message.error("Ошибка при сохранении домашнего задания. Повторите попытку");
+            })
+            .catch(err => console.log(err));
+    };
 
     render(){
         const {
             discipline,
             name,
             homework,
+            videofile,
+            attachments,
             avatar,
             date,
             idProfile,
-            onGoto
+            onGoto,
+            isStudent
         } = this.props;
+
+        const {savedHomework, homeworkText} = this.state;
 
         
         return (
@@ -42,9 +66,13 @@ class LastTrainingsItem extends React.Component{
                     <span className='lastTraining-contactInfo-discipline'>{discipline}</span>
                 </div>
                 <div className='lastTraining-homework'>
-                    {homework ? homework :
+                    {homework ? homework : savedHomework ? savedHomework : isStudent ? <span className="homeworkEmpty">Нет домашнего задания</span> :
                         <div className="sendHomework">
-                            <textarea className="sendHomework-area" name="homework" rows="10" placeholder='Домашнее задание...'>{homework ? homework.info : ''}</textarea>
+                            <TextArea className="sendHomework-textArea"
+                                      placeholder='Домашнее задание...'
+                                      onChange={(text) => this.setState({homeworkText: text})}
+                                      value={homeworkText}
+                            />
                             <button className="sendHomework-btn" onClick={this.homeworkEdit}>
                                 <Icon type="message" size={25}/>
                             </button>
@@ -56,13 +84,13 @@ class LastTrainingsItem extends React.Component{
                         <Button
                             btnText="Загрузить"
                             type="border-pink"
-                            link={homework ? homework.recordlink : ''}
+                            link={videofile ? videofile : ''}
                         />
                     </div>
                     <div className='files'>
                         <span className='files-title'>Материалы</span>
                         <PopoverFile
-                            data={homework ? homework.attachments : []}
+                            data={attachments ? attachments : []}
                         >
                         </PopoverFile>
                     </div>

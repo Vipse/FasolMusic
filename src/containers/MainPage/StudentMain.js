@@ -123,6 +123,7 @@ class StudentMain extends React.Component{
                                     onGoto={(val) => this.gotoHandler(val)}
                                     openLastTrains={() => this.props.history.push('/app/homework')}
                                     data={lastTrainings}
+                                    isStudent={true}
                                 />
                             </Col>
 

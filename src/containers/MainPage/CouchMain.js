@@ -69,7 +69,8 @@ class CouchMain extends React.Component {
                             selectors.discipline.find(discipline => discipline.id === +train.allInfo.disciplines[0]).nameRus : null,
                         avatar: train.allInfo.avatar,
                         homework: train.allInfo.homework,
-                        idProfile: train.allInfo.idStudent
+                        idProfile: train.allInfo.idStudent,
+                        idTraining: train.allInfo.idTraining
                     });
                 }
 
@@ -115,7 +116,7 @@ class CouchMain extends React.Component {
                             onGoto={(val) => this.gotoHandler(val)}
                             openLastTrains={() => this.props.history.push('/app/homework')}
                             data={lastTrainings}
-                            onSetHomeworkEdit = {this.props.onSetHomeworkEdit}
+                            onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                         />
                     </Col>
                     <Col xs={14} xxl={9} className='section'>
