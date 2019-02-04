@@ -10,7 +10,6 @@ import Hoc from '../../hoc'
 import * as actions from '../../store/actions'
 
 import './styles.css'
-import {apiTrainers} from '../Schedule/mock-data'
 
 class Homework extends React.Component{
     state = {
@@ -21,12 +20,11 @@ class Homework extends React.Component{
 
 
     gotoHandler = (id) => {
-		let link = this.props.mode==="student"?"/app/coach":"/app/student";
-		this.props.history.push(link+id);
+		let link = this.props.mode === "student" ? "/app/coach" : "/app/student";
+		this.props.history.push(link + id);
 	};
 
     componentDidMount() {
-        
         this.props.onGetAbonements2(this.props.id);
         this.props.onGetMasterList();
     }
@@ -47,16 +45,16 @@ class Homework extends React.Component{
 
                         if(String(trainerList[a].idMaster) === String(subscriptions[i].training[j].idMaster)){
 
-                            arrAbonement.push(
-                                {
-                                    date: subscriptions[i].training[j].start ,
-                                    name: trainerList[a].name,
-                                    discipline: subscriptions[i].discipline,
-                                    trainingRecord: "http://vk.com",
-                                    homework: "сделать кучу вещей, сыграть на гитарке",
-                                    files: [],
-                                    idMaster: subscriptions[i].training[j].idMaster
-                                })
+                            arrAbonement.push({
+                                date: subscriptions[i].training[j].start,
+                                name: trainerList[a].name,
+                                discipline: subscriptions[i].discipline,
+                                trainingRecord: "http://vk.com",
+                                homework: subscriptions[i].training[j].homework,
+                                files: [],
+                                idMaster: subscriptions[i].training[j].idMaster,
+                                idTraining: subscriptions[i].training[j].id
+                            });
                             a = Infinity;
                         }
                     }
@@ -71,10 +69,11 @@ class Homework extends React.Component{
             		<Col span={24} className='section'>
                         <HomeworkList
                             onGoto={this.gotoHandler}
-                            isUser={this.props.mode === "student"}
+                            isStudent={this.props.mode === "student"}
                             onAddFiles = {this.props.onAddFiles}
                             makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
                             trainings={arrAbonement}
+                            onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                         />
             		</Col>
             	</Row>
@@ -100,6 +99,8 @@ const mapDispatchToProps = dispatch => {
 
         onGetAbonements2: (idStudent) => dispatch(actions.getAbonements2(idStudent)),
         onGetMasterList: (discipline) => dispatch(actions.getMasterList(discipline)),
+
+        onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework))
     }
 };
 

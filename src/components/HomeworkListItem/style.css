@@ -50,25 +50,18 @@
 }
 .homework-list-item .flex-col .sendHomework {
   position: relative;
+  width: 80%;
+  margin-left: auto;
 }
-.homework-list-item .flex-col .sendHomework-area {
-  width: 100%;
-  border: 1px solid #e1e1e1;
-  resize: none;
-  height: 120px;
-  color: #333;
-  font-family: RobotoRegular, sans-serif;
-  outline: none;
-  padding: 20px;
-}
-.homework-list-item .flex-col .sendHomework-area::placeholder {
-  color: #777777;
+.homework-list-item .flex-col .sendHomework-textArea .textarea-field {
+  height: 40px;
+  border: 1px solid #878787;
 }
 .homework-list-item .flex-col .sendHomework-btn {
   position: absolute;
   width: 40px;
   height: 40px;
-  bottom: 12px;
+  bottom: 6px;
   right: 12px;
   cursor: pointer;
   outline: none;

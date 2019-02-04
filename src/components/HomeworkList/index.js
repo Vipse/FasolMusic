@@ -70,9 +70,10 @@ class HomeworkList extends React.Component {
                 return (<HomeworkListItem {...item}
                                           onGoto={() => this.props.onGoto(this.props.idMaster)}
                                           key={'histRecept' + i}
-                                          isUser={this.props.isUser}
+                                          isStudent={this.props.isStudent}
                                           onAddFiles={this.props.onAddFiles}
-                                          makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
+                                          makeArchiveOfFiles={this.props.makeArchiveOfFiles}
+                                          onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                 />)
 
             });
@@ -119,7 +120,7 @@ class HomeworkList extends React.Component {
                         <div className="tableheader-name">Дата приема</div>
                     </div>
                     <div className="flex-col">
-                        <div className="tableheader-name">{this.props.isUser ? "Коуч" : "Студент"}</div>
+                        <div className="tableheader-name">{this.props.isStudent ? "Коуч" : "Студент"}</div>
                     </div>
                     <div className="flex-col">
                         <div className="tableheader-name">Дисциплина</div>

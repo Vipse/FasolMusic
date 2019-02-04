@@ -12,14 +12,34 @@ import Hoc from '../Hoc'
 import './style.css'
 import '../../icon/style.css'
 import {message} from "antd";
+import TextArea from "../TextArea";
 
 class HomeworkListItem extends React.Component {
+    state = {
+        homeworkText: '',
+        savedHomework: ''
+    };
+
+    homeworkEdit = () => {
+        const {idTraining} = this.props;
+        const {homeworkText} = this.state;
+
+        this.props.onSetHomeworkEdit(idTraining, homeworkText)
+            .then(res => {
+                console.log(res);
+                if (res && res.data && !res.data.error) {
+                    this.setState({savedHomework: homeworkText});
+                    message.success("Домашнее задание сохранено");
+                }
+                else message.error("Ошибка при сохранении домашнего задания. Повторите попытку");
+            })
+            .catch(err => console.log(err));
+    };
 
     handleClick = (e) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-    }
-
+    };
 
     refactorFiles = (file) => {
         if (file.length) {
@@ -39,13 +59,15 @@ class HomeworkListItem extends React.Component {
         const {
             files,
             onGoto,
-            isUser,
+            isStudent,
             date,
             name,
             discipline,
             trainingRecord,
             homework,
         } = this.props;
+
+        const {savedHomework, homeworkText} = this.state;
 
         return (
             <div className="homework-list-item">
@@ -72,11 +94,15 @@ class HomeworkListItem extends React.Component {
                         : <span>&mdash;</span>}</div>
                 </div>
                 <div className="flex-col">
-                    <div className="patient-price">{homework ? homework:
+                    <div className="patient-price">{homework ? homework : savedHomework ? savedHomework : isStudent ? <span className="homeworkEmpty">—</span> :
                         <div className="sendHomework">
-                            <textarea className="sendHomework-area" name="homework" rows="10" placeholder='Домашнее задание...'></textarea>
-                            <button className="sendHomework-btn">
-                                <Icon type="message" size={25}></Icon>
+                            <TextArea className="sendHomework-textArea"
+                                      placeholder='Домашнее задание...'
+                                      onChange={(text) => this.setState({homeworkText: text})}
+                                      value={homeworkText}
+                            />
+                            <button className="sendHomework-btn" onClick={this.homeworkEdit}>
+                                <Icon type="message" size={25}/>
                             </button>
                         </div>}</div>
                 </div>
@@ -86,7 +112,6 @@ class HomeworkListItem extends React.Component {
                                  onAddFiles={this.props.onAddFiles}
                                  refresh={this.props.refresh}
                                  makeArchiveOfFiles={this.props.makeArchiveOfFiles}
-
                     >
                     </PopoverFile>
                 </div>
