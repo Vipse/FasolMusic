@@ -19,16 +19,20 @@ class HomeworkList extends React.Component {
             max: 7,
             old: 0,
             data: [],
-            loading: false
+            loading: true
         };
         this.timer = null;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.loading && ((prevProps.trainings === this.props.trainings)))
+            this.setState({loading: false});
     }
 
 
     // componentDidMount() {
     //     //this.getTrainings();
     // }
-    //
     //
     // componentWillReceiveProps(newProps) {
     //     if (newProps.data.length && this.state.refresh) {
@@ -53,11 +57,10 @@ class HomeworkList extends React.Component {
 
 
     historyRender = (dataArr) => {
-        console.log(dataArr);
         let history = [];
+
         if (!dataArr.length && !this.state.loading) {
-            return <div className="table-footer"
-                        key="btn">
+            return <div className="table-footer" key="btn">
                 <Button btnText={'Нет тренировок. Нажмите чтобы обновить.'}
                         size='link'
                         type='link'
@@ -65,73 +68,56 @@ class HomeworkList extends React.Component {
                         //onClick={() => this.getTrainings()}
                 />
             </div>
-        } else {
+        } else if (dataArr.length) {
             history = dataArr.map((item, i) => {
                 return (<HomeworkListItem {...item}
-                                          onGoto={() => this.props.onGoto(this.props.idMaster)}
+                                          onGoto={this.props.onGoto}
                                           key={'histRecept' + i}
-                                          isUser={this.props.isUser}
+                                          isStudent={this.props.isStudent}
+                                          onStudentPage={this.props.onStudentPage}
                                           onAddFiles={this.props.onAddFiles}
-                                          makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
-                />)
-
+                                          makeArchiveOfFiles={this.props.makeArchiveOfFiles}
+                                          onSetHomeworkEdit={this.props.onSetHomeworkEdit}
+                />);
             });
-        }
-        if (this.props.treatmentsCount > dataArr.length && !this.state.loading) {
+        } else if (this.state.loading)
             history.push(
-                <div className="table-footer"
-                     key="btn"
-                >
-                    <Button btnText='Показать еще'
-                            size='link'
-                            type='link'
-                            title='Показать ещё'
-                            icon='circle_arrow_down'
-                            onClick={this.loadMore}
-                    />
-                </div>
-            );
-        } else if (this.state.loading) {
-            history.push(
-                <div className="table-footer"
-                     key="btn">
-                    <Spinner size="small"/>
-                </div>)
-        }
-        return history
+                <div className="table-footer" key="btn">
+                    <Spinner/>
+                </div>);
 
+        return history;
     };
 
-
     tabHeaderRender = () => {
+        const {isStudent, onStudentPage} = this.props;
         return (
             <Hoc>
                 <div className="tableheader">
                     <Input.Search
                         placeholder="Поиск..."
-                        onChange = {this.changeHandleSearch}
-                        onKeyDown = {this.handleKeyDown}
-
+                        onChange={this.changeHandleSearch}
+                        onKeyDown={this.handleKeyDown}
                     />
                 </div>
-                <div className="tableheader menu-header">
-                    <div className="flex-col">
-                        <div className="tableheader-name">Дата приема</div>
+                <div className="menu-header">
+                    <div className="flex-col date">
+                        <div className="date">Дата</div>
                     </div>
-                    <div className="flex-col">
-                        <div className="tableheader-name">{this.props.isUser ? "Коуч" : "Студент"}</div>
+                    {!onStudentPage && <div className="flex-col name">
+                        <div className="name">{isStudent ? "Коуч" : "Студент"}</div>
+                    </div>}
+                    <div className="flex-col discipline">
+                        <div className="discipline">Дисциплина</div>
                     </div>
-                    <div className="flex-col">
-                        <div className="tableheader-name">Дисциплина</div>
+                    <div className="flex-col record">
+                        <div className="record">Запись</div>
                     </div>
-                    <div className="flex-col">
-                        <div className="tableheader-name">Запись тренировки</div>
+                    <div className="flex-col homework">
+                        <div className="homework">ДЗ</div>
                     </div>
-                    <div className="flex-col">
-                        <div className="tableheader-name">ДЗ</div>
-                    </div>
-                    <div className="flex-col">
-                        <div className="tableheader-name">Материалы</div>
+                    <div className="flex-col attachments">
+                        <div className="attachments">Материалы</div>
                     </div>
                 </div>
             </Hoc>
@@ -163,6 +149,7 @@ class HomeworkList extends React.Component {
     //             this.triggerChange();
     //     }
     // };
+
     render() {
         return (
             <div className='trainings-all'>

@@ -14,6 +14,7 @@ import * as actions from '../../store/actions'
 import './styles.css';
 import Spinner from "../../components/Spinner";
 import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
+import moment from "moment";
 
 class StudentPage extends React.Component{
 
@@ -26,7 +27,7 @@ class StudentPage extends React.Component{
     }
 
     componentDidMount(){
-        const {getSelectors} = this.props;
+        const {getSelectors, auth} = this.props;
         const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
 
         selectorsNames.forEach((name) => {
@@ -41,6 +42,11 @@ class StudentPage extends React.Component{
 
         this.props.onGetInfoPatient(this.props.match.params.id)
             .then(res => this.setState({loading: false}));
+
+        const start = null;
+        const end = moment().format('X');
+
+        this.props.onGetPostTrainerTraining(auth.id, start, end);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -78,7 +84,7 @@ class StudentPage extends React.Component{
     render() {
         const { id, avatar, name, frozenTraining } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
-        const {trainerTrainings, match} = this.props;
+        const {trainerTrainings, masterPostTrainings, match} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
 
         if (this.state.loading === true) {
@@ -117,18 +123,21 @@ class StudentPage extends React.Component{
                             </Col>
                             <Col span={14}>
                                 <TrainsHistory data={this.props.appsBetween}
-                                                   appsBetweenCount={this.props.appsBetweenCount}
-                                                   onGotoChat={(id) => {
-                                                       this.props.onSelectTretment(id);
-                                                       this.props.history.push('/app/chat')
-                                                   }}
-                                                   getApps={this.props.onGetAppointments}
-                                                   id_user={this.props.match.params.id}
-                                                   personalPage={true}
-                                                   isUser={this.props.mode === "student"}
-                                                   onAddFiles={this.props.onAddFiles}
-                                                   addConclusion={this.props.addConclusion}
-                                                   makeArchiveOfFiles={this.props.makeArchiveOfFiles}
+                                               appsBetweenCount={this.props.appsBetweenCount}
+                                               onGotoChat={(id) => {
+                                                   this.props.onSelectTretment(id);
+                                                   this.props.history.push('/app/chat')
+                                               }}
+                                               getApps={this.props.onGetAppointments}
+                                               id_user={this.props.match.params.id}
+                                               personalPage={true}
+                                               isUser={this.props.mode === "student"}
+                                               onAddFiles={this.props.onAddFiles}
+                                               addConclusion={this.props.addConclusion}
+                                               makeArchiveOfFiles={this.props.makeArchiveOfFiles}
+                                               selectors={this.state.selectorsValues}
+                                               masterTrainings={masterPostTrainings}
+                                               onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                                 />
                                 <RecordTrainCarousel
                                     onGetIntervals={this.getSchedule}
@@ -150,7 +159,8 @@ const mapStateToProps = state => {
     return {
         auth: state.auth,
         profileStudent: state.profilePatient,
-        trainerTrainings: state.profileDoctor.trainerTrainings
+        trainerTrainings: state.profileDoctor.trainerTrainings,
+        masterPostTrainings: state.trainer.postTraining,
     }
 };
 
@@ -159,7 +169,9 @@ const mapDispatchToProps = dispatch => {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         onGetOwnTrainings: (id, weekStart, weekEnd) => dispatch(actions.getTrainerTrainings(id, weekStart, weekEnd)),
-        onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data, 'student'))
+        onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
+        onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data, 'student')),
+        onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework))
     }
 };
 
