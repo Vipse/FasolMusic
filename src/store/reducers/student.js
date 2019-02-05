@@ -74,12 +74,26 @@ const reducer = (state = initialState, action) => {
                 isPushBtnAdd: action.isPushBtnAdd,
                 isPushBtnTransfer: action.isPushBtnTransfer
             }     
+        case actionTypes.GET_DISCIPLINE_COMMUNICATION:
+            return {
+                ...state,
+                discCommunication: action.discCommunication
+            }
+        case actionTypes.SET_MASTER_THE_DISCIPLINE:
+           
+            return {
+                ...state,
+                selectMaster: action.selectMaster
+            }
+        case actionTypes.SET_DISC_ABONEMENT:
+            return {
+                ...state,
+                discAbonement: action.discAbonement
+            }
+            
 
             
- 
-            
-            
-            
+
         default: return state;
     }
 }

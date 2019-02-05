@@ -413,13 +413,22 @@ export const setFreeIntervals = (freeIntervals, discipline ) => {
         console.log("obj", obj)
         axios.post('/catalog.fasol/getMasterList', JSON.stringify({ 'discipline' : [125485, 125470]}))
             .then((rez) => {
+                let masterListObj = {};
+                const masterList = rez.data.result.masterlist;
+                console.log("RRR", masterList)
 
-                console.log("RRR", rez.data.result.masterlist)
                 dispatch({
                     type: actionTypes.GET_MASTER_LIST,
-                    trainerList: rez.data.result.masterlist,
+                    trainerList: masterList,
                 })
-                
+
+                masterList.forEach((el) =>  masterListObj[el.idMaster] = el)
+
+                dispatch({
+                    type: actionTypes.GET_MASTER_LIST_OBJ,
+                    masterListObj: masterListObj,
+                })
+
             })
             .catch(err => {
                 console.log(err);

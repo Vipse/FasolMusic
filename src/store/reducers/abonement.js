@@ -18,6 +18,7 @@ const initialState = {
             name: 'vocals'
         }
     },
+    disciplinesCode: [125470, 125485],
     weekInterval : null,
 };
 
@@ -54,7 +55,17 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 chooseTheMaster: action.chooseTheMaster
             }
-               
+        case actionTypes.GET_SUBSCRIPTION_FOR_DISCIPLINE:
+            return {
+                ...state,
+                subsForDisc: action.subsForDisc
+            }      
+        case actionTypes.GET_STUDENT_BALANCE:
+            return {
+                ...state,
+                studentBalance: action.studentBalance
+            }    
+            
             
         default: return state;
     }

@@ -18,7 +18,8 @@ class Header extends React.Component {
     }
 
     state = {
-        isTrialTrainingModalVisible: false
+        isTrialTrainingModalVisible: false,
+        isUnfreshTrainingModal: false,
     };
 
     isAvailableTrialCheck = () => {
@@ -28,6 +29,40 @@ class Header extends React.Component {
 
         return false;
     };
+
+    onUnfreshTraining = () => {
+        this.setState({isUnfreshTrainingModal: true});
+    }
+
+    onCreateUnfreshAbonement = (data) => {
+       
+            const {disciplinesList, discCommunication} = this.props;
+            let array = [];
+            const time0 = moment(Date.now()).startOf('week').format('X');
+            const time1 = moment(Date.now()).endOf('week').format('X');
+            const codeDisc = disciplinesList[data.type].code;
+    
+            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 5}); // поменять
+            this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
+            this.props.onSetFreeIntervals(array,  data.type);
+
+            if(discCommunication.hasOwnProperty(codeDisc)){
+                
+                this.props.onSetPushTrialTraining('select_master');
+                this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
+                this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0,1,2,3,4,5,6]);         
+            }
+            else{
+                
+                this.props.onSetPushTrialTraining(null);
+                this.props.onSetMasterTheDisicipline(null);
+                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
+            }
+
+            this.props.onGoToSchedule();
+            this.setState({isUnfreshTrainingModal: false});
+    }
+
 
     onSendDataTrialModal = (data) => {
         const {disciplinesList, id} = this.props;
@@ -45,7 +80,10 @@ class Header extends React.Component {
     };
 
     render() {
-        const {notifications, isStudent, findName, authMode, searchData, onGoto, frozenTraining, trialTrainingForDisciplines, disciplinesList} = this.props;
+        const {notifications, isStudent, findName, authMode, searchData, onGoto, studentBalance, trialTrainingForDisciplines, disciplinesList, disciplinesAll} = this.props;
+        
+        
+        
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -58,7 +96,7 @@ class Header extends React.Component {
                 </div>
                 {isStudent ?
                     <React.Fragment>
-                        <div className="header-balance"><span>Баланс {frozenTraining}</span></div>
+                        <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>
                             {this.isAvailableTrialCheck() && <Button
                                 btnText='ЗАПИСАТЬСЯ НА ПРОБНУЮ'
@@ -67,6 +105,13 @@ class Header extends React.Component {
                                 className="header-btn"
                                 onClick={() => this.setState({isTrialTrainingModalVisible: true})}
                             />}
+                            <Button
+                                btnText='Разморозить тренировку'
+                                size='default'
+                                type='border-pink'
+                                className="header-btn"
+                                onClick={this.onUnfreshTraining}
+                            />
                             <Button
                                 btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                 size='default'
@@ -113,6 +158,19 @@ class Header extends React.Component {
                         this.setState({isTrialTrainingModalVisible: false})
                     }}
                     onSave={this.onSendDataTrialModal}
+                />
+
+                <TrialTrainModal
+                    title='Создание абонемента (разморозка)'
+                    width={770}
+                    visible={this.state.isUnfreshTrainingModal}
+                    availableDisciplines={disciplinesList}
+                    disciplinesList={disciplinesList}
+                    closable={true}
+                    onCancel={() => {
+                        this.setState({isUnfreshTrainingModal: false})
+                    }}
+                    onSave={this.onCreateUnfreshAbonement}
                 />
             </div>
         )

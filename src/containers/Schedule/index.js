@@ -79,9 +79,9 @@ class Schedule extends React.Component {
 
         this.props.onGetAllInfoMasters('free', [...freetrainers])
             .then(this.props.onGetAllInfoMasters('busy', [ ...busytrainers])
-                .then(() => {
-                    this.setState({modalMasterList: true})
-                }));
+                    .then(() => {
+                        this.setState({modalMasterList: true})
+                    }));
               
     }
 
@@ -99,56 +99,54 @@ class Schedule extends React.Component {
        
         if(this.state.theMasterSelect){
             let {trainerList} = this.props;
+            debugger;
             for(let i = 0; i < trainerList.length; i++){
-                debugger;
+                
                 if(trainerList[i].idMaster === this.props.chooseTheMaster){
                     let trainer= {...trainerList[i]};
+
+                 
+
                     trainer.start = new Date(idEvent); //idEvent ~ time
-    
+
                     this.setState({apiPatients : [...this.state.apiPatients, trainer]})
                 // apiPatients.push(trainer);
                     return;
                 }
             }
         }
+        if(isPushBtnTrialTraining === 'select_master'){
+            debugger;
+                const {trainerList, selectMaster} = this.props;
+                
+                for(let i = 0; i < trainerList.length; i++){
+                    if(trainerList[i].idMaster == selectMaster){
+                        let trainer= {...trainerList[i]};
+                        trainer.start = new Date(idEvent); //idEvent ~ time
+        
+                        this.setState({apiPatients : [...this.state.apiPatients, trainer]})
+                        return
+                    }
+                }
+                       
+        }
         if(isPushBtnTrialTraining === 'trial'){             
-                            //fdata.frozenTraining = +fdata.frozenTraining - 1;
                             this.trialTime = idEvent;
                             this.setState({isShowFreeTrainers : true});
                             message.info('Выберите одного из тренеров')
 
                             this.setState({apiPatients : [ {trainer: null, start: new Date(idEvent)}]})
-                            // let {trainerList} = this.props;
-                            // for(let i = 0; i < trainerList.length; i++){
-                                
-                            //     if(trainerList[i].idMaster === master){
-                            //         let trainer= {...trainerList[i]};
-                            //         trainer.start = new Date(idEvent); //idEvent ~ time
-                    
-                            //         this.setState({apiPatients : [...this.state.apiPatients, trainer]})
-                            //     // apiPatients.push(trainer);
-                            //         i = Infinity;
-                            //     }
-                            // }
-                            // debugger
+                          
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                             message.success('Тренировка выбрана')
-                           // message.info('Для подтверждения расписания нажмите "Сохранить"')
-
-                          //  this.props.onSetPushTrialTraining('choose_trial');
-
-                           // this.props.onSaveUserEdit(fdata);
-                            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 1}); // show Сохранитьreturn;     
-                  
-                    //return;
+                        
+                            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 1});        
         }
 
         else if(!this.props.isPushBtnTransfer){
            
             if(isPushBtnAdd) {
                 
-                
-
                         let {trainerList} = this.props;
                         for(let i = 0; i < trainerList.length; i++){
                             
@@ -157,7 +155,7 @@ class Schedule extends React.Component {
                                 trainer.start = new Date(idEvent); //idEvent ~ time
                 
                                 this.setState({apiPatients : [...this.state.apiPatients, trainer]})
-                            // apiPatients.push(trainer);
+                           
                                 i = Infinity;
                             }
                         }
@@ -170,9 +168,6 @@ class Schedule extends React.Component {
 
                         fdata.frozenTraining = fdata.frozenTraining - 1;
                         this.props.onSaveUserEdit(fdata);
-
-                 
-                       
                         //this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 1}); // show Сохранить
                     
                // this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
@@ -180,10 +175,15 @@ class Schedule extends React.Component {
             }
             
             else{
-
                 this.timeEvent = idEvent;
+                const patients = [ {trainer: null, start: new Date(idEvent)}];
+
+                const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
+                console.log('countTraining :', countTraining); 
+                this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: countTraining});     
+                
                 this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
-                this.setState({isShowFreeTrainers : true});
+                this.setState({isShowFreeTrainers : true, apiPatients: patients});
                 message.info('Выберите одного из тренеров')
             }  
         }
@@ -192,10 +192,11 @@ class Schedule extends React.Component {
     }
 
     setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
-        const { profileStudent: fdata, isPushBtnTrialTraining} = this.props;
+        const { profileStudent: fdata, isPushBtnTrialTraining, masterListObj} = this.props;
         let start = null,
             end = null;
        
+
         if(isPushBtnTrialTraining === 'trial'){
             debugger;
             let {trainerList} = this.props;
@@ -229,6 +230,18 @@ class Schedule extends React.Component {
         const dateStart = Math.floor( + start.getTime() / 1000);
         const dateEnd   = Math.floor( + end.getTime() / 1000);
 
+
+        //
+        if(masterListObj.hasOwnProperty(idMaster)){
+            let bufApiPatient = []
+            this.state.apiPatients.forEach((el) =>  {
+                if(!el.trainer) bufApiPatient.push( {...masterListObj[idMaster], start: el.start})
+                else bufApiPatient.push(el);
+            })
+            this.setState({apiPatients: bufApiPatient})
+        }
+       
+
         this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, chooseWeekdays)
             .then(() => {
                 this.setState({theMasterSelect: true})
@@ -245,10 +258,8 @@ class Schedule extends React.Component {
 
     fillTrainingWeek = () => { // создание абонемента
         
-        const {id, abonementIntervals, currDiscipline, disciplines, isPushBtnTrialTraining, profileStudent} = this.props;
+        const {id, abonementIntervals, currDiscipline, disciplines, isPushBtnTrialTraining, profileStudent, selectMaster, subsForDisc,chooseTheMaster} = this.props;
         message.success("Тренировки распределены по расписанию");
-        
-        this.setState({ sendingModal: true, theMasterSelect: false}); // убрать интервалы
 
 
         let buf = 'vocals';
@@ -264,25 +275,37 @@ class Schedule extends React.Component {
             this.props.onSetPushTrialTraining('choose_trial');
         }
 
-        const newFrozen = +profileStudent.frozenTraining - (+abonementIntervals.countTraining);
-        let profile = {...profileStudent};
-        profile.frozenTraining = newFrozen;
-        this.props.onSaveUserEdit(profile);
 
-        
-        this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
-        .then(() => {
-            this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
-        });
+        if(selectMaster){
+           // discAbonement
+            if(subsForDisc.hasOwnProperty(currDiscipline.code) && Array.isArray(subsForDisc[currDiscipline.code]) && subsForDisc[currDiscipline.code].length) {
+                debugger;
+                this.props.onAddAmountTraining(subsForDisc[currDiscipline.code][0], abonementIntervals.countTraining);
+                
+            }
+           
+        }
+        else{
+            const newFrozen = +profileStudent.frozenTraining - (+abonementIntervals.countTraining);
+            let profile = {...profileStudent};
+            profile.frozenTraining = newFrozen;
+            this.props.onSaveUserEdit(profile);
+    
+            //this.props.onSaveDisciplineCommunication(id,)
+            this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
+                .then(() => {
+                    this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
+                });
+                debugger;
+                this.props.onSaveStudentMasterDisciplineCommunication(id, chooseTheMaster, currDiscipline.code)
+                this.props.onGetDisciplineCommunication(id);
+        }
 
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
 
-        let fdata = {...profileStudent}
-        fdata.frozenTraining = fdata.frozenTraining - abonementIntervals.countTraining;
-        this.props.onSaveUserEdit(fdata);
-
-        this.setState({apiPatients: []})
-        console.log(currDiscipline.code);
+        this.setState({apiPatients: [], sendingModal: true, theMasterSelect: false})
+  
+        this.props.onGetStudentBalance(id);
         this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id)
     }
 
@@ -822,6 +845,9 @@ class Schedule extends React.Component {
                              else if(isPushBtnTrialTraining === 'trial'){
                                 filterInterval = this.props.superFreeInterval;
                              }
+                             else if(isPushBtnTrialTraining === 'select_master'){
+                                filterInterval = this.props.theMasterInterval;
+                             }
                              
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
                                 filterInterval = this.props.theMasterInterval ;
@@ -1044,6 +1070,10 @@ const mapStateToProps = state => {
         superFreeInterval: state.student.freeInterval,
         theMasterInterval: state.student.theMasterInterval,
         mode: state.auth.mode,
+        selectMaster: state.student.selectMaster, //из payment выбран
+        discAbonement: state.student.discAbonement, // id абонементов у этого студента
+        masterListObj: state.trainer.masterListObj,
+        subsForDisc : state.abonement.subsForDisc,
 
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
@@ -1088,6 +1118,10 @@ const mapDispatchToProps = dispatch => {
         onChangeSubscription: (data, amountTraining) => dispatch(actions.changeSubscription(data, amountTraining)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSetWeekInterval: (interval) => dispatch(actions.setWeekInterval(interval)),
+        onSaveDisciplineCommunication: (idStudent,idMaster, discipline) => dispatch(actions.saveDisciplineCommunication(idStudent,idMaster, discipline)),
+        onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
+        
+        
 
         onGetTrainerTraining: (id, dateMin, dateMax, currDiscipline) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, currDiscipline)),
         onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
@@ -1097,6 +1131,13 @@ const mapDispatchToProps = dispatch => {
         onSetChooseTheMasterByStudent: (master) => dispatch(actions.setChooseTheMasterByStudent(master)),
         onNoSetBtnTraining: () => dispatch(actions.noSetBtnTraining()),
         onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
+
+        onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
+        onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
+        onSaveStudentMasterDisciplineCommunication: (idStudent, idMaster, discipline) => 
+                    dispatch(actions.saveStudentMasterDisciplineCommunication(idStudent, idMaster, discipline)),
+        onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
+        
         
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),

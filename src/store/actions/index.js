@@ -144,6 +144,8 @@ export {
     setWeekInterval,
     setChooseTheMasterByStudent,
     getAbonementsFilter,
+    getSubscriptionsByStudentId,
+    getStudentBalance,
 } from './abonement'
 
 export {
@@ -162,6 +164,11 @@ export {
     setPushBtnAddTraining,
     setPushTrialTraining,
     noSetBtnTraining,
+    getDisciplineCommunication,
+    saveDisciplineCommunication,
+    setMasterTheDisicipline,
+    addAmountTraining,
+    saveStudentMasterDisciplineCommunication,
 } from './student'
 
 export {

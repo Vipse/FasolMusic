@@ -12,6 +12,7 @@ import moment from 'moment'
 
 import Modal from './../../components/Modal/index';
 import Button from "../../components/Button";
+import {message} from 'antd';
 
 
 class Payment extends React.Component{
@@ -26,43 +27,48 @@ class Payment extends React.Component{
     }
 
     componentDidMount() {
-
+      
+        if(this.props.mode === 'student'){
+            this.props.onGetSubscriptionsByStudentId(this.props.id)
+            this.props.onGetDisciplineCommunication(this.props.id);
+        }
         this.props.onGetDeadlinePay(this.props.id);	
     }
     onSendDataModal = (data) => {
-        const {disciplinesList} = this.props;
+     
         let array = [];
-        let weekdays = []; // post
-        let currDiscipline = null;
+        const {disciplinesList, discCommunication,subsForDisc, abonementIntervals} = this.props;
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
         const codeDisc = disciplinesList[data.type].code;
 
-        for(let i = 0; i < 7; i++){
-                if(data.selectedDays.hasOwnProperty(i)){
-                    weekdays.push(i+1)
-                }                 
-        }
-        
+
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array,  data.type);
 
-
-        this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
-        // if(this.props.mainUser){
-        //     this.props.onGetTheMasterInterval(time0, time1, this.props.mainUser, [1,2,3,4,5,6,7])
+       
+        if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc)){
             
-        // }
-        // else{
-        //     const {chooseWeekdays} = this.props;
-        //     const dateStart = Math.floor( + start.getTime() / 1000);
-        //     const dateEnd   = Math.floor( + end.getTime() / 1000);
+            //
+            if(Array.isArray(subsForDisc[codeDisc]) && subsForDisc[codeDisc].length) {
+                
+                this.props.onAddAmountTraining(subsForDisc[codeDisc][0], abonementIntervals.countTraining)
+            }
 
-        //     this.props.onGetTheMasterInterval(dateStart, dateEnd, this.props.mainUser, chooseWeekdays);
-
-        // }
+            message.success('Количество добавленных тренировок '+ abonementIntervals.countTraining);
+            //
+            //this.props.onSetPushTrialTraining('select_master');
+            //this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
+            //this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0,1,2,3,4,5,6]);         
+        }
+        else{
+            
+            this.props.onSetPushTrialTraining(null);
+            this.props.onSetMasterTheDisicipline(null);
+            this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
+            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: abonementIntervals.countTraining});
+        }
         
-
         this.setState({visibleTrialModal: true, redirectToSchedule: true});
     }
 
@@ -74,7 +80,7 @@ class Payment extends React.Component{
          this.props.onSaveUserEdit(profile);
 
         this.setState({visibleTrialModal: true, countTraining: count})
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: count});
+        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: count});
     }
     hideTrialModal = () => {
         this.setState({visibleTrialModal: false})
@@ -141,10 +147,14 @@ const mapStateToProps = state => {
         mainUser: (state.profilePatient) ? state.profilePatient.mainUser : null,
         auth: state.auth,
         id: state.auth.id,
+        mode: state.auth.mode,
         deadlinePay: state.student.deadlinePay,
         disciplinesList: state.abonement.disciplines,
         nextTrainingTime: state.training.nextTrainingTime,
         amountTraining: state.profilePatient.amountTraining,
+        discCommunication: state.student.discCommunication,
+        subsForDisc : state.abonement.subsForDisc,
+        abonementIntervals: state.patients.abonementIntervals,
 
     }
 };
@@ -158,6 +168,13 @@ const mapDispatchToProps = dispatch => {
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)), 
+        onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
+        onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
+        onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
+        onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
+        onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
+
+        
         
     }
 };

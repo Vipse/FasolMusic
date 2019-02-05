@@ -67,7 +67,6 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                         
                     }
                 }
-                debugger
                 dispatch({
                     type: actionTypes.GET_TRAINER_TRAINING,
                     trainerTraining: res.data.result.result,

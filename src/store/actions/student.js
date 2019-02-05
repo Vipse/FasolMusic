@@ -158,7 +158,7 @@ export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays) => 
         idMaster,
         weekdays
     };
-debugger;
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/getMasterInterval', JSON.stringify(obj))
             .then(res => {
@@ -204,6 +204,74 @@ export const getTrainingTrialStatusByDiscipline = (disciplineId, idStudent) => {
     }
 }
 
+export const getDisciplineCommunication = (idStudent) => {
+
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/getStudentMasterDisciplineCommunication', JSON.stringify({idStudent}))
+            .then(res => {
+               
+                let obj = {};
+                res.data.result.forEach((el) => obj[el.discipline] = el)
+                
+               
+                dispatch({
+                    type: actionTypes.GET_DISCIPLINE_COMMUNICATION,
+                    discCommunication: obj
+                });
+                return res.data.result;
+            })
+            .catch(err => {console.log(err)})
+    }
+}
+
+export const saveDisciplineCommunication = (idStudent, idMaster, discipline) => {
+    const obj = {
+        idStudent,
+        idMaster,
+        discipline
+    }
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
+            .then(res => {
+               
+                console.log(res);
+            
+            })
+            .catch(err => {console.log(err)})
+    }
+}
+export const addAmountTraining = (idSubscription, addAmount) => {
+    const obj = {
+        idSubscription,
+        addAmount
+    }
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/addAmountTraining', JSON.stringify(obj))
+            .then(res => {
+                console.log(res);         
+            })
+            .catch(err => {console.log(err)})
+    }
+}
+
+export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, disicipline) => {
+    const obj = {
+        idStudent,
+        idMaster,
+        disicipline
+    }
+    debugger;
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
+            .then(res => {
+                debugger;
+                console.log(res);         
+            })
+            .catch(err => {console.log(err)})
+    }
+}
+
+
 export const setPushBtnTransferTraining = (type) => {
     
     return ({
@@ -234,5 +302,13 @@ export const noSetBtnTraining = () => {
         type: actionTypes.SET_NO_PUSH_BTN,
         isPushBtnAdd: false,
         isPushBtnTransfer: false     
+    });
+}
+
+export const setMasterTheDisicipline = (idMaster) => {
+
+    return ({
+        type: actionTypes.SET_MASTER_THE_DISCIPLINE,
+        selectMaster: idMaster  
     });
 }

@@ -40,8 +40,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 eventTraining: action.eventTraining,
             }    
+        case actionTypes.GET_MASTER_LIST_OBJ:
+            return {
+                ...state,
+                masterListObj: action.masterListObj,
+            }     
             
-           
             
 
         default: return state;

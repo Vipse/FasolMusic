@@ -33,19 +33,24 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
     
     axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
         .then(res => {
-            console.log("GetSubscriptions", res);
-            console.log("currDiscipline", currDiscipline);
-            res.data.result[currDiscipline.code].map((el) => {
-                el.fio = '#'+el.key;
-                el.start = new Date(+el.start * 1000);
-                el.discipline = el.discipline.map( elem => elem.name).join(',')
-                el.comment = 'comment';
-            })
+                let discAbonement = Object.keys(res.data.result);            
 
-            dispatch({
-                type: actionTypes.GET_ABONEMENTS,
-                allAbonements: res.data.result[currDiscipline.code],
-            });
+                res.data.result[currDiscipline.code].map((el) => {
+                    el.fio = '#'+el.key;
+                    el.start = new Date(+el.start * 1000);
+                    el.discipline = el.discipline.map( elem => elem.name).join(',')
+                    el.comment = 'comment';
+                })
+
+                dispatch({
+                    type: actionTypes.GET_ABONEMENTS,
+                    allAbonements: res.data.result[currDiscipline.code],
+                });
+
+                dispatch({
+                    type: actionTypes.SET_DISC_ABONEMENT,
+                    discAbonement : discAbonement,
+                });
         })
         .catch(err => {
             console.log(err);
@@ -197,6 +202,43 @@ export const freezeAbonement = (idSubscription) => {
         })
         
 }
+
+export const getSubscriptionsByStudentId = (idStudent) => {
+
+    return (dispatch, getState) => 
+        axios.post('/catalog.fasol/getSubscriptionsByStudentId', JSON.stringify({idStudent}))
+            .then(res => {
+                console.log("getSubscriptionsByStudentId", res);
+                dispatch({
+                    type: actionTypes.GET_SUBSCRIPTION_FOR_DISCIPLINE,
+                    subsForDisc: res.data.result,
+                });
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+        })
+        
+}
+export const getStudentBalance = (idStudent) => {
+
+    return (dispatch, getState) => 
+        axios.post('/catalog.fasol/getStudentBalance', JSON.stringify({idStudent}))
+            .then(res => {
+                console.log("getStudentBalance", res);
+                
+                dispatch({
+                    type: actionTypes.GET_STUDENT_BALANCE,
+                    studentBalance: res.data.balance,
+                });
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+        })
+        
+}
+
 
 export const setWeekInterval = (interval) => {
     

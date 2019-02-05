@@ -119,6 +119,7 @@ class App extends React.Component {
             //this.props.onGetAbonements(id, currDiscipline);
             this.props.onGetInfoPatient(id);
             this.props.onGetMasterList();
+            this.props.onGetStudentBalance(id);
         }
 
         this.runChatWS();
@@ -158,7 +159,10 @@ class App extends React.Component {
     };
 
     pushBtnTransfer = () => {
+        
         const {weekInterval} = this.props;
+        this.onGoToSchedule();
+       
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
@@ -171,7 +175,8 @@ class App extends React.Component {
 
     }
 
-    pushBtnAdd = () => {
+    pushBtnUnfresh = () => {
+        debugger;
         const {weekInterval} = this.props;
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
@@ -235,7 +240,7 @@ class App extends React.Component {
                                             notifications={this.state.notifications}
                                             logout={this.props.onLogout}
                                             isPushBtnTransfer={this.pushBtnTransfer}
-                                            isPushBtnAdd={this.pushBtnAdd}
+                                            isPushBtnAdd={this.pushBtnUnfresh}
                                             isStudent={(this.props.mode === 'student')}
                                             frozenTraining={this.props.frozenTraining}
                                             disciplinesList={this.props.disciplinesList}
@@ -244,6 +249,14 @@ class App extends React.Component {
                                             onChangeCurrDiscipline={this.props.onChangeCurrDiscipline}
                                             onGoToSchedule={this.onGoToSchedule}
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
+
+                                            onSetFreeIntervals = {this.props.onSetFreeIntervals}
+                                            onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
+                                            onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
+                                            discCommunication = {this.props.discCommunication}
+                                            onSetNeedSaveIntervals = {this.props.onSetNeedSaveIntervals}
+
+                                            studentBalance = {this.props.studentBalance}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -286,6 +299,8 @@ const mapStateToProps = state => {
         usersHeaderSearch: state.loading.usersHeaderSearch,
         weekInterval: state.abonement.weekInterval,
         disciplinesList: state.abonement.disciplines,
+        discCommunication: state.student.discCommunication,
+        studentBalance: state.abonement.studentBalance,
 
         from: state.chatWS.from,
         to: state.chatWS.to,
@@ -306,6 +321,7 @@ const mapDispatchToProps = dispatch => {
         onGetSearchUsers: (name) => dispatch(actions.searchUsers(name)),
         onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
         onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
+        onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
        
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
@@ -331,6 +347,12 @@ const mapDispatchToProps = dispatch => {
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
+
+        onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
+        onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
+        onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
+
+        
     }
 };
 
