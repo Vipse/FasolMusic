@@ -85,15 +85,20 @@ class ChatCard extends React.Component {
 		this.setState({reception_vis: true});
 	};
 
-	onCloseReception = () => {
+	onCloseReception = (markAs) => {
 		/* завершение чата, обнуление истории на сервере */
-		console.log("Training and chat ending, id: ", this.props.receptionId);
 		messAboutStop();
 		stop();
 		messForCloseReception(this.props.receptionId);
 
-		let new_obj = {idTraining: this.props.receptionId};
-		this.props.completeReception(new_obj);
+		if (markAs === 'complete') {
+			let new_obj = {idTraining: this.props.receptionId};
+			this.props.completeReception(new_obj);
+		}
+		else if (markAs === 'transfer') {
+			let new_obj = {idTraining: this.props.receptionId};
+			this.props.tailReception(new_obj);
+		}
 		this.props.setReceptionStatus(false);
 		this.props.changeReceptionStatus(this.props.receptionId, "finish");
 
@@ -101,11 +106,6 @@ class ChatCard extends React.Component {
 		this.props.extr ?
 			this.setState({reception_vis: false})
 			: this.setState({reception_vis: false, treatment_vis: true});
-	};
-
-	onCloseTreatment = () => {
-		this.props.closeTreatm(this.props.id_treatment);
-		this.setState({treatment_vis: false});
 	};
 
 	onAddVisit = (obj) => {
@@ -259,7 +259,9 @@ class ChatCard extends React.Component {
 				</div>
 				<CompletionTrainingModal
 					visible={this.state.reception_vis}
-					onComplete={this.onCloseReception}
+					onPause={this.onCloseReception}
+					onComplete={() => this.onCloseReception('complete')}
+					onTail={() => this.onCloseReception('transfer')}
 					onCancel={() => this.setState({reception_vis: false})}
 				/>
 				{/*<CompleteAppeal

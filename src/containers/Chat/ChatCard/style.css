@@ -208,11 +208,12 @@
 }
 
 .chat-card-dialogs-row .message__send-btns {
-    padding-right: 0
+    padding-right: 0;
+    align-items: center;
 }
 
 .chat-card-dialogs-row .message__send-btns .btn {
-    margin-right: 10px
+    margin-right: 7px
 }
 
 .chat-card-files {

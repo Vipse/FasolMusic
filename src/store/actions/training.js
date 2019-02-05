@@ -132,8 +132,6 @@ export const uploadTrainingChatHistory = (idTraining, chat) => {
         chat
     };
 
-    console.log('SAVE',obj)
-
     return () => {
         axios.post('/catalog.fasol/saveChat', JSON.stringify(obj))
             .then(res => {

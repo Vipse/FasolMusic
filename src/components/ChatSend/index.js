@@ -98,33 +98,33 @@ class ChatSend extends React.Component{
                     <TextArea
                         ref={inp => this.inp = inp}
                         value = {this.state.value}
-                        onChange = { e => {
+                        onChange={e => {
                             e.target.value.charCodeAt(e.target.value.length - 1) === 10
                                 ? (!disable && this.sendHandler())
                                 : this.setState({value: e.target.value})
                         }}
                         placeholder="Ваше сообщение..."
-                        autosize />
+                        autosize/>
                 </div>
                 <div className='message__send-btns'>
                     <Upload //multiple={true}
-                        disable = {true}
+                        disable={true}
                         showUploadList={false}
                         fileList={this.state.conclusionList}
-                        onChange = {this.conclusionAddingHandler}>
+                        onChange={this.conclusionAddingHandler}>
                         {!this.props.isUser && (<Button
-                                btnText=''
-                                size='small'
-                                type='no-brd'
-                                icon='result'
-                                title='Добавить заключение'
+                            btnText=''
+                            size='small'
+                            type='no-brd'
+                            icon='result'
+                            title='Добавить заключение'
                         />)}
                     </Upload>
                     <Upload
                         //multiple={true}
                         showUploadList={false}
                         fileList={this.state.fileList}
-                        onChange = {this.fileAddingHandler}>
+                        onChange={this.fileAddingHandler}>
                         <Button
                             btnText=''
                             size='small'
@@ -133,25 +133,26 @@ class ChatSend extends React.Component{
                             title='Прикрепить файл'
                         />
                     </Upload>
-                    {this.state.isGenerated &&  <Button
+                    {this.state.isGenerated && <Button
                         className='message__send-send'
                         btnText=''
                         title='Отправить сообщение'
-                        onClick = {this.sendHandler}
+                        onClick={this.sendHandler}
                     />}
                     {this.props.isUser ?
-                    (/*<Button
+                        (/*<Button
                         btnText='оставить отзыв'
                         size='default'
                         type='yellow'
                         onClick={this.props.makeReview}
                     />*/ null)
-                    : (<Button
-                        btnText='завершить тренировку'
-                        size='small'
-                        type='yellow'
-                        onClick={this.props.closeVisit}
-                    />)}
+                        : !this.props.disable ?
+                            (<Button
+                                btnText='Завершить тренировку'
+                                size='small'
+                                type='light-pink'
+                                onClick={this.props.closeVisit}
+                            />) : null}
                 </div>
             </div>
         )

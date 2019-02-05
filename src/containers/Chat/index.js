@@ -30,18 +30,15 @@ class Chat extends React.Component{
     }
 
     render(){
-        //console.log('visitInfo',this.props.visitInfo)
-        //console.log('treatInfo',this.props.treatInfo)
         let  id_user, id_doc, name, name_doc, avatar, name_user, status, avatar_doc, chat, visitId, contactLevel, comment, id_treatment;
 
         this.props.fromTR_VIS === 1 ? (
             {id_user,name_user: name, avatar, name_doc, contactLevel, name_user, avatar_doc, status, chat, id_treatment} = this.props.treatInfo
         ) : (
             {id_user,id_doc,name, name_doc, id: visitId, contactLevel,comment, chat, avatar, avatar_doc, status, id_treatment} = this.props.visitInfo
-        )
-        const isUser = this.props.user_mode === "student";
+        );
 
-      
+        const isStudent = this.props.user_mode === "student";
       
         const chatProps = {
             wsURL: 'wss://web.fasolonline.ru:8443/one2one',
@@ -59,7 +56,7 @@ class Chat extends React.Component{
             patientName: this.props.interlocutorName,
             id_treatment,
             online: +status,
-            avatar: isUser? avatar_doc: avatar,
+            avatar: isStudent ? avatar_doc: avatar,
             chat,
             comment,
             uploadFile: this.props.uploadFile,
@@ -77,7 +74,7 @@ class Chat extends React.Component{
                 <Row>
                     {this.state.displayChat && <Col xs={24} xxl={24} className='section'>
                         {
-                            isUser ? (
+                            isStudent ? (
                                 <ChatCard {...chatProps}
                                           mode={this.props.conversationMode}
                                         //isEnded = {true}
@@ -94,6 +91,7 @@ class Chat extends React.Component{
                                           onSelectReception={this.props.onSelectReception}
                                           changeReceptionStatus={this.props.changeReceptionStatus}
                                           completeReception={this.props.completeReception}
+                                          tailReception={this.props.onTransferTraininingToEnd}
                                           closeTreatm={this.props.closeTreatment}
                                           uploadConclusion={this.props.uploadConclusion}
                                           fromTR_VIS={2}/>
@@ -138,6 +136,8 @@ const mapDispatchToProps = dispatch => {
         completeReception: (obj) => dispatch(actions.completeReception(obj)),
         closeTreatment: (id) => dispatch(actions.closeTreatment(id)),
         onGetChatHistory: (id) => dispatch(actions.getTrainingChatHistory(id)),
+        onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
+
         onSelectReception: (id) => dispatch(actions.seletVisit(id)),
         clearTodayReceptions: () => dispatch(actions.clearIntervals()),
         onGetTodayVisits: (start, end) => dispatch(actions.getTodayVisits(start, end)),
