@@ -50,6 +50,13 @@ export const setChatStory = (chat) => {
     });
 }
 
+export const setConversationMode = (mode) => {
+    return ({
+        type: actionTypes.SET_CONVERSATION_MODE,
+        mode
+    })
+}
+
 export const setNewTimer = (timer) => {
     return ({
         type: actionTypes.SET_NEW_TIMER,

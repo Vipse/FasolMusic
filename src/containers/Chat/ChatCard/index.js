@@ -29,7 +29,6 @@ class ChatCard extends React.Component {
         this.state = {
             isActive: false,
 			isActiveChat: true,
-			mode: this.props.mode,
 			isCurVisEnd: false,
 
 			duration: 0,
@@ -129,22 +128,21 @@ class ChatCard extends React.Component {
 	};
 
 	handleChangeType = () => {
-		const {isCalling} = this.props;
-		const {mode} = this.state;
+		const {mode, isCalling, setConversationMode} = this.props;
 		const types = ['chat', 'voice', 'video'];
 
-		if (!isCalling) {
+		if (true) {
 			const prevTypeIndex = types.indexOf(mode);
 			const nextTypeIndex = prevTypeIndex === types.length - 1 ? 0 : prevTypeIndex + 1;
 
-			this.setState({mode: types[nextTypeIndex]});
+			setConversationMode(types[nextTypeIndex]);
 		}
 	};
 
     getIconByType = () => {
 		let icon;
 		
-        switch (this.props.isCalling ? 'video' : this.state.mode) {
+        switch (this.props.mode) {
             case 'chat':
                 icon = "chat1";
                 break;
@@ -201,7 +199,7 @@ class ChatCard extends React.Component {
 			isEnded: this.props.isEnded,
         };
 
-		switch (this.props.isCalling ? 'video' : this.state.mode) {
+		switch (this.props.mode) {
 			case 'chat':
 				content = <ChatTextContent
 					isActive={this.state.isActive}

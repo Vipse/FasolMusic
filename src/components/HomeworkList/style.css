@@ -49,3 +49,7 @@
 .trainings-all .menu-header .flex-col.attachments {
   width: 15%;
 }
+.trainings-all .table-footer {
+  text-align: center;
+  margin: 15px;
+}

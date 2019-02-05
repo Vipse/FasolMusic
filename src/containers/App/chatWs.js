@@ -296,7 +296,7 @@ const incomingCall = (message) => {
 
         function continueCall(){
             let _visitInfo = callbacks.get_visitInfo();
-            let contactLevel = 'video';
+            let {contactLevel} = _visitInfo;
             let options = contactLevel === 'video' ?
                 {
                     localVideo : videoInput,
@@ -374,10 +374,8 @@ export const call = () => {
     !callbacks.get_receptionStarts() && callbacks.setReceptionStatus(true);
     callbacks.setIsCallingStatus(true);
     setCallState(PROCESSING_CALL);
-
-    //const visitInfo = callbacks.get_visitInfo();
-   // const {contactLevel} = visitInfo;
-   let contactLevel = 'video';
+    const visitInfo = callbacks.get_visitInfo();
+    const {contactLevel} = visitInfo;
 
     
     let options = contactLevel === 'video' ?

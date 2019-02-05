@@ -53,6 +53,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 chatStory: action.chat,
             }
+        case actionTypes.SET_CONVERSATION_MODE:
+            return {
+                ...state,
+                conversationMode: action.mode,
+            }
         case actionTypes.SET_NEW_TIMER:
             return {
                 ...state,

@@ -25,7 +25,7 @@ class HomeworkList extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.loading && ((prevProps.trainings === this.props.trainings)))
+        if (this.state.loading && ((prevProps.trainings !== this.props.trainings)))
             this.setState({loading: false});
     }
 
