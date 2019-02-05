@@ -126,11 +126,13 @@ export const unauthorizedTrialDataSave = (data) => {
     }
 };
 
-export const uploadTrainingChatHistory = (idTraining, chatStory) => {
+export const uploadTrainingChatHistory = (idTraining, chat) => {
     const obj = {
         idTraining,
-        chatStory
+        chat
     };
+
+    console.log('SAVE',obj)
 
     return () => {
         axios.post('/catalog.fasol/saveChat', JSON.stringify(obj))
@@ -148,11 +150,11 @@ export const getTrainingChatHistory = (idTraining) => {
     };
 
     return (dispatch) => {
-        axios.post('/catalog.fasol/getChatByTrainingId', JSON.stringify(obj))
+        return axios.post('/catalog.fasol/getChatByTrainingId', JSON.stringify(obj))
             .then(res => {
-                //if (res && !res.error) dispatch(setChatStory(res.data.result)); waiting for correct data type from server
+                if (res && !res.error) dispatch(setChatStory(res.data.result));
                 console.log("getChatByTrainingId", res);
-                return res.result;
+                return res.data.result;
             })
             .catch(err => console.log(err));
     }

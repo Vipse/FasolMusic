@@ -52,8 +52,6 @@ class ChatCard extends React.Component {
 
 
 		//---------
-		''+this.state.mode != ''+nextProps.mode
-			&& this.setState({mode: nextProps.mode})
 	}
 
 	componentDidUpdate(prevProps){
@@ -95,7 +93,6 @@ class ChatCard extends React.Component {
 		messForCloseReception(this.props.receptionId);
 
 		let new_obj = {idTraining: this.props.receptionId};
-		this.props.onUploadChatHistory(this.props.receptionId, this.props.chatStory);
 		this.props.completeReception(new_obj);
 		this.props.setReceptionStatus(false);
 		this.props.changeReceptionStatus(this.props.receptionId, "finish");
@@ -131,10 +128,23 @@ class ChatCard extends React.Component {
 		this.setState(prev => ({isActive: !prev.isActive}));
 	};
 
+	handleChangeType = () => {
+		const {isCalling} = this.props;
+		const {mode} = this.state;
+		const types = ['chat', 'voice', 'video'];
+
+		if (!isCalling) {
+			const prevTypeIndex = types.indexOf(mode);
+			const nextTypeIndex = prevTypeIndex === types.length - 1 ? 0 : prevTypeIndex + 1;
+
+			this.setState({mode: types[nextTypeIndex]});
+		}
+	};
+
     getIconByType = () => {
 		let icon;
 		
-        switch (this.state.mode) {
+        switch (this.props.isCalling ? 'video' : this.state.mode) {
             case 'chat':
                 icon = "chat1";
                 break;
@@ -146,13 +156,12 @@ class ChatCard extends React.Component {
                 break;
 			default:
 				icon =  "chat1";
-
         }
         return icon
     };
     render() {
 		const {patientName, user_id, online: onl} = this.props;
-		const online = +onl ?'online' :  'offline';
+		const online = +onl ? 'online' : 'offline';
 		const iconType = this.getIconByType();
         const statusClass = cn('chat-card-status', `chat-card-${online}`);
 
@@ -191,13 +200,14 @@ class ChatCard extends React.Component {
 			isActiveChat: this.state.isActiveChat,
 			isEnded: this.props.isEnded,
         };
-		
-        switch (this.state.mode) {
-            case 'chat':
-                content = <ChatTextContent isActive={this.state.isActive}
-                                           {...chatProps}
-                                           {...chatAdditionalProps}
-                />;
+
+		switch (this.props.isCalling ? 'video' : this.state.mode) {
+			case 'chat':
+				content = <ChatTextContent
+					isActive={this.state.isActive}
+					{...chatProps}
+					{...chatAdditionalProps}
+				/>;
                 break;
             case 'voice':
                 content = <ChatAudioContent
@@ -213,50 +223,46 @@ class ChatCard extends React.Component {
                 break;
         }
 
-
-
-        return (
+		return (
 			<Hoc>
-            <div className='chat-card'>
-                <div className='chat-card-head'>
-                    <div className='chat-card-title'>
-                        <Button
-                            icon={iconType}
-                            title='Тип тренировки'
-							type='go'
-                        />
-                        <div className='chat-card-namePatient'>{patientName}</div>
-                        <div className={statusClass}>{online}</div>
-                    </div>
-                    <div className='chat-card-btns'>
-
-                        <div className='chat-card-archive'>
-                            <Button
-                                btnText=''
-                                size='small'
-                                type='upload no-brd'
-                                icon='file'
-                                title='Открыть прикреплённые файлы'
-                                style={{width: 30}}
-                                onClick={this.toggleFilesArea}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className='chat-card-body'>
-                    <div className={dialogsClass}>
-                            {content}
-                    </div>
-
-
-                </div>
-            </div>
-			<CompletionTrainingModal
-				visible={this.state.reception_vis}
-				onComplete={this.onCloseReception}
-				onCancel={() => this.setState({reception_vis: false})}
-			/>
-			{/*<CompleteAppeal
+				<div className='chat-card'>
+					<div className='chat-card-head'>
+						<div className='chat-card-title'>
+							<Button
+								icon={iconType}
+								title='Тип связи'
+								type='go'
+								onClick={this.handleChangeType}
+							/>
+							<div className='chat-card-namePatient'>{patientName}</div>
+							<div className={statusClass}>{online}</div>
+						</div>
+						<div className='chat-card-btns'>
+							<div className='chat-card-archive'>
+								<Button
+									btnText=''
+									size='small'
+									type='upload no-brd'
+									icon='file'
+									title='Открыть прикреплённые файлы'
+									style={{width: 30}}
+									onClick={this.toggleFilesArea}
+								/>
+							</div>
+						</div>
+					</div>
+					<div className='chat-card-body'>
+						<div className={dialogsClass}>
+							{content}
+						</div>
+					</div>
+				</div>
+				<CompletionTrainingModal
+					visible={this.state.reception_vis}
+					onComplete={this.onCloseReception}
+					onCancel={() => this.setState({reception_vis: false})}
+				/>
+				{/*<CompleteAppeal
 				visible={this.state.treatment_vis}
 				onCancel={() =>  this.setState({treatment_vis: false})}
 				onAdd={() => this.setState({treatment_vis: false, visit_vis: true})}

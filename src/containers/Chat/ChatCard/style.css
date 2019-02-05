@@ -2,7 +2,8 @@
     position: relative;
     max-width: calc(100% - 20px);
     box-shadow: 0 10px 15px 2px rgba(0, 0, 0, .1);
-    border-radius: 5px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .chat-card-head {
@@ -10,7 +11,9 @@
     align-items: center;
     justify-content: flex-start;
     background-color: #ff7daa;
-    border-radius: 5px 5px 0 0;
+    height: 63px;
+    border-bottom: 1px solid #e8e8e8;
+    overflow: hidden;
 }
 
 .chat-card-title {
@@ -23,7 +26,7 @@
 .chat-card-title .btn {
     margin-right: 25px;
     padding: 0;
-    min-width: auto
+    min-width: 30px;
 }
 
 .chat-card-title .btn .icon {
@@ -40,6 +43,8 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+    height: 100%;
+    width: 110px;
 }
 
 .chat-card-btns .ant-radio-group {
@@ -76,12 +81,11 @@
 .chat-card-archive {
     background-color: #21bedd;
     height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 19px 19.79px;
     margin-left: 25px;
-    border-radius: 0 5px 0 0;
 }
 
 .chat-card-archive .btn {
@@ -151,7 +155,6 @@
 .chat-card-body {
     display: flex;
     height: 750px;
-    border-radius: 0 0 5px 5px;
 }
 
 .chat-card-dialogs {
@@ -163,7 +166,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-radius: 0 0 5px 5px;
 }
 
 .chat-card-dialogs-row {
@@ -259,13 +261,14 @@
 }
 
 .chat-card-files-active {
-    box-shadow: 0 0 55px 0 rgba(0, 0, 0, .1)
+    box-shadow: 0 2px 15px 0px rgba(0, 0, 0, .1);
 }
 
 .chat-card-message__area {
     position: relative;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    max-height: 585px;
 }
 .chat-card-video__area {
     position: relative;

@@ -40,7 +40,6 @@ class Chat extends React.Component{
             {id_user,id_doc,name, name_doc, id: visitId, contactLevel,comment, chat, avatar, avatar_doc, status, id_treatment} = this.props.visitInfo
         )
         const isUser = this.props.user_mode === "student";
-        console.log();
 
       
       
@@ -96,7 +95,6 @@ class Chat extends React.Component{
                                           changeReceptionStatus={this.props.changeReceptionStatus}
                                           completeReception={this.props.completeReception}
                                           closeTreatm={this.props.closeTreatment}
-                                          onUploadChatHistory={this.props.onUploadChatHistory}
                                           uploadConclusion={this.props.uploadConclusion}
                                           fromTR_VIS={2}/>
                             )
@@ -139,9 +137,7 @@ const mapDispatchToProps = dispatch => {
 	return {
         completeReception: (obj) => dispatch(actions.completeReception(obj)),
         closeTreatment: (id) => dispatch(actions.closeTreatment(id)),
-        onUploadChatHistory: (id, chatHistory) => dispatch(actions.uploadTrainingChatHistory(id, chatHistory)),
-        onGetChatHistory: (id, chatHistory) => dispatch(actions.getTrainingChatHistory(id, chatHistory)),
-        //getTodayReceptions: () => dispatch(),
+        onGetChatHistory: (id) => dispatch(actions.getTrainingChatHistory(id)),
         onSelectReception: (id) => dispatch(actions.seletVisit(id)),
         clearTodayReceptions: () => dispatch(actions.clearIntervals()),
         onGetTodayVisits: (start, end) => dispatch(actions.getTodayVisits(start, end)),

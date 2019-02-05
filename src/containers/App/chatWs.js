@@ -23,8 +23,13 @@ var callState = null;
 let timerInterval;
 
 export const sendMessage = (message) => {
-  
     ws.send(JSON.stringify(message));
+
+    if (message && message.id === 'chat') {
+        const visitInfo = callbacks.get_visitInfo();
+        const {id} = visitInfo;
+        callbacks.onSaveMessage(+id, message);
+    }
 }
 
 export const setVideoIn = (video) => {
@@ -32,7 +37,7 @@ export const setVideoIn = (video) => {
     videoInput = video;
 }
 export const setVideoOut = (video) => {
-  
+
     videoOutput = video;
 }
 

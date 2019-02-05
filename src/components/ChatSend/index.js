@@ -148,7 +148,7 @@ class ChatSend extends React.Component{
                     />*/ null)
                     : (<Button
                         btnText='завершить тренировку'
-                        size='default'
+                        size='small'
                         type='yellow'
                         onClick={this.props.closeVisit}
                     />)}

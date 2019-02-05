@@ -74,7 +74,7 @@ class App extends React.Component {
 
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setChatTrainingId, setReceptionStatus, setIsCallingStatus,
-            setChatStory, onSelectReception, setNewTimer} = this.props;
+            setChatStory, onSelectReception, setNewTimer, onSaveMessage} = this.props;
 
         let visitInfoObj = {
             id: this.props.idTraining,
@@ -93,6 +93,7 @@ class App extends React.Component {
                 setChatStory,
                 onSelectReception,
                 setNewTimer,
+                onSaveMessage,
 
                 get_from: () => this.props.from,
                 get_to: () => this.props.to,
@@ -100,7 +101,10 @@ class App extends React.Component {
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_chatStory: () => this.props.chatStory,
-                get_visitInfo: () => visitInfoObj,
+                get_visitInfo: () => {return {
+                    id: this.props.idTraining,
+                    contactLevel: this.props.conversationMode
+                }},
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
             }
@@ -320,6 +324,7 @@ const mapDispatchToProps = dispatch => {
         setChatStory: (chat) => dispatch(actions.setChatStory(chat)),
         onSelectReception: (id, callback) => dispatch(actions.seletVisit(id, callback)),
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),
+        onSaveMessage: (id, chatHistory) => dispatch(actions.uploadTrainingChatHistory(id, chatHistory)),
 
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
