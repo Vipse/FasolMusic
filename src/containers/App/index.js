@@ -120,6 +120,7 @@ class App extends React.Component {
             this.props.onGetInfoPatient(id);
             this.props.onGetMasterList();
             this.props.onGetStudentBalance(id);
+            this.props.onGetUseFrozenTraining(id);
         }
 
         this.runChatWS();
@@ -351,6 +352,8 @@ const mapDispatchToProps = dispatch => {
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
+        onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
+        
 
         
     }

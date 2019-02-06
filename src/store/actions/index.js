@@ -169,6 +169,8 @@ export {
     setMasterTheDisicipline,
     addAmountTraining,
     saveStudentMasterDisciplineCommunication,
+    getUseFrozenTraining,
+    editUseFrozenTraining,
 } from './student'
 
 export {

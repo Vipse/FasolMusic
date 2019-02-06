@@ -839,10 +839,8 @@ class Schedule extends React.Component {
                                  icon='setting_edit'/>)
 
                             let filterInterval = [];
-                            if(this.props.profileStudent.frozenTraining <= 0){
-                                filterInterval = [];
-                             }
-                             else if(isPushBtnTrialTraining === 'trial'){
+                           
+                             if(isPushBtnTrialTraining === 'trial'){
                                 filterInterval = this.props.superFreeInterval;
                              }
                              else if(isPushBtnTrialTraining === 'select_master'){

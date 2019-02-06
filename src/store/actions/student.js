@@ -254,13 +254,13 @@ export const addAmountTraining = (idSubscription, addAmount) => {
     }
 }
 
-export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, disicipline) => {
+export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, discipline) => {
     const obj = {
         idStudent,
         idMaster,
-        disicipline
+        discipline
     }
-    debugger;
+    
     return (dispatch) => {
         return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
             .then(res => {
@@ -271,6 +271,31 @@ export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, di
     }
 }
 
+export const getUseFrozenTraining = (idStudent) => {
+    const obj =  {idStudent}
+    
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
+            .then(res => {
+                debugger;
+                console.log(res);         
+            })
+            .catch(err => {console.log(err)})
+    }
+}
+
+export const editUseFrozenTraining = (idStudent, amountTraining) => {
+    const obj = {idStudent, amountTraining} 
+    
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
+            .then(res => {
+                debugger;
+                console.log(res);         
+            })
+            .catch(err => {console.log(err)})
+    }
+}
 
 export const setPushBtnTransferTraining = (type) => {
     
