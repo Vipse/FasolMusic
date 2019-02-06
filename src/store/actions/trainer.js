@@ -88,7 +88,7 @@ export const getPostTrainerTraining = (idMaster, dateMin, dateMax) => {
         axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
-                console.log('getPostTrainerTraining:', res.data.result.result);
+                console.log('getPostTrainerTraining:', res);
                 dispatch({
                     type: actionTypes.GET_POST_TRAINER_TRAINING,
                     postTraining: res.data.result.result,

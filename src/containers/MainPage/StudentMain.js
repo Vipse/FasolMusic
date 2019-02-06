@@ -66,15 +66,15 @@ class StudentMain extends React.Component{
         const {lastTrainings, selectors} = this.props;
 
         if (selectors.discipline) {
-                return lastTrainings.map((item) => {return {
-                        name: item.fioMaster,
-                        date: +item.start * 1000,
-                        //discipline: item.allInfo.disciplines.length ?
-                        //    selectors.discipline.find(discipline => discipline.id === +item.allInfo.disciplines[0]).nameRus : null,
-                        avatar: item.avatarMaster,
-                        homework: item.homework,
-                        idProfile: item.idMaster
-                    };
+            return lastTrainings.map((item) => {
+                return {
+                    name: item.fioMaster,
+                    date: +item.start * 1000,
+                    discipline: item.disciplineMaster.length ? selectors.discipline.find(discipline => discipline.id === +item.disciplineMaster[0]).nameRus : null,
+                    avatar: item.avatarMaster,
+                    homework: item.homework,
+                    idProfile: item.idMaster
+                };
             }).reverse();
         }
     };

@@ -120,22 +120,50 @@ body {
     }
 }
 
-button {
-    outline: none !important;
+.incoming-call-modal {
+    .ant-modal-body {
+        height: 180px;
+        .ant-modal-confirm-body-wrapper {
+            height: 125px;
+            .ant-modal-confirm-body {
+                display: flex;
+                justify-content: center;
+                .anticon, .ant-modal-confirm-content {
+                    display: none;
+                }
+                .ant-modal-confirm-title {
+
+                    font-family: RobotoRegularItalic;
+                    font-size: 24px;
+                }
+            }
+            .ant-modal-confirm-btns {
+                display: flex;
+                justify-content: center;
+                margin-top: 30px;
+                float: unset;
+                button {
+                    width: 140px;
+                    height: 42px;
+                    font-family: RobotoMedium;
+                    font-size: 14px;
+                    background-color: #ff7daa;
+                    color: #fff;
+                    border: 1px solid #ff7daa;
+                    border-radius: 4px;
+
+                    &:hover {
+                        background-color: #fff;
+                        color: #ff7daa;
+                    }
+                }
+            }
+        }
+    }
 }
 
-#bugfix {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    width: 100px;
-    height: 100px;
-    background: url("../../img/bugfix.png");
-    cursor: pointer;
-    background-size: 100px 100px;
-    z-index: 999;
-    border: 0;
-    outline: 0;
+button {
+    outline: none !important;
 }
 
 .ps__rail-x:hover>.ps__thumb-x,

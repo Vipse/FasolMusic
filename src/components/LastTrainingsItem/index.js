@@ -60,7 +60,7 @@ class LastTrainingsItem extends React.Component{
                         />
                     </div>
                     <div className="lastTraining-contactInfo-nameAndDate">
-                        <span className='lastTraining-contactInfo-name' onClick={() => onGoto(idProfile)}>{name}</span>
+                        <span className='lastTraining-contactInfo-name' onClick={() => onGoto(idProfile)}>{name ? name : <span>&mdash;</span>}</span>
                         <span className='lastTraining-contactInfo-date' onClick={() => onGoto(idProfile)}>{moment(date).format("DD.MM.YYYY")}</span>
                     </div>
                     <span className='lastTraining-contactInfo-discipline'>{discipline}</span>
