@@ -236,6 +236,7 @@ const incomingCall = (message) => {
         });
     }
     setCallState(PROCESSING_CALL);
+    callbacks.get_history().push('/app/chat');
     callbacks.setConversationMode('video');
 
     if(browser && browser.name === "safari") {
