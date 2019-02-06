@@ -115,21 +115,46 @@ body {
   font-size: 12px;
   letter-spacing: 0.12px;
 }
+.incoming-call-modal .ant-modal-body {
+  height: 180px;
+}
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper {
+  height: 125px;
+}
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body {
+  display: flex;
+  justify-content: center;
+}
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .anticon,
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-content {
+  display: none;
+}
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title {
+  font-family: RobotoRegularItalic;
+  font-size: 24px;
+}
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  float: unset;
+}
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button {
+  width: 140px;
+  height: 42px;
+  font-family: RobotoMedium;
+  font-size: 14px;
+  background-color: #ff7daa;
+  color: #fff;
+  border: 1px solid #ff7daa;
+  border-radius: 4px;
+}
+.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button:hover {
+  background-color: #fff;
+  color: #ff7daa;
+}
 button {
   outline: none !important;
-}
-#bugfix {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 100px;
-  height: 100px;
-  background: url("../../img/bugfix.png");
-  cursor: pointer;
-  background-size: 100px 100px;
-  z-index: 999;
-  border: 0;
-  outline: 0;
 }
 .ps__rail-x:hover > .ps__thumb-x,
 .ps__rail-x:focus > .ps__thumb-x,

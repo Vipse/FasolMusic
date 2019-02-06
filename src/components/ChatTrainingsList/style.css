@@ -1,0 +1,24 @@
+.schedule-future .ant-card-body {
+  height: 485px;
+  display: flex;
+  flex-direction: column;
+}
+.schedule-future-link {
+  font-family: RobotoRegularItalic, sans-serif;
+  font-size: 14px;
+  color: #111;
+  padding-right: 8px !important;
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+.schedule-future-link .icon {
+  margin: 0 10px;
+  color: #000;
+  font-size: 24px !important;
+}
+.schedule-future-link span {
+  color: #000;
+}
+.schedule-future .ant-card-body {
+  justify-content: center;
+}

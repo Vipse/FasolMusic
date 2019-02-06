@@ -242,7 +242,9 @@ const incomingCall = (message) => {
         console.log("this is safari");
         Modal.confirm({
             title: `Хотите ли вы принять вызов?`,
-            width: '300px',
+            width: '500px',
+            className: 'incoming-call-modal',
+            icon: '',
             okText: 'Да',
             cancelText: 'Нет',
             centered: true,
@@ -258,7 +260,9 @@ const incomingCall = (message) => {
         call.play().then(
             Modal.confirm({
                 title: `Хотите ли вы принять вызов?`, //4124
-                width: '300px',
+                width: '500px',
+                className: 'incoming-call-modal',
+                icon: '',
                 okText: 'Да',
                 cancelText: 'Нет',
                 centered: true,
