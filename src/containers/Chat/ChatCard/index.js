@@ -129,9 +129,9 @@ class ChatCard extends React.Component {
 
 	handleChangeType = () => {
 		const {mode, isCalling, setConversationMode} = this.props;
-		const types = ['chat', 'voice', 'video'];
+		const types = ['chat', 'video'];
 
-		if (true) {
+		if (!isCalling) {
 			const prevTypeIndex = types.indexOf(mode);
 			const nextTypeIndex = prevTypeIndex === types.length - 1 ? 0 : prevTypeIndex + 1;
 
@@ -202,7 +202,6 @@ class ChatCard extends React.Component {
 		switch (this.props.mode) {
 			case 'chat':
 				content = <ChatTextContent
-					isActive={this.state.isActive}
 					{...chatProps}
 					{...chatAdditionalProps}
 				/>;

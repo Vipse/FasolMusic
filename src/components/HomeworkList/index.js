@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import moment from 'moment'
 import HomeworkListItem from '../HomeworkListItem'
 import Card from '../Card'
 import Button from '../Button'
@@ -68,7 +67,12 @@ class HomeworkList extends React.Component {
                         //onClick={() => this.getTrainings()}
                 />
             </div>
-        } else if (dataArr.length) {
+        } else if (this.state.loading)
+            history.push(
+                <div className="table-footer" key="btn">
+                    <Spinner/>
+                </div>);
+        else if (dataArr.length) {
             history = dataArr.map((item, i) => {
                 return (<HomeworkListItem {...item}
                                           onGoto={this.props.onGoto}
@@ -80,11 +84,7 @@ class HomeworkList extends React.Component {
                                           onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                 />);
             });
-        } else if (this.state.loading)
-            history.push(
-                <div className="table-footer" key="btn">
-                    <Spinner/>
-                </div>);
+        }
 
         return history;
     };

@@ -74,7 +74,7 @@ class App extends React.Component {
 
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setChatTrainingId, setReceptionStatus, setIsCallingStatus,
-            setChatStory, onSelectReception, setNewTimer, onSaveMessage} = this.props;
+            setConversationMode, setChatStory, onSelectReception, setNewTimer, onSaveMessage} = this.props;
 
         let visitInfoObj = {
             id: this.props.idTraining,
@@ -90,6 +90,7 @@ class App extends React.Component {
                 setChatTrainingId,
                 setReceptionStatus,
                 setIsCallingStatus,
+                setConversationMode,
                 setChatStory,
                 onSelectReception,
                 setNewTimer,
@@ -321,6 +322,7 @@ const mapDispatchToProps = dispatch => {
         setChatToId: (id) => dispatch(actions.setChatToId(id)),
         setIsCallingStatus: (isCalling) => dispatch(actions.setIsCallingStatus(isCalling)),
         setReceptionStatus: (isStart) => dispatch(actions.setReceptionStatus(isStart)),
+        setConversationMode: (mode) => dispatch(actions.setConversationMode(mode)),
         setChatStory: (chat) => dispatch(actions.setChatStory(chat)),
         onSelectReception: (id, callback) => dispatch(actions.seletVisit(id, callback)),
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),

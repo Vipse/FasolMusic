@@ -70,6 +70,7 @@ class Chat extends React.Component{
         };
 
         console.log('chatProps', chatProps);
+
         return (
             <Hoc>
                 <Row>

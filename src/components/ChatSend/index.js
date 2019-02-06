@@ -98,6 +98,7 @@ class ChatSend extends React.Component{
                     <TextArea
                         ref={inp => this.inp = inp}
                         value = {this.state.value}
+                        disabled={disable}
                         onChange={e => {
                             e.target.value.charCodeAt(e.target.value.length - 1) === 10
                                 ? (!disable && this.sendHandler())
@@ -148,7 +149,7 @@ class ChatSend extends React.Component{
                     />*/ null)
                         : !this.props.disable ?
                             (<Button
-                                btnText='Завершить тренировку'
+                                btnText='Остановить тренировку'
                                 size='small'
                                 type='light-pink'
                                 onClick={this.props.closeVisit}

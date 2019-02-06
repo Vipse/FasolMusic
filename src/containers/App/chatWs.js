@@ -236,6 +236,7 @@ const incomingCall = (message) => {
         });
     }
     setCallState(PROCESSING_CALL);
+    callbacks.setConversationMode('video');
 
     if(browser && browser.name === "safari") {
         console.log("this is safari");
