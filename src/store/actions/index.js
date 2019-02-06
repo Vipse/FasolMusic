@@ -129,6 +129,7 @@ export {
     setChatTrainingId,
     setIsCallingStatus,
     setChatStory,
+    setConversationMode,
     setNewTimer,
     setChatInterlocutorInfo
 } from './chatWS'

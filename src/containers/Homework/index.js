@@ -13,10 +13,6 @@ import './styles.css'
 import moment from "moment";
 
 class Homework extends React.Component {
-    state = {
-        loadingData: true
-    };
-
     componentDidMount() {
         this.props.getSelectors('discipline');
         const {mode, id} = this.props;
@@ -34,7 +30,7 @@ class Homework extends React.Component {
         this.props.history.push(link + id);
     };
 
-    render(){
+    prepareTrainingsArr = () => {
         const {mode, selectors, masterTrainings, studentTrainings} = this.props;
         let trainingsArr = [];
 
@@ -71,6 +67,12 @@ class Homework extends React.Component {
             }
         }
 
+        return trainingsArr.reverse();
+    };
+
+    render(){
+        const {mode} = this.props;
+
         return (
             <Hoc>
             	<Row>
@@ -80,7 +82,7 @@ class Homework extends React.Component {
                             isStudent={mode === "student"}
                             onAddFiles = {this.props.onAddFiles}
                             makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
-                            trainings={trainingsArr.reverse()}
+                            trainings={this.prepareTrainingsArr()}
                             onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                         />
             		</Col>

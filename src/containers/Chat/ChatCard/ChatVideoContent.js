@@ -86,30 +86,29 @@ class ChatVideoContent extends React.Component {
         this.setState(prev => ({isActive: !prev.isActive}));
 	}
 	setVideoOutRef = (video) => {
-		this.isSafari && (this.videoOut = video); 
-        this.props.setVideoOut(video);
+		this.isSafari && (this.videoOut = video);
+		video && this.props.setVideoOut(video);
 	}
 	setVideoInRef = (video) => {
 		this.isSafari && (
 			this.videoIn = video,
 			video && video.play()
 		);
-        this.props.setVideoIn(video);
+		video && this.props.setVideoIn(video);
     }
 
 	renderVideos = () => (
 		<Hoc>
 			<video className='chat-card-video__box'
 				   		poster=''
-
 				   		autoPlay
 						ref={this.setVideoOutRef}
-						></video>
+			/>
 			<video className='chat-card-video__mini'
 						autoPlay
 						ref={this.setVideoInRef}
 						id='setVideoInRef'
-						></video>
+			/>
 		</Hoc>
 	)
 	renderSafariVideos = () => (
@@ -147,7 +146,7 @@ class ChatVideoContent extends React.Component {
                             }}
                             onChat = {this.props.onChat}
                             uploadFiles={this.props.uploadFile}
-                            sec= {s}
+                            sec={s}
                             min={m}
 							isUser={this.props.isUser}
                             hour={h}

@@ -10,34 +10,24 @@ import ChatFiles from "../../../components/ChatFiles";
 
 
 class ChatTextContent extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.timerInterval;
-        this.state = {
-            isActive: false
-        }
     }
-    toggleFilesArea = () => {
-        (!this.state.isActive) && this.props.getAllFilesTreatment(this.props.id_treatment);
-        this.setState(prev => ({isActive: !prev.isActive}));
-    }
+
     filesRender = () => {
         const files = this.props.treatmFiles;
         return files.map((item, index) => {
             if(item.data.length) {
                 return (<ChatFiles {...item} key={index}/>)
             }
-
         });
     };
-    componentWillReceiveProps(nextProps) {
-        this.setState({isActive: nextProps.filesActive})
-    }
+
     render() {
-        const {isActive,isActiveChat} = this.props;
-        const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': isActive});
+        const {filesActive, isActiveChat} = this.props;
+        const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': filesActive});
         const filesClass = cn('chat-card-files only-chat', {'chat-card-files-active': isActiveChat});
-        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': this.state.isActive});
+        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': filesActive});
         return (
 
             <div className={dialogsClass}>
@@ -58,7 +48,7 @@ class ChatTextContent extends Component {
                 <div className={attachmentsClass}>
                     <PerfectScrollbar>
                         {
-                            this.state.isActive && <div className='chat-card-files__items'>
+                            filesActive && <div className='chat-card-files__items'>
                                 {this.filesRender()}
                             </div>
                         }

@@ -9,17 +9,23 @@ class ContentForm extends React.Component {
 
         return (
             <Form className={rootClass}>
-                <p className='info'>Точно хотите завершить тренировку?</p>
                 <div className='btnPlate'>
                     <Button
-                        btnText="Нет"
+                        onClick={this.props.onPause}
+                        htmlType="submit"
+                        btnText="Приостановить"
                         type="light-pink"
-                        onClick={this.props.onCancel}
                     />
                     <Button
                         onClick={this.props.onComplete}
                         htmlType="submit"
-                        btnText="Да"
+                        btnText="Засчитать"
+                        type="light-pink"
+                    />
+                    <Button
+                        onClick={this.props.onTail}
+                        htmlType="submit"
+                        btnText="Перенести"
                         type="light-pink"
                     />
                 </div>

@@ -21,7 +21,6 @@ const reducer = (state = initialState, action) => {
             }
         case actionTypes.GET_POST_TRAINER_TRAINING:
             return {
-             
                 ...state,
                 postTraining: action.postTraining,
             }

@@ -23,8 +23,13 @@ var callState = null;
 let timerInterval;
 
 export const sendMessage = (message) => {
-  
     ws.send(JSON.stringify(message));
+
+    if (message && message.id === 'chat') {
+        const visitInfo = callbacks.get_visitInfo();
+        const {id} = visitInfo;
+        callbacks.onSaveMessage(+id, message);
+    }
 }
 
 export const setVideoIn = (video) => {
@@ -32,7 +37,7 @@ export const setVideoIn = (video) => {
     videoInput = video;
 }
 export const setVideoOut = (video) => {
-  
+
     videoOutput = video;
 }
 
@@ -231,12 +236,16 @@ const incomingCall = (message) => {
         });
     }
     setCallState(PROCESSING_CALL);
+    callbacks.get_history().push('/app/chat');
+    callbacks.setConversationMode('video');
 
     if(browser && browser.name === "safari") {
         console.log("this is safari");
         Modal.confirm({
             title: `Хотите ли вы принять вызов?`,
-            width: '300px',
+            width: '500px',
+            className: 'incoming-call-modal',
+            icon: '',
             okText: 'Да',
             cancelText: 'Нет',
             centered: true,
@@ -252,7 +261,9 @@ const incomingCall = (message) => {
         call.play().then(
             Modal.confirm({
                 title: `Хотите ли вы принять вызов?`, //4124
-                width: '300px',
+                width: '500px',
+                className: 'incoming-call-modal',
+                icon: '',
                 okText: 'Да',
                 cancelText: 'Нет',
                 centered: true,
@@ -291,7 +302,7 @@ const incomingCall = (message) => {
 
         function continueCall(){
             let _visitInfo = callbacks.get_visitInfo();
-            let contactLevel = 'video';
+            let {contactLevel} = _visitInfo;
             let options = contactLevel === 'video' ?
                 {
                     localVideo : videoInput,
@@ -369,10 +380,8 @@ export const call = () => {
     !callbacks.get_receptionStarts() && callbacks.setReceptionStatus(true);
     callbacks.setIsCallingStatus(true);
     setCallState(PROCESSING_CALL);
-
-    //const visitInfo = callbacks.get_visitInfo();
-   // const {contactLevel} = visitInfo;
-   let contactLevel = 'video';
+    const visitInfo = callbacks.get_visitInfo();
+    const {contactLevel} = visitInfo;
 
     
     let options = contactLevel === 'video' ?
