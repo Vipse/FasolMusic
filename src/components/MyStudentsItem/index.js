@@ -17,9 +17,8 @@ class MyStudentsItem extends React.Component{
             goToChat
         } = this.props;
 
-        const allDisciplines = Array.isArray(disciplines) ? disciplines.map( (elem) => {
-            return (elem.discipline) ? elem.discipline.map((el) => el.name) : ''
-         } ).join(', ') : [];
+        const allDisciplines = Array.isArray(disciplines) ?
+            disciplines.map((elem) => elem.discipline ? elem.discipline[0].name : null).join(', ') : [];
 
         return (
             <div className='my-student'>

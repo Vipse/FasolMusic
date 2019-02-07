@@ -150,6 +150,7 @@ export {
 export {
     getDeadlinePay,
     getInfoMasters,
+    getInfoStudents,
     getUserInfo,
 
     createTraining,

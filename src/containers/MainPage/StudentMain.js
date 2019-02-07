@@ -19,7 +19,8 @@ class StudentMain extends React.Component{
 
     state = {
         nearTrainings: [],
-        lastTrainings: []
+        lastTrainings: [],
+        myCoaches: []
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -30,6 +31,8 @@ class StudentMain extends React.Component{
             this.setState({nearTrainings: this.prepareNearTrainings()});
         if (prevProps.lastTrainings !== this.props.lastTrainings)
             this.setState({lastTrainings: this.prepareLastTrainings()});
+        if (prevProps.myCoaches !== this.props.myCoaches)
+            this.setState({myCoaches: this.prepareMyCoaches()});
     }
 
     TrialTrainingAvailabilityAlert = () => {
@@ -79,21 +82,32 @@ class StudentMain extends React.Component{
         }
     };
 
+    prepareMyCoaches = () => {
+        const {myCoaches, selectors} = this.props;
+
+        if (selectors.discipline) {
+            return myCoaches.map((item) => {
+                return {
+                    id: item.idMaster,
+                    profileAvatar: item.avatar,
+                    online: true,
+                    disciplines: item.disciplines,
+                    name: item.name,
+                    lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing"+
+                        " and typesetting industry. Lorem Ipsum has been the industry's "
+                };
+            });
+        }
+    };
+
     gotoHandler = (id) => {
         this.props.onSelectPatient(id);
         this.props.history.push('/app/coach'+id);
     };
 
     render(){
-        const {nearTrainings, lastTrainings} = this.state;
-        const { allAbonements, goToChat, myCoachOrStudents } = this.props;
-
-        let myCoaches = [];
-        for(let i = 0; i < myCoachOrStudents.length; i++){
-            if(myCoachOrStudents[i]){
-                myCoaches.push(myCoachOrStudents[i])
-            }
-        }
+        const {nearTrainings, lastTrainings, myCoaches} = this.state;
+        const {goToChat} = this.props;
 
         return (
             <Hoc>
@@ -130,26 +144,14 @@ class StudentMain extends React.Component{
                                 <MyCoach
                                     goToChat = {goToChat}
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    data = { (Array.isArray(myCoaches)) ? myCoaches.map((el) => {
-                                        if(el)
-                                        return {
-                                            id: el.idMaster,
-                                            profileAvatar: el.avatar,
-                                            online: true,
-                                            disciplines: el.disciplines,
-                                            name: el.name,
-                                            lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing"+
-                                                        " and typesetting industry. Lorem Ipsum has been the industry's "
-                                        }
-                                    }) : [] }
-
+                                    data = {myCoaches}
                                 />
                             </Col>
                         </Row>
 
                     </Hoc>
         )
-                            }
+    }
 }
 
 export default StudentMain;

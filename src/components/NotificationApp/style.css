@@ -1,20 +1,5 @@
 .notific {
-  z-index: 100;
-}
-.notific-arrow {
-  background: #fdc401;
-  width: 10px;
-  height: 10px;
-  transform: rotate(45deg);
-  position: absolute;
-  display: block;
-  left: 24%;
-  top: -5px;
-  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.06);
-}
-.notific-hidden {
-  display: none;
-  opacity: 0;
+  z-index: 30;
 }
 .notific_component {
   cursor: pointer;

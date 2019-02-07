@@ -42,7 +42,7 @@ class NearTrainings extends React.Component {
                       extra={<a className="schedule-future-link" onClick={this.props.openNearTrains}><Icon
                           type="circle_arrow_right"/><span>Все</span></a>}>
                     {loading ? <Spinner size='large'/> :
-                        <PerfectScrollbar className="futureTrainings-scroll">
+                        <PerfectScrollbar className="schedule-future-scroll">
                             {data && data.length ? this.scheduleRender(data) :
                                 <div className='entry-list no-trainings'>Тренировок нет</div>}
                         </PerfectScrollbar>}

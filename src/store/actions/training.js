@@ -1,6 +1,6 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
-import { getInfoMasters } from './student'
+import {getInfoMasters, getInfoStudents} from './student'
 import { setChatStory } from './chatWS'
 
 export const getTrainingNotFinished = (idUser, dateMax, max) => {
@@ -53,23 +53,28 @@ export const getMyMastersOrStudents = (obj) => {
         axios.post('/catalog.fasol/getMyMastersOrStudents', JSON.stringify(obj))
             .then(rez => {
                 let arr = [];
+
                 rez.data.result.result.forEach(el => {
-                    if(obj.hasOwnProperty('idStudent')){
-                            arr.push(getInfoMasters(el.idMaster)
-                            .catch((err) => { console.log(err)}));
-                    }
-                    else if(obj.hasOwnProperty('idMaster')){
-                            arr.push(getInfoMasters(el.idStudent)
-                                .catch((err) => { console.log(err)}));
+                    if (obj.hasOwnProperty('idStudent')) {
+                        arr.push(getInfoMasters(el.idMaster)
+                            .catch((err) => {
+                                console.log(err)
+                            }));
+                    } else if (obj.hasOwnProperty('idMaster')) {
+                        arr.push(getInfoStudents(el.idStudent)
+                            .catch((err) => {
+                                console.log(err)
+                            }));
                     }
                 });
-                          
+
                 return Promise.all(arr)
                     .then((rez) => {
-                            dispatch({
-                                type: actionTypes.GET_MY_MASTERS_OR_STUDENTS,
-                                myCoachOrStudents: rez,
-                            })
+                        console.log('getMyMastersOrStudents', rez);
+                        dispatch({
+                            type: actionTypes.GET_MY_MASTERS_OR_STUDENTS,
+                            myCoachOrStudents: rez.filter(item => !!item),
+                        })
                     })
                     .catch((err) => {
                         console.log(err)
