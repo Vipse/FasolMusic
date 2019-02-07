@@ -17,14 +17,10 @@ class Chat extends React.Component{
         nearTrainings: []
     };
 
-    componentDidMount(){
-        this.props.getSelectors('discipline');
-        this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), 10);
-        let start = moment().format('X');
-        let end = moment().add(1, 'weeks').format('X');
-        this.props.onGetFutureTrainerTraining(this.props.id, start, end);
-
+    componentDidMount() {
         console.log('chat version 1.0');
+        this.props.getSelectors('discipline');
+        this.loadTrainingsList();
         this.props.idTraining && this.props.onGetChatHistory(this.props.idTraining);
     }
 
@@ -35,14 +31,27 @@ class Chat extends React.Component{
         if (prevProps.masterNearTrainings !== this.props.masterNearTrainings)
             this.setState({nearTrainings: this.prepareNearTrainings()});
 
-        if (this.props.idTraining && prevProps.idTraining !== this.props.idTraining)
-            this.props.onGetChatHistory(this.props.idTraining);
+        if (prevProps.idTraining !== this.props.idTraining)
+            if (this.props.idTraining) this.props.onGetChatHistory(this.props.idTraining);
+            else this.loadTrainingsList();
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.clearTodayReceptions();
         this.props.clearSelectionsTRandVIS();
     }
+
+    loadTrainingsList = () => {
+        const {user_mode, id} = this.props;
+
+        if (user_mode === 'student')
+            this.props.onGetTrainingNotFinished(id, moment().add(1, 'weeks').format('X'), 10);
+        else {
+            let start = moment().format('X');
+            let end = moment().add(1, 'weeks').format('X');
+            this.props.onGetFutureTrainerTraining(id, start, end);
+        }
+    };
 
     goToChat = (idTo, idTraining, interlocutorName) => {
         this.props.onSetChatToId(idTo);
@@ -145,7 +154,7 @@ class Chat extends React.Component{
                                 <ChatCard {...chatProps}
                                           mode={this.props.conversationMode}
                                         //isEnded = {true}
-                                          onSelectReception={this.props.onSelectReception}
+                                          onSelectReception={this.goToChat}
                                           completeReception={this.props.completeReception}
                                           closeTreatm={this.props.closeTreatment}
                                           fromTR_VIS={2}
@@ -155,7 +164,7 @@ class Chat extends React.Component{
                                 <ChatCard {...chatProps}
                                           mode={this.props.conversationMode}
                                         //isEnded = {true}
-                                          onSelectReception={this.props.onSelectReception}
+                                          onSelectReception={this.goToChat}
                                           changeReceptionStatus={this.props.changeReceptionStatus}
                                           completeReception={this.props.completeReception}
                                           tailReception={this.props.onTransferTraininingToEnd}

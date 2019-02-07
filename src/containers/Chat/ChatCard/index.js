@@ -245,6 +245,14 @@ class ChatCard extends React.Component {
 									style={{width: 30}}
 									onClick={this.toggleFilesArea}
 								/>
+								<Button
+									btnText=''
+									size='small'
+									type='upload no-brd'
+									icon='exit'
+									title='Выйти из чата'
+									onClick={() => this.props.onSelectReception(0, 0, '')}
+								/>
 							</div>
 						</div>
 					</div>

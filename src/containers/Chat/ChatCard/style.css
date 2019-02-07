@@ -44,7 +44,7 @@
     align-items: center;
     margin-left: auto;
     height: 100%;
-    width: 110px;
+    width: 135px;
 }
 
 .chat-card-btns .ant-radio-group {
@@ -84,13 +84,13 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     margin-left: 25px;
 }
 
 .chat-card-archive .btn {
     padding: 0;
-    min-width: auto
+    min-width: auto;
 }
 
 .chat-card-archive .btn .icon {
