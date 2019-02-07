@@ -70,10 +70,11 @@ export const getMyMastersOrStudents = (obj) => {
 
                 return Promise.all(arr)
                     .then((rez) => {
-                        console.log('getMyMastersOrStudents', rez);
+                        const filteredRez = rez.filter(item => !!item);
+                        console.log('getMyMastersOrStudents', filteredRez);
                         dispatch({
                             type: actionTypes.GET_MY_MASTERS_OR_STUDENTS,
-                            myCoachOrStudents: rez.filter(item => !!item),
+                            myCoachOrStudents: filteredRez,
                         })
                     })
                     .catch((err) => {

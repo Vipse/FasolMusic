@@ -5,7 +5,6 @@ import Icon from '../Icon'
 import { Popover } from 'antd';
 
 import './style.css'
-import { notificationArr } from './stories/mock-data'
 
 class NotificationApp extends React.Component {
     constructor(props) {
