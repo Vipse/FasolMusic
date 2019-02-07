@@ -107,3 +107,33 @@ export const searchUsers = (name) => {
             })
     }
 };
+
+export const getNotifications = (id) => {
+    const obj = {id};
+
+    return (dispatch) => {
+        axios.post('/catalog.fasol/connect',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log('getNotifications', res)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+};
+
+export const readNotification = (id) => {
+    const obj = {id};
+
+    return (dispatch) => {
+        axios.post('/catalog.fasol/isreadMessInDB',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log('readNotification', res)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+};

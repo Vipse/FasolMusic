@@ -1,14 +1,20 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
+.notific {
+  z-index: 100;
+}
+.notific-arrow {
+  background: #fdc401;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  position: absolute;
+  display: block;
+  left: 24%;
+  top: -5px;
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.06);
+}
+.notific-hidden {
+  display: none;
+  opacity: 0;
 }
 .notific_component .notific_container {
   padding: 10px;

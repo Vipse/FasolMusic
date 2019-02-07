@@ -18,8 +18,8 @@ class NotificationApp extends React.Component {
 
     getDataLength = () => {
         let count = 0;
-        for (let i = 0; i < notificationArr.length; i++){
-            if (!notificationArr[i].watch) count++
+        for (let i = 0; i < this.props.data.length; i++){
+            if (!this.props.data[i].watch) count++
         }
         return count;
     };
@@ -38,21 +38,24 @@ class NotificationApp extends React.Component {
         let styleNotf = null;
         let notifCount = this.getDataLength() - this.state.inverseCount;
         if(notifCount === 0)
-            styleNotf = { 'backgroundColor': 'transparent'};
+            styleNotf = {'backgroundColor': 'transparent'};
 
 
         return (
         <div className="notific_component">
-            <div >
+            <div>
                 <Popover
+                    prefixCls='notific'
                     className="notific_popover"
-                    content={this.state.visible && <NotificationCard
-                        data={notificationArr} 
+                    content={this.state.visible &&
+                    <NotificationCard
+                        data={this.props.data}
                         top={this.props.top} 
                         getId={(id) => {
                             this.props.getId(id);
                             this.setState(prevState => {return {...prevState, inverseCount: prevState.inverseCount + 1}})
-                        }}/>}
+                        }}
+                    />}
                     trigger="click"
                     visible={this.state.visible}
                     onVisibleChange={this.handleVisibleChange}

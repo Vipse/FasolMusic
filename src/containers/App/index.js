@@ -4,13 +4,10 @@ import {coachRoutes, studentRoutes, menuStudent, menuCoach, menuAdmin} from '../
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
 import Header from '../../components/Header';
-import {message, Modal} from 'antd';
-import Adapter from 'webrtc-adapter'
 
 import {connect} from 'react-redux';
 import {createSocket, closeSocket, register} from './chatWs';
 import ab from '../../autobahn.js'
-import moment from 'moment'
 
 import * as actions from '../../store/actions'
 import './styles.css';
@@ -19,7 +16,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 
 import Icon from "../../components/Icon";
-import { freezeAbonement } from './../../store/actions/abonement';
 import cookie from 'react-cookies'
 
 const renderRoutes = ({path, component, exact}) => (
@@ -51,17 +47,16 @@ class App extends React.Component {
     }
     
     runNotificationsWS = () => {
-        let that = this;
-        debugger;
-        let conn = new ab.Session('wss://appdoc.by/wss2/',
+        const that = this;
+        let id = 3199;
+        let conn = new ab.Session('wss://web.fasolonline.ru/wss2/',
             function() {
-                that.props.getNotifications(that.props.id);
+                that.props.getNotifications(id);
 
-                conn.subscribe(""+that.props.id, function(topic, data) {
-                    that.props.setExInfo(data.exInterval);
+                conn.subscribe("" + id, function(topic, data) {
+                    console.log(data);
                     that.setState({
-                        notifications: JSON.parse(data.arr),
-                        isExtrActual: data.isExtrActual,
+                        notifications: data.arr
                     });
                 });
             },
@@ -75,11 +70,6 @@ class App extends React.Component {
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setChatTrainingId, setReceptionStatus, setIsCallingStatus,
             setConversationMode, setChatStory, onSelectReception, setNewTimer, onSaveMessage} = this.props;
-
-        let visitInfoObj = {
-            id: this.props.idTraining,
-            contactLevel: this.props.conversationMode
-        };
         
         createSocket(
             'wss://web.fasolonline.ru:8443/one2one',
@@ -128,8 +118,10 @@ class App extends React.Component {
             this.props.onGetUseFrozenTraining(id);
         }
 
-        this.runChatWS();
-        // this.runNotificationsWS();
+        if (id) {
+            this.runChatWS();
+            this.runNotificationsWS();
+        }
     }
 
     componentWillMount() {
@@ -182,7 +174,6 @@ class App extends React.Component {
     }
 
     pushBtnUnfresh = () => {
-        debugger;
         const {weekInterval} = this.props;
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
@@ -244,6 +235,8 @@ class App extends React.Component {
                                             searchData={this.props.usersHeaderSearch}
                                             onGoto={this.gotoHandler}
                                             notifications={this.state.notifications}
+                                            getNotifId={id => this.props.readNotification(id)}
+                                            getNotifications={() => this.props.getNotifications(this.props.id)}
                                             logout={this.props.onLogout}
                                             isPushBtnTransfer={this.pushBtnTransfer}
                                             isPushBtnAdd={this.pushBtnUnfresh}
@@ -360,9 +353,6 @@ const mapDispatchToProps = dispatch => {
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
-        
-
-        
     }
 };
 

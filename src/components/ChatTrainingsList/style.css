@@ -1,7 +1,10 @@
 .chat-list .ant-card-body {
-  height: 485px;
   display: flex;
   flex-direction: column;
+}
+.chat-list .inline-spinner {
+  text-align: center;
+  margin: 15px;
 }
 .chat-list-link {
   font-family: RobotoRegularItalic, sans-serif;

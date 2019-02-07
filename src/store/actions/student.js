@@ -272,13 +272,12 @@ export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, di
 }
 
 export const getUseFrozenTraining = (idStudent) => {
-    const obj =  {idStudent}
+    const obj = {idStudent};
     
     return (dispatch) => {
         return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
             .then(res => {
-                debugger;
-                console.log(res);         
+                console.log('UseFrozenTraining', res);
             })
             .catch(err => {console.log(err)})
     }

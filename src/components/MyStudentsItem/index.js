@@ -19,28 +19,29 @@ class MyStudentsItem extends React.Component{
 
         const allDisciplines = Array.isArray(disciplines) ? disciplines.map( (elem) => {
             return (elem.discipline) ? elem.discipline.map((el) => el.name) : ''
-         } ).join(', ') : []
+         } ).join(', ') : [];
 
         return (
-            <div className='myStudent'>
-                <ProfileAvatar
-                    img={profileAvatar}
-                    size='small'
-                />
-                <div className='myStudent-info'>
+            <div className='my-student'>
+                <div className='my-student-avatar' onClick={() => onGoto(id)}>
+                    <ProfileAvatar
+                        img={profileAvatar}
+                        size='small'
+                    />
+                </div>
+                <div className='my-student-info'>
                     <div>
-                        <span className='myStudent-info-name' onClick={() => onGoto(id, 'student')}>{name}</span>
-                        <span className='myStudent-info-discipline'>{allDisciplines}</span>
+                        <span className='my-student-info-name' onClick={() => onGoto(id, 'student')}>{name ? name : <span>&mdash;</span>}</span>
+                        <span className='my-student-info-discipline'>{allDisciplines}</span>
                     </div>
-                    <div className='myStudent-info-lastMessage'>
+                    <div className='my-student-info-lastMessage'>
                     {lastMessage}
                     </div>
-                    <div className='myStudent-info-openChat'>
+                    <div className='my-student-info-openChat'>
                         <Button
                             btnText="Открыть чат"
                             type="border-green"
                             onClick={() => goToChat(id)}
-
                         />
                     </div>
                 </div>

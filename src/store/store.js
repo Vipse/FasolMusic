@@ -16,8 +16,6 @@ import studentReducer from './reducers/student'
 import trainerReducer from './reducers/trainer'
 import trainingReducer from './reducers/training'
 import adminReducer from './reducers/admin'
-
-// fasol
 import abonementReducer from './reducers/abonement'
 
 
@@ -36,7 +34,7 @@ const rootReducer = combineReducers({
     student: studentReducer,
     trainer: trainerReducer,
     training: trainingReducer,
-    admin: adminReducer
+    admin: adminReducer,
 });
 
 export default function configureStore() {

@@ -119,6 +119,7 @@ class AutoComplete extends React.Component{
 
     render() {
         const {authMode} = this.props;
+        const {loading, searchRes, inputValue} = this.state;
         const resultClass = (this.state.isVisible)? 'auto__complete-result auto__complete-result-focus' : 'auto__complete-result';
         const overlayClass = (this.state.isVisible)? 'auto__complete-overlay auto__complete-overlay-focus' : 'auto__complete-overlay';
 
@@ -135,24 +136,26 @@ class AutoComplete extends React.Component{
                     <div className={resultClass}>
                         <div className='auto__complete-title'>
                             Результаты поиска
-                            {this.state.searchRes.length && this.state.inputValue.length > 2
-                                ? <span className='auto__complete-count'>{this.state.searchRes.length}</span> : null }
-                            {this.state.loading ? <div className='auto__complete-title-spinner'><Spinner/></div> : null}
+                            {searchRes.length && inputValue.length > 2
+                                ? <span className='auto__complete-count'>{searchRes.length}</span> : null }
+                            {loading ? <div className='auto__complete-title-spinner'><Spinner/></div> : null}
                         </div>
                         <PerfectScrollbar
                             style={{height: 500}}
                             className="auto__complete-results"
                         >
                             <div>
-                                {this.state.inputValue.length > 2 ?
-                                    (
-                                        (this.state.searchRes).length ?
-                                            this.patientsRender(this.state.searchRes)
-                                            : <div
-                                                className='entry-list'>{(authMode === "student" ? "Коучи" :
-                                            authMode === "master" ? "Студенты" : "Пользователи") + " не найдены"}</div>
+                                {!loading ?
+                                    (inputValue.length > 2 ?
+                                        (
+                                            (searchRes).length ?
+                                                this.patientsRender(searchRes)
+                                                : <div className='entry-list'>{(authMode === "student" ? "Коучи" :
+                                                authMode === "master" ? "Студенты" : "Пользователи") + " не найдены"}</div>
+                                        )
+                                        : (<div className='entry-list'>Введите больше символов для поиска</div>)
                                     )
-                                    : (<div className='entry-list'>Введите больше символов для поиска</div>)}
+                                : null}
                             </div>
                         </PerfectScrollbar>
                     </div>

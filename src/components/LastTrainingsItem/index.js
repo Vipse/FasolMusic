@@ -23,7 +23,6 @@ class LastTrainingsItem extends React.Component{
 
         this.props.onSetHomeworkEdit(idTraining, homeworkText)
             .then(res => {
-                console.log(res);
                 if (res && res.data && !res.data.error) {
                     this.setState({savedHomework: homeworkText});
                     message.success("Домашнее задание сохранено");

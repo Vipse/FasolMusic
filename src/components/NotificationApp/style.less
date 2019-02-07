@@ -1,9 +1,29 @@
+.notific {
+  z-index: 100;
+
+  &-arrow {
+    background: #fdc401;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    position: absolute;
+    display: block;
+    left: 24%;
+    top: -5px;
+    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.06);
+  }
+
+  &-hidden {
+    display: none;
+    opacity: 0;
+  }
+}
 
 .notific_component {
 
   .notific_container {
-
     padding: 10px;
+
     .notific_number {
       position: absolute;
       top: -10px;
@@ -18,7 +38,7 @@
       -moz-border-radius: 60px;
       -webkit-border-radius: 60px;
       border-radius: 60px;
-      font-weight:bold
+      font-weight: bold
     }
   }
 }

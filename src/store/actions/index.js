@@ -1,5 +1,3 @@
-import { getFreeAndBusyMasterList } from './admin';
-
 export {
     getDocPatients,
     getPatientDoctors,
@@ -104,8 +102,6 @@ export {
     sendNewInfoDoctor,
     getInfoDoctor,
     getTrainerTrainings,
-    getNotifications,
-    readNotification,
     getAllDocIntervals,
     getDateWorkIntervalWithoutMakingAppAll,
     uploadFile
@@ -119,7 +115,9 @@ export {
     docEmergancyCallReceivedMark,
     makeArchiveOfFiles,
     getSelectors,
-    searchUsers
+    searchUsers,
+    getNotifications,
+    readNotification
 } from './loading'
 
 export {
@@ -150,7 +148,6 @@ export {
 } from './abonement'
 
 export {
-    getMyMasters,
     getDeadlinePay,
     getInfoMasters,
     getUserInfo,

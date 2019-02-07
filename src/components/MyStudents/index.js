@@ -5,8 +5,20 @@ import '../../icon/style.css'
 import Icon from '../Icon'
 import MyStudentsItem from "../MyStudentsItem";
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import Spinner from "../Spinner";
 
 class MyStudents extends React.Component {
+
+    state = {
+        loading: true
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.data !== this.props.data) {
+            this.setState({loading: false});
+        }
+    }
+
     studentsRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<MyStudentsItem {...item}
@@ -20,17 +32,19 @@ class MyStudents extends React.Component {
 
     render() {
         const {data} = this.props;
+        const {loading} = this.state;
+
         return (
-            <div className='lastTrainings'>
+            <div className='my-students'>
                 <Card title="Мои студенты"
-                      extra={<a className="myStudents-link" >
-                            <Icon type="circle_arrow_right"/>
-                            <span>Весь список</span></a>}>
-                            <PerfectScrollbar className="lastTrainings-scroll">    
-                                        {data.length ?
-                                            this.studentsRender(data)
-                                            : <div className='noStudents'>Студентов нет</div>}
-                            </PerfectScrollbar>
+                      extra={<a className="my-students-link">
+                          <Icon type="circle_arrow_right"/>
+                          <span>Весь список</span></a>}>
+                    {loading ? <Spinner size='large'/> : <PerfectScrollbar className="my-students-scroll">
+                        {data.length ?
+                            this.studentsRender(data)
+                            : <div className='entry-list no-trainings'>Студентов нет</div>}
+                    </PerfectScrollbar>}
                 </Card>
             </div>
         )

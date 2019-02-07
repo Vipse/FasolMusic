@@ -74,31 +74,6 @@ export const getTrainerTrainings = (idMaster, dateMin, dateMax) => {
     }
 };
 
-export const getNotifications = (id) => {
-    return (dispatch) => {
-        axios.get('/catalog.doc2/connect/id/' + id)
-            .then(res => {
-                console.log('getNotifications', res)
-            })
-            .catch(err => {
-                console.log(err);
-        })
-    }
-}
-
-export const readNotification = (id) => {
-    return (dispatch, getState) => {
-        console.log('read',id);
-        axios.get('/catalog.doc2/isreadMessInDB/id/' + id)
-            .then(res => {
-                console.log('readNotification', res)
-            })
-            .catch(err => {
-                console.log(err);
-        })
-    }
-}
-
 export const getAllDocIntervals = (id) => {
     return (dispatch, getState) => {
         let user;
@@ -115,6 +90,7 @@ export const getAllDocIntervals = (id) => {
             })
     }
 };
+
 export const getDateWorkIntervalWithoutMakingAppAll = (id_doc) => {
     return (dispatch) => {
         return axios.post('/catalog.doc2/getDateWorkIntervalWithoutMakingAppAll', JSON.stringify({

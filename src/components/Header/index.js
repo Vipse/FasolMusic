@@ -82,8 +82,6 @@ class Header extends React.Component {
     render() {
         const {notifications, isStudent, findName, authMode, searchData, onGoto, studentBalance, trialTrainingForDisciplines, disciplinesList, disciplinesAll} = this.props;
         
-        
-        
         return (
             <div className='header'>
                 <div className='header-search'>
