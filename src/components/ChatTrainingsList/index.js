@@ -41,11 +41,9 @@ class ChatTrainingsList extends React.Component {
                 <Card title="Ближайшие тренировки"
                       extra={<a className="chat-list-link" onClick={this.props.openNearTrains}><Icon
                           type="circle_arrow_right"/><span>Все</span></a>}>
-                    {loading ? <Spinner size='large'/> :
-                        <PerfectScrollbar className="chat-list-scroll">
-                            {data && data.length ? this.scheduleRender(data) :
+                    {loading ? <Spinner isInline={true} size='default'/> :
+                            data && data.length ? this.scheduleRender(data) :
                                 <div className='entry-list no-trainings'>Тренировок нет</div>}
-                        </PerfectScrollbar>}
                 </Card>
             </div>
         )

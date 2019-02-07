@@ -5,10 +5,8 @@ import moment from 'moment'
 import Button from '../Button'
 import Icon from '../Icon'
 import DownloadLink from '../DownloadLink'
-import Hoc from '../Hoc'
 
 import './style.css'
-import {notificationArr} from './stories/mock-data'
 
 class NotificationItem extends React.Component{
     state = {
@@ -54,13 +52,13 @@ class NotificationItem extends React.Component{
 
         switch (status) {
             case 'research':
-                iconType = 'order-form';
+                iconType = 'notification-email';
                 break;
             // case 'cancel':
             //     links = this.renderLinks();
             //     break;
         }
-    //false   false
+
         let flag = this.state.watchInverse ? watch : !watch;
         let rootClass = (flag) ? cn( `notification-item` ,`notification-${status}`) : cn( `notification-item` ,`notification-watch`);
         let madeDate = new Date((+thisTime)*1000),
@@ -79,7 +77,7 @@ class NotificationItem extends React.Component{
                             <div className='notification-title'>
                                 {title}
                                 {(status != 'negative' && status != 'research' && time)
-                                    ? `- ${moment((+time)*1000).format('HH:mm')}` : ''}
+                                    ? ` — ${moment((+time)*1000).format('HH:mm')}` : ''}
                                 </div>
                             {<div className='notification-time'>
                                 {(madeDate.getDate() === now.getDate() && madeDate.getMonth() === now.getMonth())

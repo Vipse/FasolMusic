@@ -81,6 +81,7 @@ class Header extends React.Component {
     };
 
     render() {
+<<<<<<< HEAD
         const {
             notifications, 
             isStudent, 
@@ -95,6 +96,9 @@ class Header extends React.Component {
             useFrozenTraining,
         } = this.props;
         
+=======
+        const {notifications, isStudent, findName, authMode, searchData, onGoto, studentBalance, trialTrainingForDisciplines, disciplinesList, disciplinesAll} = this.props;
+>>>>>>> 35fd622fd2645245a9f84967fc36fb86f0693776
         
         return (
             <div className='header'>

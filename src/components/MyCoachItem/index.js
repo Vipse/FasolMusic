@@ -17,23 +17,25 @@ class MyCoachItem extends React.Component{
             goToChat
         } = this.props;
 
-        const allDisciplines = Array.isArray(disciplines) ? disciplines.map((elem) => elem.discipline ? elem.discipline[0].name : null).join(', ') : [];
+        const allDisciplines = Array.isArray(disciplines) ?
+            disciplines.map((elem) => elem.discipline ? elem.discipline[0].name : null).join(', ') : [];
 
         return (
-            <div className='myStudent'>
-                <ProfileAvatar
-                    img={profileAvatar}
-                    size='small'
-                />
-                <div className='myStudent-info'>
+            <div className='my-coach'>
+                <div className='my-coach-avatar' onClick={() => onGoto(id)}>
+                    <ProfileAvatar
+                        img={profileAvatar}
+                        size='small'
+                    />
+                </div>
+                <div className='my-coach-info'>
                     <div>
-                        <span className='myStudent-info-name' onClick={() => onGoto(id)}>{name}</span>
-                        <span className='myStudent-info-discipline'>{allDisciplines}</span>
+                        <span className='my-coach-info-name' onClick={() => onGoto(id)}>{name ? name : <span>&mdash;</span>}</span>
+                        <span className='my-coach-info-discipline'>{allDisciplines}</span>
                     </div>
-                    <div className='myStudent-info-lastMessage'>
+                    <div className='my-coach-info-lastMessage'>
                     {lastMessage}
                     </div>
-                   
                 </div>
             </div>
         )

@@ -1,13 +1,17 @@
-.myStudent {
+.my-coach {
   display: flex;
   width: 100%;
   flex-shrink: 0;
+  margin-bottom: 30px;
   border-bottom: 1px dashed #e1e1e1;
   padding-bottom: 30px;
-  border-radius: 5px;
-
   &:last-child {
     border: none;
+  }
+  &-avatar {
+    &:hover {
+      cursor: pointer;
+    }
   }
   &-info {
     color: #111;
@@ -22,11 +26,22 @@
       font-family: RobotoBlack, sans-serif;
       line-height: 18px;
       margin-right: 20px;
+
+      &:hover {
+        color: #000;
+        cursor: pointer;
+      }
     }
     &-discipline {
       font-size: 12px;
       line-height: 24px;
       color: #777777;
+    }
+    &-lastMessage {
+      color: #111;
+      line-height: 20px;
+      margin: 5px 0 20px 0;
+      display: inline-block;
     }
   }
 }

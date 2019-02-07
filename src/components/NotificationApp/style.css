@@ -1,14 +1,8 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
+.notific {
+  z-index: 30;
+}
+.notific_component {
+  cursor: pointer;
 }
 .notific_component .notific_container {
   padding: 10px;

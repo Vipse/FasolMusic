@@ -130,6 +130,7 @@ body {
   display: none;
 }
 .incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title {
+  text-align: center;
   font-family: RobotoRegularItalic;
   font-size: 24px;
 }

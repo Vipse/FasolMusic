@@ -30,16 +30,8 @@ class NotificationCard extends React.Component{
             <div className='notification-card'>
                     <Card title="Уведомления" >
                         <PerfectScrollbar
-                            speed={1}
-                            className="scroll"
+                            className="notification-card-scroll"
                             contentClassName="content"
-                            horizontal={false}
-                            verticalScrollbarStyle = {{
-                              background: "#fdc401",
-                            }}
-                            verticalContainerStyle = {{
-                                right: 5
-                            }}
                         >
                             {this.notificationRender(this.props.data)}
                         </PerfectScrollbar>

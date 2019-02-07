@@ -35,7 +35,19 @@ export const getInfoMasters = (idMaster) => {
     
 }
 
+export const getInfoStudents = (idStudent) => {
+    let obj = {id : idStudent};
 
+    return axios.post('/catalog.fasol/getUserInfo', JSON.stringify(obj))
+        .then(rez => {
+            rez.data.result.data['idStudent'] = idStudent;
+            return rez.data.result.data;
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+}
 
 export const getDeadlinePay = (idStudent) => {
     let obj =  { idStudent };
@@ -272,7 +284,7 @@ export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, di
 }
 
 export const getUseFrozenTraining = (idStudent) => {
-    const obj =  {idStudent}
+    const obj = {idStudent};
     
     return (dispatch) => {
         return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))

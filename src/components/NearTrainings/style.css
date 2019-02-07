@@ -19,6 +19,10 @@
 .schedule-future-link span {
   color: #000;
 }
+.schedule-future-scroll > div:first-child .nearTraining-circleDate {
+  border: 1px solid #ff7daa;
+  color: #ff7daa;
+}
 .schedule-future .ant-card-body {
   justify-content: center;
 }

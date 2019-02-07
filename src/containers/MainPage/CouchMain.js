@@ -16,7 +16,8 @@ class CouchMain extends React.Component {
 
     state = {
         nearTrainings: [],
-        lastTrainings: []
+        lastTrainings: [],
+        myStudents: []
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -24,6 +25,8 @@ class CouchMain extends React.Component {
             this.setState({nearTrainings: this.prepareNearTrainings()});
         if (prevProps.postTraining !== this.props.postTraining)
             this.setState({lastTrainings: this.prepareLastTrainings()});
+        if (prevProps.myStudents !== this.props.myStudents)
+            this.setState({myStudents: this.prepareMyStudents()});
     }
 
     gotoHandler = (id) => {
@@ -78,16 +81,26 @@ class CouchMain extends React.Component {
         }
     };
 
-    render() {
-        const {nearTrainings, lastTrainings} = this.state;
-        const {allAbonements, myCoachOrStudents, goToChat} = this.props;
+    prepareMyStudents = () => {
+        const {myStudents, selectors} = this.props;
 
-        let myStudents = [];
-        for (let i = 0; i < myCoachOrStudents.length; i++) {
-            if (myCoachOrStudents[i]) {
-                myStudents.push(myCoachOrStudents[i])
-            }
+        if (selectors.discipline) {
+            return myStudents.map((item) => {
+                return {
+                    id: item.idStudent,
+                    profileAvatar: item.avatar,
+                    disciplines: item.disciplines,
+                    name: item.name,
+                    lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing"+
+                        " and typesetting industry. Lorem Ipsum has been the industry's "
+                };
+            });
         }
+    };
+
+    render() {
+        const {nearTrainings, lastTrainings, myStudents} = this.state;
+        const {goToChat} = this.props;
 
         return (
             <Hoc>
@@ -123,18 +136,7 @@ class CouchMain extends React.Component {
                         <MyStudents
                             goToChat={goToChat}
                             onGoto={(val) => this.gotoHandler(val)}
-                            data={(Array.isArray(myStudents)) ? myStudents.map((el) => {
-                                if (el)
-                                    return {
-                                        id: el.idMaster,
-                                        profileAvatar: el.avatar,
-                                        online: true,
-                                        disciplines: el.disciplines,
-                                        name: el.name,
-                                        lastMessage: "Последнее сообщение, asdas Lorem Ipsum is simply dummy text of the printing" +
-                                            " and typesetting industry. Lorem Ipsum has been the industry's "
-                                    }
-                            }) : []}
+                            data={myStudents}
                         />
                     </Col>
                 </Row>

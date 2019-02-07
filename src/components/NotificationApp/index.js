@@ -5,7 +5,6 @@ import Icon from '../Icon'
 import { Popover } from 'antd';
 
 import './style.css'
-import { notificationArr } from './stories/mock-data'
 
 class NotificationApp extends React.Component {
     constructor(props) {
@@ -18,8 +17,8 @@ class NotificationApp extends React.Component {
 
     getDataLength = () => {
         let count = 0;
-        for (let i = 0; i < notificationArr.length; i++){
-            if (!notificationArr[i].watch) count++
+        for (let i = 0; i < this.props.data.length; i++){
+            if (!this.props.data[i].watch) count++
         }
         return count;
     };
@@ -38,43 +37,45 @@ class NotificationApp extends React.Component {
         let styleNotf = null;
         let notifCount = this.getDataLength() - this.state.inverseCount;
         if(notifCount === 0)
-            styleNotf = { 'backgroundColor': 'transparent'};
+            styleNotf = {'backgroundColor': 'transparent'};
 
 
         return (
-        <div className="notific_component">
-            <div >
+            <div className="notific_component">
                 <Popover
+                    prefixCls='notific'
                     className="notific_popover"
-                    content={this.state.visible && <NotificationCard
-                        data={notificationArr} 
-                        top={this.props.top} 
+                    content={this.state.visible &&
+                    <NotificationCard
+                        data={this.props.data}
+                        top={this.props.top}
                         getId={(id) => {
                             this.props.getId(id);
-                            this.setState(prevState => {return {...prevState, inverseCount: prevState.inverseCount + 1}})
-                        }}/>}
+                            this.setState(prevState => {
+                                return {...prevState, inverseCount: prevState.inverseCount + 1}
+                            })
+                        }}
+                    />}
                     trigger="click"
                     visible={this.state.visible}
                     onVisibleChange={this.handleVisibleChange}
                     placement="bottomLeft"
-                    overlayStyle = {{position: "fixed"}}
+                    overlayStyle={{position: "fixed"}}
                 >
-                   
-                        <div className="notific_container" >
-                            <Icon svg type='notification' size={25} />
-                            <div className="notific_number" style={styleNotf}>
-                                <p className="count_notific">
-                                    {notifCount}
-                                </p>
-                            </div>
+
+                    <div className="notific_container">
+                        <Icon svg type='notification' size={25}/>
+                        <div className="notific_number" style={styleNotf}>
+                            <p className="count_notific">
+                                {notifCount}
+                            </p>
                         </div>
-                  
+                    </div>
+
                 </Popover>
             </div>
-        </div>
-
-    );
-  }
+        );
+    }
 }
 
 NotificationApp.propTypes = {

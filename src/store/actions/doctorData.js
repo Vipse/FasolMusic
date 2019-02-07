@@ -74,34 +74,6 @@ export const getTrainerTrainings = (idMaster, dateMin, dateMax) => {
     }
 };
 
-export const getNotifications = (id) => {
-    
-
-    return (dispatch) => {
-        axios.post('/catalog.fasol/connect', JSON.stringify({id}))
-            .then(res => {
-                debugger;
-                console.log('getNotifications', res)
-            })
-            .catch(err => {
-                console.log(err);
-        })
-    }
-}
-
-export const readNotification = (id) => {
-    return (dispatch, getState) => {
-        console.log('read',id);
-        axios.get('/catalog.doc2/isreadMessInDB/id/' + id)
-            .then(res => {
-                console.log('readNotification', res)
-            })
-            .catch(err => {
-                console.log(err);
-        })
-    }
-}
-
 export const getAllDocIntervals = (id) => {
     return (dispatch, getState) => {
         let user;
@@ -118,6 +90,7 @@ export const getAllDocIntervals = (id) => {
             })
     }
 };
+
 export const getDateWorkIntervalWithoutMakingAppAll = (id_doc) => {
     return (dispatch) => {
         return axios.post('/catalog.doc2/getDateWorkIntervalWithoutMakingAppAll', JSON.stringify({
@@ -139,7 +112,7 @@ export const uploadFile = (file) => {
   return () => {
     const data = new FormData();
     data.append('file', file);
-    return axios.post('http://178.172.172.2/upload.php', data)
+    return axios.post('https://web.fasolonline.ru/upload.php', data)
       .then(res => {
         return res
       })

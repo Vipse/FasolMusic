@@ -109,7 +109,7 @@ class MainPage extends React.Component{
 				nearTraining = {this.props.nearTraining}
 				nextTrainingTime = {this.props.nextTrainingTime}
 				lastTrainings={this.props.studentTrainings}
-				myCoachOrStudents = {this.props.myCoachOrStudents}
+				myCoaches = {this.props.myCoachOrStudents}
 				selectors = {this.props.selectors}
 				goToChat = {this.goToChat}
 				{...this.props}/>
@@ -117,7 +117,7 @@ class MainPage extends React.Component{
 			<CouchMain
 				allAbonements = {this.props.allAbonements}
 				nextTrainingTime = {this.props.nextTrainingTime}
-				myCoachOrStudents = {this.props.myCoachOrStudents}
+				myStudents = {this.props.myCoachOrStudents}
 				todayTraining = {this.props.todayTraining}
 				futureTraining = {this.props.futureTraining}
 				postTraining = {this.props.postTraining}
