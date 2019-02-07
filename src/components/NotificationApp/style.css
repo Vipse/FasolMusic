@@ -16,6 +16,9 @@
   display: none;
   opacity: 0;
 }
+.notific_component {
+  cursor: pointer;
+}
 .notific_component .notific_container {
   padding: 10px;
 }

@@ -14,7 +14,7 @@ import './styles.css';
 import Spinner from "../../components/Spinner";
 import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 import moment from "moment";
-import {message} from "antd";
+import {message, Modal} from "antd";
 import AdminCreateTrainingModal from "../../components/AdminCreateTrainingModal";
 
 class CoachPage extends React.Component{
@@ -121,13 +121,21 @@ class CoachPage extends React.Component{
 
     handleTrainModal = (e, item, isDelete, isAdmin) => {
         e.preventDefault();
-        this.setState({
+        /*this.setState({
             trainModal: {
                 visible: true,
                 item: item,
                 isDelete: isDelete ? isDelete : false,
                 isAdmin: isAdmin ? isAdmin : false
             }
+        });*/
+        this.props.history.push('/app/schedule');
+        Modal.info({
+            title: 'Изменение расписания доступно только в календаре на данный момент',
+            width: '500px',
+            className: 'incoming-call-modal',
+            okText: 'Ок',
+            maskClosable: true
         });
     };
 
@@ -204,8 +212,6 @@ class CoachPage extends React.Component{
         }
     }
 }
-
-
 
 const mapStateToProps = state => {
     return {

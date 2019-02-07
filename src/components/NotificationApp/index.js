@@ -42,42 +42,41 @@ class NotificationApp extends React.Component {
 
 
         return (
-        <div className="notific_component">
-            <div>
+            <div className="notific_component">
                 <Popover
                     prefixCls='notific'
                     className="notific_popover"
                     content={this.state.visible &&
                     <NotificationCard
                         data={this.props.data}
-                        top={this.props.top} 
+                        top={this.props.top}
                         getId={(id) => {
                             this.props.getId(id);
-                            this.setState(prevState => {return {...prevState, inverseCount: prevState.inverseCount + 1}})
+                            this.setState(prevState => {
+                                return {...prevState, inverseCount: prevState.inverseCount + 1}
+                            })
                         }}
                     />}
                     trigger="click"
                     visible={this.state.visible}
                     onVisibleChange={this.handleVisibleChange}
                     placement="bottomLeft"
-                    overlayStyle = {{position: "fixed"}}
+                    overlayStyle={{position: "fixed"}}
                 >
-                   
-                        <div className="notific_container" >
-                            <Icon svg type='notification' size={25} />
-                            <div className="notific_number" style={styleNotf}>
-                                <p className="count_notific">
-                                    {notifCount}
-                                </p>
-                            </div>
+
+                    <div className="notific_container">
+                        <Icon svg type='notification' size={25}/>
+                        <div className="notific_number" style={styleNotf}>
+                            <p className="count_notific">
+                                {notifCount}
+                            </p>
                         </div>
-                  
+                    </div>
+
                 </Popover>
             </div>
-        </div>
-
-    );
-  }
+        );
+    }
 }
 
 NotificationApp.propTypes = {
