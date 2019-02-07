@@ -65,8 +65,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 studentBalance: action.studentBalance
             }    
+        case actionTypes.IS_PUSH_BTN_UNFRESH:
+            return {
+                ...state,
+                isPushBtnUnfresh: !state.isPushBtnUnfresh
+            }    
             
-            
+
         default: return state;
     }
 };

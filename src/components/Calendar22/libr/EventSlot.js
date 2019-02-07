@@ -57,7 +57,8 @@ class EventSlot extends Component {
         } = this.props;
         const opacity = isDragging ? 0 : 1;
         let backgroundColor = event.status ? {} : '#eee'; // прошло ли время тренировки
-        backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка
+        backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
+        backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
         if(event.status && !event.isBooking && !event.isComplete && mode !== 'master'){

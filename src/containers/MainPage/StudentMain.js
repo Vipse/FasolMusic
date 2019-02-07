@@ -109,7 +109,7 @@ class StudentMain extends React.Component{
                         </Row>
 
                         <Row>
-                            <Col xs={14} xxl={7} className='section'>
+                            <Col xs={14} xxl={8} md={12} sm={8} className='section'>
                                 <NearTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
                                     goToChat = {goToChat}
@@ -117,7 +117,7 @@ class StudentMain extends React.Component{
                                     data={nearTrainings}
                                 />
                             </Col>
-                            <Col xs={14} xxl={8} className='section'>
+                            <Col xs={14} xxl={8} md={12} sm={8} className='section'>
                                 <LastTrainings
                                     onGoto={(val) => this.gotoHandler(val)}
                                     openLastTrains={() => this.props.history.push('/app/homework')}
@@ -126,7 +126,7 @@ class StudentMain extends React.Component{
                                 />
                             </Col>
 
-                            <Col xs={14} xxl={9} className='section'>
+                            <Col xs={14} xxl={8} md={12} sm={8} className='section'>
                                 <MyCoach
                                     goToChat = {goToChat}
                                     onGoto={(val) => this.gotoHandler(val)}

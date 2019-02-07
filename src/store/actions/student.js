@@ -277,8 +277,12 @@ export const getUseFrozenTraining = (idStudent) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
             .then(res => {
-                debugger;
-                console.log(res);         
+                console.log(res);  
+                
+                dispatch({
+                    type: actionTypes.GET_USE_FROZEN_TRAINING,
+                    useFrozenTraining: res.data.frozenTraining
+                });
             })
             .catch(err => {console.log(err)})
     }

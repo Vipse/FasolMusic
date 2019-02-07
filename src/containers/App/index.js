@@ -52,23 +52,26 @@ class App extends React.Component {
     
     runNotificationsWS = () => {
         let that = this;
-        debugger;
-        let conn = new ab.Session('wss://appdoc.by/wss2/',
+        
+        let conn = new ab.Session('wss://web.fasolonline.ru/wss2/',
+           
             function() {
+                
                 that.props.getNotifications(that.props.id);
 
                 conn.subscribe(""+that.props.id, function(topic, data) {
-                    that.props.setExInfo(data.exInterval);
-                    that.setState({
-                        notifications: JSON.parse(data.arr),
-                        isExtrActual: data.isExtrActual,
-                    });
+                    debugger;
+                    // that.props.setExInfo(data.exInterval);
+                    // that.setState({
+                    //     notifications: JSON.parse(data.arr),
+                    //     isExtrActual: data.isExtrActual,
+                    // });
                 });
             },
             function() {
                 console.warn('WebSocket connection closed');
             },
-            {'skipSubprotocolCheck': true}
+            {'skipSubprotocolCheck': true, id : this.props.id}
         );
     };
 
@@ -126,10 +129,11 @@ class App extends React.Component {
             this.props.onGetMasterList();
             this.props.onGetStudentBalance(id);
             this.props.onGetUseFrozenTraining(id);
+            
         }
 
         this.runChatWS();
-        // this.runNotificationsWS();
+         this.runNotificationsWS();
     }
 
     componentWillMount() {
@@ -182,7 +186,7 @@ class App extends React.Component {
     }
 
     pushBtnUnfresh = () => {
-        debugger;
+       
         const {weekInterval} = this.props;
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
@@ -263,6 +267,8 @@ class App extends React.Component {
                                             onSetNeedSaveIntervals = {this.props.onSetNeedSaveIntervals}
 
                                             studentBalance = {this.props.studentBalance}
+                                            useFrozenTraining = {this.props.useFrozenTraining}
+                                            onIsPushBtnUnfresh = {this.props.onIsPushBtnUnfresh}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -307,6 +313,7 @@ const mapStateToProps = state => {
         disciplinesList: state.abonement.disciplines,
         discCommunication: state.student.discCommunication,
         studentBalance: state.abonement.studentBalance,
+        useFrozenTraining: state.student.useFrozenTraining,
 
         from: state.chatWS.from,
         to: state.chatWS.to,
@@ -360,6 +367,8 @@ const mapDispatchToProps = dispatch => {
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
+        onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
+        
         
 
         

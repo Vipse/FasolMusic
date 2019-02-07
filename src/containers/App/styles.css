@@ -76,7 +76,7 @@ body {
   border-bottom: 1px solid #e8e8e8;
   align-items: center;
   z-index: 30;
-  min-width: calc(1300px - 340px);
+  min-width: calc(1300px - 240px);
 }
 .main-header .sidenav-root-btn {
   position: absolute;

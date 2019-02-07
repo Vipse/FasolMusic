@@ -99,7 +99,7 @@ class Schedule extends React.Component {
        
         if(this.state.theMasterSelect){
             let {trainerList} = this.props;
-            debugger;
+            
             for(let i = 0; i < trainerList.length; i++){
                 
                 if(trainerList[i].idMaster === this.props.chooseTheMaster){
@@ -116,7 +116,7 @@ class Schedule extends React.Component {
             }
         }
         if(isPushBtnTrialTraining === 'select_master'){
-            debugger;
+            
                 const {trainerList, selectMaster} = this.props;
                 
                 for(let i = 0; i < trainerList.length; i++){
@@ -166,8 +166,8 @@ class Schedule extends React.Component {
                         message.success('Тренировка выбрана')
                         message.info('Для подтверждения расписания нажмите "Сохранить"')
 
-                        fdata.frozenTraining = fdata.frozenTraining - 1;
-                        this.props.onSaveUserEdit(fdata);
+                        // fdata.frozenTraining = fdata.frozenTraining - 1;
+                        // this.props.onSaveUserEdit(fdata);
                         //this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 1}); // show Сохранить
                     
                // this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
@@ -198,7 +198,7 @@ class Schedule extends React.Component {
        
 
         if(isPushBtnTrialTraining === 'trial'){
-            debugger;
+           
             let {trainerList} = this.props;
             for(let i = 0; i < trainerList.length; i++){
                     if(trainerList[i].idMaster === idMaster){
@@ -279,26 +279,33 @@ class Schedule extends React.Component {
         if(selectMaster){
            // discAbonement
             if(subsForDisc.hasOwnProperty(currDiscipline.code) && Array.isArray(subsForDisc[currDiscipline.code]) && subsForDisc[currDiscipline.code].length) {
-                debugger;
+               // debugger;
                 this.props.onAddAmountTraining(subsForDisc[currDiscipline.code][0], abonementIntervals.countTraining);
                 
             }
            
         }
         else{
-            const newFrozen = +profileStudent.frozenTraining - (+abonementIntervals.countTraining);
-            let profile = {...profileStudent};
-            profile.frozenTraining = newFrozen;
-            this.props.onSaveUserEdit(profile);
+            // const newFrozen = +profileStudent.frozenTraining - (+abonementIntervals.countTraining);
+            // let profile = {...profileStudent};
+            // profile.frozenTraining = newFrozen;
+            // this.props.onSaveUserEdit(profile);
     
             //this.props.onSaveDisciplineCommunication(id,)
             this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
                 .then(() => {
                     this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
                 });
-                debugger;
+                //debugger;
                 this.props.onSaveStudentMasterDisciplineCommunication(id, chooseTheMaster, currDiscipline.code)
                 this.props.onGetDisciplineCommunication(id);
+
+                debugger
+            if(this.props.isPushBtnUnfresh){
+                this.props.onGetStudentBalance(id)
+                this.props.onGetUseFrozenTraining(id);
+            }
+                
         }
 
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
@@ -306,7 +313,8 @@ class Schedule extends React.Component {
         this.setState({apiPatients: [], sendingModal: true, theMasterSelect: false})
   
         this.props.onGetStudentBalance(id);
-        this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id)
+        this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id);
+        this.props.onGetUseFrozenTraining(id);
     }
 
     transferTraining = (transferDay) => {
@@ -371,7 +379,10 @@ class Schedule extends React.Component {
             this.props.onFreezeAbonement(this.freezeIdSubscription)
                 .then(() => {
                     this.props.onGetAbonementsFilter(id, currDiscipline); 
+                    this.props.onGetStudentBalance(id);
+                    this.props.onGetUseFrozenTraining(id);
                 })
+
         }
        
         this.setState({modalCancelTraining: false});   
@@ -1072,6 +1083,7 @@ const mapStateToProps = state => {
         discAbonement: state.student.discAbonement, // id абонементов у этого студента
         masterListObj: state.trainer.masterListObj,
         subsForDisc : state.abonement.subsForDisc,
+        isPushBtnUnfresh: state.abonement.isPushBtnUnfresh,
 
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
@@ -1135,6 +1147,8 @@ const mapDispatchToProps = dispatch => {
         onSaveStudentMasterDisciplineCommunication: (idStudent, idMaster, discipline) => 
                     dispatch(actions.saveStudentMasterDisciplineCommunication(idStudent, idMaster, discipline)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
+        onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
+        onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         
         
 

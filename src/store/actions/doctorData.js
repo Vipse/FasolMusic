@@ -75,9 +75,12 @@ export const getTrainerTrainings = (idMaster, dateMin, dateMax) => {
 };
 
 export const getNotifications = (id) => {
+    
+
     return (dispatch) => {
-        axios.get('/catalog.doc2/connect/id/' + id)
+        axios.post('/catalog.fasol/connect', JSON.stringify({id}))
             .then(res => {
+                debugger;
                 console.log('getNotifications', res)
             })
             .catch(err => {

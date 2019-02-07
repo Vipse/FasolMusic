@@ -36,17 +36,17 @@ class Header extends React.Component {
 
     onCreateUnfreshAbonement = (data) => {
        
-            const {disciplinesList, discCommunication} = this.props;
+            const {disciplinesList, discCommunication, useFrozenTraining} = this.props;
             let array = [];
             const time0 = moment(Date.now()).startOf('week').format('X');
             const time1 = moment(Date.now()).endOf('week').format('X');
             const codeDisc = disciplinesList[data.type].code;
     
-            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 5}); // поменять
+            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: +useFrozenTraining}); // поменять
             this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
             this.props.onSetFreeIntervals(array,  data.type);
 
-            if(discCommunication.hasOwnProperty(codeDisc)){
+            if(discCommunication && discCommunication.hasOwnProperty(codeDisc)){
                 
                 this.props.onSetPushTrialTraining('select_master');
                 this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
@@ -59,6 +59,7 @@ class Header extends React.Component {
                 this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
             }
 
+            this.props.onIsPushBtnUnfresh();
             this.props.onGoToSchedule();
             this.setState({isUnfreshTrainingModal: false});
     }
@@ -80,8 +81,19 @@ class Header extends React.Component {
     };
 
     render() {
-        const {notifications, isStudent, findName, authMode, searchData, onGoto, studentBalance, trialTrainingForDisciplines, disciplinesList, disciplinesAll} = this.props;
-        
+        const {
+            notifications, 
+            isStudent, 
+            findName, 
+            authMode, 
+            searchData, 
+            onGoto, 
+            studentBalance, 
+            trialTrainingForDisciplines, 
+            disciplinesList, 
+            disciplinesAll,
+            useFrozenTraining,
+        } = this.props;
         
         
         return (
@@ -105,13 +117,13 @@ class Header extends React.Component {
                                 className="header-btn"
                                 onClick={() => this.setState({isTrialTrainingModalVisible: true})}
                             />}
-                            <Button
+                            {useFrozenTraining ? <Button
                                 btnText='Разморозить тренировку'
                                 size='default'
                                 type='border-pink'
                                 className="header-btn"
                                 onClick={this.onUnfreshTraining}
-                            />
+                            /> : null}
                             <Button
                                 btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                 size='default'

@@ -74,10 +74,10 @@ class Payment extends React.Component{
 
     showTrialModal = (count) => {
         
-         const newFrozen = +this.props.frozenTraining + (+count);
-         let profile = {...this.props.profileStudent};
-         profile.frozenTraining = newFrozen;
-         this.props.onSaveUserEdit(profile);
+        //  const newFrozen = +this.props.frozenTraining + (+count);
+        //  let profile = {...this.props.profileStudent};
+        //  profile.frozenTraining = newFrozen;
+        //  this.props.onSaveUserEdit(profile);
 
         this.setState({visibleTrialModal: true, countTraining: count})
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: count});

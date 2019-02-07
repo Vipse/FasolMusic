@@ -34,12 +34,13 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
     axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
         .then(res => {
                 let discAbonement = Object.keys(res.data.result);            
-
+            
                 res.data.result[currDiscipline.code].map((el) => {
                     el.fio = '#'+el.key;
                     el.start = new Date(+el.start * 1000);
                     el.discipline = el.discipline.map( elem => elem.name).join(',')
                     el.comment = 'comment';
+                    el.idMaster = el.idMaster;
                 })
 
                 dispatch({
@@ -238,6 +239,18 @@ export const getStudentBalance = (idStudent) => {
         })
         
 }
+
+
+
+
+
+export const isPushBtnUnfresh = () => {
+    
+    return ({
+        type: actionTypes.IS_PUSH_BTN_UNFRESH  
+    });
+}
+
 
 
 export const setWeekInterval = (interval) => {

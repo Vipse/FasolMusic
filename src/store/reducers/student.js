@@ -90,8 +90,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 discAbonement: action.discAbonement
             }
+        case actionTypes.GET_USE_FROZEN_TRAINING:
+            return {
+                ...state,
+                useFrozenTraining: action.useFrozenTraining
+            }   
             
-
             
 
         default: return state;

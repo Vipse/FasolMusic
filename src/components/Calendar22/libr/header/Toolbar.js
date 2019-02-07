@@ -39,6 +39,7 @@ class Toolbar extends React.Component {
             optionDisciplines.push(selectDisciplines[el]);
         }
     }
+
     return (
       <div className="rbc-toolbar">
         <Button
@@ -55,9 +56,11 @@ class Toolbar extends React.Component {
 
 
         <div  className="rbc-toolbar-discipline">
-          <Select defaultValue={(currDiscipline.code)} style={{ width: 120 }} onChange={this.changeSelectorDiscipline} >
-            { optionDisciplines.map((el) =>  <Option value={el.code}>{el.ruText}</Option> )}
-          </Select>
+          {(currDiscipline) ?
+              <Select defaultValue={(currDiscipline.code)} style={{ width: 120 }} onChange={this.changeSelectorDiscipline} >
+                  { optionDisciplines.map((el) =>  <Option value={el.code}>{el.ruText}</Option> )}
+              </Select> 
+          : null}
         </div>
         
         

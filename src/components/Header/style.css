@@ -11,14 +11,16 @@
   z-index: 12;
 }
 .header-balance {
-  width: 15%;
+  min-width: 180px;
   font-size: 24px;
   padding-left: 20px;
+  margin-right: 20px;
 }
 .header-train {
-  display: flex;
   justify-content: flex-end;
   width: 60%;
+  display: flex;
+  align-items: center;
 }
 .header-train .header-btn {
   margin-right: 15px;

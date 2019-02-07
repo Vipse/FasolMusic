@@ -103,7 +103,7 @@ class CouchMain extends React.Component {
                 </Row>
 
                 <Row>
-                    <Col xs={14} xxl={7} className='section'>
+                    <Col xs={14} xxl={8} md={12} sm={8} className='section'>
                         <NearTrainings
                             onGoto={(val) => this.gotoHandler(val)}
                             goToChat = {goToChat}
@@ -111,7 +111,7 @@ class CouchMain extends React.Component {
                             data={nearTrainings}
                         />
                     </Col>
-                    <Col xs={14} xxl={8} className='section'>
+                    <Col xs={14} xxl={8} md={12} sm={8} className='section'>
                         <LastTrainings
                             onGoto={(val) => this.gotoHandler(val)}
                             openLastTrains={() => this.props.history.push('/app/homework')}
@@ -119,7 +119,7 @@ class CouchMain extends React.Component {
                             onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                         />
                     </Col>
-                    <Col xs={14} xxl={9} className='section'>
+                    <Col xs={14} xxl={8} md={12} sm={8} className='section'>
                         <MyStudents
                             goToChat={goToChat}
                             onGoto={(val) => this.gotoHandler(val)}

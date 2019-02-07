@@ -46,6 +46,13 @@
   background-color: #fdc401;
   border: 2px solid #fdc401;
 }
+.table-footer .type-color-error {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  background-color: #ff7daa;
+  border: 2px solid #ff7daa;
+}
 .wrapper-small-calendar {
   padding-top: 50px;
 }
