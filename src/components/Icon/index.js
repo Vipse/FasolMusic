@@ -61,7 +61,11 @@ const iconList = [
     "icon2",
     "icon3",
     "icon4",
-    "message"
+    "message",
+    "notification-calendar",
+    "notification-calendar_canceled",
+    "notification-email",
+    "notification-payment"
 ];
 
 class Icon extends React.Component{

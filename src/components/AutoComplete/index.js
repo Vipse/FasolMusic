@@ -7,6 +7,7 @@ import Input from '../Input'
 import Spinner from '../Spinner'
 import {Modal} from 'antd';
 import './style.css'
+import Icon from "../Icon";
 
 class AutoComplete extends React.Component{
     constructor(props){
@@ -125,6 +126,7 @@ class AutoComplete extends React.Component{
 
         return (
             <div className='auto__complete'>
+                <div className='auto__complete-icon'><Icon type="search" size={18}/></div>
                 <div className='auto__complete-search'>
                     <div className={overlayClass} onClick={() => this.focusHandler(false)}/>
                     <Input
