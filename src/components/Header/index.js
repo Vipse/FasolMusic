@@ -22,13 +22,11 @@ class Header extends React.Component {
         isUnfreshTrainingModal: false,
     };
 
-    isAvailableTrialCheck = () => {
-        const {trialTrainingForDisciplines} = this.props;
-        for (let key in trialTrainingForDisciplines)
-            if (!trialTrainingForDisciplines[key]) return true;
-
-        return false;
-    };
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.isTrialTrainingsAvailable !== this.props.isTrialTrainingsAvailable &&
+            this.props.isTrialTrainingsAvailable && this.props.isOnMainPage)
+            this.setState({isTrialTrainingModalVisible: true});
+    }
 
     onUnfreshTraining = () => {
         this.setState({isUnfreshTrainingModal: true});
@@ -88,13 +86,12 @@ class Header extends React.Component {
             authMode, 
             searchData, 
             onGoto, 
-            studentBalance, 
-            trialTrainingForDisciplines, 
-            disciplinesList, 
-            disciplinesAll,
-            useFrozenTraining,
+            studentBalance,
+            trialTrainingForDisciplines,
+            isTrialTrainingsAvailable,
+            disciplinesList,
+            useFrozenTraining
         } = this.props;
-        
         
         return (
             <div className='header'>
@@ -110,7 +107,7 @@ class Header extends React.Component {
                     <React.Fragment>
                         <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>
-                            {this.isAvailableTrialCheck() && <Button
+                            {isTrialTrainingsAvailable && <Button
                                 btnText='ЗАПИСАТЬСЯ НА ПРОБНУЮ'
                                 size='default'
                                 type='border-pink'

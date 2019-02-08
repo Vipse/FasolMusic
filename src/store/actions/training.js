@@ -54,19 +54,20 @@ export const getMyMastersOrStudents = (obj) => {
             .then(rez => {
                 let arr = [];
 
-                rez.data.result.result.forEach(el => {
-                    if (obj.hasOwnProperty('idStudent')) {
-                        arr.push(getInfoMasters(el.idMaster)
-                            .catch((err) => {
-                                console.log(err)
-                            }));
-                    } else if (obj.hasOwnProperty('idMaster')) {
-                        arr.push(getInfoStudents(el.idStudent)
-                            .catch((err) => {
-                                console.log(err)
-                            }));
-                    }
-                });
+                if (!rez.data.error)
+                    rez.data.result.result.forEach(el => {
+                        if (obj.hasOwnProperty('idStudent')) {
+                            arr.push(getInfoMasters(el.idMaster)
+                                .catch((err) => {
+                                    console.log(err)
+                                }));
+                        } else if (obj.hasOwnProperty('idMaster')) {
+                            arr.push(getInfoStudents(el.idStudent)
+                                .catch((err) => {
+                                    console.log(err)
+                                }));
+                        }
+                    });
 
                 return Promise.all(arr)
                     .then((rez) => {

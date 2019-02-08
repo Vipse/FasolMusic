@@ -1,15 +1,12 @@
 import React from 'react'
 import Row from "../../components/Row";
 import Col from "../../components/Col";
-import {message} from 'antd';
 import TopPanel from "../../components/TopPanel";
 import Reviews from "../../components/Reviews";
 import NearTrainings from "../../components/NearTrainings";
-import Icon from "../../components/Icon";
 
 import Hoc from '../../hoc'
 import LastTrainings from "../../components/LastTrainings";
-import moment from 'moment'
 import MyCoach from '../../components/MyCoach';
 
 class StudentMain extends React.Component{
@@ -24,8 +21,6 @@ class StudentMain extends React.Component{
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.selectors !== this.props.selectors && this.props.selectors.discipline)
-            this.TrialTrainingAvailabilityAlert();
 
         if (prevProps.nearTraining !== this.props.nearTraining)
             this.setState({nearTrainings: this.prepareNearTrainings()});
@@ -34,18 +29,6 @@ class StudentMain extends React.Component{
         if (prevProps.myCoaches !== this.props.myCoaches)
             this.setState({myCoaches: this.prepareMyCoaches()});
     }
-
-    TrialTrainingAvailabilityAlert = () => {
-        const {id, selectors: {discipline}} = this.props;
-
-        discipline.forEach((item) =>
-            this.props.onGetTrainingTrialStatusByDiscipline(item.id, id)
-            .then(res => {
-                if (res) !res.isTrialTraining ?
-                    message.info('Запишитесь на пробную тренировку по дисциплине ' + item.nameRus, 5)
-                    : null})
-            .catch(err => console.log(err)))
-    };
 
     prepareNearTrainings = () => {
 	    const {nearTraining, selectors} = this.props;

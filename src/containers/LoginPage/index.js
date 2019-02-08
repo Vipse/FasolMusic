@@ -34,19 +34,16 @@ class LoginPage extends React.Component {
     onSendDataTrialModal = (data) => {
         const {disciplinesList} = this.props;
         const {email, type} = data;
-       // debugger
         const registerData = {
             email,
             password: "123456",
             disciplines: [{discipline: [disciplinesList[type].code]}],
             frozenTraining : Object.keys(disciplinesList).length
         };
-
         let newUserData = {};
 
-        this.props.onRegisterUser(registerData,  this.props.history)
+        this.props.onRegisterUser(registerData, this.props.history)
             .then(res => {
-                //debugger;
                 if (res && res.data.code === 200) {
                     newUserData.id = res.data.result.id;
                     this.props.onUnauthorizedTrialDataSave(data);
@@ -59,7 +56,7 @@ class LoginPage extends React.Component {
                     this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
                     this.props.history.push('/app/schedule');
-                    message.info("Вы зарегистрированы. Выберите время для пробной тренировки", 10);
+                    message.info("Вы зарегистрированы. Выберите время для пробной тренировки", 7);
                 }
                 else message.error("Произошла ошибка, попробуйте ещё раз");
             })

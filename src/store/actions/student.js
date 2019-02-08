@@ -214,7 +214,18 @@ export const getTrainingTrialStatusByDiscipline = (disciplineId, idStudent) => {
             })
             .catch(err => {console.log(err)})
     }
-}
+};
+
+export const getTrainingsTrialStatus = (idStudent) => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: actionTypes.RESET_TRAININGS_TRIAL_STATUS,
+        });
+
+        getState().loading.selectors.discipline.forEach(item =>
+            dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
+    };
+};
 
 export const getDisciplineCommunication = (idStudent) => {
 
@@ -289,7 +300,7 @@ export const getUseFrozenTraining = (idStudent) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
             .then(res => {
-                console.log(res);  
+                console.log('UseFrozenTraining', res);
                 
                 dispatch({
                     type: actionTypes.GET_USE_FROZEN_TRAINING,
