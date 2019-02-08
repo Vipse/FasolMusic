@@ -5,29 +5,31 @@
   flex-wrap: wrap;
   justify-content: center;
 }
-.TrialTrainModal .info {
+.TrialTrainModal .controls {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+.TrialTrainModal .controls .info {
   font-family: RobotoRegularItalic;
   color: #000;
   width: 100%;
 }
-.TrialTrainModal .info-small {
+.TrialTrainModal .controls .info-small {
   font-family: RobotoRegularItalic;
   color: #c6c1c8;
   font-size: 12px;
-  width: 270px;
 }
-.TrialTrainModal .info-complete {
+.TrialTrainModal .controls .info-complete {
   padding: 20px;
 }
-.TrialTrainModal .radio-label {
+.TrialTrainModal .controls .radio-label {
   color: #000;
   font-family: RobotoMedium;
 }
-.TrialTrainModal .item {
+.TrialTrainModal .controls .item {
   width: 50%;
-}
-.TrialTrainModal .code {
-  width: 100%;
 }
 .TrialTrainModal .submitPlate {
   display: flex;

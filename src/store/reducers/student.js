@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes'
 const initialState = {
     myCoach: [],
     deadlinePay: {},
-    trialTrainingForDisciplines: {}
+    trialTrainingForDisciplines: {},
+    isTrialTrainingsAvailable: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -51,7 +52,13 @@ const reducer = (state = initialState, action) => {
                 trialTrainingForDisciplines: {
                     ...state.trialTrainingForDisciplines,
                     [action.disciplineId]: action.status
-                }
+                },
+                isTrialTrainingsAvailable: state.isTrialTrainingsAvailable || !action.status
+            }
+        case actionTypes.RESET_TRAININGS_TRIAL_STATUS:
+            return {
+                ...state,
+                isTrialTrainingsAvailable: false
             }
         case actionTypes.SET_IS_PUSH_BTN_TRANSFER:
             return {

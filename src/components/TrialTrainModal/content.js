@@ -25,18 +25,28 @@ class ContentForm extends React.Component {
         selectedDays: []
     };
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.visible !== this.props.visible && this.props.visible)
+            this.setState({loading: false});
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
+        const {unauthorized} = this.props;
+
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                //this.setState({loading: true});
-                let selectedDaysObj = {};
-                this.state.selectedDays.forEach((item, i) => this.state.selectedDays[i] ? selectedDaysObj[i] = item : null);
+                this.setState({loading: true});
                 let finalData = {
                     ...values,
-                    selectedDays: selectedDaysObj,
                 };
-                if (this.props.unauthorized) finalData.amount = 1;
+
+                let selectedDaysObj = {};
+                if (unauthorized) finalData.amount = 1;
+
+                for (let i = 0; i < 7; ++i)
+                    selectedDaysObj[i] = true;
+                finalData.selectedDays = selectedDaysObj;
 
                 this.props.onSave(finalData);
             }
@@ -67,17 +77,6 @@ class ContentForm extends React.Component {
         return radioDisciplinesArr;
     };
 
-    renderTimeSchedule = () => {
-        let timeScheduleArr = [];
-        let daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-        for (let i = 0; i < 7; i++)
-            timeScheduleArr.push(<Checkbox className="dayCheckbox"
-                                           value={i} checked={this.state.selectedDays[i]}
-                                           onChange={() => this.handleDayCheck(i)}
-                                           key={"selectDay" + i}>{daysName[i]}</Checkbox>);
-        return timeScheduleArr;
-    };
-
     render() {
         const {unauthorized, form} = this.props;
         const {getFieldDecorator} = form;
@@ -89,67 +88,54 @@ class ContentForm extends React.Component {
                 <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                 </p>
-                <div className="item">
-                    <FormItem>
-                        <div className='radio-label'>Выбери дисциплину</div>
-                        {getFieldDecorator('type', {
-                            rules: [{
-                                required: true,
-                                message: 'Выберите дисциплину, пожалуйста'
-                            }],
-                        })(
-                            <div className="ant-radio-group">
-                                <RadioGroup style={{display: "flex", flexDirection: "row"}}>
-                                    {/*<Radio value='guitar' key='radio-guitar'>Гитара</Radio>
-                                    <Radio value='vocals' key='radio-vocal'>Вокал</Radio>*/}
-                                    {this.renderDisciplines()}
-                                </RadioGroup>
-                            </div>
-                        )}
-                    </FormItem>
-                    <p className="info-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
-                    </p>
-                </div>
-                <div className="item">
-                    <FormItem>
-                        <div className='radio-label'>Выбери дни</div>
-                        {getFieldDecorator('days', {
-                            rules: [{
-                                required: true,
-                                message: 'Выберите дни, пожалуйста'
-                            }],
-                        })(
-                            <div className="ant-radio-group">
-                                {this.renderTimeSchedule()}
-                            </div>
-                        )}
-                    </FormItem>
-                    {unauthorized && <FormItem>
-                        <div className='radio-label'>Введите e-mail</div>
-                        {getFieldDecorator('email', {
-                            rules: [{
-                                required: true,
-                                message: 'Введите e-mail, пожалуйста'
-                            }, {
-                                type: "email",
-                                message: 'Неправильный формат'
-                            }],
-                        })(
-                            <InputNew width="100%" bubbleplaceholder="E-mail"/>
-                        )}
-                    </FormItem>}
+                <div className='controls'>
+                    <div className="item">
+                        <FormItem>
+                            <div className='radio-label'>Выбери дисциплину</div>
+                            {getFieldDecorator('type', {
+                                rules: [{
+                                    required: true,
+                                    message: 'Выберите дисциплину, пожалуйста'
+                                }],
+                            })(
+                                <div className="ant-radio-group">
+                                    <RadioGroup style={{display: "flex", flexDirection: "row"}}>
+                                        {this.renderDisciplines()}
+                                    </RadioGroup>
+                                </div>
+                            )}
+                        </FormItem>
+                        <p className="info-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+                        </p>
+                    </div>
+                    {unauthorized && <div className="item">
+                        <FormItem>
+                            <div className='radio-label'>Введите e-mail</div>
+                            {getFieldDecorator('email', {
+                                rules: [{
+                                    required: true,
+                                    message: 'Введите e-mail, пожалуйста'
+                                }, {
+                                    type: "email",
+                                    message: 'Неправильный формат'
+                                }],
+                            })(
+                                <InputNew width="100%" bubbleplaceholder="E-mail"/>
+                            )}
+                        </FormItem>
+                    </div>}
                 </div>
                 <div className="submitPlate">
-                    <Button className="saveBtn"
+                    {loading ? <Spinner/> :
+                        <Button className="saveBtn"
                             btnText='Далее'
                             onClick={() => {
                             }}
                             size='default'
                             type='light-pink'
-                    />
-                    {loading && <Spinner/>}
+                    />}
                 </div>
             </Form>
         )

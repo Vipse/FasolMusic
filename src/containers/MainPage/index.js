@@ -215,8 +215,7 @@ const mapDispatchToProps = dispatch => {
 		onGetFutureTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getFutureTrainerTraining(idMaster, dateMin, dateMax)),
 		onGetAllTrainingStudent: (idMaster, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idMaster, dateMin, dateMax)),
 		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
-		getSelectors: (name) => dispatch(actions.getSelectors(name)),
-		onGetTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent))
+		getSelectors: (name) => dispatch(actions.getSelectors(name))
     }
 };
 

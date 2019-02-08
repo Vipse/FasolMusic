@@ -53,7 +53,6 @@ export const getMyMastersOrStudents = (obj) => {
         axios.post('/catalog.fasol/getMyMastersOrStudents', JSON.stringify(obj))
             .then(rez => {
                 let arr = [];
-                console.log('1', rez);
 
                 if (!rez.data.error)
                     rez.data.result.result.forEach(el => {

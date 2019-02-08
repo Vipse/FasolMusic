@@ -5,34 +5,36 @@
   flex-wrap: wrap;
   justify-content: center;
 
-  .info {
-    font-family: RobotoRegularItalic;
-    color: #000;
+  .controls {
+    display: flex;
     width: 100%;
+    justify-content: center;
+    text-align: center;
 
-    &-small {
+    .info {
       font-family: RobotoRegularItalic;
-      color: #c6c1c8;
-      font-size: 12px;
-      width: 270px;
+      color: #000;
+      width: 100%;
+
+      &-small {
+        font-family: RobotoRegularItalic;
+        color: #c6c1c8;
+        font-size: 12px;
+      }
+
+      &-complete {
+        padding: 20px;
+      }
     }
 
-    &-complete {
-      padding: 20px;
+    .radio-label {
+      color: #000;
+      font-family: RobotoMedium;
     }
-  }
 
-  .radio-label{
-    color: #000;
-    font-family: RobotoMedium;
-  }
-
-  .item {
-    width: 50%;
-  }
-
-  .code {
-    width: 100%;
+    .item {
+      width: 50%;
+    }
   }
 
   .submitPlate {

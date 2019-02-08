@@ -105,8 +105,9 @@ class App extends React.Component {
     };
 
     componentDidMount() {
-
         const {id, currDiscipline} = this.props;
+        this.props.getSelectors('discipline')
+            .then(res => this.props.mode === 'student' && this.props.onGetTrainingsTrialStatus(this.props.id));
         if (this.props.mode === "master"){
             this.props.onGetInfoDoctor(id);
         }
@@ -134,6 +135,7 @@ class App extends React.Component {
             userName: login,
             password: pass,
         }, this.props.history);
+
     }
 
     gotoHandler = (id, userGroup) => {
@@ -249,6 +251,7 @@ class App extends React.Component {
                                             onChangeCurrDiscipline={this.props.onChangeCurrDiscipline}
                                             onGoToSchedule={this.onGoToSchedule}
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
+                                            isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
 
                                             onSetFreeIntervals = {this.props.onSetFreeIntervals}
                                             onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
@@ -297,6 +300,7 @@ const mapStateToProps = state => {
         profileStudent: state.profilePatient,
         selectors: state.loading.selectors,
         trialTrainingForDisciplines: state.student.trialTrainingForDisciplines,
+        isTrialTrainingsAvailable: state.student.isTrialTrainingsAvailable,
         frozenTraining: (state.profilePatient) ? state.profilePatient.frozenTraining : '-',
         usersHeaderSearch: state.loading.usersHeaderSearch,
         weekInterval: state.abonement.weekInterval,
@@ -348,7 +352,7 @@ const mapDispatchToProps = dispatch => {
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
-        onGetTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),
+        onGetTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
@@ -358,10 +362,6 @@ const mapDispatchToProps = dispatch => {
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
-        
-        
-
-        
     }
 };
 
