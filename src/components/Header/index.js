@@ -23,7 +23,8 @@ class Header extends React.Component {
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.isTrialTrainingsAvailable !== this.props.isTrialTrainingsAvailable && this.props.isTrialTrainingsAvailable)
+        if (prevProps.isTrialTrainingsAvailable !== this.props.isTrialTrainingsAvailable &&
+            this.props.isTrialTrainingsAvailable && this.props.isOnMainPage)
             this.setState({isTrialTrainingModalVisible: true});
     }
 

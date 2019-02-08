@@ -205,7 +205,7 @@ class App extends React.Component {
         const isStudent = this.props.mode === "student";
 
         const isAdmin = this.props.mode === "admin";
-        
+
         return (
             <div className="main">
                 {
@@ -244,6 +244,7 @@ class App extends React.Component {
                                             isPushBtnTransfer={this.pushBtnTransfer}
                                             isPushBtnAdd={this.pushBtnUnfresh}
                                             isStudent={(this.props.mode === 'student')}
+                                            isOnMainPage={this.props.location.pathname === '/app'}
                                             frozenTraining={this.props.frozenTraining}
                                             disciplinesList={this.props.disciplinesList}
                                             onGetAvailableInterval={this.props.onGetAvailableInterval}
