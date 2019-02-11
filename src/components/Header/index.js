@@ -46,7 +46,8 @@ class Header extends React.Component {
             this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
             this.props.onSetFreeIntervals(array,  data.type);
 
-            if(discCommunication && discCommunication.hasOwnProperty(codeDisc)){
+            debugger;
+            if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
                 
                 this.props.onSetPushTrialTraining('select_master');
                 this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);

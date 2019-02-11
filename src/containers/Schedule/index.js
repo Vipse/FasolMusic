@@ -258,7 +258,19 @@ class Schedule extends React.Component {
 
     fillTrainingWeek = () => { // создание абонемента
         
-        const {id, abonementIntervals, currDiscipline, disciplines, isPushBtnTrialTraining, profileStudent, selectMaster, subsForDisc,chooseTheMaster} = this.props;
+        const {
+            id, 
+            abonementIntervals, 
+            currDiscipline, 
+            disciplines, 
+            isPushBtnTrialTraining, 
+            profileStudent, 
+            selectMaster, 
+            subsForDisc,
+            chooseTheMaster,
+            useFrozenTraining
+        } = this.props;
+
         message.success("Тренировки распределены по расписанию");
 
 
@@ -278,33 +290,41 @@ class Schedule extends React.Component {
 
         if(selectMaster){
            // discAbonement
-            if(subsForDisc.hasOwnProperty(currDiscipline.code) && Array.isArray(subsForDisc[currDiscipline.code]) && subsForDisc[currDiscipline.code].length) {
+           debugger;
+            if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code) && Array.isArray(subsForDisc[currDiscipline.code]) && subsForDisc[currDiscipline.code].length) {
                // debugger;
-                this.props.onAddAmountTraining(subsForDisc[currDiscipline.code][0], abonementIntervals.countTraining);
+                this.props.onAddAmountTraining(subsForDisc[currDiscipline.code][0], abonementIntervals.countTraining)
+                    .then(() => {
+                        setTimeout(()=>{
+                            this.props.onGetStudentBalance(id);
+                            this.props.onGetUseFrozenTraining(id);
+                        }, 1000);
+                       
+                    })
                 
             }
            
         }
         else{
-            // const newFrozen = +profileStudent.frozenTraining - (+abonementIntervals.countTraining);
-            // let profile = {...profileStudent};
-            // profile.frozenTraining = newFrozen;
-            // this.props.onSaveUserEdit(profile);
-    
-            //this.props.onSaveDisciplineCommunication(id,)
+
             this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
                 .then(() => {
+                    
+                    if(this.props.isPushBtnUnfresh){
+                        this.props.onEditUseFrozenTraining(id,useFrozenTraining);
+                        this.props.onIsPushBtnUnfresh();
+                    }
+
                     this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
+                    setTimeout(()=>{
+                        this.props.onGetStudentBalance(id);
+                        this.props.onGetUseFrozenTraining(id);
+                    }, 1000);
                 });
                 //debugger;
                 this.props.onSaveStudentMasterDisciplineCommunication(id, chooseTheMaster, currDiscipline.code)
                 this.props.onGetDisciplineCommunication(id);
-
-                debugger
-            if(this.props.isPushBtnUnfresh){
-                this.props.onGetStudentBalance(id)
-                this.props.onGetUseFrozenTraining(id);
-            }
+                
                 
         }
 
@@ -312,9 +332,9 @@ class Schedule extends React.Component {
 
         this.setState({apiPatients: [], sendingModal: true, theMasterSelect: false})
   
-        this.props.onGetStudentBalance(id);
+       
         this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id);
-        this.props.onGetUseFrozenTraining(id);
+        
     }
 
     transferTraining = (transferDay) => {
@@ -372,15 +392,18 @@ class Schedule extends React.Component {
     }
 
     freezeAbonement = () => {
-        //this.freezeIdSubscription 
 
-        const {id, currDiscipline} = this.props;
+        const {id, currDiscipline, useFrozenTraining} = this.props;
+
         if(this.freezeIdSubscription) {
             this.props.onFreezeAbonement(this.freezeIdSubscription)
                 .then(() => {
-                    this.props.onGetAbonementsFilter(id, currDiscipline); 
-                    this.props.onGetStudentBalance(id);
-                    this.props.onGetUseFrozenTraining(id);
+                    this.props.onGetAbonementsFilter(id, currDiscipline);
+                    setTimeout(()=>{
+                        this.props.onGetStudentBalance(id);
+                        this.props.onGetUseFrozenTraining(id);
+                        this.props.onSaveStudentMasterDisciplineCommunication(id, null, currDiscipline.code)
+                    }, 1000);
                 })
 
         }
@@ -1084,6 +1107,7 @@ const mapStateToProps = state => {
         masterListObj: state.trainer.masterListObj,
         subsForDisc : state.abonement.subsForDisc,
         isPushBtnUnfresh: state.abonement.isPushBtnUnfresh,
+        useFrozenTraining: state.student.useFrozenTraining,
 
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
@@ -1149,6 +1173,8 @@ const mapDispatchToProps = dispatch => {
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
+        onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
+        onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         
         
 

@@ -33,19 +33,22 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
     
     axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
         .then(res => {
+           
+                const fdata = res.data.result;
                 let discAbonement = Object.keys(res.data.result);            
             
-                res.data.result[currDiscipline.code].map((el) => {
-                    el.fio = '#'+el.key;
-                    el.start = new Date(+el.start * 1000);
-                    el.discipline = el.discipline.map( elem => elem.name).join(',')
-                    el.comment = 'comment';
-                    el.idMaster = el.idMaster;
-                })
+                fdata.hasOwnProperty(currDiscipline.code) ? 
+                        fdata[currDiscipline.code].map((el) => {
+                            el.fio = '#'+el.key;
+                            el.start = new Date(+el.start * 1000);
+                            el.discipline = el.discipline.map( elem => elem.name).join(',')
+                            el.comment = 'comment';
+                            el.idMaster = el.idMaster;
+                        }) : null
 
                 dispatch({
                     type: actionTypes.GET_ABONEMENTS,
-                    allAbonements: res.data.result[currDiscipline.code],
+                    allAbonements: fdata.hasOwnProperty(currDiscipline.code) ? fdata[currDiscipline.code] : [],
                 });
 
                 dispatch({

@@ -47,7 +47,7 @@ class Payment extends React.Component{
         this.props.onSetFreeIntervals(array,  data.type);
 
        
-        if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc)){
+        if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
             
             //
             if(Array.isArray(subsForDisc[codeDisc]) && subsForDisc[codeDisc].length) {

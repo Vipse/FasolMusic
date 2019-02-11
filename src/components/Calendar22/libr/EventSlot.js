@@ -7,7 +7,7 @@ import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import NotificationItem from './../../Notification/index';
 
 import { DragSource } from 'react-dnd';
-
+import moment from 'moment'
 
 const itemSource = {
     beginDrag(props) {
@@ -61,7 +61,15 @@ class EventSlot extends Component {
         backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
-        if(event.status && !event.isBooking && !event.isComplete && mode !== 'master'){
+        let nameBlock =  event.name ? event.name : event.fio;
+            nameBlock += event.trial ? ' Пробная ' : '';
+        
+        
+        let isNearDay =  moment(event.start.getTime()).diff(moment(Date.now()), 'days');
+        isNearDay = (isNearDay < 1) ? false : true
+        
+        
+        if(event.status && !event.isBooking && !event.isComplete && mode !== 'master' && !event.wasTransfer && isNearDay){
             return connectDragSource(
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
@@ -69,7 +77,7 @@ class EventSlot extends Component {
                                 <Icon type='close' size={7} onClick={() => this.props.onCancelTraining(event.id, event.idSubscription)}/>
                             </div>
                             <p className="event-group-text" >
-                                {event.fio}
+                                {nameBlock}
                             </p>
                         </div>
                 </div>
@@ -84,7 +92,7 @@ class EventSlot extends Component {
                             <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>
                         </div>
                         <p className="event-group-text" >
-                            {event.name ? event.name : event.fio}
+                            {nameBlock}
                         </p>
                     </div>
             </div>
