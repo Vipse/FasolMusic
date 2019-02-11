@@ -76,7 +76,7 @@ body {
   border-bottom: 1px solid #e8e8e8;
   align-items: center;
   z-index: 30;
-  min-width: calc(1300px - 240px);
+  min-width: calc(1300px - 340px);
 }
 .main-header .sidenav-root-btn {
   position: absolute;
@@ -153,6 +153,60 @@ body {
 .incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button:hover {
   background-color: #fff;
   color: #ff7daa;
+}
+.fast-modal .ant-modal-content {
+  border-radius: 5px;
+  overflow: hidden;
+}
+.fast-modal .ant-modal-content .ant-modal-close {
+  display: unset;
+}
+.fast-modal .ant-modal-content .ant-modal-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .anticon {
+  display: none;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title {
+  padding: 14px 25px;
+  text-align: left;
+  font-family: RobotoRegularItalic;
+  background: #ff7daa;
+  font-size: 20px;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-content {
+  text-align: center;
+  margin: 20px 20px 0;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: center;
+  margin: 25px;
+  float: unset;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button {
+  min-width: 140px;
+  height: 42px;
+  font-family: RobotoMedium;
+  font-size: 11px;
+  background-color: transparent;
+  color: #ffc800;
+  border: 1px solid #ffc800;
+  border-radius: 4px;
+  box-shadow: unset;
+  text-shadow: unset;
+  text-transform: uppercase;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button:hover {
+  background-color: #ffc800;
+  color: #fff;
 }
 button {
   outline: none !important;

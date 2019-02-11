@@ -85,9 +85,7 @@ class ContentForm extends React.Component {
         return (
             <Form onSubmit={this.handleSubmit}
                   className="TrialTrainModal">
-                <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-                </p>
+                <p className="info">Для записи на пробную тренировку выберите дисциплину</p>
                 <div className='controls'>
                     <div className="item">
                         <FormItem>
@@ -105,9 +103,8 @@ class ContentForm extends React.Component {
                                 </div>
                             )}
                         </FormItem>
-                        <p className="info-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+                        <p className="info-small">Вам покажется расписание с свободным временем наших коучей,
+                            выберите ячейку и коуча.
                         </p>
                     </div>
                     {unauthorized && <div className="item">
@@ -134,7 +131,7 @@ class ContentForm extends React.Component {
                             onClick={() => {
                             }}
                             size='default'
-                            type='light-pink'
+                            type='yellow'
                     />}
                 </div>
             </Form>

@@ -10,7 +10,7 @@ import Calendar from "../../components/Calendar22";
 import CancelVisitModal from "../../components/CancelVisitModal";
 import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
-import {message} from 'antd';
+import {message, Modal as PopupModal} from 'antd';
 import MyCoach from '../../components/MyCoach';
 import ReceptionsScheduleModal from "../../components/ReceptionsScheduleModal";
 import Modal from './../../components/Modal/index';
@@ -285,6 +285,26 @@ class Schedule extends React.Component {
 
         if(isPushBtnTrialTraining){
             this.props.onSetPushTrialTraining('choose_trial');
+            PopupModal.warning({
+                title: 'Ура!',
+                width: '500px',
+                className: 'fast-modal',
+                content: 'Время пробной тренировки выбрано, а теперь нужно обязательно заполнить информацию о себе' +
+                    'в личном профиле!',
+                okText: 'Заполнить профиль',
+                maskClosable: false,
+                onOk: () => {
+                    this.props.history.push('/app/personal-info');
+                    PopupModal.info({
+                        title: 'Что нужно для пробного!',
+                        width: '500px',
+                        className: 'fast-modal',
+                        content: 'Подготовьте камеру и микрофон, проверьте интернет-соединение ' +
+                            'и подготовьте инструмент если вы гитарист, а все остальное сделаем мы! ' +
+                            'Только не пропустите наш звонок!) P.S. Лучше зайти на платформу за 10 минут:)',
+                    });
+                }
+            });
         }
 
 
