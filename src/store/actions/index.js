@@ -160,6 +160,7 @@ export {
     masterFreeOnDate,
     getTheMasterInterval,
     getTrainingTrialStatusByDiscipline,
+    getTrainingsTrialStatus,
     setPushBtnTransferTraining,
     setPushBtnAddTraining,
     setPushTrialTraining,
