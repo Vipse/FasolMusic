@@ -47,12 +47,13 @@ class Chat extends React.Component{
         }
     };
 
-    goToChat = (idTo, idTraining, interlocutorName, beginTime, isTrial = false) => {
+    goToChat = (idTo, idTraining, interlocutorName, interlocutorAvatar, beginTime, isComplete, isTrial) => {
         this.props.onSetChatToId(idTo);
-        this.props.onSetChatInterlocutorInfo(interlocutorName);
+        this.props.onSetChatInterlocutorInfo(interlocutorName, interlocutorAvatar);
         this.props.onSetChatTrainingId(idTraining);
         this.props.onSetBeginTime(beginTime);
-        this.props.onSetIsTrialStatus(isTrial);
+        isComplete !== undefined && this.props.onSetIsCompleteStatus(isComplete);
+        isTrial !== undefined && this.props.onSetIsTrialStatus(isTrial);
     };
 
     onGoToPayment = () => {
@@ -72,13 +73,15 @@ class Chat extends React.Component{
                 return studentNearTrainings.map((item) => {
                     return {
                         name: item.fioMaster,
+                        avatar: item.avatarMaster,
                         start: +item.start * 1000,
                         end: +item.start * 1000 + 3600000,
                         discipline: item.disciplineSubscription.length ?
                             selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null,
                         idProfile: item.idMaster,
                         idTraining: item.id,
-                        isTrial: item.trial
+                        isTrial: item.trial,
+                        isComplete: item.isComplete
                     }
                 });
             } else {
@@ -88,12 +91,14 @@ class Chat extends React.Component{
                         let train = masterNearTrainings[dayItem][trainItem].allInfo;
                         arrData.push({
                             name: train.fio,
+                            avatar: train.avatar,
                             start: +train.date * 1000,
                             end: +train.date * 1000 + 3600000,
                             discipline: train.disciplines.length ?
                                 selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
                             idProfile: train.idStudent,
-                            idTraining: train.idTraining
+                            idTraining: train.idTraining,
+                            isComplete: train.isComplete
                         });
                     }
 
@@ -112,11 +117,13 @@ class Chat extends React.Component{
             trainingStarts: this.props.trainingStarts,
             isCalling: this.props.isCalling,
             isTrial: this.props.isTrial,
+            isComplete: this.props.isComplete,
             idTraining: this.props.idTraining,
             callerID: this.props.id,
             calledID: this.props.idTo,
             user_mode: this.props.user_mode,
             interlocutorName: this.props.interlocutorName,
+            interlocutorAvatar: this.props.interlocutorAvatar,
             //online: this.props.status,
             setConversationMode: this.props.onSetConversationMode,
             beginTime: this.props.beginTime
@@ -130,25 +137,25 @@ class Chat extends React.Component{
                     <Col xs={24} xxl={24} className='section'>
                         {
                             this.props.idTraining ?
-                            isStudent ? (
-                                <ChatCard {...chatProps}
-                                          mode={this.props.conversationMode}
-                                          onExitTraining={() => this.goToChat(0, 0, '', 0)}
-                                          goToPayment={this.onGoToPayment}
-                                          isStudent={true}
-                                />
-                            ) : (
-                                <ChatCard {...chatProps}
-                                          mode={this.props.conversationMode}
-                                          onExitTraining={() => this.goToChat(0, 0, '', 0)}
-                                          completeTraining={this.props.onCompleteTraining}
-                                          tailTraining={this.props.onTransferTraininingToEnd}
-                                          changeTrainingStatus={this.props.onSetTrainingStatus}
-                                />
-                            ) :
+                                isStudent ? (
+                                    <ChatCard {...chatProps}
+                                              mode={this.props.conversationMode}
+                                              onExitTraining={() => this.goToChat(0, 0, '', 0)}
+                                              goToPayment={this.onGoToPayment}
+                                              isStudent={true}
+                                    />
+                                ) : (
+                                    <ChatCard {...chatProps}
+                                              mode={this.props.conversationMode}
+                                              onExitTraining={() => this.goToChat(0, 0, '', 0)}
+                                              completeTraining={this.props.onCompleteTraining}
+                                              tailTraining={this.props.onTransferTraininingToEnd}
+                                              changeTrainingStatus={this.props.onSetTrainingStatus}
+                                    />
+                                ) :
                                 <ChatTrainingsList
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    goToChat = {this.goToChat}
+                                    goToChat={this.goToChat}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
                                     data={this.state.nearTrainings}
                                 />
@@ -173,13 +180,15 @@ const mapStateToProps = state =>{
         chatStory: state.chatWS.chatStory,
         trainingStarts: state.chatWS.trainingStarts,
         isCalling: state.chatWS.isCalling,
-        isTrial: state.chatWS.isTrial,
         beginTime: state.chatWS.beginTime,
+        isComplete: state.chatWS.isComplete,
+        isTrial: state.chatWS.isTrial,
         timer: state.chatWS.timer,
         idTo: state.chatWS.to,
         idTraining: state.chatWS.idTraining,
         conversationMode: state.chatWS.conversationMode,
-        interlocutorName: state.chatWS.interlocutorName
+        interlocutorName: state.chatWS.interlocutorName,
+        interlocutorAvatar: state.chatWS.interlocutorAvatar
     }
 }
 
@@ -194,10 +203,11 @@ const mapDispatchToProps = dispatch => {
         onSetConversationMode: (mode) => dispatch(actions.setConversationMode(mode)),
         onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
         onSetChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
-        onSetChatInterlocutorInfo: (interlocutorName) => dispatch(actions.setChatInterlocutorInfo(interlocutorName)),
+        onSetChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),
         onSetTrainingStatus: (isStart) => dispatch(actions.setReceptionStatus(isStart)),
-        onSetIsTrialStatus: (isStart) => dispatch(actions.setIsTrialStatus(isStart)),
         onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
+        onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
+        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial))
 
         //uploadFile: (id_zap, id_user, file, callback) => dispatch(actions.uploadChatFile(id_zap,id_user, file,callback)),
 	}

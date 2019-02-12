@@ -55,7 +55,7 @@ class TopPanel extends React.Component{
                     <Button
                         btnText='Перейти к видео'
                         size='large'
-                        type='yellow'
+                        type='yellow-unfilled'
                     />
                 </div>
                 <div className="top-panel-items">

@@ -44,12 +44,14 @@ class CouchMain extends React.Component {
                     let train = futureTraining[dayItem][trainItem].allInfo;
                     arrData.push({
                         name: train.fio,
+                        avatar: train.avatar,
                         start: +train.date * 1000,
                         end: +train.date * 1000 + 3600000,
                         discipline: train.disciplines.length ?
                             selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
                         idProfile: train.idStudent,
-                        idTraining: train.idTraining
+                        idTraining: train.idTraining,
+                        isComplete: train.isComplete
                     });
                 }
 

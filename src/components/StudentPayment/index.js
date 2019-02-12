@@ -41,7 +41,7 @@ class StudentPayment extends React.Component{
         // здесь должно быть typeSubscription
         
         
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: count});
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: count});
     }
 
     renderInput = (type) => {
@@ -180,7 +180,7 @@ class StudentPayment extends React.Component{
 
                     </div>
                 </Card>
-                <Card className="payment-student-paymentData" title="Варианты оплаты">
+                <Card className="payment-student-paymentData" title="Промокод">
                     <div className="inputPlate">
                         <InputNew className="input" bubbleplaceholder="Введи промокод"/>
                         <Button className="applyBtn"
@@ -189,27 +189,6 @@ class StudentPayment extends React.Component{
                                 size='default'
                                 type='light-green'
                         />
-                    </div>
-                    <div className="paymentBlock">
-                        <span className="title">Выбери способ оплаты</span>
-                        <div className='paymentTypePlate'>
-                            <div className="payment-method">
-                                <div className="payment-method-view" onClick={() => this.setState({modalVisible: true})}>
-                                    <img src={cardIcon} className="payment-method-icon"/>
-                                    <span className="payment-method-name">Карта</span>
-                                </div>
-                            </div>
-                            <div className="payment-method">
-                                <div className="payment-method-view" onClick={() => this.setState({modalVisible: true})}>
-                                    <img src={yandexMoneyIcon} className="payment-method-icon"/>
-                                    <span className="payment-method-name">Яндекс.Деньги</span>
-                                </div>
-                            </div>
-                        </div>
-                        <p className="info">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
-                            eligendi
-                        </p>
                     </div>
                 </Card>
                 <Card className="payment-student-stats">

@@ -78,14 +78,14 @@ class ContentForm extends React.Component {
     };
 
     render() {
-        const {unauthorized, form} = this.props;
+        const {unauthorized, trial, form} = this.props;
         const {getFieldDecorator} = form;
         const {loading} = this.state;
 
         return (
             <Form onSubmit={this.handleSubmit}
-                  className="TrialTrainModal">
-                <p className="info">Для записи на пробную тренировку выберите дисциплину</p>
+                  className="CreateTrainModal">
+                <p className="info">Для записи на {trial ? 'пробную ' : null}тренировку выберите дисциплину</p>
                 <div className='controls'>
                     <div className="item">
                         <FormItem>
@@ -103,8 +103,8 @@ class ContentForm extends React.Component {
                                 </div>
                             )}
                         </FormItem>
-                        <p className="info-small">Вам покажется расписание с свободным временем наших коучей,
-                            выберите ячейку и коуча.
+                        <p className="info-small">Вам покажется расписание со свободным временем наших коучей,
+                            выберите ячейку и коуча
                         </p>
                     </div>
                     {unauthorized && <div className="item">

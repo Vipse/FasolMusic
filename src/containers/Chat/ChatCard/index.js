@@ -18,7 +18,8 @@ import {
 } from '../../App/chatWs'
 
 import './style.css'
-import {Modal} from "antd";
+import {Modal as PopupModal, Modal} from "antd";
+import ProfileAvatar from "../../../components/ProfileAvatar";
 
 
 class ChatCard extends React.Component {
@@ -28,51 +29,77 @@ class ChatCard extends React.Component {
         	chat: [],
             isActiveFiles: false,
 			isActiveChat: true,
-			isCurTrainingEnd: false,
+			isCurTrainingEnd: true,
 			completionModalVisible: false
 		}
-    }
+	}
 
-    componentDidMount() {
-		if (this.props.idTraining && this.props.user_mode === "master") {
-			this.props.changeTrainingStatus(true);
-			this.setState({isCurTrainingEnd: false});
-			startReception();
-		}
-		else if (moment() < moment(this.props.beginTime)) {
-			this.notBeganWarning();
-			console.log(moment(), moment(this.props.beginTime))
+	componentDidMount() {
+		const {idTraining, user_mode, isComplete, isTrial, beginTime} = this.props;
+
+		if (idTraining) {
+			if (user_mode === "student") {
+				!isComplete && isTrial && this.trialInfoModal();
+				if (moment() < moment(beginTime)) this.notBeganModal();
+			}
+
+			if (!isComplete) {
+				this.props.changeTrainingStatus(true);
+				this.setState({isCurTrainingEnd: false});
+				startReception();
+			}
+			else {
+				this.props.changeTrainingStatus(false);
+				this.setState({isCurTrainingEnd: true});
+			}
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
     	if (prevProps.trainingStarts !== this.props.trainingStarts && !this.props.trainingStarts
 		&& this.props.isStudent && this.props.isTrial)
-			Modal.warning({
-				title: 'Фух! отлично потренировались! :)',
-				width: '500px',
-				className: 'fast-modal',
-				content: 'Вы конечно хотите продолжать и специально для вас если ' +
-					'вы произведете оплату в течении 24 часов мы вам подарим еще 1 бесплатную тренировку!',
-				maskClosable: true,
-				okText: 'Оплатить',
-				onOk: () => this.props.goToPayment()
-			});
+			this.finishedTrialModal();
 	}
 
-	notBeganWarning = () => {
+	finishedTrialModal = () => {
+		Modal.warning({
+			title: 'Фух! отлично потренировались! :)',
+			width: '500px',
+			className: 'fast-modal',
+			content: 'Вы конечно хотите продолжать и специально для вас если ' +
+				'вы произведете оплату в течении 24 часов мы вам подарим еще 1 бесплатную тренировку!',
+			maskClosable: true,
+			okText: 'Оплатить',
+			onOk: () => this.props.goToPayment()
+		});
+	};
+
+	notBeganModal = () => {
 		Modal.confirm({
 			title: 'Тренировка еще не началась',
 			width: '500px',
 			className: 'fast-modal',
 			content: 'Тренировка пока еще не началась, нужно подождать до ' +
-				moment(this.props.beginTime).format('HH:mm') + '. Как только начнется тренировка ' +
+				moment(this.props.beginTime).format('HH:mm DD MMM') + ' Как только начнется тренировка ' +
 				'коуч сам вам позвонит и не забудьте принять вызов! :) Но вы всегда можете написать ему в чат :)',
 			maskClosable: true,
 			okText: 'Хорошо',
 			cancelText: 'Вернуться к списку',
 			onOk: () => {/*moment() < moment(this.props.beginTime) && this.notBeganWarning()*/},
 			onCancel: this.props.onExitTraining
+		});
+	};
+
+	trialInfoModal = () => {
+		PopupModal.info({
+			title: 'Что нужно для пробного!',
+			width: '500px',
+			className: 'fast-modal',
+			content: 'Подготовьте камеру и микрофон, проверьте интернет-соединение ' +
+				'и подготовьте инструмент если вы гитарист, а все остальное сделаем мы! ' +
+				'Только не пропустите наш звонок!) P.S. Лучше зайти на платформу за 10 минут :)',
+			okText: 'Ясно :)',
+			zIndex: 1025
 		});
 	};
 
@@ -102,21 +129,21 @@ class ChatCard extends React.Component {
 	};
 
 	onCloseTraining = (markAs) => {
-		/* завершение чата, обнуление истории на сервере */
+		const {idTraining} = this.props;
+
 		messAboutStop();
 		stop();
 
 		if (markAs === 'complete') {
-			let new_obj = {idTraining: this.props.idTraining};
-			this.props.completeTraining(new_obj);
-			messForCloseReception(this.props.idTraining);
+			this.props.completeTraining({idTraining});
+
+			messForCloseReception(idTraining);
 			this.props.changeTrainingStatus(false);
 			this.setState({isCurTrainingEnd: true});
 		}
 		else if (markAs === 'transfer') {
-			let new_obj = {idTraining: this.props.idTraining};
-			this.props.tailTraining(new_obj);
-			messForCloseReception(this.props.idTraining);
+			this.props.tailTraining({idTraining});
+			messForCloseReception(idTraining);
 			this.props.changeTrainingStatus(false);
 			this.setState({isCurTrainingEnd: true});
 		}
@@ -152,9 +179,10 @@ class ChatCard extends React.Component {
 	};
 
     getIconByType = () => {
+    	const {mode} = this.props;
 		let icon;
 		
-        switch (this.props.mode) {
+        switch (mode) {
             case 'chat':
                 icon = "chat1";
                 break;
@@ -167,11 +195,11 @@ class ChatCard extends React.Component {
 			default:
 				icon =  "chat1";
         }
-        return icon
+        return icon;
     };
 
     render() {
-		const {interlocutorName, online} = this.props;
+		const {interlocutorName, interlocutorAvatar, online} = this.props;
 		const iconType = this.getIconByType();
         const statusClass = cn('chat-card-status', `chat-card-${online}`);
         const dialogsClass = cn('chat-card-dialogs', {'chat-card-dialogs-active': this.state.isActiveFiles});
@@ -236,6 +264,8 @@ class ChatCard extends React.Component {
 								type='go'
 								onClick={this.handleChangeType}
 							/>
+							<div className='chat-card-avatarPatient'><ProfileAvatar img={interlocutorAvatar}
+																					size='small'/></div>
 							<div className='chat-card-namePatient'>{interlocutorName}</div>
 							{/*<div className={statusClass}>{online}</div>*/}
 						</div>
@@ -283,14 +313,24 @@ ChatCard.propTypes = {
 	interlocutorName: PropTypes.string,
     online: PropTypes.bool,
 	mode: PropTypes.oneOf(['chat', 'voice', "video"]),
-	isEnded: PropTypes.bool
+	isEnded: PropTypes.bool,
+	completeTraining: PropTypes.func,
+	changeTrainingStatus: PropTypes.func,
+	tailTraining: PropTypes.func,
+	goToPayment: PropTypes.func,
+	onExitTraining: PropTypes.func
 };
 
 ChatCard.defaultProps = {
 	interlocutorName: '',
     online: false,
 	mode: 'chat',
-	isEnded: false
+	isEnded: false,
+	completeTraining: () => {},
+	changeTrainingStatus: () => {},
+	tailTraining: () => {},
+	goToPayment: () => {},
+	onExitTraining: () => {}
 };
 
 export default ChatCard

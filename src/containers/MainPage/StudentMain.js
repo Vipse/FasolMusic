@@ -37,12 +37,15 @@ class StudentMain extends React.Component{
             return nearTraining.map((item) => {
                 return {
                     name: item.fioMaster,
+                    avatar: item.avatarMaster,
                     start: +item.start * 1000,
                     end: +item.start * 1000 + 3600000,
                     discipline: item.disciplineSubscription.length ?
                         selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null,
                     idProfile: item.idMaster,
-                    idTraining: item.id
+                    idTraining: item.id,
+                    isTrial: item.trial,
+                    isComplete: item.isComplete
                 }
             });
         }

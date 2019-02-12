@@ -140,6 +140,7 @@ class ChatVideoContent extends React.Component {
                             sec={s}
                             min={m}
 							isStudent={this.props.isStudent}
+							isComplete={!this.props.trainingStarts}
                             hour={h}
                             isCalling={this.props.isCalling}/>) : null}
 
