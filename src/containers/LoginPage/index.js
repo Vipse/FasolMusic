@@ -37,6 +37,7 @@ class LoginPage extends React.Component {
         const registerData = {
             email,
             password: "123456",
+            name: email,
             disciplines: [{discipline: [disciplinesList[type].code]}],
             frozenTraining : Object.keys(disciplinesList).length
         };

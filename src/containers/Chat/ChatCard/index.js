@@ -69,7 +69,7 @@ class ChatCard extends React.Component {
 			width: '500px',
 			className: 'fast-modal',
 			content: 'Тренировка пока еще не началась, нужно подождать до ' +
-				moment(this.props.beginTime).format('HH:mm') + '. Как только начнется тренировка ' +
+				moment(this.props.beginTime).format('HH:mm DD MMM') + ' Как только начнется тренировка ' +
 				'коуч сам вам позвонит и не забудьте принять вызов! :) Но вы всегда можете написать ему в чат :)',
 			maskClosable: true,
 			okText: 'Хорошо',
