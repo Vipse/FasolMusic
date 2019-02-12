@@ -12,8 +12,7 @@ import '../../icon/style.css'
 
 const ChatMessage = props => {
     const {
-        text, size, date, online, img, isMy, isDate, isVisEnd, type, callTime, name, isConclusion: isConcl
-    } = props;
+        text, size, date, online, img, isMy, isDate, isVisEnd, type, callTime, name} = props;
     const rootClass = isMy ? 'message__out' : 'message__in';
 
     const callInfoMessage = (text1, name, text2, iconType, isRed = false) => {
@@ -84,13 +83,12 @@ const ChatMessage = props => {
                                                 text : <DownloadLink
                                                             btnText={props.name}
                                                             href={props.link}
-                                                            conclusion = {isConcl ? "link-conclusion" : ''}
                                                             size="default"
                                                             type="link"
                                                             download
                                                             svg
-                                                            icon={isConcl ? 'result2' :"file"}
-                                                            iconSize={isConcl ? 28 : 16}/> }
+                                                            icon={"file"}
+                                                            iconSize={16}/> }
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +101,7 @@ const ChatMessage = props => {
                     isDate ?
                         ( <div className='message-today'>{moment(date*1000).format("D MMMM YYYY")}</div>)
                         : isVisEnd ?
-                            (<div className='message-visit-end'>Тренировка остановлена</div>)
+                            (<div className='message-visit-end'>Тренировка завершена</div>)
                             : (
                             content
                 )

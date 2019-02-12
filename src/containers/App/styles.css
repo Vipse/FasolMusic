@@ -76,7 +76,7 @@ body {
   border-bottom: 1px solid #e8e8e8;
   align-items: center;
   z-index: 30;
-  min-width: calc(1300px - 240px);
+  min-width: calc(1300px - 340px);
 }
 .main-header .sidenav-root-btn {
   position: absolute;
@@ -114,45 +114,6 @@ body {
 .main-footer-item.copirate {
   font-size: 12px;
   letter-spacing: 0.12px;
-}
-.incoming-call-modal .ant-modal-body {
-  height: 180px;
-}
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper {
-  height: 125px;
-}
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body {
-  display: flex;
-  justify-content: center;
-}
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .anticon,
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-content {
-  display: none;
-}
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title {
-  text-align: center;
-  font-family: RobotoRegularItalic;
-  font-size: 24px;
-}
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-  float: unset;
-}
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button {
-  width: 140px;
-  height: 42px;
-  font-family: RobotoMedium;
-  font-size: 14px;
-  background-color: #ff7daa;
-  color: #fff;
-  border: 1px solid #ff7daa;
-  border-radius: 4px;
-}
-.incoming-call-modal .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button:hover {
-  background-color: #fff;
-  color: #ff7daa;
 }
 button {
   outline: none !important;

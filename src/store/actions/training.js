@@ -164,3 +164,17 @@ export const getTrainingChatHistory = (idTraining) => {
             .catch(err => console.log(err));
     }
 };
+
+export const completeReception = (obj) => {
+    return dispatch => {
+        return axios.post('/catalog.fasol/trainingComplete',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log('completeReception', res);
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+}

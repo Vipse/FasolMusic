@@ -16,28 +16,27 @@ class ChatSend extends React.Component{
             value: props.value,
             fileList: [],
             generatedList: [],
-            isGenerated: true,
-            conclusionList: [],
+            isGenerated: true
         }
     }
 
-    modifyFiles = (file, isConclusion) => {
+    modifyFiles = (file, ) => {
         let that = this;
-        this.setState({isGenerated: false})
+        this.setState({isGenerated: false});
             previewFile(file.originFileObj, function (previewDataUrl) {
                 file.thumbUrl = previewDataUrl;
 
                 that.setState({
                     isGenerated: true,
                 });
-                that.props.uploadFiles(file, isConclusion)
+                that.props.uploadFiles(file)
             });
-    }
+    };
 
-    pushFiles = (e, isConclusion) => {
-        console.log(e)
-        this.modifyFiles(e.file, isConclusion);
-    }
+    pushFiles = (e) => {
+        console.log(e);
+        this.modifyFiles(e.file);
+    };
 
     sendHandler = () => {
         this.inp.focus();
@@ -45,33 +44,11 @@ class ChatSend extends React.Component{
             text: this.state.value,
             date: Math.floor(Date.now()/1000),
         }),
-        this.setState({value: ''}))
-    }
+        this.setState({value: ''}));
+    };
 
     componentDidMount(){
         this.inp.focus();
-    }
-
-    conclusionAddingHandler = (e) => {
-        const {disable, isCurVisEnd} = this.props;
-        let that = this;
-        if(!disable || isCurVisEnd){
-
-            Modal.confirm({
-                title: 'Прикрепить заключение?',
-                //content: 'Some descriptions',
-                onOk() {
-                    that.pushFiles(e,true);
-                },
-                onCancel() {},
-              });
-
-        }
-        else {
-            Modal.error({
-                title: 'Не удалось прикрепить заключение',
-            });
-        }
     }
 
     fileAddingHandler = (e) => {
@@ -84,9 +61,7 @@ class ChatSend extends React.Component{
                 title: 'Не удалось прикрепить файл',
               });
         }
-
-
-    }
+    };
 
     render(){
         const { TextArea } = Input;
@@ -98,29 +73,15 @@ class ChatSend extends React.Component{
                     <TextArea
                         ref={inp => this.inp = inp}
                         value = {this.state.value}
-                        disabled={disable}
                         onChange={e => {
                             e.target.value.charCodeAt(e.target.value.length - 1) === 10
-                                ? (!disable && this.sendHandler())
+                                ? (this.sendHandler())
                                 : this.setState({value: e.target.value})
                         }}
                         placeholder="Ваше сообщение..."
                         autosize/>
                 </div>
                 <div className='message__send-btns'>
-                    <Upload //multiple={true}
-                        disable={true}
-                        showUploadList={false}
-                        fileList={this.state.conclusionList}
-                        onChange={this.conclusionAddingHandler}>
-                        {!this.props.isUser && (<Button
-                            btnText=''
-                            size='small'
-                            type='no-brd'
-                            icon='result'
-                            title='Добавить заключение'
-                        />)}
-                    </Upload>
                     <Upload
                         //multiple={true}
                         showUploadList={false}
@@ -140,14 +101,7 @@ class ChatSend extends React.Component{
                         title='Отправить сообщение'
                         onClick={this.sendHandler}
                     />}
-                    {this.props.isUser ?
-                        (/*<Button
-                        btnText='оставить отзыв'
-                        size='default'
-                        type='yellow'
-                        onClick={this.props.makeReview}
-                    />*/ null)
-                        : !this.props.disable ?
+                    {!this.props.isUser && !this.props.disable ?
                             (<Button
                                 btnText='Остановить тренировку'
                                 size='small'

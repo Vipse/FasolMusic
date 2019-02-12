@@ -17,6 +17,7 @@ import '../../styles/fonts.css';
 
 import Icon from "../../components/Icon";
 import cookie from 'react-cookies'
+import {Modal} from "antd";
 
 const renderRoutes = ({path, component, exact}) => (
     <Route key={path} exact={exact} path={path} component={component}/>
@@ -104,6 +105,19 @@ class App extends React.Component {
         register('' + this.props.id, ''/*+this.props.user_id*/, this.props.mode);
     };
 
+     warnIfMobileDevice = () => {
+         const isMobile = /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(navigator.userAgent);
+         if (isMobile)
+             Modal.warning({
+                 title: 'Мобильное устройство',
+                 width: '500px',
+                 className: 'fast-modal',
+                 content: 'Для более удобной работы с платформой зайдите с компьютера! ' +
+                     'Но вы всегда можете записаться тренировку и с телефона, а также весь функционал доступен для вас!\n',
+                 zIndex: 1050
+             });
+     };
+
     componentDidMount() {
         const {id, currDiscipline} = this.props;
         this.props.getSelectors('discipline')
@@ -117,7 +131,7 @@ class App extends React.Component {
             this.props.onGetMasterList();
             this.props.onGetStudentBalance(id);
             this.props.onGetUseFrozenTraining(id);
-            
+            this.warnIfMobileDevice();
         }
 
         if (id) {

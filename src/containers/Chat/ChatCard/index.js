@@ -3,13 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 import moment from "moment"
-import {message} from "antd"
 
 
 import Button from '../../../components/Button'
 import CompletionTrainingModal from "../../../components/CompletionTrainingModal";
-import CompleteAppeal from '../../../components/CompleteAppeal'
-import NewVisitModalPage from "../../../components/NewVisitModalPage";
 import ChatTextContent from './ChatTextContent'
 import ChatVideoContent from './ChatVideoContent'
 import ChatAudioContent from './ChatAudioContent'
@@ -21,51 +18,71 @@ import {
 } from '../../App/chatWs'
 
 import './style.css'
+import {Modal} from "antd";
 
 
 class ChatCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isActive: false,
+        	chat: [],
+            isActiveFiles: false,
 			isActiveChat: true,
-			isCurVisEnd: false,
-
-			duration: 0,
-
-
-			reception_vis: false,
-			treatment_vis: false,
-			visit_vis: false,
+			isCurTrainingEnd: false,
+			completionModalVisible: false
 		}
     }
 
-	componentWillReceiveProps(nextProps){
-		// ---- TO FIX (chack)
-		((''+this.props.receptionId != ''+nextProps.receptionId) && nextProps.user_mode === "master")
-				&& (
-					this.props.setReceptionStatus(false),
-					this.setState({isCurVisEnd: false}),
-					this.props.setChatToId(nextProps.calledID)
-				);
-
-
-		//---------
+    componentDidMount() {
+		if (this.props.idTraining && this.props.user_mode === "master") {
+			this.props.changeTrainingStatus(true);
+			this.setState({isCurTrainingEnd: false});
+			startReception();
+		}
+		else if (moment() < moment(this.props.beginTime)) {
+			this.notBeganWarning();
+			console.log(moment(), moment(this.props.beginTime))
+		}
 	}
 
-	componentDidUpdate(prevProps){
-		(this.props.callback !== prevProps.callback) && this.props.callback instanceof Function ?
-				(this.props.callback(), this.props.clearCallback()) : null;
+	componentDidUpdate(prevProps, prevState, snapshot) {
+    	if (prevProps.trainingStarts !== this.props.trainingStarts && !this.props.trainingStarts
+		&& this.props.isStudent && this.props.isTrial)
+			Modal.warning({
+				title: 'Фух! отлично потренировались! :)',
+				width: '500px',
+				className: 'fast-modal',
+				content: 'Вы конечно хотите продолжать и специально для вас если ' +
+					'вы произведете оплату в течении 24 часов мы вам подарим еще 1 бесплатную тренировку!',
+				maskClosable: true,
+				okText: 'Оплатить',
+				onOk: () => this.props.goToPayment()
+			});
 	}
 
-	startReceptionHandler = () => {
-    	// if(this.props.appShouldStartAt > +moment().format("X")+300) {
-    	// 	message.error("Приём можно начать за 5 минут до указанного времени")
-    	// 	return;
+	notBeganWarning = () => {
+		Modal.confirm({
+			title: 'Тренировка еще не началась',
+			width: '500px',
+			className: 'fast-modal',
+			content: 'Тренировка пока еще не началась, нужно подождать до ' +
+				moment(this.props.beginTime).format('HH:mm') + '. Как только начнется тренировка ' +
+				'коуч сам вам позвонит и не забудьте принять вызов! :) Но вы всегда можете написать ему в чат :)',
+			maskClosable: true,
+			okText: 'Хорошо',
+			cancelText: 'Вернуться к списку',
+			onOk: () => {/*moment() < moment(this.props.beginTime) && this.notBeganWarning()*/},
+			onCancel: this.props.onExitTraining
+		});
+	};
+
+	startTrainingHandler = () => {
+		// if(this.props.appShouldStartAt > +moment().format("X")+300) {
+		// 	message.error("Приём можно начать за 5 минут до указанного времени")
+		// 	return;
 		// }
 
 		startReception();
-		this.props.changeReceptionStatus(this.props.receptionId, "begin")
 	};
 
 	onCall = () => {
@@ -80,62 +97,57 @@ class ChatCard extends React.Component {
 		stop();
 	};
 
-	beforeCloseReseption = () => {
-		this.setState({reception_vis: true});
+	beforeCloseTraining = () => {
+		this.setState({completionModalVisible: true});
 	};
 
-	onCloseReception = (markAs) => {
+	onCloseTraining = (markAs) => {
 		/* завершение чата, обнуление истории на сервере */
 		messAboutStop();
 		stop();
-		messForCloseReception(this.props.receptionId);
 
 		if (markAs === 'complete') {
-			let new_obj = {idTraining: this.props.receptionId};
-			this.props.completeReception(new_obj);
+			let new_obj = {idTraining: this.props.idTraining};
+			this.props.completeTraining(new_obj);
+			messForCloseReception(this.props.idTraining);
+			this.props.changeTrainingStatus(false);
+			this.setState({isCurTrainingEnd: true});
 		}
 		else if (markAs === 'transfer') {
-			let new_obj = {idTraining: this.props.receptionId};
-			this.props.tailReception(new_obj);
+			let new_obj = {idTraining: this.props.idTraining};
+			this.props.tailTraining(new_obj);
+			messForCloseReception(this.props.idTraining);
+			this.props.changeTrainingStatus(false);
+			this.setState({isCurTrainingEnd: true});
 		}
-		this.props.setReceptionStatus(false);
-		this.props.changeReceptionStatus(this.props.receptionId, "finish");
 
-		this.setState({reception_vis: false, treatment_vis: false, isCurVisEnd: true});
-		this.props.extr ?
-			this.setState({reception_vis: false})
-			: this.setState({reception_vis: false, treatment_vis: true});
+		this.setState({completionModalVisible: false});
 	};
 
-	onAddVisit = (obj) => {
-		this.setState({reception_vis: false,treatment_vis: true});
-	};
-
-	uploadOnlyFile = (id_zap, id_user, callback) => {
+	/*uploadOnlyFile = (id_zap, id_user, callback) => {
 		return (file, isConclusion) => {
 			isConclusion ? (
 				this.props.uploadConclusion(id_zap,file, callback)
 			)
 
 				: this.props.uploadFile(id_zap,id_user, file,callback);
-			this.state.isActive && this.props.getAllFilesTreatment(this.props.id_treatment);
+			this.state.isActiveFiles && this.props.getAllFilesTreatment(this.props.id_treatment);
 		}
-	};
+	};*/
 
 	toggleFilesArea = () => {
-		(!this.state.isActive) && this.props.getAllFilesTreatment(this.props.id_treatment);
-		this.setState(prev => ({isActive: !prev.isActive}));
+		this.setState(prev => ({isActiveFiles: !prev.isActiveFiles}));
 	};
 
 	handleChangeType = () => {
-		const {mode, isCalling, setConversationMode} = this.props;
+		const {mode, isCalling} = this.props;
 		const types = ['chat', 'video'];
 
 		if (!isCalling) {
 			const prevTypeIndex = types.indexOf(mode);
 			const nextTypeIndex = prevTypeIndex === types.length - 1 ? 0 : prevTypeIndex + 1;
 
-			setConversationMode(types[nextTypeIndex]);
+			this.props.setConversationMode(types[nextTypeIndex]);
 		}
 	};
 
@@ -157,46 +169,39 @@ class ChatCard extends React.Component {
         }
         return icon
     };
+
     render() {
-		const {patientName, user_id, online: onl} = this.props;
-		const online = +onl ? 'online' : 'offline';
+		const {interlocutorName, online} = this.props;
 		const iconType = this.getIconByType();
         const statusClass = cn('chat-card-status', `chat-card-${online}`);
-
-        const dialogsClass = cn('chat-card-dialogs', {'chat-card-dialogs-active': this.state.isActive});
+        const dialogsClass = cn('chat-card-dialogs', {'chat-card-dialogs-active': this.state.isActiveFiles});
 
 		let content;
-		const chatProps= {
+		const chatProps = {
 			from: this.props.callerID,
 			to: this.props.calledID,
-			avatar: this.props.avatar,
 			online: this.props.online,
-			chatStory: [...this.props.chat, ...this.props.chatStory],
+			chatStory: [...this.state.chat, ...this.props.chatStory],
 			sendMessage: sendMessage,
-			onEnd: this.beforeCloseReseption,
-			onBegin: this.startReceptionHandler,
-			receptionStarts: this.props.receptionStarts,
-			fromTR_VIS: this.props.fromTR_VIS,
+			onEnd: this.beforeCloseTraining,
+			onBegin: this.startTrainingHandler,
+			trainingStarts: this.props.trainingStarts,
 			user_mode: this.props.user_mode,
-			uploadFile: this.uploadOnlyFile(this.props.receptionId, this.props.isUser ? this.props.callerID: this.props.calledID, fileUploadCallback),
-			receptionId: this.props.receptionId,
-			isCurVisEnd: this.state.isCurVisEnd,
-			treatmFiles: this.props.treatmFiles,
-			id_treatment: this.props.id_treatment,
-			getAllFilesTreatment: this.props.getAllFilesTreatment,
-			filesActive: this.state.isActive,
-            isUser: this.props.isUser
+			//uploadFile: this.uploadOnlyFile(this.props.idTraining, this.props.isUser ? this.props.callerID: this.props.calledID, fileUploadCallback),
+			idTraining: this.props.idTraining,
+			isCurTrainingEnd: this.state.isCurTrainingEnd,
+			isActiveFiles: this.state.isActiveFiles,
+            isStudent: this.props.isStudent
 		};
 		const chatAdditionalProps = {
-			setVideoOut: (video)=>setVideoOut(video),
-			setVideoIn: (video)=>setVideoIn(video),
+			setVideoOut: (video) => setVideoOut(video),
+			setVideoIn: (video) => setVideoIn(video),
 			onStop: this.onStop,
 			onCall: this.onCall,
 			onChat: () => this.setState(prev => ({isActiveChat: !prev.isActiveChat})),
 			timer: this.props.timer,
 			isCalling: this.props.isCalling,
-			isActiveChat: this.state.isActiveChat,
-			isEnded: this.props.isEnded,
+			isActiveChat: this.state.isActiveChat
         };
 
 		switch (this.props.mode) {
@@ -231,15 +236,15 @@ class ChatCard extends React.Component {
 								type='go'
 								onClick={this.handleChangeType}
 							/>
-							<div className='chat-card-namePatient'>{patientName}</div>
-							<div className={statusClass}>{online}</div>
+							<div className='chat-card-namePatient'>{interlocutorName}</div>
+							{/*<div className={statusClass}>{online}</div>*/}
 						</div>
 						<div className='chat-card-btns'>
 							<div className='chat-card-archive'>
 								<Button
 									btnText=''
 									size='small'
-									type='upload no-brd'
+									type='upload'
 									icon='file'
 									title='Открыть прикреплённые файлы'
 									style={{width: 30}}
@@ -248,10 +253,10 @@ class ChatCard extends React.Component {
 								<Button
 									btnText=''
 									size='small'
-									type='upload no-brd'
+									type='upload'
 									icon='exit'
 									title='Выйти из чата'
-									onClick={() => this.props.onSelectReception(0, 0, '')}
+									onClick={this.props.onExitTraining}
 								/>
 							</div>
 						</div>
@@ -263,59 +268,29 @@ class ChatCard extends React.Component {
 					</div>
 				</div>
 				<CompletionTrainingModal
-					visible={this.state.reception_vis}
-					onPause={this.onCloseReception}
-					onComplete={() => this.onCloseReception('complete')}
-					onTail={() => this.onCloseReception('transfer')}
-					onCancel={() => this.setState({reception_vis: false})}
+					visible={this.state.completionModalVisible}
+					onPause={this.onCloseTraining}
+					onComplete={() => this.onCloseTraining('complete')}
+					onTail={() => this.onCloseTraining('transfer')}
+					onCancel={() => this.setState({completionModalVisible: false})}
 				/>
-				{/*<CompleteAppeal
-				visible={this.state.treatment_vis}
-				onCancel={() =>  this.setState({treatment_vis: false})}
-				onAdd={() => this.setState({treatment_vis: false, visit_vis: true})}
-				onComplete={this.onCloseTreatment}
-			/>
-			<NewVisitModalPage
-				visible={this.state.visit_vis}
-				onCancel={() => this.setState({visit_vis: false, treatment_vis: true})}
-				userName={patientName}
-				id={user_id}
-				onSave={e=> console.log('[NewVisitModal]', e)}
-			/>*/}
 			</Hoc>
         )
     }
 }
 
 ChatCard.propTypes = {
-	chat: PropTypes.array,
-	patientName: PropTypes.string,
-	user_id: PropTypes.number,
-    online: PropTypes.number,//oneOf(['offline', 'online']),
-    isActive: PropTypes.bool,
+	interlocutorName: PropTypes.string,
+    online: PropTypes.bool,
 	mode: PropTypes.oneOf(['chat', 'voice', "video"]),
-	isEnded: PropTypes.bool,
-	treatmFiles: PropTypes.array,
-	changeReceptionStatus: PropTypes.func,
-	uploadFile: PropTypes.func,
-	getAllFilesTreatment: PropTypes.func,
-	setChatToId: PropTypes.func,
-
-    videoContent: PropTypes.node,
+	isEnded: PropTypes.bool
 };
 
 ChatCard.defaultProps = {
-    treatmFiles: [],
-	patientName: '',
-	user_id: 0,
-    online: 0,
-    isActive: false,
+	interlocutorName: '',
+    online: false,
 	mode: 'chat',
-	chat: [],
-	changeReceptionStatus: () => {},
-	uploadFile: () => {},
-	getAllFilesTreatment: () => {},
-	setChatToId: () => {},
+	isEnded: false
 };
 
 export default ChatCard
