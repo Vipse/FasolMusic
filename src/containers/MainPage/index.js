@@ -82,10 +82,12 @@ class MainPage extends React.Component{
 
 
 	// Fasol
-	goToChat = (idTo, idTraining, interlocutorName) => {
+	goToChat = (idTo, idTraining, interlocutorName, beginTime, isTrial = false) => {
 		this.props.onSetChatToId(idTo);
 		this.props.onSetChatInterlocutorInfo(interlocutorName);
 		this.props.onSetChatTrainingId(idTraining);
+		this.props.onSetBeginTime(beginTime);
+		this.props.onSetIsTrialStatus(isTrial);
 		this.props.history.push('/app/chat');
 	};
 
@@ -209,6 +211,8 @@ const mapDispatchToProps = dispatch => {
 		onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
 		onSetChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
 		onSetChatInterlocutorInfo: (interlocutorName) => dispatch(actions.setChatInterlocutorInfo(interlocutorName)),
+		onSetIsTrialStatus: (isStart) => dispatch(actions.setIsTrialStatus(isStart)),
+		onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
 
 		onGetNextTraining: (id) => dispatch(actions.getNextTraining(id)),
 		onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),

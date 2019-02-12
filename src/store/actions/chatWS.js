@@ -8,10 +8,24 @@ export const setReceptionStatus = (isStart) => {
     });
 }
 
+export const setIsTrialStatus = (isTrial) => {
+    return ({
+        type: actionTypes.SET_RECEPTION_ISTRIAL,
+        isTrial,
+    });
+}
+
 export const setIsCallingStatus = (isCalling) => {
     return ({
         type: actionTypes.SET_RECEPTION_ISCALLING,
         isCalling,
+    });
+}
+
+export const setBeginTime = (beginTime) => {
+    return ({
+        type: actionTypes.SET_BEGIN_TIME,
+        beginTime,
     });
 }
 

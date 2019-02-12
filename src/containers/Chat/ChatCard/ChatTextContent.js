@@ -15,7 +15,7 @@ class ChatTextContent extends Component {
     }
 
     filesRender = () => {
-        const files = this.props.treatmFiles;
+        const files = [];
         return files.map((item, index) => {
             if(item.data.length) {
                 return (<ChatFiles {...item} key={index}/>)
@@ -24,10 +24,10 @@ class ChatTextContent extends Component {
     };
 
     render() {
-        const {filesActive, isActiveChat} = this.props;
-        const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': filesActive});
+        const {isActiveFiles, isActiveChat} = this.props;
+        const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': isActiveFiles});
         const filesClass = cn('chat-card-files only-chat', {'chat-card-files-active': isActiveChat});
-        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': filesActive});
+        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': isActiveFiles});
         return (
 
             <div className={dialogsClass}>
@@ -48,7 +48,7 @@ class ChatTextContent extends Component {
                 <div className={attachmentsClass}>
                     <PerfectScrollbar>
                         {
-                            filesActive && <div className='chat-card-files__items'>
+                            isActiveFiles && <div className='chat-card-files__items'>
                                 {this.filesRender()}
                             </div>
                         }

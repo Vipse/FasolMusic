@@ -19,28 +19,22 @@ const browser = detect();
 class ChatAudioContent extends React.Component {
 	constructor(props){
 		super(props);
-		this.timerInterval;
-        this.state = {
-            isActive: false
-        }
-        this.isSafari = browser ? browser.name == 'safari' : true;
+        this.isSafari = browser ? browser.name === 'safari' : true;
 	}
-    toggleFilesArea = () => {
-        (!this.state.isActive) && this.props.getAllFilesTreatment(this.props.id_treatment);
-        this.setState(prev => ({isActive: !prev.isActive}));
-    }
+
     filesRender = () => {
-        const files = this.props.treatmFiles;
+        const files = [];
         return files.map((item, index) => {
             if(item.data.length) {
                 return (<ChatFiles {...item} key={index}/>)
             }
-
         });
     };
+
     componentDidMount(){
         this.isSafari && this.startPlayVideo(this.videoOut, this.videoOutPlayInterval);
     }
+
     componentWillReceiveProps(nextProps) {
         const { id_treatment: next_id_treatment, 
 			receptionId: nextReceptionId, 
@@ -51,12 +45,13 @@ class ChatAudioContent extends React.Component {
 				&& (
 					this.startPlayVideo(this.videoOut, this.videoOutPlayInterval)
 				);
-        this.setState({isActive: nextProps.filesActive})
     }
+
     componentWillUnmount(){
 		clearInterval(this.videoInPlayInterval);
 		clearInterval(this.videoOutPlayInterval);
 	}
+
     startPlayVideo = (video, intervalVar) =>{
 		let promise;
 		this.videoOut && (promise = this.videoOut.play());
@@ -68,14 +63,15 @@ class ChatAudioContent extends React.Component {
 			console.log('Automatic playback was prevented!');
 			!intervalVar && (intervalVar = setInterval(this.startPlayVideo(video), 300))
 		})
-	}
+	};
+
     setVideoOutRef = (video) => {
         this.videoOut = video;
         this.props.setVideoOut(video);
-    }
+    };
+
 	renderCallArea = () => {
 		const panelClass = cn('chat-card-video__panel', {'chat-card-video__panel-active': this.props.isActiveChat});
-		const avatar = this.props.avatar;
         let {s, m, h} = this.props.timer;
 		return (<Hoc>
 			<div className='chat-card-video__area'>
@@ -83,13 +79,13 @@ class ChatAudioContent extends React.Component {
                     <video className='chat-card-video__box'
                     ref={this.setVideoOutRef}
                     playsInline
-                    poster={avatar}
+                    poster=''
                     ></video>
                 ) : (
                     <video className='chat-card-video__box'
 						ref={this.setVideoOutRef}
                         autoPlay
-						poster={avatar}
+						poster=''
 						></video>
                 )}
                 
@@ -99,13 +95,13 @@ class ChatAudioContent extends React.Component {
                             this.props.onStop();
                         }}
                         onCall={() => {
-                            !this.props.receptionStarts &&
+                            !this.props.trainingStarts &&
                             this.props.onBegin();
                             this.props.onCall();
                         }}
                         onChat = {this.props.onChat}
                         uploadFiles={this.props.uploadFile}
-                        isUser={this.props.isUser}
+						isStudent={this.props.isStudent}
                         sec= {s}
                         min={m}
                         hour={h}
@@ -115,16 +111,15 @@ class ChatAudioContent extends React.Component {
 			</div>
 
 		</Hoc>)
-	}
-
+	};
 
     render() {
-        const {isActive,isActiveChat} = this.props;
-		const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': isActive});
+        const {isActiveFiles, isActiveChat} = this.props;
+		const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': isActiveFiles});
 		const filesClass = cn('chat-card-files', {'chat-card-files-active': isActiveChat});
-        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': this.state.isActive});
+        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': isActiveFiles});
 
-		let audioContent = this.renderCallArea()
+		let audioContent = this.renderCallArea();
 
         return (
 
@@ -140,13 +135,13 @@ class ChatAudioContent extends React.Component {
 							...mes,
 						})}
 						uploadFile={this.props.uploadFile}
-						 data={this.props.chatStory}
+						data={this.props.chatStory}
 					/>
                 </div>
                 <div className={attachmentsClass}>
                     <PerfectScrollbar>
                         {
-                            this.state.isActive && <div className='chat-card-files__items'>
+                            isActiveFiles && <div className='chat-card-files__items'>
                                 {this.filesRender()}
                             </div>
                         }

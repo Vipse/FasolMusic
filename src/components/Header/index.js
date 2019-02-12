@@ -10,6 +10,7 @@ import './style.css'
 import '../../icon/style.css'
 import TrialTrainModal from "../../components/TrialTrainModal";
 import moment from "moment";
+import {Modal} from "antd";
 
 
 class Header extends React.Component {
@@ -19,7 +20,7 @@ class Header extends React.Component {
 
     state = {
         isTrialTrainingModalVisible: false,
-        isUnfreshTrainingModal: false,
+        isUnfreshTrainingModal: false
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -33,41 +34,38 @@ class Header extends React.Component {
     }
 
     onCreateUnfreshAbonement = (data) => {
-       
-            const {disciplinesList, discCommunication, useFrozenTraining} = this.props;
-            let array = [];
-            const time0 = moment(Date.now()).startOf('week').format('X');
-            const time1 = moment(Date.now()).endOf('week').format('X');
-            const codeDisc = disciplinesList[data.type].code;
-    
-            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: +useFrozenTraining}); // поменять
-            this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
-            this.props.onSetFreeIntervals(array,  data.type);
 
-            debugger;
-            if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-                
-                this.props.onSetPushTrialTraining('select_master');
-                this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
-                this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0,1,2,3,4,5,6]);         
-            }
-            else{
-                
-                this.props.onSetPushTrialTraining(null);
-                this.props.onSetMasterTheDisicipline(null);
-                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
-            }
+        const {disciplinesList, discCommunication, useFrozenTraining} = this.props;
+        let array = [];
+        const time0 = moment(Date.now()).startOf('week').format('X');
+        const time1 = moment(Date.now()).endOf('week').format('X');
+        const codeDisc = disciplinesList[data.type].code;
 
-            this.props.onIsPushBtnUnfresh();
-            this.props.onGoToSchedule();
-            this.setState({isUnfreshTrainingModal: false});
+        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: +useFrozenTraining}); // поменять
+        this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
+        this.props.onSetFreeIntervals(array, data.type);
+
+        if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
+
+            this.props.onSetPushTrialTraining('select_master');
+            this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
+            this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0, 1, 2, 3, 4, 5, 6]);
+        } else {
+
+            this.props.onSetPushTrialTraining(null);
+            this.props.onSetMasterTheDisicipline(null);
+            this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc]);
+        }
+
+        this.props.onIsPushBtnUnfresh();
+        this.props.onGoToSchedule();
+        this.setState({isUnfreshTrainingModal: false});
     }
 
 
     onSendDataTrialModal = (data) => {
         const {disciplinesList, id} = this.props;
         const {type} = data;
-        // debugger
 
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
@@ -81,21 +79,34 @@ class Header extends React.Component {
         this.setState({isTrialTrainingModalVisible: false});
     };
 
+    handleTransfer = () => {
+        this.props.isPushBtnTransfer();
+
+        Modal.info({
+            title: 'Перенос тренировки',
+            width: '500px',
+            className: 'fast-modal',
+            content: 'Зеленым подсветилось время доступное у коуча, перетяни тренировку которую хочешь перенести' +
+                'на доступное время и помни, одну тренировку можно перенести только один раз' +
+                'и не позднее 24 часов до начала тренировки! :('
+        });
+    };
+
     render() {
         const {
-            notifications, 
-            isStudent, 
-            findName, 
-            authMode, 
-            searchData, 
-            onGoto, 
+            notifications,
+            isStudent,
+            findName,
+            authMode,
+            searchData,
+            onGoto,
             studentBalance,
             trialTrainingForDisciplines,
             isTrialTrainingsAvailable,
             disciplinesList,
             useFrozenTraining
         } = this.props;
-        
+
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -129,7 +140,7 @@ class Header extends React.Component {
                                 size='default'
                                 type='border-pink'
                                 className="header-btn"
-                                onClick={this.props.isPushBtnTransfer}
+                                onClick={this.handleTransfer}
                             />
                         </div>
                     </React.Fragment> : null}

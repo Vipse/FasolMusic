@@ -130,11 +130,11 @@ class CoachPage extends React.Component{
             }
         });*/
         this.props.history.push('/app/schedule');
-        Modal.info({
-            title: 'Изменение расписания доступно только в календаре на данный момент',
+        Modal.warning({
+            title: 'Изменение расписания',
             width: '500px',
-            className: 'incoming-call-modal',
-            okText: 'Ок',
+            className: 'fast-modal',
+            content: 'Изменение расписания доступно только в календаре на данный момент',
             maskClosable: true
         });
     };

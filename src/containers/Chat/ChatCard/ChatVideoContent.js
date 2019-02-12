@@ -16,11 +16,7 @@ const browser = detect();
 class ChatVideoContent extends React.Component {
 	constructor(props){
 		super(props);
-		this.timerInterval;
-		this.state = {
-			isActive: false,
-		}
-		this.isSafari = browser ? browser.name == 'safari' : true;
+		this.isSafari = browser ? browser.name === 'safari' : true;
 	}
 
 	/*renderPlayer = () => {
@@ -50,7 +46,6 @@ class ChatVideoContent extends React.Component {
 					this.startPlayVideo(this.videoOut, this.videoOutPlayInterval),
 					this.videoIn && this.videoIn.play()
 				);
-        this.setState({isActive: nextProps.filesActive})
 	}
 	componentDidMount(){
 		this.isSafari && this.startPlayVideo(this.videoOut, this.videoOutPlayInterval);
@@ -73,18 +68,14 @@ class ChatVideoContent extends React.Component {
 	}
 
     filesRender = () => {
-        const files = this.props.treatmFiles;
+        const files = [];
         return files.map((item, index) => {
         	if(item.data.length) {
                 return (<ChatFiles {...item} key={index}/>)
 			}
-
         });
     };
-    toggleFilesArea = () => {
-        (!this.state.isActive) && this.props.getAllFilesTreatment(this.props.id_treatment);
-        this.setState(prev => ({isActive: !prev.isActive}));
-	}
+
 	setVideoOutRef = (video) => {
 		this.isSafari && (this.videoOut = video);
 		video && this.props.setVideoOut(video);
@@ -114,7 +105,7 @@ class ChatVideoContent extends React.Component {
 	renderSafariVideos = () => (
 		<Hoc>
 			<video className='chat-card-video__box'
-						poster={this.props.avatar}
+						poster=''
 						playsInline
 						ref={this.setVideoOutRef}
 						></video>
@@ -134,13 +125,13 @@ class ChatVideoContent extends React.Component {
 			<div className='chat-card-video__area'>
 				{this.isSafari ? this.renderSafariVideos() : this.renderVideos()}
                 <div className={panelClass}>
-                    {this.props.receptionId ? (
+                    {this.props.idTraining ? (
                         <ChatVideoPanel
                             onStop={() => {
                                 this.props.onStop();
                             }}
                             onCall={() => {
-                                !this.props.receptionStarts &&
+                                !this.props.trainingStarts &&
                                 this.props.onBegin();
                                 this.props.onCall();
                             }}
@@ -148,7 +139,7 @@ class ChatVideoContent extends React.Component {
                             uploadFiles={this.props.uploadFile}
                             sec={s}
                             min={m}
-							isUser={this.props.isUser}
+							isStudent={this.props.isStudent}
                             hour={h}
                             isCalling={this.props.isCalling}/>) : null}
 
@@ -161,13 +152,13 @@ class ChatVideoContent extends React.Component {
 
 
     render() {
-        const {isActive,isActiveChat, onVideoCallBegin, onVideoCallStop} = this.props;
-		const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': isActive});
+        const {isActiveFiles, isActiveChat, onVideoCallBegin, onVideoCallStop} = this.props;
+		const dialogsClass = cn('chat-card-dialogs', 'chat-card-dialogs-row', {'chat-card-dialogs-active': isActiveFiles});
 		const filesClass = cn('chat-card-files', {'chat-card-files-active': isActiveChat});
-        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': this.state.isActive});
+        const attachmentsClass = cn('chat-card-files', {'chat-card-files-active': isActiveFiles});
 
 			let videoContent = /*this.props.isEnded ?
-			this.renderPlayer() :*/ this.renderCallArea()
+			this.renderPlayer() :*/ this.renderCallArea();
 
         return (
 
@@ -189,7 +180,7 @@ class ChatVideoContent extends React.Component {
                 <div className={attachmentsClass}>
                     <PerfectScrollbar>
 						{
-							this.state.isActive && <div className='chat-card-files__items'>
+							isActiveFiles && <div className='chat-card-files__items'>
 								{this.filesRender()}
 							</div>
                     	}

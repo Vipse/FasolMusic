@@ -12,7 +12,7 @@ import moment from 'moment'
 
 import Modal from './../../components/Modal/index';
 import Button from "../../components/Button";
-import {message} from 'antd';
+import {Modal as PopupModal, message} from 'antd';
 
 
 class Payment extends React.Component{
@@ -71,12 +71,24 @@ class Payment extends React.Component{
         this.setState({visibleTrialModal: true, redirectToSchedule: true});
     }
 
- 
+
 
     showTrialModal = (amount, price) => {
-        debugger;
+
+        PopupModal.info({
+            title: 'Отлично! Вот вы уже и Фасолянин!',
+            width: '500px',
+            className: 'fast-modal',
+            content: 'Отлично! Вот вы уже и Фасолянин! Быстренько пробежимся по правилам:\n' +
+                'Каждую тренировку можно переносить 1 раз;\n' +
+                'Перенос за 24 часа до начала тренировки не возможен, если вы не сможете присутствовать, она считается проведенной;\n' +
+                'Заморозка занятий действует 3 месяца. \nВот и все, вперед покорять музыку вместе с Fasol музыкальная качалка',
+            zIndex: 1010
+        });
+
         this.setState({payModal: true, amount, price})
         this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: amount});
+
     }
     hideTrialModal = () => {
         this.setState({payModal: false})
@@ -107,28 +119,31 @@ class Payment extends React.Component{
                     onSave={this.onSendDataModal}
                 />
 
+
                { /*<Modal 
+
                     title='Сообщение'
                     visible={this.state.payModal}
-                    onCancel={() => this.setState({payModal : false})}
+                    onCancel={() => this.setState({payModal: false})}
                     width={360}
                     className="schedule-message-modal-wrapper"
                 >
-                        <div className="schedule-message-modal"> 
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Вернуть подтверждение об оплате'    
-                                        onClick= {() => this.showTrialModal(this.state.countPay)}
-                                        type='yellow'/>
-                                </div>
-
-                               
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Вернуть ошибку об оплате'    
-                                    onClick= {() => this.setState({payModal : false})}
+                    <div className="schedule-message-modal">
+                        <div className="schedule-message-btn">
+                            <Button btnText='Вернуть подтверждение об оплате'
+                                    onClick={() => this.showTrialModal(this.state.countPay)}
                                     type='yellow'/>
-                                </div>
                         </div>
+
+
+                        <div className="schedule-message-btn">
+                            <Button btnText='Вернуть ошибку об оплате'
+                                    onClick={() => this.setState({payModal: false})}
+                                    type='yellow'/>
+                        </div>
+
                </Modal> */ }
+
 
                 { this.state.redirectToSchedule ? <Redirect to="/app/schedule"/> : null }
             </Hoc>
