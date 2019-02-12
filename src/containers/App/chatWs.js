@@ -56,7 +56,6 @@ export function createSocket(wsUrl,_props,_callbacks) {
                 resgisterResponse(parsedMessage);
                 break;
             case 'startReception':
-            console.log(callbacks.get_history());
             callbacks.get_history().location.pathname !== '/app/chat'
                 && callbacks.get_history().push('/app/chat');
                 callbacks.setReceptionStatus(true);
@@ -244,7 +243,7 @@ const incomingCall = (message) => {
         Modal.confirm({
             title: `Хотите ли вы принять вызов?`,
             width: '500px',
-            className: 'incoming-call-modal',
+            className: 'fast-modal',
             icon: '',
             okText: 'Да',
             cancelText: 'Нет',
@@ -262,7 +261,7 @@ const incomingCall = (message) => {
             Modal.confirm({
                 title: `Хотите ли вы принять вызов?`, //4124
                 width: '500px',
-                className: 'incoming-call-modal',
+                className: 'fast-modal',
                 icon: '',
                 okText: 'Да',
                 cancelText: 'Нет',

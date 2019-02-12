@@ -14,12 +14,11 @@ import './style.css'
 class ChatContent extends React.Component {
     constructor(props) {
         super(props);
-        this.scrollarea;
     }
+
     shouldComponentUpdate(nextProps) {
         return this.props.data.length !== nextProps.data.length
-            || this.props.receptionStarts !== nextProps.receptionStarts
-            || this.props.fromTR_VIS !== nextProps.fromTR_VIS
+            || this.props.trainingStarts !== nextProps.trainingStarts
             || (this.props.isActiveChat !== nextProps.isActiveChat && this.props.isActiveChat === false);
     }
 
@@ -40,11 +39,9 @@ class ChatContent extends React.Component {
     render() {
         const dialogsClass = cn('chat-card-dialogs', {'chat-card-dialogs-active': this.props.isActive});
 
-        let scrlClname = this.props.fromTR_VIS === 1 ? "" : this.props.chatMode == "chat" ? "text_mode" : "media_mode";
-
-        //let scrlClname = this.props.chatMode == "chat" ? "text_mode" : this.props.fromTR_VIS === 1 ? "" : "media_mode";
+        let scrlClname = this.props.chatMode ==="chat" ? "text_mode" : "media_mode";
         scrlClname = scrlClname + " chat-card-message__overlay";
-        const ref = this.scrollarea
+
         return (
 
             <div className={dialogsClass}>
@@ -57,13 +54,9 @@ class ChatContent extends React.Component {
                         speed={1}
                         contentClassName="content"
                         horizontal={false}
-                        //className="chat-card-message__box"
                         className={scrlClname}
                         containerRef={(ref)=> this.scrollarea=ref}
                     >
-                        {/*<div className='chat-card-message__overlay'>*/}
-
-
                         {
                             this.props.data.map((e, i) => {
                                 const messProps = +e.from === +this.props.from
@@ -75,12 +68,11 @@ class ChatContent extends React.Component {
                                 return (<ChatMessage
                                     {...e}
                                     {...messProps}
-                                    //isMy={e.from === this.props.from}
                                     key={i}
                                 />)
                             })
                         }
-                        {this.props.fromTR_VIS === 2 && !this.props.receptionStarts && this.props.user_mode === "master"
+                        {/*!this.props.trainingStarts && !this.props.isStudent
                         && <div className='btn-start'>
                             <Button
                                 btnText='Начать тренировку'
@@ -88,18 +80,15 @@ class ChatContent extends React.Component {
                                 type='yellow'
                                 onClick={this.props.onBegin}
                             />
-                        </div>}
-                        {/*<div ref={(ref) => { this.scrollRef = ref }}></div>*/}
-
+                        </div>*/}
                     </PerfectScrollbar>
                 </div>
                 {
-                   /* this.props.fromTR_VIS === 2 && */
                     (<div className='chat-card-message__send'>
                         <ChatSend
-                            disable={!this.props.receptionStarts}
-                            isCurVisEnd={this.props.isCurVisEnd}
-                            isUser={this.props.user_mode === "student"}
+                            disable={!this.props.trainingStarts}
+                            isCurTrainingEnd={this.props.isCurTrainingEnd}
+                            isUser={this.props.isStudent}
                             closeVisit={this.props.onEnd}
                             uploadFiles={this.props.uploadFile}
                             send={message => this.props.onSend(message)}/>

@@ -6,6 +6,8 @@ const initialState = {
     idTraining: 0,
     trainingStarts: false,
     isCalling: false,
+    isTrial: false,
+    beginTime: 0,
     chatStory: [],
     conversationMode: 'video',
     timer: {
@@ -23,10 +25,20 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 trainingStarts: action.isStart,
             }
+        case actionTypes.SET_RECEPTION_ISTRIAL:
+            return {
+                ...state,
+                isTrial: action.isTrial,
+            }
         case actionTypes.SET_RECEPTION_ISCALLING:
             return {
                 ...state,
                 isCalling: action.isCalling,
+            }
+        case actionTypes.SET_BEGIN_TIME:
+            return {
+                ...state,
+                beginTime: action.beginTime,
             }
         case actionTypes.SET_CHAT_FROM_ID:
             return {

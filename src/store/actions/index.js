@@ -55,7 +55,6 @@ export {
     seletVisit,
     selectTreatment,
     clearSelections,
-    completeReception,
     closeTreatment,
     uploadChatFile,
     uploadConclusion,
@@ -122,10 +121,12 @@ export {
 
 export {
     setReceptionStatus,
+    setIsTrialStatus,
     setChatFromId,
     setChatToId,
     setChatTrainingId,
     setIsCallingStatus,
+    setBeginTime,
     setChatStory,
     setConversationMode,
     setNewTimer,
@@ -193,7 +194,8 @@ export {
     getAllTrainingStudent,
     setHomeworkEdit,
     uploadTrainingChatHistory,
-    getTrainingChatHistory
+    getTrainingChatHistory,
+    completeReception
 } from './training'
 
 
