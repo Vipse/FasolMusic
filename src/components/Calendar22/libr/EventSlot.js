@@ -46,22 +46,21 @@ class EventSlot extends Component {
         const {
             event,
             mode,
-            onGotoPage
-        } = this.props;
+            onGotoPage,
+            isPushBtnTransfer,
 
-        //drag and drop
-        const {
             isDragging,
             connectDragSource,
-            item
+            item,
         } = this.props;
+
         const opacity = isDragging ? 0 : 1;
         let backgroundColor = event.status ? {} : '#eee'; // прошло ли время тренировки
         backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
         backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
-        let nameBlock =  event.name ? event.name : event.fio;
+        let nameBlock =  (event.name) ? event.name : (event.fio) ? event.fio : '';
             nameBlock += event.trial ? ' Пробная ' : '';
         
         
@@ -69,7 +68,14 @@ class EventSlot extends Component {
         isNearDay = (isNearDay < 1) ? false : true
         
         
-        if(event.status && !event.isBooking && !event.isComplete && mode !== 'master' && !event.wasTransfer && isNearDay){
+        if( event.status && 
+            !event.isBooking && 
+            !event.isComplete && 
+            mode !== 'master' && 
+            !event.wasTransfer && 
+            isNearDay &&
+            isPushBtnTransfer
+        ){
             return connectDragSource(
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
@@ -84,9 +90,11 @@ class EventSlot extends Component {
             )
         }
 
-        const eventKey = event.idMaster ? event.idMaster: event.id
+        const eventKey = event.idMaster ? event.idMaster: event.id;
+        const funcOnClick = (eventKey && eventKey != 1) ? ()=> onGotoPage(eventKey) : () => {}
+
         return (
-            <div key = {eventKey} onClick={()=> onGotoPage(eventKey)}  className="event-group" style={{backgroundColor}}>
+            <div key = {event.dateStart} onClick={funcOnClick}  className="event-group" style={{backgroundColor}}>
                     <div>
                         <div className="event-group-cross">
                             <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>

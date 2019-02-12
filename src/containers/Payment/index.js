@@ -23,6 +23,8 @@ class Payment extends React.Component{
             redirectToSchedule: false,
             countTraining: 0,
             payModal: false,
+            amount: null,
+            price: null,
         }
     }
 
@@ -37,7 +39,7 @@ class Payment extends React.Component{
     onSendDataModal = (data) => {
      
         let array = [];
-        const {disciplinesList, discCommunication,subsForDisc, abonementIntervals} = this.props;
+        const {disciplinesList, discCommunication,subsForDisc, abonementIntervals, id} = this.props;
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
         const codeDisc = disciplinesList[data.type].code;
@@ -48,42 +50,36 @@ class Payment extends React.Component{
 
        
         if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-            
-            //
-            if(Array.isArray(subsForDisc[codeDisc]) && subsForDisc[codeDisc].length) {
-                
-                this.props.onAddAmountTraining(subsForDisc[codeDisc][0], abonementIntervals.countTraining)
-            }
+                  
+                this.props.onAddAmountTraining(subsForDisc[codeDisc], abonementIntervals.countTraining)
 
-            message.success('Количество добавленных тренировок '+ abonementIntervals.countTraining);
-            //
-            //this.props.onSetPushTrialTraining('select_master');
-            //this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
-            //this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0,1,2,3,4,5,6]);         
+                message.success('Количество добавленных тренировок '+ abonementIntervals.countTraining);    
         }
         else{
             
-            this.props.onSetPushTrialTraining(null);
-            this.props.onSetMasterTheDisicipline(null);
-            this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
-            this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: abonementIntervals.countTraining});
+                this.props.onSetPushTrialTraining(null);
+                this.props.onSetMasterTheDisicipline(null);
+                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
+                this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: abonementIntervals.countTraining});
         }
         
+        debugger;
+        //this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
+        setTimeout( () => this.props.onGetStudentBalance(id), 1500);
+
+
         this.setState({visibleTrialModal: true, redirectToSchedule: true});
     }
 
-    showTrialModal = (count) => {
-        
-        //  const newFrozen = +this.props.frozenTraining + (+count);
-        //  let profile = {...this.props.profileStudent};
-        //  profile.frozenTraining = newFrozen;
-        //  this.props.onSaveUserEdit(profile);
+ 
 
-        this.setState({visibleTrialModal: true, countTraining: count})
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: count});
+    showTrialModal = (amount, price) => {
+        debugger;
+        this.setState({payModal: true, amount, price})
+        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: amount});
     }
     hideTrialModal = () => {
-        this.setState({visibleTrialModal: false})
+        this.setState({payModal: false})
     }
 
     render() {
@@ -94,23 +90,24 @@ class Payment extends React.Component{
             <Hoc>
                 {isStudent ? (
                     <StudentPayment
-                        showTrialModal = {(count) => this.setState({payModal: true, countPay: count})}
+                        showTrialModal = {this.showTrialModal}
                         deadlinePay = {deadlinePay}
-                        frozenTraining = {this.props.frozenTraining}
+                        studentBalance = {this.props.studentBalance}
                         nextTrainingTime={this.props.nextTrainingTime}
+                        onSubmitPaySubscription = {this.onSubmitPaySubscription}
                     />)
                     : (<CoachPayment/>)}
 
                 <TrialTrainModal
                     title='Запишись на тренировку'
                     width={770}
-                    visible={this.state.visibleTrialModal}
+                    visible={this.state.payModal}
                     disciplinesList={disciplinesList}
                     onCancel={this.hideTrialModal} 
                     onSave={this.onSendDataModal}
                 />
 
-                <Modal 
+               { /*<Modal 
                     title='Сообщение'
                     visible={this.state.payModal}
                     onCancel={() => this.setState({payModal : false})}
@@ -131,7 +128,7 @@ class Payment extends React.Component{
                                     type='yellow'/>
                                 </div>
                         </div>
-                </Modal>
+               </Modal> */ }
 
                 { this.state.redirectToSchedule ? <Redirect to="/app/schedule"/> : null }
             </Hoc>
@@ -155,6 +152,7 @@ const mapStateToProps = state => {
         discCommunication: state.student.discCommunication,
         subsForDisc : state.abonement.subsForDisc,
         abonementIntervals: state.patients.abonementIntervals,
+        studentBalance: state.abonement.studentBalance,
 
     }
 };
@@ -173,6 +171,8 @@ const mapDispatchToProps = dispatch => {
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
+        onGetToken: (idUser, amount, price, discipline) => dispatch(actions.getToken(idUser, amount, price, discipline)),
+        onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
 
         
         

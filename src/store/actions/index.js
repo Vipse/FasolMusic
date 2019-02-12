@@ -201,3 +201,8 @@ export {
     getFreeAndBusyMasterList,
     getAllInfoMasters
 } from './admin'
+
+
+export {
+    getToken
+} from './acquiring'

@@ -115,6 +115,7 @@ class TimeSlotGroup extends Component {
       trainerTraining,
       mode,
       onGotoPage,
+      isPushBtnTransfer,
     } = this.props;
 
     const valueTime = this.props.value.getTime()
@@ -134,6 +135,7 @@ class TimeSlotGroup extends Component {
                   onCancelTraining = {onCancelTraining}
                   mode = {mode}
                   onGotoPage = {onGotoPage}
+                  isPushBtnTransfer = {isPushBtnTransfer}
                  
             />)
           }

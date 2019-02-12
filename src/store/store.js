@@ -17,6 +17,7 @@ import trainerReducer from './reducers/trainer'
 import trainingReducer from './reducers/training'
 import adminReducer from './reducers/admin'
 import abonementReducer from './reducers/abonement'
+import acquiringReducer from './reducers/acquiring'
 
 
 const rootReducer = combineReducers({
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
     trainer: trainerReducer,
     training: trainingReducer,
     admin: adminReducer,
+    acquiring: acquiringReducer,
 });
 
 export default function configureStore() {

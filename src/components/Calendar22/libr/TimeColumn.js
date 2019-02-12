@@ -67,7 +67,8 @@ export default class TimeColumn extends Component {
       isAdmin,
       showMasterList,
       mode,
-      onGotoPage
+      onGotoPage,
+      isPushBtnTransfer
     } = this.props;
 
     let slotMasterList = null;
@@ -111,6 +112,7 @@ export default class TimeColumn extends Component {
         showMasterList  = {showMasterList}
         mode = {mode}
         onGotoPage = {onGotoPage}
+        isPushBtnTransfer = {isPushBtnTransfer}
 
       />
     )

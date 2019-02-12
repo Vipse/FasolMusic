@@ -70,7 +70,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isPushBtnUnfresh: !state.isPushBtnUnfresh
             }    
-            
 
         default: return state;
     }
