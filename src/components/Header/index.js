@@ -10,7 +10,7 @@ import './style.css'
 import '../../icon/style.css'
 import CreateTrainModal from "../../components/CreateTrainModal";
 import moment from "moment";
-import {Modal} from "antd";
+import {Modal, message} from "antd";
 
 
 class Header extends React.Component {
@@ -35,17 +35,25 @@ class Header extends React.Component {
 
     onCreateUnfreshAbonement = (data) => {
 
-        const {disciplinesList, discCommunication, useFrozenTraining} = this.props;
+        const {disciplinesList, discCommunication, useFrozenTraining, subsForDisc, abonementIntervals, id} = this.props;
         let array = [];
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
         const codeDisc = disciplinesList[data.type].code;
-
-        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: +useFrozenTraining}); // поменять
+      
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: +useFrozenTraining});
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
 
-        if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
+        if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
+                  
+            this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining);
+            this.props.onEditUseFrozenTraining(id, useFrozenTraining);
+            this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0});
+
+            message.success('Количество добавленных тренировок '+ useFrozenTraining);    
+        }
+        else if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
 
             this.props.onSetPushTrialTraining('select_master');
             this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);

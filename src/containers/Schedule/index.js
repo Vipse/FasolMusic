@@ -526,6 +526,11 @@ class Schedule extends React.Component {
 
         if(this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(id);
+            this.props.onCheckToken(id)
+                .then((checkToken) => {
+                    debugger;
+                    (Array.isArray(checkToken) && checkToken.length) ? this.props.onIsPushBtnUnfresh() : null
+                })
         }
 
         if(this.props.isAdmin) {
@@ -1123,6 +1128,7 @@ const mapStateToProps = state => {
         isPushBtnUnfresh: state.abonement.isPushBtnUnfresh,
         useFrozenTraining: state.student.useFrozenTraining,
         discCommunication: state.student.discCommunication,
+        checkToken: state.acquiring.checkToken,
 
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
@@ -1167,9 +1173,7 @@ const mapDispatchToProps = dispatch => {
         onChangeSubscription: (data, amountTraining) => dispatch(actions.changeSubscription(data, amountTraining)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSetWeekInterval: (interval) => dispatch(actions.setWeekInterval(interval)),
-        onSaveDisciplineCommunication: (idStudent,idMaster, discipline) => dispatch(actions.saveDisciplineCommunication(idStudent,idMaster, discipline)),
-        onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
-        
+        onSaveDisciplineCommunication: (idStudent,idMaster, discipline) => dispatch(actions.saveDisciplineCommunication(idStudent,idMaster, discipline)),  
         
 
         onGetTrainerTraining: (id, dateMin, dateMax, currDiscipline) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, currDiscipline)),
@@ -1190,7 +1194,7 @@ const mapDispatchToProps = dispatch => {
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
-        
+        onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
         
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),

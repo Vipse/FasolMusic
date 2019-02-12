@@ -131,6 +131,8 @@ class App extends React.Component {
             this.props.onGetMasterList();
             this.props.onGetStudentBalance(id);
             this.props.onGetUseFrozenTraining(id);
+            this.props.onGetSubscriptionsByStudentId(id);
+            this.props.onGetDisciplineCommunication(id);
             this.warnIfMobileDevice();
         }
 
@@ -247,7 +249,8 @@ class App extends React.Component {
                                             )
                                         }
                                     </button>
-                                    <Header findName={this.props.onGetSearchUsers}
+                                    <Header id={this.props.id}
+                                            findName={this.props.onGetSearchUsers}
                                             authMode={this.props.mode}
                                             searchData={this.props.usersHeaderSearch}
                                             onGoto={this.gotoHandler}
@@ -274,10 +277,14 @@ class App extends React.Component {
                                             onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
                                             discCommunication = {this.props.discCommunication}
                                             onSetNeedSaveIntervals = {this.props.onSetNeedSaveIntervals}
+                                            onEditUseFrozenTraining = {this.props.onEditUseFrozenTraining}
 
                                             studentBalance = {this.props.studentBalance}
                                             useFrozenTraining = {this.props.useFrozenTraining}
                                             onIsPushBtnUnfresh = {this.props.onIsPushBtnUnfresh}
+                                            subsForDisc = {this.props.subsForDisc}
+                                            abonementIntervals = {this.props.abonementIntervals}
+                                            onAddAmountTraining = {this.props.onAddAmountTraining}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -324,6 +331,8 @@ const mapStateToProps = state => {
         discCommunication: state.student.discCommunication,
         studentBalance: state.abonement.studentBalance,
         useFrozenTraining: state.student.useFrozenTraining,
+        subsForDisc : state.abonement.subsForDisc,
+        abonementIntervals: state.patients.abonementIntervals,
 
         from: state.chatWS.from,
         to: state.chatWS.to,
@@ -372,6 +381,10 @@ const mapDispatchToProps = dispatch => {
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
+        onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
+        onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
+        onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
+        onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
 
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),

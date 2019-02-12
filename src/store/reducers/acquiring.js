@@ -13,7 +13,12 @@ const reducer = (state = initialState, action) => {
                 token: action.token,
                 redirect_url: action.redirect_url
             }
-
+        case actionTypes.CHECK_TOKEN:
+            return {
+                ...state,
+                checkToken: action.checkToken,
+            }
+                
         default: return state;
     }
 };
