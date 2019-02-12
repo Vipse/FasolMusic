@@ -7,7 +7,7 @@ import CoachPayment from "../../components/CoachPayment";
 import StudentPayment from "../../components/StudentPayment";
 
 import {Redirect} from 'react-router-dom'
-import TrialTrainModal from './../../components/TrialTrainModal/index';
+import CreateTrainModal from './../../components/CreateTrainModal/index';
 import moment from 'moment'
 
 import Modal from './../../components/Modal/index';
@@ -19,7 +19,7 @@ class Payment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            visibleTrialModal: false,
+            visibleCreateTrainModal: false,
             redirectToSchedule: false,
             countTraining: 0,
             payModal: false,
@@ -60,7 +60,7 @@ class Payment extends React.Component{
                 this.props.onSetPushTrialTraining(null);
                 this.props.onSetMasterTheDisicipline(null);
                 this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
-                this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: abonementIntervals.countTraining});
+                this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         }
         
         debugger;
@@ -68,7 +68,7 @@ class Payment extends React.Component{
         setTimeout( () => this.props.onGetStudentBalance(id), 1500);
 
 
-        this.setState({visibleTrialModal: true, redirectToSchedule: true});
+        this.setState({visibleCreateTrainModal: true, redirectToSchedule: true});
     }
 
 
@@ -87,7 +87,7 @@ class Payment extends React.Component{
         });
 
         this.setState({payModal: true, amount, price})
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: amount});
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: amount});
 
     }
     hideTrialModal = () => {
@@ -110,7 +110,7 @@ class Payment extends React.Component{
                     />)
                     : (<CoachPayment/>)}
 
-                <TrialTrainModal
+                <CreateTrainModal
                     title='Запишись на тренировку'
                     width={770}
                     visible={this.state.payModal}

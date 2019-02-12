@@ -1,60 +1,62 @@
-.TrialTrainModal {
+.CreateTrainModal {
   padding: 10px 40px 40px 40px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 }
-.TrialTrainModal .controls {
-  display: flex;
+.CreateTrainModal .info {
+  color: #000;
   width: 100%;
+  text-align: center;
+  font-family: RobotoRegular;
+  font-size: 16px;
+}
+.CreateTrainModal .info-small {
+  font-family: RobotoRegularItalic;
+  color: #827d84;
+  font-size: 14px;
+}
+.CreateTrainModal .info-complete {
+  padding: 20px;
+}
+.CreateTrainModal .controls {
+  display: flex;
+  width: 99%;
   justify-content: center;
   text-align: center;
 }
-.TrialTrainModal .controls .info {
-  font-family: RobotoRegularItalic;
-  color: #000;
-  width: 100%;
-}
-.TrialTrainModal .controls .info-small {
-  font-family: RobotoRegularItalic;
-  color: #c6c1c8;
-  font-size: 12px;
-}
-.TrialTrainModal .controls .info-complete {
-  padding: 20px;
-}
-.TrialTrainModal .controls .radio-label {
+.CreateTrainModal .controls .radio-label {
   color: #000;
   font-family: RobotoMedium;
 }
-.TrialTrainModal .controls .item {
+.CreateTrainModal .controls .item {
   width: 50%;
 }
-.TrialTrainModal .submitPlate {
+.CreateTrainModal .submitPlate {
   display: flex;
   margin-top: 20px;
   align-items: center;
   justify-content: space-evenly;
 }
-.TrialTrainModal .submitPlate .saveBtn {
+.CreateTrainModal .submitPlate .saveBtn {
   width: 20%;
 }
-.TrialTrainModal .submitPlate .spinner-wrapper {
+.CreateTrainModal .submitPlate .spinner-wrapper {
   padding-left: 10px;
 }
-.TrialTrainModal .payment-fields {
+.CreateTrainModal .payment-fields {
   display: flex;
   flex-direction: column;
 }
-.TrialTrainModal .payment-fields .input-form-item {
+.CreateTrainModal .payment-fields .input-form-item {
   margin-bottom: 25px;
 }
-.TrialTrainModal-submit {
+.CreateTrainModal-submit {
   display: flex;
   align-items: center;
 }
-.TrialTrainModal-submit-error {
+.CreateTrainModal-submit-error {
   color: #f5222d;
   margin-left: 30px;
 }

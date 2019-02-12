@@ -20,7 +20,7 @@ import moment from 'moment'
 import * as actions from '../../store/actions'
 import './styles.css'
 import RegistrationTrainer from '../../components/RegistrationTrainer';
-import TrialTrainModal from "../../components/TrialTrainModal";
+import CreateTrainModal from "../../components/CreateTrainModal";
 
 class LoginPage extends React.Component {
 
@@ -116,12 +116,13 @@ class LoginPage extends React.Component {
                         />
                         <Route path="/trial-training"
                                exact
-                               render={() => <TrialTrainModal
+                               render={() => <CreateTrainModal
                                    title='Запишись на пробную тренировку'
                                    width={770}
                                    visible={true}
                                    unauthorized={true}
                                    closable={false}
+                                   trial={true}
                                    disciplinesList={disciplinesList}
                                    onSave={this.onSendDataTrialModal}
                                />}

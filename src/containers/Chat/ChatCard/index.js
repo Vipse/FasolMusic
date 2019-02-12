@@ -40,27 +40,30 @@ class ChatCard extends React.Component {
 			startReception();
 		}
 		else if (moment() < moment(this.props.beginTime)) {
-			this.notBeganWarning();
-			console.log(moment(), moment(this.props.beginTime))
+			this.notBeganModal();
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
     	if (prevProps.trainingStarts !== this.props.trainingStarts && !this.props.trainingStarts
 		&& this.props.isStudent && this.props.isTrial)
-			Modal.warning({
-				title: 'Фух! отлично потренировались! :)',
-				width: '500px',
-				className: 'fast-modal',
-				content: 'Вы конечно хотите продолжать и специально для вас если ' +
-					'вы произведете оплату в течении 24 часов мы вам подарим еще 1 бесплатную тренировку!',
-				maskClosable: true,
-				okText: 'Оплатить',
-				onOk: () => this.props.goToPayment()
-			});
+			this.finighedTrialModal();
 	}
 
-	notBeganWarning = () => {
+	finighedTrialModal = () => {
+		Modal.warning({
+			title: 'Фух! отлично потренировались! :)',
+			width: '500px',
+			className: 'fast-modal',
+			content: 'Вы конечно хотите продолжать и специально для вас если ' +
+				'вы произведете оплату в течении 24 часов мы вам подарим еще 1 бесплатную тренировку!',
+			maskClosable: true,
+			okText: 'Оплатить',
+			onOk: () => this.props.goToPayment()
+		});
+	};
+
+	notBeganModal = () => {
 		Modal.confirm({
 			title: 'Тренировка еще не началась',
 			width: '500px',
@@ -102,21 +105,21 @@ class ChatCard extends React.Component {
 	};
 
 	onCloseTraining = (markAs) => {
-		/* завершение чата, обнуление истории на сервере */
+		const {idTraining} = this.props;
+
 		messAboutStop();
 		stop();
 
 		if (markAs === 'complete') {
-			let new_obj = {idTraining: this.props.idTraining};
-			this.props.completeTraining(new_obj);
-			messForCloseReception(this.props.idTraining);
+			this.props.completeTraining({idTraining});
+
+			messForCloseReception(idTraining);
 			this.props.changeTrainingStatus(false);
 			this.setState({isCurTrainingEnd: true});
 		}
 		else if (markAs === 'transfer') {
-			let new_obj = {idTraining: this.props.idTraining};
-			this.props.tailTraining(new_obj);
-			messForCloseReception(this.props.idTraining);
+			this.props.tailTraining({idTraining});
+			messForCloseReception(idTraining);
 			this.props.changeTrainingStatus(false);
 			this.setState({isCurTrainingEnd: true});
 		}
@@ -152,9 +155,10 @@ class ChatCard extends React.Component {
 	};
 
     getIconByType = () => {
+    	const {mode} = this.props;
 		let icon;
 		
-        switch (this.props.mode) {
+        switch (mode) {
             case 'chat':
                 icon = "chat1";
                 break;
@@ -167,7 +171,7 @@ class ChatCard extends React.Component {
 			default:
 				icon =  "chat1";
         }
-        return icon
+        return icon;
     };
 
     render() {
@@ -283,14 +287,24 @@ ChatCard.propTypes = {
 	interlocutorName: PropTypes.string,
     online: PropTypes.bool,
 	mode: PropTypes.oneOf(['chat', 'voice', "video"]),
-	isEnded: PropTypes.bool
+	isEnded: PropTypes.bool,
+	completeTraining: PropTypes.func,
+	changeTrainingStatus: PropTypes.func,
+	tailTraining: PropTypes.func,
+	goToPayment: PropTypes.func,
+	onExitTraining: PropTypes.func
 };
 
 ChatCard.defaultProps = {
 	interlocutorName: '',
     online: false,
 	mode: 'chat',
-	isEnded: false
+	isEnded: false,
+	completeTraining: () => {},
+	changeTrainingStatus: () => {},
+	tailTraining: () => {},
+	goToPayment: () => {},
+	onExitTraining: () => {}
 };
 
 export default ChatCard

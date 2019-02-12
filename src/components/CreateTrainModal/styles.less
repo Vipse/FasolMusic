@@ -1,31 +1,33 @@
-.TrialTrainModal {
+.CreateTrainModal {
   padding: 10px 40px 40px 40px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 
+  .info {
+    color: #000;
+    width: 100%;
+    text-align: center;
+    font-family: RobotoRegular;
+    font-size: 16px;
+
+    &-small {
+      font-family: RobotoRegularItalic;
+      color: #827d84;
+      font-size: 14px;
+    }
+
+    &-complete {
+      padding: 20px;
+    }
+  }
+
   .controls {
     display: flex;
-    width: 100%;
+    width: 99%;
     justify-content: center;
     text-align: center;
-
-    .info {
-      font-family: RobotoRegularItalic;
-      color: #000;
-      width: 100%;
-
-      &-small {
-        font-family: RobotoRegularItalic;
-        color: #c6c1c8;
-        font-size: 12px;
-      }
-
-      &-complete {
-        padding: 20px;
-      }
-    }
 
     .radio-label {
       color: #000;

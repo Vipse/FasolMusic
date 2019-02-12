@@ -130,25 +130,25 @@ class Chat extends React.Component{
                     <Col xs={24} xxl={24} className='section'>
                         {
                             this.props.idTraining ?
-                            isStudent ? (
-                                <ChatCard {...chatProps}
-                                          mode={this.props.conversationMode}
-                                          onExitTraining={() => this.goToChat(0, 0, '', 0)}
-                                          goToPayment={this.onGoToPayment}
-                                          isStudent={true}
-                                />
-                            ) : (
-                                <ChatCard {...chatProps}
-                                          mode={this.props.conversationMode}
-                                          onExitTraining={() => this.goToChat(0, 0, '', 0)}
-                                          completeTraining={this.props.onCompleteTraining}
-                                          tailTraining={this.props.onTransferTraininingToEnd}
-                                          changeTrainingStatus={this.props.onSetTrainingStatus}
-                                />
-                            ) :
+                                isStudent ? (
+                                    <ChatCard {...chatProps}
+                                              mode={this.props.conversationMode}
+                                              onExitTraining={() => this.goToChat(0, 0, '', 0)}
+                                              goToPayment={this.onGoToPayment}
+                                              isStudent={true}
+                                    />
+                                ) : (
+                                    <ChatCard {...chatProps}
+                                              mode={this.props.conversationMode}
+                                              onExitTraining={() => this.goToChat(0, 0, '', 0)}
+                                              completeTraining={this.props.onCompleteTraining}
+                                              tailTraining={this.props.onTransferTraininingToEnd}
+                                              changeTrainingStatus={this.props.onSetTrainingStatus}
+                                    />
+                                ) :
                                 <ChatTrainingsList
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    goToChat = {this.goToChat}
+                                    goToChat={this.goToChat}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
                                     data={this.state.nearTrainings}
                                 />

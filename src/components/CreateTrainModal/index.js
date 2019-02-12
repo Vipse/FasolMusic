@@ -5,7 +5,7 @@ import Modal from '../Modal'
 import Content from './content'
 import './styles.css'
 
-const TrialTrainModal = (props) => {
+const CreateTrainModal = (props) => {
     
     return (
         <Modal title={props.title}
@@ -20,26 +20,28 @@ const TrialTrainModal = (props) => {
     
 }
 
-TrialTrainModal.propTypes = {
+CreateTrainModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
     patients: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     unauthorized: PropTypes.bool,
     closable: PropTypes.bool,
+    trial: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 };
 
-TrialTrainModal.defaultProps = {
+CreateTrainModal.defaultProps = {
     visible: false,
     date: null,
     patients: [],
     isChoosebleTime: false,
     unauthorized: false,
     closable: true,
+    trial: false,
     onSave: () => {},
     onCancel: () => {},
 };
 
-export default TrialTrainModal;
+export default CreateTrainModal;

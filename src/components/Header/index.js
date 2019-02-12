@@ -8,7 +8,7 @@ import AutoComplete from '../AutoComplete'
 
 import './style.css'
 import '../../icon/style.css'
-import TrialTrainModal from "../../components/TrialTrainModal";
+import CreateTrainModal from "../../components/CreateTrainModal";
 import moment from "moment";
 import {Modal} from "antd";
 
@@ -41,7 +41,7 @@ class Header extends React.Component {
         const time1 = moment(Date.now()).endOf('week').format('X');
         const codeDisc = disciplinesList[data.type].code;
 
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: +useFrozenTraining}); // поменять
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: +useFrozenTraining}); // поменять
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
 
@@ -169,7 +169,7 @@ class Header extends React.Component {
                         onClick={this.props.logout}
                     />
                 </div>
-                <TrialTrainModal
+                <CreateTrainModal
                     title='Запишись на пробную тренировку'
                     width={770}
                     visible={this.state.isTrialTrainingModalVisible}
@@ -177,13 +177,14 @@ class Header extends React.Component {
                     disciplinesList={disciplinesList}
                     unauthorized={false}
                     closable={true}
+                    trial={true}
                     onCancel={() => {
                         this.setState({isTrialTrainingModalVisible: false})
                     }}
                     onSave={this.onSendDataTrialModal}
                 />
 
-                <TrialTrainModal
+                <CreateTrainModal
                     title='Создание абонемента (разморозка)'
                     width={770}
                     visible={this.state.isUnfreshTrainingModal}

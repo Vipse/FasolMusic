@@ -42,8 +42,10 @@ class ChatTrainingsList extends React.Component {
                       extra={<a className="chat-list-link" onClick={this.props.openNearTrains}><Icon
                           type="circle_arrow_right"/><span>Все</span></a>}>
                     {loading ? <Spinner isInline={true} size='default'/> :
-                            data && data.length ? this.scheduleRender(data) :
+                        <div className="chat-list-wrapper">
+                            {data && data.length ? this.scheduleRender(data) :
                                 <div className='entry-list no-trainings'>Тренировок нет</div>}
+                        </div>}
                 </Card>
             </div>
         )

@@ -135,7 +135,7 @@ class Schedule extends React.Component {
                             this.setState({isShowFreeTrainers : true, apiPatients : [ {trainer: null, start: new Date(idEvent)}]})
                           
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
-                            this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 1});        
+                            this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
         }
 
         else if(!this.props.isPushBtnTransfer){
@@ -157,7 +157,7 @@ class Schedule extends React.Component {
                        
 
                         const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
-                        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: countTraining + 1}); // show Сохранитьreturn;  
+                        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining + 1}); // show Сохранитьreturn;
                         message.success('Тренировка выбрана')
                         message.info('Для подтверждения расписания нажмите "Сохранить"')
 
@@ -171,7 +171,7 @@ class Schedule extends React.Component {
                 message.info('Выберите одного из тренеров')
                 this.setState({isShowFreeTrainers : true, apiPatients: patients});
 
-                this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: countTraining});        
+                this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: countTraining});
                 this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                 
                 
@@ -196,7 +196,7 @@ class Schedule extends React.Component {
                         trainer.start = new Date(this.trialTime); //idEvent ~ time
 
                         this.setState({apiPatients : [ trainer]})
-                        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: 1});       
+                        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: 1});
                         i = Infinity;
                     }
             }
@@ -235,7 +235,7 @@ class Schedule extends React.Component {
                 this.setState({theMasterSelect: true})
             });
        
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: abonementIntervals.countTraining});  
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         this.props.onSetChooseTheMasterByStudent(idMaster);
         if(this.props.isPushBtnTrialTraining === 'trial') this.props.onSetPushTrialTraining('first_trainer');
         this.setState({isShowFreeTrainers : false});  
@@ -336,7 +336,7 @@ class Schedule extends React.Component {
                 
         }
 
-        this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0}); // убрать Сохранить
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); // убрать Сохранить
 
         this.setState({apiPatients: [], sendingModal: true, theMasterSelect: false})
   
@@ -759,7 +759,7 @@ class Schedule extends React.Component {
        
         let isNeedSaveIntervals = false
         if(abonementIntervals){
-            isNeedSaveIntervals = abonementIntervals.visibleTrialModal;
+            isNeedSaveIntervals = abonementIntervals.visibleCreateTrainModal;
             this.countTraining = abonementIntervals.countTraining; //кол-во трень в абонементе
         }
         
