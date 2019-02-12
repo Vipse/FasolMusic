@@ -35,7 +35,7 @@ class PersonalDataTime extends React.Component {
                       onChange={() => this.handleActiveSlider(i)}
                       key={"enableDay" + i}>{daysName[i]}</Checkbox>
             <Slider className="slider"
-                    range step={1} min={0} max={24}
+                    range step={1} min={8} max={23}
                     value={[selectedTimes[i][0], selectedTimes[i][1]]}
                     disabled={!enabledDays[i]}
                     onChange={(value) => this.handleChangeSlider(i, value)}

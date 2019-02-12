@@ -131,7 +131,7 @@ class Step4Form extends React.Component{
         return (<div className="timeSchedule" key={i}>
             <Checkbox className="dayCheckbox" value={i} checked={enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
                       key={"enableDay" + i}>{daysName[i]}</Checkbox>
-            <Slider className="slider" range step={1} min={0} max={24}
+            <Slider className="slider" range step={1} min={8} max={23}
                     value={[selectedTimes[i][0], selectedTimes[i][1]]}
                     disabled={!enabledDays[i]}
                     onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
