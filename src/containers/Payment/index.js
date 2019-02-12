@@ -31,7 +31,6 @@ class Payment extends React.Component{
     componentDidMount() {
       
         if(this.props.mode === 'student'){
-            this.props.onGetSubscriptionsByStudentId(this.props.id)
             this.props.onGetDisciplineCommunication(this.props.id);
         }
         this.props.onGetDeadlinePay(this.props.id);	
@@ -63,12 +62,11 @@ class Payment extends React.Component{
                 this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: abonementIntervals.countTraining});
         }
         
-        debugger;
-        //this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
+        this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
         setTimeout( () => this.props.onGetStudentBalance(id), 1500);
 
 
-        this.setState({visibleTrialModal: true, redirectToSchedule: true});
+       // this.setState({visibleTrialModal: true, redirectToSchedule: true});
     }
 
 
@@ -185,7 +183,7 @@ const mapDispatchToProps = dispatch => {
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
-        onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
+       
         onGetToken: (idUser, amount, price, discipline) => dispatch(actions.getToken(idUser, amount, price, discipline)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
 

@@ -206,5 +206,6 @@ export {
 
 
 export {
-    getToken
+    getToken,
+    checkToken,
 } from './acquiring'
