@@ -278,21 +278,11 @@ class Schedule extends React.Component {
                 title: 'Ура!',
                 width: '500px',
                 className: 'fast-modal',
-                content: 'Время пробной тренировки выбрано, а теперь нужно обязательно заполнить информацию о себе' +
+                content: 'Время пробной тренировки выбрано, а теперь нужно обязательно заполнить информацию о себе ' +
                     'в личном профиле!',
                 okText: 'Заполнить профиль',
                 maskClosable: false,
-                onOk: () => {
-                    this.props.history.push('/app/personal-info');
-                    PopupModal.info({
-                        title: 'Что нужно для пробного!',
-                        width: '500px',
-                        className: 'fast-modal',
-                        content: 'Подготовьте камеру и микрофон, проверьте интернет-соединение ' +
-                            'и подготовьте инструмент если вы гитарист, а все остальное сделаем мы! ' +
-                            'Только не пропустите наш звонок!) P.S. Лучше зайти на платформу за 10 минут:)',
-                    });
-                }
+                onOk: () => this.props.history.push('/app/personal-info')
             });
         }
 

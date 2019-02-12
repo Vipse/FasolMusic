@@ -11,10 +11,10 @@ class ChatVideoPanel extends React.Component{
 
     checkTimeFormat = (number) => {
         return (''+number).length < 2 ? '0'+number : number;
-    }
+    };
 
     render(){
-        const { isCalling, sec, min, hour,isStudent} = this.props;
+        const {isCalling, sec, min, hour, isStudent, isComplete} = this.props;
 
 
         return (
@@ -25,7 +25,7 @@ class ChatVideoPanel extends React.Component{
                     <div className="message__panel-duration">
                         {this.checkTimeFormat(hour)} : {this.checkTimeFormat(min)} : {this.checkTimeFormat(sec)}
                     </div>
-                    {!isStudent && <div className="message__panel-btns">
+                    <div className="message__panel-btns">
                         <Button
                             btnText=''
                             className='btn-endcall'
@@ -36,7 +36,7 @@ class ChatVideoPanel extends React.Component{
                             title='Завершить звонок'
                             onClick={this.props.onStop}
                         />
-                    </div> }
+                    </div>
                     <div className="message__panel-full">
                         <Button
                             btnText=''
@@ -50,8 +50,7 @@ class ChatVideoPanel extends React.Component{
                 </Hoc>
                 :
                 <Hoc>
-
-                    {!isStudent && <div className="message__panel-btns startcall">
+                    {!isStudent && !isComplete && <div className="message__panel-btns startcall">
                         <Button
                             className='btn-call'
                             btnText=''
@@ -64,7 +63,6 @@ class ChatVideoPanel extends React.Component{
                         />
                     </div>}
                     <div className="message__panel-full">
-
                         <Button
                             btnText=''
                             size='small'
@@ -86,6 +84,8 @@ ChatVideoPanel.propTypes = {
     min: PropTypes.number,
     hour: PropTypes.number,
     isCalling: PropTypes.bool,
+    isStudent: PropTypes.bool,
+    isComplete: PropTypes.bool,
     onStop: PropTypes.func,
     onCall: PropTypes.func,
     uploadFiles: PropTypes.func,
@@ -97,6 +97,8 @@ ChatVideoPanel.defaultProps = {
     min: 0,
     hour: 0,
     isCalling: false,
+    isStudent: false,
+    isComplete: false,
     onStop: () => {},
     onCall: () => {},
     uploadFiles: () => {},

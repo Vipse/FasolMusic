@@ -6,8 +6,9 @@ const initialState = {
     idTraining: 0,
     trainingStarts: false,
     isCalling: false,
-    isTrial: false,
     beginTime: 0,
+    isComplete: true,
+    isTrial: false,
     chatStory: [],
     conversationMode: 'video',
     timer: {
@@ -15,7 +16,8 @@ const initialState = {
         m: 0,
         h: 0,
     },
-    interlocutorName: ''
+    interlocutorName: '',
+    interlocutorAvatar: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +26,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 trainingStarts: action.isStart,
+            }
+
+        case actionTypes.SET_BEGIN_TIME:
+            return {
+                ...state,
+                beginTime: action.beginTime,
+            }
+        case actionTypes.SET_RECEPTION_ISCOMPLETE:
+            return {
+                ...state,
+                isComplete: action.isComplete,
             }
         case actionTypes.SET_RECEPTION_ISTRIAL:
             return {
@@ -34,11 +47,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isCalling: action.isCalling,
-            }
-        case actionTypes.SET_BEGIN_TIME:
-            return {
-                ...state,
-                beginTime: action.beginTime,
             }
         case actionTypes.SET_CHAT_FROM_ID:
             return {
@@ -53,7 +61,8 @@ const reducer = (state = initialState, action) => {
             case actionTypes.SET_CHAT_INTERLOCUTOR_INFO:
             return {
                 ...state,
-                interlocutorName: action.interlocutorName
+                interlocutorName: action.interlocutorName,
+                interlocutorAvatar: action.interlocutorAvatar
             }
         case actionTypes.SET_CHAT_TRAINING_ID:
             return {

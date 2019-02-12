@@ -18,7 +18,8 @@ import {
 } from '../../App/chatWs'
 
 import './style.css'
-import {Modal} from "antd";
+import {Modal as PopupModal, Modal} from "antd";
+import ProfileAvatar from "../../../components/ProfileAvatar";
 
 
 class ChatCard extends React.Component {
@@ -28,29 +29,39 @@ class ChatCard extends React.Component {
         	chat: [],
             isActiveFiles: false,
 			isActiveChat: true,
-			isCurTrainingEnd: false,
+			isCurTrainingEnd: true,
 			completionModalVisible: false
 		}
-    }
+	}
 
-    componentDidMount() {
-		if (this.props.idTraining && this.props.user_mode === "master") {
-			this.props.changeTrainingStatus(true);
-			this.setState({isCurTrainingEnd: false});
-			startReception();
-		}
-		else if (moment() < moment(this.props.beginTime)) {
-			this.notBeganModal();
+	componentDidMount() {
+		const {idTraining, user_mode, isComplete, isTrial, beginTime} = this.props;
+
+		if (idTraining) {
+			if (user_mode === "student") {
+				!isComplete && isTrial && this.trialInfoModal();
+				if (moment() < moment(beginTime)) this.notBeganModal();
+			}
+
+			if (!isComplete) {
+				this.props.changeTrainingStatus(true);
+				this.setState({isCurTrainingEnd: false});
+				startReception();
+			}
+			else {
+				this.props.changeTrainingStatus(false);
+				this.setState({isCurTrainingEnd: true});
+			}
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
     	if (prevProps.trainingStarts !== this.props.trainingStarts && !this.props.trainingStarts
 		&& this.props.isStudent && this.props.isTrial)
-			this.finighedTrialModal();
+			this.finishedTrialModal();
 	}
 
-	finighedTrialModal = () => {
+	finishedTrialModal = () => {
 		Modal.warning({
 			title: 'Фух! отлично потренировались! :)',
 			width: '500px',
@@ -76,6 +87,19 @@ class ChatCard extends React.Component {
 			cancelText: 'Вернуться к списку',
 			onOk: () => {/*moment() < moment(this.props.beginTime) && this.notBeganWarning()*/},
 			onCancel: this.props.onExitTraining
+		});
+	};
+
+	trialInfoModal = () => {
+		PopupModal.info({
+			title: 'Что нужно для пробного!',
+			width: '500px',
+			className: 'fast-modal',
+			content: 'Подготовьте камеру и микрофон, проверьте интернет-соединение ' +
+				'и подготовьте инструмент если вы гитарист, а все остальное сделаем мы! ' +
+				'Только не пропустите наш звонок!) P.S. Лучше зайти на платформу за 10 минут :)',
+			okText: 'Ясно :)',
+			zIndex: 1025
 		});
 	};
 
@@ -175,7 +199,7 @@ class ChatCard extends React.Component {
     };
 
     render() {
-		const {interlocutorName, online} = this.props;
+		const {interlocutorName, interlocutorAvatar, online} = this.props;
 		const iconType = this.getIconByType();
         const statusClass = cn('chat-card-status', `chat-card-${online}`);
         const dialogsClass = cn('chat-card-dialogs', {'chat-card-dialogs-active': this.state.isActiveFiles});
@@ -240,6 +264,8 @@ class ChatCard extends React.Component {
 								type='go'
 								onClick={this.handleChangeType}
 							/>
+							<div className='chat-card-avatarPatient'><ProfileAvatar img={interlocutorAvatar}
+																					size='small'/></div>
 							<div className='chat-card-namePatient'>{interlocutorName}</div>
 							{/*<div className={statusClass}>{online}</div>*/}
 						</div>

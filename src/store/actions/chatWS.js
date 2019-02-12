@@ -8,6 +8,20 @@ export const setReceptionStatus = (isStart) => {
     });
 }
 
+export const setBeginTime = (beginTime) => {
+    return ({
+        type: actionTypes.SET_BEGIN_TIME,
+        beginTime,
+    });
+}
+
+export const setIsCompleteStatus = (isComplete) => {
+    return ({
+        type: actionTypes.SET_RECEPTION_ISCOMPLETE,
+        isComplete,
+    });
+}
+
 export const setIsTrialStatus = (isTrial) => {
     return ({
         type: actionTypes.SET_RECEPTION_ISTRIAL,
@@ -19,13 +33,6 @@ export const setIsCallingStatus = (isCalling) => {
     return ({
         type: actionTypes.SET_RECEPTION_ISCALLING,
         isCalling,
-    });
-}
-
-export const setBeginTime = (beginTime) => {
-    return ({
-        type: actionTypes.SET_BEGIN_TIME,
-        beginTime,
     });
 }
 
@@ -43,10 +50,11 @@ export const setChatToId = (id) => {
     });
 }
 
-export const setChatInterlocutorInfo = (interlocutorName) => {
+export const setChatInterlocutorInfo = (interlocutorName, interlocutorAvatar) => {
     return ({
         type: actionTypes.SET_CHAT_INTERLOCUTOR_INFO,
-        interlocutorName
+        interlocutorName,
+        interlocutorAvatar
     });
 }
 
