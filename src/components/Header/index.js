@@ -71,8 +71,10 @@ class Header extends React.Component {
         const time1 = moment(Date.now()).endOf('week').format('X');
         this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code]);
         this.props.onSetPushTrialTraining('trial');
+    
         this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
+        this.props.onGetAbonementsFilter(id,disciplinesList[type])
         this.props.onGoToSchedule();
         this.setState({isTrialTrainingModalVisible: false});
     };
@@ -127,7 +129,7 @@ class Header extends React.Component {
                                 onClick={() => this.setState({isTrialTrainingModalVisible: true})}
                             />}
                             {useFrozenTraining ? <Button
-                                btnText='Разморозить тренировку'
+                                btnText={'Разморозить тренировку(' + useFrozenTraining + ')'}
                                 size='default'
                                 type='border-pink'
                                 className="header-btn"

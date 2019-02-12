@@ -267,6 +267,7 @@ class App extends React.Component {
                                             onGoToSchedule={this.onGoToSchedule}
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
                                             isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
+                                            onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
 
                                             onSetFreeIntervals = {this.props.onSetFreeIntervals}
                                             onGetTheMasterInterval = {this.props.onGetTheMasterInterval}

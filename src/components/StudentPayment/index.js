@@ -39,6 +39,8 @@ class StudentPayment extends React.Component{
 
     selectPlan = (count) => {
         // здесь должно быть typeSubscription
+        
+        
         this.props.onSetNeedSaveIntervals({visibleTrialModal: true, countTraining: count});
     }
 
@@ -64,7 +66,7 @@ class StudentPayment extends React.Component{
     };
 
     render() {
-        let { deadlinePay, frozenTraining} = this.props;
+        const { deadlinePay, studentBalance} = this.props;
         let daysToPay = null;
 
         if( deadlinePay) {
@@ -93,7 +95,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">203 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(4); this.selectPlan(4) }}
+                                        onClick={() =>  this.props.showTrialModal(4, 203)}
                                         size='small'
                                         type='black'
                                 />
@@ -112,7 +114,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">379 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(8); this.selectPlan(8) }}
+                                        onClick={() => this.props.showTrialModal(8, 379) }
                                         size='small'
                                         type='black'
                                 />
@@ -131,7 +133,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">705 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(12); this.selectPlan(12) }}
+                                        onClick={() =>  this.props.showTrialModal(12,  705) }
                                         size='small'
                                         type='black'
                                 />
@@ -150,7 +152,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">1009 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(24); this.selectPlan(24) }}
+                                        onClick={() =>  this.props.showTrialModal(24, 1009) }
                                         size='small'
                                         type='black'
                                 />
@@ -169,7 +171,7 @@ class StudentPayment extends React.Component{
                                 <div className="plan-select-totalPrice">1268 бр.</div>
                                 <Button className="plan-select-selectBtn"
                                         btnText='Выбрать'
-                                        onClick={() => { this.props.showTrialModal(32); this.selectPlan(32) }}
+                                        onClick={() =>  this.props.showTrialModal(32, 1268)}
                                         size='small'
                                         type='black'
                                 />
@@ -224,7 +226,7 @@ class StudentPayment extends React.Component{
                         </div>
                         <div className="payment-student-stats-plate-paid">
                             <div className="title">
-                                <span className="count"> {frozenTraining} 
+                                <span className="count"> {studentBalance} 
                                 </span>
                                 <p className="name">Оплачено тренировок</p>
                             </div>
