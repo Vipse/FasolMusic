@@ -86,9 +86,9 @@ class ChatContent extends React.Component {
                 {
                     (<div className='chat-card-message__send'>
                         <ChatSend
-                            disable={!this.props.trainingStarts}
+                            disable={this.props.isComplete || !this.props.trainingStarts}
                             isCurTrainingEnd={this.props.isCurTrainingEnd}
-                            isUser={this.props.isStudent}
+                            isStudent={this.props.isStudent}
                             closeVisit={this.props.onEnd}
                             uploadFiles={this.props.uploadFile}
                             send={message => this.props.onSend(message)}/>

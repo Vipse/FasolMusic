@@ -69,8 +69,9 @@ class App extends React.Component {
     };
 
      runChatWS = () => {
-        const {chatProps, setChatFromId, setChatToId, setChatTrainingId, setReceptionStatus, setIsCallingStatus,
-            setConversationMode, setChatStory, onSelectReception, setNewTimer, onSaveMessage} = this.props;
+        const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
+            setConversationMode, setChatStory, setChatTrainingId, setNewTimer, onSaveMessage,
+            setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus} = this.props;
         
         createSocket(
             'wss://web.fasolonline.ru:8443/one2one',
@@ -83,9 +84,12 @@ class App extends React.Component {
                 setIsCallingStatus,
                 setConversationMode,
                 setChatStory,
-                onSelectReception,
                 setNewTimer,
                 onSaveMessage,
+                setChatInterlocutorInfo,
+                setBeginTime,
+                setIsTrialStatus,
+                setIsCompleteStatus,
 
                 get_from: () => this.props.from,
                 get_to: () => this.props.to,
@@ -93,10 +97,7 @@ class App extends React.Component {
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_chatStory: () => this.props.chatStory,
-                get_visitInfo: () => {return {
-                    id: this.props.idTraining,
-                    contactLevel: this.props.conversationMode
-                }},
+                get_visitInfo: () => this.getChatInfo(),
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
             }
@@ -104,6 +105,26 @@ class App extends React.Component {
 
         register('' + this.props.id, ''/*+this.props.user_id*/, this.props.mode);
     };
+
+     getChatInfo = () => {
+         let name, avatar;
+         if (this.props.mode === "master" && this.props.profileCoach) {
+             name = this.props.profileCoach.name;
+             avatar = this.props.profileCoach.avatar;
+         }
+         else if (this.props.auth.mode === "student" && this.props.profileStudent) {
+             name = this.props.profileStudent.name;
+             avatar = this.props.profileStudent.avatar;
+         }
+         return {
+             idTraining: this.props.idTraining,
+             conversationMode: this.props.conversationMode,
+             fromName: name,
+             fromAvatar: avatar,
+             beginTime: this.props.beginTime,
+             isTrial: this.props.isTrial
+         }
+     };
 
      warnIfMobileDevice = () => {
          const isMobile = /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(navigator.userAgent);
@@ -340,8 +361,10 @@ const mapStateToProps = state => {
         from: state.chatWS.from,
         to: state.chatWS.to,
         idTraining: state.chatWS.idTraining,
+        beginTime: state.chatWS.beginTime,
         trainingStarts: state.chatWS.trainingStarts,
         isCalling: state.chatWS.isCalling,
+        isTrial: state.chatWS.isTrial,
         chatStory: state.chatWS.chatStory,
         conversationMode: state.chatWS.conversationMode,
         timer: state.chatWS.timer,
@@ -372,9 +395,13 @@ const mapDispatchToProps = dispatch => {
         setReceptionStatus: (isStart) => dispatch(actions.setReceptionStatus(isStart)),
         setConversationMode: (mode) => dispatch(actions.setConversationMode(mode)),
         setChatStory: (chat) => dispatch(actions.setChatStory(chat)),
-        onSelectReception: (id, callback) => dispatch(actions.seletVisit(id, callback)),
+        setChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
         setNewTimer: (timer) => dispatch(actions.setNewTimer(timer)),
         onSaveMessage: (id, chatHistory) => dispatch(actions.uploadTrainingChatHistory(id, chatHistory)),
+        setChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),
+        setBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
+        setIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
+        setIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
 
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),

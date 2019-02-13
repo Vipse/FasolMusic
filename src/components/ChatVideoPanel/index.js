@@ -14,7 +14,7 @@ class ChatVideoPanel extends React.Component{
     };
 
     render(){
-        const {isCalling, sec, min, hour, isStudent, isComplete} = this.props;
+        const {isCalling, sec, min, hour, disabled} = this.props;
 
 
         return (
@@ -50,7 +50,7 @@ class ChatVideoPanel extends React.Component{
                 </Hoc>
                 :
                 <Hoc>
-                    {!isStudent && !isComplete && <div className="message__panel-btns startcall">
+                    {!disabled && <div className="message__panel-btns startcall">
                         <Button
                             className='btn-call'
                             btnText=''
@@ -85,7 +85,7 @@ ChatVideoPanel.propTypes = {
     hour: PropTypes.number,
     isCalling: PropTypes.bool,
     isStudent: PropTypes.bool,
-    isComplete: PropTypes.bool,
+    disabled: PropTypes.bool,
     onStop: PropTypes.func,
     onCall: PropTypes.func,
     uploadFiles: PropTypes.func,
@@ -98,7 +98,7 @@ ChatVideoPanel.defaultProps = {
     hour: 0,
     isCalling: false,
     isStudent: false,
-    isComplete: false,
+    disabled: false,
     onStop: () => {},
     onCall: () => {},
     uploadFiles: () => {},
