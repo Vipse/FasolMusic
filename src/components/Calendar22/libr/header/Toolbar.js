@@ -31,7 +31,17 @@ class Toolbar extends React.Component {
   }
 
   render() {
-    let { messages, label, receptionNum,isNeedSaveIntervals, fillTrainingWeek, selectDisciplines, currDiscipline, onChangeCurrDiscipline} = this.props;
+    let { messages, 
+      label, 
+      receptionNum,
+      isNeedSaveIntervals, 
+      fillTrainingWeek,
+       selectDisciplines, 
+       currDiscipline, 
+       onChangeCurrDiscipline,
+       notRedirectDiscipline,
+      } = this.props;
+
     let optionDisciplines = [];
    
     for(let el in selectDisciplines){
@@ -40,6 +50,7 @@ class Toolbar extends React.Component {
         }
     }
 
+    console.log('notRedirectDiscipline :', notRedirectDiscipline);
     return (
       <div className="rbc-toolbar">
         <Button
@@ -56,11 +67,11 @@ class Toolbar extends React.Component {
 
 
         <div  className="rbc-toolbar-discipline">
-          {(currDiscipline) ?
-              <Select defaultValue={(currDiscipline.code)} style={{ width: 120 }} onChange={this.changeSelectorDiscipline} >
+          {(currDiscipline && !notRedirectDiscipline) ?
+              <Select value={(currDiscipline.code)} style={{ width: 120 }} onChange={this.changeSelectorDiscipline} >
                   { optionDisciplines.map((el) =>  <Option value={el.code}>{el.ruText}</Option> )}
               </Select> 
-          : null}
+          : <span className="rbc-toolbar-label">{currDiscipline.ruText}</span>}
         </div>
         
         

@@ -30,7 +30,7 @@ export const createAbonement = (dataCreate) => {
 
 
 export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => {
-    
+  
     axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
         .then(res => {
            

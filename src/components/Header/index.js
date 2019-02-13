@@ -42,6 +42,7 @@ class Header extends React.Component {
         const codeDisc = disciplinesList[data.type].code;
       
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: +useFrozenTraining});
+        
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
 
@@ -64,6 +65,8 @@ class Header extends React.Component {
             this.props.onSetMasterTheDisicipline(null);
             this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc]);
         }
+
+        this.props.onGetAbonementsFilter(id,disciplinesList[data.type])
 
         this.props.onIsPushBtnUnfresh();
         this.props.onGoToSchedule();

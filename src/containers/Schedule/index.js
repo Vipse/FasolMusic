@@ -26,6 +26,7 @@ import FreeTrainersItem from '../../components/FreeTrainersItem';
 import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
+import { apiPatients } from './mock-data';
 
 
 class Schedule extends React.Component {
@@ -61,6 +62,7 @@ class Schedule extends React.Component {
             modalMasterList: false,
             showSpinner: false,
             theMasterSelect: false,
+            notRedirectDiscipline: false,
         }
     };
 
@@ -128,7 +130,7 @@ class Schedule extends React.Component {
         }
         if(isPushBtnTrialTraining === 'trial'){             
                             this.trialTime = idEvent;
-                            debugger;
+                         
                             message.info('Выберите одного из тренеров')
                             message.success('Тренировка выбрана')
                         
@@ -262,12 +264,12 @@ class Schedule extends React.Component {
 
         message.success("Тренировки распределены по расписанию");
 
-
         let buf = 'vocals';
 
         for(let el in disciplines){
         
             if(disciplines[el].code === currDiscipline.code){
+               
                 buf = el;
             }
         }
@@ -289,7 +291,7 @@ class Schedule extends React.Component {
 
         if(selectMaster){
            // discAbonement
-           debugger;
+         
             if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code)) {
                // debugger;
                 this.props.onAddAmountTraining(subsForDisc[currDiscipline.code], abonementIntervals.countTraining)
@@ -340,7 +342,6 @@ class Schedule extends React.Component {
         // не передаем для коуча и он не может менять расписание
 
         if(transferDay){
-            debugger
             this.transferDay = {dateStart : Math.floor(+transferDay.getTime() / 1000)}
         }
        
@@ -365,7 +366,6 @@ class Schedule extends React.Component {
             if(this.transferDay && currMaster){
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay})
                         .then(() => {
-                            debugger
                             this.props.onGetAbonementsFilter(id,currDiscipline);
                         });
             } 
@@ -418,7 +418,6 @@ class Schedule extends React.Component {
 
     setAbonement_Training = () => {
         
-        console.log('this.props :', this.props);
         let subs = this.props.allAbonements;
         const {idSubscription, start} = this.delEvent.event;
         const {id, currDiscipline} = this.props;
@@ -437,7 +436,6 @@ class Schedule extends React.Component {
                 scheduleForWeek.idStudent = id;//subs[i].idStudent;
                 scheduleForWeek.discipline = subs[i].discipline;
 
-                debugger
                 let item = subs[i];
 
                 const start = moment(+item.start * 1000);
@@ -526,10 +524,26 @@ class Schedule extends React.Component {
 
         if(this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(id);
+            
             this.props.onCheckToken(id)
                 .then((checkToken) => {
-                    debugger;
-                    (Array.isArray(checkToken) && checkToken.length) ? this.props.onIsPushBtnUnfresh() : null
+                    
+                    if(checkToken.length){
+                        PopupModal.info({
+                            title: 'Отлично! Вот вы уже и Фасолянин!',
+                            width: '500px',
+                            className: 'fast-modal',
+                            content: 'Отлично! Вот вы уже и Фасолянин! Быстренько пробежимся по правилам:\n' +
+                                'Каждую тренировку можно переносить 1 раз;\n' +
+                                'Перенос за 24 часа до начала тренировки не возможен, если вы не сможете присутствовать, она считается проведенной;\n' +
+                                'Заморозка занятий действует 3 месяца. \nВот и все, вперед покорять музыку вместе с Fasol музыкальная качалка',
+                            zIndex: 1010,
+                            onOk: () => this.props.history.push('/app/personal-info'),
+                            onCancel: () => this.props.history.push('/app/personal-info')
+                        }) 
+                        this.props.onIsPushBtnUnfresh()
+                    }
+                
                 })
         }
 
@@ -539,6 +553,12 @@ class Schedule extends React.Component {
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline);
         }       
+    }
+
+    componentDidUpdate() {
+        const{id, currDiscipline} = this.props;
+
+        this.props.onGetFutureTrialTraining(id, currDiscipline)
     }
 
     componentWillUnmount() {
@@ -891,23 +911,28 @@ class Schedule extends React.Component {
                                  icon='setting_edit'/>)
 
                             let filterInterval = [];
+                            let notRedirectDiscipline = false;
                            
                              if(isPushBtnTrialTraining === 'trial'){
                                 filterInterval = this.props.superFreeInterval;
+                                notRedirectDiscipline = true;
                              }
                              else if(isPushBtnTrialTraining === 'select_master'){
                                 filterInterval = this.props.theMasterInterval;
+                                notRedirectDiscipline = true;
                              }
                              
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
-                                filterInterval = this.props.theMasterInterval ;
+                                filterInterval = this.props.theMasterInterval;
+                                notRedirectDiscipline = true;
 
                              }
                              else if(isNeedSaveIntervals){
-                                filterInterval =  this.props.superFreeInterval
+                                filterInterval =  this.props.superFreeInterval;
+                                notRedirectDiscipline = true;
                              }
 
-                         
+   
             calendar = (<Calendar 
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
@@ -932,12 +957,12 @@ class Schedule extends React.Component {
 
                                   superFreeInterval = {filterInterval}
                                   isPushBtnTransfer = {this.props.isPushBtnTransfer}
-
+                                  notRedirectDiscipline = {notRedirectDiscipline}
 
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {(disc) => {
-                                    this.props.onChangeCurrDiscipline(disc)
+                                    this.props.onChangeCurrDiscipline(disc);
                                     this.props.onGetAbonementsFilter(id, disc); 
                                     }}
 
@@ -1195,6 +1220,8 @@ const mapDispatchToProps = dispatch => {
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
+        onGetFutureTrialTraining: (id, discipline) => dispatch(actions.getFutureTrialTraining(id, discipline)),
+        
         
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),

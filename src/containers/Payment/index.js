@@ -47,7 +47,6 @@ class Payment extends React.Component{
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array,  data.type);
 
-       
         if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
                   
                 this.props.onAddAmountTraining(subsForDisc[codeDisc], abonementIntervals.countTraining)
@@ -61,29 +60,19 @@ class Payment extends React.Component{
                 this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
                 this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         }
-        
+        this.props.onGetAbonementsFilter(id, disciplinesList[data.type]); 
         this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
-        setTimeout( () => this.props.onGetStudentBalance(id), 1500);
+        //setTimeout( () => this.props.onGetStudentBalance(id), 1500);
       
         //this.setState({visibleCreateTrainModal: true, redirectToSchedule: true});
     }
 
 
-
     showTrialModal = (amount, price) => {
 
-        PopupModal.info({
-            title: 'Отлично! Вот вы уже и Фасолянин!',
-            width: '500px',
-            className: 'fast-modal',
-            content: 'Отлично! Вот вы уже и Фасолянин! Быстренько пробежимся по правилам:\n' +
-                'Каждую тренировку можно переносить 1 раз;\n' +
-                'Перенос за 24 часа до начала тренировки не возможен, если вы не сможете присутствовать, она считается проведенной;\n' +
-                'Заморозка занятий действует 3 месяца. \nВот и все, вперед покорять музыку вместе с Fasol музыкальная качалка',
-            zIndex: 1010
-        });
+        this.props.onGetToken(this.props.id, amount, price, 12)
 
-        this.setState({payModal: true, amount, price})
+        this.setState({amount, price})
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: amount});
 
     }
@@ -107,14 +96,14 @@ class Payment extends React.Component{
                     />)
                     : (<CoachPayment/>)}
 
-                <CreateTrainModal
+                {/*<CreateTrainModal
                     title='Запишись на тренировку'
                     width={770}
                     visible={this.state.payModal}
                     disciplinesList={disciplinesList}
                     onCancel={this.hideTrialModal} 
                     onSave={this.onSendDataModal}
-                />
+                /> */}
 
 
                { /*<Modal 

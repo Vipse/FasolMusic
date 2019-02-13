@@ -150,6 +150,7 @@ export const masterFreeOnDate = (date, chooseMasters) => {
         date, 
         arrMaster: chooseMasters
     };
+    debugger;
     return (dispatch) => {
         return axios.post('/catalog.fasol/masterFreeOnDate', JSON.stringify(obj))
             .then(res => {

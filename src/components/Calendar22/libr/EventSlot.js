@@ -67,7 +67,7 @@ class EventSlot extends Component {
         let isNearDay =  moment(event.start.getTime()).diff(moment(Date.now()), 'days');
         isNearDay = (isNearDay < 1) ? false : true
         
-        
+
         if( event.status && 
             !event.isBooking && 
             !event.isComplete && 
@@ -80,7 +80,7 @@ class EventSlot extends Component {
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
                             <div className="event-group-cross">
-                                <Icon type='close' size={7} onClick={() => this.props.onCancelTraining(event.id, event.idSubscription)}/>
+                                <Icon type='close' size={7} onClick={event.trial ? null : () => this.props.onCancelTraining(event.id, event.idSubscription)}/>
                             </div>
                             <p className="event-group-text" >
                                 {nameBlock}

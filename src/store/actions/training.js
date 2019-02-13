@@ -122,6 +122,26 @@ export const setHomeworkEdit = (idTraining, homework) => {
     }
 };
 
+export const getFutureTrialTraining = (idStudent, discipline) => {
+   
+    const obj = {
+        idStudent,
+        discipline: discipline.code
+    };
+    
+    return dispatch => {
+        axios.post('/catalog.fasol/getTrialTrainingsByDisciplineToStudent', JSON.stringify(obj))
+            .then(res => {
+                dispatch({
+                    type: actionTypes.GET_TRIAL_FUTURE_TRAINING,
+                    futureTrialTraining: res.data.result,
+                })
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
 
 
 export const unauthorizedTrialDataSave = (data) => {

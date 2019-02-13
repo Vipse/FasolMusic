@@ -123,6 +123,7 @@ class Calendar extends React.Component {
                 selectDisciplines = {this.props.selectDisciplines}
                 currDiscipline = {this.props.currDiscipline}
                 onChangeCurrDiscipline = {this.props.onChangeCurrDiscipline}
+                notRedirectDiscipline = {this.props.notRedirectDiscipline}
               />
             )}
             <Week
