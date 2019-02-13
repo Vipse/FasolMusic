@@ -18,64 +18,80 @@
 				padding-right: 30px;
 				width: 220px;
 			}
-			.timePlate {
-				position: relative;
-				top: -5.5em;
-				left: 50%;
-				font-size: 10px;
-				width: 70px;
-				height: 3px;
-				font-family: RobotoRegular;
-				color: #000;
-				text-align: center;
-			}
 			.timeSchedule {
-				display: flow-root;
+				display: flex;
 				user-select: none;
 
-				.ant-slider {
+				.daySliders {
+					user-select: none;
 					display: flex;
-					flex-direction: row;
-					position: relative;
-					margin: 15px 0;
+					flex-direction: column;
+					width: 80%;
 
-					&-rail {
-						height: 0.1em;
-						background-color: #000;
+					.timePlate {
+						position: relative;
+						top: -1.2em;
+						font-size: 10px;
+						height: 3px;
+						font-family: RobotoRegular;
+						color: #000;
+						text-align: center;
 					}
 
-					&-track {
-						background-color: #21bedd;
-						height: 0.1em;
-					}
+					.ant-slider {
+						display: flex;
+						flex-direction: row;
+						position: relative;
+						margin: 15px 0;
 
-					&-disabled {
-						.ant-slider {
-							&-handle, &-track {
-								display: none;
+						&.slider-0 {
+							margin-top: 2px;
+						}
+
+						&-rail {
+							height: 0.1em;
+							background-color: #000;
+						}
+
+						&-track {
+							background-color: #21bedd;
+							height: 0.1em;
+						}
+
+						&-disabled {
+							.ant-slider {
+								&-handle, &-track {
+									display: none;
+								}
+							}
+						}
+
+						&-handle {
+							width: 7px;
+							height: 7px;
+							background-color: #21bedd;
+							border: unset;
+							margin: -3px 0 0 -1px;
+
+							&:focus, &:hover {
+								box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
+							}
+
+							&-2 {
+								margin-left: -5px;
 							}
 						}
 					}
-
-					&-handle {
-						width: 7px;
-						height: 7px;
-						background-color: #21bedd;
-						border: unset;
-						margin: -3px 0 0 -1px;
-
-						&:focus, &:hover {
-							box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
-						}
-
-						&-2 {
-							margin-left: -5px;
-						}
-					}
+				}
+				.slidersBtnPlate {
+					display: flex;
+					flex-direction: row;
+					margin-bottom: 5px;
+					width: 0;
 				}
 			}
 			.dayCheckbox {
-				width: 64px;
+				min-width: 64px;
 				float: left;
 				margin-right: 12px;
 			}

@@ -8,7 +8,6 @@ import '../../icon/style.css'
 import Row from "../Row";
 import Col from "../Col";
 import CoachPersonalData from "../CoachPersonalData";
-//import WarningModal from "../WarningModal";
 
 class CoachPersonalProfile extends React.Component{
 
@@ -32,8 +31,6 @@ class CoachPersonalProfile extends React.Component{
                         />
                     </Col>
                 </Row>
-                {/*<WarningModal visible={this.state.visible} onClick={this.onVisible}
-                              message="Изменения всупят в силу после проверки администратором"/>*/}
             </div>
         )
     }
