@@ -85,7 +85,6 @@ class ChatCard extends React.Component {
 			maskClosable: true,
 			okText: 'Хорошо',
 			cancelText: 'Вернуться к списку',
-			onOk: () => {/*moment() < moment(this.props.beginTime) && this.notBeganWarning()*/},
 			onCancel: this.props.onExitTraining
 		});
 	};
@@ -217,9 +216,10 @@ class ChatCard extends React.Component {
 			user_mode: this.props.user_mode,
 			//uploadFile: this.uploadOnlyFile(this.props.idTraining, this.props.isUser ? this.props.callerID: this.props.calledID, fileUploadCallback),
 			idTraining: this.props.idTraining,
-			isCurTrainingEnd: this.state.isCurTrainingEnd,
+			isCurTrainingEnd: this.props.isCurTrainingEnd,
 			isActiveFiles: this.state.isActiveFiles,
-            isStudent: this.props.isStudent
+			isStudent: this.props.isStudent,
+			isComplete: this.props.isComplete
 		};
 		const chatAdditionalProps = {
 			setVideoOut: (video) => setVideoOut(video),

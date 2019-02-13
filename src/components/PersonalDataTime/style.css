@@ -13,55 +13,68 @@
   padding-right: 30px;
   width: 220px;
 }
-.coach-data-comfortTime .timePlate {
+.coach-data-comfortTime .timeSchedule {
+  display: flex;
+  user-select: none;
+}
+.coach-data-comfortTime .timeSchedule .daySliders {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.coach-data-comfortTime .timeSchedule .daySliders .timePlate {
   position: relative;
-  top: -5.5em;
-  left: 50%;
+  top: -1.2em;
   font-size: 10px;
-  width: 70px;
   height: 3px;
   font-family: RobotoRegular;
   color: #000;
   text-align: center;
 }
-.coach-data-comfortTime .timeSchedule {
-  display: flow-root;
-  user-select: none;
-}
-.coach-data-comfortTime .timeSchedule .ant-slider {
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider {
   display: flex;
   flex-direction: row;
   position: relative;
   margin: 15px 0;
 }
-.coach-data-comfortTime .timeSchedule .ant-slider-rail {
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider.slider-0 {
+  margin-top: 2px;
+}
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-rail {
   height: 0.1em;
   background-color: #000;
 }
-.coach-data-comfortTime .timeSchedule .ant-slider-track {
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-track {
   background-color: #21bedd;
   height: 0.1em;
 }
-.coach-data-comfortTime .timeSchedule .ant-slider-disabled .ant-slider-handle,
-.coach-data-comfortTime .timeSchedule .ant-slider-disabled .ant-slider-track {
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-disabled .ant-slider-handle,
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-disabled .ant-slider-track {
   display: none;
 }
-.coach-data-comfortTime .timeSchedule .ant-slider-handle {
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-handle {
   width: 7px;
   height: 7px;
   background-color: #21bedd;
   border: unset;
   margin: -3px 0 0 -1px;
 }
-.coach-data-comfortTime .timeSchedule .ant-slider-handle:focus,
-.coach-data-comfortTime .timeSchedule .ant-slider-handle:hover {
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-handle:focus,
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-handle:hover {
   box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
 }
-.coach-data-comfortTime .timeSchedule .ant-slider-handle-2 {
+.coach-data-comfortTime .timeSchedule .daySliders .ant-slider-handle-2 {
   margin-left: -5px;
 }
+.coach-data-comfortTime .timeSchedule .slidersBtnPlate {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+  width: 0;
+}
 .coach-data-comfortTime .dayCheckbox {
-  width: 64px;
+  min-width: 64px;
   float: left;
   margin-right: 12px;
 }
