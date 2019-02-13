@@ -90,13 +90,14 @@ class Header extends React.Component {
     handleTransfer = () => {
         this.props.isPushBtnTransfer();
 
-        Modal.info({
+        this.props.isTransferTrainPopupActive && Modal.info({
             title: 'Перенос тренировки',
             width: '500px',
             className: 'fast-modal',
-            content: 'Зеленым подсветилось время доступное у коуча, перетяни тренировку которую хочешь перенести' +
-                'на доступное время и помни, одну тренировку можно перенести только один раз' +
-                'и не позднее 24 часов до начала тренировки! :('
+            content: 'Зеленым подсветилось время доступное у коуча, перетяни тренировку которую хочешь перенести ' +
+                'на доступное время и помни, одну тренировку можно перенести только один раз ' +
+                'и не позднее 24 часов до начала тренировки! :(',
+            onOk: () => {this.props.onTransferTrainPopupClose()}
         });
     };
 

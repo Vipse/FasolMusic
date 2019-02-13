@@ -4,7 +4,8 @@ const initialState = {
     myCoach: [],
     deadlinePay: {},
     trialTrainingForDisciplines: {},
-    isTrialTrainingsAvailable: false
+    isTrialTrainingsAvailable: false,
+    isTransferTrainPopupActive: true
 };
 
 const reducer = (state = initialState, action) => {
@@ -59,6 +60,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isTrialTrainingsAvailable: false
+            }
+        case actionTypes.SET_TRANSFER_TRAIN_MODAL_INACTIVE:
+            return {
+                ...state,
+                isTransferTrainPopupActive: false
             }
         case actionTypes.SET_IS_PUSH_BTN_TRANSFER:
             return {

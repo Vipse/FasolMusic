@@ -285,6 +285,9 @@ class App extends React.Component {
                                             subsForDisc = {this.props.subsForDisc}
                                             abonementIntervals = {this.props.abonementIntervals}
                                             onAddAmountTraining = {this.props.onAddAmountTraining}
+
+                                            isTransferTrainPopupActive={this.props.isTransferTrainPopupActive}
+                                            onTransferTrainPopupClose={this.props.onTransferTrainPopupDisable}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -331,7 +334,7 @@ const mapStateToProps = state => {
         discCommunication: state.student.discCommunication,
         studentBalance: state.abonement.studentBalance,
         useFrozenTraining: state.student.useFrozenTraining,
-        subsForDisc : state.abonement.subsForDisc,
+        subsForDisc: state.abonement.subsForDisc,
         abonementIntervals: state.patients.abonementIntervals,
 
         from: state.chatWS.from,
@@ -342,6 +345,8 @@ const mapStateToProps = state => {
         chatStory: state.chatWS.chatStory,
         conversationMode: state.chatWS.conversationMode,
         timer: state.chatWS.timer,
+
+        isTransferTrainPopupActive: state.student.isTransferTrainPopupActive
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -391,6 +396,7 @@ const mapDispatchToProps = dispatch => {
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
+        onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable())
     }
 };
 

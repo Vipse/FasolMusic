@@ -163,6 +163,7 @@ export {
     getTheMasterInterval,
     getTrainingTrialStatusByDiscipline,
     getTrainingsTrialStatus,
+    transferTrainPopupDisable,
     setPushBtnTransferTraining,
     setPushBtnAddTraining,
     setPushTrialTraining,
