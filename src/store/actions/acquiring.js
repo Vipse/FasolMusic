@@ -10,9 +10,9 @@ export const getToken = (idUser, amount, price, discipline, currency= 'BYN', des
         price,
         discipline,
         currency,
-        description,
+        description: description + ' тренировок в количестве: ' + amount,
     };
-debugger;
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/getToken', JSON.stringify(obj))
             .then(res => {
