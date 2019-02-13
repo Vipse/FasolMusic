@@ -79,6 +79,7 @@ class ChatSend extends React.Component{
                                 : this.setState({value: e.target.value})
                         }}
                         placeholder="Ваше сообщение..."
+                        disabled={this.props.disable}
                         autosize/>
                 </div>
                 <div className='message__send-btns'>

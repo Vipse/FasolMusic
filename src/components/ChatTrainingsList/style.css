@@ -1,6 +1,7 @@
 .chat-list .ant-card-body {
   display: flex;
   flex-direction: column;
+  min-height: 60px;
 }
 .chat-list .inline-spinner {
   text-align: center;
@@ -21,6 +22,10 @@
 }
 .chat-list-link span {
   color: #000;
+}
+.chat-list-wrapper > div:first-child .nearTraining-circleDate {
+  border: 1px solid #ff7daa;
+  color: #ff7daa;
 }
 .chat-list .ant-card-body {
   justify-content: center;

@@ -56,6 +56,8 @@
 .fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-content {
   text-align: center;
   margin: 20px 20px 0;
+  font-family: RobotoMedium;
+  font-size: 16px;
 }
 .fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns {
   display: flex;
@@ -68,8 +70,8 @@
   height: 42px;
   font-family: RobotoMedium;
   font-size: 11px;
-  background-color: transparent;
-  color: #ffc800;
+  background-color: #ffc800;
+  color: #fff;
   border: 1px solid #ffc800;
   border-radius: 4px;
   box-shadow: unset;
@@ -77,6 +79,6 @@
   text-transform: uppercase;
 }
 .fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button:hover {
-  background-color: #ffc800;
-  color: #fff;
+  background-color: transparent;
+  color: #ffc800;
 }

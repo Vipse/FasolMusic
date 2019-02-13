@@ -123,6 +123,9 @@
       .inputPlate {
         display: flex;
         padding: 25px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
 
         .input {
           width: 55%;
@@ -131,60 +134,6 @@
 
         .applyBtn {
           width: 20%;
-        }
-      }
-
-      .paymentBlock {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 0 25px;
-
-        .title {
-          width: 100%;
-          font-family: RobotoMedium;
-        }
-
-        .info {
-          font-family: RobotoRegularItalic;
-          width: 40%;
-          margin: 0;
-          align-self: flex-end;
-        }
-
-        .paymentTypePlate {
-          width: 50%;
-          margin: 20px;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-evenly;
-
-          .payment-method {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            height: 40px;
-
-            &:nth-child(1) {
-              width: 40%;
-            }
-
-            &:nth-child(2) {
-              width: 60%;
-            }
-
-            &-view {
-              display: flex;
-              flex-direction: column;
-              justify-content: space-around;
-              align-items: center;
-              height: 60px;
-              padding-right: 10px;
-
-              &:hover {
-                cursor: pointer;
-              }
-            }
-          }
         }
       }
     }

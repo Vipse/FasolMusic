@@ -102,6 +102,7 @@ class ChatAudioContent extends React.Component {
                         onChat = {this.props.onChat}
                         uploadFiles={this.props.uploadFile}
 						isStudent={this.props.isStudent}
+						isComplete={!this.props.trainingStarts}
                         sec= {s}
                         min={m}
                         hour={h}

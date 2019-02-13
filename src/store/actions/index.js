@@ -121,12 +121,13 @@ export {
 
 export {
     setReceptionStatus,
+    setBeginTime,
+    setIsCompleteStatus,
     setIsTrialStatus,
     setChatFromId,
     setChatToId,
     setChatTrainingId,
     setIsCallingStatus,
-    setBeginTime,
     setChatStory,
     setConversationMode,
     setNewTimer,

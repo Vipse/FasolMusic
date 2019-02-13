@@ -228,11 +228,20 @@
   background-color: #344051;
 }
 .btn-type-yellow {
+  background-color: #ffc800;
+  color: #fff;
+  border: 1px solid #ffc800;
+}
+.btn-type-yellow:hover {
+  background-color: transparent;
+  color: #ffc800;
+}
+.btn-type-yellow-unfilled {
   background-color: transparent;
   color: #ffc800;
   border: 1px solid #ffc800;
 }
-.btn-type-yellow:hover {
+.btn-type-yellow-unfilled:hover {
   background-color: #ffc800;
   color: #fff;
 }

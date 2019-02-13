@@ -210,7 +210,6 @@ export const getSubscriptionsByStudentId = (idStudent) => {
         axios.post('/catalog.fasol/getSubscriptionsByStudentId', JSON.stringify({idStudent}))
             .then(res => {
                 console.log("getSubscriptionsByStudentId", res);
-                debugger
                 dispatch({
                     type: actionTypes.GET_SUBSCRIPTION_FOR_DISCIPLINE,
                     subsForDisc: res.data.result,
