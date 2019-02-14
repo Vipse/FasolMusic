@@ -224,7 +224,7 @@ class PersonalDataSkill extends React.Component {
         const rootClass = cn('coach-data-block');
 
         return (
-            <div className={rootClass + "disciplines"}>
+            <div className={rootClass + ' disciplines'}>
                 {(!disciplines && !addedNums.length) ? this.renderAddBtn(0) : null}
                 {disciplines && this.renderOldDisciplines()}
                 {this.renderNewDisciplines()}

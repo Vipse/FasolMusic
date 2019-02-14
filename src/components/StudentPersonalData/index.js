@@ -130,16 +130,16 @@ class StudentPersonalDataForm extends React.Component {
                     country: values.country,
                     avatar: this.state.avatar,
 
-                    sex: values.sex === "Мужской" ? "m" : "w",
+                    sex: values.sex === "Мужской" ? "m" : values.sex === "Женский" ? "w" : null,
                     datebirth: moment(values.datebirth).format('X'),
                     work: getSelectedIDs(professionsList, values.work),
                     interests: getSelectedIDs(interestsList, values.interests),
 
                     disciplines: this.prepareDisciplines(values),
 
-                    bestsex: values.bestsex === "Мужской" ? "m" : "w",
+                    bestsex: values.bestsex === "Мужской" ? "m" : values.bestsex === "Женский" ? "w" : null,
                     bestage: values.bestage,
-                    bestishomework: values.bestishomework === "Да",
+                    bestishomework: values.bestishomework === "Да" ? 1 : values.bestishomework === "Нет" ? 0 : null,
                     bestqualities: getSelectedIDs(qualitiesList, values.bestqualities),
                     bestcomment: values.bestcomment
                 };

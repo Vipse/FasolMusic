@@ -1,6 +1,7 @@
 import kurentoUtils from 'kurento-utils'
 import {Modal} from "antd";
 import { detect } from 'detect-browser';
+import moment from "moment";
 const browser = detect();
 let ws,
     callbacks,
@@ -65,18 +66,6 @@ export function createSocket(wsUrl,_props,_callbacks) {
 				callResponse(parsedMessage);
                 break;
             case 'incomingCall':
-                const {fromName, fromAvatar, beginTime, isTrial} = parsedMessage.userData;
-                callbacks.setChatTrainingId(parsedMessage.receptionId);
-                callbacks.setChatToId(parsedMessage.by);
-                callbacks.setChatInterlocutorInfo(fromName, fromAvatar);
-                callbacks.setBeginTime(beginTime);
-                callbacks.setIsTrialStatus(isTrial);
-                callbacks.setIsCompleteStatus(false);
-                callbacks.setReceptionStatus(true);
-
-                callbacks.get_history().location.pathname !== '/app/chat'
-                && callbacks.get_history().push('/app/chat');
-
 				incomingCall(parsedMessage);
                 break;
             case 'startCommunication':
@@ -193,14 +182,10 @@ export const stop = (flag) => {
 }
 
 const callResponse = (message) => {
- 
-    const visitInfo = callbacks.get_visitInfo();
-    const {fromName} = visitInfo;
-
     let msg = {
         id : 'chat',
         type: message.response != 'accepted' ? "notBegin" : "begin",
-        name: fromName,
+        name: callbacks.get_interlocutorName(),
         from: callbacks.get_from(),
         to: callbacks.get_to(),
         date: Math.ceil(Date.now()/1000),
@@ -236,9 +221,22 @@ const incomingCall = (message) => {
             message : 'bussy'
         });
     }
-    setCallState(PROCESSING_CALL);
-    callbacks.get_history().push('/app/chat');
+
+    const {fromName, fromAvatar, beginTime, isTrial} = message.userData;
+    callbacks.setChatTrainingId(message.receptionId);
+    callbacks.setChatToId(message.from);
+    callbacks.setChatInterlocutorInfo(fromName, fromAvatar);
+    callbacks.setBeginTime(beginTime);
+    callbacks.setIsTrialStatus(isTrial);
+    callbacks.setIsCompleteStatus(false);
+    callbacks.setReceptionStatus(true);
+
+    callbacks.get_history().location.pathname !== '/app/chat'
+    && callbacks.get_history().push('/app/chat');
+
     callbacks.setConversationMode('video');
+
+    setCallState(PROCESSING_CALL);
 
     if(browser && browser.name === "safari") {
         console.log("this is safari");
@@ -284,6 +282,7 @@ const incomingCall = (message) => {
 
 
     function acceptCall() {
+        console.log(message);
         callbacks.setReceptionStatus(true);
         callbacks.setIsCallingStatus(true);
         callbacks.setChatToId(message.from);
@@ -360,13 +359,14 @@ export const startReception = () => {
         other_name: callbacks.get_to(),
         receptionId: idTraining,
     });
-    sendMessage({
-        id : 'chat',
+
+    /*sendMessage({
+        id: 'chat',
         from: callbacks.get_from(),
         to: callbacks.get_to(),
-        date: Math.ceil(Date.now()/1000),
+        date: Math.ceil(Date.now() / 1000),
         isDate: true,
-    });
+    });*/
     callbacks.setReceptionStatus(true);
 }
 

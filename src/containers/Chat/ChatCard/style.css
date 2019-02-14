@@ -198,11 +198,6 @@
     max-width: 100%;
 }
 
-.chat-card-dialogs-row .message__send-area .ant-input {
-    height: auto !important;
-    border-bottom: 1px solid #0495ff
-}
-
 .chat-card-dialogs-row .message__send-area .ant-input:focus {
     border-color: #204d8d
 }

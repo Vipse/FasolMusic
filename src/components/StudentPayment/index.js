@@ -79,8 +79,9 @@ class StudentPayment extends React.Component{
         
         return (
             <div className="payment-student">
-                <Card className="payment-student-trainingPlans" title="Планы тренировок">
-                    <p className="info">Разовые тренировки у нас от 20 руб!</p>
+                <Card className="payment-student-trainingPlans" title="Стоимость тренировок">
+                    <p className="info">Чем больше тренировок ты выбираешь, тем меньше цена за одно занятие,
+                        от 203 бр.</p>
                     <div className="plansPlate">
                         <div className="plan">
                             <div className="plan-title">
@@ -199,9 +200,10 @@ class StudentPayment extends React.Component{
                                 </span>
                                 <p className="name">Следующая тренировка</p>
                             </div>
-                            <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation</p>
+                            <p className="info">До следующей тренировки осталось еще время, помни,
+                                результат будет намного лучше если ты закрепишь все, что было пройдено на прошлой трене,
+                                порадуй своего коуча 💪
+                            </p>
                         </div>
                         <div className="payment-student-stats-plate-paid">
                             <div className="title">
@@ -209,21 +211,22 @@ class StudentPayment extends React.Component{
                                 </span>
                                 <p className="name">Оплачено тренировок</p>
                             </div>
-                            <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation</p>
+                            <p className="info">Просыпаешься посреди ночи в страхе, что тренировки закончились?
+                                Следи за своим балансом! Чем больше у тебя тренировок, тем больше треков ты выучишь!
+                                Насобирай песен для сольника 😉
+                            </p>
                         </div>
                         <div className="payment-student-stats-plate-daysBeforeNextPay">
                             <div className="title">
                                 <span className="count">
                                 {daysToPay ? daysToPay : '-'}
                                 </span>
-
                                 <p className="name">Дней до оплаты</p>
                             </div>
-                            <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation</p>
+                            <p className="info">Если этот день настал, не расстраивайся,
+                                ведь тебе не нужно куда-то идти, все оплаты можно проводить не выходя из дома,
+                                прямо в личном кабинете! Правда удобно? 🙂
+                            </p>
                         </div>
                     </div>
                 </Card>

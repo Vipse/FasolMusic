@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import Icon from '../Icon'
 import TopPanelItem from '../TopPanelItem';
 import './style.css'
 import '../../icon/style.css'
@@ -46,17 +45,20 @@ class TopPanel extends React.Component{
         return (
             <div className='top-panel'>
                 <div className='top-panel-description'>
-                    <h3 className='top-panel-description-title'>Пока ждешь начала тренировки, можешь посмотреть наше новое видео</h3>
-                    <p className='top-panel-description-body'>Lorem ipsum et ultricies pellentesque nibh auctor malesuada
-                    sit molestie leo et non auctor non diam, duis et sed elementum sit 
-                    metus, nulla porta duis. Metus gravida pharetra gravida risus eros 
-                    sapien vitae in tempus ut, lorem pharetra sodales in eu: arc.
+                    <h3 className='top-panel-description-title'>Пока ждешь начала тренировки,
+                        можешь посмотреть наше новое видео
+                    </h3>
+                    <p className='top-panel-description-body'>Проводи свободное время с пользой, разминайся и оттачивай
+                        пройденные упражнения на нашем канале на YouTube на котором уже более 28.000 подписчиков,
+                        здесь ты найдешь много полезного и интересного!
                     </p>
-                    <Button
-                        btnText='Перейти к видео'
-                        size='large'
-                        type='yellow-unfilled'
-                    />
+                    <a className='top-panel-description-link' target='_blank' href='https://www.youtube.com/channel/UC2CeLJuTUSqjQUrxctjttdg'>
+                        <Button
+                            btnText='Перейти к видео'
+                            size='large'
+                            type='yellow-unfilled'
+                        />
+                    </a>
                 </div>
                 <div className="top-panel-items">
                     <TopPanelItem

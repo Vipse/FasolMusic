@@ -94,9 +94,9 @@ class Header extends React.Component {
             title: 'Перенос тренировки',
             width: '500px',
             className: 'fast-modal',
-            content: 'Зеленым подсветилось время доступное у коуча, перетяни тренировку которую хочешь перенести ' +
-                'на доступное время и помни, одну тренировку можно перенести только один раз ' +
-                'и не позднее 24 часов до начала тренировки! :(',
+            content: 'Зеленым цветом в календаре подсветилось доступное время у коуча, ' +
+                'перетяни тренировку которую хочешь перенести на любое доступное время и помни, ' +
+                'одну тренировку можно перенести только один раз и не позднее 24 часов до начала тренировки!',
             onOk: () => {this.props.onTransferTrainPopupClose()}
         });
     };
@@ -131,7 +131,7 @@ class Header extends React.Component {
                         <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>
                             {isTrialTrainingsAvailable && <Button
-                                btnText='ЗАПИСАТЬСЯ НА ПРОБНУЮ'
+                                btnText='ПРОБНАЯ ТРЕНИРОВКА'
                                 size='default'
                                 type='border-pink'
                                 className="header-btn"

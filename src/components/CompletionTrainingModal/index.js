@@ -10,7 +10,7 @@ const CompletionTrainingModal = (props) => {
 
     return (
         <Modal title='Завершение тренировки'
-               width={520}
+               width={400}
                visible={visible}
                onCancel={onCancel}
         >

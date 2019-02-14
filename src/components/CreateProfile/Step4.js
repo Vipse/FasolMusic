@@ -37,7 +37,7 @@ class Step4Form extends React.Component{
                     datebirth: moment(datebirth).format('X'),
                     email,
                     phones,
-                    sex: sex ? sex === "Мужской" ? "m" : "w" : "",
+                    sex: sex === "Мужской" ? "m" : sex === "Женский" ? "w" : null,
                     country,
                     work: getSelectedIDs(professionsList, work),
                     interests: getSelectedIDs(interestsList, interests),
@@ -47,9 +47,9 @@ class Step4Form extends React.Component{
 
                     disciplines: this.prepareDisciplines(this.props.data),
 
-                    bestsex: bestsex ? bestsex === "Мужской" ? "m" : "w" : "",
+                    bestsex: bestsex === "Мужской" ? "m" : bestsex === "Женский" ? "w" : null,
                     bestage,
-                    bestishomework: bestishomework ? bestishomework === "Да" : "",
+                    bestishomework: bestishomework === "Да" ? 1 : bestishomework === "Нет" ? 0 : null,
                     bestqualities: getSelectedIDs(qualitiesList, bestqualities),
                     bestcomment,
 

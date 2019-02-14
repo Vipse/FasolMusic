@@ -7,9 +7,12 @@ import Button from '../Button'
 import './style.css'
 import '../../icon/style.css'
 import YouTube from "react-youtube";
+import Spinner from "../Spinner";
 
 class CoachProfile extends React.Component {
-    state = {};
+    state = {
+        youtubeLoading: true
+    };
 
     convertLink = (link) => {
         let videoID = link.split('v=')[1];
@@ -23,8 +26,13 @@ class CoachProfile extends React.Component {
         return videoID;
     };
 
+    youtubeReadyHandler = () => {
+        this.setState({youtubeLoading: false})
+    };
+
     render() {
         const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink} = this.props;
+        const {youtubeLoading} = this.state;
         const youtubeOpts = {
             height: '360',
             width: '640',
@@ -67,9 +75,11 @@ class CoachProfile extends React.Component {
                             <p>{aboutMe}</p>
                         </div>
                         {promoLink && <div className="profile-coach-promo">
+                            {youtubeLoading && <Spinner size='large'/>}
                             <YouTube
                                 videoId={this.convertLink(promoLink)}
                                 opts={youtubeOpts}
+                                onReady={this.youtubeReadyHandler}
                             />
                         </div>}
                     </div>
