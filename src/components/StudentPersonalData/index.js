@@ -6,7 +6,6 @@ import PersonalDataContact from '../PersonalDataContact';
 import PersonalDataInfo from "../PersonalDataInfo";
 import PersonalDataSkill from "../PersonalDataSkill";
 import PersonalDataPreferences from "../PersonalDataPreferences";
-import PersonalDataTime from "../PersonalDataTime";
 
 import './style.css'
 import '../../icon/style.css'
@@ -31,10 +30,6 @@ class StudentPersonalDataForm extends React.Component {
         this.state = {
             uploadingNewData: false,
             avatar: "",
-            trainingTime: {
-                enabledDays: new Array(7).fill(false),
-                selectedTimes: new Array(7).fill([[10, 20]])
-            },
             isChangePasswordModalVisible: false,
             isSendSuggestionsModalVisible: false,
             selectorsValues: {}
@@ -46,10 +41,9 @@ class StudentPersonalDataForm extends React.Component {
         this.setState({
             avatar: avatar
         });
-        this.loadTrainingTime();
 
         const {getSelectors} = this.props;
-        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions'];
 
         selectorsNames.forEach((name) => {
             getSelectors(name)
@@ -61,28 +55,6 @@ class StudentPersonalDataForm extends React.Component {
                 .catch(err => console.log(err))
         });
     }
-
-    loadTrainingTime = () => {
-        const {trainingtime} = this.props.profileStudent;
-        for (let i = 0; i < 7; ++i) {
-            let isEnabled = false;
-            let selectedDayTimesArr = [];
-
-            Array.isArray(trainingtime) && trainingtime.length && trainingtime.forEach((item) => {
-                let num = item.day ? +item.day[0].value : null;
-                if (num === i) {
-                    isEnabled = true;
-                    selectedDayTimesArr.push([
-                        moment(item.datestart * 1000).hours(),
-                        moment(item.dateend * 1000).hours()
-                    ]);
-                }
-            });
-
-            this.handleChangeTrainingTime('enabledDays', i, isEnabled);
-            if (selectedDayTimesArr.length) this.handleChangeTrainingTime('selectedTimes', i, selectedDayTimesArr);
-        }
-    };
 
     handleChangeAvatar = (file) => {
         if (file && file.name !== 'default')
@@ -121,18 +93,6 @@ class StudentPersonalDataForm extends React.Component {
         return this.props.onSubmit(updateData);
     };
 
-    handleChangeTrainingTime = (type, num, value) => {
-        const {trainingTime} = this.state;
-        let newArray = trainingTime[type];
-        newArray[num] = value;
-        this.setState({
-            trainingTime: {
-                ...trainingTime,
-                [type]: newArray
-            }
-        });
-    };
-
     prepareDisciplines = (data) => {
         const {disciplineList, goalList, stylesList} = this.state.selectorsValues;
         let disciplinesNumsArr = [];
@@ -153,24 +113,6 @@ class StudentPersonalDataForm extends React.Component {
         });
 
         return preparedDisciplines;
-    };
-
-    prepareTrainingTime = () => {
-        const {selectorsValues: {dayList}, trainingTime: {enabledDays, selectedTimes}} = this.state;
-        let preparedTrainingTime = {};
-        let objIndex = 0;
-
-        for (let i = 0; i < 7; ++i) {
-            enabledDays[i] && selectedTimes[i].forEach((interval) => {
-                preparedTrainingTime[objIndex] = {
-                    day: getSelectedIDs(dayList, String(i), true),
-                    datestart: moment(interval[0], 'HH').format('X'),
-                    dateend: moment(interval[1], 'HH').format('X')
-                };
-                ++objIndex;
-            });
-        }
-        return preparedTrainingTime;
     };
 
     handleSubmitInfo = (e) => {
@@ -199,9 +141,7 @@ class StudentPersonalDataForm extends React.Component {
                     bestage: values.bestage,
                     bestishomework: values.bestishomework === "Да",
                     bestqualities: getSelectedIDs(qualitiesList, values.bestqualities),
-                    bestcomment: values.bestcomment,
-
-                    trainingtime: this.prepareTrainingTime()
+                    bestcomment: values.bestcomment
                 };
 
                 this.setState({uploadingNewData: true});
@@ -209,9 +149,7 @@ class StudentPersonalDataForm extends React.Component {
                     .then((res) => {
                         this.setState({uploadingNewData: false});
                         if (res && !res.data.error) {
-                            if (res.data.result.testTrainingTime)
-                                message.success("Изменения сохранены");
-                            else message.warning('Удобное время проведения не сохранено, т.к. имеются незавершенные тренировки!', 10);
+                            message.success("Изменения сохранены");
                         } else
                             message.error("Произошла ошибка, попробуйте ещё раз");
                     });
@@ -263,12 +201,6 @@ class StudentPersonalDataForm extends React.Component {
                             getFieldDecorator={getFieldDecorator}
                             qualitiesList={getSelectorValues(qualitiesList)}
                             isStudent={true}
-                        />
-                        <div className='student-data-title'>Удобное время тренировок</div>
-                        <PersonalDataTime
-                            trainingTime={this.state.trainingTime}
-                            getFieldDecorator={getFieldDecorator}
-                            onChange={this.handleChangeTrainingTime}
                         />
 
                         <Button

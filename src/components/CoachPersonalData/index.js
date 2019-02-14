@@ -231,7 +231,7 @@ class CoachPersonalDataForm extends React.Component {
                     if (res && !res.data.error) {
                         if (res.data.result.testTrainingTime)
                             message.success("Изменения сохранены");
-                        else message.warning('Удобное время проведения не сохранено, т.к. имеются незавершенные тренировки!', 10);
+                        else message.warning('Удобное время проведения не изменено, т.к. имеются незавершенные тренировки!', 10);
                     } else
                         message.error("Произошла ошибка, попробуйте ещё раз");
                 });

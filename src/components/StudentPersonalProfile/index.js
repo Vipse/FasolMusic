@@ -10,12 +10,6 @@ import Col from "../Col";
 import StudentPersonalData from "../StudentPersonalData";
 
 class StudentPersonalProfile extends React.Component {
-
-    constructor() {
-        super();
-        this.state = {};
-    }
-
     render() {
         const profile = this.props.profileStudent;
         const rootClass = cn('personal-student-items');
