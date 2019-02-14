@@ -17,12 +17,11 @@ class MainPage extends React.Component{
 		cancelModal: false,
 		addModal: false,
         isNewFreeVisitVisible: false
-	}
+	};
 
 	getPastAndFutureCoachTrainings = () => {
 		const {id} = this.props;
-		let start = null,
-			end = null;
+		let start, end;
 			
 		start = moment(Date.now()).startOf('day').format('X');
 		end = moment(Date.now()).endOf('day').format('X');
@@ -51,37 +50,6 @@ class MainPage extends React.Component{
 		}
 	}
 
-    onAddVisit = () => {
-		this.props.onGetDocPatients();
-		this.setState({addModal: true});
-
-
-        let now = new Date();
-		this.props.onGetTodayVisits(new Date(now.getFullYear(), now.getMonth(), now.getDate()),
-										new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20));
-		//this.props.getDocTodayInfo();
-	}
-
-	onSaveNewVisit = (obj) => {
-		return this.props.onAddNewVisit(obj, true);
-
-	};
-
-	onNewFreeVisit = () => {
-	    this.setState({isNewFreeVisitVisible: true})
-	}
-
-	/*shouldComponentUpdate(nextProps, nextState){
-		return this.props.visits.length !== nextProps.visits.length
-			|| this.props.docTodayInfo.receptionsToday !== nextProps.docTodayInfo.receptionsToday
-			|| this.props.docTodayInfo.patients !== nextProps.docTodayInfo.patients
-			|| this.state.cancelModal !== nextState.cancelModal
-			|| this.state.addModal !== nextState.addModal
-			|| this.props.patients.length !== nextProps.patients.length;
-	}*/
-
-
-	// Fasol
 	goToChat = (idTo, idTraining, interlocutorName, interlocutorAvatar, beginTime, isComplete, isTrial = false) => {
 		this.props.onSetChatToId(idTo);
 		this.props.onSetChatInterlocutorInfo(interlocutorName, interlocutorAvatar);

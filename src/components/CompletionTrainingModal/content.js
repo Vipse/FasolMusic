@@ -11,12 +11,6 @@ class ContentForm extends React.Component {
             <Form className={rootClass}>
                 <div className='btnPlate'>
                     <Button
-                        onClick={this.props.onPause}
-                        htmlType="submit"
-                        btnText="Приостановить"
-                        type="light-pink"
-                    />
-                    <Button
                         onClick={this.props.onComplete}
                         htmlType="submit"
                         btnText="Засчитать"

@@ -83,6 +83,13 @@ class ChatSend extends React.Component{
                         autosize/>
                 </div>
                 <div className='message__send-btns'>
+                    {!this.props.isStudent && !this.props.disable ?
+                        (<Button
+                            btnText='Остановить тренировку'
+                            size='small'
+                            type='light-pink'
+                            onClick={this.props.closeVisit}
+                        />) : null}
                     <Upload
                         //multiple={true}
                         showUploadList={false}
@@ -102,13 +109,6 @@ class ChatSend extends React.Component{
                         title='Отправить сообщение'
                         onClick={this.sendHandler}
                     />}
-                    {!this.props.isStudent && !this.props.disable ?
-                            (<Button
-                                btnText='Остановить тренировку'
-                                size='small'
-                                type='light-pink'
-                                onClick={this.props.closeVisit}
-                            />) : null}
                 </div>
             </div>
         )

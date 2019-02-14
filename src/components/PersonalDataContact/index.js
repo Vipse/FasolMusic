@@ -11,10 +11,12 @@ import '../../icon/style.css'
 import ProfileAvatar from "../ProfileAvatar";
 import InputNew from "../InputNew";
 import SelectNew from "../SelectNew";
-//import avatarDefault from "../../img/avatarDefault.png";
 import SocialAuth from "../SocialAuth";
 
 const FormItem = Form.Item;
+
+const countryArr = ['Беларусь', 'Россия', 'Украина', 'Казахстан', 'Молдавия', 'Узбекистан',
+    'Азербайджан', 'Таджикистан', 'Туркменистан', 'Кыргызстан', 'Армения', 'Другое'];
 
 class PersonalDataContact extends React.Component {
     constructor() {
@@ -127,7 +129,7 @@ class PersonalDataContact extends React.Component {
                             <SelectNew
                                 width="100%"
                                 bubbleplaceholder="*Страна пребывания"
-                                data={["Беларусь", "Россия"]}/>
+                                data={countryArr}/>
                         )}
                     </FormItem>
                 </div>

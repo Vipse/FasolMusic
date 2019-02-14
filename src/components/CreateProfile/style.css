@@ -90,55 +90,6 @@
 .create-profile-form .steps .steps-content .ant-form.step-form .radio-label-amountdays {
   margin-bottom: 10px;
 }
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule {
-  display: flex;
-  flex-direction: row;
-  user-select: none;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders {
-  width: 76%;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .timePlate {
-  position: relative;
-  top: -10px;
-  font-size: 10px;
-  height: 3px;
-  font-family: RobotoRegular;
-  color: #000;
-  text-align: center;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider {
-  width: 200px;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider-rail {
-  height: 1px;
-  background-color: #000;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider-track {
-  background-color: #21bedd;
-  height: 1px;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider-disabled .ant-slider-handle,
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider-disabled .ant-slider-track {
-  display: none;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider-handle {
-  width: 7px;
-  height: 7px;
-  background-color: #21bedd;
-  border: unset;
-  margin-top: -3px;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider-handle:focus,
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .daySliders .ant-slider-handle:hover {
-  box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .slidersBtnPlate {
-  width: 0;
-}
-.create-profile-form .steps .steps-content .ant-form.step-form .timeSchedule .dayCheckbox {
-  width: 64px;
-}
 .create-profile-form .steps .steps-content .ant-form.step-form .create-profile-avatar {
   display: flex;
   width: 50%;

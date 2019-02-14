@@ -35,12 +35,12 @@ class ChatCard extends React.Component {
 	}
 
 	componentDidMount() {
-		const {idTraining, user_mode, isComplete, isTrial, beginTime} = this.props;
+		const {idTraining, user_mode, isComplete, isTrial, beginTime, trainingStarts} = this.props;
 
 		if (idTraining) {
 			if (user_mode === "student") {
 				!isComplete && isTrial && this.trialInfoModal();
-				if (moment() < moment(beginTime)) this.notBeganModal();
+				if (!trainingStarts && moment() < moment(beginTime)) this.notBeganModal();
 			}
 
 			if (!isComplete) {
@@ -59,6 +59,10 @@ class ChatCard extends React.Component {
     	if (prevProps.trainingStarts !== this.props.trainingStarts && !this.props.trainingStarts
 		&& this.props.isStudent && this.props.isTrial)
 			this.finishedTrialModal();
+	}
+
+	componentWillUnmount() {
+		this.onStop();
 	}
 
 	finishedTrialModal = () => {
@@ -286,7 +290,10 @@ class ChatCard extends React.Component {
 									type='upload'
 									icon='exit'
 									title='Выйти из чата'
-									onClick={this.props.onExitTraining}
+									onClick={() => {
+										this.onStop();
+										this.props.onExitTraining();
+									}}
 								/>
 							</div>
 						</div>

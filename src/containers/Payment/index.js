@@ -35,6 +35,7 @@ class Payment extends React.Component{
         }
         this.props.onGetDeadlinePay(this.props.id);	
     }
+
     onSendDataModal = (data) => {
      
         let array = [];
@@ -60,25 +61,23 @@ class Payment extends React.Component{
                 this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
                 this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         }
-        this.props.onGetAbonementsFilter(id, disciplinesList[data.type]); 
+        this.props.onGetAbonementsFilter(id, disciplinesList[data.type]);
         this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
         //setTimeout( () => this.props.onGetStudentBalance(id), 1500);
       
         //this.setState({visibleCreateTrainModal: true, redirectToSchedule: true});
-    }
+    };
 
+    showCreateTrainModal = (amount, price) => {
+        this.props.onGetToken(this.props.id, amount, price, 12);
 
-    showTrialModal = (amount, price) => {
-
-        this.props.onGetToken(this.props.id, amount, price, 12)
-
-        this.setState({amount, price})
+        this.setState({amount, price});
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: amount});
+    };
 
-    }
-    hideTrialModal = () => {
+    hideCreateTrainModal = () => {
         this.setState({payModal: false})
-    }
+    };
 
     render() {
         let {deadlinePay, disciplinesList} = this.props;
@@ -88,7 +87,7 @@ class Payment extends React.Component{
             <Hoc>
                 {isStudent ? (
                     <StudentPayment
-                        showTrialModal = {this.showTrialModal}
+                        showTrialModal = {this.showCreateTrainModal}
                         deadlinePay = {deadlinePay}
                         studentBalance = {this.props.studentBalance}
                         nextTrainingTime={this.props.nextTrainingTime}
@@ -101,7 +100,7 @@ class Payment extends React.Component{
                     width={770}
                     visible={this.state.payModal}
                     disciplinesList={disciplinesList}
-                    onCancel={this.hideTrialModal} 
+                    onCancel={this.hideCreateTrainModal}
                     onSave={this.onSendDataModal}
                 /> */}
 
@@ -117,7 +116,7 @@ class Payment extends React.Component{
                     <div className="schedule-message-modal">
                         <div className="schedule-message-btn">
                             <Button btnText='Вернуть подтверждение об оплате'
-                                    onClick={() => this.showTrialModal(this.state.countPay)}
+                                    onClick={() => this.showCreateTrainModal(this.state.countPay)}
                                     type='yellow'/>
                         </div>
 

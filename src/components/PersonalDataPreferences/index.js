@@ -31,7 +31,7 @@ class PersonalDataPreferences extends React.Component {
                 <div className='coach-data-studentPreferences'>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('bestsex', {
-                            initialValue: bestsex === 'm' ? "Мужской" : bestsex === 'w' ? "Женский" : null,
+                            initialValue: bestsex === 'm' ? "Мужской" : bestsex === 'w' ? "Женский" : "Не важно",
                             rules: [{
                                 required: false,
                                 message: 'Выберите пол ' + userTypeWord + ', пожалуйста'
@@ -39,7 +39,7 @@ class PersonalDataPreferences extends React.Component {
                         })(
                             <SelectNew width="100%"
                                        bubbleplaceholder="Пол"
-                                       data={["Мужской", "Женский"]}
+                                       data={["Мужской", "Женский", "Не важно"]}
                             />
                         )}
                     </FormItem>
@@ -53,13 +53,13 @@ class PersonalDataPreferences extends React.Component {
                         })(
                             <SelectNew width="100%"
                                        bubbleplaceholder="Возраст"
-                                       data={["18-24", "25-35", "36-50", ">50"]}
+                                       data={["18-24", "25-35", "36-50", ">50", "Не важно"]}
                             />
                         )}
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('bestishomework', {
-                            initialValue: bestishomework ? "Да" : "Нет",
+                            initialValue: bestishomework === "1" ? "Да" : bestishomework === "0" ? "Нет" : "Не важно",
                             rules: [{
                                 required: false,
                                 message: 'Выберите отношение ' + userTypeWord + ' к выполнению домашнего задания, пожалуйста'
@@ -67,7 +67,7 @@ class PersonalDataPreferences extends React.Component {
                         })(
                             <SelectNew width="100%"
                                        bubbleplaceholder={(isStudent ? "Дает" : "Делает") + " домашнее задание"}
-                                       data={["Да", "Нет"]}
+                                       data={["Да", "Нет", "Не важно"]}
                             />
                         )}
                     </FormItem>

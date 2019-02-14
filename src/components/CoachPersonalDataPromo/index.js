@@ -8,6 +8,7 @@ import '../../icon/style.css'
 import UploadVideoImage from "../../img/uploadVideo.png";
 import Button from "../Button";
 import PromoVideoModal from "../PromoVideoModal";
+import Spinner from "../Spinner";
 import YouTube from 'react-youtube';
 
 class CoachPersonalDataPromo extends React.Component {
@@ -58,6 +59,7 @@ class CoachPersonalDataPromo extends React.Component {
                             <span className="upload-video-photo-click">Нажми на значок, чтобы добавить видео</span>
                         </div> :
                         <div className={youtubeLoading ? 'video-loading' : 'video'}>
+                            {youtubeLoading && <Spinner size='large'/>}
                             <div className='video-wrapper'>
                                 <YouTube
                                     videoId={this.convertLink(videoUrl)}

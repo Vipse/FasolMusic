@@ -51,13 +51,12 @@ class App extends React.Component {
     
     runNotificationsWS = () => {
         const that = this;
-        let id = 3199;
+        //let id = 3199;
         let conn = new ab.Session('wss://web.fasolonline.ru/wss2/',
             function() {
-                that.props.getNotifications(id);
+                that.props.getNotifications(that.props.id);
 
-                conn.subscribe("" + id, function(topic, data) {
-                    console.log(data);
+                conn.subscribe("" + that.props.id, function(topic, data) {
                     that.setState({
                         notifications: data.arr
                     });
@@ -98,6 +97,7 @@ class App extends React.Component {
                 get_receptionStarts: () => this.props.trainingStarts,
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
+                get_interlocutorName: () => this.props.interlocutorName,
                 get_chatStory: () => this.props.chatStory,
                 get_visitInfo: () => this.getChatInfo(),
                 get_timer: () => this.props.timer,
@@ -386,6 +386,7 @@ const mapStateToProps = state => {
         isTrial: state.chatWS.isTrial,
         chatStory: state.chatWS.chatStory,
         conversationMode: state.chatWS.conversationMode,
+        interlocutorName: state.chatWS.interlocutorName,
         timer: state.chatWS.timer,
 
         isTransferTrainPopupActive: state.student.isTransferTrainPopupActive

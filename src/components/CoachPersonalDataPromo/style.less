@@ -6,7 +6,7 @@
       display: flex;
       flex-direction: column;
       text-align: center;
-      max-height: 410px;
+      max-height: 440px;
       max-width: 640px;
 
       .dropzone-video {
@@ -30,9 +30,16 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        width: 100%;
+        margin-bottom: 25px;
 
         &-loading {
-          display: none;
+          .spinner-wrapper {
+            position: absolute;
+            top: 165px;
+            left: 305px;
+            z-index: 1;
+          }
         }
 
         &-wrapper {
@@ -41,6 +48,9 @@
           height: 0;
           padding-bottom: 56.25%;
           align-self: center;
+          border: 2px dashed #21bedd;
+          border-radius: 15px;
+          overflow: hidden;
 
           iframe {
             position: absolute;
@@ -53,6 +63,7 @@
 
           &-changeBtn {
             margin-top: 5px;
+            width: 100%;
           }
         }
       }

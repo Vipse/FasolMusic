@@ -13,6 +13,9 @@ import SocialAuth from "../SocialAuth";
 
 const FormItem = Form.Item;
 
+const countryArr = ['Беларусь', 'Россия', 'Украина', 'Казахстан', 'Молдавия', 'Узбекистан',
+    'Азербайджан', 'Таджикистан', 'Туркменистан', 'Кыргызстан', 'Армения', 'Другое'];
+
 class Step1Form extends React.Component{
     state = {
         avatar: "",
@@ -169,7 +172,7 @@ class Step1Form extends React.Component{
                                 bubbleplaceholder="Пол"
                                 className="step-form-item"
                                 tooltip="Пол Tooltip"
-                                values={["Мужской", "Женский"]}
+                                values={["Мужской", "Женский", "Не важно"]}
                             />
                         )}
                     </FormItem>
@@ -185,7 +188,7 @@ class Step1Form extends React.Component{
                                 bubbleplaceholder="*Страна пребывания"
                                 className="step-form-item"
                                 tooltip="Страна пребывания Tooltip"
-                                values={["Беларусь", "Россия"]}
+                                values={countryArr}
                             />
                         )}
                     </FormItem>

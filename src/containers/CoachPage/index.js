@@ -133,7 +133,7 @@ class CoachPage extends React.Component{
             title: 'Изменение расписания',
             width: '500px',
             className: 'fast-modal',
-            content: 'Изменение расписания доступно только в календаре на данный момент',
+            content: 'Вы находитесь в профиле коуча! Изменения вашего расписания осуществляется в разделе “Календарь”.',
             maskClosable: true,
             okText: 'Перейти в календарь',
             onOk: () => this.props.history.push('/app/schedule')

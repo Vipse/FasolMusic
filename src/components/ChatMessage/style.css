@@ -1,15 +1,3 @@
-/* fonts */
-/* COLORS */
-/* VAR */
-.entry-list {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 1.25rem;
-  color: #eee;
-}
 .message__in-item {
   display: inline-flex;
   position: relative;
@@ -93,7 +81,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #0495ff;
+  color: #21bedd;
   font-size: 12px;
   margin-bottom: 30px;
 }
