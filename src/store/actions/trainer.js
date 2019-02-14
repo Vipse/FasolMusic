@@ -134,6 +134,8 @@ export const getTodayTrainerTraining = (idMaster, dateMin, dateMax) => {
     }
 }
 
+
+
 export const setChooseMasterAllInfo = (allInfo) => {
     
     return ({

@@ -197,7 +197,8 @@ export {
     setHomeworkEdit,
     uploadTrainingChatHistory,
     getTrainingChatHistory,
-    completeReception
+    completeReception,
+    getFutureTrialTraining,
 } from './training'
 
 

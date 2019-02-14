@@ -26,6 +26,7 @@ import FreeTrainersItem from '../../components/FreeTrainersItem';
 import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
+import { apiPatients } from './mock-data';
 
 
 class Schedule extends React.Component {
@@ -61,6 +62,8 @@ class Schedule extends React.Component {
             modalMasterList: false,
             showSpinner: false,
             theMasterSelect: false,
+            notRedirectDiscipline: false,
+            scheduleSpinner: false,
         }
     };
 
@@ -128,7 +131,7 @@ class Schedule extends React.Component {
         }
         if(isPushBtnTrialTraining === 'trial'){             
                             this.trialTime = idEvent;
-                            debugger;
+                         
                             message.info('Выберите одного из тренеров')
                             message.success('Тренировка выбрана')
                         
@@ -262,12 +265,12 @@ class Schedule extends React.Component {
 
         message.success("Тренировки распределены по расписанию");
 
-
         let buf = 'vocals';
 
         for(let el in disciplines){
         
             if(disciplines[el].code === currDiscipline.code){
+               
                 buf = el;
             }
         }
@@ -289,7 +292,7 @@ class Schedule extends React.Component {
 
         if(selectMaster){
            // discAbonement
-           debugger;
+         
             if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code)) {
                // debugger;
                 this.props.onAddAmountTraining(subsForDisc[currDiscipline.code], abonementIntervals.countTraining)
@@ -336,21 +339,19 @@ class Schedule extends React.Component {
     }
 
     transferTraining = (transferDay) => {
-        // value - дата куда переносим (TimeSlotGroup)
-        // не передаем для коуча и он не может менять расписание
 
         if(transferDay){
-            debugger
             this.transferDay = {dateStart : Math.floor(+transferDay.getTime() / 1000)}
         }
        
     }
     deleteEvent = (delEvent) => {
-
+        
         if(delEvent && Object.keys(delEvent).length){
             
+            debugger;
             this.delEvent = delEvent;
-            this.setState({modalTransferTraining: true});
+            this.setState({modalTransferTraining: true})
         }   
     }
 
@@ -360,12 +361,12 @@ class Schedule extends React.Component {
             const {id, currDiscipline, discCommunication} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
 
+            debugger;
             const currMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code] : null
 
             if(this.transferDay && currMaster){
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay})
                         .then(() => {
-                            debugger
                             this.props.onGetAbonementsFilter(id,currDiscipline);
                         });
             } 
@@ -418,7 +419,6 @@ class Schedule extends React.Component {
 
     setAbonement_Training = () => {
         
-        console.log('this.props :', this.props);
         let subs = this.props.allAbonements;
         const {idSubscription, start} = this.delEvent.event;
         const {id, currDiscipline} = this.props;
@@ -437,7 +437,6 @@ class Schedule extends React.Component {
                 scheduleForWeek.idStudent = id;//subs[i].idStudent;
                 scheduleForWeek.discipline = subs[i].discipline;
 
-                debugger
                 let item = subs[i];
 
                 const start = moment(+item.start * 1000);
@@ -526,10 +525,26 @@ class Schedule extends React.Component {
 
         if(this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(id);
+            
             this.props.onCheckToken(id)
                 .then((checkToken) => {
-                    debugger;
-                    (Array.isArray(checkToken) && checkToken.length) ? this.props.onIsPushBtnUnfresh() : null
+                    
+                    if(checkToken.length){
+                        PopupModal.info({
+                            title: 'Отлично! Теперь ты в нашей команде!',
+                            width: '500px',
+                            className: 'fast-modal',
+                            content: 'Пробежимся по правилам: Каждую тренировку можно переносить 1 раз; ' +
+                                'Перенос тренировки возможен за 24 часа до ее начала, ' +
+                                'если осталось меньше 24 часов до начала, перенос тренировки невозможен, ' +
+                                'если вы не сможете присутствовать, она будет считаться проведенной; ' +
+                                'Заморозка занятий действует 3 месяца. ' +
+                                'Вот и все, вперед покорять музыку вместе с Fasol музыкальная качалка.',
+                            zIndex: 1010
+                        });
+                        this.props.onIsPushBtnUnfresh()
+                    }
+                
                 })
         }
 
@@ -539,6 +554,12 @@ class Schedule extends React.Component {
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline);
         }       
+    }
+
+    componentDidUpdate() {
+        const{id, currDiscipline} = this.props;
+
+        this.props.onGetFutureTrialTraining(id, currDiscipline)
     }
 
     componentWillUnmount() {
@@ -575,6 +596,7 @@ class Schedule extends React.Component {
                 findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
         this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
 
+        this.setState({scheduleSpinner: true})
         isOnDay ?
             this.setState({
                 currentDate: date,
@@ -595,20 +617,24 @@ class Schedule extends React.Component {
 
             this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
 
-        if(!this.state.sendingModal){
-            this.setState({showSpinner: true});
-            const dateStart = Math.floor(+start.getTime() / 1000);
-            const dateEnd = Math.floor(+end.getTime() / 1000);
-            this.props.onGetAvailableInterval(dateStart,dateEnd, chooseWeekdays, chooseDiscipline)   
-                .then(() => this.setState({showSpinner: false, sendingModal: true}))
-        }
+        // if(!this.state.sendingModal){
+        //     this.setState({showSpinner: true});
+        //     const dateStart = Math.floor(+start.getTime() / 1000);
+        //     const dateEnd = Math.floor(+end.getTime() / 1000);
+        //     this.props.onGetAvailableInterval(dateStart,dateEnd, chooseWeekdays, chooseDiscipline)   
+        //         .then(() => this.setState({showSpinner: false, sendingModal: true}))
+        // }
         if(mode === 'master'){
             const dateStart = Math.floor(+start.getTime() / 1000);
             const dateEnd = Math.floor(+end.getTime() / 1000);
-            this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline);
+            this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
+                .then(() => {
+                    this.setState({scheduleSpinner: false})
+                });
         }
         if(mode === 'master' || mode === 'student'){
             this.props.onGetAbonementsFilter(id, currDiscipline)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
         if(this.props.isPushBtnTransfer){
 
@@ -620,7 +646,7 @@ class Schedule extends React.Component {
 
             this.props.onGetTheMasterInterval(dateStart1, dateEnd1, idMaster, chooseWeekdays)
                 .then(() => {
-                    this.setState({theMasterSelect: true})
+                    this.setState({theMasterSelect: true, scheduleSpinner: false})
                 });
         }
 
@@ -834,6 +860,7 @@ class Schedule extends React.Component {
                     setAbonement_Training = {this.setAbonement_Training}
                     onCancelTraining = {this.onCancelTraining}
                     trainerTraining = {this.props.trainerTraining}
+                    scheduleSpinner = {this.props.scheduleSpinner}
 
                     />)    
         }
@@ -862,6 +889,7 @@ class Schedule extends React.Component {
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {this.changeCurrDiscipline} 
+                                  scheduleSpinner = {this.state.scheduleSpinner}
                                 
                                 onGotoPage= { (id) => this.props.history.push('/app/student' + id)}
 
@@ -891,23 +919,28 @@ class Schedule extends React.Component {
                                  icon='setting_edit'/>)
 
                             let filterInterval = [];
+                            let notRedirectDiscipline = false;
                            
                              if(isPushBtnTrialTraining === 'trial'){
                                 filterInterval = this.props.superFreeInterval;
+                                notRedirectDiscipline = true;
                              }
                              else if(isPushBtnTrialTraining === 'select_master'){
                                 filterInterval = this.props.theMasterInterval;
+                                notRedirectDiscipline = true;
                              }
                              
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
-                                filterInterval = this.props.theMasterInterval ;
+                                filterInterval = this.props.theMasterInterval;
+                                notRedirectDiscipline = true;
 
                              }
                              else if(isNeedSaveIntervals){
-                                filterInterval =  this.props.superFreeInterval
+                                filterInterval =  this.props.superFreeInterval;
+                                notRedirectDiscipline = true;
                              }
 
-                         
+   
             calendar = (<Calendar 
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
@@ -932,12 +965,12 @@ class Schedule extends React.Component {
 
                                   superFreeInterval = {filterInterval}
                                   isPushBtnTransfer = {this.props.isPushBtnTransfer}
-
+                                  notRedirectDiscipline = {notRedirectDiscipline}
 
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {(disc) => {
-                                    this.props.onChangeCurrDiscipline(disc)
+                                    this.props.onChangeCurrDiscipline(disc);
                                     this.props.onGetAbonementsFilter(id, disc); 
                                     }}
 
@@ -964,6 +997,7 @@ class Schedule extends React.Component {
                                   setAbonement_Training = {this.setAbonement_Training}
                                   onCancelTraining = {this.onCancelTraining}
                                   trainerTraining = {this.props.trainerTraining}
+                                  scheduleSpinner = {this.state.scheduleSpinner}
 
             />)
         }
@@ -990,13 +1024,16 @@ class Schedule extends React.Component {
                                         type='yellow'/>
                                 </div>
 
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Новое расписание'    
-                                    onClick= {this.setAbonement_Training}
-                                    type='yellow'/>
-                                </div>
+                                {( this.delEvent && this.delEvent.event.trial) ? 
+                                    null : 
+                                        <div className="schedule-message-btn"> 
+                                            <Button btnText='Новое расписание'    
+                                            onClick= {this.setAbonement_Training}
+                                            type='yellow'/>
+                                        </div> }
                         </div>
                 </Modal>
+
 
                 <Modal 
                     title='Сообщение'
@@ -1019,6 +1056,8 @@ class Schedule extends React.Component {
                                 </div>
                         </div>
                 </Modal>
+
+                
 
                 
                 <Modal 
@@ -1195,6 +1234,8 @@ const mapDispatchToProps = dispatch => {
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
+        onGetFutureTrialTraining: (id, discipline) => dispatch(actions.getFutureTrialTraining(id, discipline)),
+        
         
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),

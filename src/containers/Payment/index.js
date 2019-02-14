@@ -35,6 +35,7 @@ class Payment extends React.Component{
         }
         this.props.onGetDeadlinePay(this.props.id);	
     }
+
     onSendDataModal = (data) => {
      
         let array = [];
@@ -47,7 +48,6 @@ class Payment extends React.Component{
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array,  data.type);
 
-       
         if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
                   
                 this.props.onAddAmountTraining(subsForDisc[codeDisc], abonementIntervals.countTraining)
@@ -61,37 +61,23 @@ class Payment extends React.Component{
                 this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
                 this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         }
-        
+        this.props.onGetAbonementsFilter(id, disciplinesList[data.type]);
         this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
-        setTimeout( () => this.props.onGetStudentBalance(id), 1500);
+        //setTimeout( () => this.props.onGetStudentBalance(id), 1500);
       
         //this.setState({visibleCreateTrainModal: true, redirectToSchedule: true});
-    }
+    };
 
+    showCreateTrainModal = (amount, price) => {
+        this.props.onGetToken(this.props.id, amount, price, 12);
 
-
-    showTrialModal = (amount, price) => {
-
-        PopupModal.info({
-            title: 'Отлично! Теперь ты в нашей команде!',
-            width: '500px',
-            className: 'fast-modal',
-            content: 'Пробежимся по правилам: Каждую тренировку можно переносить 1 раз; ' +
-                'Перенос тренировки возможен за 24 часа до ее начала, ' +
-                'если осталось меньше 24 часов до начала, перенос тренировки невозможен, ' +
-                'если вы не сможете присутствовать, она будет считаться проведенной; ' +
-                'Заморозка занятий действует 3 месяца. ' +
-                'Вот и все, вперед покорять музыку вместе с Fasol музыкальная качалка.',
-            zIndex: 1010
-        });
-
-        this.setState({payModal: true, amount, price})
+        this.setState({amount, price});
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: amount});
+    };
 
-    }
-    hideTrialModal = () => {
+    hideCreateTrainModal = () => {
         this.setState({payModal: false})
-    }
+    };
 
     render() {
         let {deadlinePay, disciplinesList} = this.props;
@@ -101,7 +87,7 @@ class Payment extends React.Component{
             <Hoc>
                 {isStudent ? (
                     <StudentPayment
-                        showTrialModal = {this.showTrialModal}
+                        showTrialModal = {this.showCreateTrainModal}
                         deadlinePay = {deadlinePay}
                         studentBalance = {this.props.studentBalance}
                         nextTrainingTime={this.props.nextTrainingTime}
@@ -109,14 +95,14 @@ class Payment extends React.Component{
                     />)
                     : (<CoachPayment/>)}
 
-                <CreateTrainModal
+                {/*<CreateTrainModal
                     title='Запишись на тренировку'
                     width={770}
                     visible={this.state.payModal}
                     disciplinesList={disciplinesList}
-                    onCancel={this.hideTrialModal} 
+                    onCancel={this.hideCreateTrainModal}
                     onSave={this.onSendDataModal}
-                />
+                /> */}
 
 
                { /*<Modal 
@@ -130,7 +116,7 @@ class Payment extends React.Component{
                     <div className="schedule-message-modal">
                         <div className="schedule-message-btn">
                             <Button btnText='Вернуть подтверждение об оплате'
-                                    onClick={() => this.showTrialModal(this.state.countPay)}
+                                    onClick={() => this.showCreateTrainModal(this.state.countPay)}
                                     type='yellow'/>
                         </div>
 

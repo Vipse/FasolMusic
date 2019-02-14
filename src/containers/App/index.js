@@ -16,6 +16,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 
 import Icon from "../../components/Icon";
+import Spinner from "../../components/Spinner";
 import cookie from 'react-cookies'
 import {Modal} from "antd";
 
@@ -29,7 +30,8 @@ class App extends React.Component {
         super(props);
         this.state = {
             collapsed: false,
-            notifications: []
+            notifications: [],
+            scheduleSpinner: false,
         };
     }
 
@@ -197,6 +199,7 @@ class App extends React.Component {
     };
 
     pushBtnTransfer = () => {
+        this.setState({scheduleSpinner: true})
         
         const {weekInterval} = this.props;
         this.onGoToSchedule();
@@ -206,7 +209,10 @@ class App extends React.Component {
             let chooseWeekdays = [1,2,3,4,5,6,7];
  
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
-             .then(() => this.props.onSetPushBtnTransferTraining())
+             .then(() => {
+                this.setState({scheduleSpinner: false})
+                 this.props.onSetPushBtnTransferTraining()
+             })
         }
         // const start =  moment(Date.now()).startOf('week').format('X'); 
         // const end = moment(Date.now()).endOf('week').format('X');
@@ -214,13 +220,19 @@ class App extends React.Component {
     }
 
     pushBtnUnfresh = () => {
+        debugger
         const {weekInterval} = this.props;
+        this.setState({scheduleSpinner: true})
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
      
+            debugger
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
-             .then(() => this.props.onSetPushBtnAddTraining())
+             .then(() => {
+                this.setState({scheduleSpinner: false})
+                 this.props.onSetPushBtnAddTraining()
+             })
         }
 
     }
@@ -307,6 +319,9 @@ class App extends React.Component {
                                             abonementIntervals = {this.props.abonementIntervals}
                                             onAddAmountTraining = {this.props.onAddAmountTraining}
 
+                                            showSpinner = {() => this.setState({scheduleSpinner: true})}
+                                            hideSpinner = {() => this.setState({scheduleSpinner: false})}
+
                                             isTransferTrainPopupActive={this.props.isTransferTrainPopupActive}
                                             onTransferTrainPopupClose={this.props.onTransferTrainPopupDisable}
                                     />
@@ -330,6 +345,10 @@ class App extends React.Component {
                                     </Switch>
                                 </div>
                             </div>
+                            {this.state.scheduleSpinner && 
+                                <div className = "schedule-spinner">
+                                  <Spinner isInline={true} size='large'/>
+                                </div>}
                         </React.Fragment> :
                         <Redirect to='/login'/>
                 }

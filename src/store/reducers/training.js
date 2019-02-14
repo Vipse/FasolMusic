@@ -36,6 +36,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 studentTrainings: action.studentTrainings
             }
+        case actionTypes.GET_TRIAL_FUTURE_TRAINING:
+            return {
+                ...state,
+                futureTrialTraining: action.futureTrialTraining
+            }
+            
         default: return state;
     }
 }
