@@ -139,8 +139,7 @@ class ChatVideoContent extends React.Component {
                             uploadFiles={this.props.uploadFile}
                             sec={s}
                             min={m}
-							isStudent={this.props.isStudent}
-							isComplete={!this.props.trainingStarts}
+							disabled={this.props.isComplete || !this.props.trainingStarts}
                             hour={h}
                             isCalling={this.props.isCalling}/>) : null}
 

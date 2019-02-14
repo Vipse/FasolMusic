@@ -24,7 +24,6 @@ import {
     getSelectedNestedIDs,
     getSelectorValues
 } from "../../helpers/getSelectorsCustomData";
-//import CoachPersonalDataPayment from "../CoachPersonalDataPayment";
 
 class CoachPersonalDataForm extends React.Component {
 
@@ -36,7 +35,7 @@ class CoachPersonalDataForm extends React.Component {
             promoLink: "",
             trainingTime: {
                 enabledDays: new Array(7).fill(false),
-                selectedTimes: new Array(7).fill([10, 23])
+                selectedTimes: new Array(7).fill([[10, 20]])
             },
             isChangePasswordModalVisible: false,
             isSendSuggestionsModalVisible: false,
@@ -68,15 +67,25 @@ class CoachPersonalDataForm extends React.Component {
     }
 
     loadTrainingTime = () => {
-        const { trainingtime } = this.props.profileCoach;
-        Array.isArray(trainingtime) && trainingtime.length && trainingtime.forEach((item) => {
-            let num = item.day ? item.day[0].value : null;
-            this.handleChangeTrainingTime('enabledDays', num, true);
-            this.handleChangeTrainingTime('selectedTimes', num, [
-                moment(item.datestart * 1000).hours(),
-                moment(item.dateend * 1000).hours()
-            ]);
-        });
+        const {trainingtime} = this.props.profileCoach;
+        for (let i = 0; i < 7; ++i) {
+            let isEnabled = false;
+            let selectedDayTimesArr = [];
+
+            Array.isArray(trainingtime) && trainingtime.length && trainingtime.forEach((item) => {
+                let num = item.day ? +item.day[0].value : null;
+                if (num === i) {
+                    isEnabled = true;
+                    selectedDayTimesArr.push([
+                        moment(item.datestart * 1000).hours(),
+                        moment(item.dateend * 1000).hours()
+                    ]);
+                }
+            });
+
+            this.handleChangeTrainingTime('enabledDays', i, isEnabled);
+            if (selectedDayTimesArr.length) this.handleChangeTrainingTime('selectedTimes', i, selectedDayTimesArr);
+        }
     };
 
     handleChangeAvatar = (file) => {
@@ -163,16 +172,21 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareTrainingTime = () => {
-        const {dayList} = this.state.selectorsValues;
+        const {selectorsValues: {dayList}, trainingTime: {enabledDays, selectedTimes}} = this.state;
         let preparedTrainingTime = {};
+        let objIndex = 0;
+
         for (let i = 0; i < 7; ++i) {
-            this.state.trainingTime.enabledDays[i] ? preparedTrainingTime[i] = {
-                day: getSelectedIDs(dayList, String(i), true),
-                datestart: moment(this.state.trainingTime.selectedTimes[i][0], 'HH').format('X'),
-                dateend: moment(this.state.trainingTime.selectedTimes[i][1], 'HH').format('X')
-            } : null;
+            enabledDays[i] && selectedTimes[i].forEach((interval) => {
+                preparedTrainingTime[objIndex] = {
+                    day: getSelectedIDs(dayList, String(i), true),
+                    datestart: moment(interval[0], 'HH').format('X'),
+                    dateend: moment(interval[1], 'HH').format('X')
+                };
+                ++objIndex;
+            });
         }
-        return JSON.stringify(preparedTrainingTime) !== '{}' ? preparedTrainingTime : this.props.profileCoach.trainingtime;
+        return preparedTrainingTime;
     };
 
     handleSubmitInfo = (e) => {
@@ -212,9 +226,12 @@ class CoachPersonalDataForm extends React.Component {
                 this.setState({uploadingNewData: true});
                 this.props.onSubmit(finalData)
                     .then((res) => {
+                        console.log(res);
                     this.setState({uploadingNewData: false});
                     if (res && !res.data.error) {
-                        message.success("Изменения сохранены");
+                        if (res.data.result.testTrainingTime)
+                            message.success("Изменения сохранены");
+                        else message.warning('Удобное время проведения не сохранено, т.к. имеются незавершенные тренировки!', 10);
                     } else
                         message.error("Произошла ошибка, попробуйте ещё раз");
                 });
@@ -254,11 +271,6 @@ class CoachPersonalDataForm extends React.Component {
                             profile={profileCoach}
                             onChangePromo={this.handleChangePromo}
                         />
-                        {/*<div className='coach-data-title'>Платежные данные</div>
-                        <CoachPersonalDataPayment
-                            profileCoach={profileCoach}
-                            getFieldDecorator={getFieldDecorator}
-                        />*/}
                         <div className='coach-data-title'>Уровени подготовки по дисциплинам</div>
                         <PersonalDataSkill
                             profile={profileCoach}

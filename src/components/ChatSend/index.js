@@ -102,7 +102,7 @@ class ChatSend extends React.Component{
                         title='Отправить сообщение'
                         onClick={this.sendHandler}
                     />}
-                    {!this.props.isUser && !this.props.disable ?
+                    {!this.props.isStudent && !this.props.disable ?
                             (<Button
                                 btnText='Остановить тренировку'
                                 size='small'
@@ -121,7 +121,7 @@ ChatSend.propTypes = {
     disable: PropTypes.bool,
     send: PropTypes.func,
     closeVisit: PropTypes.func,
-    isUser: PropTypes.bool,
+    isStudent: PropTypes.bool,
     isCurVisEnd: PropTypes.bool,
     makeReview: PropTypes.func,
 };
@@ -132,7 +132,7 @@ ChatSend.defaultProps = {
     disable: true,
     send: () => {},
     closeVisit: () => {},
-    isUser: false,
+    isStudent: false,
     isCurVisEnd: false,
     makeReview: () => {},
 };

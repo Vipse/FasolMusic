@@ -329,6 +329,13 @@ export const editUseFrozenTraining = (idStudent, amountTraining) => {
     }
 }
 
+export const transferTrainPopupDisable = () => {
+
+    return ({
+        type: actionTypes.SET_TRANSFER_TRAIN_MODAL_INACTIVE
+    });
+}
+
 export const setPushBtnTransferTraining = (type) => {
     
     return ({

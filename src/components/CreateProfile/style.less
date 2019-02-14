@@ -111,57 +111,64 @@
                         margin-bottom: 10px;
                     }
                 }
-                .timePlate {
-                    position: relative;
-                    top: -10px;
-                    left: -135px;
-                    font-size: 10px;
-                    width: 70px;
-                    height: 3px;
-                    font-family: RobotoRegular;
-                    color: #000;
-                }
-                .ant-slider {
-                    width: 200px;
-
-                    &-rail {
-                        height: 1px;
-                        background-color: #000;
-                    }
-
-                    &-track {
-                        background-color: #21bedd;
-                        height: 1px;
-                    }
-
-                    &-disabled {
-                        .ant-slider {
-                            &-handle, &-track {
-                                display: none;
-                            }
-                        }
-                    }
-
-                    &-handle {
-
-                        width: 7px;
-                        height: 7px;
-                        background-color: #21bedd;
-                        border: unset;
-                        margin-top: -3px;
-
-                        &:focus, &:hover {
-                            box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
-                        }
-                    }
-                }
                 .timeSchedule {
                     display: flex;
                     flex-direction: row;
                     user-select: none;
-                }
-                .dayCheckbox {
-                    width: 64px;
+
+                    .daySliders {
+                        width: 76%;
+
+                        .timePlate {
+                            position: relative;
+                            top: -10px;
+                            font-size: 10px;
+                            height: 3px;
+                            font-family: RobotoRegular;
+                            color: #000;
+                            text-align: center;
+                        }
+
+                        .ant-slider {
+                            width: 200px;
+
+                            &-rail {
+                                height: 1px;
+                                background-color: #000;
+                            }
+
+                            &-track {
+                                background-color: #21bedd;
+                                height: 1px;
+                            }
+
+                            &-disabled {
+                                .ant-slider {
+                                    &-handle, &-track {
+                                        display: none;
+                                    }
+                                }
+                            }
+
+                            &-handle {
+                                width: 7px;
+                                height: 7px;
+                                background-color: #21bedd;
+                                border: unset;
+                                margin-top: -3px;
+
+                                &:focus, &:hover {
+                                    box-shadow: 0 0 0 3px rgba(33, 190, 221, 0.65);
+                                }
+                            }
+                        }
+                    }
+                    .slidersBtnPlate {
+                        width: 0;
+                    }
+                    .dayCheckbox {
+                        width: 64px;
+                    }
                 }
                 .create-profile-avatar {
                     display: flex;

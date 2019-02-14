@@ -9,21 +9,60 @@ import './style.css'
 import '../../icon/style.css'
 import Checkbox from "../Checkbox";
 import Slider from "antd/es/slider";
+import Button from "../Button";
 
 const FormItem = Form.Item;
 
 class PersonalDataTime extends React.Component {
-    constructor() {
-        super();
-        this.state = {}
-    }
 
     handleActiveSlider = (num) => {
         this.props.onChange('enabledDays', num, !this.props.trainingTime.enabledDays[num]);
     };
 
-    handleChangeSlider = (num, value) => {
-        this.props.onChange('selectedTimes', num, value);
+    handleChangeSlider = (dayNum, sliderNum, value) => {
+        const {selectedTimes} = this.props.trainingTime;
+        let newArr = [...selectedTimes[dayNum]];
+        newArr[sliderNum] = value;
+
+        this.props.onChange('selectedTimes', dayNum, newArr);
+    };
+
+    addSlider = (e, dayNum) => {
+        e.preventDefault();
+        const {selectedTimes} = this.props.trainingTime;
+        let newArr = [...selectedTimes[dayNum], [10, 20]];
+
+        this.props.onChange('selectedTimes', dayNum, newArr);
+    };
+
+    deleteSlider = (e, dayNum) => {
+        e.preventDefault();
+        const {selectedTimes} = this.props.trainingTime;
+        let newArr = [...selectedTimes[dayNum]].slice(0, -1);
+
+        this.props.onChange('selectedTimes', dayNum, newArr);
+    };
+
+    generateSlider = (i, dayKey) => {
+        const {enabledDays, selectedTimes} = this.props.trainingTime;
+
+        if (enabledDays[dayKey] || !i) return (
+            <Slider className={"slider-" + i}
+                range step={1} min={8} max={23}
+                value={[selectedTimes[dayKey][i][0], selectedTimes[dayKey][i][1]]}
+                disabled={!enabledDays[dayKey]}
+                onChange={(value) => this.handleChangeSlider(dayKey, i, value)}
+                key={"timeSelected" + dayKey + i}/>);
+        else return null;
+    };
+
+    generateTimePlate = (i) => {
+        const {selectedTimes} = this.props.trainingTime;
+
+        return selectedTimes[i].map((interval) => {
+            return (interval[1] - interval[0] === 24 ? "Весь день" :
+                interval[0] + ":00 - " + (interval[1] !== 24 ? interval[1] : 0) + ":00")
+        }).join(', ');
     };
 
     generateOneDay = (i) => {
@@ -34,15 +73,26 @@ class PersonalDataTime extends React.Component {
             <Checkbox className="dayCheckbox largeChk" value={i} checked={enabledDays[i]}
                       onChange={() => this.handleActiveSlider(i)}
                       key={"enableDay" + i}>{daysName[i]}</Checkbox>
-            <Slider className="slider"
-                    range step={1} min={8} max={23}
-                    value={[selectedTimes[i][0], selectedTimes[i][1]]}
-                    disabled={!enabledDays[i]}
-                    onChange={(value) => this.handleChangeSlider(i, value)}
-                    key={"timeSelected" + i}/>
-            <p className="timePlate">{enabledDays[i] &&
-            (selectedTimes[i][1] - selectedTimes[i][0] === 24 ? "Весь день" :
-                selectedTimes[i][0] + ":00 - " + (selectedTimes[i][1] !== 24 ? selectedTimes[i][1] : 0) + ":00")}</p>
+            <div className='daySliders' key={"daySliders" + i}>
+                <p className="timePlate" key={"timePlate" + i}>{enabledDays[i] && this.generateTimePlate(i)}</p>
+                {selectedTimes[i].map((item, it) => this.generateSlider(it, i))}
+            </div>
+            {enabledDays[i] &&
+            <div className='slidersBtnPlate'>
+                <Button className='addBtn'
+                        size='file'
+                        type='file'
+                        icon='plus'
+                        onClick={(e) => this.addSlider(e, i)}
+                />
+                {selectedTimes[i].length > 1 &&
+                <Button className='deleteBtn'
+                        size='file'
+                        type='file'
+                        icon='minus'
+                        onClick={(e) => this.deleteSlider(e, i)}
+                />}
+            </div>}
         </div>);
     };
 

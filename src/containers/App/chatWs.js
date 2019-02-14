@@ -13,7 +13,7 @@ var videoOutput;
 const NOT_REGISTERED = 0;
 const REGISTERING = 1;
 const REGISTERED = 2;
-var registerState = null
+var registerState = null;
 
 const NO_CALL = 0;
 const PROCESSING_CALL = 1;
@@ -27,8 +27,8 @@ export const sendMessage = (message) => {
 
     if (message && message.id === 'chat') {
         const visitInfo = callbacks.get_visitInfo();
-        const {id} = visitInfo;
-        callbacks.onSaveMessage(+id, message);
+        const {idTraining} = visitInfo;
+        callbacks.onSaveMessage(+idTraining, message);
     }
 }
 
@@ -56,16 +56,6 @@ export function createSocket(wsUrl,_props,_callbacks) {
                 resgisterResponse(parsedMessage);
                 break;
             case 'startReception':
-            callbacks.get_history().location.pathname !== '/app/chat'
-                && callbacks.get_history().push('/app/chat');
-                callbacks.setReceptionStatus(true);
-
-                const visitInfo = callbacks.get_visitInfo();
-                const {visitId} = visitInfo;
-                !visitId && (
-                    callbacks.onSelectReception(parsedMessage.receptionId),
-                    callbacks.setChatToId(parsedMessage.by)
-                )
 				break;
 			case 'closeReception':
                 callbacks.setReceptionStatus(false);
@@ -75,6 +65,18 @@ export function createSocket(wsUrl,_props,_callbacks) {
 				callResponse(parsedMessage);
                 break;
             case 'incomingCall':
+                const {fromName, fromAvatar, beginTime, isTrial} = parsedMessage.userData;
+                callbacks.setChatTrainingId(parsedMessage.receptionId);
+                callbacks.setChatToId(parsedMessage.by);
+                callbacks.setChatInterlocutorInfo(fromName, fromAvatar);
+                callbacks.setBeginTime(beginTime);
+                callbacks.setIsTrialStatus(isTrial);
+                callbacks.setIsCompleteStatus(false);
+                callbacks.setReceptionStatus(true);
+
+                callbacks.get_history().location.pathname !== '/app/chat'
+                && callbacks.get_history().push('/app/chat');
+
 				incomingCall(parsedMessage);
                 break;
             case 'startCommunication':
@@ -193,12 +195,12 @@ export const stop = (flag) => {
 const callResponse = (message) => {
  
     const visitInfo = callbacks.get_visitInfo();
-    const {name, name_doc} = visitInfo;
+    const {fromName} = visitInfo;
 
     let msg = {
         id : 'chat',
         type: message.response != 'accepted' ? "notBegin" : "begin",
-        name: callbacks.get_user_mode() === "student" ? name_doc : name,
+        name: fromName,
         from: callbacks.get_from(),
         to: callbacks.get_to(),
         date: Math.ceil(Date.now()/1000),
@@ -282,27 +284,20 @@ const incomingCall = (message) => {
 
 
     function acceptCall() {
-
-
-        callbacks.get_history().location.pathname !== '/app/chat'
-        && callbacks.get_history().push('/app/chat');
         callbacks.setReceptionStatus(true);
         callbacks.setIsCallingStatus(true);
         callbacks.setChatToId(message.from);
 
         const visitInfo = callbacks.get_visitInfo();
-        const {visitId} = visitInfo;
+        const {idTraining} = visitInfo;
 
-        if(!visitId) continueCall();
-        !visitId ? callbacks.onSelectReception(message.receptionId, function(){
-            continueCall();
-            return;
-        }) : continueCall();
+        if(!idTraining) continueCall();
+        !idTraining ? callbacks.setChatTrainingId(message.receptionId) : continueCall();
 
         function continueCall(){
             let _visitInfo = callbacks.get_visitInfo();
-            let {contactLevel} = _visitInfo;
-            let options = contactLevel === 'video' ?
+            let {conversationMode} = _visitInfo;
+            let options = conversationMode === 'video' ?
                 {
                     localVideo : videoInput,
                     remoteVideo : videoOutput,
@@ -333,7 +328,7 @@ const incomingCall = (message) => {
                                 from : message.from,
                                 callResponse : 'accept',
                                 sdpOffer : offerSdp,
-                                mode: contactLevel,
+                                mode: conversationMode,
                             });
                         });
                     });
@@ -358,12 +353,12 @@ const startCommunication = (message) => {
 
 export const startReception = () => {
    const visitInfo = callbacks.get_visitInfo();
-   const {id: receptionId} = visitInfo;
+   const {idTraining} = visitInfo;
     sendMessage({
         id : 'startReception',
         name: callbacks.get_from(),
         other_name: callbacks.get_to(),
-        receptionId: receptionId,
+        receptionId: idTraining,
     });
     sendMessage({
         id : 'chat',
@@ -380,10 +375,10 @@ export const call = () => {
     callbacks.setIsCallingStatus(true);
     setCallState(PROCESSING_CALL);
     const visitInfo = callbacks.get_visitInfo();
-    const {contactLevel} = visitInfo;
+    const {conversationMode} = visitInfo;
 
     
-    let options = contactLevel === 'video' ?
+    let options = conversationMode === 'video' ?
             {
                 localVideo : videoInput,
                 remoteVideo : videoOutput,
@@ -405,7 +400,7 @@ export const call = () => {
         }
 
         const visitInfo = callbacks.get_visitInfo();
-        const {id: receptionId} = visitInfo;
+        const {idTraining} = visitInfo;
 
         this.generateOffer(function(error, offerSdp) {
             if (error) {
@@ -416,8 +411,8 @@ export const call = () => {
                 id : 'call',
                 from: callbacks.get_from(),
                 to: callbacks.get_to(),
-                receptionId: receptionId,
-                userData: null, //callbacks.get_shortDocInfo(),
+                receptionId: idTraining,
+                userData: callbacks.get_visitInfo(),
                 sdpOffer : offerSdp
             });
         });

@@ -16,7 +16,7 @@ class Step4Form extends React.Component{
         super(props);
         this.state = {
             enabledDays: new Array(7).fill(false),
-            selectedTimes: new Array(7).fill([10, 23])
+            selectedTimes: new Array(7).fill([[10, 20]])
         }
     }
 
@@ -41,13 +41,19 @@ class Step4Form extends React.Component{
 
     prepareTrainingTime = () => {
         const {dayList} = this.props.data.selectorsValues;
+        const {enabledDays, selectedTimes} = this.state;
         let preparedTrainingTime = {};
+        let objIndex = 0;
+
         for (let i = 0; i < 7; ++i) {
-            this.state.enabledDays[i] ? preparedTrainingTime[i] = {
-                day: getSelectedIDs(dayList, String(i), true),
-                datestart: moment(this.state.selectedTimes[i][0], 'HH').format('X'),
-                dateend: moment(this.state.selectedTimes[i][1], 'HH').format('X')
-            } : null;
+            enabledDays[i] && selectedTimes[i].forEach((interval) => {
+                preparedTrainingTime[objIndex] = {
+                    day: getSelectedIDs(dayList, String(i), true),
+                    datestart: moment(interval[0], 'HH').format('X'),
+                    dateend: moment(interval[1], 'HH').format('X')
+                };
+                ++objIndex;
+            });
         }
         return preparedTrainingTime;
     };
@@ -125,20 +131,72 @@ class Step4Form extends React.Component{
     };
 
     generateOneDay = (i) => {
-        const daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
         const {enabledDays, selectedTimes} = this.state;
+        const daysName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 
         return (<div className="timeSchedule" key={i}>
-            <Checkbox className="dayCheckbox" value={i} checked={enabledDays[i]} onChange={() => this.handleActiveSlider(i)}
+            <Checkbox className="dayCheckbox" value={i} checked={enabledDays[i]}
+                      onChange={() => this.handleActiveSlider(i)}
                       key={"enableDay" + i}>{daysName[i]}</Checkbox>
-            <Slider className="slider" range step={1} min={8} max={23}
-                    value={[selectedTimes[i][0], selectedTimes[i][1]]}
-                    disabled={!enabledDays[i]}
-                    onChange={(value) => this.handleChangeSlider(i, value)} key={"timeSelected" + i}/>
-            <p className="timePlate">{enabledDays[i] &&
-            (selectedTimes[i][1] - selectedTimes[i][0] === 24 ? "Весь день" :
-                selectedTimes[i][0] + ":00 - " + (selectedTimes[i][1] !== 24 ? selectedTimes[i][1] : 0) + ":00")}</p>
+            <div className='daySliders' key={"daySliders" + i}>
+                <p className="timePlate" key={"timePlate" + i}>{enabledDays[i] && this.generateTimePlate(i)}</p>
+                {selectedTimes[i].map((item, it) => this.generateSlider(it, i))}
+            </div>
+            {enabledDays[i] &&
+            <div className='slidersBtnPlate'>
+                <Button className='addBtn'
+                        size='file'
+                        type='file'
+                        icon='plus'
+                        onClick={(e) => this.addSlider(e, i)}
+                />
+                {selectedTimes[i].length > 1 &&
+                <Button className='deleteBtn'
+                        size='file'
+                        type='file'
+                        icon='minus'
+                        onClick={(e) => this.deleteSlider(e, i)}
+                />}
+            </div>}
         </div>);
+    };
+
+    addSlider = (e, dayNum) => {
+        e.preventDefault();
+        const {selectedTimes} = this.state;
+        let newArr = [...selectedTimes[dayNum], [10, 20]];
+
+        this.handleChangeTimeSchedule('selectedTimes', dayNum, newArr);
+    };
+
+    deleteSlider = (e, dayNum) => {
+        e.preventDefault();
+        const {selectedTimes} = this.state;
+        let newArr = [...selectedTimes[dayNum]].slice(0, -1);
+
+        this.handleChangeTimeSchedule('selectedTimes', dayNum, newArr);
+    };
+
+    generateSlider = (i, dayKey) => {
+        const {enabledDays, selectedTimes} = this.state;
+
+        if (enabledDays[dayKey] || !i) return (
+            <Slider className={"slider-" + i}
+                    range step={1} min={8} max={23}
+                    value={[selectedTimes[dayKey][i][0], selectedTimes[dayKey][i][1]]}
+                    disabled={!enabledDays[dayKey]}
+                    onChange={(value) => this.handleChangeSlider(dayKey, i, value)}
+                    key={"timeSelected" + dayKey + i}/>);
+        else return null;
+    };
+
+    generateTimePlate = (i) => {
+        const {selectedTimes} = this.state;
+
+        return selectedTimes[i].map((interval) => {
+            return (interval[1] - interval[0] === 24 ? "Весь день" :
+                interval[0] + ":00 - " + (interval[1] !== 24 ? interval[1] : 0) + ":00")
+        }).join(', ');
     };
 
     renderTimeSchedule = () => {
@@ -149,20 +207,24 @@ class Step4Form extends React.Component{
         return timeScheduleArr;
     };
 
-    handleActiveSlider = (num) => {
-        let newEnableSlider = this.state.enabledDays;
-        newEnableSlider[num] = !newEnableSlider[num];
+    handleChangeTimeSchedule = (type, num, value) => {
+        let newArray = this.state[type];
+        newArray[num] = value;
         this.setState({
-            enabledDays: newEnableSlider
+            [type]: newArray
         });
     };
 
-    handleChangeSlider = (num, value) => {
-        let newSliderValue = this.state.selectedTimes;
-        newSliderValue[num] = value;
-        this.setState({
-            selectedTimes: newSliderValue
-        });
+    handleActiveSlider = (num) => {
+        this.handleChangeTimeSchedule('enabledDays', num, !this.state.enabledDays[num]);
+    };
+
+    handleChangeSlider = (dayNum, sliderNum, value) => {
+        const {selectedTimes} = this.state;
+        let newArr = [...selectedTimes[dayNum]];
+        newArr[sliderNum] = value;
+
+        this.handleChangeTimeSchedule('selectedTimes', dayNum, newArr);
     };
 
     render(){
