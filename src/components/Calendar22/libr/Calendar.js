@@ -21,6 +21,7 @@ import BackgroundWrapper from './BackgroundWrapper'
 import omit from 'lodash/omit'
 import defaults from 'lodash/defaults'
 import SmallCalendar from './../../SmallCalendar/index';
+import Spinner from "../../Spinner";
 
 import Button from './../../Button/index';
 import CancelVisitModal from './../../CancelVisitModal/index';
@@ -99,7 +100,13 @@ class Calendar extends React.Component {
     const label = Week.title(current, { formats, culture, length })
 
     return (
-      <div>    
+      <div className="wrapper-calendar">    
+
+        {this.props.scheduleSpinner && 
+            <div className = "schedule-spinner">
+              <Spinner isInline={true} size='large'/>
+            </div>}
+
         <div
           {...elementProps}
           className={cn('rbc-calendar', className, {

@@ -63,6 +63,7 @@ class Schedule extends React.Component {
             showSpinner: false,
             theMasterSelect: false,
             notRedirectDiscipline: false,
+            scheduleSpinner: false,
         }
     };
 
@@ -338,8 +339,6 @@ class Schedule extends React.Component {
     }
 
     transferTraining = (transferDay) => {
-        // value - дата куда переносим (TimeSlotGroup)
-        // не передаем для коуча и он не может менять расписание
 
         if(transferDay){
             this.transferDay = {dateStart : Math.floor(+transferDay.getTime() / 1000)}
@@ -539,9 +538,7 @@ class Schedule extends React.Component {
                                 'Каждую тренировку можно переносить 1 раз;\n' +
                                 'Перенос за 24 часа до начала тренировки не возможен, если вы не сможете присутствовать, она считается проведенной;\n' +
                                 'Заморозка занятий действует 3 месяца. \nВот и все, вперед покорять музыку вместе с Fasol музыкальная качалка',
-                            zIndex: 1010,
-                            onOk: () => this.props.history.push('/app/personal-info'),
-                            onCancel: () => this.props.history.push('/app/personal-info')
+                            zIndex: 1010
                         }) 
                         this.props.onIsPushBtnUnfresh()
                     }
@@ -597,6 +594,7 @@ class Schedule extends React.Component {
                 findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
         this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
 
+        this.setState({scheduleSpinner: true})
         isOnDay ?
             this.setState({
                 currentDate: date,
@@ -617,7 +615,6 @@ class Schedule extends React.Component {
 
             this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
 
-            debugger
         // if(!this.state.sendingModal){
         //     this.setState({showSpinner: true});
         //     const dateStart = Math.floor(+start.getTime() / 1000);
@@ -628,10 +625,14 @@ class Schedule extends React.Component {
         if(mode === 'master'){
             const dateStart = Math.floor(+start.getTime() / 1000);
             const dateEnd = Math.floor(+end.getTime() / 1000);
-            this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline);
+            this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
+                .then(() => {
+                    this.setState({scheduleSpinner: false})
+                });
         }
         if(mode === 'master' || mode === 'student'){
             this.props.onGetAbonementsFilter(id, currDiscipline)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
         if(this.props.isPushBtnTransfer){
 
@@ -643,7 +644,7 @@ class Schedule extends React.Component {
 
             this.props.onGetTheMasterInterval(dateStart1, dateEnd1, idMaster, chooseWeekdays)
                 .then(() => {
-                    this.setState({theMasterSelect: true})
+                    this.setState({theMasterSelect: true, scheduleSpinner: false})
                 });
         }
 
@@ -857,6 +858,7 @@ class Schedule extends React.Component {
                     setAbonement_Training = {this.setAbonement_Training}
                     onCancelTraining = {this.onCancelTraining}
                     trainerTraining = {this.props.trainerTraining}
+                    scheduleSpinner = {this.props.scheduleSpinner}
 
                     />)    
         }
@@ -885,6 +887,7 @@ class Schedule extends React.Component {
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {this.changeCurrDiscipline} 
+                                  scheduleSpinner = {this.state.scheduleSpinner}
                                 
                                 onGotoPage= { (id) => this.props.history.push('/app/student' + id)}
 
@@ -992,6 +995,7 @@ class Schedule extends React.Component {
                                   setAbonement_Training = {this.setAbonement_Training}
                                   onCancelTraining = {this.onCancelTraining}
                                   trainerTraining = {this.props.trainerTraining}
+                                  scheduleSpinner = {this.state.scheduleSpinner}
 
             />)
         }
