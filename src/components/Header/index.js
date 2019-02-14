@@ -75,11 +75,13 @@ class Header extends React.Component {
 
 
     onSendDataTrialModal = (data) => {
+        debugger
         const {disciplinesList, id} = this.props;
         const {type} = data;
 
         const time0 = moment(Date.now()).startOf('week').format('X');
-        const time1 = moment(Date.now()).endOf('week').format('X');
+        const time1 = moment(Date.now()).endOf('week').add(1,'weeks').format('X');
+        debugger
         this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code]);
         this.props.onSetPushTrialTraining('trial');
     

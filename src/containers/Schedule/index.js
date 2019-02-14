@@ -347,11 +347,12 @@ class Schedule extends React.Component {
        
     }
     deleteEvent = (delEvent) => {
-
+        
         if(delEvent && Object.keys(delEvent).length){
             
+            debugger;
             this.delEvent = delEvent;
-            this.setState({modalTransferTraining: true});
+            this.setState({modalTransferTraining: true})
         }   
     }
 
@@ -361,6 +362,7 @@ class Schedule extends React.Component {
             const {id, currDiscipline, discCommunication} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
 
+            debugger;
             const currMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code] : null
 
             if(this.transferDay && currMaster){
@@ -615,13 +617,14 @@ class Schedule extends React.Component {
 
             this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
 
-        if(!this.state.sendingModal){
-            this.setState({showSpinner: true});
-            const dateStart = Math.floor(+start.getTime() / 1000);
-            const dateEnd = Math.floor(+end.getTime() / 1000);
-            this.props.onGetAvailableInterval(dateStart,dateEnd, chooseWeekdays, chooseDiscipline)   
-                .then(() => this.setState({showSpinner: false, sendingModal: true}))
-        }
+            debugger
+        // if(!this.state.sendingModal){
+        //     this.setState({showSpinner: true});
+        //     const dateStart = Math.floor(+start.getTime() / 1000);
+        //     const dateEnd = Math.floor(+end.getTime() / 1000);
+        //     this.props.onGetAvailableInterval(dateStart,dateEnd, chooseWeekdays, chooseDiscipline)   
+        //         .then(() => this.setState({showSpinner: false, sendingModal: true}))
+        // }
         if(mode === 'master'){
             const dateStart = Math.floor(+start.getTime() / 1000);
             const dateEnd = Math.floor(+end.getTime() / 1000);
@@ -1015,13 +1018,16 @@ class Schedule extends React.Component {
                                         type='yellow'/>
                                 </div>
 
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Новое расписание'    
-                                    onClick= {this.setAbonement_Training}
-                                    type='yellow'/>
-                                </div>
+                                {( this.delEvent && this.delEvent.event.trial) ? 
+                                    null : 
+                                        <div className="schedule-message-btn"> 
+                                            <Button btnText='Новое расписание'    
+                                            onClick= {this.setAbonement_Training}
+                                            type='yellow'/>
+                                        </div> }
                         </div>
                 </Modal>
+
 
                 <Modal 
                     title='Сообщение'
@@ -1044,6 +1050,8 @@ class Schedule extends React.Component {
                                 </div>
                         </div>
                 </Modal>
+
+                
 
                 
                 <Modal 

@@ -177,6 +177,7 @@ class App extends React.Component {
 
     pushBtnTransfer = () => {
         
+        debugger
         const {weekInterval} = this.props;
         this.onGoToSchedule();
        
@@ -198,6 +199,7 @@ class App extends React.Component {
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
      
+            debugger
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => this.props.onSetPushBtnAddTraining())
         }
