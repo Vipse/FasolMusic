@@ -175,6 +175,7 @@ export {
     saveStudentMasterDisciplineCommunication,
     getUseFrozenTraining,
     editUseFrozenTraining,
+    rateMaster
 } from './student'
 
 export {
@@ -204,7 +205,8 @@ export {
 
 export {
     getFreeAndBusyMasterList,
-    getAllInfoMasters
+    getAllInfoMasters,
+    getReport
 } from './admin'
 
 

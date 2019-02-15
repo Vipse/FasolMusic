@@ -26,10 +26,11 @@
   width: 175px;
   font-family: RobotoMedium;
   align-self: center;
+  display: flex;
+  flex-direction: column;
 }
 .profile-card-coach .profile-coach-rate-count {
   font-family: RobotoMedium;
-  color: #ffc908;
 }
 .profile-card-coach .profile-coach-rate-count-amount {
   color: #000;
@@ -37,6 +38,9 @@
 .profile-card-coach .profile-coach-rate-info {
   font-size: 12px;
   color: #b7b7b7;
+}
+.profile-card-coach .profile-coach-rate-btn {
+  width: fit-content;
 }
 .profile-card-coach .profile-coach-comment {
   font-family: RobotoMedium;
