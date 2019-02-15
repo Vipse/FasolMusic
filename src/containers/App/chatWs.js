@@ -1,7 +1,7 @@
 import kurentoUtils from 'kurento-utils'
 import {Modal} from "antd";
 import { detect } from 'detect-browser';
-import moment from "moment";
+import incomingCallSound from '../../sounds/incoming_call_sound.mp3'
 const browser = detect();
 let ws,
     callbacks,
@@ -241,10 +241,11 @@ const incomingCall = (message) => {
     if(browser && browser.name === "safari") {
         console.log("this is safari");
         Modal.confirm({
-            title: `Хотите ли вы принять вызов?`,
+            title: `Звонок от ${fromName}`,
             width: '500px',
             className: 'fast-modal',
             icon: '',
+            content: 'Хотите ли вы принять вызов?',
             okText: 'Да',
             cancelText: 'Нет',
             centered: true,
@@ -256,22 +257,24 @@ const incomingCall = (message) => {
             }})
 
     } else {
-        let call = new Audio("/project/templates/_ares/static/media/incoming_call.mp3");
-        call.play().then(
+        let callSound = new Audio(incomingCallSound);
+        callSound.loop = true;
+        callSound.play().then(
             Modal.confirm({
-                title: `Хотите ли вы принять вызов?`, //4124
+                title: `Звонок от ${fromName}`, //4124
                 width: '500px',
                 className: 'fast-modal',
                 icon: '',
+                content: 'Хотите ли вы принять вызов?',
                 okText: 'Да',
                 cancelText: 'Нет',
                 centered: true,
                 onOk() {
-                    call.pause();
+                    callSound.pause();
                     acceptCall();
                 },
                 onCancel() {
-                    call.pause();
+                    callSound.pause();
                     declineCall();
                 }})
         );
@@ -282,7 +285,6 @@ const incomingCall = (message) => {
 
 
     function acceptCall() {
-        console.log(message);
         callbacks.setReceptionStatus(true);
         callbacks.setIsCallingStatus(true);
         callbacks.setChatToId(message.from);

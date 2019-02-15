@@ -8,6 +8,7 @@ import './style.css'
 import '../../icon/style.css'
 import YouTube from "react-youtube";
 import Spinner from "../Spinner";
+import Rate from "../Rate";
 
 class CoachProfile extends React.Component {
     state = {
@@ -65,7 +66,7 @@ class CoachProfile extends React.Component {
                             </div>
 
                             <div className="profile-coach-rate">
-                                <div className="profile-coach-rate-count">★★★★★{/*rate*/} <span className="profile-coach-rate-count-amount">({ratingsCount} оценок)</span></div>
+                                <div className="profile-coach-rate-count"><Rate disabled defaultValue={5}/><span className="profile-coach-rate-count-amount">({ratingsCount} оценок)</span></div>
                                 <div className="profile-coach-rate-info">
                                     <p>Предложение оценить препода в несколько строк</p>
                                 </div>
