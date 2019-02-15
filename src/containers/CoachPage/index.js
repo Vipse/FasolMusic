@@ -148,6 +148,12 @@ class CoachPage extends React.Component{
         this.setState({trainModal: {...this.state.trainModal, visible: false}})
     };
 
+    handleRateMaster = (rate) => {
+        const {auth, profileCoach: {id}} = this.props;
+
+        return this.props.onRateMaster(auth.id, id, rate);
+    };
+
     render() {
         const { id, avatar, name, aboutme, promovideo } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
@@ -178,6 +184,7 @@ class CoachPage extends React.Component{
                                     promoLink={promovideo}
                                     rate={5}
                                     ratingsCount={19}
+                                    onRateMaster={this.handleRateMaster}
                                 />
                             </Col>
                             <Col span={13} offset={32}>
@@ -232,7 +239,8 @@ const mapDispatchToProps = dispatch => {
         onOrderTrain: (obj) => dispatch(actions.createTraining(obj)),
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
-        onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription))
+        onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
+        onRateMaster: (idStudent, idMaster, rate) => dispatch(actions.rateMaster(idStudent, idMaster, rate)),
     }
 };
 

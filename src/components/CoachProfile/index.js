@@ -9,10 +9,13 @@ import '../../icon/style.css'
 import YouTube from "react-youtube";
 import Spinner from "../Spinner";
 import Rate from "../Rate";
+import {message} from "antd";
+import RateCoachModal from "../RateCoachModal";
 
 class CoachProfile extends React.Component {
     state = {
-        youtubeLoading: true
+        youtubeLoading: true,
+        rateModalVisible: false
     };
 
     convertLink = (link) => {
@@ -31,9 +34,22 @@ class CoachProfile extends React.Component {
         this.setState({youtubeLoading: false})
     };
 
+    handleRateMaster = (rate) => {
+        this.props.onRateMaster(rate)
+            .then((res) => {
+                console.log(res);
+                if (res && res.process) {
+                    message.success('Отзыв отправлен');
+                    this.setState({rateModalVisible: false});
+                }
+                else message.error('Ошибка при отправке отзыва', 5);
+            })
+            .catch(err => console.log(err));
+    };
+
     render() {
         const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink} = this.props;
-        const {youtubeLoading} = this.state;
+        const {youtubeLoading, rateModalVisible} = this.state;
         const youtubeOpts = {
             height: '360',
             width: '640',
@@ -66,10 +82,18 @@ class CoachProfile extends React.Component {
                             </div>
 
                             <div className="profile-coach-rate">
-                                <div className="profile-coach-rate-count"><Rate disabled defaultValue={5}/><span className="profile-coach-rate-count-amount">({ratingsCount} оценок)</span></div>
+                                <div className="profile-coach-rate-count">
+                                    <Rate disabled defaultValue={rate}/>
+                                <span className="profile-coach-rate-count-amount">({ratingsCount} оценок)</span></div>
                                 <div className="profile-coach-rate-info">
                                     <p>Предложение оценить препода в несколько строк</p>
                                 </div>
+                                <Button className="profile-coach-rate-btn"
+                                        onClick={() => this.setState({rateModalVisible: true})}
+                                        btnText='Оценить'
+                                        size='small'
+                                        type='yellow'
+                                />
                             </div>
                         </div>
                         <div className="profile-coach-comment">
@@ -83,6 +107,12 @@ class CoachProfile extends React.Component {
                                 onReady={this.youtubeReadyHandler}
                             />
                         </div>}
+                        <RateCoachModal
+                            visible={rateModalVisible}
+                            prevRate={3}
+                            onCancel={() => this.setState({rateModalVisible: false})}
+                            onSave={this.handleRateMaster}
+                        />
                     </div>
             </Card>
         )

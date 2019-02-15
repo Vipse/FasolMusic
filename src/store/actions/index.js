@@ -175,6 +175,7 @@ export {
     saveStudentMasterDisciplineCommunication,
     getUseFrozenTraining,
     editUseFrozenTraining,
+    rateMaster
 } from './student'
 
 export {
