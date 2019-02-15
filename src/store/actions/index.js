@@ -205,7 +205,8 @@ export {
 
 export {
     getFreeAndBusyMasterList,
-    getAllInfoMasters
+    getAllInfoMasters,
+    getReport
 } from './admin'
 
 
