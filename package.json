@@ -8,7 +8,6 @@
     "axios": "^0.17.1",
     "classnames": "^2.2.5",
     "date-arithmetic": "^3.1.0",
-    "detect-browser": "^3.0.1",
     "dom-helpers": "^3.3.1",
     "express": "^4.16.2",
     "fontmin-loader": "0.0.1",
@@ -59,16 +58,17 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.18",
-    "webpack": "^3.10.0",
+    "@storybook/addon-options": "^3.3.2",
+    "@storybook/react": "^3.2.18",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2016": "^6.24.1",
-    "@storybook/addon-options": "^3.3.2",
-    "@storybook/react": "^3.2.18",
+    "detect-browser": "^4.1.0",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "prop-types": "^15.6.0",
     "style-loader": "^0.19.1",
+    "webpack": "^3.10.0",
     "webpack-config": "^7.5.0"
   }
 }
