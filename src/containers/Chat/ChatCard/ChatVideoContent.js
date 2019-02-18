@@ -17,6 +17,7 @@ class ChatVideoContent extends React.Component {
 	constructor(props){
 		super(props);
 		this.isSafari = browser ? browser.name === 'safari' : true;
+		this.interlocutorVideo = null;
 	}
 
 	/*renderPlayer = () => {
@@ -35,6 +36,7 @@ class ChatVideoContent extends React.Component {
 			</div>
 		</Hoc>)
 	}*/
+
     componentWillReceiveProps(nextProps) {
 		const { id_treatment: next_id_treatment, 
 			receptionId: nextReceptionId, 
@@ -47,9 +49,11 @@ class ChatVideoContent extends React.Component {
 					this.videoIn && this.videoIn.play()
 				);
 	}
+
 	componentDidMount(){
 		this.isSafari && this.startPlayVideo(this.videoOut, this.videoOutPlayInterval);
 	}
+
 	startPlayVideo = (video, intervalVar) =>{
 		let promise;
 		this.videoOut && (promise = this.videoOut.play());
@@ -61,7 +65,8 @@ class ChatVideoContent extends React.Component {
 			console.log('Automatic playback was prevented!');
 			!intervalVar && (intervalVar = setInterval(this.startPlayVideo(video), 300))
 		})
-	}
+	};
+
 	componentWillUnmount(){
 		clearInterval(this.videoInPlayInterval);
 		clearInterval(this.videoOutPlayInterval);
@@ -79,14 +84,16 @@ class ChatVideoContent extends React.Component {
 	setVideoOutRef = (video) => {
 		this.isSafari && (this.videoOut = video);
 		video && this.props.setVideoOut(video);
-	}
+		this.interlocutorVideo = video;
+	};
+
 	setVideoInRef = (video) => {
 		this.isSafari && (
 			this.videoIn = video,
 			video && video.play()
 		);
 		video && this.props.setVideoIn(video);
-    }
+    };
 
 	renderVideos = () => (
 		<Hoc>
@@ -101,21 +108,27 @@ class ChatVideoContent extends React.Component {
 						id='setVideoInRef'
 			/>
 		</Hoc>
-	)
+	);
+
 	renderSafariVideos = () => (
 		<Hoc>
 			<video className='chat-card-video__box'
 						poster=''
 						playsInline
 						ref={this.setVideoOutRef}
-						></video>
+			/>
 			<video className='chat-card-video__mini'
 						playsInline
 						ref={this.setVideoInRef}
 						id='setVideoInRef'
-						></video>
+			/>
 		</Hoc>
-	)
+	);
+
+	onFullScreen = () => {
+		this.interlocutorVideo.requestFullscreen();
+	};
+
 	renderCallArea = () => {
 		const panelClass = cn('chat-card-video__panel', {'chat-card-video__panel-active': this.props.isActiveChat});
 
@@ -136,6 +149,7 @@ class ChatVideoContent extends React.Component {
                                 this.props.onCall();
                             }}
                             onChat = {this.props.onChat}
+							onFullScreen={this.onFullScreen}
                             uploadFiles={this.props.uploadFile}
                             sec={s}
                             min={m}
@@ -148,8 +162,7 @@ class ChatVideoContent extends React.Component {
 
 
 		</Hoc>)
-	}
-
+	};
 
     render() {
         const {isActiveFiles, isActiveChat, onVideoCallBegin, onVideoCallStop} = this.props;

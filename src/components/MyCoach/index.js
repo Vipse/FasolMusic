@@ -38,11 +38,9 @@ class MyCoach extends React.Component {
                 <Card title="Мои коучи"
                       extra={<a className="my-coaches-link"><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
-                    {loading ? <Spinner size='large'/> : <PerfectScrollbar className="my-coaches-scroll">
-                        {data.length ?
-                            this.coachItemsRender(data)
-                            : <div className='entry-list no-trainings'>Коучей нет</div>}
-                    </PerfectScrollbar>}
+                    {loading ? <Spinner size='large'/> : (data.length ?
+                        this.coachItemsRender(data)
+                        : <div className='entry-list no-trainings'>Коучей нет</div>)}
                 </Card>
             </div>
         )

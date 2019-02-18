@@ -1,41 +1,32 @@
-
 .lastTrainings {
   .ant-card-body {
     height: 485px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    overflow: hidden;
+    padding: 30px !important;
 
-    &:before, &:after {
-      display: none;
+    .spinner-wrapper {
+      margin-top: 20px;
     }
   }
-  &-scroll {
-    padding: 30px!important;
-  }
+
   &-link {
     font-family: RobotoRegularItalic, sans-serif;
     font-size: 14px;
-    color: #111
-  }
-  .ant-card-body {
-    justify-content: center;
-  }
-}
-
-.lastTrainings-link {
-  padding: 0 !important;
-  padding-right: 8px !important;
-  color: #000;
-  display: inline-flex;
-  flex-direction: row-reverse;
-
-  .icon {
-    margin: 0 10px;
+    padding: 0 !important;
+    padding-right: 8px !important;
     color: #000;
-    font-size: 24px !important;
-  }
-  span {
-    color: #000;
+    display: inline-flex;
+    flex-direction: row-reverse;
+
+    .icon {
+      margin: 0 10px;
+      color: #000;
+      font-size: 24px !important;
+    }
+    span {
+      color: #000;
+    }
   }
 }
