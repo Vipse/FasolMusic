@@ -110,7 +110,10 @@ class MainPage extends React.Component{
                 makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 				{...this.props}/>
 		) :
-			<AdminMain/>
+			<AdminMain
+				onGetReport={this.props.onGetReport}
+				reportLinks={this.props.reportLinks}
+			/>
     }
 }
 
@@ -143,6 +146,8 @@ const mapStateToProps = state => {
 		intervals: state.patients.intervals,
 		availableIntervals: state.profileDoctor.workIntervals,
 		userInfoShort: state.profilePatient,
+
+		reportLinks: state.admin.reportLinks
     }
 };
 
@@ -189,7 +194,9 @@ const mapDispatchToProps = dispatch => {
 		onGetFutureTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getFutureTrainerTraining(idMaster, dateMin, dateMax)),
 		onGetAllTrainingStudent: (idMaster, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idMaster, dateMin, dateMax)),
 		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
-		getSelectors: (name) => dispatch(actions.getSelectors(name))
+		getSelectors: (name) => dispatch(actions.getSelectors(name)),
+
+		onGetReport: (dateStart, dateEnd) => dispatch(actions.getReport(dateStart, dateEnd))
     }
 };
 

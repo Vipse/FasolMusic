@@ -2,6 +2,10 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
     masterList: [],
+    reportLinks: {
+        excelLink: '',
+        htmlLink: ''
+    }
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,7 +27,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 busytrainers: action.adminMasters,
             }
-            
+        case actionTypes.GET_REPORT_LINKS:
+            return {
+                ...state,
+                reportLinks: {
+                    excelLink: action.excelLink,
+                    htmlLink: action.htmlLink
+                }
+            }
         default: return state;
     }
 };

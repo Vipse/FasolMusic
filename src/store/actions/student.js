@@ -376,3 +376,21 @@ export const setMasterTheDisicipline = (idMaster) => {
         selectMaster: idMaster  
     });
 }
+
+export const rateMaster = (idStudent, idMaster, rate) => {
+    const obj = {
+        idStudent,
+        idMaster,
+        rating: rate
+    };
+
+    console.log(obj)
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/addRateToMaster', JSON.stringify(obj))
+            .then(res => {
+                //dispatch(updateRate)
+                return res;
+            })
+            .catch(err => {console.log(err)})
+    }
+};

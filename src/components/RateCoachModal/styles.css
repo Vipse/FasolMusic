@@ -1,0 +1,11 @@
+.RateCoachModal {
+  padding: 35px 30px;
+  text-align: center;
+}
+.RateCoachModal .info {
+  font-family: "RobotoMedium", serif;
+}
+.RateCoachModal .btnPlate {
+  display: flex;
+  justify-content: space-evenly;
+}

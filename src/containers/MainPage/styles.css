@@ -1,3 +1,21 @@
 .section {
   margin-bottom: 20px;
 }
+.admin-payload {
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  text-align: center;
+  font-family: RobotoMedium;
+}
+.admin-payload-btnPlate {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.admin-payload-btnPlate-link {
+  margin: 0 5px;
+}
+.admin-payload-btnPlate-link:hover {
+  text-decoration: none;
+}
