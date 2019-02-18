@@ -337,3 +337,10 @@
     transform: translateX(-50%);
 }
 
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+    display:none !important;
+}

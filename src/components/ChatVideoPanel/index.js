@@ -47,6 +47,17 @@ class ChatVideoPanel extends React.Component{
                             onClick={this.props.onChat}
                         />
                     </div>
+                    <div className="message__panel-full">
+                        <Button
+                            btnText=''
+                            size='small'
+                            type='no-brd'
+                            icon='search'
+                            iconSize={16}
+                            title='Во весь экран'
+                            onClick={this.props.onFullScreen}
+                        />
+                    </div>
                 </Hoc>
                 :
                 <Hoc>

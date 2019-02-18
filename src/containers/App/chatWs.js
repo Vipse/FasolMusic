@@ -49,7 +49,7 @@ export function createSocket(wsUrl,_props,_callbacks) {
     props = _props;
     callbacks = _callbacks;
     ws.onmessage = (message) => {
-        console.log("Onmessage", message)
+        console.log("Onmessage", message);
 
         let parsedMessage = JSON.parse(message.data);
         switch (parsedMessage.id){
@@ -165,6 +165,7 @@ export const register = (id1, id2, user_mode) => {
 }
 
 export const stop = (flag) => {
+    document.fullscreenElement && document.exitFullscreen && document.exitFullscreen();
     callbacks.setIsCallingStatus(false);
     clearInterval(timerInterval);
     callbacks.setNewTimer({
