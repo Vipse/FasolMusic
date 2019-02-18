@@ -30,7 +30,8 @@ class ChatCard extends React.Component {
             isActiveFiles: false,
 			isActiveChat: true,
 			isCurTrainingEnd: true,
-			completionModalVisible: false
+			completionModalVisible: false,
+			showEndDescriptionModal: false
 		}
 	}
 
@@ -40,7 +41,7 @@ class ChatCard extends React.Component {
 		if (idTraining) {
 			if (user_mode === "student") {
 				!isComplete && isTrial && this.trialInfoModal();
-				if (!trainingStarts && moment() < moment(beginTime)) this.notBeganModal();
+				if (!isComplete && !trainingStarts && moment() < moment(beginTime)) this.notBeganModal();
 			}
 
 			if (!isComplete) {
@@ -57,8 +58,10 @@ class ChatCard extends React.Component {
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
     	if (prevProps.trainingStarts !== this.props.trainingStarts && !this.props.trainingStarts
-		&& this.props.isStudent && this.props.isTrial)
-			this.finishedTrialModal();
+		&& this.props.isStudent) {
+			if (this.props.isTrial) this.finishedTrialModal();
+			else this.setState({showEndDescriptionModal: true});
+		}
 	}
 
 	componentWillUnmount() {
@@ -108,18 +111,10 @@ class ChatCard extends React.Component {
 	};
 
 	startTrainingHandler = () => {
-		// if(this.props.appShouldStartAt > +moment().format("X")+300) {
-		// 	message.error("Приём можно начать за 5 минут до указанного времени")
-		// 	return;
-		// }
-
 		startReception();
 	};
 
 	onCall = () => {
-        // if(this.props.appShouldStartAt > +moment().format("X")+300) {
-        //     return;
-        // }
 		call();
 	};
 
@@ -138,19 +133,13 @@ class ChatCard extends React.Component {
 		messAboutStop();
 		stop();
 
-		if (markAs === 'complete') {
-			this.props.completeTraining({idTraining});
-
-			messForCloseReception(idTraining);
-			this.props.changeTrainingStatus(false);
-			this.setState({isCurTrainingEnd: true});
-		}
-		else if (markAs === 'transfer') {
-			this.props.tailTraining({idTraining});
-			messForCloseReception(idTraining);
-			this.props.changeTrainingStatus(false);
-			this.setState({isCurTrainingEnd: true});
-		}
+		(markAs === 'complete' ? this.props.completeTraining({idTraining}) : this.props.tailTraining({idTraining}))
+			.then(res => {
+				console.log(res);
+				messForCloseReception(idTraining, markAs);
+				this.props.changeTrainingStatus(false);
+				this.setState({isCurTrainingEnd: true});
+			});
 
 		this.setState({completionModalVisible: false});
 	};
@@ -220,9 +209,11 @@ class ChatCard extends React.Component {
 			onBegin: this.startTrainingHandler,
 			trainingStarts: this.props.trainingStarts,
 			user_mode: this.props.user_mode,
+			interlocutorAvatar: this.props.interlocutorAvatar,
 			//uploadFile: this.uploadOnlyFile(this.props.idTraining, this.props.isUser ? this.props.callerID: this.props.calledID, fileUploadCallback),
 			idTraining: this.props.idTraining,
 			isCurTrainingEnd: this.props.isCurTrainingEnd,
+			showEndDescription: this.state.showEndDescriptionModal,
 			isActiveFiles: this.state.isActiveFiles,
 			isStudent: this.props.isStudent,
 			isComplete: this.props.isComplete
@@ -270,9 +261,9 @@ class ChatCard extends React.Component {
 								type='go'
 								onClick={this.handleChangeType}
 							/>
-							<div className='chat-card-avatarPatient'><ProfileAvatar img={interlocutorAvatar}
+							<div className='chat-card-title-avatar'><ProfileAvatar img={interlocutorAvatar}
 																					size='small'/></div>
-							<div className='chat-card-namePatient'>{interlocutorName}</div>
+							<div className='chat-card-title-name'>{interlocutorName}</div>
 							{/*<div className={statusClass}>{online}</div>*/}
 						</div>
 						<div className='chat-card-btns'>
@@ -308,7 +299,6 @@ class ChatCard extends React.Component {
 				</div>
 				<CompletionTrainingModal
 					visible={this.state.completionModalVisible}
-					onPause={this.onCloseTraining}
 					onComplete={() => this.onCloseTraining('complete')}
 					onTail={() => this.onCloseTraining('transfer')}
 					onCancel={() => this.setState({completionModalVisible: false})}

@@ -9,6 +9,7 @@ import ChatMessage from "../../../components/ChatMessage";
 import ChatComments from "../../../components/ChatComments";
 
 import './style.css'
+import {Modal} from "antd";
 
 class ChatContent extends React.Component {
     constructor(props) {
@@ -24,17 +25,32 @@ class ChatContent extends React.Component {
 
 
     scrollToBottom = () => {
-        this.scrollarea.scrollTop = this.scrollarea.scrollHeight - this.scrollarea.clientHeight ;
+        this.scrollarea.scrollTop = this.scrollarea.scrollHeight - this.scrollarea.clientHeight;
     };
 
     componentDidMount() {
       this.scrollToBottom();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {data, showEndDescription} = this.props;
         this.scrollToBottom();
+
+        if (showEndDescription && prevProps.data !== data && data.length) {
+            const lastMsg = data[data.length - 1];
+            
+            if (lastMsg && lastMsg.isVisEnd)
+                this.showEndDescriptionModal(lastMsg.endType);
+        }
     }
 
+    showEndDescriptionModal = (endType) => {
+        Modal.info({
+            title: 'Тренировка ' + (endType === 'transfer' ? 'перенесена' : 'завершена'),
+            width: '500px',
+            className: 'fast-modal'
+        });
+    };
 
     render() {
         const {loadingChatStory} = this.props;
@@ -63,7 +79,7 @@ class ChatContent extends React.Component {
                                 const messProps = +e.from === +this.props.from
                                     ? {isMy: true,}
                                     : {
-                                        img: this.props.avatar,
+                                        img: this.props.interlocutorAvatar,
                                         online: this.props.online,
                                     }
                                 return (<ChatMessage

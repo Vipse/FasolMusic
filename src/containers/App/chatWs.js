@@ -442,12 +442,12 @@ export const messAboutStop = () => {
     }
 }
 
-export const messForCloseReception = (receptionId) => {
+export const messForCloseReception = (receptionId, endType) => {
     sendMessage({
         id : 'closeReception',
         name: callbacks.get_from(),
         other_name: callbacks.get_to(),
-        receptionId,
+        receptionId
     });
     sendMessage({
         id : 'chat',
@@ -455,6 +455,7 @@ export const messForCloseReception = (receptionId) => {
         to: callbacks.get_to(),
         date: Math.ceil(Date.now()/1000),
         isVisEnd: true,
+        endType
     });
 }
 

@@ -23,6 +23,17 @@
     padding-left: 25px
 }
 
+.chat-card-title-name {
+    font-size: 18px;
+    color: #fff;
+    margin-right: 35px;
+    line-height: 1
+}
+
+.chat-card-title-avatar {
+    margin-right: 25px;
+}
+
 .chat-card-title .btn {
     margin-right: 25px;
     padding: 0;
@@ -105,13 +116,6 @@
 
 .chat-card-archive .btn:hover .icon {
     color: #ff7daa;
-}
-
-.chat-card-namePatient {
-    font-size: 18px;
-    color: #fff;
-    margin-right: 35px;
-    line-height: 1
 }
 
 .chat-card-status {
