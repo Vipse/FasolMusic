@@ -1,15 +1,14 @@
 .my-students .ant-card-body {
   height: 485px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  overflow: hidden;
+  padding: 30px !important;
+}
+.my-students .ant-card-body .spinner-wrapper {
+  margin-top: 20px;
 }
 .my-students .ant-card-body:before,
 .my-students .ant-card-body:after {
   display: none;
-}
-.my-students-scroll {
-  padding: 30px!important;
 }
 .my-students-link {
   font-family: RobotoRegularItalic, sans-serif;
@@ -27,7 +26,4 @@
 }
 .my-students-link span {
   color: #000;
-}
-.my-students .ant-card-body {
-  justify-content: center;
 }

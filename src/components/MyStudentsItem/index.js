@@ -40,6 +40,7 @@ class MyStudentsItem extends React.Component{
                         <Button
                             btnText="Открыть чат"
                             type="border-green"
+                            size='small'
                             onClick={() => goToChat(id)}
                         />
                     </div>

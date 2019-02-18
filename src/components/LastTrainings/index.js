@@ -38,12 +38,12 @@ class LastTrainings extends React.Component {
         return (
             <div className='lastTrainings'>
                 <Card title="Последние тренировки"
-                      extra={<a className="lastTrainings-link" onClick={openLastTrains}><Icon type="circle_arrow_right"/>
+                      extra={<a className="lastTrainings-link" onClick={openLastTrains}><Icon
+                          type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
-                    {loading ? <Spinner size='large'/> : <PerfectScrollbar className="lastTrainings-scroll">
-                    {data && data.length ? this.studentsRender(data) :
-                        <div className='entry-list no-trainings'>Тренировок ещё не было</div>}
-                    </PerfectScrollbar>}
+                    {loading ? <Spinner size='large'/> :
+                        (data && data.length ? this.studentsRender(data) :
+                            <div className='entry-list no-trainings'>Тренировок ещё не было</div>)}
                 </Card>
             </div>
         )

@@ -1,16 +1,16 @@
 .my-coaches {
   .ant-card-body {
     height: 485px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    overflow: hidden;
+    padding: 30px !important;
+
+    .spinner-wrapper {
+      margin-top: 20px;
+    }
 
     &:before, &:after {
       display: none;
     }
-  }
-  &-scroll {
-    padding: 30px!important;
   }
   &-link {
     font-family: RobotoRegularItalic, sans-serif;
@@ -29,8 +29,5 @@
     span {
       color: #000;
     }
-  }
-  .ant-card-body {
-    justify-content: center;
   }
 }
