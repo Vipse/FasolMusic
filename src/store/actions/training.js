@@ -177,9 +177,9 @@ export const getTrainingChatHistory = (idTraining) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/getChatByTrainingId', JSON.stringify(obj))
             .then(res => {
-                if (res && !res.error) dispatch(setChatStory(res.data.result));
                 console.log("getChatByTrainingId", res);
-                return res.data.result;
+                if (res && !res.error) dispatch(setChatStory([...res.data.result]));
+                return res;
             })
             .catch(err => console.log(err));
     }

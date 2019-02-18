@@ -87,7 +87,7 @@ class ChatCard extends React.Component {
 			content: 'Тренировка пока еще не началась, нужно подождать до ' +
 				moment(this.props.beginTime).format('HH:mm DD MMM') + ' Как только начнется тренировка ' +
 				'коуч сам вам позвонит и не забудьте принять вызов! :) Но вы всегда можете написать ему в чат :)',
-			maskClosable: true,
+			maskClosable: false,
 			okText: 'Хорошо',
 			cancelText: 'Вернуться к списку',
 			onCancel: this.props.onExitTraining
@@ -214,6 +214,7 @@ class ChatCard extends React.Component {
 			to: this.props.calledID,
 			online: this.props.online,
 			chatStory: [...this.state.chat, ...this.props.chatStory],
+			loadingChatStory: this.props.loadingChatStory,
 			sendMessage: sendMessage,
 			onEnd: this.beforeCloseTraining,
 			onBegin: this.startTrainingHandler,

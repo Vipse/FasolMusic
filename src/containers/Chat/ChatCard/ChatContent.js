@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 
-import ScrollArea from "react-scrollbar"
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import Button from "../../../components/Button";
+import Spinner from "../../../components/Spinner";
 import ChatSend from "../../../components/ChatSend";
 import ChatMessage from "../../../components/ChatMessage";
 import ChatComments from "../../../components/ChatComments";
@@ -19,7 +18,8 @@ class ChatContent extends React.Component {
     shouldComponentUpdate(nextProps) {
         return this.props.data.length !== nextProps.data.length
             || this.props.trainingStarts !== nextProps.trainingStarts
-            || (this.props.isActiveChat !== nextProps.isActiveChat && this.props.isActiveChat === false);
+            || (this.props.isActiveChat !== nextProps.isActiveChat && this.props.isActiveChat === false)
+            || (this.props.loadingChatStory !== nextProps.loadingChatStory);
     }
 
 
@@ -37,6 +37,7 @@ class ChatContent extends React.Component {
 
 
     render() {
+        const {loadingChatStory} = this.props;
         const dialogsClass = cn('chat-card-dialogs', {'chat-card-dialogs-active': this.props.isActive});
 
         let scrlClname = this.props.chatMode ==="chat" ? "text_mode" : "media_mode";
@@ -57,7 +58,7 @@ class ChatContent extends React.Component {
                         className={scrlClname}
                         containerRef={(ref)=> this.scrollarea=ref}
                     >
-                        {
+                        {loadingChatStory ? <Spinner/> :
                             this.props.data.map((e, i) => {
                                 const messProps = +e.from === +this.props.from
                                     ? {isMy: true,}
