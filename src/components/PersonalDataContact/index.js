@@ -12,11 +12,9 @@ import ProfileAvatar from "../ProfileAvatar";
 import InputNew from "../InputNew";
 import SelectNew from "../SelectNew";
 import SocialAuth from "../SocialAuth";
+import {getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
-
-const countryArr = ['Беларусь', 'Россия', 'Украина', 'Казахстан', 'Молдавия', 'Узбекистан',
-    'Азербайджан', 'Таджикистан', 'Туркменистан', 'Кыргызстан', 'Армения', 'Другое'];
 
 class PersonalDataContact extends React.Component {
     constructor() {
@@ -49,7 +47,7 @@ class PersonalDataContact extends React.Component {
 
     render() {
         const {getFieldDecorator, isStudent} = this.props;
-        const {onChangeSocial, showChangePasswordModal, showSendSuggestionsModal} = this.props;
+        const {countriesList, onChangeSocial, showChangePasswordModal, showSendSuggestionsModal} = this.props;
         const {name, phones, email, country, avatar, facebooklink, googlelink, id} = this.props.profile;
         const rootClass = cn('coach-data-block');
 
@@ -120,7 +118,7 @@ class PersonalDataContact extends React.Component {
                     </FormItem>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('country', {
-                            initialValue: country,
+                            initialValue: getNamesFromObjArr(country),
                             rules: [{
                                 required: true,
                                 message: 'Введите страну пребывания, пожалуйста'
@@ -129,7 +127,7 @@ class PersonalDataContact extends React.Component {
                             <SelectNew
                                 width="100%"
                                 bubbleplaceholder="*Страна пребывания"
-                                data={countryArr}/>
+                                data={countriesList}/>
                         )}
                     </FormItem>
                 </div>

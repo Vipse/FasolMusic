@@ -23,6 +23,7 @@ class CreateProfile extends React.Component{
                                            onSubmit={(data) => this.setState({...data})}
                                            interestsList={getSelectorValues(state.selectorsValues.interestsList)}
                                            professionsList={getSelectorValues(state.selectorsValues.professionsList)}
+                                           countriesList={getSelectorValues(state.selectorsValues.countriesList)}
                                            uploadFile={this.props.uploadFile}
                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                             //uploadFile={this.props.uploadFile}
@@ -36,6 +37,7 @@ class CreateProfile extends React.Component{
                                            disciplineObj={state.selectorsValues.disciplineList}
                                            goalList={getSelectorValues(state.selectorsValues.goalList)}
                                            stylesList={getSelectorValues(state.selectorsValues.stylesList)}
+                                           musicalExperienceList={getSelectorValues(state.selectorsValues.musicalExperienceList)}
                 />,
             },
             {
@@ -63,7 +65,8 @@ class CreateProfile extends React.Component{
 
     componentDidMount() {
         const {getSelectors} = this.props;
-        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
+        const selectorsNames = ['interests', 'goal', 'discipline', 'qualities',
+            'styles', 'professions', 'day', 'musicalExperience', 'countries'];
 
         selectorsNames.forEach((name) => {
             getSelectors(name)

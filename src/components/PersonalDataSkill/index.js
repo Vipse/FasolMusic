@@ -31,7 +31,6 @@ class PersonalDataSkill extends React.Component {
             if (prevProps.profile.disciplines.length !== this.props.profile.disciplines.length)
                 this.setState({addedNums: []});
         }
-           
     }
 
     addDiscipline = (num) => {
@@ -46,7 +45,7 @@ class PersonalDataSkill extends React.Component {
     deleteDiscipline = (num) => {
         const { form } = this.props;
         const { addedNums } = this.state;
-        const fieldsName = ['disciplines', 'specialization', 'level', 'experience', 'musicstyles', 'favoritesingers', 'goals', 'receptions'];
+        const fieldsName = ['disciplines', 'specialization', 'level', 'experiense', 'musicstyles', 'favoritesingers', 'goals', 'receptions'];
 
         fieldsName.forEach((key) => form.resetFields([key + '-' + [num]]));
         addedNums.splice(addedNums.indexOf(num), 1);
@@ -54,7 +53,7 @@ class PersonalDataSkill extends React.Component {
     };
 
     generateDisciplineItem = (number, data = {}) => {
-        const {form, isStudent, disciplineObj, goalList, stylesList} = this.props;
+        const {form, isStudent, disciplineObj, goalList, stylesList, musicalExperienceList} = this.props;
         const {getFieldDecorator} = form;
         const {discipline, specialization, level, experiense, receptions, goals, musicstyles, favoritesingers} = data;
         const length = this.props.profile.disciplines ? this.props.profile.disciplines.length : 0;
@@ -90,7 +89,7 @@ class PersonalDataSkill extends React.Component {
                     <SelectNew width="100%"
                                bubbleplaceholder="Дисциплина"
                                data={getSelectorValues(disciplineObj)}
-                               onChange={() => resetFields(['specialization', 'receptions'])}
+                               onChange={() => resetFields(['specialization', 'receptions', 'level'])}
                     />
                 )}
             </FormItem>
@@ -111,24 +110,30 @@ class PersonalDataSkill extends React.Component {
             </FormItem>
             <FormItem className="input-form-item">
                 {getFieldDecorator('level-' + number, {
-                    initialValue: level,
+                    initialValue: getNameFromObjArr(level),
                     rules: [{
                         required: true,
                         message: 'Введите уровень подготовки, пожалуйста'
                     }],
                 })(
-                    <InputNew width="100%" bubbleplaceholder="Уровень подготовки"/>
+                    <SelectNew width="100%"
+                               bubbleplaceholder="Уровень подготовки"
+                               data={getSelectorNestedValues(disciplineObj, [form.getFieldValue('discipline-' + number)], false, '2')}
+                    />
                 )}
             </FormItem>
             <FormItem className="input-form-item">
-                {getFieldDecorator('experience-' + number, {
-                    initialValue: experiense,
+                {getFieldDecorator('experiense-' + number, {
+                    initialValue: getNameFromObjArr(experiense),
                     rules: [{
                         required: true,
                         message: 'Введите опыт занятия, пожалуйста'
                     }],
                 })(
-                    <InputNew width="100%" bubbleplaceholder="Опыт занятия"/>
+                    <SelectNew width="100%"
+                               bubbleplaceholder="Опыт занятия"
+                               data={musicalExperienceList}
+                    />
                 )}
             </FormItem>
             <FormItem className="input-form-item">
