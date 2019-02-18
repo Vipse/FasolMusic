@@ -27,6 +27,14 @@ const reducer = (state = initialState, action) => {
             }
         case actionTypes.AUTH_SUCCESS:
             console.log("AUTH_SUCCESS")
+            
+            cookie.remove('_fasol-id');
+            cookie.remove('_fasol-mode');
+
+            cookie.save('_fasol-id',action.id);
+            cookie.save('_fasol-mode',action.usergroup);
+
+            debugger
             return {
                 ...state,
                 id: action.id,

@@ -37,8 +37,8 @@ class Header extends React.Component {
 
         const {disciplinesList, discCommunication, useFrozenTraining, subsForDisc, abonementIntervals, id} = this.props;
         let array = [];
-        const time0 = moment(Date.now()).startOf('week').format('X');
-        const time1 = moment(Date.now()).endOf('week').add(1,'weeks').format('X');
+        const time0 = moment(Date.now()).format('X');
+        const time1 = moment(Date.now()).add(1,'weeks').format('X');
         const codeDisc = disciplinesList[data.type].code;
         this.props.showSpinner();
       
@@ -86,8 +86,8 @@ class Header extends React.Component {
         const {disciplinesList, id} = this.props;
         const {type} = data;
 
-        const time0 = moment(Date.now()).startOf('week').format('X');
-        const time1 = moment(Date.now()).endOf('week').add(1,'weeks').format('X');
+        const time0 = moment(Date.now()).format('X');
+        const time1 = moment(Date.now()).add(3,'d').format('X');
 
         this.props.showSpinner();
         
@@ -131,6 +131,11 @@ class Header extends React.Component {
             useFrozenTraining
         } = this.props;
 
+        let showTrialModal = false;
+        for(let el in trialTrainingForDisciplines){
+            if(trialTrainingForDisciplines[el] === false) showTrialModal = true
+        }
+
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -145,7 +150,7 @@ class Header extends React.Component {
                     <React.Fragment>
                         <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>
-                            {isTrialTrainingsAvailable && <Button
+                            {isTrialTrainingsAvailable && showTrialModal && <Button
                                 btnText='ПРОБНАЯ ТРЕНИРОВКА'
                                 size='default'
                                 type='border-pink'

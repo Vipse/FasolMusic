@@ -428,7 +428,7 @@ class Schedule extends React.Component {
         const max = subs.length;
         const curWeek = moment( start.getTime() ).week(); // текущая неделя
         
-
+debugger
         for(let i = 0; i < max; i++){
           
             if(subs[i].idSubscription === idSubscription) {
@@ -498,7 +498,7 @@ class Schedule extends React.Component {
         const time1 = moment(Date.now()).endOf('week').format('X');
         const codeDisc = this.props.disciplines[data.type].code;
 
-        for(let i = 0; i < 7; i++){
+        for(let i = 0; i < 6; i++){
             if(data.selectedDays.hasOwnProperty(i)){
                 weekdays.push(i + 1)
             }

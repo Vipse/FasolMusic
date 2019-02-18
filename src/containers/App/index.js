@@ -304,7 +304,7 @@ class App extends React.Component {
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
                                             isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
                                             onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
-
+                                            
                                             onSetFreeIntervals = {this.props.onSetFreeIntervals}
                                             onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
                                             onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
