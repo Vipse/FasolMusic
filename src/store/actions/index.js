@@ -116,7 +116,8 @@ export {
     getSelectors,
     searchUsers,
     getNotifications,
-    readNotification
+    readNotification,
+    getPromoList
 } from './loading'
 
 export {
@@ -185,7 +186,6 @@ export {
     getPostTrainerTraining,
     getFutureTrainerTraining,
     getTodayTrainerTraining,
-    
 } from './trainer'
 
 

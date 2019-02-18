@@ -7,30 +7,20 @@ import '../../icon/style.css'
 import Card from "antd/es/card";
 import InputNew from "../InputNew";
 import inviteFriendsPic from "../../img/inviteFriendsPic.png";
+import moment from "moment";
+import Spinner from "../Spinner";
 
-class BonusPageCoach extends React.Component{
+class BonusPageCoach extends React.Component {
 
-    constructor() {
-        super();
-        this.state = {
-            bankCard: {
-                linked: true
-            },
-            yandexMoney: {
-                linked: false
-            },
-            modalVisible: false
-        };
-    }
-
-    handleLinkStatus = (e, method) => {
-        e.preventDefault();
-        this.setState({
-            [method]: {
-                linked: !this.state[method].linked
-            }
-        });
+    state = {
+        loadingPromo: true
     };
+
+    componentDidMount() {
+        this.props.onGetPromoList()
+            .then(res => this.setState({loadingPromo: false}))
+            .catch(err => console.log(err));
+    }
 
     copyLink = (e) => {
         const textField = document.createElement('textarea');
@@ -43,184 +33,38 @@ class BonusPageCoach extends React.Component{
         }
     };
 
-    renderInput = (type) => {
-      return (
-          <div className="payment-method-field">
-              <InputNew className="payment-method-field-input" bubbleplaceholder="Номер карты"/>
-              <div className="payment-method-field-btnPlate">
-                  <Button className="payment-method-field-btnPlate-remove"
-                          icon="close"
-                          onClick={(e) => this.handleLinkStatus(e, type)}
-                          size='small'
-                          type='link'
-                  />
-                  <Button className="payment-method-field-btnPlate-edit"
-                          icon="setting_edit"
-                          onClick={() => this.setState({modalVisible: true})}
-                          size='small'
-                          type='link'
-                  />
-              </div>
-          </div>);
+    renderPromoItem = (promoItem) => {
+        const {news_date, header, news_short, news_long, id} = promoItem;
+        return (<div className="offers-item" key={id}>
+            <div className='offers-item-header'>
+                <div className="date">
+                    <div className="day">{moment(+news_date * 1000).format('DD MMM')}</div>
+                    <div className="year">{moment(+news_date * 1000).format('YYYY')}</div>
+                </div>
+                <div className="title">
+                    {header}
+                </div>
+            </div>
+            <div className="offers-item-body">
+                <div className="info">
+                    {news_short}
+                </div>
+                <div className="link" onClick={() => {console.log('open promo ' + id)}}>Подробнее</div>
+            </div>
+        </div>);
     };
 
     render() {
+        const {promoList} = this.props;
+        const {loadingPromo} = this.state;
+
         return (
             <div className="bonus-coach">
                 <Card className="offers" title="Акции">
-                    <PerfectScrollbar>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">24 дек</div>
-                                    <div className="year">2017</div>
-                                </div>
-                                <div className="title">
-                                    Заголовок статьи
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur est facilis laudantium necessitatibus odio porro quaerat suscipit. Adipisci, mollitia.</div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-
-                    </PerfectScrollbar>
+                    {loadingPromo ? <Spinner/> :
+                        promoList && promoList.length ? <PerfectScrollbar>
+                            {promoList.map((promoItem) => this.renderPromoItem(promoItem))}
+                        </PerfectScrollbar> : <div className='entry-list no-trainings'>Акций нет</div>}
                 </Card>
                 <Card className="second-subscription" title="Заголовок карточки">
                     <div className="second-subscription-container">
