@@ -144,6 +144,44 @@ export const getFutureTrialTraining = (idStudent, discipline) => {
 }
 
 
+export const getCountTrainingByDiscipline = (idStudent, discipline) => {
+      
+    const obj = {
+        idStudent,
+        discipline: String(discipline)
+    };
+    return dispatch => {
+        axios.post('/catalog.fasol/allTrainingByDiscipline', JSON.stringify(obj))
+            .then(res => {
+               
+                dispatch({
+                    type: actionTypes.GET_COUNT_TRAINING_BY_DISCIPLINE,
+                    countTrainingDiscipline: res.data.balance,
+                })
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
+
+export const removeTrialTraining = (idTraining) => {
+
+    return dispatch => {
+        return axios.post('/catalog.fasol/removeTrialTraining', JSON.stringify({idTraining}))
+            .then(res => {
+               
+                console.log('res', res)
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
+
+
+
+
 export const unauthorizedTrialDataSave = (data) => {
     return (dispatch) => {
         dispatch({

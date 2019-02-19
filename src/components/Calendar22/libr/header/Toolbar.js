@@ -63,7 +63,7 @@ class Toolbar extends React.Component {
                onClickPrev={this.navigate.bind(null, navigate.PREVIOUS)}/>
 
         <span className="rbc-toolbar-label">{label}</span>
-        <span className="rbc-toolbar-receptionCount">{receptionNum}</span>
+        <span className="rbc-toolbar-receptionCount">{this.props.countTrainingDiscipline}</span>
 
 
         <div  className="rbc-toolbar-discipline">

@@ -136,6 +136,7 @@ class TimeSlotGroup extends Component {
                   mode = {mode}
                   onGotoPage = {onGotoPage}
                   isPushBtnTransfer = {isPushBtnTransfer}
+                  deleteTraining = {this.props.deleteTraining}
                  
             />)
           }

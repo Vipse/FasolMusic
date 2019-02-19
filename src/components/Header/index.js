@@ -52,7 +52,6 @@ class Header extends React.Component {
             this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining);
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);
             this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0})
-                .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
 
             message.success('Количество добавленных тренировок '+ useFrozenTraining);    
         }

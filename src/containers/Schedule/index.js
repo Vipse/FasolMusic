@@ -64,6 +64,7 @@ class Schedule extends React.Component {
             theMasterSelect: false,
             notRedirectDiscipline: false,
             scheduleSpinner: false,
+            modalRemoveTrialTraining: false,
         }
     };
 
@@ -88,8 +89,13 @@ class Schedule extends React.Component {
               
     }
 
-    showTransferEvent = (id) => { // нажатие на крестик
-        this.deleteId = id;
+    deleteTraining = (idTraining) => { // нажатие на крестик
+        const {id, currDiscipline} = this.props;
+        this.deleteIdTraining = idTraining;
+
+        debugger
+        
+        this.setState({modalRemoveTrialTraining: true});
     }
 
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
@@ -431,46 +437,49 @@ class Schedule extends React.Component {
 debugger
         for(let i = 0; i < max; i++){
           
-            if(subs[i].idSubscription === idSubscription) {
-                scheduleForWeek.dateStart = subs[i].dateStart;
-                scheduleForWeek.idSubscription = subs[i].idSubscription;
-                scheduleForWeek.idStudent = id;//subs[i].idStudent;
-                scheduleForWeek.discipline = subs[i].discipline;
-
                 let item = subs[i];
 
-                const start = moment(+item.start * 1000);
-                const weekElem = start.week(); // номер недели
+
+                const weekElem =  moment(item.start.getTime()).week(); // номер недели
                        
 
-                        if (curWeek === weekElem) {
+                if (curWeek === weekElem && !item.trial) {
+                    console.log('this.delEvent', this.delEvent)
+                    console.log('trainingtime', trainingtime)
 
-                           if( item.id === this.delEvent.event.id){
-                                    const weekDay =  new Date(this.transferDay.dateStart * 1000).getDay(); // номер дня в неделе ( переносимое занятие)
+                    if( item.id === this.delEvent.event.id ){
+                        const weekDay =  new Date(this.transferDay.dateStart * 1000).getDay(); // номер дня в неделе ( переносимое занятие)
 
-                                    if(!trainingtime.hasOwnProperty(weekDay)){
-                                        trainingtime[weekDay] = [];
-                                    }
-                                    trainingtime[weekDay].push({id: item.id, start: this.transferDay.dateStart })   
-                           }
-                           else{
-                                    const weekDay =  new Date(item.start * 1000).getDay();
-                                    if(!trainingtime.hasOwnProperty(weekDay)){
-                                        trainingtime[weekDay] = [];
-                                    }
-                                    trainingtime[weekDay].push({id: item.id, start: item.start })
-                           }        
-                        }                    
-                
-                scheduleForWeek.trainingtime = trainingtime;
-                break;                
-            }           
+                        if(!trainingtime.hasOwnProperty(weekDay)){
+                            trainingtime[weekDay] = [];
+                         }
+                        trainingtime[weekDay].push({id: item.id, start: this.transferDay.dateStart })   
+                    }
+                    else{
+                        const weekDay =  item.start.getDay();
+                        if(!trainingtime.hasOwnProperty(weekDay)){
+                            trainingtime[weekDay] = [];
+                        }
+                        trainingtime[weekDay].push({id: item.id, start: item.dateStart })
+                    }  
+                    
+                    if(!scheduleForWeek.dateStart){
+                        scheduleForWeek.dateStart = subs[i].dateStart;
+                        scheduleForWeek.idSubscription = subs[i].idSubscription;
+                        scheduleForWeek.idStudent = id;
+                        scheduleForWeek.amount = subs[i].amount;
+                    }
+                         
+                    
+                }                                                    
         }
 
+        scheduleForWeek.trainingtime = trainingtime;
         this.setState({modalTransferTraining: false});   
 
+        debugger
         console.log('scheduleForWeek :', scheduleForWeek);
-        this.props.onChangeSubscription(scheduleForWeek, this.props.amountTraining)
+        this.props.onChangeSubscription(scheduleForWeek)
             .then(() => this.props.onGetAbonementsFilter(id, currDiscipline));
     }
 
@@ -553,13 +562,15 @@ debugger
         }
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline);
-        }       
+        }    
+        
     }
 
     componentDidUpdate() {
         const{id, currDiscipline} = this.props;
 
         this.props.onGetFutureTrialTraining(id, currDiscipline)
+        this.props.onGetCountTrainingByDiscipline(id, currDiscipline.code);
     }
 
     componentWillUnmount() {
@@ -628,11 +639,9 @@ debugger
             const dateStart = Math.floor(+start.getTime() / 1000);
             const dateEnd = Math.floor(+end.getTime() / 1000);
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
-                .then(() => {
-                    this.setState({scheduleSpinner: false})
-                });
         }
         if(mode === 'master' || mode === 'student'){
+            
             this.props.onGetAbonementsFilter(id, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
@@ -656,16 +665,16 @@ debugger
     changeCurrDiscipline = (disc) => {
         const {start, end} = this.state.isEditorMode;
         const {currDiscipline, id, mode} = this.props;
-
+        debugger
         if(mode === 'student'){
            // this.props.onGetAbonementsFilter(id, currDiscipline); 
         }
         else if(mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, disc);
         }
-        
+        debugger
         this.props.onChangeCurrDiscipline(disc)
-
+        
     }
     onAddVisit = (info) => {
         this.props.patients.length === 0 ?
@@ -776,7 +785,16 @@ debugger
 	}
 
     render() {
-        const {abonementIntervals, trainerList, masterList, allAbonements, id, currDiscipline, isPushBtnTransfer, isPushBtnAdd,isPushBtnTrialTraining} = this.props;
+        const {
+            abonementIntervals, 
+            trainerList, 
+            masterList, 
+            allAbonements, 
+            id, 
+            currDiscipline, 
+            isPushBtnTransfer,
+            isPushBtnAdd,
+            isPushBtnTrialTraining} = this.props;
        
         let isNeedSaveIntervals = false
         if(abonementIntervals){
@@ -890,6 +908,7 @@ debugger
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {this.changeCurrDiscipline} 
                                   scheduleSpinner = {this.state.scheduleSpinner}
+                                  countTrainingDiscipline = {this.props.countTrainingDiscipline}
                                 
                                 onGotoPage= { (id) => this.props.history.push('/app/student' + id)}
 
@@ -985,7 +1004,7 @@ debugger
                                   onChange={this.dateChangeHandler}
                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
 
-                                  showTransferEvent={this.showTransferEvent} // my
+                                  deleteTraining={this.deleteTraining} // my
                                   freeTrainers={this.props.fullInfoMasters} //my
                                   showModalTransferEvent={this.showModalTransferEvent}
                                   setChoosenTrainer={this.setChoosenTrainer}
@@ -998,6 +1017,8 @@ debugger
                                   onCancelTraining = {this.onCancelTraining}
                                   trainerTraining = {this.props.trainerTraining}
                                   scheduleSpinner = {this.state.scheduleSpinner}
+                                  countTrainingDiscipline = {this.props.countTrainingDiscipline}
+                                  onRemoveTrialTraining = {this.props.onRemoveTrialTraining}
 
             />)
         }
@@ -1057,7 +1078,26 @@ debugger
                         </div>
                 </Modal>
 
-                
+                <Modal 
+                    title='Сообщение'
+                    visible={this.state.modalRemoveTrialTraining}
+                    onCancel={() => this.setState({modalRemoveTrialTraining : false})}
+                    width={360}
+                    className="schedule-message-modal-wrapper"
+                >
+                        <div className="schedule-message-modal"> 
+                                <div className="schedule-message-btn"> 
+                                    <Button btnText='Удалить тренировку'    
+                                        onClick= {() => {
+                                            this.props.onRemoveTrialTraining(this.deleteIdTraining)
+                                                .then(() => this.props.onGetAbonementsFilter(id, currDiscipline))
+
+                                            this.setState({modalRemoveTrialTraining: false});
+                                        }}
+                                        type='yellow'/>
+                                </div>
+                        </div>
+                </Modal>
 
                 
                 <Modal 
@@ -1168,6 +1208,7 @@ const mapStateToProps = state => {
         useFrozenTraining: state.student.useFrozenTraining,
         discCommunication: state.student.discCommunication,
         checkToken: state.acquiring.checkToken,
+        countTrainingDiscipline: state.training.countTrainingDiscipline,
 
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
@@ -1209,10 +1250,12 @@ const mapDispatchToProps = dispatch => {
         
         onTransferTrainining: (value) => dispatch(actions.transferTrainining(value)),
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
-        onChangeSubscription: (data, amountTraining) => dispatch(actions.changeSubscription(data, amountTraining)),
+        onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSetWeekInterval: (interval) => dispatch(actions.setWeekInterval(interval)),
-        onSaveDisciplineCommunication: (idStudent,idMaster, discipline) => dispatch(actions.saveDisciplineCommunication(idStudent,idMaster, discipline)),  
+        onSaveDisciplineCommunication: (idStudent,idMaster, discipline) => dispatch(actions.saveDisciplineCommunication(idStudent,idMaster, discipline)),
+        onGetCountTrainingByDiscipline: (id,discipline) => dispatch(actions.getCountTrainingByDiscipline(id,discipline)),
+          
         
 
         onGetTrainerTraining: (id, dateMin, dateMax, currDiscipline) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, currDiscipline)),
@@ -1235,6 +1278,8 @@ const mapDispatchToProps = dispatch => {
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
         onGetFutureTrialTraining: (id, discipline) => dispatch(actions.getFutureTrialTraining(id, discipline)),
+        onRemoveTrialTraining: (idTraining) => dispatch(actions.removeTrialTraining(idTraining)),
+        
         
         
 

@@ -108,7 +108,7 @@ export const createTraining = (obj) => {
 }
 
 export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) => {
-    let obj =  { dateStart , dateEnd, weekdays, discipline};
+    let obj =  { dateStart , dateEnd,  weekdays,discipline};
 
     console.log("GET", obj)
     return (dispatch) => {

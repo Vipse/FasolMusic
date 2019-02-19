@@ -200,6 +200,8 @@ export {
     getTrainingChatHistory,
     completeReception,
     getFutureTrialTraining,
+    getCountTrainingByDiscipline,
+    removeTrialTraining,
 } from './training'
 
 

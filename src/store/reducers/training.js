@@ -41,6 +41,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 futureTrialTraining: action.futureTrialTraining
             }
+        case actionTypes.GET_COUNT_TRAINING_BY_DISCIPLINE:
+            return {
+                ...state,
+                countTrainingDiscipline: action.countTrainingDiscipline
+            }    
             
         default: return state;
     }

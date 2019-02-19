@@ -37,9 +37,11 @@ class EventSlot extends Component {
         super(props);
     };
 
-    showTransferEvent = () => {
-        console.log('this.props :', this.props);
-        this.props.showTransferEvent(this.props.event.id);
+    onRemoveTrialTraining = (e) => {
+      
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        this.props.deleteTraining(this.props.event.id);
     }
 
     render() {
@@ -48,6 +50,7 @@ class EventSlot extends Component {
             mode,
             onGotoPage,
             isPushBtnTransfer,
+            idEvent,
 
             isDragging,
             connectDragSource,
@@ -55,17 +58,19 @@ class EventSlot extends Component {
         } = this.props;
 
         const opacity = isDragging ? 0 : 1;
+        const dragFunc = event.trial ? this.props.onRemoveTrialTraining : () => this.props.onCancelTraining(event.id, event.idSubscription)
+
         let backgroundColor = event.status ? {} : '#eee'; // прошло ли время тренировки
-        backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
-        backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
-        backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
+            backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
+            backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
+            backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
 
         let nameBlock =  (event.name) ? event.name : (event.fio) ? event.fio : '';
             nameBlock += event.trial ? ' Пробная ' : '';
-        
-        
+               
         let isNearDay =  moment(event.start.getTime()).diff(moment(Date.now()), 'days');
-        isNearDay = (isNearDay < 1) ? false : true
+            isNearDay = (isNearDay < 1) ? false : true
+        
         
 
         if( event.status && 
@@ -80,7 +85,10 @@ class EventSlot extends Component {
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
                             <div className="event-group-cross">
-                                <Icon type='close' size={7} onClick={event.trial ? null : () => this.props.onCancelTraining(event.id, event.idSubscription)}/>
+                                <Icon 
+                                    type='close' 
+                                    size={7} 
+                                    onClick={dragFunc}/>
                             </div>
                             <p className="event-group-text" >
                                 {nameBlock}
@@ -92,12 +100,13 @@ class EventSlot extends Component {
 
         const eventKey = event.idMaster ? event.idMaster: event.id;
         const funcOnClick = (eventKey && eventKey != 1) ? ()=> onGotoPage(eventKey) : () => {}
+        const crossFunc = event.trial ? this.onRemoveTrialTraining : null
 
         return (
             <div key = {event.dateStart} onClick={funcOnClick}  className="event-group" style={{backgroundColor}}>
                     <div>
                         <div className="event-group-cross">
-                            <Icon type='close' size={7} onClick={() => this.showTransferEvent()}/>
+                            <Icon type='close' size={7} onClick={crossFunc}/>
                         </div>
                         <p className="event-group-text" >
                             {nameBlock}

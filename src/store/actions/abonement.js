@@ -166,10 +166,11 @@ export const transferTraininingToEnd = (value) => {
         
 }
 
-export const changeSubscription = (value, amountTraining) => {
+export const changeSubscription = (value) => {
 
+    debugger
     return (dispatch, getState) => 
-        axios.post('/catalog.fasol/changeSubscription', JSON.stringify({...value, amount: amountTraining}))
+        axios.post('/catalog.fasol/changeSubscription', JSON.stringify(value))
             .then(res => {
                 console.log("changeSubscription", res);
                 // dispatch({

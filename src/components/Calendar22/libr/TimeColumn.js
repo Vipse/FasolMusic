@@ -68,7 +68,8 @@ export default class TimeColumn extends Component {
       showMasterList,
       mode,
       onGotoPage,
-      isPushBtnTransfer
+      isPushBtnTransfer,
+      onRemoveTrialTraining
     } = this.props;
 
     let slotMasterList = null;
@@ -113,6 +114,8 @@ export default class TimeColumn extends Component {
         mode = {mode}
         onGotoPage = {onGotoPage}
         isPushBtnTransfer = {isPushBtnTransfer}
+        onRemoveTrialTraining = {onRemoveTrialTraining}
+        deleteTraining = {this.props.deleteTraining}
 
       />
     )
