@@ -168,7 +168,7 @@ export const transferTraininingToEnd = (value) => {
 
 export const changeSubscription = (value) => {
 
-    debugger
+
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/changeSubscription', JSON.stringify(value))
             .then(res => {

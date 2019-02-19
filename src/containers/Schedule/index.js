@@ -93,7 +93,6 @@ class Schedule extends React.Component {
         const {id, currDiscipline} = this.props;
         this.deleteIdTraining = idTraining;
 
-        debugger
         
         this.setState({modalRemoveTrialTraining: true});
     }
@@ -355,7 +354,6 @@ class Schedule extends React.Component {
         
         if(delEvent && Object.keys(delEvent).length){
             
-            debugger;
             this.delEvent = delEvent;
             this.setState({modalTransferTraining: true})
         }   
@@ -367,7 +365,6 @@ class Schedule extends React.Component {
             const {id, currDiscipline, discCommunication} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
 
-            debugger;
             const currMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code] : null
 
             if(this.transferDay && currMaster){
@@ -434,7 +431,6 @@ class Schedule extends React.Component {
         const max = subs.length;
         const curWeek = moment( start.getTime() ).week(); // текущая неделя
         
-debugger
         for(let i = 0; i < max; i++){
           
                 let item = subs[i];
@@ -477,7 +473,6 @@ debugger
         scheduleForWeek.trainingtime = trainingtime;
         this.setState({modalTransferTraining: false});   
 
-        debugger
         console.log('scheduleForWeek :', scheduleForWeek);
         this.props.onChangeSubscription(scheduleForWeek)
             .then(() => this.props.onGetAbonementsFilter(id, currDiscipline));
@@ -665,14 +660,14 @@ debugger
     changeCurrDiscipline = (disc) => {
         const {start, end} = this.state.isEditorMode;
         const {currDiscipline, id, mode} = this.props;
-        debugger
+        
         if(mode === 'student'){
            // this.props.onGetAbonementsFilter(id, currDiscipline); 
         }
         else if(mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, disc);
         }
-        debugger
+        
         this.props.onChangeCurrDiscipline(disc)
         
     }

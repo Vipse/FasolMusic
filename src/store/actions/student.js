@@ -150,7 +150,7 @@ export const masterFreeOnDate = (date, chooseMasters) => {
         date, 
         arrMaster: chooseMasters
     };
-    debugger;
+  
     return (dispatch) => {
         return axios.post('/catalog.fasol/masterFreeOnDate', JSON.stringify(obj))
             .then(res => {
@@ -288,7 +288,7 @@ export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, di
     return (dispatch) => {
         return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
             .then(res => {
-                debugger;
+                
                 console.log(res);         
             })
             .catch(err => {console.log(err)})
@@ -318,7 +318,7 @@ export const editUseFrozenTraining = (idStudent, amountTraining) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
             .then(res => {
-                debugger;
+               
                 console.log(res);    
                 dispatch({
                     type: actionTypes.GET_USE_FROZEN_TRAINING,

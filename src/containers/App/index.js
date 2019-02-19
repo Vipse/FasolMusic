@@ -220,14 +220,13 @@ class App extends React.Component {
     }
 
     pushBtnUnfresh = () => {
-        debugger
+        
         const {weekInterval} = this.props;
         this.setState({scheduleSpinner: true})
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
      
-            debugger
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => {
                 this.setState({scheduleSpinner: false})

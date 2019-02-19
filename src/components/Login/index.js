@@ -23,7 +23,6 @@ class LoginForm extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
 
-debugger
         while(true){
 
             let all = this.props.cookies.cookies;
