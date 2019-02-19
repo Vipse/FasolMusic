@@ -73,7 +73,7 @@ class LastTrainingsItem extends React.Component{
                                       value={homeworkText}
                             />
                             <button className="sendHomework-btn" onClick={this.homeworkEdit}>
-                                <Icon type="message" size={25}/>
+                                <Icon type="message" size={20}/>
                             </button>
                         </div>}
                 </div>

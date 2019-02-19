@@ -41,9 +41,9 @@ class MainPage extends React.Component{
 		this.props.onGetNextTraining(this.props.id);
 
 		if (this.props.mode === "student") {
-			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), 10);
-			this.props.onGetMyMastersOrStudents({idStudent: this.props.id});
+			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), 3);
 			this.props.onGetAllTrainingStudent(this.props.id, moment(Date.now()).subtract(1, 'weeks').format('X'), moment(Date.now()).format('X'));
+			this.props.onGetMyMastersOrStudents({idStudent: this.props.id});
 		} else if (this.props.mode === "master") {
 			this.props.onGetMyMastersOrStudents({idMaster: this.props.id});
 			this.getPastAndFutureCoachTrainings();

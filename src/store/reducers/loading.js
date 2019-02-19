@@ -4,8 +4,9 @@ const initialState = {
     isConfirmed: false,
     isReceived: false,
     visitId: 0,
-    selectors: {}
-}
+    selectors: {},
+    promoList: []
+};
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
@@ -41,6 +42,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 usersHeaderSearch: action.usersHeaderSearch,
+            };
+        case actionTypes.GET_PROMO_LIST:
+            return {
+                ...state,
+                promoList: action.promoList,
             };
 
         default: return state;

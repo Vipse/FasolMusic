@@ -111,3 +111,6 @@
 .bonus-student .invite .info {
   font-family: RobotoRegular, sans-serif;
 }
+.bonus-student .spinner-wrapper {
+  margin-top: 25px;
+}

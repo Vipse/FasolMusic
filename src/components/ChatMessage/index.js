@@ -12,14 +12,14 @@ import '../../icon/style.css'
 
 const ChatMessage = props => {
     const {
-        text, size, date, online, img, isMy, isDate, isVisEnd, type, callTime, name} = props;
+        text, size, date, online, img, isMy, isDate, isVisEnd, endType, type, callTime, name} = props;
     const rootClass = isMy ? 'message__out' : 'message__in';
 
     const callInfoMessage = (text1, name, text2, iconType, isRed = false) => {
         return (
             <div className={`${rootClass}-item`}>
                 <div className={`${rootClass}-time-InCallInfo`}>
-                    {moment(date*1000).format('HH:mm')}
+                    {moment(date * 1000).format('HH:mm')}
                 </div>
                 <div className="call-info-content">
                     <Icon svg
@@ -74,7 +74,7 @@ const ChatMessage = props => {
                                 <div className={`${rootClass}-area`}>
                                     {
                                         date && <div className={`${rootClass}-time`}>
-                                            {moment(date*1000).format('HH:mm')}
+                                            {moment(date * 1000).format('HH:mm')}
                                         </div>
                                     }
                                     <div className={`${rootClass}-box`}>
@@ -95,21 +95,19 @@ const ChatMessage = props => {
                             </div>
                 )
         }
-        return (
-            <Hoc>
-                {
-                    isDate ?
-                        ( <div className='message-today'>{moment(date*1000).format("D MMMM YYYY")}</div>)
-                        : isVisEnd ?
-                            (<div className='message-visit-end'>Тренировка завершена</div>)
-                            : (
-                            content
-                )
-                }
-
-            </Hoc>
-        )
-
+    return (
+        <Hoc>
+            {
+                isDate ?
+                    (<div className='message-today'>{moment(date * 1000).format("D MMMM YYYY")}</div>)
+                    : isVisEnd ?
+                    (<div
+                        className='message-visit-end'>Тренировка {endType === 'transfer' ?
+                        'перенесена' : 'завершена'}</div>)
+                    : (content)
+            }
+        </Hoc>
+    )
 }
 
 ChatMessage.propTypes = {

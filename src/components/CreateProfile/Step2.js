@@ -34,12 +34,12 @@ class Step2Form extends React.Component{
         });
     };
 
-    resetSpecialization = () => {
-        this.props.form.resetFields(['specialization']);
+    resetSpecializationAndLevel = () => {
+        this.props.form.resetFields(['specialization', 'level']);
     };
 
     render(){
-        const { form, disciplineObj, goalList, stylesList } = this.props;
+        const { form, disciplineObj, goalList, stylesList, musicalExperienceList } = this.props;
         const { getFieldDecorator } = form;
 
         return (
@@ -62,7 +62,7 @@ class Step2Form extends React.Component{
                                 bubbleplaceholder="*Дисциплина"
                                 className="step-form-item"
                                 values={getSelectorValues(disciplineObj)}
-                                onChange={this.resetSpecialization}
+                                onChange={this.resetSpecializationAndLevel}
                             />
                         )}
                     </FormItem>
@@ -89,10 +89,10 @@ class Step2Form extends React.Component{
                                 message: 'Введите ваш уровень подготовки, пожалуйста'
                             }],
                         })(
-                            <InputWithTT
-                                key="level"
+                            <SelectWithTT
                                 bubbleplaceholder="Уровень подготовки"
                                 className="step-form-item"
+                                values={getSelectorNestedValues(disciplineObj, [form.getFieldValue('discipline')], false, '2')}
                             />
                         )}
                     </FormItem>
@@ -106,7 +106,7 @@ class Step2Form extends React.Component{
                             <SelectWithTT
                                 bubbleplaceholder="Опыт занятия музыкой"
                                 className="step-form-item"
-                                values={["1 год", "2 года", "3 года", "4 года", "5 лет"]}
+                                values={musicalExperienceList}
                             />
                         )}
                     </FormItem>

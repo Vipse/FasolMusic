@@ -4,7 +4,18 @@
       height: 485px;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+
+      .spinner-wrapper {
+        margin-top: 50px;
+      }
+      
+      > div:first-child .nearTraining-circleDate {
+        border: 1px solid #ff7daa;
+        color: #ff7daa;
+      }
     }
+
     &-link {
       font-family: RobotoRegularItalic, sans-serif;
       font-size: 14px;
@@ -18,18 +29,10 @@
         color: #000;
         font-size: 24px !important;
       }
+
       span {
         color: #000;
       }
-    }
-    &-scroll {
-      > div:first-child .nearTraining-circleDate {
-        border: 1px solid #ff7daa;
-        color: #ff7daa;
-      }
-    }
-    .ant-card-body {
-      justify-content: center;
     }
   }
 }

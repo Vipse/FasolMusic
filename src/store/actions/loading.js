@@ -137,3 +137,21 @@ export const readNotification = (id) => {
             })
     }
 };
+
+export const getPromoList = (id) => {
+    const obj = {id};
+
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/getNewsList', JSON.stringify(obj))
+            .then(res => {
+                console.log('getNewsList', res);
+                dispatch({
+                    type: actionTypes.GET_PROMO_LIST,
+                    promoList: res.data.result,
+                });
+
+                return res;
+            })
+            .catch(err => {console.log(err)})
+    }
+};

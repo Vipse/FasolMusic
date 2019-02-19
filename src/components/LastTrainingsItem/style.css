@@ -1,11 +1,9 @@
 .lastTraining {
-  display: flex;
   width: 100%;
-  flex-direction: column;
-  flex-shrink: 0;
-  margin-bottom: 30px;
-  padding-bottom: 30px;
+  height: 220px;
   border-bottom: 1px dashed #e1e1e1;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 .lastTraining-contactInfo {
   display: flex;
@@ -43,12 +41,13 @@
   color: #777777;
 }
 .lastTraining-homework {
-  margin: 20px 0;
-  display: inline-block;
+  margin: 10px 0;
   color: #111;
   font-size: 14px;
   line-height: 20px;
   font-family: RobotoRegular, sans-serif;
+  height: 52px;
+  overflow: hidden;
 }
 .lastTraining-homework .homeworkEmpty {
   color: #21bedd;
@@ -58,15 +57,15 @@
   position: relative;
 }
 .lastTraining-homework .sendHomework-textArea .textarea-field {
-  height: 100px;
+  height: 52px;
   border: 1px solid #878787;
 }
 .lastTraining-homework .sendHomework-btn {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  bottom: 12px;
-  right: 12px;
+  width: 20px;
+  height: 20px;
+  bottom: 24px;
+  right: 36px;
   cursor: pointer;
   outline: none;
   border: none;

@@ -40,11 +40,9 @@ class MyStudents extends React.Component {
                       extra={<a className="my-students-link">
                           <Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
-                    {loading ? <Spinner size='large'/> : <PerfectScrollbar className="my-students-scroll">
-                        {data.length ?
-                            this.studentsRender(data)
-                            : <div className='entry-list no-trainings'>Студентов нет</div>}
-                    </PerfectScrollbar>}
+                    {loading ? <Spinner size='large'/> : (data.length ?
+                        this.studentsRender(data)
+                        : <div className='entry-list no-trainings'>Студентов нет</div>)}
                 </Card>
             </div>
         )

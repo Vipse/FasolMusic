@@ -384,7 +384,6 @@ export const rateMaster = (idStudent, idMaster, rate) => {
         rating: rate
     };
 
-    console.log(obj)
     return (dispatch) => {
         return axios.post('/catalog.fasol/addRateToMaster', JSON.stringify(obj))
             .then(res => {

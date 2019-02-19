@@ -1,139 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import Button from '../Button'
 import './style.css'
 import '../../icon/style.css'
 import Card from "antd/es/card";
-import InputNew from "../InputNew";
 import inviteFriendsPic from "../../img/inviteFriendsPic.png";
+import moment from "moment";
+import Spinner from "../Spinner";
 
-class BonusPageStudent extends React.Component{
+class BonusPageStudent extends React.Component {
 
-    constructor() {
-        super();
-        this.state = {
-            bankCard: {
-                linked: true
-            },
-            yandexMoney: {
-                linked: false
-            },
-            modalVisible: false
-        };
-    }
-
-    handleLinkStatus = (e, method) => {
-        e.preventDefault();
-        this.setState({
-            [method]: {
-                linked: !this.state[method].linked
-            }
-        });
+    state = {
+        loadingPromo: true
     };
 
-    renderInput = (type) => {
-      return (
-          <div className="payment-method-field">
-              <InputNew className="payment-method-field-input" bubbleplaceholder="Номер карты"/>
-              <div className="payment-method-field-btnPlate">
-                  <Button className="payment-method-field-btnPlate-remove"
-                          icon="close"
-                          onClick={(e) => this.handleLinkStatus(e, type)}
-                          size='small'
-                          type='link'
-                  />
-                  <Button className="payment-method-field-btnPlate-edit"
-                          icon="setting_edit"
-                          onClick={() => this.setState({modalVisible: true})}
-                          size='small'
-                          type='link'
-                  />
-              </div>
-          </div>);
+    componentDidMount() {
+        this.props.onGetPromoList()
+            .then(res => this.setState({loadingPromo: false}))
+            .catch(err => console.log(err));
+    }
+
+    renderPromoItem = (promoItem) => {
+        const {news_date, header, news_short, news_long, id} = promoItem;
+        return (<div className="offers-item" key={id}>
+            <div className='offers-item-header'>
+                <div className="date">
+                    <div className="day">{moment(+news_date * 1000).format('DD MMM')}</div>
+                    <div className="year">{moment(+news_date * 1000).format('YYYY')}</div>
+                </div>
+                <div className="title">
+                    {header}
+                </div>
+            </div>
+            <div className="offers-item-body">
+                <div className="info">
+                    {news_short}
+                </div>
+                <div className="link" onClick={() => {console.log('open promo ' + id)}}>Подробнее</div>
+            </div>
+        </div>);
     };
 
     render() {
+        const {promoList} = this.props;
+        const {loadingPromo} = this.state;
+        console.log(promoList);
+
         return (
             <div className="bonus-student">
-                <Card className="offers" title="Акции"> {/*title="Акты выполненных работ">*/}
-                    <PerfectScrollbar>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">30 июл</div>
-                                    <div className="year">2018</div>
-                                </div>
-                                <div className="title">
-                                    Акция "Стойлето"
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">
-                                    Акция продлится до 31 августа. При записи на бесплатную тренировку в
-                                    музыкальную качалку Fasol - бонус: чем больше дней до конца лета осталось,
-                                    тем больше скидка! И важно, не тянуть, поскольку каждый день скидка уменьшается!
-                                    Акция действует только для новых студентов*
-                                    И не забудь назвать промо-код #стойлето!!!
-                                </div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">16 дек</div>
-                                    <div className="year">2018</div>
-                                </div>
-                                <div className="title">
-                                    НОВОГОДНИЙ FASOL BOX - порадуй своих близких!
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">
-                                    Праздники не за горами! Все ещё думаешь, что подарить близким?
-                                    Специально для тебя мы сделали FASOL BOX - подарок,
-                                    который никого не оставит равнодушным!
-                                    Выбирай дисциплину и исполняй мечту своих родных и близких!
-                                    FASOL BOX - это:
-                                    куча крутых стикеров
-                                    значок-брошка с буквой "F"
-                                    яркий спортивный браслет
-                                    И самое главное, подарочный сертификат на любую из дисциплин:
-                                    вокал, гитара и фортепиано.
-                                    Спешите за подарками в качалку!
-                                    FASOL BOX - порадуй своих близких!
-                                </div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                        <div className="offers-item">
-                            <div className='offers-item-header'>
-                                <div className="date">
-                                    <div className="day">8 фев</div>
-                                    <div className="year">2019</div>
-                                </div>
-                                <div className="title">
-                                    Лучший подарок к 14 Февраля
-                                </div>
-                            </div>
-                            <div className="offers-item-body">
-                                <div className="info">
-                                    Друзья! Специально ко дню всех влюблённых мы сделали подарочные серификаты
-                                    на любую дисциплину:
-                                    вокал, гитара, фортепиано!
-                                    А если успеете до вечера 14-го,
-                                    то получите ЕЩЁ одну тренировку к сертификату БЕСПЛАТНО!
-                                    А упаковали мы всю эту красоту в стильный FASOL BOX,
-                                    в котором к тому же есть значок-брошка,
-                                    спортивный браслет и куча крутых стикеров!
-                                    Хватит дарить как все, дари с любовью! ❤️<br/>
-                                    Fasol Box - порадуй своих близких!
-                                </div>
-                                <div className="link">Подробнее</div>
-                            </div>
-                        </div>
-                    </PerfectScrollbar>
+                <Card className="offers" title="Акции">
+                    {loadingPromo ? <Spinner/> :
+                        promoList && promoList.length ? <PerfectScrollbar>
+                            {promoList.map((promoItem) => this.renderPromoItem(promoItem))}
+                        </PerfectScrollbar> : <div className='entry-list no-trainings'>Акций нет</div>}
                 </Card>
                 <Card className="second-subscription" title="1+1">
                     <div className="second-subscription-container">

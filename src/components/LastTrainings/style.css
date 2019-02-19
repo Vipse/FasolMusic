@@ -2,24 +2,15 @@
   height: 485px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  overflow: hidden;
+  padding: 30px !important;
 }
-.lastTrainings .ant-card-body:before,
-.lastTrainings .ant-card-body:after {
-  display: none;
-}
-.lastTrainings-scroll {
-  padding: 30px!important;
+.lastTrainings .ant-card-body .spinner-wrapper {
+  margin-top: 20px;
 }
 .lastTrainings-link {
   font-family: RobotoRegularItalic, sans-serif;
   font-size: 14px;
-  color: #111;
-}
-.lastTrainings .ant-card-body {
-  justify-content: center;
-}
-.lastTrainings-link {
   padding: 0 !important;
   padding-right: 8px !important;
   color: #000;

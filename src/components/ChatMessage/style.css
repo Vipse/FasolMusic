@@ -36,6 +36,7 @@
 }
 .message__in-attached {
   margin-top: 0px;
+  word-break: break-all;
 }
 .message__out-item {
   display: inline-flex;
@@ -75,6 +76,7 @@
 }
 .message__out-attached {
   margin-top: 0px;
+  word-break: break-all;
 }
 .message-today {
   position: relative;

@@ -2,6 +2,14 @@
   height: 485px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+.schedule-future .ant-card-body .spinner-wrapper {
+  margin-top: 50px;
+}
+.schedule-future .ant-card-body > div:first-child .nearTraining-circleDate {
+  border: 1px solid #ff7daa;
+  color: #ff7daa;
 }
 .schedule-future-link {
   font-family: RobotoRegularItalic, sans-serif;
@@ -18,11 +26,4 @@
 }
 .schedule-future-link span {
   color: #000;
-}
-.schedule-future-scroll > div:first-child .nearTraining-circleDate {
-  border: 1px solid #ff7daa;
-  color: #ff7daa;
-}
-.schedule-future .ant-card-body {
-  justify-content: center;
 }

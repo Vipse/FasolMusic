@@ -13,14 +13,16 @@ import moment from "moment";
 
 class Chat extends React.Component{
     state = {
-        nearTrainings: []
+        nearTrainings: [],
+        loadingChatStory: false
     };
 
     componentDidMount() {
         console.log('chat version 1.0');
+
         this.props.getSelectors('discipline');
         this.loadTrainingsList();
-        this.props.idTraining && this.props.onGetChatHistory(this.props.idTraining);
+        this.props.idTraining && this.loadChatHistory(this.props.idTraining);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -31,9 +33,16 @@ class Chat extends React.Component{
             this.setState({nearTrainings: this.prepareNearTrainings()});
 
         if (prevProps.idTraining !== this.props.idTraining)
-            if (this.props.idTraining) this.props.onGetChatHistory(this.props.idTraining);
+            if (this.props.idTraining) this.loadChatHistory(this.props.idTraining);
             else this.loadTrainingsList();
     }
+
+    loadChatHistory = (idTraining) => {
+        this.setState({loadingChatStory: true});
+        this.props.onGetChatHistory(idTraining)
+            .then(res => {this.setState({loadingChatStory: false})})
+            .catch(err => console.log(err));
+    };
 
     loadTrainingsList = () => {
         const {user_mode, id} = this.props;
@@ -114,6 +123,7 @@ class Chat extends React.Component{
             wsURL: 'wss://web.fasolonline.ru:8443/one2one',
             timer: this.props.timer,
             chatStory: this.props.chatStory,
+            loadingChatStory: this.state.loadingChatStory,
             trainingStarts: this.props.trainingStarts,
             isCalling: this.props.isCalling,
             isTrial: this.props.isTrial,
