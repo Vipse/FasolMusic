@@ -14,25 +14,11 @@ class PersonalInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loadingData: true,
-            selectorsValues: {}
+            loadingData: true
         }
     }
 
     componentDidMount() {
-        const {getSelectors} = this.props;
-        const selectorsNames = ['interests', 'specialization', 'discipline', 'qualities', 'professions', 'day'];
-
-        selectorsNames.forEach((name) => {
-            getSelectors(name)
-                .then(res => this.setState({
-                    selectorsValues: {
-                        ...this.state.selectorsValues,
-                        [name + "List"]: res.data
-                    }}))
-                .catch(err => console.log(err))
-        });
-
         (this.props.auth.mode === "student" ? this.props.onGetInfoPatient :
             this.props.onGetInfoDoctor)(this.props.auth.id)
             .then(res => {

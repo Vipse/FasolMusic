@@ -13,9 +13,6 @@ import SocialAuth from "../SocialAuth";
 
 const FormItem = Form.Item;
 
-const countryArr = ['Беларусь', 'Россия', 'Украина', 'Казахстан', 'Молдавия', 'Узбекистан',
-    'Азербайджан', 'Таджикистан', 'Туркменистан', 'Кыргызстан', 'Армения', 'Другое'];
-
 class Step1Form extends React.Component{
     state = {
         avatar: "",
@@ -80,7 +77,7 @@ class Step1Form extends React.Component{
     };
 
     render(){
-        const { interestsList, professionsList } = this.props;
+        const { interestsList, professionsList, countriesList } = this.props;
         const { getFieldDecorator } = this.props.form;
         const { avatar, facebookLink, googleLink } = this.state;
 
@@ -188,7 +185,7 @@ class Step1Form extends React.Component{
                                 bubbleplaceholder="*Страна пребывания"
                                 className="step-form-item"
                                 tooltip="Страна пребывания Tooltip"
-                                values={countryArr}
+                                values={countriesList}
                             />
                         )}
                     </FormItem>

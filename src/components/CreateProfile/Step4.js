@@ -13,12 +13,12 @@ class Step4Form extends React.Component{
 
     prepareDisciplines = (data) => {
         const {discipline, specialization, level, experience, goals, musicstyles, favoritesingers} = data;
-        const {disciplineList, goalList, stylesList} = data.selectorsValues;
+        const {disciplineList, goalList, stylesList, musicalExperienceList} = data.selectorsValues;
         return [{
             discipline: getSelectedIDs(disciplineList, discipline),
             specialization: getSelectedNestedIDs(disciplineList, specialization, [discipline]),
-            level: level,
-            experiense: experience,
+            level: getSelectedNestedIDs(disciplineList, level, [discipline], false, '2'),
+            experiense: getSelectedIDs(musicalExperienceList, experience),
             goals: getSelectedIDs(goalList, goals),
             musicstyles: getSelectedIDs(stylesList, musicstyles),
             favoritesingers: favoritesingers,
@@ -30,7 +30,7 @@ class Step4Form extends React.Component{
         this.props.form.validateFieldsAndScroll((err, values) => {
             const {name, datebirth, email, phones, sex, country, work, interests, avatar, facebookLink, googleLink,
                 bestsex, bestage, bestishomework, bestqualities, bestcomment} = this.props.data;
-            const {interestsList, qualitiesList, professionsList} = this.props.data.selectorsValues;
+            const {countriesList, interestsList, qualitiesList, professionsList} = this.props.data.selectorsValues;
             if (!err) {
                 const finalRegData = {
                     name,
@@ -38,7 +38,7 @@ class Step4Form extends React.Component{
                     email,
                     phones,
                     sex: sex === "Мужской" ? "m" : sex === "Женский" ? "w" : null,
-                    country,
+                    country: getSelectedIDs(countriesList, country),
                     work: getSelectedIDs(professionsList, work),
                     interests: getSelectedIDs(interestsList, interests),
                     avatar,

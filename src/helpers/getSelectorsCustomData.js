@@ -13,31 +13,31 @@ export function getSelectedIDs(selector, selectedValues, englishMode = false) {
     else return [];
 }
 
-export function getSelectorNestedObjs(selector, parentsArr, englishMode = false) {
+export function getSelectorNestedObjs(selector, parentsArr, englishMode = false, connectPostfix = '') {
     let targetChild = selector;
     if (selector && selector.length && parentsArr && parentsArr.length)
         if (parentsArr.every(parent => {
             return targetChild.some(item => {
-                if (item.connect && item.connect.length && (englishMode ?
-                    item.nameEng === parent : item.nameRus === parent)) {
-                    targetChild = item.connect;
+                if (item['connect' + connectPostfix] && item['connect' + connectPostfix][0]
+                    && item['connect' + connectPostfix][0].length && (englishMode ?
+                        item.nameEng === parent : item.nameRus === parent)) {
+                    targetChild = item['connect' + connectPostfix][0];
                     return true;
-                }
-                else return false;
+                } else return false;
             });
         })) return targetChild;
     return [];
 }
 
-export function getSelectorNestedValues(selector, parentsArr, englishMode = false) {
+export function getSelectorNestedValues(selector, parentsArr, englishMode = false, connectPostfix = '') {
     if (parentsArr && parentsArr.length && selector && selector.length)
-        return getSelectorValues(getSelectorNestedObjs(selector, parentsArr, englishMode));
+        return getSelectorValues(getSelectorNestedObjs(selector, parentsArr, englishMode, connectPostfix));
     else return [];
 }
 
-export function getSelectedNestedIDs(selector, selectedValues, parentsArr, englishMode = false) {
+export function getSelectedNestedIDs(selector, selectedValues, parentsArr, englishMode = false, connectPostfix = '') {
     if (selectedValues && selectedValues.length && selector && selector.length && parentsArr && parentsArr.length)
-        return getSelectedIDs(getSelectorNestedObjs(selector, parentsArr, englishMode), selectedValues, englishMode);
+        return getSelectedIDs(getSelectorNestedObjs(selector, parentsArr, englishMode, connectPostfix), selectedValues, englishMode);
     else return [];
 }
 
