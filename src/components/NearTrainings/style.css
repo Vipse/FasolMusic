@@ -5,7 +5,7 @@
   overflow: hidden;
 }
 .schedule-future .ant-card-body .spinner-wrapper {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .schedule-future .ant-card-body > div:first-child .nearTraining-circleDate {
   border: 1px solid #ff7daa;
