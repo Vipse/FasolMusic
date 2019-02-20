@@ -71,7 +71,7 @@ class LoginPage extends React.Component {
 
                 <div className="loginPage-header">
                     <div className="loginPage-header-close">
-                        <NavLink to="/login" onClick={this.onOk}>
+                        <NavLink to="/signin" onClick={this.onOk}>
                             <Icon type='close' svg />
                         </NavLink>
                     </div>
@@ -83,7 +83,7 @@ class LoginPage extends React.Component {
                          md={{span: 12, offset: 6}}
                          lg={{span: 12, offset: 6}}
                          xl={{span: 12, offset: 6}}>
-                        <Route path="/login"
+                        <Route path="/signin"
                                exact
                                render={() => <Login urlForget={this.props.match.url + '/forget'}
                                                     urlRegistrationStudent='/registration'
@@ -92,7 +92,7 @@ class LoginPage extends React.Component {
                                                     onSubmit={(obj) => this.props.onLogin(obj, this.props.history)}
                                />}
                         />
-                        <Route path="/login/forget"
+                        <Route path="/signin/forget"
                                exact
                                render={() => <LoginForget urlLogin={this.props.match.url}
                                                           onUrlChange={() => {

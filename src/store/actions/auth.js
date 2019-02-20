@@ -3,6 +3,18 @@ import * as actionTypes from './actionTypes';
 import moment from "moment";
 
 
+export const autoLogin = (history) => {
+    return (dispatch) => {
+
+        const login = localStorage.getItem('_fasol-user');
+        const passw = localStorage.getItem('_fasol-pass');
+
+        if(login && passw){
+            dispatch(login(login, passw, false, history, true));
+        }
+    }
+}
+
 export const setOnlineStatus = (id,isOnline) => {
     return dispatch => {
         const newObj = {
@@ -37,20 +49,14 @@ export const login = (userName, password, remember, history, isAuto) => {
                                 dispatch(setOnlineStatus(res.data.result.id, true)),
                                 sessionStorage.setItem('_fasol-id', res.data.result.id),
                                 sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
-                                localStorage.setItem('_fasol-id', res.data.result.id),
-                                localStorage.setItem('_fasol-mode', res.data.result.usergroup),
-
                                 rememberMe(remember, userName, password),
 
                                 history.push(getState().training.unauthorizedTrialData ? '/app/schedule' : '/app')
                             )
                             : (
                                 dispatch(authFail(res.data.error)),
-
-                               
                                     isAuto && (
                                         // TODO: test
-                                       
                                         localStorage.removeItem('_fasol-user'),
                                         localStorage.removeItem('_fasol-pass'),
                                         sessionStorage.removeItem('_fasol-id'),
@@ -131,12 +137,8 @@ export const resetRegisterStatus = () => {
 
 export const logout = () => {
     return (dispatch, getState) => {
-        
         localStorage.removeItem('_fasol-user');
         localStorage.removeItem('_fasol-pass');
-
-        localStorage.removeItem('_fasol-id');
-        localStorage.removeItem('_fasol-mode');
         sessionStorage.removeItem('_fasol-id');
         sessionStorage.removeItem('_fasol-mode');
         dispatch(setOnlineStatus(getState().auth.id, false));

@@ -71,7 +71,7 @@ class Toolbar extends React.Component {
               <Select value={(currDiscipline.code)} style={{ width: 120 }} onChange={this.changeSelectorDiscipline} >
                   { optionDisciplines.map((el) =>  <Option value={el.code}>{el.ruText}</Option> )}
               </Select> 
-          : <span className="rbc-toolbar-label">{currDiscipline.ruText}</span>}
+          : <span className="rbc-toolbar-label">{currDiscipline ? currDiscipline.ruText : ''}</span>}
         </div>
         
         

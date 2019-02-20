@@ -17,7 +17,7 @@ import '../../styles/fonts.css';
 
 import Icon from "../../components/Icon";
 import Spinner from "../../components/Spinner";
-import cookie from 'react-cookies'
+
 import {Modal} from "antd";
 
 const renderRoutes = ({path, component, exact}) => (
@@ -168,6 +168,9 @@ class App extends React.Component {
     componentWillMount() {
         const login = localStorage.getItem('_fasol-user'),
             pass = localStorage.getItem('_fasol-pass');
+
+            console.log('win :', window.localStorage);
+            debugger
 
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
@@ -349,7 +352,7 @@ class App extends React.Component {
                                   <Spinner isInline={true} size='large'/>
                                 </div>}
                         </React.Fragment> :
-                        <Redirect to='/login'/>
+                        <Redirect to='/signin'/>
                 }
             </div>
         );

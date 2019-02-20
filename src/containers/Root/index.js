@@ -11,7 +11,7 @@ class Root extends React.Component{
     render(){
         return (
         <Switch>
-            <Route path="/login" component={LoginPage}/>
+            <Route path="/signin" component={LoginPage}/>
             <Route path="/registration" component={LoginPage}/>
             <Route path="/registration-trainer" component={LoginPage}/>
             <Route path="/trial-training" component={LoginPage}/>

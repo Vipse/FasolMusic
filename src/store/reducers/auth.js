@@ -1,12 +1,9 @@
 
 import * as actionTypes from '../actions/actionTypes'
 
-import cookie from 'react-cookies'
-
-
 const initialState = {
-    id:   localStorage.getItem('_fasol-id') ? localStorage.getItem('_fasol-id') : 0 ,
-    mode: localStorage.getItem('_fasol-mode') ? localStorage.getItem('_fasol-mode') : "", // doc / user
+    id: sessionStorage.getItem('_fasol-id') ? sessionStorage.getItem('_fasol-id') : 0,
+    mode: sessionStorage.getItem('_fasol-mode') ? sessionStorage.getItem('_fasol-mode') : "", // doc / user
     error: null,
     errorCode: 0,
 };
@@ -26,11 +23,6 @@ const reducer = (state = initialState, action) => {
                 errorCode: action.errorCode,
             }
         case actionTypes.AUTH_SUCCESS:
-            console.log("AUTH_SUCCESS")
-
-            cookie.save('_fasol-id',action.id);
-            cookie.save('_fasol-mode',action.usergroup);
-
             return {
                 ...state,
                 id: action.id,

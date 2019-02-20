@@ -11,33 +11,12 @@ import Input from '../Input'
 import './style.css'
 import '../../icon/style.css'
 import { instanceOf } from 'prop-types';
-import { withCookies, Cookies } from 'react-cookie';
 
 const FormItem = Form.Item;
 
 class LoginForm extends React.Component{
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-      };
-
     handleSubmit = (e) => {
         e.preventDefault();
-
-        while(true){
-
-            let all = this.props.cookies.cookies;
-            if(all.hasOwnProperty('_fasol-id')) {
-                this.props.cookies.remove('_fasol-id');
-                continue;
-            }
-            if(all.hasOwnProperty('_fasol-mode')) 
-            {
-                this.props.cookies.remove('_fasol-mode')
-                continue;
-            }
-
-            break;
-        }
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -142,4 +121,4 @@ Login.defaultProps = {
     onSubmit: () => {},
 };
 
-export default withCookies(Login)
+export default Login
