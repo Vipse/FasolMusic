@@ -19,9 +19,6 @@ import Icon from "../../components/Icon";
 import Spinner from "../../components/Spinner";
 import cookie from 'react-cookies'
 import {Modal} from "antd";
-import { detect } from 'detect-browser';
-
-const browser = detect();
 
 const renderRoutes = ({path, component, exact}) => (
     <Route key={path} exact={exact} path={path} component={component}/>
@@ -132,14 +129,14 @@ class App extends React.Component {
      };
 
      warnIfMobileDevice = () => {
-         if (browser && /iOS|Android OS|BlackBerry OS|Windows Mobile|Amazon OS/i.test(browser.os))
+         const isMobile = /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(navigator.userAgent);
+         if (isMobile)
              Modal.warning({
                  title: 'Мобильное устройство',
                  width: '500px',
                  className: 'fast-modal',
                  content: 'Для более удобной работы с платформой зайдите с компьютера! ' +
-                     'Но вы всегда можете записаться на тренировку и с телефона, ' +
-                     'здесь для вас также доступен весь функционал!',
+                     'Но вы всегда можете записаться тренировку и с телефона, а также весь функционал доступен для вас!\n',
                  zIndex: 1050
              });
      };
@@ -234,7 +231,7 @@ class App extends React.Component {
              .then(() => {
                 this.setState({scheduleSpinner: false})
                  this.props.onSetPushBtnAddTraining()
-             })
+            })
         }
 
     }

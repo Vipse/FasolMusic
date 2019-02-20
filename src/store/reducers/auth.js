@@ -5,8 +5,8 @@ import cookie from 'react-cookies'
 
 
 const initialState = {
-    id:  cookie.load('_fasol-id') ? cookie.load('_fasol-id') : ( sessionStorage.getItem('_fasol-id') ? sessionStorage.getItem('_fasol-id') : 0) ,
-    mode: cookie.load('_fasol-mode') ? cookie.load('_fasol-mode'): (sessionStorage.getItem('_fasol-mode') ? sessionStorage.getItem('_fasol-mode') : ""), // doc / user
+    id:   localStorage.getItem('_fasol-id') ? localStorage.getItem('_fasol-id') : 0 ,
+    mode: localStorage.getItem('_fasol-mode') ? localStorage.getItem('_fasol-mode') : "", // doc / user
     error: null,
     errorCode: 0,
 };

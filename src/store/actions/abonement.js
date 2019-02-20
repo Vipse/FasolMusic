@@ -9,13 +9,14 @@ export const createAbonement = (dataCreate) => {
             dataCreate.discipline =  [ type[key] ];
         }
     }
-
+debugger
     console.log("POST abon", dataCreate)
     return (dispatch, getState) => 
 
         axios.post('/catalog.fasol/createSubscription', JSON.stringify(dataCreate))
             .then(res => {
                 console.log("createSubscription", res);
+                debugger
                 // dispatch({
                 //     type: actionTypes.GET_DOCTOR_SHORT_INFO,
                 //     info: res.data.result,

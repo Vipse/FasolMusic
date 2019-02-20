@@ -12,49 +12,42 @@
   margin-top: 15px;
 }
 .table-footer .type-color-available {
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   margin-right: 10px;
   background-color: rgba(0, 255, 0, 0.2);
   border: 2px solid #00ff00;
 }
 .table-footer .type-color-own {
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   margin-right: 10px;
   background-color: rgba(33, 190, 221, 0.2);
   border: 2px solid #21bedd;
 }
 .table-footer .type-color-reserved {
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   margin-right: 10px;
   background-color: rgba(33, 190, 221, 0.2);
   border: 2px solid #21bedd;
 }
-.table-footer .type-color-bron {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-  background-color: #21bedd;
-  border: 2px solid rgba(33, 190, 221, 0.2);
-}
 .table-footer .type-color-done {
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   margin-right: 10px;
   background-color: #fdc401;
   border: 2px solid #fdc401;
 }
 .table-footer .type-color-error {
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   margin-right: 10px;
   background-color: #ff7daa;
   border: 2px solid #ff7daa;
 }
 .wrapper-small-calendar {
-  padding-top: 50px;
+  padding-top: 30px;
 }
 .rbc-toolbar {
   display: flex;

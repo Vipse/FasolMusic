@@ -167,27 +167,15 @@ class Calendar extends React.Component {
                   onGotoPage = {this.props.onGotoPage}
               /> 
               :
-              <div className="wrapper-small-calendar">
-              
-                <SmallCalendar 
-                    date={current}
-                    onChange={onChange}
-                    isUser = {this.props.isUser}
-                    highlightedDates = {highlightedDates}
-                />
-              </div>
+              null
               
             }
               
-            <div className="table-footer">
+            <div className="table-footer wrapper-small-calendar">
                 <div className="type">
                     <div className='type-color-available'/>
                     <div className='type-name'>Свободно</div>
                 </div>
-                <div className="type">
-                    <div className='type-color-bron'/>
-                    <div className='type-name'>Забронированная тренировка</div>
-                </div> 
                 <div className="type">
                     <div className='type-color-own'/>
                     <div className='type-name'>Ваша тренировка</div>
