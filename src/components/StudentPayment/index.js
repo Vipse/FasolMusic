@@ -80,8 +80,8 @@ class StudentPayment extends React.Component{
         return (
             <div className="payment-student">
                 <Card className="payment-student-trainingPlans" title="Стоимость тренировок">
-                    <p className="info">Чем больше тренировок ты выбираешь, тем меньше цена за одно занятие,
-                        от 203 бр.</p>
+                    <p className="info">Чем больше тренировок ты выбираешь, тем меньше цена за одно занятие
+                        </p>
                     <div className="plansPlate">
                         <div className="plan">
                             <div className="plan-title">

@@ -86,7 +86,6 @@ DayColumn.propTypes = {
   longPressThreshold: PropTypes.number,
 
   onSelecting: PropTypes.func,
-  onSelectSlot: PropTypes.func.isRequired,
   onSelectEvent: PropTypes.func.isRequired,
 
   className: PropTypes.string,

@@ -65,7 +65,6 @@ class MainPage extends React.Component{
 			<StudentMain
 				allAbonements = {this.props.allAbonements}
 				showCancel = {() => {this.setState({cancelModal: true})}}
-				onAdd = {this.onAddVisit}
 				addModal = {this.state.addModal}
 				closeAdd = {() => {this.setState({addModal: false})}}
 				onSaveNewVisit = {this.onSaveNewVisit} // ?
@@ -97,7 +96,6 @@ class MainPage extends React.Component{
 				onSetHomeworkEdit = {this.props.onSetHomeworkEdit}
 
 				showCancel = {() => {this.setState({cancelModal: true})}}
-				onAdd = {this.onAddVisit}
 				addModal = {this.state.addModal}
 				closeAdd = {() => {this.setState({addModal: false})}}
 				onSaveNewVisit = {this.onSaveNewVisit} // ?
@@ -154,7 +152,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
 		onGetDocPatients: () => dispatch(actions.getDocPatients()),
-		onAddNewVisit: (obj, isToday) => dispatch(actions.addVisit(obj,null,null,isToday)),
 		onSelectReception: (id) => dispatch(actions.seletVisit(id)),
 		onSelectTretment: (id) => dispatch(actions.selectTreatment(id)),
 		onGetTodayVisits: (start, end) => dispatch(actions.getTodayVisits(start, end)),
@@ -162,8 +159,7 @@ const mapDispatchToProps = dispatch => {
 		onGetActualTreatments: (obj) => dispatch(actions.getPaginationTreatments(obj)),
         onGetCompletedApp: (obj) => dispatch(actions.getCompletedApps(obj)),
 		onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-		onGetNearVisits: (count) => dispatch(actions.getCountNearVisits(count)),
-		//onGetAllPatientsVisits: () => dispatch(actions.getAllVisits()),
+	
 		getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
 		onGetPatientDoctors: (count) => dispatch(actions.getPatientDoctors(count)),
 		onGetIntervalForDate: (beginDay, endDay, id) => dispatch(actions.getDateIntervalWithoutMakingApp(beginDay, endDay, id)),

@@ -63,7 +63,6 @@ class PatientDoctor extends React.Component{
                 </Card>
                 <NewVisitModalPage
                     visible={this.state.modal1Visible}
-                    onSave={this.props.onAddVisit}
                     onCancel={() => this.setModal1Visible(false)}
                     userName={this.state.doctorName}
                     intervals={this.props.intervals}

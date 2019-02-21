@@ -44,7 +44,7 @@ export const setVideoOut = (video) => {
 
 export function createSocket(wsUrl,_props,_callbacks) {
     console.log("createSocket", wsUrl, _props, _callbacks);
-
+debugger
     ws = new WebSocket(wsUrl);
     props = _props;
     callbacks = _callbacks;

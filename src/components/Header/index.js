@@ -57,6 +57,7 @@ class Header extends React.Component {
         }
         else if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
 
+            debugger
             this.props.onSetPushTrialTraining('select_master');
             this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
             this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0, 1, 2, 3, 4, 5, 6])

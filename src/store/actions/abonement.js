@@ -40,7 +40,7 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
             
                 fdata.hasOwnProperty(currDiscipline.code) ? 
                         fdata[currDiscipline.code].map((el) => {
-                            el.fio = '#'+el.key + ' ' + el.masterFio;
+                            el.fio = '#'+el.key + ' ' + el.masterFio ? el.masterFio : '';
                             el.start = new Date(+el.start * 1000);
                             el.discipline = el.discipline.map( elem => elem.name).join(',')
                             el.comment = 'comment';
@@ -170,6 +170,7 @@ export const transferTraininingToEnd = (value) => {
 export const changeSubscription = (value) => {
 
 debugger
+console.log('changeSubscription', value)
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/changeSubscription', JSON.stringify(value))
             .then(res => {

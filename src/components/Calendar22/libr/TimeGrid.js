@@ -406,7 +406,6 @@ TimeGrid.propTypes = {
   longPressThreshold: PropTypes.number,
 
   onNavigate: PropTypes.func,
-  onSelectSlot: PropTypes.func,
   onSelectEnd: PropTypes.func,
   onSelectStart: PropTypes.func,
   onSelectEvent: PropTypes.func,

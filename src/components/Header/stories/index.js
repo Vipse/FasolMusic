@@ -31,7 +31,6 @@ storiesOf('Header', module)
                 findName = {(name) => console.log(name)}
                 logout={() => alert()}
                 onEmergCall={() => console.log('onEmergCall')}
-                onAddVisit={()=>console.log('onAddVisit')}
                 isUser={true}
             />
         </div>

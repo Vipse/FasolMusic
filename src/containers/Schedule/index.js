@@ -450,14 +450,14 @@ class Schedule extends React.Component {
                         if(!trainingtime.hasOwnProperty(weekDay)){
                             trainingtime[weekDay] = [];
                          }
-                        trainingtime[weekDay].push({id: item.id, start: this.transferDay.dateStart })   
+                        trainingtime[weekDay].push({id: item.idMaster, start: this.transferDay.dateStart })   
                     }
                     else{
                         const weekDay =  item.start.getDay();
                         if(!trainingtime.hasOwnProperty(weekDay)){
                             trainingtime[weekDay] = [];
                         }
-                        trainingtime[weekDay].push({id: item.id, start: item.dateStart })
+                        trainingtime[weekDay].push({id: item.idMaster, start: item.dateStart })
                     }  
                     
                     if(!scheduleForWeek.dateStart){
@@ -482,7 +482,7 @@ class Schedule extends React.Component {
 
     setIntervalAndView = (date, view) => {
         const {start, end} = findTimeInterval(date, view);
-        this.state.isEditorMode ? this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
+        this.state.isEditorMode ? this.props.onGetAllIntervals(start, end) : null
 
         this.setState({
             interval: {
@@ -522,7 +522,6 @@ class Schedule extends React.Component {
         this.props.onSetWeekInterval({start, end});
 
         this.setIntervalAndView(this.state.currentDate, 'week');
-        this.props.onGetAllUserVisits();
 
         this.props.onGetAbonementsFilter(id, currDiscipline);
 
@@ -602,7 +601,7 @@ class Schedule extends React.Component {
         const {start, end} = this.state.isEditorMode
             ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
 
-        this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
+        this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : null
 
         this.setState({scheduleSpinner: true})
         isOnDay ?
@@ -640,8 +639,9 @@ class Schedule extends React.Component {
             this.props.onGetAbonementsFilter(id, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
+        debugger
         if(this.props.isPushBtnTransfer){
-
+debugger
             let idMaster = this.props.profileStudent.mainUser;
 
             this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, [1,2,3,4,5,6,7])
@@ -667,18 +667,6 @@ class Schedule extends React.Component {
         this.props.onChangeCurrDiscipline(disc)
         
     }
-    onAddVisit = (info) => {
-        this.props.patients.length === 0 ?
-            this.props.onGetDocPatients() : null;
-
-        this.setState({
-            newVisitModal: true,
-            newVisitData: {
-                ...this.state.newVisitData,
-                date: info.start,
-            }
-        })
-    };
 
     closeNewVisitModal = () => {
         this.setState({
@@ -706,7 +694,7 @@ class Schedule extends React.Component {
     changeToEditorMode = (isEditorMode) => {
         let mode = isEditorMode ? 'month' : 'week';
         const {start, end} = findTimeInterval(this.state.currentDate, mode);
-        isEditorMode ? this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
+        isEditorMode ? this.props.onGetAllIntervals(start, end) : null
 
         this.setState({
             view: mode,
@@ -829,7 +817,6 @@ class Schedule extends React.Component {
                     /*receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length} */
                     selectable
                     onSelectEvent={this.props.onSelectEvent}
-                    onSelectSlot={(slot) => this.onAddVisit(slot)}
                     defaultView="week"
                     onView={(view, date) => {
                         !date ? this.setIntervalAndView(this.state.currentDate, view) : () => {
@@ -941,6 +928,7 @@ class Schedule extends React.Component {
                              }
                              
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
+                                 
                                 filterInterval = this.props.theMasterInterval;
                                 notRedirectDiscipline = true;
 
@@ -955,7 +943,6 @@ class Schedule extends React.Component {
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
-                                  onSelectSlot={(slot) => this.onAddVisit(slot)}
                                   defaultView="week"
                                   onView={(view, date) => {
                                       !date ? this.setIntervalAndView(this.state.currentDate, view) : () => {
@@ -1229,9 +1216,6 @@ const mapDispatchToProps = dispatch => {
         clearReceptions: () => dispatch(actions.clearIntervals()),
         onAddInterval: (obj, start, end) => dispatch(actions.addInterval(obj, start, end)),
 
-        onAddNewVisit: (obj, start, end) => dispatch(actions.addVisit(obj, start, end)),
-        onGetAllVisits: (start, end) => dispatch(actions.getAllVisits(start, end)),
-        onGetAllUserVisits: () => dispatch(actions.getAllPatientVisits()),
         onSendMessage: (mess) => dispatch(actions.sendMessage(mess)),
         onCloseCancelModal: (obj) => dispatch(actions.cancelEventsRange(obj)),
         onClearVisits: () => dispatch(actions.clearVisits()),

@@ -66,14 +66,16 @@ class StudentPage extends React.Component{
 
     getDisciplinesList = () => {
         const {disciplines} = this.props.profileStudent;
-        if (disciplines.length)
+        if (disciplines && disciplines.length)
             return disciplines.map(item => getNameFromObjArr(item.discipline))
+        return []
     };
 
     getLevelsList = () => {
         const {disciplines} = this.props.profileStudent;
-        if (disciplines.length)
+        if (disciplines && disciplines.length)
             return disciplines.map(item => item.level)
+            return []
     };
 
     getSchedule = (dateStart, dateEnd) => {

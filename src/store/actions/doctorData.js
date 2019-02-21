@@ -26,7 +26,6 @@ export const getInfoDoctor = (id) => {
         return axios.post('/catalog.fasol/getUserInfo',
          JSON.stringify(obj))
             .then(res => {
-                console.log("receivedCoachData", res);
 
                 if (res.data.result && res.data.result.data.userGroup === 'master') {
                     res.data.result.data.id = id;

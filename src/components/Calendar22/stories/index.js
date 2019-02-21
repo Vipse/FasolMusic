@@ -276,7 +276,6 @@ storiesOf('Calendar22', module)
                          selectable
 
                          onSelectEvent={action('Receive 1 obj')}
-                         onSelectSlot={action('Slot info')}
 
                          min={new Date(new Date().setHours(9,0,0,0))}
                          max={new Date(new Date().setHours(23,0,0,0))}

@@ -117,6 +117,7 @@ class Calendar extends React.Component {
           <div className='rbc-calendar-wrapper'>      
             {toolbar && (
               <Toolbar
+                mode = {this.props.mode}
                 date={current}
                 view={view}
                 views={names}
@@ -258,7 +259,6 @@ Calendar.propTypes = {
   onNavigate: PropTypes.func,
   onView: PropTypes.func,
   onDrillDown: PropTypes.func,
-  onSelectSlot: PropTypes.func,
   onSelectEvent: PropTypes.func,
   onDoubleClickEvent: PropTypes.func,
   onSelecting: PropTypes.func,

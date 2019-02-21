@@ -46,7 +46,6 @@ class App extends React.Component {
   
     componentWillUnmount(){
         closeSocket();
-        this.props.setOnlineStatus(this.props.id, false)
     }
     
     runNotificationsWS = () => {
@@ -204,14 +203,17 @@ class App extends React.Component {
     pushBtnTransfer = () => {
         this.setState({scheduleSpinner: true})
         
-        const {weekInterval} = this.props;
-        this.onGoToSchedule();
-       
-        if(weekInterval){
+        const {weekInterval, discCommunication, disciplinesList, currDiscipline} = this.props;
+        
+        const codeDisc = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
+
+     
+        if(weekInterval && codeDisc){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
  
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
+            this.onGoToSchedule();
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, codeDisc, chooseWeekdays)
              .then(() => {
                 this.setState({scheduleSpinner: false})
                  this.props.onSetPushBtnTransferTraining()
@@ -378,6 +380,7 @@ const mapStateToProps = state => {
         useFrozenTraining: state.student.useFrozenTraining,
         subsForDisc: state.abonement.subsForDisc,
         abonementIntervals: state.patients.abonementIntervals,
+        currDiscipline: state.abonement.currDiscipline,
 
         from: state.chatWS.from,
         to: state.chatWS.to,
@@ -410,7 +413,6 @@ const mapDispatchToProps = dispatch => {
         getNotifications: (id) => dispatch(actions.getNotifications(id)),
         readNotification: (id) => dispatch(actions.readNotification(id)),
 
-        setOnlineStatus: (id, isOnline) => dispatch(actions.setOnlineStatus(id, isOnline)),
         setChatFromId: (id) => dispatch(actions.setChatFromId(id)),
         setChatToId: (id) => dispatch(actions.setChatToId(id)),
         setIsCallingStatus: (isCalling) => dispatch(actions.setIsCallingStatus(isCalling)),
