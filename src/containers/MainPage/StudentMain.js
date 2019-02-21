@@ -8,6 +8,7 @@ import NearTrainings from "../../components/NearTrainings";
 import Hoc from '../../hoc'
 import LastTrainings from "../../components/LastTrainings";
 import MyCoach from '../../components/MyCoach';
+import MyStudents from "./CouchMain";
 
 class StudentMain extends React.Component{
 	constructor(props) {
@@ -99,7 +100,7 @@ class StudentMain extends React.Component{
             <Hoc>
                         <Row>
                             <Col span={24} className='section'>
-                                <TopPanel  
+                                <TopPanel
                                     {...this.props.docTodayInfo}
                                     nextTrainingTime = {this.props.nextTrainingTime}
                                     myCoachOrStudents = {this.props.myCoachOrStudents}
@@ -130,7 +131,8 @@ class StudentMain extends React.Component{
                                 <MyCoach
                                     goToChat = {goToChat}
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    data = {myCoaches}
+                                    openMyCoaches={() => this.props.history.push('/app/homework')}
+                                    data={myCoaches}
                                 />
                             </Col>
                         </Row>

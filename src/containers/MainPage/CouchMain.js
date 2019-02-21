@@ -138,6 +138,7 @@ class CouchMain extends React.Component {
                         <MyStudents
                             goToChat={goToChat}
                             onGoto={(val) => this.gotoHandler(val)}
+                            openMyStudents={() => this.props.history.push('/app/homework')}
                             data={myStudents}
                         />
                     </Col>
