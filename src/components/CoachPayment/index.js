@@ -174,13 +174,6 @@ class CoachPayment extends React.Component{
                             <p className="info">Дальше - больше! Чем больше у вас проведено тренировок,
                                 тем больше у вас опыта в обучении, следите за своим ростом!</p>
                         </div>
-                        <div className="payment-coach-stats-plate-earned">
-                            <div className="title"><span className="count">184р.</span>
-                                <p className="name">Заработано с тренировок</p>
-                            </div>
-                            <p className="info">Следите за своим балансом, это хорошая мотивация!
-                                Приумножайте эти цифры, двигайтесь только вперед!</p>
-                        </div>
                     </div>
                 </Card>
                 <PaymentEditModal

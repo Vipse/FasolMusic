@@ -7,6 +7,7 @@
 .ant-card-bordered {
   border: none;
   border-radius: 10px;
+  overflow: hidden;
 }
 .ant-card-head {
   font-family: RobotoRegularItalic;

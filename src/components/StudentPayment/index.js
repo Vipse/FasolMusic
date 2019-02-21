@@ -5,13 +5,13 @@ import './style.css'
 import '../../icon/style.css'
 import Card from "antd/es/card";
 import InputNew from "../InputNew";
-import cardIcon from "../../img/card.png"
-import yandexMoneyIcon from "../../img/yandexMoney.png"
 import PayModal from "../PayModal";
 import moment from 'moment';
 
 import * as actions from '../../store/actions'
 import {connect} from "react-redux";
+import AbonementCard from "../AbonementCard";
+import { currencyTexts, abonements } from "../../helpers/pricesData";
 
 class StudentPayment extends React.Component{
 
@@ -24,7 +24,8 @@ class StudentPayment extends React.Component{
             yandexMoney: {
                 linked: false
             },
-            modalVisible: false
+            modalVisible: false,
+            currency: 'RUB'
         };
     }
 
@@ -37,12 +38,25 @@ class StudentPayment extends React.Component{
         });
     };
 
+    getMinimalPrice = () => {
+        const {currency} = this.state;
+        let minValue;
+        if (abonements[currency] && abonements[currency].length) {
+            abonements[currency].forEach((item) => {
+                if (!minValue || item.lessonCost < minValue)
+                    minValue = item.lessonCost;
+            });
+        }
+
+        return minValue ? minValue : 0;
+    };
+
     selectPlan = (count) => {
         // здесь должно быть typeSubscription
 
 
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: count});
-    }
+    };
 
     renderInput = (type) => {
       return (
@@ -67,6 +81,7 @@ class StudentPayment extends React.Component{
 
     render() {
         const { deadlinePay, studentBalance} = this.props;
+        const {currency} = this.state;
         let daysToPay = null;
 
         if( deadlinePay) {
@@ -81,104 +96,20 @@ class StudentPayment extends React.Component{
             <div className="payment-student">
                 <Card className="payment-student-trainingPlans" title="Стоимость тренировок">
                     <p className="info">Чем больше тренировок вы выбираете, тем меньше цена за одно занятие,
-                        от 203 бр.</p>
+                        от {this.getMinimalPrice() + ' ' + currencyTexts[currency]}</p>
                     <div className="plansPlate">
-                        <div className="plan">
-                            <div className="plan-title">
-                                <div className="plan-title-number">4</div>
-                                <div className="plan-title-text">Тренировки</div>
-                            </div>
-                            <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">50 бр.</p>
-                                <p className="plan-lessonCost-text">за тренировку</p>
-                            </div>
-                            <div className="plan-select">
-                                <div className="plan-select-totalPrice">203 бр.</div>
-                                <Button className="plan-select-selectBtn"
-                                        btnText='Выбрать'
-                                        onClick={() =>  this.props.showTrialModal(4, 203)}
-                                        size='small'
-                                        type='black'
-                                />
-                            </div>
-                        </div>
-                        <div className="plan">
-                            <div className="plan-title">
-                                <div className="plan-title-number">8</div>
-                                <div className="plan-title-text">Тренировок</div>
-                            </div>
-                            <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">47 бр.</p>
-                                <p className="plan-lessonCost-text">за тренировку</p>
-                            </div>
-                            <div className="plan-select">
-                                <div className="plan-select-totalPrice">379 бр.</div>
-                                <Button className="plan-select-selectBtn"
-                                        btnText='Выбрать'
-                                        onClick={() => this.props.showTrialModal(8, 379) }
-                                        size='small'
-                                        type='black'
-                                />
-                            </div>
-                        </div>
-                        <div className="plan">
-                            <div className="plan-title">
-                                <div className="plan-title-number">12</div>
-                                <div className="plan-title-text">Тренировок</div>
-                            </div>
-                            <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">58 бр.</p>
-                                <p className="plan-lessonCost-text">за тренировку</p>
-                            </div>
-                            <div className="plan-select">
-                                <div className="plan-select-totalPrice">705 бр.</div>
-                                <Button className="plan-select-selectBtn"
-                                        btnText='Выбрать'
-                                        onClick={() =>  this.props.showTrialModal(12,  705) }
-                                        size='small'
-                                        type='black'
-                                />
-                            </div>
-                        </div>
-                        <div className="plan">
-                            <div className="plan-title">
-                                <div className="plan-title-number">24</div>
-                                <div className="plan-title-text">Тренировки</div>
-                            </div>
-                            <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">41 бр.</p>
-                                <p className="plan-lessonCost-text">за тренировку</p>
-                            </div>
-                            <div className="plan-select">
-                                <div className="plan-select-totalPrice">1009 бр.</div>
-                                <Button className="plan-select-selectBtn"
-                                        btnText='Выбрать'
-                                        onClick={() =>  this.props.showTrialModal(24, 1009) }
-                                        size='small'
-                                        type='black'
-                                />
-                            </div>
-                        </div>
-                        <div className="plan">
-                            <div className="plan-title">
-                                <div className="plan-title-number">32</div>
-                                <div className="plan-title-text">Тренировки</div>
-                            </div>
-                            <div className="plan-lessonCost">
-                                <p className="plan-lessonCost-number">39 бр.</p>
-                                <p className="plan-lessonCost-text">за тренировку</p>
-                            </div>
-                            <div className="plan-select">
-                                <div className="plan-select-totalPrice">1268 бр.</div>
-                                <Button className="plan-select-selectBtn"
-                                        btnText='Выбрать'
-                                        onClick={() =>  this.props.showTrialModal(32, 1268)}
-                                        size='small'
-                                        type='black'
-                                />
-                            </div>
-                        </div>
-
+                        {abonements[currency].map((item) =>
+                            <AbonementCard
+                                key={item.id}
+                                id={item.id}
+                                amount={item.amount}
+                                amountTitle={item.amountTitle}
+                                lessonCost={item.lessonCost}
+                                price={item.price}
+                                currency={currencyTexts[currency]}
+                                showTrialModal={() => this.props.showTrialModal(item.amount, item.price)}
+                            />
+                        )}
                     </div>
                 </Card>
                 <Card className="payment-student-paymentData" title="Промокод">
@@ -247,7 +178,6 @@ class StudentPayment extends React.Component{
 const mapStateToProps = state => {
     return {
         //freeIntervals: state.patients.freeIntervals,
-
     };
 };
 
@@ -255,7 +185,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onSetFreeIntervals: (freeIntervals) => dispatch(actions.setFreeIntervals(freeIntervals)),
         onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
-
     }
 };
 
