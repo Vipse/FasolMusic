@@ -8,6 +8,7 @@ import NearTrainings from "../../components/NearTrainings";
 import Hoc from '../../hoc'
 import LastTrainings from "../../components/LastTrainings";
 import MyCoach from '../../components/MyCoach';
+import VK, { CommunityMessages } from 'react-vk';
 
 class StudentMain extends React.Component{
 	constructor(props) {
@@ -17,7 +18,10 @@ class StudentMain extends React.Component{
     state = {
         nearTrainings: [],
         lastTrainings: [],
-        myCoaches: []
+        myCoaches: [],
+        widget: null,
+        id: null
+          
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -134,7 +138,22 @@ class StudentMain extends React.Component{
                                 />
                             </Col>
                         </Row>
-
+                        
+                        <div id="bugfix">
+                            <div id="vk_community_messages">
+                                <VK apiId={120172845} >
+                                    <CommunityMessages
+                                        groupId={120172845}
+                                        options={{onCanNotWrite: reason => console.log(reason)}}
+                                        onMount={(widget, id) => {
+                                            this.setState({ widget, id });
+                                        }}
+                                    />
+                                </VK>
+                            </div>
+                            
+                        </div>
+                        
                     </Hoc>
         )
     }
