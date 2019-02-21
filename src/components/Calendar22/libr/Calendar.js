@@ -98,7 +98,7 @@ class Calendar extends React.Component {
     )
 
     const label = Week.title(current, { formats, culture, length })
-
+    
     return (
       <div className="wrapper-calendar">    
 

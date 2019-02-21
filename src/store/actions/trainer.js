@@ -32,8 +32,8 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
             dateMax
         }
 
-        console.log("getTrainerTraining", obj)
-        axios.post('/catalog.fasol/getTrainerTraining',
+       
+        return axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
                 console.log("REEES", res.data.result);

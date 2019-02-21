@@ -63,7 +63,7 @@ class Schedule extends React.Component {
             showSpinner: false,
             theMasterSelect: false,
             notRedirectDiscipline: false,
-            scheduleSpinner: false,
+            scheduleSpinner: true,
             modalRemoveTrialTraining: false,
         }
     };
@@ -523,14 +523,13 @@ class Schedule extends React.Component {
         this.setIntervalAndView(this.state.currentDate, 'week');
         this.props.onGetAllUserVisits();
 
-        console.log('currDiscipline', currDiscipline)
         this.props.onGetAbonementsFilter(id, currDiscipline);
-        //this.props.onGetAbonementsFilter(id, currDiscipline);
 
         if(this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(id);
             
             this.props.onCheckToken(id)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
                 .then((checkToken) => {
                     
                     if(checkToken.length){
@@ -553,10 +552,13 @@ class Schedule extends React.Component {
         }
 
         if(this.props.isAdmin) {
-            this.props.onGetFreeAndBusyMasterList(start, end);
+           
+            this.props.onGetFreeAndBusyMasterList(start, end)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
         if(this.props.mode === 'master'){
-            this.props.onGetTrainerTraining(id, start, end, currDiscipline);
+            this.props.onGetTrainerTraining(id, start, end, currDiscipline)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
         }    
         
     }
@@ -597,9 +599,8 @@ class Schedule extends React.Component {
        
 
         const {start, end} = this.state.isEditorMode
-            ? findTimeInterval(date, 'month')
-            : isOnDay ?
-                findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
+            ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
+
         this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
 
         this.setState({scheduleSpinner: true})
@@ -621,18 +622,16 @@ class Schedule extends React.Component {
                 },
             })
 
-            this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
+        this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
 
-        // if(!this.state.sendingModal){
-        //     this.setState({showSpinner: true});
-        //     const dateStart = Math.floor(+start.getTime() / 1000);
-        //     const dateEnd = Math.floor(+end.getTime() / 1000);
-        //     this.props.onGetAvailableInterval(dateStart,dateEnd, chooseWeekdays, chooseDiscipline)   
-        //         .then(() => this.setState({showSpinner: false, sendingModal: true}))
-        // }
+        const dateStart = Math.floor(+start.getTime() / 1000);
+        const dateEnd = Math.floor(+end.getTime() / 1000);
+
+        if(mode === 'admin'){
+            this.props.onGetFreeAndBusyMasterList(dateStart, dateEnd)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
+        }
         if(mode === 'master'){
-            const dateStart = Math.floor(+start.getTime() / 1000);
-            const dateEnd = Math.floor(+end.getTime() / 1000);
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
         }
         if(mode === 'master' || mode === 'student'){
@@ -643,12 +642,8 @@ class Schedule extends React.Component {
         if(this.props.isPushBtnTransfer){
 
             let idMaster = this.props.profileStudent.mainUser;
-            let dateStart1 = Math.floor(+start.getTime() / 1000);
-            let dateEnd1 = Math.floor(+end.getTime() / 1000);
 
-            let chooseWeekdays = [1,2,3,4,5,6,7];
-
-            this.props.onGetTheMasterInterval(dateStart1, dateEnd1, idMaster, chooseWeekdays)
+            this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, [1,2,3,4,5,6,7])
                 .then(() => {
                     this.setState({theMasterSelect: true, scheduleSpinner: false})
                 });
@@ -873,7 +868,7 @@ class Schedule extends React.Component {
                     setAbonement_Training = {this.setAbonement_Training}
                     onCancelTraining = {this.onCancelTraining}
                     trainerTraining = {this.props.trainerTraining}
-                    scheduleSpinner = {this.props.scheduleSpinner}
+                    scheduleSpinner = {this.state.scheduleSpinner}
 
                     />)    
         }
@@ -1274,14 +1269,9 @@ const mapDispatchToProps = dispatch => {
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
         onGetFutureTrialTraining: (id, discipline) => dispatch(actions.getFutureTrialTraining(id, discipline)),
         onRemoveTrialTraining: (idTraining) => dispatch(actions.removeTrialTraining(idTraining)),
-        
-        
-        
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
-        
-        
 
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetAllInfoMasters: (typeMasters, masterList) => dispatch(actions.getAllInfoMasters(typeMasters,masterList)),
