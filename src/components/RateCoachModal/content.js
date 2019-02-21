@@ -3,6 +3,7 @@ import React from 'react';
 import {Form} from 'antd';
 import Button from '../Button'
 import Rate from "../Rate";
+import TextArea from '../TextArea';
 
 const FormItem = Form.Item;
 
@@ -16,7 +17,7 @@ class ContentForm extends React.Component {
     handleSubmit = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                this.props.onSave(values.rate)
+                this.props.onSave(values.rate, values.feedback)
             }
         });
     };
@@ -37,6 +38,20 @@ class ContentForm extends React.Component {
                         }],
                     })(
                         <Rate autoFocus starSize={30}/>
+                    )}
+                </FormItem>
+                <FormItem>
+                    {getFieldDecorator('feedback', {
+                        rules: [{
+                            required: false,
+                            message: 'Напишите отзыв, пожалуйста'
+                        }],
+                    })(
+                        <TextArea
+                            label="Напишите текст..."
+                            placeholder=""
+                            className="step-form-item"
+                        />
                     )}
                 </FormItem>
                 <div className='btnPlate'>

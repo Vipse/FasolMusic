@@ -32,7 +32,7 @@ export const getInfoMasters = (idMaster) => {
             .catch(err => {
                 console.log(err);
             })
-    
+
 }
 
 export const getInfoStudents = (idStudent) => {
@@ -53,7 +53,7 @@ export const getDeadlinePay = (idStudent) => {
     let obj =  { idStudent };
 
     return (dispatch) => {
-       
+
         axios.post('/catalog.fasol/getDeadlinePay', JSON.stringify(obj))
             .then(rez => {
                 dispatch({
@@ -112,7 +112,7 @@ export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) =
 
     console.log("GET", obj)
     return (dispatch) => {
-       
+
         return axios.post('/catalog.fasol/getIntervalOnWeekdays', JSON.stringify(obj))
             .then(rez => {
                     console.log('AVAIL rez :', rez);
@@ -145,12 +145,12 @@ export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) =
 
 
 export const masterFreeOnDate = (date, chooseMasters) => {
-   
+
     let obj = {
-        date, 
+        date,
         arrMaster: chooseMasters
     };
-  
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/masterFreeOnDate', JSON.stringify(obj))
             .then(res => {
@@ -166,7 +166,7 @@ export const masterFreeOnDate = (date, chooseMasters) => {
 
 export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays) => {
     let obj = {
-        dateStart, 
+        dateStart,
         dateEnd,
         idMaster,
         weekdays
@@ -233,11 +233,11 @@ export const getDisciplineCommunication = (idStudent) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/getStudentMasterDisciplineCommunication', JSON.stringify({idStudent}))
             .then(res => {
-               
+
                 let obj = {};
                 res.data.result.forEach((el) => obj[el.discipline] = el)
-                
-               
+
+
                 dispatch({
                     type: actionTypes.GET_DISCIPLINE_COMMUNICATION,
                     discCommunication: obj
@@ -257,9 +257,9 @@ export const saveDisciplineCommunication = (idStudent, idMaster, discipline) => 
     return (dispatch) => {
         return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
             .then(res => {
-               
+
                 console.log(res);
-            
+
             })
             .catch(err => {console.log(err)})
     }
@@ -272,7 +272,7 @@ export const addAmountTraining = (idSubscription, addAmount) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/addAmountTraining', JSON.stringify(obj))
             .then(res => {
-                console.log(res);         
+                console.log(res);
             })
             .catch(err => {console.log(err)})
     }
@@ -284,12 +284,12 @@ export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, di
         idMaster,
         discipline
     }
-    
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
             .then(res => {
-                
-                console.log(res);         
+
+                console.log(res);
             })
             .catch(err => {console.log(err)})
     }
@@ -297,12 +297,12 @@ export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, di
 
 export const getUseFrozenTraining = (idStudent) => {
     const obj = {idStudent};
-    
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
             .then(res => {
                 console.log('UseFrozenTraining', res);
-                
+
                 dispatch({
                     type: actionTypes.GET_USE_FROZEN_TRAINING,
                     useFrozenTraining: res.data.frozenTraining
@@ -313,17 +313,17 @@ export const getUseFrozenTraining = (idStudent) => {
 }
 
 export const editUseFrozenTraining = (idStudent, amountTraining) => {
-    const obj = {idStudent, amountTraining} 
-    
+    const obj = {idStudent, amountTraining}
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/UseFrozenTraining', JSON.stringify(obj))
             .then(res => {
-               
-                console.log(res);    
+
+                console.log(res);
                 dispatch({
                     type: actionTypes.GET_USE_FROZEN_TRAINING,
                     useFrozenTraining: res.data.frozenTraining
-                });     
+                });
             })
             .catch(err => {console.log(err)})
     }
@@ -337,35 +337,35 @@ export const transferTrainPopupDisable = () => {
 }
 
 export const setPushBtnTransferTraining = (type) => {
-    
+
     return ({
         type: actionTypes.SET_IS_PUSH_BTN_TRANSFER,
-        isPushBtnTransfer: type            
+        isPushBtnTransfer: type
     });
 }
 
 export const setPushBtnAddTraining = (type) => {
-    
+
     return ({
         type: actionTypes.SET_IS_PUSH_BTN_ADD,
-        isPushBtnAdd: type            
+        isPushBtnAdd: type
     });
 }
 
 export const setPushTrialTraining = (type) => {
-    
+
     return ({
         type: actionTypes.SET_IS_PUSH_TRIAL_TRAINING,
-        isPushBtnTrialTraining: type            
+        isPushBtnTrialTraining: type
     });
 }
 
 export const noSetBtnTraining = () => {
-    
+
     return ({
         type: actionTypes.SET_NO_PUSH_BTN,
         isPushBtnAdd: false,
-        isPushBtnTransfer: false     
+        isPushBtnTransfer: false
     });
 }
 
@@ -373,15 +373,16 @@ export const setMasterTheDisicipline = (idMaster) => {
 
     return ({
         type: actionTypes.SET_MASTER_THE_DISCIPLINE,
-        selectMaster: idMaster  
+        selectMaster: idMaster
     });
 }
 
-export const rateMaster = (idStudent, idMaster, rate) => {
+export const rateMaster = (idStudent, idMaster, rate, feedback) => {
     const obj = {
         idStudent,
         idMaster,
-        rating: rate
+        rating: rate,
+        feedback
     };
 
     return (dispatch) => {

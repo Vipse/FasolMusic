@@ -34,10 +34,9 @@ class CoachProfile extends React.Component {
         this.setState({youtubeLoading: false})
     };
 
-    handleRateMaster = (rate) => {
-        this.props.onRateMaster(rate)
+    handleRateMaster = (rate, feedback) => {
+        this.props.onRateMaster(rate, feedback)
             .then((res) => {
-                console.log(res);
                 if (res && res.process) {
                     message.success('Отзыв отправлен');
                     this.setState({rateModalVisible: false});

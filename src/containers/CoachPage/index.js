@@ -150,10 +150,10 @@ class CoachPage extends React.Component{
         this.setState({trainModal: {...this.state.trainModal, visible: false}})
     };
 
-    handleRateMaster = (rate) => {
+    handleRateMaster = (rate, feedback) => {
         const {auth, profileCoach: {id}} = this.props;
 
-        return this.props.onRateMaster(auth.id, id, rate);
+        return this.props.onRateMaster(auth.id, id, rate, feedback);
     };
 
     render() {
@@ -242,7 +242,7 @@ const mapDispatchToProps = dispatch => {
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
-        onRateMaster: (idStudent, idMaster, rate) => dispatch(actions.rateMaster(idStudent, idMaster, rate)),
+        onRateMaster: (idStudent, idMaster, rate, feedback) => dispatch(actions.rateMaster(idStudent, idMaster, rate, feedback)),
     }
 };
 
