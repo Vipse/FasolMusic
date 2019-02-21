@@ -272,7 +272,7 @@ class CoachPersonalDataForm extends React.Component {
                             profile={profileCoach}
                             onChangePromo={this.handleChangePromo}
                         />
-                        <div className='coach-data-title'>Уровени подготовки по дисциплинам</div>
+                        <div className='coach-data-title'>Уровень подготовки по дисциплине</div>
                         <PersonalDataSkill
                             profile={profileCoach}
                             form={form}

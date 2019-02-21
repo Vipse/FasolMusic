@@ -39,8 +39,8 @@ class StudentPayment extends React.Component{
 
     selectPlan = (count) => {
         // здесь должно быть typeSubscription
-        
-        
+
+
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: count});
     }
 
@@ -75,12 +75,12 @@ class StudentPayment extends React.Component{
             let duration = moment.duration(end.diff(now));
              daysToPay = Math.round(duration.asDays());
         }
-        
-        
+
+
         return (
             <div className="payment-student">
                 <Card className="payment-student-trainingPlans" title="Стоимость тренировок">
-                    <p className="info">Чем больше тренировок ты выбираешь, тем меньше цена за одно занятие,
+                    <p className="info">Чем больше тренировок вы выбираете, тем меньше цена за одно занятие,
                         от 203 бр.</p>
                     <div className="plansPlate">
                         <div className="plan">
@@ -196,24 +196,27 @@ class StudentPayment extends React.Component{
                     <div className="payment-student-stats-plate">
                         <div className="payment-student-stats-plate-nextDate">
                             <div className="title">
-                                <span className="date">{ (this.props.nextTrainingTime) ? moment(this.props.nextTrainingTime).format('D MMM') : '-'} 
+                                <span className="date">{ (this.props.nextTrainingTime) ? moment(this.props.nextTrainingTime).format('D MMM') : '-'}
                                 </span>
                                 <p className="name">Следующая тренировка</p>
                             </div>
-                            <p className="info">До следующей тренировки осталось еще время, помни,
-                                результат будет намного лучше если ты закрепишь все, что было пройдено на прошлой трене,
-                                порадуй своего коуча 💪
+                            <p className="info">До следующей тренировки осталось еще время,
+                                помните, результат будет намного лучше если вы закрепите все,
+                                что было пройдено на прошлой трене, порадуйте своего коуча! 💪
                             </p>
                         </div>
                         <div className="payment-student-stats-plate-paid">
                             <div className="title">
-                                <span className="count"> {studentBalance} 
+                                <span className="count"> {studentBalance}
                                 </span>
                                 <p className="name">Оплачено тренировок</p>
                             </div>
-                            <p className="info">Просыпаешься посреди ночи в страхе, что тренировки закончились?
-                                Следи за своим балансом! Чем больше у тебя тренировок, тем больше треков ты выучишь!
-                                Насобирай песен для сольника 😉
+                            <p className="info">Просыпаетесь посреди ночи в страхе,
+                                что тренировки закончились?
+                                Следите за своим балансом!
+                                Чем больше у вас тренировок,
+                                тем больше треков вы выучите!
+                                Насобирайте песен для сольника! 😉
                             </p>
                         </div>
                         <div className="payment-student-stats-plate-daysBeforeNextPay">
@@ -223,8 +226,9 @@ class StudentPayment extends React.Component{
                                 </span>
                                 <p className="name">Дней до оплаты</p>
                             </div>
-                            <p className="info">Если этот день настал, не расстраивайся,
-                                ведь тебе не нужно куда-то идти, все оплаты можно проводить не выходя из дома,
+                            <p className="info">Если этот день настал, не расстраивайтесь,
+                                ведь вам не нужно куда-то идти,
+                                все оплаты можно проводить не выходя из дома,
                                 прямо в личном кабинете! Правда удобно? 🙂
                             </p>
                         </div>
@@ -243,7 +247,7 @@ class StudentPayment extends React.Component{
 const mapStateToProps = state => {
     return {
         //freeIntervals: state.patients.freeIntervals,
-        
+
     };
 };
 
@@ -251,7 +255,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onSetFreeIntervals: (freeIntervals) => dispatch(actions.setFreeIntervals(freeIntervals)),
         onSetNeedSaveIntervals: (count) => dispatch(actions.setNeedSaveIntervals(count)),
-        
+
     }
 };
 

@@ -43,12 +43,12 @@ class App extends React.Component {
 
 
     /* Notifications and chat */
-  
+
     componentWillUnmount(){
         closeSocket();
         this.props.setOnlineStatus(this.props.id, false)
     }
-    
+
     runNotificationsWS = () => {
         const that = this;
         //let id = 3199;
@@ -73,7 +73,7 @@ class App extends React.Component {
         const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
             setConversationMode, setChatStory, setChatTrainingId, setNewTimer, onSaveMessage,
             setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus} = this.props;
-        
+
         createSocket(
             'wss://web.fasolonline.ru:8443/one2one',
             chatProps,
@@ -136,7 +136,8 @@ class App extends React.Component {
                  width: '500px',
                  className: 'fast-modal',
                  content: 'Для более удобной работы с платформой зайдите с компьютера! ' +
-                     'Но вы всегда можете записаться тренировку и с телефона, а также весь функционал доступен для вас!\n',
+                     'Но вы всегда можете записаться на тренировку и с телефона, ' +
+                     'здесь для вас также доступен весь функционал!',
                  zIndex: 1050
              });
      };
@@ -203,33 +204,33 @@ class App extends React.Component {
 
     pushBtnTransfer = () => {
         this.setState({scheduleSpinner: true})
-        
+
         const {weekInterval} = this.props;
         this.onGoToSchedule();
-       
+
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
- 
+
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => {
                 this.setState({scheduleSpinner: false})
                  this.props.onSetPushBtnTransferTraining()
              })
         }
-        // const start =  moment(Date.now()).startOf('week').format('X'); 
+        // const start =  moment(Date.now()).startOf('week').format('X');
         // const end = moment(Date.now()).endOf('week').format('X');
 
     }
 
     pushBtnUnfresh = () => {
-        
+
         const {weekInterval} = this.props;
         this.setState({scheduleSpinner: true})
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
-     
+
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => {
                 this.setState({scheduleSpinner: false})
@@ -306,7 +307,7 @@ class App extends React.Component {
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
                                             isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
                                             onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
-                                            
+
                                             onSetFreeIntervals = {this.props.onSetFreeIntervals}
                                             onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
                                             onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
@@ -347,7 +348,7 @@ class App extends React.Component {
                                     </Switch>
                                 </div>
                             </div>
-                            {this.state.scheduleSpinner && 
+                            {this.state.scheduleSpinner &&
                                 <div className = "schedule-spinner">
                                   <Spinner isInline={true} size='large'/>
                                 </div>}
@@ -404,7 +405,7 @@ const mapDispatchToProps = dispatch => {
         onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
         onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
-       
+
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
         getNotifications: (id) => dispatch(actions.getNotifications(id)),

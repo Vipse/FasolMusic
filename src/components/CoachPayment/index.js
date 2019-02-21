@@ -165,79 +165,23 @@ class CoachPayment extends React.Component{
                         {this.renderFilesList()}
                     </PerfectScrollbar>
                 </Card>
-                <Card className="payment-coach-paymentData" title="Данные для получения оплаты">
-                    <p className="info">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
-                        eligendi harum hic neque porro recusandae
-                    </p>
-                    <div className='paymentPlate'>
-                        <div className="payment-method">
-                            <div className="payment-method-view">
-                                <img src={cardIcon} className="payment-method-icon"/>
-                                <span className="payment-method-name">Карта</span>
-                            </div>
-                            {this.state.bankCard.linked ? this.renderInput("bankCard")
-                                : <Button className="payment-method-linkBtn"
-                                    btnText='Привязать'
-                                    onClick={(e) => this.handleLinkStatus(e, "bankCard")}
-                                    size='small'
-                                    type='dark-blue'
-                            />}
-                        </div>
-                        <div className="payment-method">
-                            <div className="payment-method-view">
-                                <img src={yandexMoneyIcon} className="payment-method-icon"/>
-                                <span className="payment-method-name">Яндекс.Деньги</span>
-                            </div>
-                            {this.state.yandexMoney.linked ? this.renderInput("yandexMoney")
-                                : <Button className="payment-method-linkBtn"
-                                    btnText='Привязать'
-                                    onClick={(e) => this.handleLinkStatus(e, "yandexMoney")}
-                                    size='small'
-                                    type='dark-blue'
-                            />}
-                        </div>
-                    </div>
-                </Card>
-                <Card className="payment-coach-referLink" title="Реферальная ссылка">
-                    <div className="payment-coach-referLink-column">
-                        <p className="title">Скинуть ссылку потенциальному новому клиенту</p>
-                        <p className="info">
-                            Тот получит 1 бесплатное занятие если оплатят, а препод получит денежное вознаграждение
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
-                            eligendi harum hic neque porro recusandae.
-                        </p>
-                        <InputNew className="input" bubbleplaceholder="Ссылка" onChange={(e) => this.setState({refLink: e.target.value})} onPressEnter={this.copyLink}/>
-                        <Button className="copyBtn"
-                            btnText='Скопировать'
-                            onClick={this.copyLink}
-                            size='default'
-                            type='light-pink'
-                        />
-                    </div>
-                </Card>
                 <Card className="payment-coach-stats">
                     <div className="payment-coach-stats-plate">
                         <div className="payment-coach-stats-plate-completed">
-                            <div className="title"><span className="count">3</span><p className="name">Проведено тренировок</p></div>
-                            <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation</p>
+                            <div className="title"><span className="count">3</span>
+                                <p className="name">Проведено тренировок</p>
+                            </div>
+                            <p className="info">Дальше - больше! Чем больше у вас проведено тренировок,
+                                тем больше у вас опыта в обучении, следите за своим ростом!</p>
                         </div>
                         <div className="payment-coach-stats-plate-earned">
-                            <div className="title"><span className="count">184р.</span><p className="name">Заработано с тренировок</p></div>
-                            <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation</p>
+                            <div className="title"><span className="count">184р.</span>
+                                <p className="name">Заработано с тренировок</p>
+                            </div>
+                            <p className="info">Следите за своим балансом, это хорошая мотивация!
+                                Приумножайте эти цифры, двигайтесь только вперед!</p>
                         </div>
                     </div>
-                </Card>
-                <Card className="payment-coach-invite" title="Пригласи друзей">
-                    <img src={inviteFriendsPic}/>
-                    <p className="title">Пригласи друга и получи бонус</p>
-                    <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation</p>
                 </Card>
                 <PaymentEditModal
                     visible={this.state.modalVisible}
