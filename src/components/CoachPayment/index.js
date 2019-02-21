@@ -157,7 +157,7 @@ class CoachPayment extends React.Component{
     };
 
     render() {
-        const payment = this.props.paymentData;
+        const {completedAmount} = this.props;
         return (
             <div className="payment-coach">
                 <Card className="payment-coach-record" title="Акты выполненных работ">
@@ -168,7 +168,7 @@ class CoachPayment extends React.Component{
                 <Card className="payment-coach-stats">
                     <div className="payment-coach-stats-plate">
                         <div className="payment-coach-stats-plate-completed">
-                            <div className="title"><span className="count">3</span>
+                            <div className="title"><span className="count">{completedAmount}</span>
                                 <p className="name">Проведено тренировок</p>
                             </div>
                             <p className="info">Дальше - больше! Чем больше у вас проведено тренировок,
@@ -195,12 +195,14 @@ class CoachPayment extends React.Component{
 CoachPayment.propTypes = {
     paymentData: PropTypes.object,
     filesList: PropTypes.arrayOf(PropTypes.object),
+    completedAmount: PropTypes.number,
     onSubmit: PropTypes.func
 };
 
 CoachPayment.defaultProps = {
     paymentData: {},
     filesList: [],
+    completedAmount: 0,
     onSubmit: () => {}
 };
 
