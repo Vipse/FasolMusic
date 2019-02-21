@@ -33,8 +33,8 @@ class MasterListSlot extends Component {
         
         let children = '';
         if(Array.isArray(freetrainers) && Array.isArray(busytrainers)){
-            children += freetrainers.length ? freetrainers.length + ' - ': '0 - ';
-            children += busytrainers.length ? busytrainers.length : '0';
+            children += freetrainers.length ? '(с) '+ freetrainers.length + ' - ': '(с) 0 - ';
+            children += busytrainers.length ? '(з) '+ busytrainers.length : '(з) 0';
         }
 
         return (

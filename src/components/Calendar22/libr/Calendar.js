@@ -98,7 +98,7 @@ class Calendar extends React.Component {
     )
 
     const label = Week.title(current, { formats, culture, length })
-
+    
     return (
       <div className="wrapper-calendar">    
 
@@ -117,6 +117,7 @@ class Calendar extends React.Component {
           <div className='rbc-calendar-wrapper'>      
             {toolbar && (
               <Toolbar
+                mode = {this.props.mode}
                 date={current}
                 view={view}
                 views={names}
@@ -167,11 +168,7 @@ class Calendar extends React.Component {
                   onGotoPage = {this.props.onGotoPage}
               /> 
               :
-              null
-              
-            }
-              
-            <div className="table-footer wrapper-small-calendar">
+              <div className="table-footer wrapper-small-calendar">
                 <div className="type">
                     <div className='type-color-available'/>
                     <div className='type-name'>Свободно</div>
@@ -190,6 +187,10 @@ class Calendar extends React.Component {
                 </div>
             
             </div>
+              
+            }
+              
+            
 
 
             <CancelVisitModal visible={this.state.isWorkTime}
@@ -258,7 +259,6 @@ Calendar.propTypes = {
   onNavigate: PropTypes.func,
   onView: PropTypes.func,
   onDrillDown: PropTypes.func,
-  onSelectSlot: PropTypes.func,
   onSelectEvent: PropTypes.func,
   onDoubleClickEvent: PropTypes.func,
   onSelecting: PropTypes.func,

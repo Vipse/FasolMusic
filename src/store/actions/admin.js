@@ -10,7 +10,7 @@ export const getFreeAndBusyMasterList = (dateStart, dateEnd) => {
             dateEnd
         }
 
-        axios.post('/catalog.fasol/freeAndBusyMasterList',
+        return axios.post('/catalog.fasol/freeAndBusyMasterList',
             JSON.stringify(obj))
             .then(res => {
                 console.log("REEES", res.data.result)

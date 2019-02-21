@@ -197,6 +197,15 @@ export const unauthorizedTrialDataSave = (data) => {
     }
 };
 
+export const saveNotification = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.SAVE_NOTIFICATION,
+            notifications: data
+        })
+    }
+};
+
 export const uploadTrainingChatHistory = (idTraining, chat) => {
     const obj = {
         idTraining,

@@ -135,6 +135,8 @@ class Header extends React.Component {
             if(trialTrainingForDisciplines[el] === false) showTrialModal = true
         }
 
+        console.log('this.props', this.props)
+        debugger
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -174,7 +176,7 @@ class Header extends React.Component {
                     </React.Fragment> : null}
                 <div className='header-notification'>
                     <NotificationApp
-                        data={notifications}
+                        data={this.props.notifications}
                         getNotifications={this.props.getNotifications}
                         getId={this.props.getNotifId}>
                         <Icon

@@ -15,22 +15,6 @@ export const autoLogin = (history) => {
     }
 }
 
-export const setOnlineStatus = (id,isOnline) => {
-    return dispatch => {
-        const newObj = {
-            id,
-            status: isOnline ? 1 : 0,
-        }
-        axios.post('/fusers.doc/userOnOff',
-            JSON.stringify(newObj))
-            .then(res => {
-                //console.log('[setOnlineStatus] results',res)
-            })
-            .catch(err => {
-                console.log('error: ',err);
-            })
-    }
-}
 
 export const login = (userName, password, remember, history, isAuto) => {
 
@@ -46,7 +30,6 @@ export const login = (userName, password, remember, history, isAuto) => {
                         !res.data.hasOwnProperty('error')
                             ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                                dispatch(setOnlineStatus(res.data.result.id, true)),
                                 sessionStorage.setItem('_fasol-id', res.data.result.id),
                                 sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
@@ -81,7 +64,6 @@ export const registerUser = (userInfo, history) => {
                     .then(res => {
                         if (res && res.data && !res.data.error) {
                             dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                            dispatch(setOnlineStatus(res.data.result.id, true)),
                             localStorage.setItem('_fasol-user', userInfo.email);
                             localStorage.setItem('_fasol-pass', userInfo.password);
 
@@ -107,7 +89,6 @@ export const registerTrainer = (userInfo, history) => {
                         if( !res.data.hasOwnProperty('error'))
                         {
                             dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                            dispatch(setOnlineStatus(res.data.result.id, true)),
                             sessionStorage.setItem('_fasol-id', res.data.result.id),
                             sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
                            // rememberMe(remember, userName, password),
@@ -141,7 +122,6 @@ export const logout = () => {
         localStorage.removeItem('_fasol-pass');
         sessionStorage.removeItem('_fasol-id');
         sessionStorage.removeItem('_fasol-mode');
-        dispatch(setOnlineStatus(getState().auth.id, false));
         dispatch(authSuccess(0, ''));
     }
 

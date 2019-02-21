@@ -26,8 +26,13 @@
 .schedule-message-modal-wrapper .schedule-message-btn button {
   width: 100px;
 }
-.schedule-message-modal-wrapper .block-free-trainer {
+.schedule-message-modal-wrapper .admin-trainer-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+.schedule-message-modal-wrapper .admin-trainer-wrapper .block-free-trainer {
   padding: 10px;
+  width: 300px;
 }
 .schedule-message-modal-wrapper .free-trainer {
   margin: 10px;

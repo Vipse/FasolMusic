@@ -38,10 +38,6 @@ export {
     clearIntervals,
     clearVisits,
     addInterval,
-    addVisit,
-    getAllVisits,
-    getAllPatientVisits,
-    getCountNearVisits,
     getTodayVisits,
     getFreeVisitsBySpec,
 } from './schedules';
@@ -72,7 +68,6 @@ export {
     logout,
     registerUser,
     resetRegisterStatus,
-    setOnlineStatus,
     checkEmailAvailability,
     reportBug,
     registerTrainer
@@ -202,6 +197,8 @@ export {
     getFutureTrialTraining,
     getCountTrainingByDiscipline,
     removeTrialTraining,
+    
+    saveNotification,
 } from './training'
 
 

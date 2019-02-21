@@ -1,6 +1,5 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
-import {getAllPatientVisits, getCountNearVisits} from "./schedules";
 
 export const getAllTreatments = () => {
 
@@ -274,8 +273,6 @@ export const cancelAppByPatient = (id) => {
     return (dispatch) => {
         return axios.get('/catalog.doc2/userMakingAppDel/id/'+id)
             .then(res=>{
-                dispatch(getCountNearVisits(3));
-                dispatch(getAllPatientVisits());
                 return res
             })
             .catch(err => {

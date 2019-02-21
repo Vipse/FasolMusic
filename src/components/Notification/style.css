@@ -29,17 +29,17 @@
 .notification-cancel .notification-icon .icon {
   color: #fdc401;
 }
-.notification-research {
+.notification-newtsubscription {
   background-color: #fefbf3;
 }
-.notification-research .notification-title {
-  color: #00c853;
+.notification-newtsubscription .notification-title {
+  color: #fdc401;
 }
-.notification-research .notification-icon {
+.notification-newtsubscription .notification-icon {
   display: block;
 }
-.notification-research .notification-icon .icon {
-  color: #00c853;
+.notification-newtsubscription .notification-icon .icon {
+  color: #fdc401;
 }
 .notification-five {
   background-color: #fefbf3;
@@ -53,17 +53,17 @@
 .notification-five .notification-icon .icon {
   color: #ef5350;
 }
-.notification-tomorrow {
+.notification-transfertraining {
   background-color: #fefbf3;
 }
-.notification-tomorrow .notification-title {
-  color: #fdc401;
+.notification-transfertraining .notification-title {
+  color: #00c853;
 }
-.notification-tomorrow .notification-icon {
+.notification-transfertraining .notification-icon {
   display: block;
 }
-.notification-tomorrow .notification-icon .icon {
-  color: #fdc401;
+.notification-transfertraining .notification-icon .icon {
+  color: #00c853;
 }
 .notification-negative {
   background-color: #fefbf3;

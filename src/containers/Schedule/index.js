@@ -27,6 +27,7 @@ import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
 import { apiPatients } from './mock-data';
+import FreeAdminTrainersItem from '../../components/FreeAdminTrainersItem';
 
 
 class Schedule extends React.Component {
@@ -63,7 +64,7 @@ class Schedule extends React.Component {
             showSpinner: false,
             theMasterSelect: false,
             notRedirectDiscipline: false,
-            scheduleSpinner: false,
+            scheduleSpinner: true,
             modalRemoveTrialTraining: false,
         }
     };
@@ -449,14 +450,14 @@ class Schedule extends React.Component {
                         if(!trainingtime.hasOwnProperty(weekDay)){
                             trainingtime[weekDay] = [];
                          }
-                        trainingtime[weekDay].push({id: item.id, start: this.transferDay.dateStart })
+                        trainingtime[weekDay].push({id: item.idMaster, start: this.transferDay.dateStart })
                     }
                     else{
                         const weekDay =  item.start.getDay();
                         if(!trainingtime.hasOwnProperty(weekDay)){
                             trainingtime[weekDay] = [];
                         }
-                        trainingtime[weekDay].push({id: item.id, start: item.dateStart })
+                        trainingtime[weekDay].push({id: item.idMaster, start: item.dateStart })
                     }
 
                     if(!scheduleForWeek.dateStart){
@@ -481,7 +482,7 @@ class Schedule extends React.Component {
 
     setIntervalAndView = (date, view) => {
         const {start, end} = findTimeInterval(date, view);
-        this.state.isEditorMode ? this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
+        this.state.isEditorMode ? this.props.onGetAllIntervals(start, end) : null;
 
         this.setState({
             interval: {
@@ -521,16 +522,14 @@ class Schedule extends React.Component {
         this.props.onSetWeekInterval({start, end});
 
         this.setIntervalAndView(this.state.currentDate, 'week');
-        this.props.onGetAllUserVisits();
 
-        console.log('currDiscipline', currDiscipline)
         this.props.onGetAbonementsFilter(id, currDiscipline);
-        //this.props.onGetAbonementsFilter(id, currDiscipline);
 
         if(this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(id);
 
             this.props.onCheckToken(id)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
                 .then((checkToken) => {
 
                     if(checkToken.length){
@@ -553,10 +552,13 @@ class Schedule extends React.Component {
         }
 
         if(this.props.isAdmin) {
-            this.props.onGetFreeAndBusyMasterList(start, end);
+
+            this.props.onGetFreeAndBusyMasterList(start, end)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
         if(this.props.mode === 'master'){
-            this.props.onGetTrainerTraining(id, start, end, currDiscipline);
+            this.props.onGetTrainerTraining(id, start, end, currDiscipline)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
         }
 
     }
@@ -597,10 +599,9 @@ class Schedule extends React.Component {
 
 
         const {start, end} = this.state.isEditorMode
-            ? findTimeInterval(date, 'month')
-            : isOnDay ?
-                findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
-        this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
+            ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
+
+        this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : null
 
         this.setState({scheduleSpinner: true})
         isOnDay ?
@@ -621,18 +622,16 @@ class Schedule extends React.Component {
                 },
             })
 
-            this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
+        this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
 
-        // if(!this.state.sendingModal){
-        //     this.setState({showSpinner: true});
-        //     const dateStart = Math.floor(+start.getTime() / 1000);
-        //     const dateEnd = Math.floor(+end.getTime() / 1000);
-        //     this.props.onGetAvailableInterval(dateStart,dateEnd, chooseWeekdays, chooseDiscipline)
-        //         .then(() => this.setState({showSpinner: false, sendingModal: true}))
-        // }
+        const dateStart = Math.floor(+start.getTime() / 1000);
+        const dateEnd = Math.floor(+end.getTime() / 1000);
+
+        if(mode === 'admin'){
+            this.props.onGetFreeAndBusyMasterList(dateStart, dateEnd)
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
+        }
         if(mode === 'master'){
-            const dateStart = Math.floor(+start.getTime() / 1000);
-            const dateEnd = Math.floor(+end.getTime() / 1000);
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
         }
         if(mode === 'master' || mode === 'student'){
@@ -640,15 +639,12 @@ class Schedule extends React.Component {
             this.props.onGetAbonementsFilter(id, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
+
         if(this.props.isPushBtnTransfer){
 
             let idMaster = this.props.profileStudent.mainUser;
-            let dateStart1 = Math.floor(+start.getTime() / 1000);
-            let dateEnd1 = Math.floor(+end.getTime() / 1000);
 
-            let chooseWeekdays = [1,2,3,4,5,6,7];
-
-            this.props.onGetTheMasterInterval(dateStart1, dateEnd1, idMaster, chooseWeekdays)
+            this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, [1,2,3,4,5,6,7])
                 .then(() => {
                     this.setState({theMasterSelect: true, scheduleSpinner: false})
                 });
@@ -671,18 +667,6 @@ class Schedule extends React.Component {
         this.props.onChangeCurrDiscipline(disc)
 
     }
-    onAddVisit = (info) => {
-        this.props.patients.length === 0 ?
-            this.props.onGetDocPatients() : null;
-
-        this.setState({
-            newVisitModal: true,
-            newVisitData: {
-                ...this.state.newVisitData,
-                date: info.start,
-            }
-        })
-    };
 
     closeNewVisitModal = () => {
         this.setState({
@@ -710,7 +694,7 @@ class Schedule extends React.Component {
     changeToEditorMode = (isEditorMode) => {
         let mode = isEditorMode ? 'month' : 'week';
         const {start, end} = findTimeInterval(this.state.currentDate, mode);
-        isEditorMode ? this.props.onGetAllIntervals(start, end) : this.props.onGetAllVisits(start, end);
+        isEditorMode ? this.props.onGetAllIntervals(start, end) : null
 
         this.setState({
             view: mode,
@@ -833,7 +817,6 @@ class Schedule extends React.Component {
                     /*receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length} */
                     selectable
                     onSelectEvent={this.props.onSelectEvent}
-                    onSelectSlot={(slot) => this.onAddVisit(slot)}
                     defaultView="week"
                     onView={(view, date) => {
                         !date ? this.setIntervalAndView(this.state.currentDate, view) : () => {
@@ -873,7 +856,7 @@ class Schedule extends React.Component {
                     setAbonement_Training = {this.setAbonement_Training}
                     onCancelTraining = {this.onCancelTraining}
                     trainerTraining = {this.props.trainerTraining}
-                    scheduleSpinner = {this.props.scheduleSpinner}
+                    scheduleSpinner = {this.state.scheduleSpinner}
 
                     />)
         }
@@ -945,6 +928,7 @@ class Schedule extends React.Component {
                              }
 
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
+
                                 filterInterval = this.props.theMasterInterval;
                                 notRedirectDiscipline = true;
 
@@ -959,7 +943,6 @@ class Schedule extends React.Component {
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length}
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
-                                  onSelectSlot={(slot) => this.onAddVisit(slot)}
                                   defaultView="week"
                                   onView={(view, date) => {
                                       !date ? this.setIntervalAndView(this.state.currentDate, view) : () => {
@@ -1040,13 +1023,13 @@ class Schedule extends React.Component {
                                         type='yellow'/>
                                 </div>
 
-                                {( this.delEvent && this.delEvent.event.trial) ?
+                                {/* ( this.delEvent && this.delEvent.event.trial) ?
                                     null :
                                         <div className="schedule-message-btn">
                                             <Button btnText='Новое расписание'
                                             onClick= {this.setAbonement_Training}
                                             type='yellow'/>
-                                        </div> }
+                                </div> */}
                         </div>
                 </Modal>
 
@@ -1099,29 +1082,33 @@ class Schedule extends React.Component {
                     title='Список коучей'
                     visible={this.state.modalMasterList}
                     onCancel={() => this.setState({modalMasterList : false})}
-                    width={360}
+                    width={720}
                     className="schedule-message-modal-wrapper"
                 >
-                <div className="block-free-trainer">
-                    <p className="free-trainer">Свободные тренера</p>
-                    {this.props.freetrainers && this.props.freetrainers.map((item, index) => {
-                        return (<FreeTrainersItem {...item}
-                                                key={index}
-                                                onGoto= {(id) => this.props.history.push('/app/coach'+id)}
+                    <div className="admin-trainer-wrapper">
+                        <div className="block-free-trainer">
+                            <p className="free-trainer">Свободные тренера</p>
+                            {this.props.freetrainers && this.props.freetrainers.map((item, index) => {
+                                return (<FreeAdminTrainersItem {...item}
+                                                        key={index}
+                                                        onGoto= {(id) => this.props.history.push('/app/coach'+id)}
 
-                        />)
-                    })}
-                    <p className="free-trainer">Занятые тренера</p>
-                    {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
-                        return (<FreeTrainersItem {...item}
-                                                key={index}
-                                                onGoto= {(id) => this.props.history.push('/app/coach'+id)}
+                                />)
+                            })}
 
-                        />)
-                    })}
-                 </div>
+                        </div>
 
+                        <div className="block-free-trainer">
+                            <p className="free-trainer">Занятые тренера</p>
+                            {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
+                                return (<FreeAdminTrainersItem {...item}
+                                                        key={index}
+                                                        onGoto= {(id) => this.props.history.push('/app/coach'+id)}
 
+                                />)
+                            })}
+                        </div>
+                    </div>
                 </Modal>
 
 
@@ -1229,9 +1216,6 @@ const mapDispatchToProps = dispatch => {
         clearReceptions: () => dispatch(actions.clearIntervals()),
         onAddInterval: (obj, start, end) => dispatch(actions.addInterval(obj, start, end)),
 
-        onAddNewVisit: (obj, start, end) => dispatch(actions.addVisit(obj, start, end)),
-        onGetAllVisits: (start, end) => dispatch(actions.getAllVisits(start, end)),
-        onGetAllUserVisits: () => dispatch(actions.getAllPatientVisits()),
         onSendMessage: (mess) => dispatch(actions.sendMessage(mess)),
         onCloseCancelModal: (obj) => dispatch(actions.cancelEventsRange(obj)),
         onClearVisits: () => dispatch(actions.clearVisits()),
@@ -1275,13 +1259,8 @@ const mapDispatchToProps = dispatch => {
         onGetFutureTrialTraining: (id, discipline) => dispatch(actions.getFutureTrialTraining(id, discipline)),
         onRemoveTrialTraining: (idTraining) => dispatch(actions.removeTrialTraining(idTraining)),
 
-
-
-
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
-
-
 
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetAllInfoMasters: (typeMasters, masterList) => dispatch(actions.getAllInfoMasters(typeMasters,masterList)),
