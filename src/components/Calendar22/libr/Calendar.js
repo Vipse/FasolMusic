@@ -167,11 +167,7 @@ class Calendar extends React.Component {
                   onGotoPage = {this.props.onGotoPage}
               /> 
               :
-              null
-              
-            }
-              
-            <div className="table-footer wrapper-small-calendar">
+              <div className="table-footer wrapper-small-calendar">
                 <div className="type">
                     <div className='type-color-available'/>
                     <div className='type-name'>Свободно</div>
@@ -190,6 +186,10 @@ class Calendar extends React.Component {
                 </div>
             
             </div>
+              
+            }
+              
+            
 
 
             <CancelVisitModal visible={this.state.isWorkTime}

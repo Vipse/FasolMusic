@@ -27,6 +27,7 @@ import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
 import { apiPatients } from './mock-data';
+import FreeAdminTrainersItem from '../../components/FreeAdminTrainersItem';
 
 
 class Schedule extends React.Component {
@@ -1035,13 +1036,13 @@ class Schedule extends React.Component {
                                         type='yellow'/>
                                 </div>
 
-                                {( this.delEvent && this.delEvent.event.trial) ? 
+                                {/* ( this.delEvent && this.delEvent.event.trial) ? 
                                     null : 
                                         <div className="schedule-message-btn"> 
                                             <Button btnText='Новое расписание'    
                                             onClick= {this.setAbonement_Training}
                                             type='yellow'/>
-                                        </div> }
+                                </div> */}
                         </div>
                 </Modal>
 
@@ -1094,29 +1095,33 @@ class Schedule extends React.Component {
                     title='Список коучей'
                     visible={this.state.modalMasterList}
                     onCancel={() => this.setState({modalMasterList : false})}
-                    width={360}
+                    width={720}
                     className="schedule-message-modal-wrapper"
                 >
-                <div className="block-free-trainer">
-                    <p className="free-trainer">Свободные тренера</p>
-                    {this.props.freetrainers && this.props.freetrainers.map((item, index) => {
-                        return (<FreeTrainersItem {...item}
-                                                key={index}
-                                                onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-                                                
-                        />)
-                    })}
-                    <p className="free-trainer">Занятые тренера</p>
-                    {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
-                        return (<FreeTrainersItem {...item}
-                                                key={index}
-                                                onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-                                                
-                        />)
-                    })}
-                 </div>
-                   
+                    <div className="admin-trainer-wrapper">
+                        <div className="block-free-trainer">
+                            <p className="free-trainer">Свободные тренера</p>
+                            {this.props.freetrainers && this.props.freetrainers.map((item, index) => {
+                                return (<FreeAdminTrainersItem {...item}
+                                                        key={index}
+                                                        onGoto= {(id) => this.props.history.push('/app/coach'+id)}
+                                                        
+                                />)
+                            })}
                         
+                        </div>
+                        
+                        <div className="block-free-trainer">
+                            <p className="free-trainer">Занятые тренера</p>
+                            {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
+                                return (<FreeAdminTrainersItem {...item}
+                                                        key={index}
+                                                        onGoto= {(id) => this.props.history.push('/app/coach'+id)}
+                                                        
+                                />)
+                            })}
+                        </div>
+                    </div>
                 </Modal>
 
                 
