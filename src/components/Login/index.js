@@ -49,6 +49,14 @@ class LoginForm extends React.Component{
                     validateStatus: 'error',
                 }];
                 break;
+            case 404:
+                error = [{
+                    validateStatus: 'error',
+                    help: "Неверно введены данные",
+                },{
+                    validateStatus: 'error',
+                }];
+                break;
             case 200:
             default:
                 error = [];
@@ -108,7 +116,7 @@ class LoginForm extends React.Component{
 const Login = Form.create()(LoginForm);
 
 Login.propTypes = {
-    errorCode: PropTypes.oneOf([0,200, 400, 500]),
+    errorCode: PropTypes.oneOf([0,200, 400, 404, 500]),
     urlForget: PropTypes.string,
     urlRegistration: PropTypes.string,
     onSubmit: PropTypes.func,

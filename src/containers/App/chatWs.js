@@ -286,6 +286,7 @@ const incomingCall = (message) => {
 
 
     function acceptCall() {
+        debugger
         callbacks.setReceptionStatus(true);
         callbacks.setIsCallingStatus(true);
         callbacks.setChatToId(message.from);
@@ -316,6 +317,7 @@ const incomingCall = (message) => {
             webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
                     function(error) {
                         if (error) {
+                            debugger
                             console.error(error);
                             setCallState(NO_CALL);
                         }

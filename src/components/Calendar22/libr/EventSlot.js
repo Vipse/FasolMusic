@@ -72,7 +72,6 @@ class EventSlot extends Component {
             isNearDay = (isNearDay < 1) ? false : true
         
         
-debugger
         if( event.status && 
             !event.isBooking && 
             !event.isComplete && 

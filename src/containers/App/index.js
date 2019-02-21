@@ -56,6 +56,9 @@ class App extends React.Component {
                 that.props.getNotifications(that.props.id);
 
                 conn.subscribe("" + that.props.id, function(topic, data) {
+                    
+                    
+                    that.props.onSaveNotification(data.arr)
                     that.setState({
                         notifications: data.arr
                     });
@@ -103,7 +106,7 @@ class App extends React.Component {
                 get_history: () => this.props.history,
             }
         );
-
+       
         register('' + this.props.id, ''/*+this.props.user_id*/, this.props.mode);
     };
 
@@ -169,7 +172,7 @@ class App extends React.Component {
             pass = localStorage.getItem('_fasol-pass');
 
             console.log('win :', window.localStorage);
-            debugger
+            
 
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
@@ -322,6 +325,7 @@ class App extends React.Component {
                                             subsForDisc = {this.props.subsForDisc}
                                             abonementIntervals = {this.props.abonementIntervals}
                                             onAddAmountTraining = {this.props.onAddAmountTraining}
+                                            notifications = {this.props.notifications}
 
                                             showSpinner = {() => this.setState({scheduleSpinner: true})}
                                             hideSpinner = {() => this.setState({scheduleSpinner: false})}
@@ -381,6 +385,7 @@ const mapStateToProps = state => {
         subsForDisc: state.abonement.subsForDisc,
         abonementIntervals: state.patients.abonementIntervals,
         currDiscipline: state.abonement.currDiscipline,
+        notifications: state.training.notifications,
 
         from: state.chatWS.from,
         to: state.chatWS.to,
@@ -412,6 +417,9 @@ const mapDispatchToProps = dispatch => {
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
         getNotifications: (id) => dispatch(actions.getNotifications(id)),
         readNotification: (id) => dispatch(actions.readNotification(id)),
+
+        onSaveNotification: (data) => dispatch(actions.saveNotification(data)),
+        
 
         setChatFromId: (id) => dispatch(actions.setChatFromId(id)),
         setChatToId: (id) => dispatch(actions.setChatToId(id)),

@@ -89,6 +89,7 @@ class StudentPage extends React.Component{
         const {trainerTrainings, masterPostTrainings, match} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
 
+        console.log('StudentPage', this.props)
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
         } else if (id !== this.props.match.params.id) {

@@ -31,7 +31,7 @@ class NotificationItem extends React.Component{
                         type="link"
                         download
                     />)
-                })}
+                }) }
                 <Button
                     size='file'
                     type='file'
@@ -45,13 +45,13 @@ class NotificationItem extends React.Component{
     };
 
     render() { 
-       
-        const {id, title, desc, time, thisTime, status, watch, getId} = this.props;
+       debugger
+        const {id, title, desc, time, thisTime, status, watch, idTo} = this.props;
         let iconType = 'notification';
         let links;
 
         switch (status) {
-            case 'research':
+            case 'newtsubscription':
                 iconType = 'notification-email';
                 break;
             // case 'cancel':
@@ -61,12 +61,14 @@ class NotificationItem extends React.Component{
 
         let flag = this.state.watchInverse ? watch : !watch;
         let rootClass = (flag) ? cn( `notification-item` ,`notification-${status}`) : cn( `notification-item` ,`notification-watch`);
-        let madeDate = new Date((+thisTime)*1000),
-            now = new Date();
+        let madeDate = new Date((+thisTime)*1000);
+        let now = new Date();
+
+
         return (
                     <div className={rootClass}
                         onClick={(flag) ? (() => {
-                            getId(id);
+                            this.props.getId(id);
                             this.setState({watchInverse: true});
                         }) : undefined}
                     >
@@ -78,7 +80,9 @@ class NotificationItem extends React.Component{
                                 {title}
                                 {(status != 'negative' && status != 'research' && time)
                                     ? ` — ${moment((+time)*1000).format('HH:mm')}` : ''}
-                                </div>
+                            </div>
+
+
                             {<div className='notification-time'>
                                 {(madeDate.getDate() === now.getDate() && madeDate.getMonth() === now.getMonth())
                                     ? moment((+thisTime)*1000).format('HH:mm')
@@ -94,14 +98,12 @@ class NotificationItem extends React.Component{
 }
 
 NotificationItem.propTypes ={
-	status: PropTypes.oneOf(['new', 'cancel','research','five','tomorrow', 'negative', 'call','default']),
     title: PropTypes.string,
     time: PropTypes.string,
     thisTime: PropTypes.string,
     desc: PropTypes.string,
     watch: PropTypes.bool, // просмотрена запись - да(true)
     file: PropTypes.array,
-    getId: PropTypes.func,
 }
 
 NotificationItem.defaultProps = {
@@ -113,7 +115,6 @@ NotificationItem.defaultProps = {
     desc: '',
     watch: false,
     file: [],
-    getId: () => {},
 }
 
 export default NotificationItem

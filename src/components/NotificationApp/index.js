@@ -34,12 +34,18 @@ class NotificationApp extends React.Component {
     }
 
     render() {
+        const {data} = this.props;
+
         let styleNotf = null;
+
         let notifCount = this.getDataLength() - this.state.inverseCount;
-        if(notifCount === 0)
-            styleNotf = {'backgroundColor': 'transparent'};
 
+        // let notifCount = (Array.isArray(data) && data.length) ? data : 0
+        // if(notifCount === 0)
+        //     styleNotf = {'backgroundColor': 'transparent'};
 
+            console.log('Popover', data)
+            debugger
         return (
             <div className="notific_component">
                 <Popover
@@ -48,12 +54,9 @@ class NotificationApp extends React.Component {
                     content={this.state.visible &&
                     <NotificationCard
                         data={this.props.data}
-                        top={this.props.top}
-                        getId={(id) => {
+                        getId = {(id) => {
                             this.props.getId(id);
-                            this.setState(prevState => {
-                                return {...prevState, inverseCount: prevState.inverseCount + 1}
-                            })
+                            this.setState({inverseCount: this.state.inverseCount+1})
                         }}
                     />}
                     trigger="click"

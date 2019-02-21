@@ -46,6 +46,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 countTrainingDiscipline: action.countTrainingDiscipline
             }    
+        case actionTypes.SAVE_NOTIFICATION:
+            return {
+                ...state,
+                notifications: action.notifications
+            }    
             
         default: return state;
     }

@@ -13,18 +13,22 @@ class NotificationCard extends React.Component{
 
     notificationRender = (dataArr) => {
         let notificationArr = [];
+        
         dataArr.map((item, index) => {
+            
             notificationArr.push(
                 <NotificationItem  
                     key={index}
                     {...item}
-                    getId={ () => item.id }
+                    getId={ this.props.getId}
+                    
                />)
         });
         return notificationArr;
     };
 
     render() {
+        debugger
         return (
 
             <div className='notification-card'>
@@ -46,7 +50,6 @@ class NotificationCard extends React.Component{
 }
 
 NotificationCard.propTypes ={
-    data: PropTypes.arrayOf(PropTypes.object),
     getId: PropTypes.func,
 };
 

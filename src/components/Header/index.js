@@ -57,7 +57,6 @@ class Header extends React.Component {
         }
         else if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
 
-            debugger
             this.props.onSetPushTrialTraining('select_master');
             this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
             this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0, 1, 2, 3, 4, 5, 6])
@@ -136,6 +135,8 @@ class Header extends React.Component {
             if(trialTrainingForDisciplines[el] === false) showTrialModal = true
         }
 
+        console.log('this.props', this.props)
+        debugger
         return (
             <div className='header'>
                 <div className='header-search'>
@@ -175,7 +176,7 @@ class Header extends React.Component {
                     </React.Fragment> : null}
                 <div className='header-notification'>
                     <NotificationApp
-                        data={notifications}
+                        data={this.props.notifications}
                         getNotifications={this.props.getNotifications}
                         getId={this.props.getNotifId}>
                         <Icon

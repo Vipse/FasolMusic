@@ -639,9 +639,9 @@ class Schedule extends React.Component {
             this.props.onGetAbonementsFilter(id, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
-        debugger
+        
         if(this.props.isPushBtnTransfer){
-debugger
+
             let idMaster = this.props.profileStudent.mainUser;
 
             this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, [1,2,3,4,5,6,7])

@@ -197,6 +197,8 @@ export {
     getFutureTrialTraining,
     getCountTrainingByDiscipline,
     removeTrialTraining,
+    
+    saveNotification,
 } from './training'
 
 
