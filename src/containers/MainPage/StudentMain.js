@@ -21,7 +21,6 @@ class StudentMain extends React.Component{
         myCoaches: [],
         widget: null,
         id: null
-          
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -103,7 +102,7 @@ class StudentMain extends React.Component{
             <Hoc>
                         <Row>
                             <Col span={24} className='section'>
-                                <TopPanel  
+                                <TopPanel
                                     {...this.props.docTodayInfo}
                                     nextTrainingTime = {this.props.nextTrainingTime}
                                     myCoachOrStudents = {this.props.myCoachOrStudents}
@@ -134,11 +133,12 @@ class StudentMain extends React.Component{
                                 <MyCoach
                                     goToChat = {goToChat}
                                     onGoto={(val) => this.gotoHandler(val)}
-                                    data = {myCoaches}
+                                    openMyCoaches={() => this.props.history.push('/app/homework')}
+                                    data={myCoaches}
                                 />
                             </Col>
                         </Row>
-                        
+
                         <div id="bugfix">
                             <div id="vk_community_messages">
                                 <VK apiId={120172845} >
@@ -151,9 +151,9 @@ class StudentMain extends React.Component{
                                     />
                                 </VK>
                             </div>
-                            
+
                         </div>
-                        
+
                     </Hoc>
         )
     }

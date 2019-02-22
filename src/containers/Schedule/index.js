@@ -52,11 +52,11 @@ class Schedule extends React.Component {
             receptionData: {
                 dates: [],
                 currentSched: {},
-            
+
             },
 
             apiPatients: [],
-            isShowFreeTrainers: false, 
+            isShowFreeTrainers: false,
             amountTraining: true,
             modalTransferTraining: false,
             modalCancelTraining: false,
@@ -76,7 +76,7 @@ class Schedule extends React.Component {
         let rand = min + Math.random() * (max + 1 - min);
 
         rand = Math.floor(rand);
-        this.setChoosenTrainer(fullInfoMasters[rand].id)    
+        this.setChoosenTrainer(fullInfoMasters[rand].id)
     }
     showMasterList = (freetrainers, busytrainers) =>{
         this.freetrainers = freetrainers;
@@ -87,32 +87,33 @@ class Schedule extends React.Component {
                     .then(() => {
                         this.setState({modalMasterList: true})
                     }));
-              
+
     }
 
     deleteTraining = (idTraining) => { // нажатие на крестик
         const {id, currDiscipline} = this.props;
         this.deleteIdTraining = idTraining;
 
-        
+
         this.setState({modalRemoveTrialTraining: true});
     }
 
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         const {profileStudent, isPushBtnAdd, isPushBtnTrialTraining, mainUser, abonementIntervals} = this.props;
-        
+
         let master = this.props.chooseTheMaster;
         let fdata = profileStudent;
 
-debugger
+        console.log(this.props.chooseTheMaster)
+
         if(this.state.theMasterSelect){
             let {trainerList} = this.props;
-            
+
             for(let i = 0; i < trainerList.length; i++){
-                
+
                 if(trainerList[i].idMaster === this.props.chooseTheMaster){
                     let trainer= {...trainerList[i]};
-                    trainer.start = new Date(idEvent); 
+                    trainer.start = new Date(idEvent);
 
                     this.setState({apiPatients : [...this.state.apiPatients, trainer]})
                     return;
@@ -120,49 +121,49 @@ debugger
             }
         }
         if(isPushBtnTrialTraining === 'select_master'){
-            
+
                 const {trainerList, selectMaster} = this.props;
-                
+
                 for(let i = 0; i < trainerList.length; i++){
                     if(trainerList[i].idMaster == selectMaster){
                         let trainer= {...trainerList[i]};
                         trainer.start = new Date(idEvent); //idEvent ~ time
-        
+
                         this.setState({apiPatients : [...this.state.apiPatients, trainer]})
                         return
                     }
                 }
-                       
+
         }
-        if(isPushBtnTrialTraining === 'trial'){             
+        if(isPushBtnTrialTraining === 'trial'){
                             this.trialTime = idEvent;
-                         
+
                             message.info('Выберите одного из тренеров')
                             message.success('Тренировка выбрана')
-                        
+
                             this.setState({isShowFreeTrainers : true, apiPatients : [ {trainer: null, start: new Date(idEvent)}]})
-                          
+
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
         }
 
         else if(!this.props.isPushBtnTransfer){
-           
+
             if(isPushBtnAdd) {
-                
+
                         let {trainerList} = this.props;
                         for(let i = 0; i < trainerList.length; i++){
-                            
+
                             if(trainerList[i].idMaster === mainUser){
                                 let trainer= {...trainerList[i]};
                                 trainer.start = new Date(idEvent); //idEvent ~ time
-                
+
                                 this.setState({apiPatients : [...this.state.apiPatients, trainer]})
-                           
+
                                 i = Infinity;
                             }
                         }
-                       
+
 
                         const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
                         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining + 1}); // show Сохранитьreturn;
@@ -170,33 +171,33 @@ debugger
                         message.info('Для подтверждения расписания нажмите "Сохранить"')
 
             }
-            
+
             else{
                 this.timeEvent = idEvent;
                 const patients = [ {trainer: null, start: new Date(idEvent)}];
                 const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
-       
+
                 message.info('Выберите одного из тренеров')
                 this.setState({isShowFreeTrainers : true, apiPatients: patients});
 
                 this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining});
                 this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
-                
-                
-            }  
+
+
+            }
         }
-           
-       
+
+
     }
 
     setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
         const { profileStudent: fdata, isPushBtnTrialTraining, masterListObj, abonementIntervals} = this.props;
         let start = null,
             end = null;
-       
+
 
         if(isPushBtnTrialTraining === 'trial'){
-           
+
             let {trainerList} = this.props;
             for(let i = 0; i < trainerList.length; i++){
                     if(trainerList[i].idMaster === idMaster){
@@ -208,9 +209,9 @@ debugger
                         i = Infinity;
                     }
             }
-           
+
             this.setState({isShowFreeTrainers : false});
-            return; 
+            return;
         }
 
 
@@ -236,17 +237,17 @@ debugger
             })
             this.setState({apiPatients: bufApiPatient})
         }
-       
+
 
         this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, chooseWeekdays)
             .then(() => {
                 this.setState({theMasterSelect: true})
             });
-       
+
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         this.props.onSetChooseTheMasterByStudent(idMaster);
         if(this.props.isPushBtnTrialTraining === 'trial') this.props.onSetPushTrialTraining('first_trainer');
-        this.setState({isShowFreeTrainers : false});  
+        this.setState({isShowFreeTrainers : false});
 
         message.success('Тренер выбран');
         message.info('Выберите дату тренировки выбранного тренера');
@@ -254,15 +255,15 @@ debugger
     }
 
     fillTrainingWeek = () => { // создание абонемента
-        
+
         const {
-            id, 
-            abonementIntervals, 
-            currDiscipline, 
-            disciplines, 
-            isPushBtnTrialTraining, 
-            profileStudent, 
-            selectMaster, 
+            id,
+            abonementIntervals,
+            currDiscipline,
+            disciplines,
+            isPushBtnTrialTraining,
+            profileStudent,
+            selectMaster,
             subsForDisc,
             chooseTheMaster,
             useFrozenTraining
@@ -273,22 +274,31 @@ debugger
         let buf = 'vocals';
 
         for(let el in disciplines){
-        
+
             if(disciplines[el].code === currDiscipline.code){
-               
+
                 buf = el;
             }
         }
 
         if(isPushBtnTrialTraining){
             this.props.onSetPushTrialTraining('choose_trial');
-            
+            /*PopupModal.warning({
+                title: 'Ура!',
+                width: '500px',
+                className: 'fast-modal',
+                content: 'Время пробной тренировки выбрано, а теперь нужно обязательно заполнить информацию о себе ' +
+                    'в личном профиле!',
+                okText: 'Заполнить профиль',
+                maskClosable: false,
+                onOk: () => this.props.history.push('/app/personal-info')
+            }); */
         }
 
 
         if(selectMaster){
            // discAbonement
-         
+
             if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code)) {
                // debugger;
                 this.props.onAddAmountTraining(subsForDisc[currDiscipline.code], abonementIntervals.countTraining)
@@ -297,17 +307,17 @@ debugger
                             this.props.onGetStudentBalance(id);
                             this.props.onGetUseFrozenTraining(id);
                         }, 1000);
-                       
+
                     })
-                
+
             }
-           
+
         }
         else{
 
             this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, buf, [...this.state.apiPatients]))
                 .then(() => {
-                    
+
                     if(this.props.isPushBtnUnfresh){
                         this.props.onEditUseFrozenTraining(id,useFrozenTraining);
                         this.props.onIsPushBtnUnfresh();
@@ -321,17 +331,17 @@ debugger
                 });
                 //debugger;
                 this.props.onSaveStudentMasterDisciplineCommunication(id, chooseTheMaster, currDiscipline.code)
-                this.props.onGetDisciplineCommunication(id);                
-                
+                this.props.onGetDisciplineCommunication(id);
+
         }
 
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); // убрать Сохранить
 
         this.setState({apiPatients: [], sendingModal: true, theMasterSelect: false})
-  
-       
+
+
         this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id);
-        
+
     }
 
     transferTraining = (transferDay) => {
@@ -339,20 +349,20 @@ debugger
         if(transferDay){
             this.transferDay = {dateStart : Math.floor(+transferDay.getTime() / 1000)}
         }
-       
+
     }
     deleteEvent = (delEvent) => {
-        
+
         if(delEvent && Object.keys(delEvent).length){
-            
+
             this.delEvent = delEvent;
             this.setState({modalTransferTraining: true})
-        }   
+        }
     }
 
 
     setTransfer_1_Training = () => {
-        
+
             const {id, currDiscipline, discCommunication} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
 
@@ -363,32 +373,32 @@ debugger
                         .then(() => {
                             this.props.onGetAbonementsFilter(id,currDiscipline);
                         });
-            } 
+            }
 
             this.props.onNoSetBtnTraining();
-            this.setState({modalTransferTraining: false});   
+            this.setState({modalTransferTraining: false});
     }
 
     onCancelTraining = (transferId, idSubscription) => {
         this.cancelId = transferId; // для переноса в конец
         this.freezeIdSubscription = idSubscription; // для заморозки
 
-        this.setState({modalCancelTraining: true});   
-        
+        this.setState({modalCancelTraining: true});
+
     }
 
     setTransfer_End_Training = () => {
-        //this.cancelId 
+        //this.cancelId
 
-       
+
         const {id, currDiscipline} = this.props;
         if(this.cancelId){
                 this.props.onTransferTraininingToEnd({idTraining : this.cancelId})
                     .then(() => {
-                        this.props.onGetAbonementsFilter(id, currDiscipline); 
+                        this.props.onGetAbonementsFilter(id, currDiscipline);
                     });
-        } 
-        this.setState({modalCancelTraining: false});   
+        }
+        this.setState({modalCancelTraining: false});
     }
 
     freezeAbonement = () => {
@@ -407,28 +417,28 @@ debugger
                 })
 
         }
-       
-        this.setState({modalCancelTraining: false});   
+
+        this.setState({modalCancelTraining: false});
     }
 
     setAbonement_Training = () => {
-        
+
         let subs = this.props.allAbonements;
         const {idSubscription, start} = this.delEvent.event;
         const {id, currDiscipline} = this.props;
         let scheduleForWeek = {}; // это POST
         let trainingtime = {}; // это POST
-        
+
         const max = subs.length;
         const curWeek = moment( start.getTime() ).week(); // текущая неделя
-        
+
         for(let i = 0; i < max; i++){
-          
+
                 let item = subs[i];
 
 
                 const weekElem =  moment(item.start.getTime()).week(); // номер недели
-                       
+
 
                 if (curWeek === weekElem && !item.trial) {
                     console.log('this.delEvent', this.delEvent)
@@ -440,7 +450,7 @@ debugger
                         if(!trainingtime.hasOwnProperty(weekDay)){
                             trainingtime[weekDay] = [];
                          }
-                        trainingtime[weekDay].push({id: item.idMaster, start: this.transferDay.dateStart })   
+                        trainingtime[weekDay].push({id: item.idMaster, start: this.transferDay.dateStart })
                     }
                     else{
                         const weekDay =  item.start.getDay();
@@ -448,21 +458,21 @@ debugger
                             trainingtime[weekDay] = [];
                         }
                         trainingtime[weekDay].push({id: item.idMaster, start: item.dateStart })
-                    }  
-                    
+                    }
+
                     if(!scheduleForWeek.dateStart){
                         scheduleForWeek.dateStart = subs[i].dateStart;
                         scheduleForWeek.idSubscription = subs[i].idSubscription;
                         scheduleForWeek.idStudent = id;
                         scheduleForWeek.amount = subs[i].amount;
                     }
-                         
-                    
-                }                                                    
+
+
+                }
         }
 
         scheduleForWeek.trainingtime = trainingtime;
-        this.setState({modalTransferTraining: false});   
+        this.setState({modalTransferTraining: false});
 
         console.log('scheduleForWeek :', scheduleForWeek);
         this.props.onChangeSubscription(scheduleForWeek)
@@ -506,8 +516,8 @@ debugger
 
     componentDidMount() {
         const {id, currDiscipline} = this.props;
-        const start =  moment(Date.now()).startOf('week').format('X'); 
-        const end = moment(Date.now()).endOf('week').format('X'); 
+        const start =  moment(Date.now()).startOf('week').format('X');
+        const end = moment(Date.now()).endOf('week').format('X');
 
         this.props.onSetWeekInterval({start, end});
 
@@ -517,11 +527,11 @@ debugger
 
         if(this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(id);
-            
+
             this.props.onCheckToken(id)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
                 .then((checkToken) => {
-                    
+
                     if(checkToken.length){
                         PopupModal.info({
                             title: 'Отлично! Теперь ты в нашей команде!',
@@ -537,20 +547,20 @@ debugger
                         });
                         this.props.onIsPushBtnUnfresh()
                     }
-                
+
                 })
         }
 
         if(this.props.isAdmin) {
-           
+
             this.props.onGetFreeAndBusyMasterList(start, end)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
-        }    
-        
+        }
+
     }
 
     componentDidUpdate() {
@@ -558,11 +568,9 @@ debugger
 
         this.props.onGetFutureTrialTraining(id, currDiscipline)
         this.props.onGetCountTrainingByDiscipline(id, currDiscipline.code);
-
-        if(this.props.mode === 'student'){
-            this.props.onIssetTrial(id);
-        }
-        
+        // if(this.props.mode === 'student'){
+        //     this.props.onIssetTrial(id);
+        // }
     }
 
     componentWillUnmount() {
@@ -571,7 +579,7 @@ debugger
             this.props.onUnsetPushBtnTransferTraining();
             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
         }
-        
+
     }
 
     getCountOfReceptionsAtCurMonth = () => {
@@ -585,10 +593,17 @@ debugger
         return count;
     };
 
+    getCountOfScheduledIntervals = () => {
+        let count = 0;
+        if (this.props.schedules)
+            this.props.schedules.forEach((item) => {item.isDayOff === "0" ? ++count : null});
+
+        return count;
+    };
 
     dateChangeHandler = (date, view, action, isOnDay) => {
         const {chooseWeekdays, chooseDiscipline, id, mode, currDiscipline} = this.props;
-       
+
 
         const {start, end} = this.state.isEditorMode
             ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
@@ -627,11 +642,11 @@ debugger
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
         }
         if(mode === 'master' || mode === 'student'){
-            
+
             this.props.onGetAbonementsFilter(id, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
-        
+
         if(this.props.isPushBtnTransfer){
 
             let idMaster = this.props.profileStudent.mainUser;
@@ -642,22 +657,22 @@ debugger
                 });
         }
 
-        
+
     };
 
     changeCurrDiscipline = (disc) => {
         const {start, end} = this.state.isEditorMode;
         const {currDiscipline, id, mode} = this.props;
-        
+
         if(mode === 'student'){
-           // this.props.onGetAbonementsFilter(id, currDiscipline); 
+           // this.props.onGetAbonementsFilter(id, currDiscipline);
         }
         else if(mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, disc);
         }
-        
+
         this.props.onChangeCurrDiscipline(disc)
-        
+
     }
 
     closeNewVisitModal = () => {
@@ -757,22 +772,22 @@ debugger
 
     render() {
         const {
-            abonementIntervals, 
-            trainerList, 
-            masterList, 
-            allAbonements, 
-            id, 
-            currDiscipline, 
+            abonementIntervals,
+            trainerList,
+            masterList,
+            allAbonements,
+            id,
+            currDiscipline,
             isPushBtnTransfer,
             isPushBtnAdd,
             isPushBtnTrialTraining} = this.props;
-       
+
         let isNeedSaveIntervals = false
         if(abonementIntervals){
             isNeedSaveIntervals = abonementIntervals.visibleCreateTrainModal;
             this.countTraining = abonementIntervals.countTraining; //кол-во трень в абонементе
         }
-        
+
 
         const {dates, currentSched} = this.state.receptionData;
         let editorBtn, calendar, timeSetCall = this.state.receptionData.currentSched.intervalOb, timeSetReception = [];
@@ -805,7 +820,7 @@ debugger
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
 
-            calendar = (<Calendar 
+            calendar = (<Calendar
                     /*receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length} */
                     selectable
                     onSelectEvent={this.props.onSelectEvent}
@@ -824,7 +839,7 @@ debugger
                     showMasterList = {this.showMasterList}
 
                     intervals={ isNeedSaveIntervals ? this.props.freeIntervals : []}
-                    
+
                     min= {min}
                     max= {max}
                     minFasol={minFasol}
@@ -850,7 +865,7 @@ debugger
                     trainerTraining = {this.props.trainerTraining}
                     scheduleSpinner = {this.state.scheduleSpinner}
 
-                    />)    
+                    />)
         }
         else if (this.props.mode === 'master') {
             const currDate = this.state.currentDate,
@@ -876,18 +891,18 @@ debugger
                                   mode = {this.props.mode}
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
-                                  onChangeCurrDiscipline = {this.changeCurrDiscipline} 
+                                  onChangeCurrDiscipline = {this.changeCurrDiscipline}
                                   scheduleSpinner = {this.state.scheduleSpinner}
                                   countTrainingDiscipline = {this.props.countTrainingDiscipline}
-                                
+
                                 onGotoPage= { (id) => this.props.history.push('/app/student' + id)}
 
                                   onChange={this.dateChangeHandler}
                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
 
-                                
+
             />)
-        } 
+        }
         else {
             const currDate = this.state.currentDate,
                 currY = currDate.getFullYear(),
@@ -899,7 +914,7 @@ debugger
 
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
-  
+
             // надо нормальную проверка для коуча и студента
 
             editorBtn = (<Button btnText='Редактор графика'
@@ -909,7 +924,7 @@ debugger
 
                             let filterInterval = [];
                             let notRedirectDiscipline = false;
-                           debugger
+
                              if(isPushBtnTrialTraining === 'trial'){
                                 filterInterval = this.props.superFreeInterval;
                                 notRedirectDiscipline = true;
@@ -918,9 +933,9 @@ debugger
                                 filterInterval = this.props.theMasterInterval;
                                 notRedirectDiscipline = true;
                              }
-                             
+
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
-                                 
+
                                 filterInterval = this.props.theMasterInterval;
                                 notRedirectDiscipline = true;
 
@@ -930,9 +945,9 @@ debugger
                                 notRedirectDiscipline = true;
                              }
 
-   
-            calendar = (<Calendar 
-                                  receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length} 
+
+            calendar = (<Calendar
+                                  receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length}
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   defaultView="week"
@@ -961,7 +976,7 @@ debugger
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {(disc) => {
                                     this.props.onChangeCurrDiscipline(disc);
-                                    this.props.onGetAbonementsFilter(id, disc); 
+                                    this.props.onGetAbonementsFilter(id, disc);
                                     }}
 
                                   min= {min}
@@ -1001,25 +1016,25 @@ debugger
                         {calendar}
                 </Card>
 
-            
-                <Modal 
+
+                <Modal
                     title='Сообщение'
                     visible={this.state.modalTransferTraining}
                     onCancel={() => this.setState({modalTransferTraining : false})}
                     width={360}
                     className="schedule-message-modal-wrapper"
                 >
-                        <div className="schedule-message-modal"> 
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Перенести 1 треню'    
+                        <div className="schedule-message-modal">
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Перенести 1 треню'
                                         onClick= {this.setTransfer_1_Training}
                                         type='yellow'/>
                                 </div>
 
-                                {/* ( this.delEvent && this.delEvent.event.trial) ? 
-                                    null : 
-                                        <div className="schedule-message-btn"> 
-                                            <Button btnText='Новое расписание'    
+                                {/* ( this.delEvent && this.delEvent.event.trial) ?
+                                    null :
+                                        <div className="schedule-message-btn">
+                                            <Button btnText='Новое расписание'
                                             onClick= {this.setAbonement_Training}
                                             type='yellow'/>
                                 </div> */}
@@ -1027,38 +1042,38 @@ debugger
                 </Modal>
 
 
-                <Modal 
+                <Modal
                     title='Сообщение'
                     visible={this.state.modalCancelTraining}
                     onCancel={() => this.setState({modalCancelTraining : false})}
                     width={360}
                     className="schedule-message-modal-wrapper"
                 >
-                        <div className="schedule-message-modal"> 
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Перенести треню в конец'    
+                        <div className="schedule-message-modal">
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Перенести треню в конец'
                                         onClick= {this.setTransfer_End_Training}
                                         type='yellow'/>
                                 </div>
 
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Заморозка расписания'    
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Заморозка расписания'
                                     onClick= {this.freezeAbonement}
                                     type='yellow'/>
                                 </div>
                         </div>
                 </Modal>
 
-                <Modal 
+                <Modal
                     title='Сообщение'
                     visible={this.state.modalRemoveTrialTraining}
                     onCancel={() => this.setState({modalRemoveTrialTraining : false})}
                     width={360}
                     className="schedule-message-modal-wrapper"
                 >
-                        <div className="schedule-message-modal"> 
-                                <div className="schedule-message-btn"> 
-                                    <Button btnText='Удалить тренировку'    
+                        <div className="schedule-message-modal">
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Удалить тренировку'
                                         onClick= {() => {
                                             this.props.onRemoveTrialTraining(this.deleteIdTraining)
                                                 .then(() => this.props.onGetAbonementsFilter(id, currDiscipline))
@@ -1070,8 +1085,8 @@ debugger
                         </div>
                 </Modal>
 
-                
-                <Modal 
+
+                <Modal
                     title='Список коучей'
                     visible={this.state.modalMasterList}
                     onCancel={() => this.setState({modalMasterList : false})}
@@ -1085,26 +1100,26 @@ debugger
                                 return (<FreeAdminTrainersItem {...item}
                                                         key={index}
                                                         onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-                                                        
+
                                 />)
                             })}
-                        
+
                         </div>
-                        
+
                         <div className="block-free-trainer">
                             <p className="free-trainer">Занятые тренера</p>
                             {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
                                 return (<FreeAdminTrainersItem {...item}
                                                         key={index}
                                                         onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-                                                        
+
                                 />)
                             })}
                         </div>
                     </div>
                 </Modal>
 
-           
+
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}
                                   onSave={(obj) => {
@@ -1219,7 +1234,7 @@ const mapDispatchToProps = dispatch => {
 
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
-        
+
         onTransferTrainining: (value) => dispatch(actions.transferTrainining(value)),
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),
@@ -1229,7 +1244,7 @@ const mapDispatchToProps = dispatch => {
         onGetCountTrainingByDiscipline: (id,discipline) => dispatch(actions.getCountTrainingByDiscipline(id,discipline)),
         onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
         onIssetTrial: (id) => dispatch(actions.issetTrial(id)),
-        
+
 
         onGetTrainerTraining: (id, dateMin, dateMax, currDiscipline) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, currDiscipline)),
         onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
@@ -1242,7 +1257,7 @@ const mapDispatchToProps = dispatch => {
 
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
-        onSaveStudentMasterDisciplineCommunication: (idStudent, idMaster, discipline) => 
+        onSaveStudentMasterDisciplineCommunication: (idStudent, idMaster, discipline) =>
                     dispatch(actions.saveStudentMasterDisciplineCommunication(idStudent, idMaster, discipline)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),

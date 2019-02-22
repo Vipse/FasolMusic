@@ -32,6 +32,7 @@
 
 .chat-card-title-avatar {
     margin-right: 25px;
+    height: 44px;
 }
 
 .chat-card-title .btn {
@@ -48,6 +49,13 @@
 .chat-card-title .btn:hover .icon {
     color: #21bedd;
     margin-right: 0
+}
+
+.chat-card-incompatible {
+    font-family: "RobotoMedium", serif;
+    font-size: 24px;
+    color: #000;
+    text-align: center;
 }
 
 .chat-card-btns {

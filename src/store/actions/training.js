@@ -34,7 +34,7 @@ export const getNextTraining = (id) => {
         return axios.post('/catalog.fasol/nextTraining', JSON.stringify(obj))
             .then(res => {
                 res.data.result.trainingInfo.start *= 1000;
-                
+
                 dispatch({
                     type: actionTypes.GET_NEXT_TRAINING,
                     nextTraining: res.data.result.trainingInfo,
@@ -98,10 +98,16 @@ export const getAllTrainingStudent = (id, dateStart, dateEnd) => {
         axios.post('/catalog.fasol/getAllTrainingStudent', JSON.stringify(obj))
             .then(res => {
                 console.log("getAllTrainingStudent", res);
-                    dispatch({
-                        type: actionTypes.GET_ALL_STUDENT_TRAININGS,
-                        studentTrainings: !res.data.error ? res.data.result : []
-                    })
+
+                let arr = [];
+                if (!res.data.error) arr = res.data.result;
+
+                arr.dateStart = dateStart;
+
+                dispatch({
+                    type: actionTypes.GET_ALL_STUDENT_TRAININGS,
+                    studentTrainings: arr
+                });
             })
             .catch(err => console.log(err));
     }
@@ -123,12 +129,12 @@ export const setHomeworkEdit = (idTraining, homework) => {
 };
 
 export const getFutureTrialTraining = (idStudent, discipline) => {
-   
+
     const obj = {
         idStudent,
         discipline: discipline.code
     };
-    
+
     return dispatch => {
         axios.post('/catalog.fasol/getTrialTrainingsByDisciplineToStudent', JSON.stringify(obj))
             .then(res => {
@@ -145,7 +151,7 @@ export const getFutureTrialTraining = (idStudent, discipline) => {
 
 
 export const getCountTrainingByDiscipline = (idStudent, discipline) => {
-      
+
     const obj = {
         idStudent,
         discipline: String(discipline)
@@ -153,7 +159,7 @@ export const getCountTrainingByDiscipline = (idStudent, discipline) => {
     return dispatch => {
         axios.post('/catalog.fasol/allTrainingByDiscipline', JSON.stringify(obj))
             .then(res => {
-               
+
                 dispatch({
                     type: actionTypes.GET_COUNT_TRAINING_BY_DISCIPLINE,
                     countTrainingDiscipline: res.data.balance,
@@ -170,7 +176,7 @@ export const removeTrialTraining = (idTraining) => {
     return dispatch => {
         return axios.post('/catalog.fasol/removeTrialTraining', JSON.stringify({idTraining}))
             .then(res => {
-               
+
                 console.log('res', res)
             })
             .catch(err => {
@@ -217,7 +223,6 @@ export const saveNotification = (data) => {
         })
     }
 };
-
 
 export const uploadTrainingChatHistory = (idTraining, chat) => {
     const obj = {

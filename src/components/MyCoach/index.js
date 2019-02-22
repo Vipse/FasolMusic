@@ -30,13 +30,13 @@ class MyCoach extends React.Component {
     };
 
     render() {
-        const {data} = this.props;
+        const {data, openMyCoaches} = this.props;
         const {loading} = this.state;
 
         return (
             <div className='my-coaches'>
                 <Card title="Мои коучи"
-                      extra={<a className="my-coaches-link"><Icon type="circle_arrow_right"/>
+                      extra={<a className="my-coaches-link" onClick={openMyCoaches}><Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {loading ? <Spinner size='large'/> : (data.length ?
                         this.coachItemsRender(data)

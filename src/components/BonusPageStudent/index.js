@@ -56,26 +56,26 @@ class BonusPageStudent extends React.Component {
                 </Card>
                 <Card className="second-subscription" title="1+1">
                     <div className="second-subscription-container">
-                        <p className="title">Купи абонемент на вторую дисциплину</p>
+                        <p className="title">Купите абонемент на вторую дисциплину</p>
                         <p className="info">
-                            Купи абонемент на вторую дисциплину и получи +1 тренировку на баланс!
+                            Купите абонемент на вторую дисциплину и получите +1 тренировку на баланс!
                         </p>
                     </div>
                 </Card>
 
                 <Card className="referLink" title="Быстрая реакция">
                 <div className="referLink-column">
-                    <p className="title">Купи абонемент после пробной тренировки</p>
+                    <p className="title">Купите абонемент после пробной тренировки</p>
                     <p className="info">
-                        Покупай абонемент сразу после пробной тренировки и получай +1 тренировку на баланс!
+                        Покупайте абонемент сразу после пробной тренировки и получайте +1 тренировку на баланс!
                     </p>
                 </div>
             </Card>
 
                 <Card className="invite" title="Совместная прокачка">
                     <img src={inviteFriendsPic}/>
-                    <p className="title">Пригласи друга и получи бонус</p>
-                    <p className="info">Не упусти возможность: пригласи друга и получи +1 тренировку себе
+                    <p className="title">Пригласите друга и получите бонус</p>
+                    <p className="info">Не упустите возможность: пригласите друга и получите +1 тренировку себе
                         и +1 тренировку своему другу!
                     </p>
                 </Card>

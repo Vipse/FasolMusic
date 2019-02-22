@@ -36,6 +36,7 @@
 .coach-data-skill-footer {
   display: flex;
   width: 100%;
+  max-width: 120px;
 }
 .coach-data-skill-footer button {
   margin: 0 20px 10px 0;
