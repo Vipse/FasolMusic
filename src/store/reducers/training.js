@@ -5,7 +5,8 @@ import * as actionTypes from '../actions/actionTypes'
 const initialState = {
     nearTraining: [],
     myCoachOrStudents: [],
-    studentTrainings: []
+    studentTrainings: [],
+    
 };
 
 const reducer = (state = initialState, action) => {
@@ -51,6 +52,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 notifications: action.notifications
             }    
+        case actionTypes.IS_SET_TRIAL:
+            return {
+                ...state,
+                finishedTrial: action.finishedTrial,
+                willTrial: action.willTrial
+            } 
+            
             
         default: return state;
     }

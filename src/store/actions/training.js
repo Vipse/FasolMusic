@@ -179,6 +179,24 @@ export const removeTrialTraining = (idTraining) => {
     }
 }
 
+export const issetTrial = (idStudent) => {
+
+    return dispatch => {
+        return axios.post('/catalog.fasol/issetTrial', JSON.stringify({idStudent}))
+            .then(res => {
+                debugger
+                dispatch({
+                    type: actionTypes.IS_SET_TRIAL,
+                    finishedTrial: res.data.result.finished,
+                    willTrial: res.data.result.trial,
+                })
+                console.log('res', res)
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
 
 
 

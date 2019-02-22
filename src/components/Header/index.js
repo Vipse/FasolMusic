@@ -49,9 +49,10 @@ class Header extends React.Component {
 
         if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
                   
-            this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining);
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);
             this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0})
+            this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining)
+                .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
 
             message.success('Количество добавленных тренировок '+ useFrozenTraining);    
         }

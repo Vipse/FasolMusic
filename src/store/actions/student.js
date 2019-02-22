@@ -344,6 +344,14 @@ export const setPushBtnTransferTraining = (type) => {
     });
 }
 
+export const unsetPushBtnTransferTraining = () => {
+    
+    return ({
+        type: actionTypes.UNSET_IS_PUSH_BTN_TRANSFER,
+        isPushBtnTransfer: false            
+    });
+}
+
 export const setPushBtnAddTraining = (type) => {
     
     return ({
@@ -359,6 +367,8 @@ export const setPushTrialTraining = (type) => {
         isPushBtnTrialTraining: type            
     });
 }
+
+
 
 export const noSetBtnTraining = () => {
     

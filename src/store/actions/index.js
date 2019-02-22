@@ -172,6 +172,7 @@ export {
     saveStudentMasterDisciplineCommunication,
     getUseFrozenTraining,
     editUseFrozenTraining,
+    unsetPushBtnTransferTraining,
     rateMaster
 } from './student'
 
@@ -198,7 +199,7 @@ export {
     getFutureTrialTraining,
     getCountTrainingByDiscipline,
     removeTrialTraining,
-    
+    issetTrial,
     saveNotification,
 } from './training'
 

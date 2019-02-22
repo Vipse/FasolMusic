@@ -71,6 +71,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isPushBtnTransfer: !state.isPushBtnTransfer
             }  
+        case actionTypes.UNSET_IS_PUSH_BTN_TRANSFER:
+            return {
+                ...state,
+                isPushBtnTransfer: state.isPushBtnTransfer
+            } 
+            
         case actionTypes.SET_IS_PUSH_BTN_ADD:
             return {
                 ...state,
@@ -81,6 +87,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isPushBtnTrialTraining: action.isPushBtnTrialTraining
             } 
+      
         case actionTypes.SET_NO_PUSH_BTN:
             return {
                 ...state,

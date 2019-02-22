@@ -104,8 +104,7 @@ class Schedule extends React.Component {
         let master = this.props.chooseTheMaster;
         let fdata = profileStudent;
 
-        console.log(this.props.chooseTheMaster)
-       
+debugger
         if(this.state.theMasterSelect){
             let {trainerList} = this.props;
             
@@ -180,7 +179,7 @@ class Schedule extends React.Component {
                 message.info('Выберите одного из тренеров')
                 this.setState({isShowFreeTrainers : true, apiPatients: patients});
 
-                this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: countTraining});
+                this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining});
                 this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                 
                 
@@ -283,16 +282,7 @@ class Schedule extends React.Component {
 
         if(isPushBtnTrialTraining){
             this.props.onSetPushTrialTraining('choose_trial');
-            PopupModal.warning({
-                title: 'Ура!',
-                width: '500px',
-                className: 'fast-modal',
-                content: 'Время пробной тренировки выбрано, а теперь нужно обязательно заполнить информацию о себе ' +
-                    'в личном профиле!',
-                okText: 'Заполнить профиль',
-                maskClosable: false,
-                onOk: () => this.props.history.push('/app/personal-info')
-            });
+            
         }
 
 
@@ -568,11 +558,20 @@ class Schedule extends React.Component {
 
         this.props.onGetFutureTrialTraining(id, currDiscipline)
         this.props.onGetCountTrainingByDiscipline(id, currDiscipline.code);
+
+        if(this.props.mode === 'student'){
+            this.props.onIssetTrial(id);
+        }
+        
     }
 
     componentWillUnmount() {
-        this.props.clearReceptions();
-        this.props.onClearVisits();
+        if(!this.state.isShowFreeTrainers){
+            this.props.onSetPushTrialTraining(null)
+            this.props.onUnsetPushBtnTransferTraining();
+            this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
+        }
+        
     }
 
     getCountOfReceptionsAtCurMonth = () => {
@@ -586,13 +585,6 @@ class Schedule extends React.Component {
         return count;
     };
 
-    getCountOfScheduledIntervals = () => {
-        let count = 0;
-        if (this.props.schedules)
-            this.props.schedules.forEach((item) => {item.isDayOff === "0" ? ++count : null});
-
-        return count;
-    };
 
     dateChangeHandler = (date, view, action, isOnDay) => {
         const {chooseWeekdays, chooseDiscipline, id, mode, currDiscipline} = this.props;
@@ -917,7 +909,7 @@ class Schedule extends React.Component {
 
                             let filterInterval = [];
                             let notRedirectDiscipline = false;
-                           
+                           debugger
                              if(isPushBtnTrialTraining === 'trial'){
                                 filterInterval = this.props.superFreeInterval;
                                 notRedirectDiscipline = true;
@@ -955,6 +947,7 @@ class Schedule extends React.Component {
                                   step={60}
                                   onGotoPage= { (id) => this.props.history.push('/app/coach' + id)}
                                   selectAnyTrainer = {this.selectAnyTrainer}
+                                  mode = {this.props.mode}
 
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
 
@@ -1111,7 +1104,7 @@ class Schedule extends React.Component {
                     </div>
                 </Modal>
 
-                
+           
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}
                                   onSave={(obj) => {
@@ -1191,16 +1184,16 @@ const mapStateToProps = state => {
         discCommunication: state.student.discCommunication,
         checkToken: state.acquiring.checkToken,
         countTrainingDiscipline: state.training.countTrainingDiscipline,
+        willTrial: state.training.willTrial,
+        finishedTrial: state.training.willTrial,
 
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
         busytrainers: state.admin.busytrainers,
 
-        visits:  state.schedules.visits,
         intervals: state.schedules.visIntervals,
         min: state.schedules.min,   // !   1540929600
         max:  state.schedules.max,   // !  1540875600
-        schedules:  state.schedules.schedules,  // 1
         chosenData: state.schedules.chosenData,
         cancelData: state.schedules.cancelData,
         allUserVisits:  state.schedules.allUserVisits,
@@ -1234,7 +1227,8 @@ const mapDispatchToProps = dispatch => {
         onSetWeekInterval: (interval) => dispatch(actions.setWeekInterval(interval)),
         onSaveDisciplineCommunication: (idStudent,idMaster, discipline) => dispatch(actions.saveDisciplineCommunication(idStudent,idMaster, discipline)),
         onGetCountTrainingByDiscipline: (id,discipline) => dispatch(actions.getCountTrainingByDiscipline(id,discipline)),
-          
+        onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
+        onIssetTrial: (id) => dispatch(actions.issetTrial(id)),
         
 
         onGetTrainerTraining: (id, dateMin, dateMax, currDiscipline) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, currDiscipline)),
