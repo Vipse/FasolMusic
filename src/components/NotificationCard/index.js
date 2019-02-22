@@ -28,7 +28,7 @@ class NotificationCard extends React.Component{
     };
 
     render() {
-        debugger
+        
         return (
 
             <div className='notification-card'>

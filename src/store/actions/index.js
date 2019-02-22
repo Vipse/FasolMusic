@@ -70,7 +70,8 @@ export {
     resetRegisterStatus,
     checkEmailAvailability,
     reportBug,
-    registerTrainer
+    registerTrainer,
+    getInfoLanding
 } from './auth'
 
 export {

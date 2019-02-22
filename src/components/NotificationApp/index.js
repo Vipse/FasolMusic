@@ -45,7 +45,7 @@ class NotificationApp extends React.Component {
         //     styleNotf = {'backgroundColor': 'transparent'};
 
             console.log('Popover', data)
-            debugger
+            
         return (
             <div className="notific_component">
                 <Popover

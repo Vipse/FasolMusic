@@ -136,7 +136,7 @@ class Header extends React.Component {
         }
 
         console.log('this.props', this.props)
-        debugger
+        
         return (
             <div className='header'>
                 <div className='header-search'>

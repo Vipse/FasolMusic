@@ -48,6 +48,22 @@ class RegistrationTrainerForm extends React.Component{
                     validateStatus: 'error',
                 }];
                 break;
+            case 404:
+                error = [{
+                    validateStatus: 'error',
+                    help: "Такого пользователя не существует",
+                },{
+                    validateStatus: 'error',
+                }];
+                break;
+            case 405:
+                error = [{
+                    validateStatus: 'error',
+                    help: "Неверно имя или пароль",
+                },{
+                    validateStatus: 'error',
+                }];
+                break;   
             case 200:
             default:
                 error = [];
