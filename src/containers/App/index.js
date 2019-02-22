@@ -171,6 +171,7 @@ class App extends React.Component {
             pass = localStorage.getItem('_fasol-pass');
 
             console.log('win :', window.localStorage);
+        this.props.onGetInfoLanding();
 
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
@@ -447,6 +448,8 @@ const mapDispatchToProps = dispatch => {
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
+
+        onGetInfoLanding: () => dispatch(actions.getInfoLanding()),
 
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),

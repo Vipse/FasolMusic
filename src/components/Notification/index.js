@@ -45,7 +45,7 @@ class NotificationItem extends React.Component{
     };
 
     render() { 
-       debugger
+       
         const {id, title, desc, time, thisTime, status, watch, idTo} = this.props;
         let iconType = 'notification';
         let links;

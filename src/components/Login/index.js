@@ -31,7 +31,7 @@ class LoginForm extends React.Component{
         const { getFieldDecorator } = this.props.form;
 
         let error = [];
-
+        
         switch(errorCode){
             case 400:
                 error = [{
@@ -52,7 +52,15 @@ class LoginForm extends React.Component{
             case 404:
                 error = [{
                     validateStatus: 'error',
-                    help: "Неверно введены данные",
+                    help: "Такого пользователя не существует",
+                },{
+                    validateStatus: 'error',
+                }];
+                break;
+            case 405:
+                error = [{
+                    validateStatus: 'error',
+                    help: "Неверно имя или пароль",
                 },{
                     validateStatus: 'error',
                 }];
@@ -79,8 +87,6 @@ class LoginForm extends React.Component{
                         rules: [{ required: false, message: 'Введите ваш пароль, пожалуйста' }],
                     })(
                         <Input placeholder='* Пароль'
-                               addonAfter={<NavLink className="login-form-navlink"
-                                                    to={urlForget}>Забыли пароль?</NavLink>}
                                type="password"
                                className='login-form-item'/>
                     )}

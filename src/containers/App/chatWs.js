@@ -44,7 +44,7 @@ export const setVideoOut = (video) => {
 
 export function createSocket(wsUrl,_props,_callbacks) {
     console.log("createSocket", wsUrl, _props, _callbacks);
-debugger
+
     ws = new WebSocket(wsUrl);
     props = _props;
     callbacks = _callbacks;
@@ -286,7 +286,7 @@ const incomingCall = (message) => {
 
 
     function acceptCall() {
-        debugger
+       
         callbacks.setReceptionStatus(true);
         callbacks.setIsCallingStatus(true);
         callbacks.setChatToId(message.from);
@@ -317,7 +317,7 @@ const incomingCall = (message) => {
             webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
                     function(error) {
                         if (error) {
-                            debugger
+                            
                             console.error(error);
                             setCallState(NO_CALL);
                         }

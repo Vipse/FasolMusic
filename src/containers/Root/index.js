@@ -9,7 +9,12 @@ import App from '../App'
 class Root extends React.Component{
 
     render(){
+        console.log('window.location.search', window.location.search)
         return (
+        window.location.search ?
+            <Redirect to={`/app/${window.location.search.split("?path=")[1]}`}/>
+        :
+        
         <Switch>
             <Route path="/signin" component={LoginPage}/>
             <Route path="/registration" component={LoginPage}/>

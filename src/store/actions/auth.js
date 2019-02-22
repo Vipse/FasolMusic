@@ -1,6 +1,25 @@
 import axios from './axiosSettings'
+import axiosLand from './axiosSettingsLand'
+
 import * as actionTypes from './actionTypes';
 import moment from "moment";
+
+
+export const getInfoLanding = (userInfo, history) => {
+    debugger
+    return (dispatch) => {
+        return axiosLand.post('getInfoLanding',
+                JSON.stringify({id: 1}))
+                    .then(res => {
+                        debugger
+                        return res;
+                    })
+                    .catch(err => {
+                        console.log('error: ',err);
+                    })
+    }
+}
+
 
 
 export const autoLogin = (history) => {
