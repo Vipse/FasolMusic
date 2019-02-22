@@ -2,10 +2,10 @@ import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 
 
-export const getToken = (idUser, amount, price, discipline, currency= 'BYN', description = 'Покупка') => {
-   
+export const getToken = (idUser, amount, price, discipline, currency = 'RUB', description = 'Покупка') => {
+
     let obj = {
-        idUser, 
+        idUser,
         amount,
         price,
         discipline,
@@ -16,7 +16,7 @@ export const getToken = (idUser, amount, price, discipline, currency= 'BYN', des
     return (dispatch) => {
         return axios.post('/catalog.fasol/getToken', JSON.stringify(obj))
             .then(res => {
-                
+
                 dispatch({
                     type: actionTypes.GET_TOKEN,
                     token: res.data.result.token,
@@ -24,7 +24,7 @@ export const getToken = (idUser, amount, price, discipline, currency= 'BYN', des
                 })
 
                 window.location = res.data.result.redirect_url;
-                
+
                 return res;
             })
             .catch(err => {console.log(err);})
@@ -32,7 +32,7 @@ export const getToken = (idUser, amount, price, discipline, currency= 'BYN', des
 }
 
 export const checkToken = (idUser) => {
-   
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/checkToken', JSON.stringify({idUser}))
             .then(res => {
@@ -40,7 +40,7 @@ export const checkToken = (idUser) => {
                     type: actionTypes.CHECK_TOKEN,
                     checkToken: res.data.result,
                 })
-               
+
                 return res.data.result;
             })
             .catch(err => {console.log(err);})

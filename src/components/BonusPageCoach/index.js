@@ -79,11 +79,10 @@ class BonusPageCoach extends React.Component {
 
                 <Card className="referLink" title="Реферальная ссылка">
                     <div className="referLink-column">
-                        <p className="title">Скинуть ссылку потенциальному новому клиенту</p>
+                        <p className="title">Скиньте ссылку потенциальному новому клиенту</p>
                         <p className="info">
-                            Тот получит 1 бесплатное занятие если оплатят, а препод получит денежное вознаграждение
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur
-                            eligendi harum hic neque porro recusandae.
+                            Приводите новых клиентов и получайте 100% оплаты за первый месяц обучения!
+                            А бонусом для клиента будет +1 бесплатная тренировка! Правда приятно?! 😉
                         </p>
                         <InputNew className="input" bubbleplaceholder="Ссылка" onChange={(e) => this.setState({refLink: e.target.value})} onPressEnter={this.copyLink}/>
                         <Button className="copyBtn"
@@ -98,9 +97,11 @@ class BonusPageCoach extends React.Component {
                 <Card className="invite" title="Пригласи друзей">
                     <img src={inviteFriendsPic}/>
                     <p className="title">Пригласи друга и получи бонус</p>
-                    <p className="info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation</p>
+                    <p className="info">Приглашайте друзей и знакомых на работу к нам,
+                        и получайте 20% от оплаты его первого клиента,
+                        а мы получаем нового коуча!
+                        Правда хорошая командная работа?! 💪
+                    </p>
                 </Card>
             </div>
         )

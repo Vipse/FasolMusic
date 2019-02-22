@@ -12,6 +12,9 @@ import ChatVideoContent from './ChatVideoContent'
 import ChatAudioContent from './ChatAudioContent'
 import Hoc from '../../../hoc'
 
+
+import { detect } from 'detect-browser';
+
 import {
 	startReception, call, stop, messAboutStop, messForCloseReception, fileUploadCallback,
 	sendMessage, setVideoIn, setVideoOut
@@ -21,6 +24,7 @@ import './style.css'
 import {Modal as PopupModal, Modal} from "antd";
 import ProfileAvatar from "../../../components/ProfileAvatar";
 
+const browser = detect();
 
 class ChatCard extends React.Component {
     constructor(props) {
@@ -74,7 +78,7 @@ class ChatCard extends React.Component {
 			width: '500px',
 			className: 'fast-modal',
 			content: 'Вы конечно хотите продолжать и специально для вас, ' +
-				'если вы произведете оплату в течении 24 часов, ' +
+				'если вы произведете оплату в течении  24 часов, ' +
 				'мы вам подарим еще 1 бесплатную тренировку!',
 			maskClosable: true,
 			okText: 'Оплатить',
@@ -174,7 +178,7 @@ class ChatCard extends React.Component {
     getIconByType = () => {
     	const {mode} = this.props;
 		let icon;
-		
+
         switch (mode) {
             case 'chat':
                 icon = "chat1";
@@ -250,7 +254,12 @@ class ChatCard extends React.Component {
                 break;
         }
 
-		return (
+		if (browser && browser.os === 'iOS') return (
+			<div className='chat-card-incompatible'>
+				<p>Чат не поддерживается на данном устройстве.</p>
+			</div>
+		);
+		else return (
 			<Hoc>
 				<div className='chat-card'>
 					<div className='chat-card-head'>

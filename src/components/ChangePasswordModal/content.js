@@ -15,7 +15,7 @@ class ContentForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.setState({loadingPass:true});
+                this.setState({loadingPass: true});
 
                 const dataObj = {
                     id: this.props.profile.id,
@@ -38,15 +38,6 @@ class ContentForm extends React.Component {
         });
     };
 
-    compareToOldPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value === form.getFieldValue('oldPassword')) {
-            callback('Новый пароль совпадает со старым');
-        } else {
-            callback();
-        }
-    };
-
     render() {
         const {getFieldDecorator} = this.props.form;
 
@@ -55,24 +46,11 @@ class ContentForm extends React.Component {
                 <div className='password-column'>
                     <div className='password-column-input'>
                         <FormItem className="input-form-item">
-                            {getFieldDecorator('oldPassword', {
-                                rules: [{
-                                    required: true,
-                                    message: 'Введите старый пароль, пожалуйста'
-                                }],
-                            })(
-                                <InputNew type="password" bubbleplaceholder="Старый пароль"/>
-                            )}
-                        </FormItem>
-                        <FormItem className="input-form-item">
                             {getFieldDecorator('newPassword', {
                                 rules: [{
                                     required: true,
                                     message: 'Введите новый пароль, пожалуйста'
-                                },
-                                    {
-                                        validator: this.compareToOldPassword,
-                                    }],
+                                }],
                             })(
                                 <InputNew type="password" bubbleplaceholder="Новый пароль"/>
                             )}

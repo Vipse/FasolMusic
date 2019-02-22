@@ -25,19 +25,19 @@ class MyStudents extends React.Component {
                                     key={index}
                                     onGoto={this.props.onGoto}
                                     goToChat={this.props.goToChat}
-                                    
+
             />)
         });
     };
 
     render() {
-        const {data} = this.props;
+        const {data, openMyStudents} = this.props;
         const {loading} = this.state;
 
         return (
             <div className='my-students'>
                 <Card title="Мои студенты"
-                      extra={<a className="my-students-link">
+                      extra={<a className="my-students-link" onClick={openMyStudents}>
                           <Icon type="circle_arrow_right"/>
                           <span>Весь список</span></a>}>
                     {loading ? <Spinner size='large'/> : (data.length ?

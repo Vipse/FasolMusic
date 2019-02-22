@@ -1,8 +1,8 @@
 .payment-coach {
   display: grid;
-  grid-template-areas: "record data refer" "record stats refer" "record invite invite";
-  grid-template-rows: 266px 266px 244px;
-  grid-template-columns: 493px 581px 380px;
+  grid-template-areas: "record stats refer" "record data refer" "record invite invite";
+  grid-template-rows: 250px 266px 244px;
+  grid-template-columns: 493px 300px 380px;
   grid-gap: 30px;
 }
 .payment-coach .ant-card-body {
@@ -159,10 +159,6 @@
   border-right: 1px solid #c6c1c8;
   padding-right: 19px;
   margin-right: 20px;
-}
-.payment-coach-stats-plate-completed,
-.payment-coach-stats-plate-earned {
-  width: 50%;
 }
 .payment-coach-stats-plate .title {
   display: flex;

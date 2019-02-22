@@ -57,6 +57,33 @@ class StudentPage extends React.Component{
         }
     }
 
+    prepareStudentOwnTrains = (trains) => {
+        let obj = {};
+
+        if (trains) {
+            trains.forEach((train) => {
+                let dateStart = moment(+train.start * 1000).startOf('day').format('X');
+                let hourStart = moment(+train.start * 1000).startOf('hour').format('X');
+                let allInfo = {
+                    date: train.start,
+                    idStudent: train.idStudent,
+                    idTraining: train.id,
+                    idSubscription: train.idSubscription,
+                    fio: train.fioMaster
+                };
+
+                if (obj.hasOwnProperty(dateStart)) obj[dateStart][hourStart] = {allInfo};
+                else {
+                    obj[dateStart] = {};
+                    obj[dateStart][hourStart] = {allInfo};
+                }
+            });
+        }
+        obj.dateStart = trains.dateStart;
+
+        return obj;
+    };
+
     changeFrozenBalance = (frozenTrainingCount) => {
         return this.props.onSaveUserEdit({
             id: this.props.match.params.id,
@@ -64,32 +91,35 @@ class StudentPage extends React.Component{
         });
     };
 
-    getDisciplinesList = () => {
+    getDisciplinesString = () => {
         const {disciplines} = this.props.profileStudent;
         if (disciplines && disciplines.length)
-            return disciplines.map(item => getNameFromObjArr(item.discipline))
-        return []
+            return disciplines.map(item => getNameFromObjArr(item.discipline)).join(', ');
+        else return '';
     };
 
-    getLevelsList = () => {
+    getLevelsString = () => {
         const {disciplines} = this.props.profileStudent;
         if (disciplines && disciplines.length)
-            return disciplines.map(item => item.level)
-            return []
+            return disciplines.map(item => item.level).join(', ');
+        else return '';
     };
 
     getSchedule = (dateStart, dateEnd) => {
-        const idVisitor = this.props.auth.id;
-        this.props.onGetOwnTrainings(idVisitor, dateStart, dateEnd);
+        const {auth, match} = this.props;
+        const {id: idAuth, mode} = auth;
+        const {id: idProfile} = match.params;
+
+        if (mode === 'master') this.props.onGetOwnTrainings(idAuth, dateStart, dateEnd);
+        else this.props.onGetAllTrainingStudent(idProfile, dateStart, dateEnd);
     };
 
     render() {
         const { id, avatar, name, frozenTraining } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
-        const {trainerTrainings, masterPostTrainings, match} = this.props;
+        const {trainerTrainings, masterPostTrainings, studentTrainings, match} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
 
-        console.log('StudentPage', this.props)
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
         } else if (id !== this.props.match.params.id) {
@@ -108,8 +138,8 @@ class StudentPage extends React.Component{
                                 <StudentProfile
                                     img={avatar}
                                     name={name}
-                                    discipline={this.getDisciplinesList().join(', ')}
-                                    level={this.getLevelsList().join(', ')}
+                                    discipline={this.getDisciplinesString()}
+                                    level={this.getLevelsString()}
                                     paidTrainingsCount={0}
                                 />
                                 <StudentPagePerfectCoach
@@ -144,7 +174,7 @@ class StudentPage extends React.Component{
                                 />
                                 <RecordTrainCarousel
                                     onGetIntervals={this.getSchedule}
-                                    trainerTrainings={trainerTrainings}
+                                    trainerTrainings={isAdmin ? this.prepareStudentOwnTrains(studentTrainings) : trainerTrainings}
                                     studentID={match.params.id}
                                     isAdmin={isAdmin}
                                     isStudentPage={true}
@@ -164,6 +194,7 @@ const mapStateToProps = state => {
         profileStudent: state.profilePatient,
         trainerTrainings: state.profileDoctor.trainerTrainings,
         masterPostTrainings: state.trainer.postTraining,
+        studentTrainings: state.training.studentTrainings
     }
 };
 
@@ -173,6 +204,7 @@ const mapDispatchToProps = dispatch => {
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         onGetOwnTrainings: (id, weekStart, weekEnd) => dispatch(actions.getTrainerTrainings(id, weekStart, weekEnd)),
         onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
+        onGetAllTrainingStudent: (idStudent, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idStudent, dateMin, dateMax)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data, 'student')),
         onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework))
     }

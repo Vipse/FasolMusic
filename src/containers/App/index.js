@@ -43,11 +43,11 @@ class App extends React.Component {
 
 
     /* Notifications and chat */
-  
+
     componentWillUnmount(){
         closeSocket();
     }
-    
+
     runNotificationsWS = () => {
         const that = this;
         //let id = 3199;
@@ -56,9 +56,7 @@ class App extends React.Component {
                 that.props.getNotifications(that.props.id);
 
                 conn.subscribe("" + that.props.id, function(topic, data) {
-                    debugger;
-                    
-                    that.props.onSaveNotification(data.arr)
+                    that.props.onSaveNotification(data.arr);
                     that.setState({
                         notifications: data.arr
                     });
@@ -75,7 +73,7 @@ class App extends React.Component {
         const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
             setConversationMode, setChatStory, setChatTrainingId, setNewTimer, onSaveMessage,
             setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus} = this.props;
-        
+
         createSocket(
             'wss://web.fasolonline.ru:8443/one2one',
             chatProps,
@@ -106,7 +104,7 @@ class App extends React.Component {
                 get_history: () => this.props.history,
             }
         );
-       
+
         register('' + this.props.id, ''/*+this.props.user_id*/, this.props.mode);
     };
 
@@ -138,7 +136,8 @@ class App extends React.Component {
                  width: '500px',
                  className: 'fast-modal',
                  content: 'Для более удобной работы с платформой зайдите с компьютера! ' +
-                     'Но вы всегда можете записаться тренировку и с телефона, а также весь функционал доступен для вас!\n',
+                     'Но вы всегда можете записаться на тренировку и с телефона, ' +
+                     'здесь для вас также доступен весь функционал!',
                  zIndex: 1050
              });
      };
@@ -172,7 +171,6 @@ class App extends React.Component {
             pass = localStorage.getItem('_fasol-pass');
 
             console.log('win :', window.localStorage);
-            
         this.props.onGetInfoLanding();
 
         (!this.props.id && !this.props.mode && login && pass) &&
@@ -206,16 +204,16 @@ class App extends React.Component {
 
     pushBtnTransfer = () => {
         this.setState({scheduleSpinner: true})
-        
+
         const {weekInterval, discCommunication, disciplinesList, currDiscipline} = this.props;
-        
+
         const codeDisc = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
 
-     
+
         if(weekInterval && codeDisc){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
- 
+
             this.onGoToSchedule();
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, codeDisc, chooseWeekdays)
              .then(() => {
@@ -223,19 +221,19 @@ class App extends React.Component {
                  this.props.onSetPushBtnTransferTraining()
              })
         }
-        // const start =  moment(Date.now()).startOf('week').format('X'); 
+        // const start =  moment(Date.now()).startOf('week').format('X');
         // const end = moment(Date.now()).endOf('week').format('X');
 
     }
 
     pushBtnUnfresh = () => {
-        
+
         const {weekInterval} = this.props;
         this.setState({scheduleSpinner: true})
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
-     
+
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => {
                 this.setState({scheduleSpinner: false})
@@ -312,7 +310,7 @@ class App extends React.Component {
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
                                             isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
                                             onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
-                                            
+
                                             onSetFreeIntervals = {this.props.onSetFreeIntervals}
                                             onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
                                             onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
@@ -354,7 +352,7 @@ class App extends React.Component {
                                     </Switch>
                                 </div>
                             </div>
-                            {this.state.scheduleSpinner && 
+                            {this.state.scheduleSpinner &&
                                 <div className = "schedule-spinner">
                                   <Spinner isInline={true} size='large'/>
                                 </div>}
@@ -413,14 +411,14 @@ const mapDispatchToProps = dispatch => {
         onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
         onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
-       
+
         onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
         getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
         getNotifications: (id) => dispatch(actions.getNotifications(id)),
         readNotification: (id) => dispatch(actions.readNotification(id)),
 
         onSaveNotification: (data) => dispatch(actions.saveNotification(data)),
-        
+
 
         setChatFromId: (id) => dispatch(actions.setChatFromId(id)),
         setChatToId: (id) => dispatch(actions.setChatToId(id)),

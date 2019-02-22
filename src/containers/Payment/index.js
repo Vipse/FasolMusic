@@ -29,15 +29,19 @@ class Payment extends React.Component{
     }
 
     componentDidMount() {
-      
-        if(this.props.mode === 'student'){
+        if (this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(this.props.id);
         }
-        this.props.onGetDeadlinePay(this.props.id);	
+        else {
+            let start = null;
+            let end = null;
+            this.props.onGetPostTrainerTraining(this.props.id, start, end);
+        }
+        this.props.onGetDeadlinePay(this.props.id);
     }
 
     onSendDataModal = (data) => {
-     
+
         let array = [];
         const {disciplinesList, discCommunication,subsForDisc, abonementIntervals, id} = this.props;
         const time0 = moment(Date.now()).startOf('week').format('X');
@@ -49,13 +53,13 @@ class Payment extends React.Component{
         this.props.onSetFreeIntervals(array,  data.type);
 
         if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-                  
+
                 this.props.onAddAmountTraining(subsForDisc[codeDisc], abonementIntervals.countTraining)
 
-                message.success('Количество добавленных тренировок '+ abonementIntervals.countTraining);    
+                message.success('Количество добавленных тренировок '+ abonementIntervals.countTraining);
         }
         else{
-            
+
                 this.props.onSetPushTrialTraining(null);
                 this.props.onSetMasterTheDisicipline(null);
                 this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
@@ -64,8 +68,18 @@ class Payment extends React.Component{
         this.props.onGetAbonementsFilter(id, disciplinesList[data.type]);
         this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
         //setTimeout( () => this.props.onGetStudentBalance(id), 1500);
-      
+
         //this.setState({visibleCreateTrainModal: true, redirectToSchedule: true});
+    };
+
+    countCompletedTrainingsNumber = () => {
+        const {postTraining} = this.props;
+        let count = 0;
+
+        for(let day in postTraining)
+            for(let train in postTraining[day])
+                ++count;
+            return count;
     };
 
     showCreateTrainModal = (amount, price) => {
@@ -93,7 +107,9 @@ class Payment extends React.Component{
                         nextTrainingTime={this.props.nextTrainingTime}
                         onSubmitPaySubscription = {this.onSubmitPaySubscription}
                     />)
-                    : (<CoachPayment/>)}
+                    : (<CoachPayment
+                        completedAmount={this.countCompletedTrainingsNumber()}
+                    />)}
 
                 {/*<CreateTrainModal
                     title='Запишись на тренировку'
@@ -105,7 +121,7 @@ class Payment extends React.Component{
                 /> */}
 
 
-               { /*<Modal 
+               { /*<Modal
 
                     title='Сообщение'
                     visible={this.state.payModal}
@@ -153,7 +169,7 @@ const mapStateToProps = state => {
         subsForDisc : state.abonement.subsForDisc,
         abonementIntervals: state.patients.abonementIntervals,
         studentBalance: state.abonement.studentBalance,
-
+        postTraining: state.trainer.postTraining
     }
 };
 
@@ -165,17 +181,15 @@ const mapDispatchToProps = dispatch => {
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
-        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)), 
+        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
-       
+
         onGetToken: (idUser, amount, price, discipline) => dispatch(actions.getToken(idUser, amount, price, discipline)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
-
-        
-        
+        onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax))
     }
 };
 

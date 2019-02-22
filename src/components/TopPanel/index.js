@@ -7,6 +7,16 @@ import './style.css'
 import '../../icon/style.css'
 import Button from '../Button';
 
+const studentText = 'Проводите свободное время с пользой, ' +
+    'оттачивайте пройденные упражнения на нашем канале на YouTube ' +
+    'на котором уже более 28.000 подписчиков, ' +
+    'здесь вы найдёте много полезного и интересного!';
+const coachText = 'Нет предела совершенству! ' +
+    'Заходите на наш канал на YouTube, уверен, ' +
+    'вы найдёте много интересной информации, ' +
+    'которая поможет сделать тренировки еще более эффективными! ' +
+    'Или может вы созрели для своего блога?!';
+
 class TopPanel extends React.Component{
     state = {
         time: moment(),
@@ -21,7 +31,7 @@ class TopPanel extends React.Component{
         clearTimeout(this.timeout);
         clearInterval(this.timer);
     }
-    
+
     firstTick = () => {
         this.tick();
         this.timer = setInterval(this.tick, 60000);
@@ -39,18 +49,16 @@ class TopPanel extends React.Component{
         for (let el in todayTraining) {
             if(todayTraining.hasOwnProperty(el) && Array.isArray(todayTraining[el]) ) {
                 lenghtToday += todayTraining[el].length;
-            } 
+            }
         }
 
         return (
             <div className='top-panel'>
                 <div className='top-panel-description'>
-                    <h3 className='top-panel-description-title'>Пока ждешь начала тренировки,
-                        можешь посмотреть наше новое видео
+                    <h3 className='top-panel-description-title'>Пока ждете начала тренировки,
+                        можете посмотреть наше новое видео
                     </h3>
-                    <p className='top-panel-description-body'>Проводи свободное время с пользой, разминайся и оттачивай
-                        пройденные упражнения на нашем канале на YouTube на котором уже более 28.000 подписчиков,
-                        здесь ты найдешь много полезного и интересного!
+                    <p className='top-panel-description-body'>{isStudent ? studentText : coachText}
                     </p>
                     <a className='top-panel-description-link' target='_blank' href='https://www.youtube.com/channel/UC2CeLJuTUSqjQUrxctjttdg'>
                         <Button
