@@ -6,19 +6,17 @@ import moment from "moment";
 
 
 export const getInfoLanding = (userInfo, history) => {
-    
     return (dispatch) => {
         return axiosLand.post('getInfoLanding',
                 JSON.stringify({id: 1}))
                     .then(res => {
-                        
                         return res;
                     })
                     .catch(err => {
                         console.log('error: ',err);
                     })
     }
-}
+};
 
 
 
@@ -32,7 +30,7 @@ export const autoLogin = (history) => {
             dispatch(login(login, passw, false, history, true));
         }
     }
-}
+};
 
 
 export const login = (userName, password, remember, history, isAuto) => {
@@ -45,7 +43,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                     password: password,
                 }))
                     .then(res => {
-                        
+
                         !res.data.hasOwnProperty('error')
                             ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
@@ -71,7 +69,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                         //dispatch(authFail(err.response.data.error));
                     })
     }
-}
+};
 
 export const registerUser = (userInfo, history) => {
     return (dispatch) => {
@@ -86,7 +84,7 @@ export const registerUser = (userInfo, history) => {
                             localStorage.setItem('_fasol-user', userInfo.email);
                             localStorage.setItem('_fasol-pass', userInfo.password);
 
-                            
+
                         }
                         return res;
                     })
@@ -94,14 +92,14 @@ export const registerUser = (userInfo, history) => {
                         console.log('error: ',err);
                     })
     }
-}
+};
 
 
 
 export const registerTrainer = (userInfo, history) => {
 
     return (dispatch) => {
-       
+
         return axios.post('/catalog.fasol/registratin',
                 JSON.stringify({"catalogGroup": "master", ...userInfo}))
                     .then(res => {
@@ -124,7 +122,7 @@ export const registerTrainer = (userInfo, history) => {
                         console.log('error: ',err);
                     })
     }
-}
+};
 
 
 export const resetRegisterStatus = () => {
@@ -133,7 +131,7 @@ export const resetRegisterStatus = () => {
             type: actionTypes.RESET_REG_STATUS
         });
     };
-}
+};
 
 export const logout = () => {
     return (dispatch, getState) => {
@@ -144,7 +142,7 @@ export const logout = () => {
         dispatch(authSuccess(0, ''));
     }
 
-}
+};
 
 export const checkEmailAvailability = (email) => {
     return () => {
@@ -165,7 +163,7 @@ const rememberMe = (flag, userName, password) => {
         (localStorage.setItem('_fasol-user',userName),
         localStorage.setItem('_fasol-pass',password))
         : null;
-}
+};
 
 const authStart = () => {
     return {

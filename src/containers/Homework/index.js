@@ -10,79 +10,80 @@ import Hoc from '../../hoc'
 import * as actions from '../../store/actions'
 
 import './styles.css'
-import moment from "moment";
 
 class Homework extends React.Component {
-    componentDidMount() {
-        this.props.getSelectors('discipline');
-        const {mode, id} = this.props;
-        const start = null;
-        const end = moment().format('X');
 
-        if (mode === "student")
-            this.props.onGetAllTrainingStudent(id, start, end);
-        else if (mode === "master")
-            this.props.onGetPostTrainerTraining(id, start, end);
+    componentDidMount() {
+        const { id } = this.props;
+
+        this.props.getSelectors('discipline');
+        this.props.onGetTrainingHistoryList(id);
     }
 
-    gotoHandler = (id) => {
+    componentWillUnmount() {
+        this.props.onResetTrainingHistoryList();
+    }
+
+    goToHandler = (id) => {
         let link = this.props.mode === "student" ? "/app/coach" : "/app/student";
         this.props.history.push(link + id);
     };
 
-    prepareTrainingsArr = () => {
-        const {mode, selectors, masterTrainings, studentTrainings} = this.props;
-        let trainingsArr = [];
-
-        if (selectors.discipline) {
-            if (mode === 'student') {
-                trainingsArr = studentTrainings.map((train) => {
-                    return {
-                        date: train.start,
-                        name: train.fioMaster,
-                        discipline: train.disciplineMaster.length ? selectors.discipline.find(discipline => discipline.id === +train.disciplineMaster[0]).nameRus : null,
-                        trainingRecord: train.videofile,
-                        homework: train.homework,
-                        files: train.attachments,
-                        idProfile: train.idMaster,
-                        idTraining: train.id
-                    };
-                });
-            }
-            else {
-                for (let day in masterTrainings)
-                    for (let train in masterTrainings[day]) {
-                        let train = masterTrainings[day][train].allInfo;
-                        trainingsArr.push({
-                            date: train.date,
-                            name: train.fio,
-                            discipline: train.disciplines.length ? selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
-                            trainingRecord: train.videofile,
-                            homework: train.homework,
-                            files: train.attachments,
-                            idProfile: train.idStudent,
-                            idTraining: train.idTraining
-                        });
-                    }
-            }
-        }
-
-        return trainingsArr.reverse();
+    goToChat = (idTo, idTraining, interlocutorName, interlocutorAvatar, beginTime, isComplete, isTrial = false) => {
+        this.props.onSetChatToId(idTo);
+        this.props.onSetChatInterlocutorInfo(interlocutorName, interlocutorAvatar);
+        this.props.onSetChatTrainingId(idTraining);
+        this.props.onSetBeginTime(beginTime);
+        this.props.onSetIsCompleteStatus(isComplete);
+        this.props.onSetIsTrialStatus(isTrial);
+        this.props.history.push('/app/chat');
     };
 
-    render(){
-        const {mode} = this.props;
+    loadMoreTrainingsHandler = (search) => {
+        const { id } = this.props;
+
+        this.props.onGetTrainingHistoryList(id, search);
+    };
+
+    prepareTrainingsArr = () => {
+        const {mode, selectors, trainings} = this.props;
+        const isStudent = mode === 'student';
+        let trainingsArr = [];
+
+        if (selectors.discipline)
+            trainingsArr = trainings.map((train) => {
+                return {
+                    date: train.date,
+                    name: isStudent ? train.nameMaster : train.nameStudent,
+                    avatar: isStudent ? train.avatarMaster : train.avatarStudent,
+                    discipline: train.disciplineSubscription.length ? selectors.discipline.find(discipline => discipline.id === +train.disciplineSubscription[0]).nameRus : null,
+                    trainingRecord: train.videofile,
+                    homework: train.homework,
+                    idProfile: isStudent ? train.idMaster : train.idStudent,
+                    idTraining: train.idTraining,
+                    isTrial: train.trial
+                };
+            });
+
+        return trainingsArr;
+    };
+
+    render() {
+        const { mode, loading, isRequestFailed, endAchieved } = this.props;
 
         return (
             <Hoc>
             	<Row>
             		<Col span={24} className='section'>
                         <HomeworkList
-                            onGoto={this.gotoHandler}
+                            loadMoreTrainings={this.loadMoreTrainingsHandler}
+                            onGoToProfile={this.goToHandler}
+                            onGoToChat={this.goToChat}
                             isStudent={mode === "student"}
-                            onAddFiles = {this.props.onAddFiles}
-                            makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
                             trainings={this.prepareTrainingsArr()}
+                            loading={loading}
+                            isRequestFailed={isRequestFailed}
+                            endAchieved={endAchieved}
                             onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                         />
             		</Col>
@@ -94,23 +95,29 @@ class Homework extends React.Component {
 
 const mapStateToProps = state => {
 	return {
+	    id: state.auth.id,
         mode: state.auth.mode,
-        id: state.auth.id,
-        selectors: state.loading.selectors,
-        masterTrainings: state.trainer.postTraining,
-        studentTrainings: state.training.studentTrainings
+        trainings: state.homework.trainings,
+        loading: state.homework.loading,
+        isRequestFailed: state.homework.isRequestFailed,
+        endAchieved: state.homework.endAchieved,
+        selectors: state.loading.selectors
 	}
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-        onAddFiles: (file, id) => dispatch(actions.addFileToApp(file, id)),
-        makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
-
-        onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
-        onGetAllTrainingStudent: (idMaster, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idMaster, dateMin, dateMax)),
+        onGetTrainingHistoryList: (idUser, search) => dispatch(actions.getTrainingHistoryList(idUser, search)),
+        onResetTrainingHistoryList: () => dispatch(actions.resetTrainingHistoryList()),
         onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),
-        getSelectors: (name) => dispatch(actions.getSelectors(name))
+        getSelectors: (name) => dispatch(actions.getSelectors(name)),
+
+        onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
+        onSetChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
+        onSetChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),
+        onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
+        onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
+        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
     }
 };
 

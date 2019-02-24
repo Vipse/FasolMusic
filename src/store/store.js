@@ -18,6 +18,7 @@ import trainingReducer from './reducers/training'
 import adminReducer from './reducers/admin'
 import abonementReducer from './reducers/abonement'
 import acquiringReducer from './reducers/acquiring'
+import homeworkReducer from './reducers/homework'
 
 
 const rootReducer = combineReducers({
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
     training: trainingReducer,
     admin: adminReducer,
     acquiring: acquiringReducer,
+    homework: homeworkReducer
 });
 
 export default function configureStore() {

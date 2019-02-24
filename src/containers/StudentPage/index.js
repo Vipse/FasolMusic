@@ -27,7 +27,7 @@ class StudentPage extends React.Component{
     }
 
     componentDidMount(){
-        const {getSelectors, auth} = this.props;
+        const {getSelectors, id} = this.props;
         const selectorsNames = ['interests', 'goal', 'discipline', 'qualities', 'styles', 'professions', 'day'];
 
         selectorsNames.forEach((name) => {
@@ -46,7 +46,7 @@ class StudentPage extends React.Component{
         const start = null;
         const end = moment().format('X');
 
-        this.props.onGetPostTrainerTraining(auth.id, start, end);
+        this.props.onGetPostTrainerTraining(id, start, end);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -56,6 +56,21 @@ class StudentPage extends React.Component{
                 .then(res => this.setState({loading: false}));
         }
     }
+
+    goToChat = (idTo, idTraining, interlocutorName, interlocutorAvatar, beginTime, isComplete, isTrial = false) => {
+        this.props.onSetChatToId(idTo);
+        this.props.onSetChatInterlocutorInfo(interlocutorName, interlocutorAvatar);
+        this.props.onSetChatTrainingId(idTraining);
+        this.props.onSetBeginTime(beginTime);
+        this.props.onSetIsCompleteStatus(isComplete);
+        this.props.onSetIsTrialStatus(isTrial);
+        this.props.history.push('/app/chat');
+    };
+
+    goToHandler = (id) => {
+        let link = this.props.mode === "student" ? "/app/coach" : "/app/student";
+        this.props.history.push(link + id);
+    };
 
     prepareStudentOwnTrains = (trains) => {
         let obj = {};
@@ -106,8 +121,7 @@ class StudentPage extends React.Component{
     };
 
     getSchedule = (dateStart, dateEnd) => {
-        const {auth, match} = this.props;
-        const {id: idAuth, mode} = auth;
+        const {id: idAuth, match, mode} = this.props;
         const {id: idProfile} = match.params;
 
         if (mode === 'master') this.props.onGetOwnTrainings(idAuth, dateStart, dateEnd);
@@ -117,8 +131,9 @@ class StudentPage extends React.Component{
     render() {
         const { id, avatar, name, frozenTraining,email, phones } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
-        const {trainerTrainings, masterPostTrainings, studentTrainings, match} = this.props;
-        const isAdmin = this.props.auth.mode === 'admin';
+        const {trainerTrainings, studentTrainings, match,
+            trainings, loadingPastTrainsList, isRequestFailed, endAchieved} = this.props;
+        const isAdmin = this.props.mode === 'admin';
 
         if (this.state.loading === true) {
             return <Spinner tip="Загрузка" size="large"/>;
@@ -157,22 +172,19 @@ class StudentPage extends React.Component{
                                 />}
                             </Col>
                             <Col span={14}>
-                                <TrainsHistory data={this.props.appsBetween}
-                                               appsBetweenCount={this.props.appsBetweenCount}
-                                               onGotoChat={(id) => {
-                                                   this.props.onSelectTretment(id);
-                                                   this.props.history.push('/app/chat')
-                                               }}
-                                               getApps={this.props.onGetAppointments}
-                                               id_user={this.props.match.params.id}
-                                               personalPage={true}
-                                               isUser={this.props.mode === "student"}
-                                               onAddFiles={this.props.onAddFiles}
-                                               addConclusion={this.props.addConclusion}
-                                               makeArchiveOfFiles={this.props.makeArchiveOfFiles}
+                                <TrainsHistory onGotoChat={this.goToChat}
+                                               goToProfile={this.goToHandler}
+                                               id={id}
+                                               trainings={trainings}
+                                               loading={loadingPastTrainsList}
+                                               isRequestFailed={isRequestFailed}
+                                               endAchieved={endAchieved}
                                                selectors={this.state.selectorsValues}
-                                               masterTrainings={masterPostTrainings}
+                                               isUser={this.props.mode === "student"}
                                                onSetHomeworkEdit={this.props.onSetHomeworkEdit}
+                                               onGetTrainingHistoryList={this.props.onGetTrainingHistoryList}
+                                               onResetTrainingHistoryList={this.props.onResetTrainingHistoryList}
+                                               onChangeRequestMaxAmount={this.props.onChangeRequestMaxAmount}
                                 />
                                 <RecordTrainCarousel
                                     onGetIntervals={this.getSchedule}
@@ -192,7 +204,12 @@ class StudentPage extends React.Component{
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
+        id: state.auth.id,
+        mode: state.auth.mode,
+        trainings: state.homework.trainings,
+        loadingPastTrainsList: state.homework.loading,
+        isRequestFailed: state.homework.isRequestFailed,
+        endAchieved: state.homework.endAchieved,
         profileStudent: state.profilePatient,
         trainerTrainings: state.profileDoctor.trainerTrainings,
         masterPostTrainings: state.trainer.postTraining,
@@ -208,7 +225,17 @@ const mapDispatchToProps = dispatch => {
         onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
         onGetAllTrainingStudent: (idStudent, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idStudent, dateMin, dateMax)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data, 'student')),
-        onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework))
+        onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),
+        onGetTrainingHistoryList: (idUser, search) => dispatch(actions.getTrainingHistoryList(idUser, search)),
+        onChangeRequestMaxAmount: (amount) => dispatch(actions.changeRequestMaxAmount(amount)),
+        onResetTrainingHistoryList: () => dispatch(actions.resetTrainingHistoryList()),
+
+        onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
+        onSetChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
+        onSetChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),
+        onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
+        onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
+        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
     }
 };
 

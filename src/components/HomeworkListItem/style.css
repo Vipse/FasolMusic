@@ -5,6 +5,7 @@
 }
 .homework-list-item:hover {
   background-color: rgba(33, 190, 221, 0.1);
+  cursor: pointer;
 }
 .homework-list-item .flex-col {
   padding: 25px 0;
