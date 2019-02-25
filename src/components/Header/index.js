@@ -10,7 +10,9 @@ import './style.css'
 import '../../icon/style.css'
 import CreateTrainModal from "../../components/CreateTrainModal";
 import moment from "moment";
-import {Modal, message} from "antd";
+import {Modal, message, Tooltip} from "antd";
+import  ReactTooltip  from 'react-tooltip';
+import {findDOMNode} from 'react-dom'
 
 
 class Header extends React.Component {
@@ -29,7 +31,19 @@ class Header extends React.Component {
             this.setState({isTrialTrainingModalVisible: true});
     }
 
+    resetAllEvent = () => {
+        this.props.onSetPushTrialTraining(null)
+        this.props.onUnsetPushBtnTransferTraining();
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
+    }
+
+    onSubmitBtnTrialTraining = () => {
+        this.resetAllEvent();
+        this.setState({isTrialTrainingModalVisible: true});
+    }
+
     onUnfreshTraining = () => {
+        this.resetAllEvent();
         this.setState({isUnfreshTrainingModal: true});
     }
 
@@ -103,8 +117,6 @@ class Header extends React.Component {
     };
 
     handleTransfer = () => {
-        this.props.isPushBtnTransfer();
-
         this.props.isTransferTrainPopupActive && Modal.info({
             title: 'Перенос тренировки',
             width: '500px',
@@ -114,6 +126,10 @@ class Header extends React.Component {
                 'одну тренировку можно перенести только один раз и не позднее 24 часов до начала тренировки!',
             onOk: () => {this.props.onTransferTrainPopupClose()}
         });
+        
+        this.props.isPushBtnTransfer();
+        this.props.onSetPushTrialTraining(null);
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});       
     };
 
     render() {
@@ -128,7 +144,8 @@ class Header extends React.Component {
             trialTrainingForDisciplines,
             isTrialTrainingsAvailable,
             disciplinesList,
-            useFrozenTraining
+            useFrozenTraining,
+            countTrainingDiscipline
         } = this.props;
 
         let showTrialModal = false;
@@ -157,7 +174,7 @@ class Header extends React.Component {
                                 size='default'
                                 type='border-pink'
                                 className="header-btn"
-                                onClick={() => this.setState({isTrialTrainingModalVisible: true})}
+                                onClick={this.onSubmitBtnTrialTraining}
                             />}
                             {useFrozenTraining ? <Button
                                 btnText={'Разморозить тренировку(' + useFrozenTraining + ')'}
@@ -166,13 +183,25 @@ class Header extends React.Component {
                                 className="header-btn"
                                 onClick={this.onUnfreshTraining}
                             /> : null}
-                            <Button
-                                btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
-                                size='default'
-                                type='border-pink'
-                                className="header-btn"
-                                onClick={this.handleTransfer}
-                            />
+
+                         
+                            {countTrainingDiscipline ?
+                                <Button
+                                    btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
+                                    size='default'
+                                    type='border-pink'
+                                    className="header-btn"
+                                    onClick={this.handleTransfer}
+                                /> :
+                                <Tooltip placement="bottom" title={'Нет тренировок для переноса'} text>
+                                    <Button
+                                        btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
+                                        size='default'
+                                        type='border-pink'
+                                        className="header-btn"
+                                    />
+                                </Tooltip>}
+
                         </div>
                     </React.Fragment> : null}
                 <div className='header-notification'>

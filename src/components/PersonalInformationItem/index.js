@@ -10,7 +10,6 @@ import {Form} from "antd/lib/index";
 import SelectNew from "../SelectNew";
 
 import addInfoObj from "../../helpers/addInfoObj";
-import langsArray from "../../helpers/langsArray";
 import TextArea from "../TextArea";
 
 const FormItem = Form.Item;

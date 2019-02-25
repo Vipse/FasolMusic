@@ -303,34 +303,35 @@ class App extends React.Component {
                                             isOnMainPage={this.props.location.pathname === '/app'}
                                             frozenTraining={this.props.frozenTraining}
                                             disciplinesList={this.props.disciplinesList}
+                                            
+                                            trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
+                                            isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
+                                            countTrainingDiscipline = {this.props.countTrainingDiscipline}
+                                            discCommunication = {this.props.discCommunication}
+                                            studentBalance = {this.props.studentBalance}
+                                            useFrozenTraining = {this.props.useFrozenTraining}   
+                                            subsForDisc = {this.props.subsForDisc}
+                                            abonementIntervals = {this.props.abonementIntervals}
+
+                                            onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
+                                            onSetFreeIntervals = {this.props.onSetFreeIntervals}
+                                            onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
+                                            onIsPushBtnUnfresh = {this.props.onIsPushBtnUnfresh}
+                                            onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
+                                            onSetNeedSaveIntervals = {this.props.onSetNeedSaveIntervals}
+                                            onEditUseFrozenTraining = {this.props.onEditUseFrozenTraining}
+                                            onAddAmountTraining = {this.props.onAddAmountTraining}
                                             onGetAvailableInterval={this.props.onGetAvailableInterval}
                                             onSetPushTrialTraining={this.props.onSetPushTrialTraining}
                                             onChangeCurrDiscipline={this.props.onChangeCurrDiscipline}
                                             onGoToSchedule={this.onGoToSchedule}
-                                            trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
-                                            isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
-                                            onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
-
-                                            onSetFreeIntervals = {this.props.onSetFreeIntervals}
-                                            onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
-                                            onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
-                                            discCommunication = {this.props.discCommunication}
-                                            onSetNeedSaveIntervals = {this.props.onSetNeedSaveIntervals}
-                                            onEditUseFrozenTraining = {this.props.onEditUseFrozenTraining}
-
-                                            studentBalance = {this.props.studentBalance}
-                                            useFrozenTraining = {this.props.useFrozenTraining}
-                                            onIsPushBtnUnfresh = {this.props.onIsPushBtnUnfresh}
-                                            subsForDisc = {this.props.subsForDisc}
-                                            abonementIntervals = {this.props.abonementIntervals}
-                                            onAddAmountTraining = {this.props.onAddAmountTraining}
-                                            notifications = {this.props.notifications}
-
-                                            showSpinner = {() => this.setState({scheduleSpinner: true})}
-                                            hideSpinner = {() => this.setState({scheduleSpinner: false})}
-
                                             isTransferTrainPopupActive={this.props.isTransferTrainPopupActive}
                                             onTransferTrainPopupClose={this.props.onTransferTrainPopupDisable}
+                                            onUnsetPushBtnTransferTraining={this.props.onUnsetPushBtnTransferTraining}
+
+                                            notifications = {this.props.notifications}
+                                            showSpinner = {() => this.setState({scheduleSpinner: true})}
+                                            hideSpinner = {() => this.setState({scheduleSpinner: false})}                                        
                                     />
                                 </div>
                                 <div className="main-content">
@@ -397,6 +398,7 @@ const mapStateToProps = state => {
         conversationMode: state.chatWS.conversationMode,
         interlocutorName: state.chatWS.interlocutorName,
         timer: state.chatWS.timer,
+        countTrainingDiscipline: state.training.countTrainingDiscipline,
 
         isTransferTrainPopupActive: state.student.isTransferTrainPopupActive
     }
@@ -450,13 +452,13 @@ const mapDispatchToProps = dispatch => {
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
 
         onGetInfoLanding: () => dispatch(actions.getInfoLanding()),
-
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
-        onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable())
+        onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
+        onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
     }
 };
 

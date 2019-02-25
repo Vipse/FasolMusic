@@ -11,7 +11,7 @@ class StudentProfile extends React.Component {
     state = {};
 
     render() {
-        const {img, name, discipline, level, paidTrainingsCount} = this.props;
+        const {img, name, discipline, level, paidTrainingsCount, email, phones} = this.props;
 
         return (
             <Card title="Профиль студента">
@@ -28,6 +28,9 @@ class StudentProfile extends React.Component {
                             <div className="profile-student-info">
                                 <div className="profile-student-info-name">{name}</div>
                                 <div className="profile-student-info-discipline">{discipline}</div>
+                                <div className="profile-student-info-email"> <span>Email: </span> {email ? email : '-'} </div>
+
+                                <div className="profile-student-info-phones"> <span>Телефон: </span> {phones ? phones : '-'} </div>
                                 <div className="profile-student-info-level">{(level && level.length) ? level : ''}</div>
                                 <div className="profile-student-info-count">Тренировок оплачено: <span className="profile-student-info-count-number">{paidTrainingsCount}</span></div>
                             </div>

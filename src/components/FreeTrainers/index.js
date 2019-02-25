@@ -25,27 +25,24 @@ class FreeTrainers extends React.Component {
     render() {
         const {freeTrainers} = this.props;
 
-        console.log('freeTrainers :', this.props);
         return (
-            <div className='my-coach' id="my-coach-wrapper">
+            <div className='my-free-coach' id="my-coach-wrapper">
+            
                 <Card title="Выбери коуча">
-                    
-                    <PerfectScrollbar
-                        className="auto__complete-results"
-                    >
-                        <Button 
-                            btnText='Выбрать любого'
-                            size='default'
-                            type='border-pink'
-                            className="header-btn header-btn-transfer my-coach-any"
-                            onClick={this.props.selectAnyTrainer}
-                             />
-                        <div>
-                            {Array.isArray(freeTrainers) && freeTrainers.length ?
+
+                    <Button 
+                        btnText='Выбрать любого'
+                        size='default'
+                        type='border-pink'
+                        className="header-btn header-btn-transfer my-coach-any"
+                        onClick={this.props.selectAnyTrainer}
+                    />         
+                    <div>
+                           {Array.isArray(freeTrainers) && freeTrainers.length ?
                                 this.studentsRender(freeTrainers)
                                 : <div className='noStudents'>Коучей нет</div>}
-                        </div>
-                    </PerfectScrollbar>       
+                    </div>
+                    
                 </Card>
             </div>
         )

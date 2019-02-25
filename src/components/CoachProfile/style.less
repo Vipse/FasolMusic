@@ -3,6 +3,7 @@
 
   .profile-coach {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 
     &-avatar {
@@ -11,8 +12,9 @@
 
     &-info {
       flex-direction: column;
-      width: 250px;
       align-self: center;
+      margin-right: 10px;
+      margin-bottom: 10px;
 
       &-name {
         color: #21bedd;
@@ -23,6 +25,16 @@
       &-btn {
         margin-top: 15px;
         align-self: flex-end;
+      }
+
+      &-discipline{
+        margin: 10px 0px;
+      }
+      &-email{
+        margin: 10px 0px;
+      }
+      &-phones{
+        margin: 10px 0px;
       }
     }
 

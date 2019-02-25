@@ -54,9 +54,24 @@ class NotificationItem extends React.Component{
             case 'newtsubscription':
                 iconType = 'notification-email';
                 break;
-            // case 'cancel':
-            //     links = this.renderLinks();
-            //     break;
+            case 'newtraining':
+                iconType = 'notification-email';
+                break;
+            case 'next':
+                iconType = 'notification-next';
+                break;
+            case 'nextpay':
+                iconType = 'notification-nextpay';
+                break;
+            case 'canceltraining':
+                iconType = 'notification-canceltraining';
+                break;
+            case 'newmessage':
+                iconType = 'notification-newmessage';
+                break;
+            case 'transfertraining':
+                iconType = 'notification-transfertraining';       
+                break;
         }
 
         let flag = this.state.watchInverse ? watch : !watch;

@@ -157,7 +157,7 @@ class CoachPage extends React.Component{
     };
 
     render() {
-        const { id, avatar, name, aboutme, promovideo } = this.props.profileCoach;
+        const { id, avatar, name, aboutme, promovideo, email, phones } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
         const {masterSchedule, trainerTrainings, auth} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
@@ -178,8 +178,10 @@ class CoachPage extends React.Component{
                         <Row type="flex" gutter={32}>
                             <Col span={11}>
                                 <CoachProfile
+                                    email={email}
                                     img={avatar}
                                     name={name}
+                                    phones={phones}
                                     discipline={this.getDisciplinesList()}
                                     specialization={this.getSpecializationsList()}
                                     aboutMe={aboutme}

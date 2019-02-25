@@ -1,26 +1,26 @@
 #my-coach-wrapper .ant-card-head-title {
   background-color: transparent !important;
 }
-.my-coach .ant-card-head-title {
+.my-free-coach .ant-card-head-title {
   background-color: transparent;
 }
-.my-coach .ant-card-body {
+.my-free-coach .ant-card-body {
   height: 585px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 15px!important;
 }
-.my-coach .ant-card-body:before,
-.my-coach .ant-card-body:after {
+.my-free-coach .ant-card-body:before,
+.my-free-coach .ant-card-body:after {
   display: none;
 }
-.my-coach-link {
+.my-free-coach-link {
   font-family: RobotoRegularItalic, sans-serif;
   font-size: 14px;
   color: #111;
 }
-.my-coach .noStudents {
+.my-free-coach .noStudents {
   font-family: RobotoBlack, sans-serif;
   text-align: center;
   font-size: 20px;

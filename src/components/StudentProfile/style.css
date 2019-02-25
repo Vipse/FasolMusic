@@ -11,13 +11,19 @@
   flex-direction: column;
   align-self: center;
 }
+.profile-card-student .profile-student-info-discipline {
+  margin: 10px 0px;
+}
+.profile-card-student .profile-student-info-email {
+  margin: 10px 0px;
+}
+.profile-card-student .profile-student-info-phones {
+  margin: 10px 0px;
+}
 .profile-card-student .profile-student-info-name {
   color: #21bedd;
   font-family: "RobotoMediumItalic";
   text-transform: uppercase;
-}
-.profile-card-student .profile-student-info-count {
-  font-family: RobotoMedium;
 }
 .profile-card-student .profile-student-info-count-number {
   font-size: 22px;

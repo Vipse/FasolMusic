@@ -115,7 +115,7 @@ class StudentPage extends React.Component{
     };
 
     render() {
-        const { id, avatar, name, frozenTraining } = this.props.profileStudent;
+        const { id, avatar, name, frozenTraining,email, phones } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
         const {trainerTrainings, masterPostTrainings, studentTrainings, match} = this.props;
         const isAdmin = this.props.auth.mode === 'admin';
@@ -138,6 +138,8 @@ class StudentPage extends React.Component{
                                 <StudentProfile
                                     img={avatar}
                                     name={name}
+                                    email={email}
+                                    phones={phones}
                                     discipline={this.getDisciplinesString()}
                                     level={this.getLevelsString()}
                                     paidTrainingsCount={0}

@@ -20,6 +20,7 @@ class FreeTrainersItem extends React.Component{
             onGotoPage,
         } = this.props;
 
+        debugger;
         return (
             <div className='myStudent-wrapper'>
                 <div className='myStudent' >

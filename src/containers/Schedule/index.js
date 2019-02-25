@@ -2,33 +2,26 @@
 import React from 'react'
 import moment from 'moment'
 import {connect} from 'react-redux';
+import {findTimeInterval} from '../../helpers/timeInterval'
+import {timePeriod} from './mock-data'
+import {fillTrainingWeek} from './shedule';
+import {message, Modal as PopupModal} from 'antd';
 import Hoc from '../../hoc'
-import Row from "../../components/Row";
-import Col from "../../components/Col";
+
 import Button from "../../components/Button";
 import Calendar from "../../components/Calendar22";
 import CancelVisitModal from "../../components/CancelVisitModal";
 import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
-import {message, Modal as PopupModal} from 'antd';
-import MyCoach from '../../components/MyCoach';
+import FreeAdminTrainersItem from './../../components/FreeAdminTrainersItem/index';
+
 import ReceptionsScheduleModal from "../../components/ReceptionsScheduleModal";
 import Modal from './../../components/Modal/index';
 import * as actions from '../../store/actions'
-import './styles.css'
-import {findTimeInterval} from '../../helpers/timeInterval'
-import {timePeriod} from './mock-data'
-
-import {  apiTrainers, fasolIntervals} from './mock-data';
-import { fillTrainingWeek } from './shedule';
-import FreeTrainers from '../../components/FreeTrainers';
-import FreeTrainersItem from '../../components/FreeTrainersItem';
-import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
-import { apiPatients } from './mock-data';
-import FreeAdminTrainersItem from '../../components/FreeAdminTrainersItem';
 
+import './styles.css'
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -138,11 +131,13 @@ class Schedule extends React.Component {
         if(isPushBtnTrialTraining === 'trial'){
                             this.trialTime = idEvent;
 
+                        
                             message.info('Выберите одного из тренеров')
                             message.success('Тренировка выбрана')
 
                             this.setState({isShowFreeTrainers : true, apiPatients : [ {trainer: null, start: new Date(idEvent)}]})
 
+                            console.log('this.props', this.props)
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
         }
@@ -173,6 +168,7 @@ class Schedule extends React.Component {
             }
 
             else{
+                
                 this.timeEvent = idEvent;
                 const patients = [ {trainer: null, start: new Date(idEvent)}];
                 const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
@@ -300,7 +296,7 @@ class Schedule extends React.Component {
            // discAbonement
 
             if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code)) {
-               // debugger;
+               
                 this.props.onAddAmountTraining(subsForDisc[currDiscipline.code], abonementIntervals.countTraining)
                     .then(() => {
                         setTimeout(() => {
@@ -329,7 +325,7 @@ class Schedule extends React.Component {
                         this.props.onGetUseFrozenTraining(id);
                     }, 1000);
                 });
-                //debugger;
+                
                 this.props.onSaveStudentMasterDisciplineCommunication(id, chooseTheMaster, currDiscipline.code)
                 this.props.onGetDisciplineCommunication(id);
 
@@ -1084,7 +1080,6 @@ class Schedule extends React.Component {
                                 </div>
                         </div>
                 </Modal>
-
 
                 <Modal
                     title='Список коучей'

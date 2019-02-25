@@ -3,6 +3,7 @@
 }
 .profile-card-coach .profile-coach {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 .profile-card-coach .profile-coach-avatar {
@@ -10,8 +11,9 @@
 }
 .profile-card-coach .profile-coach-info {
   flex-direction: column;
-  width: 250px;
   align-self: center;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 .profile-card-coach .profile-coach-info-name {
   color: #21bedd;
@@ -21,6 +23,15 @@
 .profile-card-coach .profile-coach-info-btn {
   margin-top: 15px;
   align-self: flex-end;
+}
+.profile-card-coach .profile-coach-info-discipline {
+  margin: 10px 0px;
+}
+.profile-card-coach .profile-coach-info-email {
+  margin: 10px 0px;
+}
+.profile-card-coach .profile-coach-info-phones {
+  margin: 10px 0px;
 }
 .profile-card-coach .profile-coach-rate {
   width: 175px;
