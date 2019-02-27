@@ -22,7 +22,7 @@ class MainPage extends React.Component{
 	getPastAndFutureCoachTrainings = () => {
 		const {id} = this.props;
 		let start, end;
-			
+
 		start = moment(Date.now()).startOf('day').format('X');
 		end = moment(Date.now()).endOf('day').format('X');
 		this.props.onGetTodayTrainerTraining(id, end, start);
@@ -107,11 +107,11 @@ class MainPage extends React.Component{
                 addConclusion = {this.props.addConclusion}
                 makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 				{...this.props}/>
-		) :
+		) : (this.props.mode === "admin") ?
 			<AdminMain
 				onGetReport={this.props.onGetReport}
 				reportLinks={this.props.reportLinks}
-			/>
+			/> : null;
     }
 }
 
@@ -159,7 +159,7 @@ const mapDispatchToProps = dispatch => {
 		onGetActualTreatments: (obj) => dispatch(actions.getPaginationTreatments(obj)),
         onGetCompletedApp: (obj) => dispatch(actions.getCompletedApps(obj)),
 		onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-	
+
 		getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
 		onGetPatientDoctors: (count) => dispatch(actions.getPatientDoctors(count)),
 		onGetIntervalForDate: (beginDay, endDay, id) => dispatch(actions.getDateIntervalWithoutMakingApp(beginDay, endDay, id)),
@@ -170,10 +170,10 @@ const mapDispatchToProps = dispatch => {
         addConclusion:(id_zap, file) => dispatch(actions.uploadConclusion(id_zap, file)),
         makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
 		cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id)),
-		
+
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
 		onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),
-		
+
 
 		onGetMyMastersOrStudents: (obj) => dispatch(actions.getMyMastersOrStudents(obj)),
 
