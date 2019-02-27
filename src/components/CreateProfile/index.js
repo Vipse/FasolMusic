@@ -26,11 +26,12 @@ class CreateProfile extends React.Component{
                                            professionsList={getSelectorValues(state.selectorsValues.professionsList)}
                                            countriesList={getSelectorValues(state.selectorsValues.countriesList)}
                                            uploadFile={this.props.uploadFile}
+                                           onFinish={this.props.onSubmit}
                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                             //uploadFile={this.props.uploadFile}
                     />,
             },
-            {
+            /*{
                 content: (state) => <Step2 data={state}
                                            onNext={this.next}
                                            onPrev={this.prev}
@@ -56,7 +57,7 @@ class CreateProfile extends React.Component{
                                            onSubmit={(data) => this.setState({...data})}
                                            onFinish={this.props.onSubmit}
                 />,
-            },
+            },*/
             {
                 content: () => <Step5 onNext={this.next}
                                       urlLogin={this.props.urlLogin}
