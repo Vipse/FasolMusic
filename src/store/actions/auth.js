@@ -4,6 +4,22 @@ import axiosLand from './axiosSettingsLand'
 import * as actionTypes from './actionTypes';
 import moment from "moment";
 
+export const setOnlineStatus = (id,isOnline) => {
+    return dispatch => {
+        const newObj = {
+            idUser: id,
+            status: isOnline ? 1 : 0,
+        }
+        axios.post('/catalog.fasol/userOnOff',
+            JSON.stringify(newObj))
+            .then(res => {
+                console.log('[setOnlineStatus] results',res)
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
+}
 
 export const getInfoLanding = (userInfo, history) => {
     
@@ -49,6 +65,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                         !res.data.hasOwnProperty('error')
                             ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                                dispatch(setOnlineStatus(res.data.id, true)),
                                 sessionStorage.setItem('_fasol-id', res.data.result.id),
                                 sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
@@ -61,6 +78,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                                         // TODO: test
                                         localStorage.removeItem('_fasol-user'),
                                         localStorage.removeItem('_fasol-pass'),
+                                        localStorage.removeItem('landing'),
                                         sessionStorage.removeItem('_fasol-id'),
                                         sessionStorage.removeItem('_fasol-mode')
                                     )
@@ -137,11 +155,15 @@ export const resetRegisterStatus = () => {
 
 export const logout = () => {
     return (dispatch, getState) => {
+        sessionStorage.removeItem('landing');
         localStorage.removeItem('_fasol-user');
         localStorage.removeItem('_fasol-pass');
         sessionStorage.removeItem('_fasol-id');
         sessionStorage.removeItem('_fasol-mode');
+        localStorage.removeItem('_fasol-id');
+        localStorage.removeItem('_fasol-mode');
         dispatch(authSuccess(0, ''));
+        dispatch(setOnlineStatus(getState().auth.id, false));
     }
 
 }
@@ -159,6 +181,30 @@ export const checkEmailAvailability = (email) => {
             })
     }
 };
+
+export const getIdUserByToken = (token, history) => {
+    console.log("getIdUserByToken")
+    return (dispatch, getState) => {
+        return axios.post('/catalog.fasol/getIdUserByToken',JSON.stringify({token}))
+            .then(res => {
+                         console.log("res", res)   
+                if(!res.data.hasOwnProperty('error')){
+                    
+                        dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                        dispatch(setOnlineStatus(res.data.id, true)),
+                        sessionStorage.setItem('_fasol-id', res.data.result.id),
+                        sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+
+                        history.push(getState().training.unauthorizedTrialData ? '/app/schedule' : '/app')
+                }
+            })
+            .catch(err => {
+                console.log('error: ', err);
+            })
+    }
+};
+
+
 
 const rememberMe = (flag, userName, password) => {
     flag ?

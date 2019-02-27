@@ -46,7 +46,7 @@ class NotificationItem extends React.Component{
 
     render() { 
        
-        const {id, title, desc, time, thisTime, status, watch, idTo} = this.props;
+        const {id, title, desc, time, thisTime, status, watch, idTo, nameTo} = this.props;
         let iconType = 'notification';
         let links;
 
@@ -78,7 +78,7 @@ class NotificationItem extends React.Component{
         let rootClass = (flag) ? cn( `notification-item` ,`notification-${status}`) : cn( `notification-item` ,`notification-watch`);
         let madeDate = new Date((+thisTime)*1000);
         let now = new Date();
-
+debugger
 
         return (
                     <div className={rootClass}
@@ -106,6 +106,7 @@ class NotificationItem extends React.Component{
                             </div>}
                         </div>
                         <div className='notification-info'>{desc} {moment((+time)*1000).format('DD.MM.YYYY HH:mm')}</div>
+                        { nameTo && <div className='notification-info-nameTo'>{nameTo}</div>}
                         {links}
                     </div>
         );

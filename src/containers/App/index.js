@@ -1,4 +1,5 @@
 import React from 'react';
+import {Modal} from "antd";
 import {docRoutes, patientRoutes, adminRoutes, menuDoc, menuPatient} from '../../routes'
 import {coachRoutes, studentRoutes, menuStudent, menuCoach, menuAdmin} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
@@ -9,16 +10,19 @@ import {connect} from 'react-redux';
 import {createSocket, closeSocket, register} from './chatWs';
 import ab from '../../autobahn.js'
 
+import Icon from "../../components/Icon";
+import Spinner from "../../components/Spinner";
+import VK, { CommunityMessages } from 'react-vk';
+
+
 import * as actions from '../../store/actions'
 import './styles.css';
 import 'antd/dist/antd.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 
-import Icon from "../../components/Icon";
-import Spinner from "../../components/Spinner";
 
-import {Modal} from "antd";
+
 
 const renderRoutes = ({path, component, exact}) => (
     <Route key={path} exact={exact} path={path} component={component}/>
@@ -32,6 +36,8 @@ class App extends React.Component {
             collapsed: false,
             notifications: [],
             scheduleSpinner: false,
+            widget: null,
+            id: null,
         };
     }
 
@@ -46,6 +52,7 @@ class App extends React.Component {
 
     componentWillUnmount(){
         closeSocket();
+        this.props.onSetOnlineStatus(this.props.id, false)
     }
 
     runNotificationsWS = () => {
@@ -356,7 +363,7 @@ class App extends React.Component {
                             {this.state.scheduleSpinner &&
                                 <div className = "schedule-spinner">
                                   <Spinner isInline={true} size='large'/>
-                                </div>}
+                                </div>} 
                         </React.Fragment> :
                         <Redirect to='/signin'/>
                 }
@@ -459,6 +466,7 @@ const mapDispatchToProps = dispatch => {
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
         onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
         onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
+        onSetOnlineStatus: (id, status) => dispatch(actions.setOnlineStatus(id, status)),
     }
 };
 

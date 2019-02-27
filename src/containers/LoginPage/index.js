@@ -31,6 +31,12 @@ class LoginPage extends React.Component {
         };
     }
 
+    componentDidMount(){
+        if(sessionStorage.getItem('landing')){
+            this.props.onGetIdUserByToken(sessionStorage.getItem('landing'), this.props.history)
+        }
+    }
+    
     onSendDataTrialModal = (data) => {
         const {disciplinesList} = this.props;
         const {email, type} = data;
@@ -156,6 +162,8 @@ const mapDispatchToProps = dispatch => {
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
+        onGetIdUserByToken: (token, history)=> dispatch(actions.getIdUserByToken(token, history)),
+        
 	}
 };
 

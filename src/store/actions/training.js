@@ -150,10 +150,10 @@ export const getFutureTrialTraining = (idStudent, discipline) => {
 }
 
 
-export const getCountTrainingByDiscipline = (idStudent, discipline) => {
+export const getCountTrainingByDiscipline = (idUser, discipline) => {
 
     const obj = {
-        idStudent,
+        idUser,
         discipline: String(discipline)
     };
     return dispatch => {

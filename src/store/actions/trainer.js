@@ -47,14 +47,15 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                         
                         for(let element in allTraining[key]){
                             for(let el in allTraining[key][element]){
-
+                                    
                                         const elem = allTraining[key][element].allInfo;
-                                        if(elem.disciplines.includes(String(currDiscipline.code))){
+                                        if(elem.disciplines.includes(String(currDiscipline.code)) && !elem.isBooking){
                                             formatTrainng.push({
                                                 fio: elem.fio,
                                                 id: elem.date,
                                                 idMaster: elem.idMaster,
                                                 idSubscription:elem.idSubscription,
+                                                idStudent: elem.idStudent,
                                                 isBooking: elem.isBooking,
                                                 start: new Date(elem.date * 1000),
                                                 status: elem.status

@@ -71,7 +71,9 @@ export {
     checkEmailAvailability,
     reportBug,
     registerTrainer,
-    getInfoLanding
+    getInfoLanding,
+    getIdUserByToken,
+    setOnlineStatus,
 } from './auth'
 
 export {

@@ -5,30 +5,6 @@
   padding: 20px 25px 20px 55px;
   background-color: #fff;
 }
-.notification-new {
-  background-color: #fefbf3;
-}
-.notification-new .notification-title {
-  color: #fdc401;
-}
-.notification-new .notification-icon {
-  display: block;
-}
-.notification-new .notification-icon .icon {
-  color: #fdc401;
-}
-.notification-cancel {
-  background-color: #fefbf3;
-}
-.notification-cancel .notification-title {
-  color: #fdc401;
-}
-.notification-cancel .notification-icon {
-  display: block;
-}
-.notification-cancel .notification-icon .icon {
-  color: #fdc401;
-}
 .notification-newtsubscription {
   background-color: #fefbf3;
 }
@@ -41,17 +17,77 @@
 .notification-newtsubscription .notification-icon .icon {
   color: #fdc401;
 }
-.notification-five {
+.notification-newtraining {
   background-color: #fefbf3;
 }
-.notification-five .notification-title {
-  color: #ef5350;
+.notification-newtraining .notification-title {
+  color: #fdc401;
 }
-.notification-five .notification-icon {
+.notification-newtraining .notification-icon {
   display: block;
 }
-.notification-five .notification-icon .icon {
-  color: #ef5350;
+.notification-newtraining .notification-icon .icon {
+  color: #fdc401;
+}
+.notification-next {
+  background-color: #fefbf3;
+}
+.notification-next .notification-title {
+  color: #fdc401;
+}
+.notification-next .notification-icon {
+  display: block;
+}
+.notification-next .notification-icon .icon {
+  color: #fdc401;
+}
+.notification-nextpay {
+  background-color: #fefbf3;
+}
+.notification-nextpay .notification-title {
+  color: #fdc401;
+}
+.notification-nextpay .notification-icon {
+  display: block;
+}
+.notification-nextpay .notification-icon .icon {
+  color: #fdc401;
+}
+.notification-canceltraining {
+  background-color: #fefbf3;
+}
+.notification-canceltraining .notification-title {
+  color: #fdc401;
+}
+.notification-canceltraining .notification-icon {
+  display: block;
+}
+.notification-canceltraining .notification-icon .icon {
+  color: #fdc401;
+}
+.notification-newmessage {
+  background-color: #fefbf3;
+}
+.notification-newmessage .notification-title {
+  color: #fdc401;
+}
+.notification-newmessage .notification-icon {
+  display: block;
+}
+.notification-newmessage .notification-icon .icon {
+  color: #fdc401;
+}
+.notification-transfertraining {
+  background-color: #fefbf3;
+}
+.notification-transfertraining .notification-title {
+  color: #fdc401;
+}
+.notification-transfertraining .notification-icon {
+  display: block;
+}
+.notification-transfertraining .notification-icon .icon {
+  color: #fdc401;
 }
 .notification-transfertraining {
   background-color: #fefbf3;
@@ -128,6 +164,9 @@
   font-size: 12px;
   color: #344051;
   line-height: 1;
+}
+.notification-info-nameTo {
+  margin-top: 10px;
 }
 .notification-links {
   position: relative;

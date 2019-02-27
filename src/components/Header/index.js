@@ -31,6 +31,11 @@ class Header extends React.Component {
             this.setState({isTrialTrainingModalVisible: true});
     }
 
+    logout = () => {
+        localStorage.removeItem('landing');
+        this.props.logout();
+    }
+
     resetAllEvent = () => {
         this.props.onSetPushTrialTraining(null)
         this.props.onUnsetPushBtnTransferTraining();
@@ -226,7 +231,7 @@ class Header extends React.Component {
                         iconSize={20}
                         svg
                         title='Выход'
-                        onClick={this.props.logout}
+                        onClick={this.logout}
                     />
                 </div>
                 <CreateTrainModal

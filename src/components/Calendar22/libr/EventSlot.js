@@ -98,7 +98,9 @@ class EventSlot extends Component {
         }
 
         const eventKey = event.idMaster ? event.idMaster: event.id;
-        const funcOnClick = (eventKey && eventKey != 1) ? ()=> onGotoPage(eventKey) : () => {}
+        let funcOnClick = (eventKey && eventKey != 1) ? () => onGotoPage(eventKey) : () => {};
+
+        funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
         const crossFunc = event.trial ? this.onRemoveTrialTraining : null
 
         return (

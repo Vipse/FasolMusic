@@ -62,7 +62,7 @@ class StudentMain extends React.Component{
                 return {
                     name: item.fioMaster,
                     date: +item.start * 1000,
-                    discipline: item.disciplineMaster.length ? selectors.discipline.find(discipline => discipline.id === +item.disciplineMaster[0]).nameRus : null,
+                    discipline: (item.hasOwnProperty('disciplineMaster')&& item.disciplineMaster.length) ? selectors.discipline.find(discipline => discipline.id === +item.disciplineMaster[0]).nameRus : null,
                     avatar: item.avatarMaster,
                     homework: item.homework,
                     idProfile: item.idMaster
