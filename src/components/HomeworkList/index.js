@@ -14,78 +14,78 @@ class HomeworkList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            filt_name: '',
-            max: 7,
-            old: 0,
-            data: [],
-            loading: true
+            searchFieldValue: '',
+            searchApplying: ''
         };
         this.timer = null;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.loading && ((prevProps.trainings !== this.props.trainings)))
-            this.setState({loading: false});
+        if (prevState.searchApplying !== this.state.searchApplying)
+            this.loadMore();
     }
 
+    loadMore = () => {
+        const { searchApplying } = this.state;
+        this.props.loadMoreTrainings(searchApplying);
+    };
 
-    // componentDidMount() {
-    //     //this.getTrainings();
-    // }
-    //
-    // componentWillReceiveProps(newProps) {
-    //     if (newProps.data.length && this.state.refresh) {
-    //         this.setState({data: newProps.data, refresh: false})
-    //     } else if (newProps.data.length && newProps.data !== this.props.data) {
-    //         this.setState({data: [...this.state.data, ...newProps.data]})
-    //     }
-    // }
-    //
-    // getTrainings = () => {
-    //     this.setState({loading: true});
-    //     let obj = {...this.state};
-    //
-    //
-    // };
-    //
-    // loadMore = () => {
-    //   this.setState({old: this.state.old + this.state.max}, ()=> {
-    //     this.getTrainings()
-    //   })
-    // };
+    getFooterElement = () => {
+        const {loading, isRequestFailed, endAchieved, trainings} = this.props;
 
-
-    historyRender = (dataArr) => {
-        let history = [];
-
-        if (!dataArr.length && !this.state.loading) {
+        if (loading) {
             return <div className="table-footer" key="btn">
-                <Button btnText={'Нет тренировок. Нажмите чтобы обновить.'}
+                <Spinner/>
+            </div>;
+        } else if (isRequestFailed) {
+            return <div className="table-footer" key="btn">
+                <Button btnText='Ошибка при загрузке. Нажмите чтобы обновить'
                         size='link'
                         type='link'
-                        icon={'circle_close'}
-                        //onClick={() => this.getTrainings()}
+                        icon='circle_close'
+                        onClick={this.loadMore}
                 />
-            </div>
-        } else if (this.state.loading)
-            history.push(
-                <div className="table-footer" key="btn">
-                    <Spinner/>
-                </div>);
-        else if (dataArr.length) {
-            history = dataArr.map((item, i) => {
-                return (<HomeworkListItem {...item}
-                                          onGoto={this.props.onGoto}
-                                          key={'histRecept' + i}
-                                          isStudent={this.props.isStudent}
-                                          onStudentPage={this.props.onStudentPage}
-                                          onAddFiles={this.props.onAddFiles}
-                                          makeArchiveOfFiles={this.props.makeArchiveOfFiles}
-                                          onSetHomeworkEdit={this.props.onSetHomeworkEdit}
+            </div>;
+        } else if (endAchieved && !trainings.length) {
+            return <div className="table-footer" key="btn">
+                <Button btnText='Нет данных. Нажмите, чтобы обновить'
+                        size='link'
+                        type='link'
+                        icon='circle_close'
+                        onClick={this.loadMore}
+                />
+            </div>;
+        } else if (!endAchieved && trainings.length) {
+            return <div className="table-footer" key="btn">
+                <Button btnText='Показать еще'
+                        size='link'
+                        type='link'
+                        icon='circle_arrow_down'
+                        onClick={this.loadMore}
+                />
+            </div>;
+        }
+        else return null;
+    };
+
+    historyRender = () => {
+        const {trainings} = this.props;
+        let history = [];
+
+        if (trainings) {
+            history = trainings.map((item, i) =>
+                <HomeworkListItem {...item}
+                                  onGoToProfile={this.props.onGoToProfile}
+                                  onGoToChat={this.props.onGoToChat}
+                                  key={'histRecept' + i}
+                                  isStudent={this.props.isStudent}
+                                  onStudentPage={this.props.onStudentPage}
+                                  makeArchiveOfFiles={this.props.makeArchiveOfFiles}
+                                  onSetHomeworkEdit={this.props.onSetHomeworkEdit}
                 />);
-            });
         }
 
+        history.push(this.getFooterElement());
         return history;
     };
 
@@ -95,8 +95,8 @@ class HomeworkList extends React.Component {
             <Hoc>
                 <div className="tableheader">
                     <Input.Search
-                        placeholder="Поиск..."
-                        onChange={this.changeHandleSearch}
+                        placeholder="Поиск по ДЗ..."
+                        onChange={this.changeInputSearch}
                         onKeyDown={this.handleKeyDown}
                     />
                 </div>
@@ -116,46 +116,39 @@ class HomeworkList extends React.Component {
                     <div className="flex-col homework">
                         <div className="homework">ДЗ</div>
                     </div>
-                    <div className="flex-col attachments">
+                    {/*<div className="flex-col attachments">
                         <div className="attachments">Материалы</div>
-                    </div>
+                    </div>*/}
                 </div>
             </Hoc>
         )
     };
 
 
-    // changeHandleSearch = (e) => {
-    //     this.setState({filt_name: e.target.value});
-    //     clearTimeout(this.timer);
-    //     this.timer = setTimeout(this.triggerChange, 800);
-    // };
-    //
-    // triggerChange = () => {
-    //     this.setState({
-    //         old:0,
-    //         count: 0,
-    //         loadedCount: 0,
-    //         data: [],
-    //         loading: true,
-    //     }, () => {
-    //         this.getTrainings()
-    //     })
-    // };
-    //
-    // handleKeyDown = (e) => {
-    //     if(e.keyCode===13) {
-    //             clearTimeout(this.timer);
-    //             this.triggerChange();
-    //     }
-    // };
+    changeInputSearch = (e) => {
+        this.setState({searchFieldValue: e.target.value});
+        clearTimeout(this.timer);
+        this.timer = setTimeout(this.triggerChangeSearchFilter, 800);
+    };
+
+    triggerChangeSearchFilter = () => {
+        const { searchFieldValue } = this.state;
+        this.setState({searchApplying: searchFieldValue});
+    };
+
+    handleKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            clearTimeout(this.timer);
+            this.triggerChangeSearchFilter();
+        }
+    };
 
     render() {
         return (
             <div className='trainings-all'>
                 <Card title="История тренировок">
                     {this.tabHeaderRender()}
-                    {this.historyRender(this.props.trainings)}
+                    {this.historyRender()}
                 </Card>
             </div>
         )
@@ -163,17 +156,13 @@ class HomeworkList extends React.Component {
 }
 
 HomeworkList.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object),
-    limit: PropTypes.number,
-    onGoto: PropTypes.func,
-    onGotoChat: PropTypes.func,
+    trainings: PropTypes.arrayOf(PropTypes.object),
+    loadMoreTrainings: PropTypes.func
 };
 
 HomeworkList.defaultProps = {
     trainings: [],
-    limit: 7,
-    onGoto: () => {},
-    onGotoChat: () => {},
+    loadMoreTrainings: () => {}
 };
 
 export default HomeworkList

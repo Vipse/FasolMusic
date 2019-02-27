@@ -3,22 +3,22 @@ import axiosLand from './axiosSettingsLand'
 
 import * as actionTypes from './actionTypes';
 import moment from "moment";
+import {getInfoDoctor} from "./doctorData";
+import {getInfoPatient} from "./patientData";
 
 
 export const getInfoLanding = (userInfo, history) => {
-    
     return (dispatch) => {
         return axiosLand.post('getInfoLanding',
                 JSON.stringify({id: 1}))
                     .then(res => {
-                        
                         return res;
                     })
                     .catch(err => {
                         console.log('error: ',err);
                     })
     }
-}
+};
 
 
 
@@ -32,7 +32,7 @@ export const autoLogin = (history) => {
             dispatch(login(login, passw, false, history, true));
         }
     }
-}
+};
 
 
 export const login = (userName, password, remember, history, isAuto) => {
@@ -45,7 +45,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                     password: password,
                 }))
                     .then(res => {
-                        
+
                         !res.data.hasOwnProperty('error')
                             ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
@@ -71,7 +71,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                         //dispatch(authFail(err.response.data.error));
                     })
     }
-}
+};
 
 export const registerUser = (userInfo, history) => {
     return (dispatch) => {
@@ -86,7 +86,7 @@ export const registerUser = (userInfo, history) => {
                             localStorage.setItem('_fasol-user', userInfo.email);
                             localStorage.setItem('_fasol-pass', userInfo.password);
 
-                            
+
                         }
                         return res;
                     })
@@ -94,14 +94,14 @@ export const registerUser = (userInfo, history) => {
                         console.log('error: ',err);
                     })
     }
-}
+};
 
 
 
 export const registerTrainer = (userInfo, history) => {
 
     return (dispatch) => {
-       
+
         return axios.post('/catalog.fasol/registratin',
                 JSON.stringify({"catalogGroup": "master", ...userInfo}))
                     .then(res => {
@@ -124,7 +124,7 @@ export const registerTrainer = (userInfo, history) => {
                         console.log('error: ',err);
                     })
     }
-}
+};
 
 
 export const resetRegisterStatus = () => {
@@ -133,7 +133,7 @@ export const resetRegisterStatus = () => {
             type: actionTypes.RESET_REG_STATUS
         });
     };
-}
+};
 
 export const logout = () => {
     return (dispatch, getState) => {
@@ -144,7 +144,7 @@ export const logout = () => {
         dispatch(authSuccess(0, ''));
     }
 
-}
+};
 
 export const checkEmailAvailability = (email) => {
     return () => {
@@ -165,7 +165,7 @@ const rememberMe = (flag, userName, password) => {
         (localStorage.setItem('_fasol-user',userName),
         localStorage.setItem('_fasol-pass',password))
         : null;
-}
+};
 
 const authStart = () => {
     return {
@@ -187,6 +187,89 @@ const authFail = (error) => {
         type: actionTypes.AUTH_FAIL,
         error: error,
         errorCode: error.code,
+    };
+};
+
+export const connectionToSocialNetwork = (idProfile, idSocial, networkName) => {
+    const obj = {
+        id: idProfile,
+        networkid: idSocial ? idSocial : -idSocial,
+        network: networkName + 'link'
+    };
+
+    return (dispatch, getState) => {
+        const userType = getState().auth.mode;
+
+        return axios.post('/catalog.fasol/connectionToSocialNetwork',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log("connectionToSocialNetwork", res);
+                userType === 'student' ?
+                    dispatch(getInfoPatient(obj.id)) :
+                    dispatch(getInfoDoctor(obj.id));
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                return err;
+            });
+    };
+};
+
+export const socialNetworkCheck = (idSocial, networkName) => {
+    const obj = {
+        networkid: idSocial,
+        network: networkName + 'link'
+    };
+
+    return () => {
+        return axios.post('/catalog.fasol/socialNetworkCheck',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log("socialNetworkCheck", res);
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                return err;
+            });
+    };
+};
+
+export const socialAuthorization = (idSocial, history) => {
+    const obj = {
+        socialId: idSocial
+    };
+
+    return (dispatch) => {
+        dispatch(authStart());
+        return axios.post('/catalog.fasol/socialAuthorization',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log("socialAuthorization", res);
+
+                !res.data.hasOwnProperty('error')
+                    ? (
+                        dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                            sessionStorage.setItem('_fasol-id', res.data.result.id),
+                            sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+
+                            history.push('/app')
+                    )
+                    : (
+                        dispatch(authFail(res.data.error)),
+                            localStorage.removeItem('_fasol-user'),
+                            localStorage.removeItem('_fasol-pass'),
+                            sessionStorage.removeItem('_fasol-id'),
+                            sessionStorage.removeItem('_fasol-mode')
+                    );
+
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                return err;
+            });
     };
 };
 

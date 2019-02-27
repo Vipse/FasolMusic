@@ -71,7 +71,10 @@ export {
     checkEmailAvailability,
     reportBug,
     registerTrainer,
-    getInfoLanding
+    getInfoLanding,
+    connectionToSocialNetwork,
+    socialNetworkCheck,
+    socialAuthorization
 } from './auth'
 
 export {
@@ -186,7 +189,7 @@ export {
 } from './trainer'
 
 
-export { 
+export {
     getTrainingNotFinished,
     getNextTraining,
     getMyMastersOrStudents,
@@ -215,3 +218,9 @@ export {
     getToken,
     checkToken,
 } from './acquiring'
+
+export {
+    getTrainingHistoryList,
+    changeRequestMaxAmount,
+    resetTrainingHistoryList
+} from './homework'

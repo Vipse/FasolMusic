@@ -29,7 +29,7 @@ class StudentPersonalDataForm extends React.Component {
         super();
         this.state = {
             uploadingNewData: false,
-            avatar: "",
+            avatarLink: "",
             isChangePasswordModalVisible: false,
             isSendSuggestionsModalVisible: false,
             selectorsValues: {}
@@ -39,7 +39,7 @@ class StudentPersonalDataForm extends React.Component {
     componentDidMount() {
         const { avatar } = this.props.profileStudent;
         this.setState({
-            avatar: avatar
+            avatarLink: avatar
         });
 
         const {getSelectors} = this.props;
@@ -57,41 +57,47 @@ class StudentPersonalDataForm extends React.Component {
         });
     }
 
-    handleChangeAvatar = (file) => {
-        if (file && file.name !== 'default')
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.profileStudent.avatar !== this.props.profileStudent.avatar)
+            this.setState({avatar: this.props.profileStudent.avatar});
+    }
+
+    handleChangeAvatar = (file, isLink) => {
+        if (isLink) this.setState({avatarLink: file});
+        else if (file && file.name !== 'default')
             return this.props.uploadFile(file)
                 .then((res) => {
-                    this.setState({avatar: res.data.file[0].url});
+                    this.setState({avatarLink: res.data.file[0].url});
                     message.success("Фото загружено");
                     return res;
                 })
                 .catch((err) => {console.log(err); return err});
-        else this.setState({avatar: ''});
+        else this.setState({avatarLink: ''});
     };
 
     handleChangeSocial = (name, valuesObj) => {
-        const {getFieldValue, setFieldsValue} = this.props.form;
-        const {avatar} = this.state;
-
-        const updateData = {
-            id: this.props.profileStudent.id,
-            [name + 'link']: valuesObj.link
-        };
-
+        const {profileStudent: {id}, form: {getFieldValue, setFieldsValue}} = this.props;
+        const {avatarLink} = this.state;
         const checkableFields = ['name', 'email'];
         checkableFields.forEach(item => {
             if (!getFieldValue(item) && valuesObj[item]) {
                 setFieldsValue({[item]: valuesObj[item]});
-                updateData[item] = valuesObj[item];
             }
         });
 
-        if (!avatar && valuesObj.avatar) {
-            this.handleChangeAvatar(valuesObj.avatar);
-            updateData.avatar = valuesObj.avatar;
+        if (!avatarLink && valuesObj.avatar) {
+            this.handleChangeAvatar(valuesObj.avatar, true);
         }
 
-        return this.props.onSubmit(updateData);
+        if (valuesObj.link)
+            return this.props.onSocialConnect(id, valuesObj.link, name);
+        else {
+            const resetObj = {
+                id: id,
+                [name + 'link']: valuesObj.link
+            };
+            return this.props.onSubmit(resetObj);
+        }
     };
 
     prepareDisciplines = (data) => {
@@ -129,7 +135,7 @@ class StudentPersonalDataForm extends React.Component {
                     phones: values.phones,
                     email: values.email,
                     country: getSelectedIDs(countriesList, values.country),
-                    avatar: this.state.avatar,
+                    avatar: this.state.avatarLink,
 
                     sex: values.sex === "Мужской" ? "m" : values.sex === "Женский" ? "w" : null,
                     datebirth: moment(values.datebirth).format('X'),
@@ -163,9 +169,11 @@ class StudentPersonalDataForm extends React.Component {
     render() {
         const rootClass = cn('student-data');
         const { form, profileStudent } = this.props;
+        const { selectorsValues, avatarLink, uploadingNewData,
+            isChangePasswordModalVisible, isSendSuggestionsModalVisible } = this.state;
         const { getFieldDecorator } = form;
         const {interestsList, professionsList, disciplineList, goalList,
-            stylesList, qualitiesList, musicalExperienceList, countriesList} = this.state.selectorsValues;
+            stylesList, qualitiesList, musicalExperienceList, countriesList} = selectorsValues;
 
         return (
             <div className={rootClass}>
@@ -174,6 +182,7 @@ class StudentPersonalDataForm extends React.Component {
                         <div className='student-data-title'>Контактные данные</div>
                         <PersonalDataContact
                             profile={profileStudent}
+                            avatarLink={avatarLink}
                             onChangeAvatar={this.handleChangeAvatar}
                             onChangeSocial={this.handleChangeSocial}
                             getFieldDecorator={getFieldDecorator}
@@ -213,23 +222,23 @@ class StudentPersonalDataForm extends React.Component {
                             onClick={this.handleSubmitInfo}
                             btnText='Сохранить изменения'
                             size='default'
-                            disable={this.state.uploadingNewData}
+                            disable={uploadingNewData}
                             type='light-blue'
                             style={{marginRight: "20px"}}
                         />
 
-                        {this.state.uploadingNewData && <Spinner isInline={true} size="small"/>}
+                        {uploadingNewData && <Spinner isInline={true} size="small"/>}
                     </Form>
 
                     <ChangePasswordModal
                         profile={profileStudent}
-                        visible={this.state.isChangePasswordModalVisible}
+                        visible={isChangePasswordModalVisible}
                         onSubmit = {this.props.onSubmit}
                         onCancel={() => this.setState({isChangePasswordModalVisible: false})}
                     />
                     <SendSuggestionsModal
                         profile={profileStudent}
-                        visible={this.state.isSendSuggestionsModalVisible}
+                        visible={isSendSuggestionsModalVisible}
                         onSubmit = {this.props.onSubmit}
                         onCancel={() => this.setState({isSendSuggestionsModalVisible: false})}
                     />

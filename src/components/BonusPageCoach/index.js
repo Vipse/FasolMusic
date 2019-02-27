@@ -13,7 +13,8 @@ import Spinner from "../Spinner";
 class BonusPageCoach extends React.Component {
 
     state = {
-        loadingPromo: true
+        loadingPromo: true,
+        openedPromos: []
     };
 
     componentDidMount() {
@@ -33,8 +34,18 @@ class BonusPageCoach extends React.Component {
         }
     };
 
+    addOpenedPromo = (id) => {
+        const {openedPromos} = this.state;
+        this.setState({
+            openedPromos: [...openedPromos, id]
+        })
+    };
+
     renderPromoItem = (promoItem) => {
         const {news_date, header, news_short, news_long, id} = promoItem;
+        const {openedPromos} = this.state;
+        const isOpened = openedPromos.indexOf(id) !== -1;
+
         return (<div className="offers-item" key={id}>
             <div className='offers-item-header'>
                 <div className="date">
@@ -47,9 +58,9 @@ class BonusPageCoach extends React.Component {
             </div>
             <div className="offers-item-body">
                 <div className="info">
-                    {news_short}
+                    {isOpened ? news_long : news_short}
                 </div>
-                <div className="link" onClick={() => {console.log('open promo ' + id)}}>Подробнее</div>
+                {!isOpened ? <div className="link" onClick={() => this.addOpenedPromo(id)}>Подробнее</div> : null}
             </div>
         </div>);
     };

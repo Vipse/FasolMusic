@@ -6,15 +6,21 @@ import { NavLink } from 'react-router-dom'
 import Button from '../Button'
 import Checkbox from '../Checkbox'
 import Input from '../Input'
+import {message} from "antd";
 
 
 import './style.css'
 import '../../icon/style.css'
 import { instanceOf } from 'prop-types';
+import SocialAuth from "../SocialAuth";
 
 const FormItem = Form.Item;
 
 class LoginForm extends React.Component{
+    state = {
+        showSocialLogin: false
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -25,13 +31,23 @@ class LoginForm extends React.Component{
         });
     };
 
+    handleSocialAuth = (name, valuesObj) => {
+        if (valuesObj && valuesObj.link)
+            return this.props.onSocialAuthorization(valuesObj.link);
+        else {
+            message.error('Ошибка при авторизации через ' + name);
+            return new Promise(resolve => resolve({data: {}}));
+        }
+    };
+
     render(){
         const {errorCode, urlForget, urlRegistrationStudent, urlTrialTraining} = this.props;
+        const {showSocialLogin} = this.state;
 
         const { getFieldDecorator } = this.props.form;
 
         let error = [];
-        
+
         switch(errorCode){
             case 400:
                 error = [{
@@ -100,10 +116,22 @@ class LoginForm extends React.Component{
                     )}
                 </FormItem>
                 <div className="login-form-control">
-                    <Button htmlType="submit"
-                            btnText='Войти'
-                            size='large'
-                            type='yellow-black'/>
+                    <div className="login-form-control-btns">
+                        <Button htmlType="submit"
+                                btnText='Войти'
+                                size='large'
+                                type='yellow-black'/>
+                        {!showSocialLogin && <div
+                            onClick={() => this.setState({showSocialLogin: true})}
+                            className="login-form-control-btns-social"
+                        >
+                            Войти через привязанную социалку
+                        </div>}
+                        {showSocialLogin && <SocialAuth
+                            onChange={this.handleSocialAuth}
+                            isLogin={true}
+                        />}
+                    </div>
                     <div>У вас еще нет аккаунта? <br/>
 
                         <NavLink

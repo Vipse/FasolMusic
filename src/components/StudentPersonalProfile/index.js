@@ -20,6 +20,7 @@ class StudentPersonalProfile extends React.Component {
                         <StudentPersonalData
                             profileStudent={profile}
                             onSubmit={this.props.onSubmit}
+                            onSocialConnect={this.props.onSocialConnect}
                             getSelectors={this.props.getSelectors}
                             uploadFile={this.props.uploadFile}
                         />

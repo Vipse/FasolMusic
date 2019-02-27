@@ -56,8 +56,9 @@ class HomeworkListItem extends React.Component {
 
     render() {
         const {
-            files,
-            onGoto,
+            onGoToProfile,
+            onGoToChat,
+            idTraining,
             isStudent,
             onStudentPage,
             date,
@@ -65,28 +66,36 @@ class HomeworkListItem extends React.Component {
             discipline,
             trainingRecord,
             homework,
-            idProfile
+            idProfile,
+            avatar,
+            isTrial
         } = this.props;
 
         const {savedHomework, homeworkText} = this.state;
 
         return (
-            <div className="homework-list-item">
+            <div className="homework-list-item" onClick={() =>
+                onGoToChat(isStudent, idTraining, name, avatar, date, true, isTrial)}>
                 <div className="flex-col date">
                     <div className="date">{date ?
                         <div className="training-date">
-                            <div className="date">{moment(date*1000).format("D.MM.YYYY")}</div>
-                            <div className="time">{moment(date*1000).format("H:mm")}</div>
+                            <div className="date">{moment(date * 1000).format("D.MM.YYYY")}</div>
+                            <div className="time">{moment(date * 1000).format("H:mm")}</div>
                         </div>
                         : <span>&mdash;</span>}</div>
                 </div>
 
                 {!onStudentPage && <div className="flex-col name">
-                    <div className="name" onClick={() => onGoto(idProfile)}>{name ? name : <span>&mdash;</span>}</div>
+                    <div
+                        className="name"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onGoToProfile(idProfile)
+                        }}>{name ? name : <span>&mdash;</span>}</div>
                 </div>}
                 <div className="flex-col discipline">
                     <div className="discipline">{discipline ? discipline : <span>&mdash;</span>}</div>
-                    </div> 
+                </div>
                 <div className="flex-col record">
                     <div className="record">{trainingRecord ?
                         <a target='_blank' href={trainingRecord}>
@@ -96,7 +105,7 @@ class HomeworkListItem extends React.Component {
                 </div>
                 <div className="flex-col homework">
                     <div className="homework">{homework ? homework : savedHomework ? savedHomework : isStudent ? <span className="homeworkEmpty">&mdash;</span> :
-                        <div className="sendHomework">
+                        <div className="sendHomework" onClick={(e) => {e.stopPropagation()}}>
                             <TextArea className="sendHomework-textArea"
                                       placeholder='Домашнее задание...'
                                       onChange={(text) => this.setState({homeworkText: text})}
@@ -107,7 +116,7 @@ class HomeworkListItem extends React.Component {
                             </button>
                         </div>}</div>
                 </div>
-                <div className="flex-col attachments" onClick={this.handleClick}>
+                {/*<div className="flex-col attachments" onClick={this.handleClick}>
                     <PopoverFile className="attachments"
                                  data={this.refactorFiles(files)}
                                  onAddFiles={this.props.onAddFiles}
@@ -115,7 +124,7 @@ class HomeworkListItem extends React.Component {
                                  makeArchiveOfFiles={this.props.makeArchiveOfFiles}
                     >
                     </PopoverFile>
-                </div>
+                </div>*/}
             </div>
         )
     }
