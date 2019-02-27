@@ -190,7 +190,6 @@ export const issetTrial = (idStudent) => {
     return dispatch => {
         return axios.post('/catalog.fasol/issetTrial', JSON.stringify({idStudent}))
             .then(res => {
-                
                 dispatch({
                     type: actionTypes.IS_SET_TRIAL,
                     finishedTrial: res.data.result.finished,

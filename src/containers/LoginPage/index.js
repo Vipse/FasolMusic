@@ -54,8 +54,8 @@ class LoginPage extends React.Component {
                 if (res && res.data.code === 200) {
                     newUserData.id = res.data.result.id;
                     this.props.onUnauthorizedTrialDataSave(data);
-                    
-                    
+
+
                     const time0 = moment(Date.now()).startOf('week').format('X');
                     const time1 = moment(Date.now()).endOf('week').format('X');
                     this.props.onGetAvailableInterval(time0 ,time1, Object.keys(data.selectedDays),  [disciplinesList[type].code]);
@@ -96,6 +96,8 @@ class LoginPage extends React.Component {
                                                     urlTrialTraining='trial-training'
                                                     errorCode={this.props.errorCode}
                                                     onSubmit={(obj) => this.props.onLogin(obj, this.props.history)}
+                                                    onSocialAuthorization={(obj) =>
+                                                        this.props.onSocialAuthorization(obj, this.props.history)}
                                />}
                         />
                         <Route path="/signin/forget"
@@ -111,6 +113,7 @@ class LoginPage extends React.Component {
                                                             urlLogin="/app"
                                                             getSelectors={this.props.getSelectors}
                                                             uploadFile={this.props.uploadFile}
+                                                            onSocialNetworkCheck={this.props.onSocialNetworkCheck}
                                                             //checkEmailAvailability={this.props.onCheckEmailAvailability}
                                                             //uploadFile = {this.props.uploadFile}
                                />}
@@ -153,6 +156,8 @@ const mapDispatchToProps = dispatch => {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
         onRegisterUser: (userInfo, history) => dispatch(actions.registerUser(userInfo, history)),
         onCheckEmailAvailability: (email) => dispatch(actions.checkEmailAvailability(email)),
+        onSocialNetworkCheck: (idSocial, networkName) => dispatch(actions.socialNetworkCheck(idSocial, networkName)),
+        onSocialAuthorization: (idSocial, history) => dispatch(actions.socialAuthorization(idSocial, history)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         reportBug: (message, href) => dispatch(actions.reportBug(message, href)),
         uploadFile: (file) => dispatch(actions.uploadFile(file)),

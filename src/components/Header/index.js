@@ -60,20 +60,20 @@ class Header extends React.Component {
         const time1 = moment(Date.now()).add(1,'weeks').format('X');
         const codeDisc = disciplinesList[data.type].code;
         this.props.showSpinner();
-      
+
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: +useFrozenTraining});
-        
+
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
 
         if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-                  
+
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);
             this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0})
             this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining)
                 .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
 
-            message.success('Количество добавленных тренировок '+ useFrozenTraining);    
+            message.success('Количество добавленных тренировок '+ useFrozenTraining);
         }
         else if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
 
@@ -81,18 +81,18 @@ class Header extends React.Component {
             this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
             this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0, 1, 2, 3, 4, 5, 6])
                 .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
-                
+
         } else {
 
             this.props.onSetPushTrialTraining(null);
             this.props.onSetMasterTheDisicipline(null);
             this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc])
                 .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
-                
+
         }
 
         this.props.onGetAbonementsFilter(id,disciplinesList[data.type])
-             
+
 
         this.props.onIsPushBtnUnfresh();
         this.props.onGoToSchedule();
@@ -101,7 +101,7 @@ class Header extends React.Component {
 
 
     onSendDataTrialModal = (data) => {
-        
+
         const {disciplinesList, id} = this.props;
         const {type} = data;
 
@@ -109,10 +109,10 @@ class Header extends React.Component {
         const time1 = moment(Date.now()).add(3,'d').format('X');
 
         this.props.showSpinner();
-        
+
         this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code]);
         this.props.onSetPushTrialTraining('trial');
-    
+
         this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
         this.props.onGetAbonementsFilter(id,disciplinesList[type])
@@ -158,8 +158,6 @@ class Header extends React.Component {
             if(trialTrainingForDisciplines[el] === false) showTrialModal = true
         }
 
-        console.log('this.props', this.props)
-        
         return (
             <div className='header'>
                 <div className='header-search'>

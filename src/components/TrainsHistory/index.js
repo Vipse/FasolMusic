@@ -19,37 +19,50 @@ import HomeworkList from "../HomeworkList";
 import {apiTrainers} from "../../containers/Schedule/mock-data";
 
 class TrainsHistory extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            filt_name: '',
-            max: 7,
-            old: 0,
-            data: [],
-            loading: false
-        };
-        this.timer = null;
+
+    componentDidMount() {
+        const { id } = this.props;
+
+        this.props.onChangeRequestMaxAmount(2);
+        this.props.onGetTrainingHistoryList(id);
     }
 
-    render() {
-        const {masterTrainings, selectors} = this.props;
+    componentWillUnmount() {
+        this.props.onResetTrainingHistoryList();
+    }
+
+    loadMoreTrainingsHandler = (search) => {
+        const { id } = this.props;
+
+        this.props.onGetTrainingHistoryList(id, search);
+    };
+
+    prepareTrainingsArr = () => {
+        const {id, mode, selectors, trainings} = this.props;
+        const isStudent = mode === 'student';
         let trainingsArr = [];
 
-        if (selectors.disciplineList)
-            for (let day in masterTrainings)
-                if (typeof masterTrainings[day] === 'object') {
-                    for (let train in masterTrainings[day]) {
-                        let train = masterTrainings[day][train].allInfo;
-                        trainingsArr.push({
-                            date: train.date,
-                            discipline: train.disciplines.length ? selectors.disciplineList.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
-                            trainingRecord: train.videofile,
-                            homework: train.homework,
-                            files: train.attachments,
-                            idTraining: train.idTraining
-                        });
-                    }
-                }
+        if (selectors.disciplineList) {
+            trainingsArr = trainings.filter(train => +train.idMaster !== +id).map((train) => {
+                return {
+                    date: train.date,
+                    name: isStudent ? train.nameMaster : train.nameStudent,
+                    avatar: isStudent ? train.avatarMaster : train.avatarStudent,
+                    discipline: train.disciplineSubscription.length ? selectors.disciplineList.find(discipline => discipline.id === +train.disciplineSubscription[0]).nameRus : null,
+                    trainingRecord: train.videofile,
+                    homework: train.homework,
+                    idProfile: train.idMaster,
+                    idTraining: train.idTraining,
+                    isTrial: train.trial
+                };
+            });
+        }
+
+        return trainingsArr;
+    };
+
+    render() {
+        const { mode, loading, isRequestFailed, endAchieved } = this.props;
 
         return (
             <div className='receptions-personal-page'>
@@ -57,12 +70,16 @@ class TrainsHistory extends React.Component {
                     <Row>
                         <Col span={24} className='section'>
                             <HomeworkList
-                                onGoto={this.gotoHandler}
-                                onStudentPage={true}
-                                onAddFiles={this.props.onAddFiles}
-                                makeArchiveOfFiles={this.props.makeArchiveOfFiles}
-                                trainings={trainingsArr.reverse()}
+                                loadMoreTrainings={this.loadMoreTrainingsHandler}
+                                goToProfile={this.props.goToProfile}
+                                onGoToChat={this.props.onGotoChat}
+                                isStudent={mode === "student"}
+                                trainings={this.prepareTrainingsArr()}
+                                loading={loading}
+                                isRequestFailed={isRequestFailed}
+                                endAchieved={endAchieved}
                                 onSetHomeworkEdit={this.props.onSetHomeworkEdit}
+                                onStudentPage={true}
                             />
                         </Col>
                     </Row>

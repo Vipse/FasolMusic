@@ -10,6 +10,8 @@ import {message} from 'antd';
 
 import UploadPhotoImage from "../../img/uploadPhoto.png"
 import SocialAuth from "../SocialAuth";
+import moment from "moment";
+import {getSelectedIDs} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
@@ -29,7 +31,7 @@ class Step1Form extends React.Component{
             this.setState({googleLink: this.props.data.googleLink});
     }
 
-    handleSubmit = (e) => {
+    /*handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -43,6 +45,43 @@ class Step1Form extends React.Component{
 
                 this.props.onSubmit(fields);
                 this.props.onNext();
+            }
+            else
+                console.log(err);
+        });
+    };*/
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            const {name, datebirth, email, phones, sex, country, work, interests} = values;
+            const {avatar, facebookLink, googleLink} = this.state;
+            const {countriesList, interestsList, professionsList} = this.props.data.selectorsValues;
+            if (!err) {
+                const finalRegData = {
+                    name,
+                    datebirth: datebirth ? moment(datebirth).format('X') : null,
+                    email,
+                    phones,
+                    sex: sex === "Мужской" ? "m" : sex === "Женский" ? "w" : null,
+                    country: getSelectedIDs(countriesList, country),
+                    work: getSelectedIDs(professionsList, work),
+                    interests: getSelectedIDs(interestsList, interests),
+                    avatar,
+                    facebooklink: facebookLink,
+                    googlelink: googleLink,
+                    password: "1234"
+                };
+
+                console.log("FINAL REG DATA", finalRegData);
+
+                this.props.onFinish(finalRegData).then(res => {
+                    if (res && res.data && !res.data.error)
+                        this.props.onNext();
+                    else if (res && res.data) {console.log(res.data.error);
+                        message.error('Ошибка ' + res.data.error.code + ': ' + res.data.error.text, 10);
+                    }
+                });
             }
             else
                 console.log(err);
@@ -62,18 +101,30 @@ class Step1Form extends React.Component{
         const {getFieldValue, setFieldsValue} = this.props.form;
         const {avatar} = this.state;
 
-        this.setState({[name + 'Link']: valuesObj.link});
+        if (valuesObj.link) {
+            return this.props.onSocialNetworkCheck(valuesObj.link, name)
+                .then((res) => {
+                    if (res && res.data && !res.data.error) {
+                        this.setState({[name + 'Link']: valuesObj.link});
 
-        const checkableFields = ['name', 'email'];
-        checkableFields.forEach(item => {
-            if (!getFieldValue(item) && valuesObj[item])
-                setFieldsValue({[item]: valuesObj[item]});
-        });
+                        const checkableFields = ['name', 'email'];
+                        checkableFields.forEach(item => {
+                            if (!getFieldValue(item) && valuesObj[item])
+                                setFieldsValue({[item]: valuesObj[item]});
+                        });
 
-        if (!avatar && valuesObj.avatar)
-            this.setState({avatar: valuesObj.avatar});
+                        if (!avatar && valuesObj.avatar)
+                            this.setState({avatar: valuesObj.avatar});
+                    }
 
-        return new Promise(resolve => resolve({data: {}}));
+                    return res;
+                })
+                .catch(err => console.log(err));
+        }
+        else {
+            this.setState({[name + 'Link']: valuesObj.link});
+            return new Promise(resolve => resolve({data: {}}));
+        }
     };
 
     render(){
@@ -108,13 +159,13 @@ class Step1Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('datebirth', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Выберите дату рождения, пожалуйста'
                             }],
                         })(
                             <InputDateWithToolTip
                                 key="datebirth"
-                                bubbleplaceholder="*Дата рождения"
+                                bubbleplaceholder="Дата рождения"
                                 className="step-form-item"
                                 tooltip="Дата рождения Tooltip"
                             />
@@ -143,13 +194,13 @@ class Step1Form extends React.Component{
                     <FormItem>
                         {getFieldDecorator('phones', {
                             rules: [{
-                                required: true,
+                                required: false,
                                 message: 'Введите телефоны, пожалуйста'
                             }],
                         })(
                             <InputWithTT
                                 key="name"
-                                bubbleplaceholder="*Телефоны"
+                                bubbleplaceholder="Телефоны"
                                 className="step-form-item"
                                 tooltip="Телефоны Tooltip"
                             />
@@ -275,6 +326,7 @@ Step1.propTypes = {
     urlForget: PropTypes.string,
     urlRegistration: PropTypes.string,
     onSubmit: PropTypes.func,
+    onSocialNetworkCheck: PropTypes.func,
     checkEmailAvailability: PropTypes.func
 };
 
@@ -282,6 +334,7 @@ Step1.defaultProps = {
     urlForget: '',
     urlRegistration: '',
     onSubmit: () => {},
+    onSocialNetworkCheck: () => {},
     checkEmailAvailability: () => {}
 };
 

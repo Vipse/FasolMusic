@@ -30,8 +30,18 @@
 .login-form-control {
   text-align: center;
 }
-.login-form-control button {
+.login-form-control-btns {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 50px;
+  align-items: center;
+}
+.login-form-control-btns-social {
+  color: #21bedd;
+}
+.login-form-control-btns-social:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 .login-title {
   font-family: "RobotoBold";

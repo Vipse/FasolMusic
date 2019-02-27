@@ -39,8 +39,20 @@
 		&-control{
 			text-align: center;
 
-			button{
+			&-btns {
+				display: flex;
+				flex-direction: column;
 				margin-bottom: 50px;
+				align-items: center;
+
+				&-social {
+					color: #21bedd;
+
+					&:hover {
+						cursor: pointer;
+						text-decoration: underline;
+					}
+				}
 			}
 		}
 	}

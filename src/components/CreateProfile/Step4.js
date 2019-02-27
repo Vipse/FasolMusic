@@ -34,7 +34,7 @@ class Step4Form extends React.Component{
             if (!err) {
                 const finalRegData = {
                     name,
-                    datebirth: moment(datebirth).format('X'),
+                    datebirth: datebirth ? moment(datebirth).format('X') : null,
                     email,
                     phones,
                     sex: sex === "Мужской" ? "m" : sex === "Женский" ? "w" : null,
