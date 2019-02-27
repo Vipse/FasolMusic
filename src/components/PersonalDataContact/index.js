@@ -17,45 +17,30 @@ import {getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 const FormItem = Form.Item;
 
 class PersonalDataContact extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            avatar: ""
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.profile.avatar !== this.props.profile.avatar)
-            this.setState({avatar: ""});
-    }
 
     handleChangeAvatar = (e, isReset) => {
         e.preventDefault();
         if (isReset) {
-            this.setState({avatar: "default"});
             this.props.onChangeAvatar({name: "default"});
             e.target.files = [];
         } else {
             let file = e.target.files[0];
-            if (file && file.type.indexOf("image/") !== -1) {
+            if (file && file.type.indexOf("image/") !== -1)
                 this.props.onChangeAvatar(file)
-                    .then(res => this.setState({avatar: res.data.file[0].url}))
-                    .catch(err => console.log(err));
-            }
         }
     };
 
     render() {
         const {getFieldDecorator} = this.props;
-        const {countriesList, onChangeSocial, showChangePasswordModal, showSendSuggestionsModal} = this.props;
-        const {name, phones, email, country, avatar, facebooklink, googlelink, id} = this.props.profile;
+        const {countriesList, onChangeSocial, showChangePasswordModal, showSendSuggestionsModal, avatarLink} = this.props;
+        const {name, phones, email, country, facebooklink, googlelink, id} = this.props.profile;
         const rootClass = cn('coach-data-block');
 
         return (
             <div className={rootClass}>
                 <div className='coach-data-avatar'>
                     <ProfileAvatar
-                        img={this.state.avatar ? this.state.avatar : avatar}
+                        img={avatarLink}
                         size="large"
                         online={true}
                     />

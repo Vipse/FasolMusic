@@ -62,18 +62,30 @@ class Step1Form extends React.Component{
         const {getFieldValue, setFieldsValue} = this.props.form;
         const {avatar} = this.state;
 
-        this.setState({[name + 'Link']: valuesObj.link});
+        if (valuesObj.link) {
+            return this.props.onSocialNetworkCheck(valuesObj.link, name)
+                .then((res) => {
+                    if (res && res.data && !res.data.error) {
+                        this.setState({[name + 'Link']: valuesObj.link});
 
-        const checkableFields = ['name', 'email'];
-        checkableFields.forEach(item => {
-            if (!getFieldValue(item) && valuesObj[item])
-                setFieldsValue({[item]: valuesObj[item]});
-        });
+                        const checkableFields = ['name', 'email'];
+                        checkableFields.forEach(item => {
+                            if (!getFieldValue(item) && valuesObj[item])
+                                setFieldsValue({[item]: valuesObj[item]});
+                        });
 
-        if (!avatar && valuesObj.avatar)
-            this.setState({avatar: valuesObj.avatar});
+                        if (!avatar && valuesObj.avatar)
+                            this.setState({avatar: valuesObj.avatar});
+                    }
 
-        return new Promise(resolve => resolve({data: {}}));
+                    return res;
+                })
+                .catch(err => console.log(err));
+        }
+        else {
+            this.setState({[name + 'Link']: valuesObj.link});
+            return new Promise(resolve => resolve({data: {}}));
+        }
     };
 
     render(){
@@ -275,6 +287,7 @@ Step1.propTypes = {
     urlForget: PropTypes.string,
     urlRegistration: PropTypes.string,
     onSubmit: PropTypes.func,
+    onSocialNetworkCheck: PropTypes.func,
     checkEmailAvailability: PropTypes.func
 };
 
@@ -282,6 +295,7 @@ Step1.defaultProps = {
     urlForget: '',
     urlRegistration: '',
     onSubmit: () => {},
+    onSocialNetworkCheck: () => {},
     checkEmailAvailability: () => {}
 };
 

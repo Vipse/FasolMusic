@@ -3,6 +3,8 @@ import axiosLand from './axiosSettingsLand'
 
 import * as actionTypes from './actionTypes';
 import moment from "moment";
+import {getInfoDoctor} from "./doctorData";
+import {getInfoPatient} from "./patientData";
 
 
 export const getInfoLanding = (userInfo, history) => {
@@ -185,6 +187,89 @@ const authFail = (error) => {
         type: actionTypes.AUTH_FAIL,
         error: error,
         errorCode: error.code,
+    };
+};
+
+export const connectionToSocialNetwork = (idProfile, idSocial, networkName) => {
+    const obj = {
+        id: idProfile,
+        networkid: idSocial ? idSocial : -idSocial,
+        network: networkName + 'link'
+    };
+
+    return (dispatch, getState) => {
+        const userType = getState().auth.mode;
+
+        return axios.post('/catalog.fasol/connectionToSocialNetwork',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log("connectionToSocialNetwork", res);
+                userType === 'student' ?
+                    dispatch(getInfoPatient(obj.id)) :
+                    dispatch(getInfoDoctor(obj.id));
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                return err;
+            });
+    };
+};
+
+export const socialNetworkCheck = (idSocial, networkName) => {
+    const obj = {
+        networkid: idSocial,
+        network: networkName + 'link'
+    };
+
+    return () => {
+        return axios.post('/catalog.fasol/socialNetworkCheck',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log("socialNetworkCheck", res);
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                return err;
+            });
+    };
+};
+
+export const socialAuthorization = (idSocial, history) => {
+    const obj = {
+        socialId: idSocial
+    };
+
+    return (dispatch) => {
+        dispatch(authStart());
+        return axios.post('/catalog.fasol/socialAuthorization',
+            JSON.stringify(obj))
+            .then(res => {
+                console.log("socialAuthorization", res);
+
+                !res.data.hasOwnProperty('error')
+                    ? (
+                        dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                            sessionStorage.setItem('_fasol-id', res.data.result.id),
+                            sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+
+                            history.push('/app')
+                    )
+                    : (
+                        dispatch(authFail(res.data.error)),
+                            localStorage.removeItem('_fasol-user'),
+                            localStorage.removeItem('_fasol-pass'),
+                            sessionStorage.removeItem('_fasol-id'),
+                            sessionStorage.removeItem('_fasol-mode')
+                    );
+
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                return err;
+            });
     };
 };
 

@@ -21,6 +21,7 @@ class CreateProfile extends React.Component{
                 content: (state) => <Step1 data={state}
                                            onNext={this.next}
                                            onSubmit={(data) => this.setState({...data})}
+                                           onSocialNetworkCheck={this.props.onSocialNetworkCheck}
                                            interestsList={getSelectorValues(state.selectorsValues.interestsList)}
                                            professionsList={getSelectorValues(state.selectorsValues.professionsList)}
                                            countriesList={getSelectorValues(state.selectorsValues.countriesList)}

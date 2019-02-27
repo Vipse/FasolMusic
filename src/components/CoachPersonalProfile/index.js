@@ -26,6 +26,7 @@ class CoachPersonalProfile extends React.Component{
                         <CoachPersonalData
                             profileCoach={profile}
                             onSubmit={this.props.onSubmit}
+                            onSocialConnect={this.props.onSocialConnect}
                             getSelectors={this.props.getSelectors}
                             uploadFile={this.props.uploadFile}
                         />

@@ -31,6 +31,8 @@ class SocialAuth extends React.Component {
     }
 
     facebookAuth = () => {
+        const { isLogin } = this.props;
+
         const responseFacebook = response => {
             const {userID, name, email, picture} = response;
             if (!userID) {
@@ -40,10 +42,14 @@ class SocialAuth extends React.Component {
             else this.props.onChange('facebook', {link: userID, name, email, avatar: picture.data.url})
                 .then((res) => {
                     if (res && !res.data.error)
-                        message.success("Аккаунт Facebook успешно привязан");
+                        !isLogin && message.success("Аккаунт Facebook успешно привязан");
                     else {
                         this.setState({facebookLoading: false});
-                        message.error("Произошла ошибка при сохранении данных, попробуйте ещё раз");
+                        if (res && res.data.error && res.data.error.code === 400)
+                            message.error("Этот аккаунт Facebook уже привязан к другому профилю");
+                        else if (isLogin && res && res.data.error && res.data.error.code === 404)
+                            message.error("Этот аккаунт не был привязан к какому-либо профилю");
+                        else message.error("Произошла ошибка, попробуйте ещё раз");
                     }
                 })
                 .catch((err) => console.log(err));
@@ -60,23 +66,29 @@ class SocialAuth extends React.Component {
             onClick={componentClicked}
             callback={responseFacebook}
             size="small"
-            textButton="Связать"
+            textButton={isLogin ? "Войти" : "Связать"}
             language="ru_RU"
             cssClass="social-row-btn btn btn-size-small btn-type-light-blue"
         />);
     };
 
     googleAuth = () => {
+        const { isLogin } = this.props;
+
         const responseGoogle = (response) => {
             if (!response.error) {
                 const {googleId, givenName, familyName, email, imageUrl} = response.profileObj;
                 this.props.onChange('google', {link: googleId, name: givenName + ' ' + familyName, email, avatar: imageUrl})
                     .then((res) => {
                         if (res && !res.data.error)
-                            message.success("Аккаунт Google успешно привязан");
+                            !isLogin && message.success("Аккаунт Google успешно привязан");
                         else {
                             this.setState({googleLoading: false});
-                            message.error("Произошла ошибка при сохранении данных, попробуйте ещё раз");
+                            if (res && res.data.error && res.data.error.code === 400)
+                                message.error("Этот аккаунт Google уже привязан к другому профилю");
+                            else if (isLogin && res && res.data.error && res.data.error.code === 404)
+                                message.error("Этот аккаунт не был привязан к какому-либо профилю");
+                            else message.error("Произошла ошибка, попробуйте ещё раз");
                         }
                     })
                     .catch((err) => console.log(err));
@@ -96,7 +108,7 @@ class SocialAuth extends React.Component {
                 clientId="511983507919-slo4jbeaoft55uc4r5vhfgirb4oiuq0h.apps.googleusercontent.com"
                 render={renderProps => (
                     <Button className='social-row-btn'
-                            btnText='Связать'
+                            btnText={isLogin ? "Войти" : "Связать"}
                             onClick={(e) => {
                                 e.preventDefault();
                                 renderProps.onClick();
@@ -113,8 +125,10 @@ class SocialAuth extends React.Component {
     };
 
     renderSocial = (name) => {
+        const { isLogin } = this.props;
+
         return (<div key={name}>
-            <div className={"social-row" + (this.props[name + "Link"] ? "-active " : " ") + name}>
+            <div className={"social-row" + ((this.props[name + "Link"] || isLogin) ? "-active " : " ") + name}>
                 <Icon type={name} size={33} svg/>
                 {this.state[name + "Loading"] ? <Spinner/> : this.props[name + "Link"] ?
                     <Button className='social-row-btn'

@@ -38,6 +38,7 @@ class PersonalInfo extends React.Component {
                         <StudentPersonalProfile
                             profileStudent={this.props.profileStudent}
                             onSubmit={this.props.onSaveUserEdit}
+                            onSocialConnect={this.props.connectionToSocialNetwork}
                             getSelectors={this.props.getSelectors}
                             uploadFile={this.props.uploadFile}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
@@ -45,6 +46,7 @@ class PersonalInfo extends React.Component {
                         <CoachPersonalProfile
                             profileCoach={this.props.profileCoach}
                             onSubmit={this.props.onSaveUserEdit}
+                            onSocialConnect={this.props.connectionToSocialNetwork}
                             getSelectors={this.props.getSelectors}
                             uploadFile={this.props.uploadFile}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
@@ -67,6 +69,7 @@ const mapDispatchToProps = dispatch => {
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
+        connectionToSocialNetwork: (idProfile, idSocial, networkName) => dispatch(actions.connectionToSocialNetwork(idProfile, idSocial, networkName)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         uploadFile: (file) => dispatch(actions.uploadFile(file)),
         //onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),

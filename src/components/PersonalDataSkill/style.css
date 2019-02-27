@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
 }
+.coach-data-block.disciplines > .btn {
+  width: 110px;
+}
 .coach-data-skill {
   width: 70%;
   display: flex;
@@ -36,7 +39,6 @@
 .coach-data-skill-footer {
   display: flex;
   width: 100%;
-  max-width: 120px;
 }
 .coach-data-skill-footer button {
   margin: 0 20px 10px 0;

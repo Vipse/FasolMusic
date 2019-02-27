@@ -71,7 +71,10 @@ export {
     checkEmailAvailability,
     reportBug,
     registerTrainer,
-    getInfoLanding
+    getInfoLanding,
+    connectionToSocialNetwork,
+    socialNetworkCheck,
+    socialAuthorization
 } from './auth'
 
 export {
