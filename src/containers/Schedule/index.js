@@ -200,6 +200,7 @@ class Schedule extends React.Component {
                         i = Infinity;
                     }
             }
+            this.props.onSetPushTrialTraining('first_trainer');
             this.props.onSetChooseTheMasterByStudent(idMaster);
             this.setState({isShowFreeTrainers : false});
             return;
@@ -236,7 +237,6 @@ class Schedule extends React.Component {
 
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         this.props.onSetChooseTheMasterByStudent(idMaster);
-        if(this.props.isPushBtnTrialTraining === 'trial') this.props.onSetPushTrialTraining('first_trainer');
         this.setState({isShowFreeTrainers : false});
 
         message.success('Тренер выбран');
@@ -586,7 +586,7 @@ class Schedule extends React.Component {
     };
 
     dateChangeHandler = (date, view, action, isOnDay) => {
-        const {chooseWeekdays, chooseDiscipline, id, mode, currDiscipline, chooseTheMaster} = this.props;
+        const {chooseWeekdays, id, mode, currDiscipline, chooseTheMaster, isPushBtnTrialTraining} = this.props;
 
 
         const {start, end} = this.state.isEditorMode
@@ -621,7 +621,7 @@ class Schedule extends React.Component {
 
         if(mode === 'admin'){
             this.props.onGetFreeAndBusyMasterList(dateStart, dateEnd)
-                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 1000))
         }
         if(mode === 'master'){
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
@@ -629,20 +629,28 @@ class Schedule extends React.Component {
         if(mode === 'master' || mode === 'student'){
 
             this.props.onGetAbonementsFilter(id, currDiscipline)
-                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
+                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 1000))
         }
 
-        if(this.state.theMasterSelect ){
+        
+        if(this.state.theMasterSelect){
             this.props.onGetTheMasterInterval(dateStart, dateEnd, chooseTheMaster, chooseWeekdays)
                 .then(() => {
-                    this.setState({ scheduleSpinner: false})
+                    setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
                 });
         }
+        else if(isPushBtnTrialTraining === 'trial'){
+            this.props.onGetAvailableInterval(dateStart, dateEnd, chooseWeekdays, currDiscipline.code)
+                .then(() => {
+                    setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
+                });
+        }
+
         if(this.props.isPushBtnTransfer){
 
-            let idMaster = this.props.profileStudent.mainUser;
+            const {mainUser} = this.props.profileStudent;
 
-            this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, [1,2,3,4,5,6,7])
+            this.props.onGetTheMasterInterval(dateStart, dateEnd, mainUser, [1,2,3,4,5,6,7])
                 .then(() => {
                     this.setState({theMasterSelect: true, scheduleSpinner: false})
                 });

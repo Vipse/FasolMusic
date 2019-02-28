@@ -44,6 +44,12 @@ class EventSlot extends Component {
         this.props.deleteTraining(this.props.event.id);
     }
 
+    onCancelTraining = (e, id, idSubscription) => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        this.props.onCancelTraining(id, idSubscription)
+    }
+
     render() {
         const {
             event,
@@ -101,7 +107,7 @@ class EventSlot extends Component {
         let funcOnClick = (eventKey && eventKey != 1) ? () => onGotoPage(eventKey) : () => {};
 
         funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
-        const crossFunc = event.trial ? this.onRemoveTrialTraining : null
+        const crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
 
         return (
             <div key = {event.dateStart} onClick={funcOnClick}  className="event-group" style={{backgroundColor}}>

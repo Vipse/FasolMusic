@@ -20,6 +20,7 @@ import './styles.css';
 import 'antd/dist/antd.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
+import VKApp from '../../components/VKApp';
 
 
 
@@ -37,7 +38,7 @@ class App extends React.Component {
             notifications: [],
             scheduleSpinner: false,
             widget: null,
-            id: null,
+            id: null
         };
     }
 
@@ -249,6 +250,18 @@ class App extends React.Component {
         }
 
     }
+
+    renderVKApp = () => {
+		return (
+			<VKApp 
+				apiId={120172845}
+				onMount={(widget, id) => {
+					this.setState({ widget, id });
+				}}
+			/>
+		)
+    }
+    
     render() {
         let name, avatar;
 
@@ -359,11 +372,14 @@ class App extends React.Component {
                                         />
                                     </Switch>
                                 </div>
+                                {this.renderVKApp()}
                             </div>
                             {this.state.scheduleSpinner &&
                                 <div className = "schedule-spinner">
                                   <Spinner isInline={true} size='large'/>
                                 </div>} 
+                           
+
                         </React.Fragment> :
                         <Redirect to='/signin'/>
                 }

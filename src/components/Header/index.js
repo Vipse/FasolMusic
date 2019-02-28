@@ -65,9 +65,10 @@ class Header extends React.Component {
 
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
-       
+        
+        debugger
         if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-
+            
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);
             this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0})
             this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining)
@@ -75,15 +76,17 @@ class Header extends React.Component {
 
             message.success('Количество добавленных тренировок '+ useFrozenTraining);
         }
-        else if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
+        
+        // else if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
+            
+        //     this.props.onSetPushTrialTraining('select_master');
+        //     this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
+        //     this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0, 1, 2, 3, 4, 5, 6])
+        //         .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
 
-            this.props.onSetPushTrialTraining('select_master');
-            this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
-            this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0, 1, 2, 3, 4, 5, 6])
-                .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
-
-        } else {
-
+        // }
+         else {
+            
             this.props.onSetPushTrialTraining(null);
             this.props.onSetMasterTheDisicipline(null);
             this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc])

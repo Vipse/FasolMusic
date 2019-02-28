@@ -7,6 +7,7 @@ import './styles.css'
 import StudentMain from './StudentMain';
 import CouchMain from "./CouchMain"
 import AdminMain from "./AdminMain";
+import VKApp from './../../components/VKApp/index';
 
 class MainPage extends React.Component{
 	constructor(props) {
@@ -16,7 +17,8 @@ class MainPage extends React.Component{
 	state = {
 		cancelModal: false,
 		addModal: false,
-        isNewFreeVisitVisible: false
+		isNewFreeVisitVisible: false,
+        
 	};
 
 	getPastAndFutureCoachTrainings = () => {
@@ -60,58 +62,71 @@ class MainPage extends React.Component{
 		this.props.history.push('/app/chat');
 	};
 
+
     render(){
         return (this.props.mode === "student") ? (
-			<StudentMain
-				allAbonements = {this.props.allAbonements}
-				showCancel = {() => {this.setState({cancelModal: true})}}
-				addModal = {this.state.addModal}
-				closeAdd = {() => {this.setState({addModal: false})}}
-				onSaveNewVisit = {this.onSaveNewVisit} // ?
-				cancelModal ={this.state.cancelModal}
-                closeCancel = {() => {this.setState({cancelModal: false})}}
-				saveCancel = {() => {}}
-				getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
-                treatmentsCount={this.props.treatmentsCount}
-                addConclusion = {this.props.addConclusion}
-				makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
+			<div>
 
-				nearTraining = {this.props.nearTraining}
-				nextTrainingTime = {this.props.nextTrainingTime}
-				lastTrainings={this.props.studentTrainings}
-				myCoaches = {this.props.myCoachOrStudents}
-				selectors = {this.props.selectors}
-				goToChat = {this.goToChat}
-				{...this.props}/>
+				<StudentMain
+					allAbonements = {this.props.allAbonements}
+					showCancel = {() => {this.setState({cancelModal: true})}}
+					addModal = {this.state.addModal}
+					closeAdd = {() => {this.setState({addModal: false})}}
+					onSaveNewVisit = {this.onSaveNewVisit} // ?
+					cancelModal ={this.state.cancelModal}
+					closeCancel = {() => {this.setState({cancelModal: false})}}
+					saveCancel = {() => {}}
+					getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
+					treatmentsCount={this.props.treatmentsCount}
+					addConclusion = {this.props.addConclusion}
+					makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
+
+					nearTraining = {this.props.nearTraining}
+					nextTrainingTime = {this.props.nextTrainingTime}
+					lastTrainings={this.props.studentTrainings}
+					myCoaches = {this.props.myCoachOrStudents}
+					selectors = {this.props.selectors}
+					goToChat = {this.goToChat}
+					{...this.props}/>
+
+					
+			</div>
 		) : (this.props.mode === "master") ? (
-			<CouchMain
-				allAbonements = {this.props.allAbonements}
-				nextTrainingTime = {this.props.nextTrainingTime}
-				myStudents = {this.props.myCoachOrStudents}
-				todayTraining = {this.props.todayTraining}
-				futureTraining = {this.props.futureTraining}
-				postTraining = {this.props.postTraining}
-				selectors = {this.props.selectors}
-				goToChat = {this.goToChat}
-				onSetHomeworkEdit = {this.props.onSetHomeworkEdit}
+			<div>
+				<CouchMain
+					allAbonements = {this.props.allAbonements}
+					nextTrainingTime = {this.props.nextTrainingTime}
+					myStudents = {this.props.myCoachOrStudents}
+					todayTraining = {this.props.todayTraining}
+					futureTraining = {this.props.futureTraining}
+					postTraining = {this.props.postTraining}
+					selectors = {this.props.selectors}
+					goToChat = {this.goToChat}
+					onSetHomeworkEdit = {this.props.onSetHomeworkEdit}
 
-				showCancel = {() => {this.setState({cancelModal: true})}}
-				addModal = {this.state.addModal}
-				closeAdd = {() => {this.setState({addModal: false})}}
-				onSaveNewVisit = {this.onSaveNewVisit} // ?
-				cancelModal = {this.state.cancelModal}
-                closeCancel= {() => {this.setState({cancelModal: false})}}
-				saveCancel = {() => {}}
-				getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
-                treatmentsCount={this.props.treatmentsCount}
-                addConclusion = {this.props.addConclusion}
-                makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
-				{...this.props}/>
+					showCancel = {() => {this.setState({cancelModal: true})}}
+					addModal = {this.state.addModal}
+					closeAdd = {() => {this.setState({addModal: false})}}
+					onSaveNewVisit = {this.onSaveNewVisit} // ?
+					cancelModal = {this.state.cancelModal}
+					closeCancel= {() => {this.setState({cancelModal: false})}}
+					saveCancel = {() => {}}
+					getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
+					treatmentsCount={this.props.treatmentsCount}
+					addConclusion = {this.props.addConclusion}
+					makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
+					{...this.props}/>
+					
+				
+			</div>
 		) : (this.props.mode === "admin") ?
-			<AdminMain
-				onGetReport={this.props.onGetReport}
-				reportLinks={this.props.reportLinks}
-			/> : null;
+			<div>
+				<AdminMain
+					onGetReport={this.props.onGetReport}
+					reportLinks={this.props.reportLinks}
+				/>
+				
+			</div> : null;
     }
 }
 
