@@ -15,6 +15,7 @@ import './styles.css';
 import Spinner from "../../components/Spinner";
 import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 import moment from "moment";
+import {Modal} from "antd";
 
 class StudentPage extends React.Component{
 
@@ -67,9 +68,23 @@ class StudentPage extends React.Component{
         this.props.history.push('/app/chat');
     };
 
-    goToHandler = (id) => {
-        let link = this.props.mode === "student" ? "/app/coach" : "/app/student";
-        this.props.history.push(link + id);
+    goToCoachProfile = (idCoach) => {
+        let link = "/app/coach";
+        this.props.history.push(link + idCoach);
+    };
+
+    handleTrainModal = (e, redirectable, isAdmin, item) => {
+        e.preventDefault();
+        if (redirectable && isAdmin) this.goToCoachProfile(item.idMaster);
+        else Modal.warning({
+            title: 'Изменение расписания',
+            width: '500px',
+            className: 'fast-modal',
+            content: 'Вы находитесь в профиле студента! Изменения вашего расписания осуществляется в разделе “График работы”.',
+            maskClosable: true,
+            okText: 'Перейти в график работы',
+            onOk: () => this.props.history.push('/app/schedule')
+        });
     };
 
     prepareStudentOwnTrains = (trains) => {
@@ -82,6 +97,7 @@ class StudentPage extends React.Component{
                 let allInfo = {
                     date: train.start,
                     idStudent: train.idStudent,
+                    idMaster: train.idMaster,
                     idTraining: train.id,
                     idSubscription: train.idSubscription,
                     fio: train.fioMaster
@@ -173,7 +189,7 @@ class StudentPage extends React.Component{
                             </Col>
                             <Col span={14}>
                                 <TrainsHistory onGotoChat={this.goToChat}
-                                               goToProfile={this.goToHandler}
+                                               goToProfile={this.goToCoachProfile}
                                                id={id}
                                                trainings={trainings}
                                                loading={loadingPastTrainsList}
@@ -190,6 +206,7 @@ class StudentPage extends React.Component{
                                     onGetIntervals={this.getSchedule}
                                     trainerTrainings={isAdmin ? this.prepareStudentOwnTrains(studentTrainings) : trainerTrainings}
                                     studentID={match.params.id}
+                                    handleTrainModal={this.handleTrainModal}
                                     isAdmin={isAdmin}
                                     isStudentPage={true}
                                 />

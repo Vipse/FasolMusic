@@ -106,7 +106,9 @@ class RecordTrainCarousel extends React.Component {
                     isOwn,
                     idTraining: curHourTraining && curHourTraining.allInfo.idTraining,
                     idSubscription: curHourTraining && curHourTraining.allInfo.idSubscription,
-                    studentName: curHourTraining && curHourTraining.allInfo.fio
+                    studentName: curHourTraining && curHourTraining.allInfo.fio,
+                    idStudent: curHourTraining && curHourTraining.allInfo.idStudent,
+                    idMaster: curHourTraining && curHourTraining.allInfo.idMaster
                 });
             }
 
@@ -128,12 +130,11 @@ class RecordTrainCarousel extends React.Component {
                             <div className='table-main-time'>
                                 <div
                                     className={(item.isAvailable ? 'availableTime'
-                                        : item.isOwn ? isAdmin ? 'reservedTime' : 'ownTime' : '')
-                                        + (isStudentPage ? ' notActive' : '')}
+                                        : item.isOwn ? isAdmin ? 'reservedTime' : 'ownTime' : '')}
                                     key={indexTime + 1}
                                     onClick={item.isAvailable ?
-                                        e => this.props.handleTrainModal(e, item, false, isAdmin)
-                                        : (item.isOwn && !isStudentPage) ? e => this.props.handleTrainModal(e, item, true, isAdmin)
+                                        e => this.props.handleTrainModal(e, false, isAdmin)
+                                        : (item.isOwn) ? e => this.props.handleTrainModal(e, true, isAdmin, item)
                                             : null}
                                     data-timestamp={item.timestamp}
                                     data-interval-type={item.type}

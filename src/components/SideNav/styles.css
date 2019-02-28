@@ -27,7 +27,7 @@
 .sidenav-root .icon,
 .sidenav-root .anticon,
 .sidenav-root .item-title {
-  transition: 0.2s color linear!important;
+  transition: 0.2s color linear !important;
 }
 .sidenav-root .doctorProfileCard-specialty {
   margin-bottom: 25px;
@@ -43,7 +43,7 @@
 }
 .sidenav-root .logo-img {
   display: block;
-  background-image: url('../../img/logo.png');
+  background-image: url('../../img/logo.svg');
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: contain;
@@ -57,7 +57,7 @@
   width: 170px;
 }
 .sidenav-root-short .logo-img {
-  background-image: url('../../img/logo-small.png');
+  background-image: url('../../img/logo.svg');
   height: 51px;
   width: 85px;
 }
