@@ -106,6 +106,7 @@ class StudentPersonalDataForm extends React.Component {
         for (let key in data)
             if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
 
+            console.log(data)
         let preparedDisciplines = [];
         disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({

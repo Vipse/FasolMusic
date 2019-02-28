@@ -5,6 +5,7 @@
   text-align: center;
   max-height: 440px;
   max-width: 640px;
+  margin-bottom: 25px;
 }
 .coach-data-promoVideo .dropzone-video {
   width: 100%;
@@ -26,7 +27,6 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  margin-bottom: 25px;
 }
 .coach-data-promoVideo .video-loading .spinner-wrapper {
   position: absolute;
