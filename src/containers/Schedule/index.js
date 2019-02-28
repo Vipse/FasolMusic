@@ -22,6 +22,7 @@ import Card from './../../components/Card/index';
 import Spinner from './../../components/Spinner/index';
 
 import './styles.css'
+import NewModalSaveSchedule from '../../components/NewModalSaveSchedule';
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -126,13 +127,8 @@ class Schedule extends React.Component {
         if(isPushBtnTrialTraining === 'trial'){
                             this.trialTime = idEvent;
 
-                        
-                            message.info('Выберите одного из тренеров')
-                            message.success('Тренировка выбрана')
-
                             this.setState({isShowFreeTrainers : true, apiPatients : [ {trainer: null, start: new Date(idEvent)}]})
 
-                            console.log('this.props', this.props)
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
         }
@@ -157,8 +153,6 @@ class Schedule extends React.Component {
 
                         const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
                         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining + 1}); // show Сохранитьreturn;
-                        message.success('Тренировка выбрана')
-                        message.info('Для подтверждения расписания нажмите "Сохранить"')
 
             }
 
@@ -239,8 +233,6 @@ class Schedule extends React.Component {
         this.props.onSetChooseTheMasterByStudent(idMaster);
         this.setState({isShowFreeTrainers : false});
 
-        message.success('Тренер выбран');
-        message.info('Выберите дату тренировки выбранного тренера');
         // this.setState({isShowFreeTrainers : false});
     }
 
@@ -402,7 +394,10 @@ class Schedule extends React.Component {
                     setTimeout(()=>{
                         this.props.onGetStudentBalance(id);
                         this.props.onGetUseFrozenTraining(id);
-                        this.props.onSaveStudentMasterDisciplineCommunication(id, null, currDiscipline.code)
+                        this.props.onSaveStudentMasterDisciplineCommunication(id, null, currDiscipline.code);
+                        this.props.onGetDisciplineCommunication(id);
+                        this.props.onGetSubscriptionsByStudentId(id);
+                        
                     }, 1000);
                 })
 
@@ -1041,6 +1036,11 @@ class Schedule extends React.Component {
                 </Modal>
 
 
+                <NewModalSaveSchedule
+                    onCancel={() => this.setState({modalCancelTraining : false})}
+                    visible = {isNeedSaveIntervals}
+                    save = {this.fillTrainingWeek}
+                />
                 <Modal
                     title='Сообщение'
                     visible={this.state.modalCancelTraining}
@@ -1265,6 +1265,7 @@ const mapDispatchToProps = dispatch => {
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
         onGetFutureTrialTraining: (id, discipline) => dispatch(actions.getFutureTrialTraining(id, discipline)),
         onRemoveTrialTraining: (idTraining) => dispatch(actions.removeTrialTraining(idTraining)),
+        onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
