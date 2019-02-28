@@ -195,6 +195,7 @@ class CoachPage extends React.Component{
                                     rate={5}
                                     ratingsCount={19}
                                     onRateMaster={this.handleRateMaster}
+                                    mode={this.props.mode}
                                 />
                             </Col>
                             <Col span={13} offset={32}>
@@ -236,7 +237,8 @@ const mapStateToProps = state => {
         auth: state.auth,
         profileCoach: state.profileDoctor,
         masterSchedule: state.student.masterSchedule,
-        trainerTrainings: state.profileDoctor.trainerTrainings
+        trainerTrainings: state.profileDoctor.trainerTrainings,
+        mode: state.auth.mode,
     }
 };
 

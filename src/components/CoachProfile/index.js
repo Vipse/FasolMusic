@@ -47,7 +47,7 @@ class CoachProfile extends React.Component {
     };
 
     render() {
-        const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink,email,phones} = this.props;
+        const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink,email,phones,mode} = this.props;
         const {youtubeLoading, rateModalVisible} = this.state;
         const youtubeOpts = {
             height: '360',
@@ -71,8 +71,13 @@ class CoachProfile extends React.Component {
                                 <div className="profile-coach-info-name">{name}</div>
                                 <div className="profile-coach-info-discipline">{discipline ? discipline.join(', ') : ''}
                                 {specialization ? ('; ' + specialization.join(', ')) : ""}</div>
-                                <div className="profile-coach-info-email"> <span>Email: </span> {email ? email : '-'} </div>
-                                <div className="profile-coach-info-phones"> <span>Телефон: </span> {phones ? phones : '-'} </div>
+
+                                {mode !== 'student' && 
+                                <div>
+                                    <div className="profile-coach-info-email"> <span>Email: </span> {email ? email : '-'} </div>
+                                    <div className="profile-coach-info-phones"> <span>Телефон: </span> {phones ? phones : '-'} </div>
+                                </div> }
+                                
 
                                 <div className="profile-coach-info-btn">
                                     <Button onClick={() => console.log('openDialog')}
@@ -126,7 +131,8 @@ CoachProfile.propTypes = {
     img: PropTypes.string,
     discipline: PropTypes.string,
     specialization: PropTypes.string,
-    paidTrainingsCount: PropTypes.number
+    paidTrainingsCount: PropTypes.number,
+    mode: PropTypes.string,
 
 };
 
