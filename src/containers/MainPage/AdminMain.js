@@ -20,57 +20,7 @@ class AdminMain extends React.Component{
         reportDateRange: []
     };
 
-    filesList = [
-        {
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        }
-    ];
+    filesList = [];
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log(this.props)
@@ -82,7 +32,7 @@ class AdminMain extends React.Component{
     }
 
     renderFilesList = () => {
-        return this.filesList.map((file, i) => {
+        if (this.filesList.length) return this.filesList.map((file, i) => {
             return <div className="file">
                 <DownloadLink {...file}
                               key={file.id + '' + i}
@@ -96,6 +46,7 @@ class AdminMain extends React.Component{
                 />
             </div>;
         });
+        else return <div className='entry-list no-trainings'>Актов работ нет</div>
     };
 
     handleCreateReport = () => {

@@ -32,57 +32,7 @@ import DownloadLink from "../DownloadLink";
 
 class CoachPayment extends React.Component{
 
-    filesList = [
-        {
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        },{
-            name: "Заключение.doc",
-        },{
-            name: "Прикрепленный файл с длинным названием.doc",
-        },{
-            name: "Данные 525462.pdf",
-        }
-    ];
+    filesList = [];
 
     constructor() {
         super();
@@ -129,7 +79,7 @@ class CoachPayment extends React.Component{
     };
 
     renderFilesList = () => {
-        return this.filesList.map((file, i) => {
+        if (this.filesList.length) return this.filesList.map((file, i) => {
             return <div className="file">
                 <DownloadLink {...file}
                               key={file.id + '' + i}
@@ -143,6 +93,7 @@ class CoachPayment extends React.Component{
                 />
             </div>;
         });
+        else return <div className='entry-list no-trainings'>Актов работ нет</div>
     };
 
     copyLink = (e) => {
