@@ -65,7 +65,7 @@ class Header extends React.Component {
 
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
-
+       
         if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
 
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);

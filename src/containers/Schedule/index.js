@@ -94,11 +94,6 @@ class Schedule extends React.Component {
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         const {profileStudent, isPushBtnAdd, isPushBtnTrialTraining, mainUser, abonementIntervals} = this.props;
 
-        let master = this.props.chooseTheMaster;
-        let fdata = profileStudent;
-
-        console.log(this.props.chooseTheMaster)
-
         if(this.state.theMasterSelect){
             let {trainerList} = this.props;
 
@@ -205,7 +200,7 @@ class Schedule extends React.Component {
                         i = Infinity;
                     }
             }
-
+            this.props.onSetChooseTheMasterByStudent(idMaster);
             this.setState({isShowFreeTrainers : false});
             return;
         }
@@ -233,7 +228,6 @@ class Schedule extends React.Component {
             })
             this.setState({apiPatients: bufApiPatient})
         }
-
 
         this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, chooseWeekdays)
             .then(() => {
@@ -431,14 +425,9 @@ class Schedule extends React.Component {
         for(let i = 0; i < max; i++){
 
                 let item = subs[i];
-
-
                 const weekElem =  moment(item.start.getTime()).week(); // номер недели
 
-
                 if (curWeek === weekElem && !item.trial) {
-                    console.log('this.delEvent', this.delEvent)
-                    console.log('trainingtime', trainingtime)
 
                     if( item.id === this.delEvent.event.id ){
                         const weekDay =  new Date(this.transferDay.dateStart * 1000).getDay(); // номер дня в неделе ( переносимое занятие)
@@ -470,7 +459,6 @@ class Schedule extends React.Component {
         scheduleForWeek.trainingtime = trainingtime;
         this.setState({modalTransferTraining: false});
 
-        console.log('scheduleForWeek :', scheduleForWeek);
         this.props.onChangeSubscription(scheduleForWeek)
             .then(() => this.props.onGetAbonementsFilter(id, currDiscipline));
     }
@@ -598,7 +586,7 @@ class Schedule extends React.Component {
     };
 
     dateChangeHandler = (date, view, action, isOnDay) => {
-        const {chooseWeekdays, chooseDiscipline, id, mode, currDiscipline} = this.props;
+        const {chooseWeekdays, chooseDiscipline, id, mode, currDiscipline, chooseTheMaster} = this.props;
 
 
         const {start, end} = this.state.isEditorMode
@@ -630,6 +618,7 @@ class Schedule extends React.Component {
         const dateStart = Math.floor(+start.getTime() / 1000);
         const dateEnd = Math.floor(+end.getTime() / 1000);
 
+
         if(mode === 'admin'){
             this.props.onGetFreeAndBusyMasterList(dateStart, dateEnd)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
@@ -643,6 +632,12 @@ class Schedule extends React.Component {
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
 
+        if(this.state.theMasterSelect ){
+            this.props.onGetTheMasterInterval(dateStart, dateEnd, chooseTheMaster, chooseWeekdays)
+                .then(() => {
+                    this.setState({ scheduleSpinner: false})
+                });
+        }
         if(this.props.isPushBtnTransfer){
 
             let idMaster = this.props.profileStudent.mainUser;
