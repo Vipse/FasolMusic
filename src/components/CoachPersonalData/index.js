@@ -24,6 +24,7 @@ import {
     getSelectedNestedIDs,
     getSelectorValues
 } from "../../helpers/getSelectorsCustomData";
+import antFormConfig from "../../helpers/antFormConfig"
 
 class CoachPersonalDataForm extends React.Component {
 
@@ -198,7 +199,7 @@ class CoachPersonalDataForm extends React.Component {
     handleSubmitInfo = (e) => {
         e.preventDefault();
 
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll(antFormConfig, (err, values) => {
             if (!err && this.props.profileCoach.id) {
                 const {interestsList, qualitiesList, countriesList} = this.state.selectorsValues;
 
