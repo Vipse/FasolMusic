@@ -121,7 +121,12 @@ class CoachPage extends React.Component{
             });
     };
 
-    handleTrainModal = (e, item, isDelete, isAdmin) => {
+    goToStudentProfile = (idStudent) => {
+        let link = "/app/student";
+        this.props.history.push(link + idStudent);
+    };
+
+    handleTrainModal = (e, redirectable, isAdmin, item) => {
         e.preventDefault();
         /*this.setState({
             trainModal: {
@@ -131,7 +136,8 @@ class CoachPage extends React.Component{
                 isAdmin: isAdmin ? isAdmin : false
             }
         });*/
-        Modal.warning({
+        if (redirectable && isAdmin) this.goToStudentProfile(item.idStudent);
+        else Modal.warning({
             title: 'Изменение расписания',
             width: '500px',
             className: 'fast-modal',
