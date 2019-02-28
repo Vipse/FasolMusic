@@ -50,7 +50,7 @@ class Chat extends React.Component{
         if (user_mode === 'student')
             this.props.onGetTrainingNotFinished(id, moment().add(1, 'weeks').format('X'), 10);
         else {
-            let start = moment().format('X');
+            let start = moment().subtract(1, 'hours').format('X');
             let end = moment().add(1, 'weeks').format('X');
             this.props.onGetFutureTrainerTraining(id, start, end);
         }
@@ -118,7 +118,7 @@ class Chat extends React.Component{
 
     render(){
         const isStudent = this.props.user_mode === "student";
-      
+
         const chatProps = {
             wsURL: 'wss://web.fasolonline.ru:8443/one2one',
             timer: this.props.timer,
