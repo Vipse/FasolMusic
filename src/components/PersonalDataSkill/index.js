@@ -95,7 +95,7 @@ class PersonalDataSkill extends React.Component {
             </FormItem>
             <FormItem className="input-form-item">
                 {getFieldDecorator('specialization-' + number, {
-                    initialValue: getNameFromObjArr(specialization),
+                    initialValue: getNamesFromObjArr(specialization),
                     rules: [{
                         required: true,
                         message: 'Выберите специализацию, пожалуйста'
@@ -103,12 +103,13 @@ class PersonalDataSkill extends React.Component {
                 })(
                     <SelectNew width="100%"
                                bubbleplaceholder="Специализация"
+                               mode='multiple'
                                data={getSelectorNestedValues(disciplineObj, [form.getFieldValue('discipline-' + number)])}
                                onChange={() => resetFields(['receptions'])}
                     />
                 )}
             </FormItem>
-            <FormItem className="input-form-item">
+            {isStudent && <FormItem className="input-form-item">
                 {getFieldDecorator('level-' + number, {
                     initialValue: getNameFromObjArr(level),
                     rules: [{
@@ -121,17 +122,17 @@ class PersonalDataSkill extends React.Component {
                                data={getSelectorNestedValues(disciplineObj, [form.getFieldValue('discipline-' + number)], false, '2')}
                     />
                 )}
-            </FormItem>
+            </FormItem>}
             <FormItem className="input-form-item">
                 {getFieldDecorator('experiense-' + number, {
-                    initialValue: getNameFromObjArr(experiense),
+                    initialValue: getNameFromObjArr(experiense, !isStudent),
                     rules: [{
                         required: true,
-                        message: 'Введите опыт занятия, пожалуйста'
+                        message: "Введите опыт " + (isStudent ? "занятия" : "преподавания") + ", пожалуйста"
                     }],
                 })(
                     <SelectNew width="100%"
-                               bubbleplaceholder="Опыт занятия"
+                               bubbleplaceholder={"Опыт " + (isStudent ? "занятия" : "преподавания")}
                                data={musicalExperienceList}
                     />
                 )}
@@ -161,7 +162,7 @@ class PersonalDataSkill extends React.Component {
                     <InputNew width="100%" bubbleplaceholder="Любимые исполнители"/>
                 )}
             </FormItem>
-            <FormItem className="input-form-item">
+            {isStudent && <FormItem className="input-form-item">
                 {getFieldDecorator('goals-' + number, {
                     initialValue: getNamesFromObjArr(goals),
                     rules: [{
@@ -175,7 +176,7 @@ class PersonalDataSkill extends React.Component {
                                data={goalList}
                     />
                 )}
-            </FormItem>
+            </FormItem>}
             {!isStudent && <FormItem className="input-form-item">
                 {getFieldDecorator('receptions-' + number, {
                     initialValue: getNamesFromObjArr(receptions),
@@ -214,8 +215,7 @@ class PersonalDataSkill extends React.Component {
 
     renderOldDisciplines = () => {
         const {disciplines} = this.props.profile;
-        return Array.isArray(disciplines) ? disciplines.map((item, number) => this.generateDisciplineItem(number, item)) : []
-        
+        return Array.isArray(disciplines) ? disciplines.map((item, number) => this.generateDisciplineItem(number, item)) : [];
     };
 
     renderNewDisciplines = () => {
@@ -224,13 +224,16 @@ class PersonalDataSkill extends React.Component {
     };
 
     render() {
-        const {disciplines} = this.props.profile;
+        const {isStudent, profile} = this.props;
+        const {disciplines} = profile;
         const {addedNums} = this.state;
         const rootClass = cn('coach-data-block');
 
         return (
             <div className={rootClass + ' disciplines'}>
-                {(!disciplines && !addedNums.length) ? this.renderAddBtn(0) : null}
+                {(!disciplines && !addedNums.length) ?
+                    isStudent ? this.renderAddBtn(0) : this.generateDisciplineItem(0)
+                    : null}
                 {disciplines && this.renderOldDisciplines()}
                 {this.renderNewDisciplines()}
             </div>

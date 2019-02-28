@@ -308,6 +308,7 @@ class ChatCard extends React.Component {
 				</div>
 				<CompletionTrainingModal
 					visible={this.state.completionModalVisible}
+					isTrial={this.props.isTrial}
 					onComplete={() => this.onCloseTraining('complete')}
 					onTail={() => this.onCloseTraining('transfer')}
 					onCancel={() => this.setState({completionModalVisible: false})}

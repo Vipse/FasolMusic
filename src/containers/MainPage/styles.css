@@ -1,6 +1,9 @@
 .section {
   margin-bottom: 20px;
 }
+.section .ant-card-body {
+  min-height: 65px;
+}
 .admin-payload {
   display: flex;
   flex-direction: column;

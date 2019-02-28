@@ -16,12 +16,12 @@ class ContentForm extends React.Component {
                         btnText="Засчитать"
                         type="light-pink"
                     />
-                    <Button
+                    {!this.props.isTrial ? <Button
                         onClick={this.props.onTail}
                         htmlType="submit"
                         btnText="Перенести"
                         type="light-pink"
-                    />
+                    /> : null}
                 </div>
             </Form>
         )

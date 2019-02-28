@@ -29,7 +29,7 @@ class MainPage extends React.Component{
 		end = moment(Date.now()).endOf('day').format('X');
 		this.props.onGetTodayTrainerTraining(id, end, start);
 
-		start = moment(Date.now()).format('X');
+		start = moment(Date.now()).subtract(1, 'hours').format('X');
 		end = moment(Date.now()).add(1, 'weeks').format('X');
 		this.props.onGetFutureTrainerTraining(id, start, end);
 
