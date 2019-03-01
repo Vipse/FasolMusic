@@ -17,7 +17,8 @@ const initialState = {
         h: 0,
     },
     interlocutorName: '',
-    interlocutorAvatar: ''
+    interlocutorAvatar: '',
+    interlocutorStatus: 'offline'
 };
 
 const reducer = (state = initialState, action) => {
@@ -84,7 +85,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 timer: action.timer,
             }
-        
+        case actionTypes.SET_INTERLOCUTOR_STATUS:
+            return {
+                ...state,
+                interlocutorStatus: action.status,
+            }
+
         default: return state;
     }
 };

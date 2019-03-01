@@ -133,7 +133,8 @@ export {
     setChatStory,
     setConversationMode,
     setNewTimer,
-    setChatInterlocutorInfo
+    setChatInterlocutorInfo,
+    checkInterlocutorOnlineStatus
 } from './chatWS'
 
 export {

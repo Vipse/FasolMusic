@@ -58,6 +58,18 @@ class ChatCard extends React.Component {
 				this.setState({isCurTrainingEnd: true});
 			}
 		}
+
+		if (browser && browser.os === 'iOS') return (
+			Modal.warning({
+				title: 'Устройство не поддерживается',
+				width: '500px',
+				className: 'fast-modal',
+				content: 'Возможны проблемы с работой чата',
+				maskClosable: true,
+				okText: 'Продолжить',
+				onOk: () => {}
+			})
+		)
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -254,12 +266,7 @@ class ChatCard extends React.Component {
                 break;
         }
 
-		if (browser && browser.os === 'iOS') return (
-			<div className='chat-card-incompatible'>
-				<p>Чат не поддерживается на данном устройстве.</p>
-			</div>
-		);
-		else return (
+		return (
 			<Hoc>
 				<div className='chat-card'>
 					<div className='chat-card-head'>
@@ -273,7 +280,7 @@ class ChatCard extends React.Component {
 							<div className='chat-card-title-avatar'><ProfileAvatar img={interlocutorAvatar}
 																					size='small'/></div>
 							<div className='chat-card-title-name'>{interlocutorName}</div>
-							{/*<div className={statusClass}>{online}</div>*/}
+							<div className={statusClass}>{online}</div>
 						</div>
 						<div className='chat-card-btns'>
 							<div className='chat-card-archive'>
@@ -308,6 +315,7 @@ class ChatCard extends React.Component {
 				</div>
 				<CompletionTrainingModal
 					visible={this.state.completionModalVisible}
+					isTrial={this.props.isTrial}
 					onComplete={() => this.onCloseTraining('complete')}
 					onTail={() => this.onCloseTraining('transfer')}
 					onCancel={() => this.setState({completionModalVisible: false})}

@@ -18,7 +18,7 @@ class MainPage extends React.Component{
 		cancelModal: false,
 		addModal: false,
 		isNewFreeVisitVisible: false,
-        
+
 	};
 
 	getPastAndFutureCoachTrainings = () => {
@@ -29,7 +29,7 @@ class MainPage extends React.Component{
 		end = moment(Date.now()).endOf('day').format('X');
 		this.props.onGetTodayTrainerTraining(id, end, start);
 
-		start = moment(Date.now()).format('X');
+		start = moment(Date.now()).subtract(1, 'hours').format('X');
 		end = moment(Date.now()).add(1, 'weeks').format('X');
 		this.props.onGetFutureTrainerTraining(id, start, end);
 
@@ -53,6 +53,7 @@ class MainPage extends React.Component{
 	}
 
 	goToChat = (idTo, idTraining, interlocutorName, interlocutorAvatar, beginTime, isComplete, isTrial = false) => {
+		console.log(idTo);
 		this.props.onSetChatToId(idTo);
 		this.props.onSetChatInterlocutorInfo(interlocutorName, interlocutorAvatar);
 		this.props.onSetChatTrainingId(idTraining);
@@ -89,7 +90,7 @@ class MainPage extends React.Component{
 					goToChat = {this.goToChat}
 					{...this.props}/>
 
-					
+
 			</div>
 		) : (this.props.mode === "master") ? (
 			<div>
@@ -116,8 +117,8 @@ class MainPage extends React.Component{
 					addConclusion = {this.props.addConclusion}
 					makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 					{...this.props}/>
-					
-				
+
+
 			</div>
 		) : (this.props.mode === "admin") ?
 			<div>
@@ -125,7 +126,7 @@ class MainPage extends React.Component{
 					onGetReport={this.props.onGetReport}
 					reportLinks={this.props.reportLinks}
 				/>
-				
+
 			</div> : null;
     }
 }

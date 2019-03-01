@@ -11,6 +11,7 @@ import TextArea from "../TextArea";
 import DatePickerNew from "../DatePickerNew";
 import moment from "moment";
 import {getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
+import addInfoObj from "../../helpers/addInfoObj";
 
 const FormItem = Form.Item;
 
@@ -30,7 +31,8 @@ class PersonalDataInfo extends React.Component {
                 <div className='coach-data-additionalInfo'>
                     <FormItem className="input-form-item">
                         {getFieldDecorator('sex', {
-                            initialValue: sex === 'm' ? "Мужской" : sex === 'w' ? "Женский" : "Не важно",
+                            initialValue: sex === 'm' ? "Мужской" : sex === 'w' ? "Женский" :
+                                isStudent ? "Не важно" : null,
                             rules: [{
                                 required: false,
                                 message: 'Выберите пол, пожалуйста'
@@ -38,7 +40,7 @@ class PersonalDataInfo extends React.Component {
                         })(
                             <SelectNew width="100%"
                                        bubbleplaceholder="Пол"
-                                       data={["Мужской", "Женский", "Не важно"]}
+                                       data={isStudent ? addInfoObj.genderArrStudent : addInfoObj.genderArrCoach}
                             />
                         )}
                     </FormItem>
@@ -55,7 +57,7 @@ class PersonalDataInfo extends React.Component {
                             />
                         )}
                     </FormItem>
-                    <FormItem className="input-form-item">
+                    {isStudent && <FormItem className="input-form-item">
                         {getFieldDecorator('work', {
                             initialValue: getNamesFromObjArr(work),
                             rules: [{
@@ -69,7 +71,7 @@ class PersonalDataInfo extends React.Component {
                                        data={professionsList}
                             />
                         )}
-                    </FormItem>
+                    </FormItem>}
                     <FormItem className="input-form-item">
                         {getFieldDecorator('interests', {
                             initialValue: getNamesFromObjArr(interests),

@@ -2,26 +2,23 @@ import axios from './axiosSettings'
 import axiosLand from './axiosSettingsLand'
 
 import * as actionTypes from './actionTypes';
-import moment from "moment";
 import {getInfoDoctor} from "./doctorData";
 import {getInfoPatient} from "./patientData";
 
-export const setOnlineStatus = (id,isOnline) => {
+export const setOnlineStatus = (id, isOnline) => {
     return dispatch => {
         const newObj = {
             idUser: id,
             status: isOnline ? 1 : 0,
-        }
+        };
+
         axios.post('/catalog.fasol/userOnOff',
             JSON.stringify(newObj))
-            .then(res => {
-                console.log('[setOnlineStatus] results',res)
-            })
             .catch(err => {
-                console.log('error: ',err);
+                console.log('error: ', err);
             })
     }
-}
+};
 
 export const getInfoLanding = (userInfo, history) => {
     return (dispatch) => {
@@ -35,8 +32,6 @@ export const getInfoLanding = (userInfo, history) => {
                     })
     }
 };
-
-
 
 export const autoLogin = (history) => {
     return (dispatch) => {
@@ -65,7 +60,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                         !res.data.hasOwnProperty('error')
                             ? (
                                 dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                                dispatch(setOnlineStatus(res.data.id, true)),
+                                dispatch(setOnlineStatus(res.data.result.id, true)),
                                 sessionStorage.setItem('_fasol-id', res.data.result.id),
                                 sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
@@ -162,8 +157,8 @@ export const logout = () => {
         sessionStorage.removeItem('_fasol-mode');
         localStorage.removeItem('_fasol-id');
         localStorage.removeItem('_fasol-mode');
-        dispatch(authSuccess(0, ''));
         dispatch(setOnlineStatus(getState().auth.id, false));
+        dispatch(authSuccess(0, ''));
     }
 
 };
@@ -187,9 +182,9 @@ export const getIdUserByToken = (token, history) => {
     return (dispatch, getState) => {
         return axios.post('/catalog.fasol/getIdUserByToken',JSON.stringify({token}))
             .then(res => {
-                         console.log("res", res)   
+                         console.log("res", res)
                 if(!res.data.hasOwnProperty('error')){
-                    
+
                         dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
                         dispatch(setOnlineStatus(res.data.id, true)),
                         sessionStorage.setItem('_fasol-id', res.data.result.id),

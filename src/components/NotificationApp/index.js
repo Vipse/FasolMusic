@@ -28,7 +28,7 @@ class NotificationApp extends React.Component {
        this.setState({visible});
        (visible == false) && (this.state.inverseCount != 0) && this.props.getNotifications();
     };
-    
+
     componentWillReceiveProps(nexProps){
         this.setState({inverseCount: 0})
     }
@@ -44,8 +44,7 @@ class NotificationApp extends React.Component {
         // if(notifCount === 0)
         //     styleNotf = {'backgroundColor': 'transparent'};
 
-            console.log('Popover', data)
-            
+
         return (
             <div className="notific_component">
                 <Popover

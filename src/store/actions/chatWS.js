@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import axios from "./axiosSettings";
 
 
 export const setReceptionStatus = (isStart) => {
@@ -84,4 +85,24 @@ export const setNewTimer = (timer) => {
         type: actionTypes.SET_NEW_TIMER,
         timer,
     });
+}
+
+export const checkInterlocutorOnlineStatus = (id) => {
+    return dispatch => {
+        const newObj = {
+            idUser: id,
+        };
+
+        axios.post('/catalog.fasol/userOnOff',
+            JSON.stringify(newObj))
+            .then(res => {
+                dispatch({
+                    type: actionTypes.SET_INTERLOCUTOR_STATUS,
+                    status: res.data.status ? 'online' : 'offline'
+                })
+            })
+            .catch(err => {
+                console.log('error: ',err);
+            })
+    }
 }
