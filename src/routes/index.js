@@ -93,6 +93,11 @@ export const studentRoutes = [
         exact: true,
     },
     {
+        path: '/app/coach/:id',
+        component: CoachPage,
+        exact: true,
+    },
+    {
         path: '/app/personal-info',
         component: PersonalInfo,
         exact: true,
