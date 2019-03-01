@@ -18,10 +18,11 @@ class Chat extends React.Component{
     };
 
     componentDidMount() {
-        console.log('chat version 1.0');
-
-        this.props.getSelectors('discipline');
-        this.loadTrainingsList();
+        this.props.getSelectors('discipline')
+            .then((res) => {
+                this.loadTrainingsList();
+            });
+        this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
         this.props.idTraining && this.loadChatHistory(this.props.idTraining);
     }
 
@@ -32,9 +33,12 @@ class Chat extends React.Component{
         if (prevProps.masterNearTrainings !== this.props.masterNearTrainings)
             this.setState({nearTrainings: this.prepareNearTrainings()});
 
-        if (prevProps.idTraining !== this.props.idTraining)
-            if (this.props.idTraining) this.loadChatHistory(this.props.idTraining);
-            else this.loadTrainingsList();
+        if (prevProps.idTraining !== this.props.idTraining) {
+            if (this.props.idTraining) {
+                this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
+                this.loadChatHistory(this.props.idTraining);
+            } else this.loadTrainingsList();
+        }
     }
 
     loadChatHistory = (idTraining) => {
@@ -134,7 +138,7 @@ class Chat extends React.Component{
             user_mode: this.props.user_mode,
             interlocutorName: this.props.interlocutorName,
             interlocutorAvatar: this.props.interlocutorAvatar,
-            //online: this.props.status,
+            online: this.props.interlocutorStatus,
             setConversationMode: this.props.onSetConversationMode,
             beginTime: this.props.beginTime
         };
@@ -153,6 +157,7 @@ class Chat extends React.Component{
                                               onExitTraining={() => this.goToChat(0, 0, '', 0)}
                                               goToPayment={this.onGoToPayment}
                                               isStudent={true}
+                                              onCheckOnlineStatus={this.props.onCheckOnlineStatus}
                                     />
                                 ) : (
                                     <ChatCard {...chatProps}
@@ -161,6 +166,7 @@ class Chat extends React.Component{
                                               completeTraining={this.props.onCompleteTraining}
                                               tailTraining={this.props.onTransferTraininingToEnd}
                                               changeTrainingStatus={this.props.onSetTrainingStatus}
+                                              onCheckOnlineStatus={this.props.onCheckOnlineStatus}
                                     />
                                 ) :
                                 <ChatTrainingsList
@@ -198,7 +204,8 @@ const mapStateToProps = state =>{
         idTraining: state.chatWS.idTraining,
         conversationMode: state.chatWS.conversationMode,
         interlocutorName: state.chatWS.interlocutorName,
-        interlocutorAvatar: state.chatWS.interlocutorAvatar
+        interlocutorAvatar: state.chatWS.interlocutorAvatar,
+        interlocutorStatus: state.chatWS.interlocutorStatus
     }
 }
 
@@ -217,7 +224,8 @@ const mapDispatchToProps = dispatch => {
         onSetTrainingStatus: (isStart) => dispatch(actions.setReceptionStatus(isStart)),
         onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
         onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
-        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial))
+        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
+        onCheckInterlocutorOnlineStatus: (id) => dispatch(actions.checkInterlocutorOnlineStatus(id))
 
         //uploadFile: (id_zap, id_user, file, callback) => dispatch(actions.uploadChatFile(id_zap,id_user, file,callback)),
 	}
