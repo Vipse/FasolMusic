@@ -19,7 +19,7 @@ const browser = detect();
 class ChatAudioContent extends React.Component {
 	constructor(props){
 		super(props);
-        this.isSafari = browser ? browser.name === 'safari' : true;
+        this.isSafari = browser ? browser.name === 'safari' || browser.os === 'iOS': true;
 	}
 
     filesRender = () => {
@@ -36,11 +36,11 @@ class ChatAudioContent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { id_treatment: next_id_treatment, 
-			receptionId: nextReceptionId, 
+        const { id_treatment: next_id_treatment,
+			receptionId: nextReceptionId,
 			isCalling: nextIsCalling } = nextProps;
 		const { id_treatment, receptionId, isCalling } = this.props;
-		this.isSafari && 
+		this.isSafari &&
 			(next_id_treatment !== id_treatment || nextReceptionId !== receptionId || nextIsCalling !== isCalling)
 				&& (
 					this.startPlayVideo(this.videoOut, this.videoOutPlayInterval)
@@ -88,7 +88,7 @@ class ChatAudioContent extends React.Component {
 						poster=''
 						></video>
                 )}
-                
+
                 <div className={panelClass}>
                     <ChatVideoPanel
                         onStop={() => {

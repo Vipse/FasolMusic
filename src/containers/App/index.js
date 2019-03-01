@@ -12,8 +12,6 @@ import ab from '../../autobahn.js'
 
 import Icon from "../../components/Icon";
 import Spinner from "../../components/Spinner";
-import VK, { CommunityMessages } from 'react-vk';
-
 
 import * as actions from '../../store/actions'
 import './styles.css';
@@ -21,9 +19,9 @@ import 'antd/dist/antd.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 import VKApp from '../../components/VKApp';
+import { detect } from 'detect-browser';
 
-
-
+const browser = detect();
 
 const renderRoutes = ({path, component, exact}) => (
     <Route key={path} exact={exact} path={path} component={component}/>
@@ -48,12 +46,10 @@ class App extends React.Component {
         });
     };
 
-
     /* Notifications and chat */
 
     componentWillUnmount(){
         closeSocket();
-        this.props.onSetOnlineStatus(this.props.id, false)
     }
 
     runNotificationsWS = () => {
@@ -137,15 +133,15 @@ class App extends React.Component {
      };
 
      warnIfMobileDevice = () => {
-         const isMobile = /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(navigator.userAgent);
-         if (isMobile)
+         if (browser && /iOS|Android OS|BlackBerry OS|Windows Mobile|Amazon OS/i.test(browser.os))
              Modal.warning({
                  title: 'Мобильное устройство',
                  width: '500px',
                  className: 'fast-modal',
                  content: 'Для более удобной работы с платформой зайдите с компьютера! ' +
                      'Но вы всегда можете записаться на тренировку и с телефона, ' +
-                     'здесь для вас также доступен весь функционал!',
+                     'здесь для вас также доступен весь функционал! Браузер: '
+                     + browser.name + ' ' + browser.version + ', OS: ' + browser.os,
                  zIndex: 1050
              });
      };
@@ -253,7 +249,7 @@ class App extends React.Component {
 
     renderVKApp = () => {
 		return (
-			<VKApp 
+			<VKApp
 				apiId={120172845}
 				onMount={(widget, id) => {
 					this.setState({ widget, id });
@@ -261,7 +257,7 @@ class App extends React.Component {
 			/>
 		)
     }
-    
+
     render() {
         let name, avatar;
 
@@ -323,13 +319,13 @@ class App extends React.Component {
                                             isOnMainPage={this.props.location.pathname === '/app'}
                                             frozenTraining={this.props.frozenTraining}
                                             disciplinesList={this.props.disciplinesList}
-                                            
+
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
                                             isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
                                             countTrainingDiscipline = {this.props.countTrainingDiscipline}
                                             discCommunication = {this.props.discCommunication}
                                             studentBalance = {this.props.studentBalance}
-                                            useFrozenTraining = {this.props.useFrozenTraining}   
+                                            useFrozenTraining = {this.props.useFrozenTraining}
                                             subsForDisc = {this.props.subsForDisc}
                                             abonementIntervals = {this.props.abonementIntervals}
 
@@ -351,7 +347,7 @@ class App extends React.Component {
 
                                             notifications = {this.props.notifications}
                                             showSpinner = {() => this.setState({scheduleSpinner: true})}
-                                            hideSpinner = {() => this.setState({scheduleSpinner: false})}                                        
+                                            hideSpinner = {() => this.setState({scheduleSpinner: false})}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -377,8 +373,8 @@ class App extends React.Component {
                             {this.state.scheduleSpinner &&
                                 <div className = "schedule-spinner">
                                   <Spinner isInline={true} size='large'/>
-                                </div>} 
-                           
+                                </div>}
+
 
                         </React.Fragment> :
                         <Redirect to='/signin'/>

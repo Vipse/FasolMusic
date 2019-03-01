@@ -16,7 +16,7 @@ const browser = detect();
 class ChatVideoContent extends React.Component {
 	constructor(props){
 		super(props);
-		this.isSafari = browser ? browser.name === 'safari' : true;
+		this.isSafari = browser ? browser.name === 'safari' || browser.os === 'iOS' : true;
 		this.interlocutorVideo = null;
 	}
 
@@ -38,11 +38,11 @@ class ChatVideoContent extends React.Component {
 	}*/
 
     componentWillReceiveProps(nextProps) {
-		const { id_treatment: next_id_treatment, 
-			receptionId: nextReceptionId, 
+		const { id_treatment: next_id_treatment,
+			receptionId: nextReceptionId,
 			isCalling: nextIsCalling } = nextProps;
 		const { id_treatment, receptionId, isCalling } = this.props;
-		this.isSafari && 
+		this.isSafari &&
 			(next_id_treatment !== id_treatment || nextReceptionId !== receptionId || nextIsCalling !== isCalling)
 				&& (
 					this.startPlayVideo(this.videoOut, this.videoOutPlayInterval),
@@ -83,7 +83,7 @@ class ChatVideoContent extends React.Component {
 
 	setVideoOutRef = (video) => {
 		this.isSafari && (this.videoOut = video);
-		video && this.props.setVideoOut(video);
+		this.props.setVideoOut(video);
 		this.interlocutorVideo = video;
 	};
 
@@ -92,7 +92,7 @@ class ChatVideoContent extends React.Component {
 			this.videoIn = video,
 			video && video.play()
 		);
-		video && this.props.setVideoIn(video);
+		this.props.setVideoIn(video);
     };
 
 	renderVideos = () => (
@@ -113,15 +113,15 @@ class ChatVideoContent extends React.Component {
 	renderSafariVideos = () => (
 		<Hoc>
 			<video className='chat-card-video__box'
-						poster=''
-						playsInline
-						ref={this.setVideoOutRef}
-			/>
+				   poster=''
+				   playsInline
+				   ref={this.setVideoOutRef}
+			></video>
 			<video className='chat-card-video__mini'
-						playsInline
-						ref={this.setVideoInRef}
-						id='setVideoInRef'
-			/>
+				   playsInline
+				   ref={this.setVideoInRef}
+				   id='setVideoInRef'
+			></video>
 		</Hoc>
 	);
 
