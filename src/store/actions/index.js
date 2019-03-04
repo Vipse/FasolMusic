@@ -87,7 +87,8 @@ export {
     deleteAvatar,
     sendUserPoleValue,
     getUserInfoShort,
-    hasNoReviewToFreeApp
+    hasNoReviewToFreeApp,
+    changePassword
 } from './patientData'
 
 export {

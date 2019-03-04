@@ -316,7 +316,7 @@ class CoachPersonalDataForm extends React.Component {
                     <ChangePasswordModal
                         profile={profileCoach}
                         visible={isChangePasswordModalVisible}
-                        onSubmit={this.props.onSubmit}
+                        onSubmit={this.props.onChangePassword}
                         onCancel={() => this.setState({isChangePasswordModalVisible: false})}
                     />
                     <SendSuggestionsModal
@@ -335,12 +335,14 @@ const CoachPersonalData  = Form.create()(CoachPersonalDataForm);
 
 CoachPersonalData.propTypes = {
     profileCoach: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    onChangePassword: PropTypes.func
 };
 
 CoachPersonalData.defaultProps = {
     profileCoach: {},
-    onSubmit: () => {}
+    onSubmit: () => {},
+    onChangePassword: () => {}
 };
 
 export default CoachPersonalData
