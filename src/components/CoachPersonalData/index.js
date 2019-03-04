@@ -84,8 +84,8 @@ class CoachPersonalDataForm extends React.Component {
                 if (num === i) {
                     isEnabled = true;
                     selectedDayTimesArr.push([
-                        moment(item.datestart * 1000).hours(),
-                        moment(item.dateend * 1000).hours()
+                        moment.unix(+item.datestart).utcOffset("+03:00").hours(),
+                        moment.unix(+item.dateend).utcOffset("+03:00").hours()
                     ]);
                 }
             });
@@ -187,8 +187,8 @@ class CoachPersonalDataForm extends React.Component {
             enabledDays[i] && selectedTimes[i].forEach((interval) => {
                 preparedTrainingTime[objIndex] = {
                     day: getSelectedIDs(dayList, String(i), true),
-                    datestart: moment(interval[0], 'HH').format('X'),
-                    dateend: moment(interval[1], 'HH').format('X')
+                    datestart: moment().utcOffset("+03:00").hour(interval[0]).format('X'),
+                    dateend: moment().utcOffset("+03:00").hour(interval[1]).format('X')
                 };
                 ++objIndex;
             });
