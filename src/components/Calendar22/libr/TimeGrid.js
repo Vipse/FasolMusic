@@ -197,6 +197,10 @@ class TimeGrid extends Component {
                 get(resource, resourceIdAccessor)
             )
 
+            //console.log('date', date)
+            //console.log('min', min)
+            //console.log('dates.merge(date, min)', dates.merge(date, min))
+            //console.log('-------------------')
         return (
           <DayColumn
             {...this.props}

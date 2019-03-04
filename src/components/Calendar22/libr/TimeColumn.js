@@ -152,7 +152,6 @@ export default class TimeColumn extends Component {
         'minutes'
       )
       next = dates.add(date, groupLengthInMinutes, 'minutes')
-
       renderedSlots.push(this.renderTimeSliceGroup(i, isNow, date, resource))
 
       date = next

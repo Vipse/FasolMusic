@@ -43,11 +43,19 @@ class Header extends React.Component {
     }
 
     onSubmitBtnTrialTraining = () => {
+        // const {currDiscipline} = this.props;
+        // const time0 = moment(Date.now()).format('X');
+        // const time1 = moment(Date.now()).add(1,'weeks').format('X');
+        
+        // this.props.onGetAvailableInterval(dateStart, dateEnd, [], currDiscipline.code)
+        // .then(() => {
+        //     setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
+        // });
         this.resetAllEvent();
         this.setState({isTrialTrainingModalVisible: true});
     }
 
-    onUnfreshTraining = () => {
+    onUnfreshTraining = () => {    
         this.resetAllEvent();
         this.setState({isUnfreshTrainingModal: true});
     }
@@ -56,8 +64,8 @@ class Header extends React.Component {
 
         const {disciplinesList, discCommunication, useFrozenTraining, subsForDisc, abonementIntervals, id} = this.props;
         let array = [];
-        const time0 = moment(Date.now()).format('X');
-        const time1 = moment(Date.now()).add(1,'weeks').format('X');
+        const time0 = moment(Date.now()).startOf('week').format('X');
+        const time1 = moment(Date.now()).endOf('week').format('X');
         const codeDisc = disciplinesList[data.type].code;
         this.props.showSpinner();
 
@@ -66,7 +74,6 @@ class Header extends React.Component {
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
         
-        debugger
         if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
             
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);
@@ -99,6 +106,7 @@ class Header extends React.Component {
 
         this.props.onIsPushBtnUnfresh();
         this.props.onGoToSchedule();
+        document.getElementsByClassName("btn-transfer-training")[0].click();
         this.setState({isUnfreshTrainingModal: false});
     }
 
@@ -108,12 +116,12 @@ class Header extends React.Component {
         const {disciplinesList, id} = this.props;
         const {type} = data;
 
-        const time0 = moment(Date.now()).format('X');
-        const time1 = moment(Date.now()).add(3,'d').format('X');
+        const time0 = moment(Date.now()).startOf('week').format('X');
+        const time1 = moment(Date.now()).endOf('week').format('X');
 
         this.props.showSpinner();
 
-        this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code]);
+        this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code]);
         this.props.onSetPushTrialTraining('trial');
 
         this.props.onChangeCurrDiscipline(disciplinesList[type]);
@@ -121,6 +129,7 @@ class Header extends React.Component {
         this.props.onGetAbonementsFilter(id,disciplinesList[type])
             .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
         this.props.onGoToSchedule();
+        document.getElementsByClassName("btn-transfer-training")[0].click();
         this.setState({isTrialTrainingModalVisible: false});
     };
 
@@ -137,7 +146,8 @@ class Header extends React.Component {
         
         this.props.isPushBtnTransfer();
         this.props.onSetPushTrialTraining(null);
-        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});       
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); 
+        document.getElementsByClassName("btn-transfer-training")[0].click();
     };
 
     render() {

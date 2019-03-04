@@ -54,6 +54,7 @@ class Toolbar extends React.Component {
     return (
       <div className="rbc-toolbar">
         <Button
+            className='btn-transfer-training'
             btnText={messages.today}
             size='small'
             type='dark-blue'

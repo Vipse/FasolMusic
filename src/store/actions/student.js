@@ -108,9 +108,11 @@ export const createTraining = (obj) => {
 }
 
 export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) => {
-    let obj =  { dateStart , dateEnd,  weekdays,discipline};
+    if( !Array.isArray(discipline)) discipline = [discipline]
+    let obj =  { dateStart , dateEnd, discipline};
 
-    console.log("GET", obj)
+
+    console.log("GETЕЕЕЕ", obj)
     return (dispatch) => {
 
         return axios.post('/catalog.fasol/getIntervalOnWeekdays', JSON.stringify(obj))
@@ -126,6 +128,7 @@ export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) =
                         })
                     }
 
+                    console.log('rez.data.result.masters :', rez.data.result.masters);
                 dispatch({
                     type: actionTypes.GET_AVAILABLE_INTERVAL,
                     freeInterval: answer,
@@ -229,24 +232,25 @@ export const getTrainingsTrialStatus = (idStudent) => {
 };
 
 export const getDisciplineCommunication = (idStudent) => {
-
+    
     return (dispatch) => {
         return axios.post('/catalog.fasol/getStudentMasterDisciplineCommunication', JSON.stringify({idStudent}))
             .then(res => {
-
+                
                 let obj = {};
                 res.data.result.forEach((el) => obj[el.discipline] = el)
 
-
+                
                 dispatch({
                     type: actionTypes.GET_DISCIPLINE_COMMUNICATION,
                     discCommunication: obj
                 });
                 return res.data.result;
             })
-            .catch(err => {console.log(err)})
+            .catch(err => { console.log(err)})
     }
 }
+
 
 export const addAmountTraining = (idSubscription, addAmount) => {
     const obj = {

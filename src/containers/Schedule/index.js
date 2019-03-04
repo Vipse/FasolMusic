@@ -582,11 +582,15 @@ class Schedule extends React.Component {
     };
 
     dateChangeHandler = (date, view, action, isOnDay) => {
-        const {chooseWeekdays, id, mode, currDiscipline, chooseTheMaster, isPushBtnTrialTraining} = this.props;
+        const {chooseWeekdays, id, mode, currDiscipline, chooseTheMaster, isPushBtnTrialTraining,discCommunication} = this.props;
+
 
 
         const {start, end} = this.state.isEditorMode
             ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
+
+           
+        let endW = moment(end.getTime()).endOf('week').format('X') 
 
         this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : null
 
@@ -609,10 +613,10 @@ class Schedule extends React.Component {
                 },
             })
 
-        this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 100), end:Math.floor(+ end.getTime() / 1000)});
+        this.props.onSetWeekInterval({start: Math.floor(+start.getTime() / 1000), end: endW});
 
         const dateStart = Math.floor(+start.getTime() / 1000);
-        const dateEnd = Math.floor(+end.getTime() / 1000);
+        const dateEnd = endW;
 
 
         if(mode === 'admin'){
@@ -644,12 +648,13 @@ class Schedule extends React.Component {
 
         if(this.props.isPushBtnTransfer){
 
-            const {mainUser} = this.props.profileStudent;
 
-            this.props.onGetTheMasterInterval(dateStart, dateEnd, mainUser, [1,2,3,4,5,6,7])
+            if(discCommunication.hasOwnProperty(currDiscipline.code)){
+                this.props.onGetTheMasterInterval(dateStart, dateEnd, discCommunication[currDiscipline.code].idMaster, [0,1,2,3,4,5,6])
                 .then(() => {
                     this.setState({theMasterSelect: true, scheduleSpinner: false})
                 });
+            } 
         }
 
 
@@ -694,6 +699,7 @@ class Schedule extends React.Component {
     };
 
     changeToEditorMode = (isEditorMode) => {
+        debugger
         let mode = isEditorMode ? 'month' : 'week';
         const {start, end} = findTimeInterval(this.state.currentDate, mode);
         isEditorMode ? this.props.onGetAllIntervals(start, end) : null
@@ -812,6 +818,8 @@ class Schedule extends React.Component {
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
 
+        
+
             calendar = (<Calendar
                     /*receptionNum={(arrAbonement && arrAbonement.length) ? arrAbonement.length : apiPatients.length} */
                     selectable
@@ -896,9 +904,14 @@ class Schedule extends React.Component {
                 currD = currDate.getDate();
 
 
-            let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
-                max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
+            // let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
+            //     max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
 
+
+                let min = new Date( currY, currM, currD, 8);
+                let max = new Date( currY, currM, currD, 23);
+    
+                console.log('min :',min);
             // надо нормальную проверка для коуча и студента
 
             editorBtn = (<Button btnText='Редактор графика'
@@ -919,12 +932,13 @@ class Schedule extends React.Component {
                              }
 
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
-
+                                
                                 filterInterval = this.props.theMasterInterval;
                                 notRedirectDiscipline = true;
 
                              }
                              else if(isNeedSaveIntervals){
+                               
                                 filterInterval =  this.props.superFreeInterval;
                                 notRedirectDiscipline = true;
                              }

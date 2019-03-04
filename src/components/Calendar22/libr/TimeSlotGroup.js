@@ -199,8 +199,7 @@ class TimeSlotGroup extends Component {
 
 
     const flag = Array.isArray(intervals) ? intervals.some(el => {
-
-      return (value >= el.start*1000) && value < (el.end * 1000)
+        return (value.getTime() >= el.start*1000) && value.getTime() < (el.end * 1000)
     }) : null
 
    
