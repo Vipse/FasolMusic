@@ -8,6 +8,7 @@ import '../../icon/style.css'
 import Row from "../Row";
 import Col from "../Col";
 import StudentPersonalData from "../StudentPersonalData";
+import CoachPersonalProfile from "../../containers/PersonalInfo";
 
 class StudentPersonalProfile extends React.Component {
     render() {
@@ -22,6 +23,7 @@ class StudentPersonalProfile extends React.Component {
                             onSubmit={this.props.onSubmit}
                             onSocialConnect={this.props.onSocialConnect}
                             getSelectors={this.props.getSelectors}
+                            onChangePassword={this.props.onChangePassword}
                             uploadFile={this.props.uploadFile}
                         />
                     </Col>
@@ -33,12 +35,14 @@ class StudentPersonalProfile extends React.Component {
 
 StudentPersonalProfile.propTypes = {
     profileStudent: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    onChangePassword: PropTypes.func
 };
 
 StudentPersonalProfile.defaultProps = {
     profileStudent: {},
-    onSubmit: () => {}
+    onSubmit: () => {},
+    onChangePassword: () => {}
 };
 
 export default StudentPersonalProfile

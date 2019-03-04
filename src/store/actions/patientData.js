@@ -133,3 +133,24 @@ export const getUserInfoShort = (id) => {
             })
     }
 };
+
+export const changePassword = (id, newPass) => {
+    const obj = {
+        idUser: id,
+        password: newPass
+    };
+
+    return (dispatch) => {
+        console.log("changePasword", obj);
+
+        return axios.post('/catalog.fasol/passwordReset',
+            JSON.stringify(obj))
+            .then(res => {
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                return err;
+            });
+    };
+};

@@ -28,6 +28,7 @@ class CoachPersonalProfile extends React.Component{
                             onSubmit={this.props.onSubmit}
                             onSocialConnect={this.props.onSocialConnect}
                             getSelectors={this.props.getSelectors}
+                            onChangePassword={this.props.onChangePassword}
                             uploadFile={this.props.uploadFile}
                         />
                     </Col>
@@ -39,12 +40,14 @@ class CoachPersonalProfile extends React.Component{
 
 CoachPersonalProfile.propTypes = {
     profileCoach: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    onChangePassword: PropTypes.func
 };
 
 CoachPersonalProfile.defaultProps = {
     profileCoach: {},
-    onSubmit: () => {}
+    onSubmit: () => {},
+    onChangePassword: () => {}
 };
 
 export default CoachPersonalProfile

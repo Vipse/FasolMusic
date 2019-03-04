@@ -234,7 +234,7 @@ class StudentPersonalDataForm extends React.Component {
                     <ChangePasswordModal
                         profile={profileStudent}
                         visible={isChangePasswordModalVisible}
-                        onSubmit = {this.props.onSubmit}
+                        onSubmit = {this.props.onChangePassword}
                         onCancel={() => this.setState({isChangePasswordModalVisible: false})}
                     />
                     <SendSuggestionsModal
@@ -253,12 +253,14 @@ const StudentPersonalData  = Form.create()(StudentPersonalDataForm);
 
 StudentPersonalData.propTypes = {
     profileStudent: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    onChangePassword: PropTypes.func
 };
 
 StudentPersonalData.defaultProps = {
     profileStudent: {},
-    onSubmit: () => {}
+    onSubmit: () => {},
+    onChangePassword: () => {},
 };
 
 export default StudentPersonalData

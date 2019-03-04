@@ -12,17 +12,13 @@ class ContentForm extends React.Component {
     };
 
     handleSubmitPassword = (e) => {
+        const {id} = this.props.profile;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.setState({loadingPass: true});
 
-                const dataObj = {
-                    id: this.props.profile.id,
-                    password: values.newPassword
-                };
-
-                this.props.onSubmit(dataObj)
+                this.props.onSubmit(id, values.newPassword)
                     .then((res) => {
                         this.setState({loadingPass: false});
                         if (res && !res.data.error) {

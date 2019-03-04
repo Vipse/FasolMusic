@@ -41,6 +41,7 @@ class PersonalInfo extends React.Component {
                             onSocialConnect={this.props.connectionToSocialNetwork}
                             getSelectors={this.props.getSelectors}
                             uploadFile={this.props.uploadFile}
+                            onChangePassword={this.props.onChangePassword}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
                         />) : (
                         <CoachPersonalProfile
@@ -49,6 +50,7 @@ class PersonalInfo extends React.Component {
                             onSocialConnect={this.props.connectionToSocialNetwork}
                             getSelectors={this.props.getSelectors}
                             uploadFile={this.props.uploadFile}
+                            onChangePassword={this.props.onChangePassword}
                             //onDeleteAvatar={this.props.onDeleteAvatar}
                         />)}
                 </Hoc>
@@ -71,6 +73,7 @@ const mapDispatchToProps = dispatch => {
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
         connectionToSocialNetwork: (idProfile, idSocial, networkName) => dispatch(actions.connectionToSocialNetwork(idProfile, idSocial, networkName)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
+        onChangePassword: (id, newPass) => dispatch(actions.changePassword(id, newPass)),
         uploadFile: (file) => dispatch(actions.uploadFile(file)),
         //onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),
     }
