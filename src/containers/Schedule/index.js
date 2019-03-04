@@ -34,7 +34,6 @@ class Schedule extends React.Component {
             view: '',
             newVisitModal: false,
 
-
             newVisitData: {
                 date: null,
                 patients: [],
@@ -60,6 +59,7 @@ class Schedule extends React.Component {
             notRedirectDiscipline: false,
             scheduleSpinner: true,
             modalRemoveTrialTraining: false,
+            newModalSaveSchedule: false,
         }
     };
 
@@ -104,7 +104,7 @@ class Schedule extends React.Component {
                     let trainer= {...trainerList[i]};
                     trainer.start = new Date(idEvent);
 
-                    this.setState({apiPatients : [...this.state.apiPatients, trainer]})
+                    this.setState({newModalSaveSchedule: true, apiPatients : [...this.state.apiPatients, trainer]})
                     return;
                 }
             }
@@ -118,7 +118,7 @@ class Schedule extends React.Component {
                         let trainer= {...trainerList[i]};
                         trainer.start = new Date(idEvent); //idEvent ~ time
 
-                        this.setState({apiPatients : [...this.state.apiPatients, trainer]})
+                        this.setState({newModalSaveSchedule: true,apiPatients : [...this.state.apiPatients, trainer]})
                         return
                     }
                 }
@@ -127,7 +127,8 @@ class Schedule extends React.Component {
         if(isPushBtnTrialTraining === 'trial'){
                             this.trialTime = idEvent;
 
-                            this.setState({isShowFreeTrainers : true, apiPatients : [ {trainer: null, start: new Date(idEvent)}]})
+                            this.setState({isShowFreeTrainers : true,
+                                    apiPatients : [ {trainer: null, start: new Date(idEvent)}]})
 
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
@@ -144,7 +145,7 @@ class Schedule extends React.Component {
                                 let trainer= {...trainerList[i]};
                                 trainer.start = new Date(idEvent); //idEvent ~ time
 
-                                this.setState({apiPatients : [...this.state.apiPatients, trainer]})
+                                this.setState({newModalSaveSchedule:true, apiPatients : [...this.state.apiPatients, trainer]})
 
                                 i = Infinity;
                             }
@@ -189,7 +190,7 @@ class Schedule extends React.Component {
                         let trainer= {...trainerList[i]};
                         trainer.start = new Date(this.trialTime); //idEvent ~ time
 
-                        this.setState({apiPatients : [ trainer]})
+                        this.setState({newModalSaveSchedule: true, apiPatients : [ trainer]})
                         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: 1});
                         i = Infinity;
                     }
@@ -231,7 +232,7 @@ class Schedule extends React.Component {
 
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         this.props.onSetChooseTheMasterByStudent(idMaster);
-        this.setState({isShowFreeTrainers : false});
+        this.setState({isShowFreeTrainers : false, newModalSaveSchedule: true});
 
         // this.setState({isShowFreeTrainers : false});
     }
@@ -312,14 +313,14 @@ class Schedule extends React.Component {
                     }, 1000);
                 });
                 
-                this.props.onSaveStudentMasterDisciplineCommunication(id, chooseTheMaster, currDiscipline.code)
+                
                 this.props.onGetDisciplineCommunication(id);
 
         }
 
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); // убрать Сохранить
 
-        this.setState({apiPatients: [], sendingModal: true, theMasterSelect: false})
+        this.setState({newModalSaveSchedule: false, apiPatients: [], sendingModal: true, theMasterSelect: false})
 
 
         this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id);
@@ -394,7 +395,7 @@ class Schedule extends React.Component {
                     setTimeout(()=>{
                         this.props.onGetStudentBalance(id);
                         this.props.onGetUseFrozenTraining(id);
-                        this.props.onSaveStudentMasterDisciplineCommunication(id, null, currDiscipline.code);
+                        
                         this.props.onGetDisciplineCommunication(id);
                         this.props.onGetSubscriptionsByStudentId(id);
                         
@@ -808,9 +809,6 @@ class Schedule extends React.Component {
             currM = currDate.getMonth(),
             currD = currDate.getDate();
 
-            let minFasol = this.props.min;
-            let maxFasol = this.props.max;
-
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
 
@@ -836,8 +834,6 @@ class Schedule extends React.Component {
 
                     min= {min}
                     max= {max}
-                    minFasol={minFasol}
-                    maxFasol={maxFasol}
 
                     onPopoverClose={this.eventDeleteHandler}
                     onPopoverEmail={this.onPatientEmail}
@@ -866,8 +862,6 @@ class Schedule extends React.Component {
                 currY = currDate.getFullYear(),
                 currM = currDate.getMonth(),
                 currD = currDate.getDate();
-            let minFasol = this.props.min;
-            let maxFasol = this.props.max;
 
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
@@ -880,8 +874,6 @@ class Schedule extends React.Component {
                                   min= {min}
                                   max= {max}
                                   step={60}
-                                  minFasol={minFasol}
-                                  maxFasol={maxFasol}
                                   mode = {this.props.mode}
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
@@ -903,8 +895,6 @@ class Schedule extends React.Component {
                 currM = currDate.getMonth(),
                 currD = currDate.getDate();
 
-                let minFasol = this.props.min;
-                let maxFasol = this.props.max;
 
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
@@ -940,6 +930,7 @@ class Schedule extends React.Component {
                              }
 
 
+                             console.log('this.props.history :', this.props.history);
             calendar = (<Calendar
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}//{this.props.visits.length}// {apiPatients.length}
                                   selectable
@@ -975,8 +966,6 @@ class Schedule extends React.Component {
 
                                   min= {min}
                                   max= {max}
-                                  minFasol={minFasol}
-                                  maxFasol={maxFasol}
 
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
@@ -988,7 +977,7 @@ class Schedule extends React.Component {
                                   freeTrainers={this.props.fullInfoMasters} //my
                                   showModalTransferEvent={this.showModalTransferEvent}
                                   setChoosenTrainer={this.setChoosenTrainer}
-                                  isNeedSaveIntervals={isNeedSaveIntervals}
+                                  isNeedSaveIntervals={this.state.newModalSaveSchedule}
                                   fillTrainingWeek = {this.fillTrainingWeek}
                                   isShowFreeTrainers = {this.state.isShowFreeTrainers}
                                   transferTraining = {this.transferTraining} // drag and drop
@@ -1037,8 +1026,8 @@ class Schedule extends React.Component {
 
 
                 <NewModalSaveSchedule
-                    onCancel={() => this.setState({modalCancelTraining : false})}
-                    visible = {isNeedSaveIntervals}
+                    onCancel={() => this.setState({newModalSaveSchedule : false})}
+                    visible = {this.state.newModalSaveSchedule}
                     save = {this.fillTrainingWeek}
                 />
                 <Modal
@@ -1238,7 +1227,6 @@ const mapDispatchToProps = dispatch => {
         onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSetWeekInterval: (interval) => dispatch(actions.setWeekInterval(interval)),
-        onSaveDisciplineCommunication: (idStudent,idMaster, discipline) => dispatch(actions.saveDisciplineCommunication(idStudent,idMaster, discipline)),
         onGetCountTrainingByDiscipline: (id,discipline) => dispatch(actions.getCountTrainingByDiscipline(id,discipline)),
         onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
         onIssetTrial: (id) => dispatch(actions.issetTrial(id)),
@@ -1255,8 +1243,6 @@ const mapDispatchToProps = dispatch => {
 
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
-        onSaveStudentMasterDisciplineCommunication: (idStudent, idMaster, discipline) =>
-                    dispatch(actions.saveStudentMasterDisciplineCommunication(idStudent, idMaster, discipline)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),

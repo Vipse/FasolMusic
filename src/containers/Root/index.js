@@ -2,7 +2,6 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import {Redirect} from 'react-router'
 
-import CoachPage from "../CoachPage"
 import LoginPage from '../LoginPage'
 import App from '../App'
 
@@ -22,8 +21,17 @@ class Root extends React.Component{
             },{});
             if(params['landing']) sessionStorage.setItem('landing', params['landing'])
         }
- 
        
+        // window.addEventListener("beforeunload", function (event) {
+        //     // Cancel the event as stated by the standard.
+        //     event.preventDefault();
+        //     let href = window.location.href;
+        //     href.replace('coach', 'coach/?path=')
+        //     window.location.reload(href)
+        //     console.log("replace")
+        //   });
+ 
+        //   console.log('window :', window);
 
         return (       
             <Switch>
@@ -33,7 +41,6 @@ class Root extends React.Component{
                 <Route path="/trial-training" component={LoginPage}/>
                 <Route path="/app" component={App} />
                 <Route exact path="/" render={() => <Redirect to="/app"/> }/>
-                <Route path="/coach/:id" component={CoachPage} />
             </Switch>)
     }
 };

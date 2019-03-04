@@ -222,7 +222,7 @@ class TimeSlotGroup extends Component {
       )
     }
 
-    if(Date.now() <= value.getTime() &&  flag && !isViewTrainer && !currentEvent){
+    if(flag && !isViewTrainer && !currentEvent){
       return connectDropTarget(
         <div className={cellClass} style={{backgroundColor}} onClick={(e) => modalTransferEvent(value.getTime())}>
            {this.renderSlices()}

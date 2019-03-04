@@ -248,22 +248,6 @@ export const getDisciplineCommunication = (idStudent) => {
     }
 }
 
-export const saveDisciplineCommunication = (idStudent, idMaster, discipline) => {
-    const obj = {
-        idStudent,
-        idMaster,
-        discipline
-    }
-    return (dispatch) => {
-        return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
-            .then(res => {
-
-                console.log(res);
-
-            })
-            .catch(err => {console.log(err)})
-    }
-}
 export const addAmountTraining = (idSubscription, addAmount) => {
     const obj = {
         idSubscription,
@@ -272,23 +256,6 @@ export const addAmountTraining = (idSubscription, addAmount) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/addAmountTraining', JSON.stringify(obj))
             .then(res => {
-                console.log(res);
-            })
-            .catch(err => {console.log(err)})
-    }
-}
-
-export const saveStudentMasterDisciplineCommunication = (idStudent, idMaster, discipline) => {
-    const obj = {
-        idStudent,
-        idMaster,
-        discipline
-    }
-
-    return (dispatch) => {
-        return axios.post('/catalog.fasol/saveStudentMasterDisciplineCommunication', JSON.stringify(obj))
-            .then(res => {
-
                 console.log(res);
             })
             .catch(err => {console.log(err)})
