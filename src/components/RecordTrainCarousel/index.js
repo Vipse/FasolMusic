@@ -11,8 +11,8 @@ import Card from "antd/es/card";
 class RecordTrainCarousel extends React.Component {
 
     state = {
-        loadingDate: moment().startOf('week'),
-        weekStart: moment().startOf('week')
+        loadingDate: moment().utcOffset('+0300').startOf('week'),
+        weekStart: moment().utcOffset('+0300').startOf('week')
     };
 
     componentDidMount() {
@@ -56,10 +56,11 @@ class RecordTrainCarousel extends React.Component {
     };
 
     renderAvailableAppointments = (trainerTrainings, intervals = {}) => {
+
         const availableHoursArea = [8, 23];
         const {weekStart, loadingDate} = this.state;
-        const {isAdmin, studentID, isStudentPage} = this.props;
-        const curTime = moment();
+        const {isAdmin, studentID} = this.props;
+        const curTime = moment().utcOffset("+03:00");
         let curWeekBegin = weekStart;
 
         if (loadingDate) return <Spinner size="large"/>;
@@ -68,7 +69,7 @@ class RecordTrainCarousel extends React.Component {
         let timeIntervals = [];
 
         for (let i = 0; i < 7; i++) {
-            let curDayBegin = moment(curWeekBegin).add(i, 'days');
+            let curDayBegin = moment(curWeekBegin).add(i, 'days'); //
             let time = [];
 
             let dayIntervals = intervals[moment(curDayBegin).format('X')];
