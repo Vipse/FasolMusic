@@ -5,7 +5,8 @@ const initialState = {
     isReceived: false,
     visitId: 0,
     selectors: {},
-    promoList: []
+    promoList: [],
+    country: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -20,7 +21,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 [action.loader]: false
             };
-        case actionTypes.DOC_EMERGANCY_RECEIVED_MARK: 
+        case actionTypes.DOC_EMERGANCY_RECEIVED_MARK:
             return {
                 ...state,
                 isReceived: false,
@@ -48,8 +49,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 promoList: action.promoList,
             };
+        case actionTypes.GET_USER_COUNTRY:
+            return {
+                ...state,
+                country: action.country,
+            };
 
-        default: return state;
+        default:
+            return state;
 
     }
 };

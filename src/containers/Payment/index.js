@@ -31,6 +31,7 @@ class Payment extends React.Component{
     componentDidMount() {
         if (this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(this.props.id);
+            this.props.onGetUserCountry();
         }
         else {
             let start = null;
@@ -106,6 +107,7 @@ class Payment extends React.Component{
                         studentBalance = {this.props.studentBalance}
                         nextTrainingTime={this.props.nextTrainingTime}
                         onSubmitPaySubscription = {this.onSubmitPaySubscription}
+                        country={this.props.country}
                     />)
                     : (<CoachPayment
                         completedAmount={this.countCompletedTrainingsNumber()}
@@ -161,6 +163,7 @@ const mapStateToProps = state => {
         auth: state.auth,
         id: state.auth.id,
         mode: state.auth.mode,
+        country: state.loading.country,
         deadlinePay: state.student.deadlinePay,
         disciplinesList: state.abonement.disciplines,
         nextTrainingTime: state.training.nextTrainingTime,
@@ -189,7 +192,8 @@ const mapDispatchToProps = dispatch => {
 
         onGetToken: (idUser, amount, price, discipline) => dispatch(actions.getToken(idUser, amount, price, discipline)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
-        onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax))
+        onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
+        onGetUserCountry: () => dispatch(actions.getUserCountry())
     }
 };
 
