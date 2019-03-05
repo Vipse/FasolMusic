@@ -30,6 +30,13 @@ class StudentPayment extends React.Component{
         };
     }
 
+    componentDidMount() {
+        if (this.props.country)
+            this.setState({
+                currency: this.props.country === 'BY' ? 'BYN' : 'RUB'
+            });
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.country !== this.props.country && this.props.country)
             this.setState({
@@ -133,7 +140,7 @@ class StudentPayment extends React.Component{
                     <div className="payment-student-stats-plate">
                         <div className="payment-student-stats-plate-nextDate">
                             <div className="title">
-                                <span className="date">{ (this.props.nextTrainingTime) ? moment(this.props.nextTrainingTime).format('D MMM') : '-'}
+                                <span className="date">{ (this.props.nextTrainingTime) ? moment(this.props.nextTrainingTime).format('D MMM') : '—'}
                                 </span>
                                 <p className="name">Следующая тренировка</p>
                             </div>

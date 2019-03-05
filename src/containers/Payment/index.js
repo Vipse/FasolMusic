@@ -31,6 +31,7 @@ class Payment extends React.Component{
     componentDidMount() {
         if (this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(this.props.id);
+            this.props.onGetNextTraining(this.props.id);
             this.props.onGetUserCountry();
         }
         else {
@@ -193,6 +194,7 @@ const mapDispatchToProps = dispatch => {
         onGetToken: (idUser, amount, price, discipline) => dispatch(actions.getToken(idUser, amount, price, discipline)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
+        onGetNextTraining: (id) => dispatch(actions.getNextTraining(id)),
         onGetUserCountry: () => dispatch(actions.getUserCountry())
     }
 };
