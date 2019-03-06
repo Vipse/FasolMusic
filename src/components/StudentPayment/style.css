@@ -30,6 +30,9 @@
   display: flex;
   justify-content: center;
 }
+.payment-student-trainingPlans .spinner-wrapper {
+  margin-top: 25px;
+}
 .payment-student-paymentData {
   grid-area: data;
 }

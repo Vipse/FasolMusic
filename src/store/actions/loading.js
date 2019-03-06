@@ -155,3 +155,18 @@ export const getPromoList = (id) => {
             .catch(err => {console.log(err)})
     }
 };
+
+export const getUserCountry = () => {
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/thisCountryByIP', JSON.stringify({}))
+            .then(res => {
+                console.log('thisCountryByIP', res);
+                dispatch({
+                    type: actionTypes.GET_USER_COUNTRY,
+                    country: res.data.country
+                });
+                return res;
+            })
+            .catch(err => {console.log(err)})
+    }
+};

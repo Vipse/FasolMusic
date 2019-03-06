@@ -12,11 +12,12 @@ import * as actions from '../../store/actions'
 import {connect} from "react-redux";
 import AbonementCard from "../AbonementCard";
 import { currencyTexts, abonements } from "../../helpers/pricesData";
+import Spinner from "../Spinner";
 
 class StudentPayment extends React.Component{
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             bankCard: {
                 linked: true
@@ -25,8 +26,22 @@ class StudentPayment extends React.Component{
                 linked: false
             },
             modalVisible: false,
-            currency: 'RUB'
+            currency: ''
         };
+    }
+
+    componentDidMount() {
+        if (this.props.country)
+            this.setState({
+                currency: this.props.country === 'BY' ? 'BYN' : 'RUB'
+            });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.country !== this.props.country && this.props.country)
+            this.setState({
+              currency: this.props.country === 'BY' ? 'BYN' : 'RUB'
+            });
     }
 
     handleLinkStatus = (e, method) => {
@@ -41,12 +56,8 @@ class StudentPayment extends React.Component{
     getMinimalPrice = () => {
         const {currency} = this.state;
         let minValue;
-        if (abonements[currency] && abonements[currency].length) {
-            abonements[currency].forEach((item) => {
-                if (!minValue || item.lessonCost < minValue)
-                    minValue = item.lessonCost;
-            });
-        }
+        if (abonements[currency] && abonements[currency].length)
+            minValue = Math.min(...abonements[currency].map((item) => item.lessonCost));
 
         return minValue ? minValue : 0;
     };
@@ -95,22 +106,24 @@ class StudentPayment extends React.Component{
         return (
             <div className="payment-student">
                 <Card className="payment-student-trainingPlans" title="Стоимость тренировок">
-                    <p className="info">Чем больше тренировок вы выбираете, тем меньше цена за одно занятие,
-                        от {this.getMinimalPrice() + ' ' + currencyTexts[currency]}</p>
-                    <div className="plansPlate">
-                        {abonements[currency].map((item) =>
-                            <AbonementCard
-                                key={item.id}
-                                id={item.id}
-                                amount={item.amount}
-                                amountTitle={item.amountTitle}
-                                lessonCost={item.lessonCost}
-                                price={item.price}
-                                currency={currencyTexts[currency]}
-                                showTrialModal={() => this.props.showTrialModal(item.amount, item.price)}
-                            />
-                        )}
-                    </div>
+                    {currency ? <React.Fragment>
+                        <p className="info">Чем больше тренировок вы выбираете, тем меньше цена за одно занятие,
+                            от {this.getMinimalPrice() + ' ' + currencyTexts[currency]}</p>
+                        <div className="plansPlate">
+                            {abonements[currency].map((item) =>
+                                <AbonementCard
+                                    key={item.id}
+                                    id={item.id}
+                                    amount={item.amount}
+                                    amountTitle={item.amountTitle}
+                                    lessonCost={item.lessonCost}
+                                    price={item.price}
+                                    currency={currencyTexts[currency]}
+                                    showTrialModal={() => this.props.showTrialModal(item.amount, item.price)}
+                                />
+                            )}
+                        </div>
+                    </React.Fragment> : <Spinner size='large'/>}
                 </Card>
                 <Card className="payment-student-paymentData" title="Промокод">
                     <div className="inputPlate">
@@ -127,7 +140,7 @@ class StudentPayment extends React.Component{
                     <div className="payment-student-stats-plate">
                         <div className="payment-student-stats-plate-nextDate">
                             <div className="title">
-                                <span className="date">{ (this.props.nextTrainingTime) ? moment(this.props.nextTrainingTime).format('D MMM') : '-'}
+                                <span className="date">{ (this.props.nextTrainingTime) ? moment(this.props.nextTrainingTime).format('D MMM') : '—'}
                                 </span>
                                 <p className="name">Следующая тренировка</p>
                             </div>

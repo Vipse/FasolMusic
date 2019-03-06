@@ -119,7 +119,8 @@ export {
     searchUsers,
     getNotifications,
     readNotification,
-    getPromoList
+    getPromoList,
+    getUserCountry
 } from './loading'
 
 export {
