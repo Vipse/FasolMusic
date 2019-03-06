@@ -355,6 +355,23 @@ export const setMasterTheDisicipline = (idMaster) => {
     });
 }
 
+export const changeBtnBack = (status) => {
+
+    return ({
+        type: actionTypes.CHANGE_BTN_BACK,
+        statusBtnBack: status
+    });
+}
+
+export const changeBtnTransfer = (status) => {
+    return ({
+        type: actionTypes.CHANGE_PUSH_BTN_TRANSFER,
+        isPushBtnTransfer: status
+    });
+}
+
+
+
 export const rateMaster = (idStudent, idMaster, rate, feedback) => {
     const obj = {
         idStudent,

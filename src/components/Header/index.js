@@ -13,6 +13,7 @@ import moment from "moment";
 import {Modal, message, Tooltip} from "antd";
 import  ReactTooltip  from 'react-tooltip';
 import {findDOMNode} from 'react-dom'
+import Schedule from './../../containers/Schedule/index';
 
 
 class Header extends React.Component {
@@ -22,9 +23,15 @@ class Header extends React.Component {
 
     state = {
         isTrialTrainingModalVisible: false,
-        isUnfreshTrainingModal: false
+        isUnfreshTrainingModal: false,
+        showBtnBack: false,
     };
 
+    componentWillReceiveProps(nextProps) { 
+        if(this.props.statusBtnBack === false && this.props.statusBtnBack !== this.state.showBtnBack){
+            this.setState({showBtnBack: false})
+        }
+    }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isTrialTrainingsAvailable !== this.props.isTrialTrainingsAvailable &&
             this.props.isTrialTrainingsAvailable && this.props.isOnMainPage)
@@ -42,22 +49,25 @@ class Header extends React.Component {
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
     }
 
+    resetAllActionApp = () => {
+        this.props.onSetPushTrialTraining(null)
+        this.props.onUnsetPushBtnTransferTraining();
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
+        this.props.onChangeBtnBack(false)
+        this.setState({showBtnBack: false})
+    }
+
     onSubmitBtnTrialTraining = () => {
-        // const {currDiscipline} = this.props;
-        // const time0 = moment(Date.now()).format('X');
-        // const time1 = moment(Date.now()).add(1,'weeks').format('X');
-        
-        // this.props.onGetAvailableInterval(dateStart, dateEnd, [], currDiscipline.code)
-        // .then(() => {
-        //     setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
-        // });
         this.resetAllEvent();
-        this.setState({isTrialTrainingModalVisible: true});
+        this.props.onChangeBtnBack(true)
+        this.setState({isTrialTrainingModalVisible: true, showBtnBack: true});
+        this.setState({actionTrialTraining: true})
     }
 
     onUnfreshTraining = () => {    
         this.resetAllEvent();
-        this.setState({isUnfreshTrainingModal: true});
+        this.props.onChangeBtnBack(true)
+        this.setState({isUnfreshTrainingModal: true, showBtnBack: true});
     }
 
     onCreateUnfreshAbonement = (data) => {
@@ -83,16 +93,7 @@ class Header extends React.Component {
 
             message.success('Количество добавленных тренировок '+ useFrozenTraining);
         }
-        
-        // else if (discCommunication && discCommunication.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster) {
-            
-        //     this.props.onSetPushTrialTraining('select_master');
-        //     this.props.onSetMasterTheDisicipline(discCommunication[codeDisc].idMaster);
-        //     this.props.onGetTheMasterInterval(time0, time1, discCommunication[codeDisc].idMaster, [0, 1, 2, 3, 4, 5, 6])
-        //         .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
-
-        // }
-         else {
+        else {
             
             this.props.onSetPushTrialTraining(null);
             this.props.onSetMasterTheDisicipline(null);
@@ -102,7 +103,6 @@ class Header extends React.Component {
         }
 
         this.props.onGetAbonementsFilter(id,disciplinesList[data.type])
-
 
         this.props.onIsPushBtnUnfresh();
         this.props.onGoToSchedule();
@@ -123,14 +123,13 @@ class Header extends React.Component {
 
         this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code]);
         this.props.onSetPushTrialTraining('trial');
-
         this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
         this.props.onGetAbonementsFilter(id,disciplinesList[type])
             .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
         this.props.onGoToSchedule();
-        document.getElementsByClassName("btn-transfer-training")[0].click();
-        this.setState({isTrialTrainingModalVisible: false});
+        this.props.onUnsetPushBtnTransferTraining();
+        this.setState({isTrialTrainingModalVisible: false});       
     };
 
     handleTransfer = () => {
@@ -144,24 +143,23 @@ class Header extends React.Component {
             onOk: () => {this.props.onTransferTrainPopupClose()}
         });
         
-        this.props.isPushBtnTransfer();
+        this.props.isPushBtnTransfer(); // app func
+        this.props.onChangeBtnTransfer(true)
         this.props.onSetPushTrialTraining(null);
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); 
-        document.getElementsByClassName("btn-transfer-training")[0].click();
+        this.props.onChangeBtnBack(true)
+
+
+        
+
+
+        this.setState({showBtnBack: true})
     };
 
-    render() {
+    renderHeaderButton = () => {
         const {
-            notifications,
-            isStudent,
-            findName,
-            authMode,
-            searchData,
-            onGoto,
-            studentBalance,
             trialTrainingForDisciplines,
             isTrialTrainingsAvailable,
-            disciplinesList,
             useFrozenTraining,
             countTrainingDiscipline
         } = this.props;
@@ -170,6 +168,69 @@ class Header extends React.Component {
         for(let el in trialTrainingForDisciplines){
             if(trialTrainingForDisciplines[el] === false) showTrialModal = true
         }
+
+        
+        if(this.state.showBtnBack){
+            return (
+                <Button
+                    btnText='Вернуться назад'
+                    size='default'
+                    type='border-pink'
+                    className="header-btn"
+                    onClick={this.resetAllActionApp}
+                />)
+        }
+        else {
+            return (
+                <div>
+                    {isTrialTrainingsAvailable && showTrialModal && <Button
+                        btnText='ПРОБНАЯ ТРЕНИРОВКА'
+                        size='default'
+                        type='border-pink'
+                        className="header-btn"
+                        onClick={this.onSubmitBtnTrialTraining}
+                    />}
+                    {useFrozenTraining ? <Button
+                        btnText={'Разморозить тренировку(' + useFrozenTraining + ')'}
+                        size='default'
+                        type='border-pink'
+                        className="header-btn"
+                        onClick={this.onUnfreshTraining}
+                    /> : null}
+
+                
+                    {countTrainingDiscipline ?
+                        <Button
+                            btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
+                            size='default'
+                            type='border-pink'
+                            className="header-btn"
+                            onClick={this.handleTransfer}
+                        /> :
+                        <Tooltip placement="bottom" title={'Нет тренировок для переноса'} text>
+                            <Button
+                                btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
+                                size='default'
+                                type='border-pink'
+                                className="header-btn"
+                            />
+                        </Tooltip>}
+                </div>
+            )
+        }
+    }
+
+    render() {
+        const {
+            isStudent,
+            findName,
+            authMode,
+            searchData,
+            onGoto,
+            studentBalance,
+            trialTrainingForDisciplines,
+            disciplinesList,
+        } = this.props;
 
         return (
             <div className='header'>
@@ -185,39 +246,7 @@ class Header extends React.Component {
                     <React.Fragment>
                         <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>
-                            {isTrialTrainingsAvailable && showTrialModal && <Button
-                                btnText='ПРОБНАЯ ТРЕНИРОВКА'
-                                size='default'
-                                type='border-pink'
-                                className="header-btn"
-                                onClick={this.onSubmitBtnTrialTraining}
-                            />}
-                            {useFrozenTraining ? <Button
-                                btnText={'Разморозить тренировку(' + useFrozenTraining + ')'}
-                                size='default'
-                                type='border-pink'
-                                className="header-btn"
-                                onClick={this.onUnfreshTraining}
-                            /> : null}
-
-                         
-                            {countTrainingDiscipline ?
-                                <Button
-                                    btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
-                                    size='default'
-                                    type='border-pink'
-                                    className="header-btn"
-                                    onClick={this.handleTransfer}
-                                /> :
-                                <Tooltip placement="bottom" title={'Нет тренировок для переноса'} text>
-                                    <Button
-                                        btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
-                                        size='default'
-                                        type='border-pink'
-                                        className="header-btn"
-                                    />
-                                </Tooltip>}
-
+                            {this.renderHeaderButton()}
                         </div>
                     </React.Fragment> : null}
                 <div className='header-notification'>
@@ -285,8 +314,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
     notifications: [],
-    logout: () => {
-    },
+    logout: () => {},
     isStudent: false,
 };
 

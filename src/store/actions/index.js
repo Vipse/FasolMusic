@@ -178,7 +178,9 @@ export {
     getUseFrozenTraining,
     editUseFrozenTraining,
     unsetPushBtnTransferTraining,
-    rateMaster
+    rateMaster,
+    changeBtnBack,
+    changeBtnTransfer
 } from './student'
 
 export {

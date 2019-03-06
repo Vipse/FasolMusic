@@ -63,6 +63,9 @@ export const login = (userName, password, remember, history, isAuto) => {
                                 dispatch(setOnlineStatus(res.data.result.id, true)),
                                 sessionStorage.setItem('_fasol-id', res.data.result.id),
                                 sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                                
+                                localStorage.setItem('_fasol-mode', res.data.result.id),
+                                localStorage.setItem('_fasol-id', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
 
                                 history.push(getState().training.unauthorizedTrialData ? '/app/schedule' : '/app')
@@ -73,6 +76,9 @@ export const login = (userName, password, remember, history, isAuto) => {
                                         // TODO: test
                                         localStorage.removeItem('_fasol-user'),
                                         localStorage.removeItem('_fasol-pass'),
+                                        localStorage.removeItem('_fasol-id'),
+                                        localStorage.removeItem('_fasol-mode'),
+
                                         localStorage.removeItem('landing'),
                                         sessionStorage.removeItem('_fasol-id'),
                                         sessionStorage.removeItem('_fasol-mode')
@@ -123,6 +129,8 @@ export const registerTrainer = (userInfo, history) => {
                             dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
                             sessionStorage.setItem('_fasol-id', res.data.result.id),
                             sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                            localStorage.setItem('_fasol-id', res.data.result.id),
+                            localStorage.setItem('_fasol-mode', res.data.result.usergroup),
                            // rememberMe(remember, userName, password),
 
                             history.push('/app')
@@ -189,6 +197,8 @@ export const getIdUserByToken = (token, history) => {
                         dispatch(setOnlineStatus(res.data.id, true)),
                         sessionStorage.setItem('_fasol-id', res.data.result.id),
                         sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                        localStorage.setItem('_fasol-id', res.data.result.id),
+                        localStorage.setItem('_fasol-mode', res.data.result.usergroup),
 
                         history.push(getState().training.unauthorizedTrialData ? '/app/schedule' : '/app')
                 }
@@ -294,11 +304,16 @@ export const socialAuthorization = (idSocial, history) => {
                         dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
                             sessionStorage.setItem('_fasol-id', res.data.result.id),
                             sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                            localStorage.setItem('_fasol-id', res.data.result.id),
+                            localStorage.setItem('_fasol-mode', res.data.result.usergroup),
 
                             history.push('/app')
                     )
                     : (
                         dispatch(authFail(res.data.error)),
+                            localStorage.removeItem('_fasol-id'),
+                            localStorage.removeItem('_fasol-mode'),
+
                             localStorage.removeItem('_fasol-user'),
                             localStorage.removeItem('_fasol-pass'),
                             sessionStorage.removeItem('_fasol-id'),

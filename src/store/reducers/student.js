@@ -5,7 +5,8 @@ const initialState = {
     deadlinePay: {},
     trialTrainingForDisciplines: {},
     isTrialTrainingsAvailable: false,
-    isTransferTrainPopupActive: true
+    isTransferTrainPopupActive: true,
+    statusBtnBack: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -66,15 +67,21 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isTransferTrainPopupActive: false
             }
+        case actionTypes.CHANGE_PUSH_BTN_TRANSFER:
+            return {
+                ...state,
+                isPushBtnTransfer: action.isPushBtnTransfer
+            }
         case actionTypes.SET_IS_PUSH_BTN_TRANSFER:
             return {
                 ...state,
                 isPushBtnTransfer: !state.isPushBtnTransfer
             }  
         case actionTypes.UNSET_IS_PUSH_BTN_TRANSFER:
+        
             return {
                 ...state,
-                isPushBtnTransfer: state.isPushBtnTransfer
+                isPushBtnTransfer: action.isPushBtnTransfer
             } 
             
         case actionTypes.SET_IS_PUSH_BTN_ADD:
@@ -114,6 +121,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 useFrozenTraining: action.useFrozenTraining
+            }   
+        case actionTypes.CHANGE_BTN_BACK:
+            return {
+                ...state,
+                statusBtnBack: action.statusBtnBack
             }   
             
             

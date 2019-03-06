@@ -207,36 +207,29 @@ class App extends React.Component {
     };
 
     pushBtnTransfer = () => {
-        this.setState({scheduleSpinner: true})
-
         const {weekInterval, discCommunication, disciplinesList, currDiscipline} = this.props;
+        const idMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
 
-        const codeDisc = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
-
-
-        if(weekInterval && codeDisc){
-            let idMaster = this.props.profileStudent.mainUser;
-            let chooseWeekdays = [1,2,3,4,5,6,7];
+        if(weekInterval && idMaster){
+            let chooseWeekdays = [0,1,2,3,4,5,6];
+            this.setState({scheduleSpinner: true})
 
             this.onGoToSchedule();
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, codeDisc, chooseWeekdays)
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => {
                 this.setState({scheduleSpinner: false})
-                 this.props.onSetPushBtnTransferTraining()
              })
         }
-        // const start =  moment(Date.now()).startOf('week').format('X');
-        // const end = moment(Date.now()).endOf('week').format('X');
-
     }
 
     pushBtnUnfresh = () => {
 
         const {weekInterval} = this.props;
-        this.setState({scheduleSpinner: true})
+        
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
+            this.setState({scheduleSpinner: true})
 
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
              .then(() => {
@@ -344,6 +337,9 @@ class App extends React.Component {
                                             isTransferTrainPopupActive={this.props.isTransferTrainPopupActive}
                                             onTransferTrainPopupClose={this.props.onTransferTrainPopupDisable}
                                             onUnsetPushBtnTransferTraining={this.props.onUnsetPushBtnTransferTraining}
+                                            onChangeBtnBack = {this.props.onChangeBtnBack}
+                                            statusBtnBack = {this.props.statusBtnBack}
+                                            onChangeBtnTransfer = {this.props.onChangeBtnTransfer}
 
                                             notifications = {this.props.notifications}
                                             showSpinner = {() => this.setState({scheduleSpinner: true})}
@@ -418,6 +414,7 @@ const mapStateToProps = state => {
         interlocutorName: state.chatWS.interlocutorName,
         timer: state.chatWS.timer,
         countTrainingDiscipline: state.training.countTrainingDiscipline,
+        statusBtnBack: state.student.statusBtnBack,
 
         isTransferTrainPopupActive: state.student.isTransferTrainPopupActive
     }
@@ -469,6 +466,11 @@ const mapDispatchToProps = dispatch => {
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
+        onChangeBtnBack: (status) => dispatch(actions.changeBtnBack(status)),
+        onChangeBtnTransfer: (status) => dispatch(actions.changeBtnTransfer(status)),
+        
+
+        
 
         onGetInfoLanding: () => dispatch(actions.getInfoLanding()),
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),

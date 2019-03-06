@@ -78,7 +78,7 @@ class NotificationItem extends React.Component{
         let rootClass = (flag) ? cn( `notification-item` ,`notification-${status}`) : cn( `notification-item` ,`notification-watch`);
         let madeDate = new Date((+thisTime)*1000);
         let now = new Date();
-debugger
+
 
         return (
                     <div className={rootClass}

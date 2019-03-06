@@ -13,7 +13,7 @@ class NewModalSaveSchedule extends React.Component {
         return (
 
             <Modal
-                title='Сохранить'
+                title='Запись на тренировку'
                 visible={this.props.visible}
                 onCancel={this.props.onCancel}
                 width={360}
@@ -21,9 +21,16 @@ class NewModalSaveSchedule extends React.Component {
             >
                     <div className="schedule-message-modal">
                             <div className="schedule-message-btn">
-                                <Button btnText='Сохранить изменения'
+                                <Button btnText='Сохранить и закончить'
                                     onClick= {this.props.save}
                                     type='yellow'/>
+                                    
+                            </div>
+                            <div className="schedule-message-btn">
+                                <Button btnText='Продолжить'
+                                    onClick= {this.props.onCancel}
+                                    type='yellow'/>
+                                    
                             </div>
                     </div>
             </Modal>
