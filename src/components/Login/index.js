@@ -13,20 +13,53 @@ import './style.css'
 import '../../icon/style.css'
 import { instanceOf } from 'prop-types';
 import SocialAuth from "../SocialAuth";
+import moment from "../CreateProfile/Step1";
+import {getSelectedIDs} from "../../helpers/getSelectorsCustomData";
 
 const FormItem = Form.Item;
 
 class LoginForm extends React.Component{
     state = {
-        showSocialLogin: false
+        showSocialLogin: false,
+        activePage: 'signin',
+        avatar: '',
+        facebookLink: '',
+        googleLink: '',
+        name: ''
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const {history} = this.props;
+        const {activePage, name, avatar, facebookLink, googleLink} = this.state;
+        const isRegister = activePage === 'signup';
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.props.onSubmit(values);
+                if (isRegister) {
+                    const finalRegData = {
+                        name: name ? name : values.email,
+                        email: values.email,
+                        phones: values.phone,
+                        avatar,
+                        facebooklink: facebookLink,
+                        googlelink: googleLink,
+                        password: "1234"
+                    };
+                    this.props.onSubmitRegistration(finalRegData)
+                        .then(res => {
+                            if (res && res.data && !res.data.error)
+                                history.push("/app");
+                        })
+                        .catch(err => console.log(err));
+                }
+                else {
+                    const finalLoginData = {
+                        userName: values.email,
+                        password: values.password
+                    };
+                    this.props.onSubmitLogin(finalLoginData);
+                }
             }
         });
     };
@@ -40,9 +73,40 @@ class LoginForm extends React.Component{
         }
     };
 
+    handleSocialRegistration = (name, valuesObj) => {
+        const {getFieldValue, setFieldsValue} = this.props.form;
+
+        if (valuesObj.link) {
+            return this.props.onSocialNetworkCheck(valuesObj.link, name)
+                .then((res) => {
+                    if (res && res.data && !res.data.error) {
+                        this.setState({[name + 'Link']: valuesObj.link});
+
+                        const checkableFields = ['email'];
+                        checkableFields.forEach(item => {
+                            if (!getFieldValue(item) && valuesObj[item])
+                                setFieldsValue({[item]: valuesObj[item]});
+                        });
+
+                        if (valuesObj.name)
+                            this.setState({name: valuesObj.name});
+                        if (valuesObj.avatar)
+                            this.setState({avatar: valuesObj.avatar});
+                    }
+
+                    return res;
+                })
+                .catch(err => console.log(err));
+        }
+        else {
+            this.setState({[name + 'Link']: valuesObj.link});
+            return new Promise(resolve => resolve({data: {}}));
+        }
+    };
+
     render(){
         const {errorCode, urlForget, urlRegistrationStudent, urlTrialTraining} = this.props;
-        const {showSocialLogin} = this.state;
+        const {activePage, facebookLink, googleLink} = this.state;
 
         const { getFieldDecorator } = this.props.form;
 
@@ -88,58 +152,85 @@ class LoginForm extends React.Component{
 
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
-                <div className="login-title">Авторизация</div>
-                <div className="login-notification">* Поля, обязательные для заполнения</div>
-                <FormItem {...error[0]}>
-                    {getFieldDecorator('userName', {
-                        rules: [{ required: true, message: 'Введите ваш логин или e-mail, пожалуйста' }],
-                    })(
-                        <Input placeholder='* E-mail или логин'
-                               className='login-form-item'/>
-                    )}
-                </FormItem>
-                <FormItem {...error[1]}>
-                    {getFieldDecorator('password', {
-                        rules: [{ required: false, message: 'Введите ваш пароль, пожалуйста' }],
-                    })(
-                        <Input placeholder='* Пароль'
-                               type="password"
-                               className='login-form-item'/>
-                    )}
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('remember', {
-                        valuePropName: 'checked',
-                        initialValue: false,
-                    })(
-                        <Checkbox>Запомнить меня</Checkbox>
-                    )}
-                </FormItem>
-                <div className="login-form-control">
-                    <div className="login-form-control-btns">
-                        <Button htmlType="submit"
-                                btnText='Войти'
-                                size='large'
-                                type='yellow-black'/>
-                        {!showSocialLogin && <div
-                            onClick={() => this.setState({showSocialLogin: true})}
-                            className="login-form-control-btns-social"
-                        >
-                            Войти через привязанную социалку
-                        </div>}
-                        {showSocialLogin && <SocialAuth
-                            onChange={this.handleSocialAuth}
-                            isLogin={true}
-                        />}
+                <div className="login-title">
+                    <span className={activePage === 'signin' ? 'active' : null}
+                          onClick={() => this.setState({activePage: 'signin'})}>Авторизация</span>
+                    <span className='delimiter'>/</span>
+                    <span className={activePage === 'signup' ? 'active' : null}
+                          onClick={() => this.setState({activePage: 'signup'})}>Регистрация</span>
+                </div>
+                <div className='login-body'>
+                    {activePage === 'signup' ?
+                    <div className='login-body-text'>
+                        <p className='login-body-text-title'>
+                            Зарегистрируйтесь и пройдите бесплатную пробную тренировку по вокалу или по гитаре один на один с коучем в режиме онлайн. 💻
+                        </p>
+                        <p className='login-body-text-body'>
+                            Самостоятельно выбирайте удобное время и понравившегося вам коуча. 📆👆
+                            Не теряйте время на дорогу! ⏰
+                            Fasol музыкальная качалка идет в ногу со временем,
+                            делая обучение мобильным, не привязанным к определенной локации.
+                            Даем каждому возможность освоить новое хобби и приобрести новых друзей! 🌍💪
+                        </p>
+                    </div> : null}
+                    <div className='login-body-fields'>
+                        <FormItem {...error[0]}>
+                            {getFieldDecorator('email', {
+                                rules: [{required: true, message: 'Введите ваш Email, пожалуйста'}],
+                            })(
+                                <Input placeholder='E-mail*'
+                                       className='login-form-item'/>
+                            )}
+                        </FormItem>
+                        {activePage === 'signin' ?
+                            <FormItem {...error[1]}>
+                                {getFieldDecorator('password', {
+                                    rules: [{required: true, message: 'Введите ваш пароль, пожалуйста'}],
+                                })(
+                                    <Input placeholder='Пароль*'
+                                           type="password"
+                                           className='login-form-item'/>
+                                )}
+                            </FormItem> :
+                            <FormItem>
+                                {getFieldDecorator('phone', {
+                                    rules: [{required: false, message: 'Введите ваш телефон, пожалуйста'}],
+                                })(
+                                    <Input placeholder='Телефон'
+                                           className='login-form-item'/>
+                                )}
+                            </FormItem>
+                        }
                     </div>
-                    <div>У вас еще нет аккаунта? <br/>
+                    {/*activePage === 'signin' &&
+                    <div className='login-body-checkbox'>
+                        <FormItem>
+                            {getFieldDecorator('remember', {
+                                valuePropName: 'checked',
+                                initialValue: false,
+                            })(
+                                <Checkbox>Запомнить меня</Checkbox>
+                            )}
+                        </FormItem>
+                    </div>
+                    */}
 
-                        <NavLink
-                            to={urlRegistrationStudent}
-                            className="login-form-navlink"
-                        >
-                            Зарегистрироваться
-                        </NavLink><br/>
+                    <div className='login-body-controls'>
+                        <Button
+                            className='login-body-controls-btn'
+                            htmlType="submit"
+                            btnText={activePage === 'signin' ? 'Авторизоваться' : 'Регистрация'}
+                            size='large'
+                            type='bright-blue'
+                        />
+                    </div>
+                    <div className="login-body-socialPlate">
+                        <SocialAuth
+                            facebookLink={facebookLink}
+                            googleLink={googleLink}
+                            onChange={activePage === 'signin' ? this.handleSocialAuth : this.handleSocialRegistration}
+                            isLogin={activePage === 'signin'}
+                        />
                     </div>
                 </div>
             </Form>
