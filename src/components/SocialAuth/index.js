@@ -41,8 +41,12 @@ class SocialAuth extends React.Component {
             }
             else this.props.onChange('facebook', {link: userID, name, email, avatar: picture.data.url})
                 .then((res) => {
-                    if (res && !res.data.error)
-                        !isLogin && message.success("Аккаунт Facebook успешно привязан");
+                    if (res && !res.data.error) {
+                        if (!isLogin) {
+                            message.success("Аккаунт Facebook успешно привязан");
+                            this.setState({facebookLoading: false});
+                        }
+                    }
                     else {
                         this.setState({facebookLoading: false});
                         if (res && res.data.error && res.data.error.code === 400)
@@ -80,8 +84,12 @@ class SocialAuth extends React.Component {
                 const {googleId, givenName, familyName, email, imageUrl} = response.profileObj;
                 this.props.onChange('google', {link: googleId, name: givenName + ' ' + familyName, email, avatar: imageUrl})
                     .then((res) => {
-                        if (res && !res.data.error)
-                            !isLogin && message.success("Аккаунт Google успешно привязан");
+                        if (res && !res.data.error) {
+                            if (!isLogin) {
+                                message.success("Аккаунт Google успешно привязан");
+                                this.setState({googleLoading: false});
+                            }
+                        }
                         else {
                             this.setState({googleLoading: false});
                             if (res && res.data.error && res.data.error.code === 400)

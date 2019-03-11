@@ -1,25 +1,8 @@
+.loginPage {
+  height: 100vh;
+  background: #ff7daa url("https://fasolonline.ru/wp-content/uploads/2018/12/wave.png") no-repeat 0 42vh;
+}
 .loginPage-header {
   height: 100px;
-  background-color: #ffffff;
-  position: relative;
-  border: 1px solid #e1e1e1;
-  margin-bottom: 45px;
-}
-.loginPage-header-close {
-  width: 115px;
-  height: 100px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-left: 1px solid #e1e1e1;
-  display: flex;
-  cursor: pointer;
-}
-.loginPage-header-close a {
-  display: flex;
-  width: 100%;
-}
-.loginPage-header-close a .icon {
-  color: #21bedd;
-  margin: auto;
+  padding: 1.05vh 3.05vw;
 }
