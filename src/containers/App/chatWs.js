@@ -22,6 +22,8 @@ const IN_CALL = 2;
 var callState = null;
 
 let timerInterval;
+let incomingCallModal = null;
+let callSound = null;
 
 export const sendMessage = (message) => {
     ws.send(JSON.stringify(message));
@@ -34,7 +36,7 @@ export const sendMessage = (message) => {
 }
 
 export const setVideoIn = (video) => {
- 
+
     videoInput = video;
 }
 export const setVideoOut = (video) => {
@@ -180,7 +182,10 @@ export const stop = (flag) => {
 
         (!flag) && sendMessage({id : 'stop'});
     }
-}
+
+    if (incomingCallModal) incomingCallModal.destroy();
+    if (callSound) callSound.pause();
+};
 
 const callResponse = (message) => {
     let msg = {
@@ -205,7 +210,7 @@ const callResponse = (message) => {
 }
 
 const onIceCandidate = (candidate) => {
-    
+
     sendMessage({
         id : 'onIceCandidate',
         candidate : candidate
@@ -241,7 +246,7 @@ const incomingCall = (message) => {
 
     if(browser && browser.name === "safari") {
         console.log("this is safari");
-        Modal.confirm({
+        incomingCallModal = Modal.confirm({
             title: `Звонок от ${fromName}`,
             width: '500px',
             className: 'fast-modal',
@@ -258,10 +263,10 @@ const incomingCall = (message) => {
             }})
 
     } else {
-        let callSound = new Audio(incomingCallSound);
+        callSound = new Audio(incomingCallSound);
         callSound.loop = true;
         callSound.play().then(
-            Modal.confirm({
+            incomingCallModal = Modal.confirm({
                 title: `Звонок от ${fromName}`, //4124
                 width: '500px',
                 className: 'fast-modal',
@@ -286,7 +291,7 @@ const incomingCall = (message) => {
 
 
     function acceptCall() {
-       
+
         callbacks.setReceptionStatus(true);
         callbacks.setIsCallingStatus(true);
         callbacks.setChatToId(message.from);
@@ -317,7 +322,7 @@ const incomingCall = (message) => {
             webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
                     function(error) {
                         if (error) {
-                            
+
                             console.error(error);
                             setCallState(NO_CALL);
                         }
@@ -382,7 +387,7 @@ export const call = () => {
     const visitInfo = callbacks.get_visitInfo();
     const {conversationMode} = visitInfo;
 
-    
+
     let options = conversationMode === 'video' ?
             {
                 localVideo : videoInput,
@@ -429,8 +434,8 @@ const checkTimeFormat = (number) => {
 }
 
 export const messAboutStop = () => {
-    const {s,m,h} = callbacks.get_timer();
-    if(s || m || h){
+    const {s, m, h} = callbacks.get_timer();
+    if (callState !== NO_CALL){
         const callTime = h
             ? checkTimeFormat(h) +':'+ checkTimeFormat(m) +':'+ checkTimeFormat(s)
             : checkTimeFormat(m) +':'+ checkTimeFormat(s);

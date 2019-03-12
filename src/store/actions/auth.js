@@ -63,7 +63,7 @@ export const login = (userName, password, remember, history, isAuto) => {
                                 dispatch(setOnlineStatus(res.data.result.id, true)),
                                 sessionStorage.setItem('_fasol-id', res.data.result.id),
                                 sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
-                                
+
                                 localStorage.setItem('_fasol-mode', res.data.result.id),
                                 localStorage.setItem('_fasol-id', res.data.result.usergroup),
                                 rememberMe(remember, userName, password),
@@ -100,12 +100,13 @@ export const registerUser = (userInfo, history) => {
         return axios.post('/catalog.fasol/registratin',
                 JSON.stringify(userInfo))
                     .then(res => {
-                        if (res && res.data && !res.data.error) {
-                            dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                            localStorage.setItem('_fasol-user', userInfo.email);
-                            localStorage.setItem('_fasol-pass', userInfo.password);
-
-
+                        if (res && res.data) {
+                            if (!res.data.hasOwnProperty('error')) {
+                                dispatch(authSuccess(res.data.result.id, res.data.result.usergroup));
+                                localStorage.setItem('_fasol-user', userInfo.email);
+                                localStorage.setItem('_fasol-pass', userInfo.password);
+                            }
+                            else dispatch(authFail(res.data.error));
                         }
                         return res;
                     })
@@ -209,7 +210,13 @@ export const getIdUserByToken = (token, history) => {
     }
 };
 
-
+export const resetError = () => {
+    return {
+        type: actionTypes.AUTH_FAIL,
+        error: null,
+        errorCode: 0
+    };
+};
 
 const rememberMe = (flag, userName, password) => {
     flag ?
@@ -310,7 +317,7 @@ export const socialAuthorization = (idSocial, history) => {
                             history.push('/app')
                     )
                     : (
-                        dispatch(authFail(res.data.error)),
+                        dispatch(authFail(0)),
                             localStorage.removeItem('_fasol-id'),
                             localStorage.removeItem('_fasol-mode'),
 
