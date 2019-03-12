@@ -84,8 +84,8 @@ class Payment extends React.Component{
             return count;
     };
 
-    showCreateTrainModal = (amount, price) => {
-        this.props.onGetToken(this.props.id, amount, price, 12);
+    showCreateTrainModal = (amount, price,currency) => {
+        this.props.onGetToken(this.props.id, amount, price, 12, currency);
 
         this.setState({amount, price});
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: amount});
@@ -191,7 +191,7 @@ const mapDispatchToProps = dispatch => {
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
 
-        onGetToken: (idUser, amount, price, discipline) => dispatch(actions.getToken(idUser, amount, price, discipline)),
+        onGetToken: (idUser, amount, price, discipline, currency) => dispatch(actions.getToken(idUser, amount, price, discipline, currency)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
         onGetNextTraining: (id) => dispatch(actions.getNextTraining(id)),

@@ -119,7 +119,7 @@ class StudentPayment extends React.Component{
                                     lessonCost={item.lessonCost}
                                     price={item.price}
                                     currency={currencyTexts[currency]}
-                                    showTrialModal={() => this.props.showTrialModal(item.amount, item.price)}
+                                    showTrialModal={() => this.props.showTrialModal(item.amount, item.price, this.state.currency)}
                                 />
                             )}
                         </div>

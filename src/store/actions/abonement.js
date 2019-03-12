@@ -78,6 +78,7 @@ export const getAbonements2 = (idStudent) => (dispatch) => {
 
 export const transferTrainining = (value) =>  {
     console.log('value :', value);
+    debugger
     return (dispatch, getState) => 
 
         axios.post('/catalog.fasol/transferTrainining', JSON.stringify(value))
@@ -199,6 +200,14 @@ export const isPushBtnUnfresh = () => {
     });
 }
 
+export const changePushBtnUnfresh = (isPushBtnUnfresh) => {
+    
+    return ({
+        type: actionTypes.IS_PUSH_BTN_UNFRESH,  
+        isPushBtnUnfresh
+
+    });
+}
 
 
 export const setWeekInterval = (interval) => {

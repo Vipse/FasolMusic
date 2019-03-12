@@ -14,8 +14,7 @@ class NotificationCard extends React.Component{
     notificationRender = (dataArr) => {
         let notificationArr = [];
         
-        dataArr.map((item, index) => {
-            
+        dataArr.map((item, index) => {       
             notificationArr.push(
                 <NotificationItem  
                     key={index}

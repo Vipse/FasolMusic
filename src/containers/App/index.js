@@ -206,11 +206,12 @@ class App extends React.Component {
         this.props.history.push('/app/schedule');
     };
 
-    pushBtnTransfer = () => {
+    showTransferInterval = () => {
         const {weekInterval, discCommunication, disciplinesList, currDiscipline} = this.props;
         const idMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
-
+        
         if(weekInterval && idMaster){
+            
             let chooseWeekdays = [0,1,2,3,4,5,6];
             this.setState({scheduleSpinner: true})
 
@@ -306,7 +307,7 @@ class App extends React.Component {
                                             getNotifId={id => this.props.readNotification(id)}
                                             getNotifications={() => this.props.getNotifications(this.props.id)}
                                             logout={this.props.onLogout}
-                                            isPushBtnTransfer={this.pushBtnTransfer}
+                                            showTransferInterval={this.showTransferInterval}
                                             isPushBtnAdd={this.pushBtnUnfresh}
                                             isStudent={(this.props.mode === 'student')}
                                             isOnMainPage={this.props.location.pathname === '/app'}
@@ -325,7 +326,7 @@ class App extends React.Component {
                                             onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
                                             onSetFreeIntervals = {this.props.onSetFreeIntervals}
                                             onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
-                                            onIsPushBtnUnfresh = {this.props.onIsPushBtnUnfresh}
+                                            onChangePushBtnUnfresh = {this.props.onChangePushBtnUnfresh}
                                             onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
                                             onSetNeedSaveIntervals = {this.props.onSetNeedSaveIntervals}
                                             onEditUseFrozenTraining = {this.props.onEditUseFrozenTraining}
@@ -340,6 +341,7 @@ class App extends React.Component {
                                             onChangeBtnBack = {this.props.onChangeBtnBack}
                                             statusBtnBack = {this.props.statusBtnBack}
                                             onChangeBtnTransfer = {this.props.onChangeBtnTransfer}
+                                            weekInterval ={this.props.weekInterval}
 
                                             notifications = {this.props.notifications}
                                             showSpinner = {() => this.setState({scheduleSpinner: true})}
@@ -477,7 +479,7 @@ const mapDispatchToProps = dispatch => {
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
-        onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
+        onChangePushBtnUnfresh: (status) => dispatch(actions.changePushBtnUnfresh(status)),
         onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
         onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
         onSetOnlineStatus: (id, status) => dispatch(actions.setOnlineStatus(id, status)),

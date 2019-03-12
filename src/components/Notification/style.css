@@ -89,6 +89,18 @@
 .notification-transfertraining .notification-icon .icon {
   color: #fdc401;
 }
+.notification-scheduleChanged {
+  background-color: #fefbf3;
+}
+.notification-scheduleChanged .notification-title {
+  color: #fdc401;
+}
+.notification-scheduleChanged .notification-icon {
+  display: block;
+}
+.notification-scheduleChanged .notification-icon .icon {
+  color: #fdc401;
+}
 .notification-transfertraining {
   background-color: #fefbf3;
 }

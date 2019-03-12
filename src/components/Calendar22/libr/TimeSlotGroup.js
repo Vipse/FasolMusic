@@ -137,6 +137,7 @@ class TimeSlotGroup extends Component {
                   onGotoPage = {onGotoPage}
                   isPushBtnTransfer = {isPushBtnTransfer}
                   deleteTraining = {this.props.deleteTraining}
+                  deleteEventApiPatient={this.props.deleteEventApiPatient}
                  
             />)
           }
@@ -150,6 +151,7 @@ class TimeSlotGroup extends Component {
             setChoosenTrainer={this.props.setChoosenTrainer}
             idEvent={freeTrainers.idEvent}
             onGotoPage = {onGotoPage}
+            deleteEventApiPatient = {this.props.deleteEventApiPatient}
             
         />
     }

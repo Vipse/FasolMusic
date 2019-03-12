@@ -50,6 +50,12 @@ class EventSlot extends Component {
         this.props.onCancelTraining(id, idSubscription)
     }
 
+    deleteEventApiPatients = (e, id) => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        this.props.deleteEventApiPatient(id)
+    }
+
     render() {
         const {
             event,
@@ -84,7 +90,8 @@ class EventSlot extends Component {
             mode !== 'master' && 
             !event.wasTransfer && 
             isNearDay &&
-            isPushBtnTransfer
+            isPushBtnTransfer &&
+            !event.trial
         ){
             return connectDragSource(
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
@@ -107,7 +114,14 @@ class EventSlot extends Component {
         let funcOnClick = (eventKey && eventKey != 1) ? () => onGotoPage(eventKey) : () => {};
 
         funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
-        const crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
+        let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
+
+        console.log('event :', event);
+        if(event.hasOwnProperty('apiPatients')){
+            console.log('event :', event);
+            debugger
+        }
+        crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e,event.id) : crossFunc
 
         return (
             <div key = {event.dateStart} onClick={funcOnClick}  className="event-group" style={{backgroundColor}}>

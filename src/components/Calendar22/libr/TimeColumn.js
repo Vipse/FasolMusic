@@ -116,6 +116,7 @@ export default class TimeColumn extends Component {
         isPushBtnTransfer = {isPushBtnTransfer}
         onRemoveTrialTraining = {onRemoveTrialTraining}
         deleteTraining = {this.props.deleteTraining}
+        deleteEventApiPatient = {this.props.deleteEventApiPatient}
 
       />
     )

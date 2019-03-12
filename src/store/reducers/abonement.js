@@ -71,6 +71,11 @@ const reducer = (state = initialState, action) => {
                 isPushBtnUnfresh: !state.isPushBtnUnfresh
             }    
 
+        case actionTypes.CHANGE_PUSH_BTN_UNFRESH:
+            return {
+                ...state,
+                isPushBtnUnfresh: action.isPushBtnUnfresh
+            }
         default: return state;
     }
 };

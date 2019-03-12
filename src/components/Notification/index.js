@@ -72,6 +72,9 @@ class NotificationItem extends React.Component{
             case 'transfertraining':
                 iconType = 'notification-transfertraining';       
                 break;
+            case 'scheduleChanged':
+                iconType = 'notification-scheduleChanged';       
+                break;
         }
 
         let flag = this.state.watchInverse ? watch : !watch;
