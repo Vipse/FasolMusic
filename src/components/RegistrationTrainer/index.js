@@ -63,22 +63,22 @@ class RegistrationTrainerForm extends React.Component{
                 },{
                     validateStatus: 'error',
                 }];
-                break;   
+                break;
             case 200:
             default:
                 error = [];
         }
 
         return (
-            <Form onSubmit={this.handleSubmit} className="login-form">
-                <div className="login-title">Регистрация</div>
-                <div className="login-notification">* Поля, обязательные для заполнения</div>
+            <Form onSubmit={this.handleSubmit} className="trainer-form">
+                <div className="trainer-title">Регистрация</div>
+                <div className="trainer-notification">* Поля, обязательные для заполнения</div>
                 <FormItem {...error[0]}>
                     {getFieldDecorator('email', {
                         rules: [{ required: true, message: 'Введите ваш e-mail, пожалуйста' }],
                     })(
                         <Input placeholder='* E-mail'
-                               className='login-form-item'/>
+                               className='trainer-form-item'/>
                     )}
                 </FormItem>
                 <FormItem {...error[1]}>
@@ -86,15 +86,15 @@ class RegistrationTrainerForm extends React.Component{
                         rules: [{ required: false, message: 'Введите ваше ФИО, пожалуйста' }],
                     })(
                         <Input placeholder='* ФИО'
-                               className='login-form-item'/>
+                               className='trainer-form-item'/>
                     )}
                 </FormItem>
-                <div className="login-form-control">
+                <div className="trainer-form-control">
                     <Button htmlType="submit"
                             btnText='Подтвердить'
                             size='large'
                             type='yellow-black'/>
-                    
+
                 </div>
             </Form>
         )

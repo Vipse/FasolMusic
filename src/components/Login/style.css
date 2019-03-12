@@ -1,55 +1,101 @@
 .login-form {
-  max-width: 770px;
+  margin-top: 10%;
+  max-width: 60rem;
   width: 100%;
-  padding: 75px 100px;
   border-radius: 2px;
   border: none;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
   /* Параметры тени */
   background-color: #ffffff;
 }
-.login-form .ant-form-item {
-  position: relative;
-  margin-bottom: 35px;
-}
-.login-form .ant-form-item .ant-form-explain {
-  position: absolute;
-  top: 45px;
-}
-.login-form-item .ant-input-group-addon:first-child {
-  text-align: left;
-}
-.login-form-navlink {
-  color: #21bedd;
-  font-size: 14px;
+.login-title {
+  padding: 2rem 0;
+  background-color: #21bedd;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
   line-height: 1;
 }
-.login-form-navlink:hover {
-  color: #21bedd;
+.login-title span {
+  font-size: 22px;
+  text-decoration: underline;
+  font-style: italic;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
 }
-.login-form-control {
+.login-title span.delimiter {
+  margin: 0 0.7rem;
+  text-decoration: none;
+  font-size: 37px;
+  cursor: default;
+  color: #000;
+}
+.login-title span:hover {
+  text-decoration: none;
+}
+.login-title span.active {
+  color: #000;
+  font-size: 37px;
+  text-decoration: unset;
+  cursor: default;
+}
+.login-body {
+  padding: 3rem 4.375rem;
   text-align: center;
 }
-.login-form-control-btns {
+.login-body-text {
+  font-size: 15px;
+  color: #000;
+  font-family: Roboto, sans-serif;
+}
+.login-body-text-title {
+  font-weight: 900;
+}
+.login-body-text-body {
+  font-weight: 400;
+}
+.login-body-fields {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 50px;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.login-form-control-btns-social {
-  color: #21bedd;
+.login-body-fields .ant-row {
+  width: 45%;
 }
-.login-form-control-btns-social:hover {
-  cursor: pointer;
-  text-decoration: underline;
+.login-body-fields .ant-row .input-root.login-form-item {
+  border-color: #000;
+  font-family: 'Roboto', sans-serif;
+  color: #000;
 }
-.login-title {
-  font-family: "RobotoBold";
-  font-size: 44px;
-  line-height: 1;
-  letter-spacing: -0.88px;
-  color: #333;
-  margin-bottom: 40px;
+.login-body-fields .ant-row input {
+  font-weight: 600;
+}
+.login-body-checkbox {
+  text-align: left;
+  margin-top: 1rem;
+}
+.login-body-controls {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.login-body-controls-btn {
+  width: 25rem;
+}
+.login-body-socialPlate {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.login-body-socialPlate .social {
+  display: flex;
+  justify-content: center;
+}
+.login-body-socialPlate .social > div {
+  width: 50%;
 }
 .login-notification {
   font-family: "RobotoLight";

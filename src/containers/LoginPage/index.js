@@ -7,7 +7,7 @@ import Icon from "../../components/Icon/index.js";
 import Row from "../../components/Row/index.js";
 import Col from "../../components/Col/index.js";
 import Login from "../../components/Login/index.js";
-import { message } from 'antd';
+import {message} from 'antd';
 import LoginForget from "../../components/LoginForget/index.js";
 import Registration from "../../components/Registration/index.js";
 import CreateProfile from "../../components/CreateProfile";
@@ -21,6 +21,7 @@ import * as actions from '../../store/actions'
 import './styles.css'
 import RegistrationTrainer from '../../components/RegistrationTrainer';
 import CreateTrainModal from "../../components/CreateTrainModal";
+import logo from "../../img/logo.svg"
 
 class LoginPage extends React.Component {
 
@@ -31,12 +32,12 @@ class LoginPage extends React.Component {
         };
     }
 
-    componentDidMount(){
-        if(sessionStorage.getItem('landing')){
+    componentDidMount() {
+        if (sessionStorage.getItem('landing')) {
             this.props.onGetIdUserByToken(sessionStorage.getItem('landing'), this.props.history)
         }
     }
-    
+
     onSendDataTrialModal = (data) => {
         const {disciplinesList} = this.props;
         const {email, type} = data;
@@ -45,7 +46,7 @@ class LoginPage extends React.Component {
             password: "123456",
             name: email,
             disciplines: [{discipline: [disciplinesList[type].code]}],
-            frozenTraining : Object.keys(disciplinesList).length
+            frozenTraining: Object.keys(disciplinesList).length
         };
         let newUserData = {};
 
@@ -58,101 +59,102 @@ class LoginPage extends React.Component {
 
                     const time0 = moment(Date.now()).startOf('week').format('X');
                     const time1 = moment(Date.now()).endOf('week').format('X');
-                    this.props.onGetAvailableInterval(time0 ,time1, Object.keys(data.selectedDays),  [disciplinesList[type].code]);
+                    this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code]);
                     this.props.onSetPushTrialTraining('trial');
                     this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
                     this.props.history.push('/app/schedule');
                     message.info("Вы зарегистрированы. Выберите время для пробной тренировки", 7);
-                }
-                else message.error("Произошла ошибка, попробуйте ещё раз");
+                } else message.error("Произошла ошибка, попробуйте ещё раз");
             })
             .catch(err => console.log(err));
     };
 
-    render(){
+    render() {
         const {disciplinesList} = this.props;
         return (
-            <Hoc>
-
-                <div className="loginPage-header">
-                    <div className="loginPage-header-close">
-                        <NavLink to="/signin" onClick={this.onOk}>
-                            <Icon type='close' svg />
-                        </NavLink>
+            <div className="loginPage">
+                <Hoc>
+                    <div className="loginPage-header">
+                        <a className="loginPage-header-logo" href='https://fasolonline.ru'>
+                            <img src={logo} width={156} height={80}/>
+                        </a>
                     </div>
-                </div>
 
-                <Row style={{marginLeft: 0, marginRight: 0}}>
-                    <Col xs={{span: 12, offset: 6}}
-                         sm={{span: 12, offset: 6}}
-                         md={{span: 12, offset: 6}}
-                         lg={{span: 12, offset: 6}}
-                         xl={{span: 12, offset: 6}}>
-                        <Route path="/signin"
-                               exact
-                               render={() => <Login urlForget={this.props.match.url + '/forget'}
-                                                    urlRegistrationStudent='/registration'
-                                                    urlTrialTraining='trial-training'
-                                                    errorCode={this.props.errorCode}
-                                                    onSubmit={(obj) => this.props.onLogin(obj, this.props.history)}
-                                                    onSocialAuthorization={(obj) =>
-                                                        this.props.onSocialAuthorization(obj, this.props.history)}
-                               />}
-                        />
-                        <Route path="/signin/forget"
-                               exact
-                               render={() => <LoginForget urlLogin={this.props.match.url}
-                                                          onUrlChange={() => {
-                                                              this.props.history.replace(this.props.match.url)
-                                                          }}/>}
-                        />
-                        <Route path="/registration"
-                               exact
-                               render={() => <CreateProfile onSubmit={this.props.onRegisterUser}
-                                                            urlLogin="/app"
-                                                            getSelectors={this.props.getSelectors}
-                                                            uploadFile={this.props.uploadFile}
-                                                            onSocialNetworkCheck={this.props.onSocialNetworkCheck}
-                                                            //checkEmailAvailability={this.props.onCheckEmailAvailability}
-                                                            //uploadFile = {this.props.uploadFile}
-                               />}
-                        />
-                        <Route path="/registration-trainer"
-                               exact
-                               render={() => <RegistrationTrainer  errorCode={this.props.errorCode}
-                                                                    onSubmit={(userInfo) => this.props.onRegisterTrainer(userInfo, this.props.history)}
-                               />}
-                        />
-                        <Route path="/trial-training"
-                               exact
-                               render={() => <CreateTrainModal
-                                   title='Запишись на пробную тренировку'
-                                   width={770}
-                                   visible={true}
-                                   unauthorized={true}
-                                   closable={false}
-                                   trial={true}
-                                   disciplinesList={disciplinesList}
-                                   onSave={this.onSendDataTrialModal}
-                               />}
-                        />
-                    </Col>
-                </Row>
-            </Hoc>
+                    <Row style={{marginLeft: 0, marginRight: 0}}>
+                        <Col xs={{span: 12, offset: 6}}
+                             sm={{span: 12, offset: 6}}
+                             md={{span: 12, offset: 6}}
+                             lg={{span: 12, offset: 6}}
+                             xl={{span: 12, offset: 6}}>
+                            <Route path="/signin"
+                                   exact
+                                   render={() => <Login urlForget={this.props.match.url + '/forget'}
+                                                        urlRegistrationStudent='/registration'
+                                                        urlTrialTraining='trial-training'
+                                                        errorCode={this.props.errorCode}
+                                                        onSubmitLogin={(obj) => this.props.onLogin(obj, this.props.history)}
+                                                        onSubmitRegistration={(obj) => this.props.onRegisterUser(obj, this.props.history)}
+                                                        onSocialAuthorization={(obj) =>
+                                                            this.props.onSocialAuthorization(obj, this.props.history)}
+                                                        history={this.props.history}
+                                                        onSocialNetworkCheck={this.props.onSocialNetworkCheck}
+                                   />}
+                            />
+                            <Route path="/signin/forget"
+                                   exact
+                                   render={() => <LoginForget urlLogin={this.props.match.url}
+                                                              onUrlChange={() => {
+                                                                  this.props.history.replace(this.props.match.url)
+                                                              }}/>}
+                            />
+                            <Route path="/registration"
+                                   exact
+                                   render={() => <CreateProfile onSubmit={this.props.onRegisterUser}
+                                                                urlLogin="/app"
+                                                                getSelectors={this.props.getSelectors}
+                                                                uploadFile={this.props.uploadFile}
+                                                                onSocialNetworkCheck={this.props.onSocialNetworkCheck}
+                                       //checkEmailAvailability={this.props.onCheckEmailAvailability}
+                                       //uploadFile = {this.props.uploadFile}
+                                   />}
+                            />
+                            <Route path="/registration-trainer"
+                                   exact
+                                   render={() => <RegistrationTrainer errorCode={this.props.errorCode}
+                                                                      onSubmit={(userInfo) => this.props.onRegisterTrainer(userInfo, this.props.history)}
+                                   />}
+                            />
+                            <Route path="/trial-training"
+                                   exact
+                                   render={() => <CreateTrainModal
+                                       title='Запишись на пробную тренировку'
+                                       width={770}
+                                       visible={true}
+                                       unauthorized={true}
+                                       closable={false}
+                                       trial={true}
+                                       disciplinesList={disciplinesList}
+                                       onSave={this.onSendDataTrialModal}
+                                   />}
+                            />
+                        </Col>
+                    </Row>
+                </Hoc>
+            </div>
         )
     }
 }
 
 const mapStateToProps = state => {
-	return {
+    return {
         errorCode: state.auth.errorCode,
         disciplinesList: state.abonement.disciplines
-	}
+    }
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
+    return {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
         onRegisterUser: (userInfo, history) => dispatch(actions.registerUser(userInfo, history)),
         onCheckEmailAvailability: (email) => dispatch(actions.checkEmailAvailability(email)),
@@ -166,10 +168,10 @@ const mapDispatchToProps = dispatch => {
         onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
-        onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
-        onGetIdUserByToken: (token, history)=> dispatch(actions.getIdUserByToken(token, history)),
-        
-	}
+        onChangeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),
+        onGetIdUserByToken: (token, history) => dispatch(actions.getIdUserByToken(token, history)),
+
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
