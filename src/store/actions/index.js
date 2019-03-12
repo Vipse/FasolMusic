@@ -73,6 +73,7 @@ export {
     registerTrainer,
     getInfoLanding,
     getIdUserByToken,
+    resetError,
     setOnlineStatus,
     connectionToSocialNetwork,
     socialNetworkCheck,
