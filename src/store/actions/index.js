@@ -72,6 +72,7 @@ export {
     reportBug,
     registerTrainer,
     getIdUserByToken,
+    resetError,
     setOnlineStatus,
     connectionToSocialNetwork,
     socialNetworkCheck,

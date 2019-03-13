@@ -56,7 +56,6 @@ class RecordTrainCarousel extends React.Component {
     };
 
     renderAvailableAppointments = (trainerTrainings, intervals = {}) => {
-
         const availableHoursArea = [8, 23];
         const {weekStart, loadingDate} = this.state;
         const {isAdmin, studentID} = this.props;
@@ -124,14 +123,15 @@ class RecordTrainCarousel extends React.Component {
         return <div className='table-main-row'>
             <div className='table-main-times'>{timesColumnArr}</div>
             {headers.map((item, indexDay) =>
-                <div className='table-main-col' key={indexDay + 1}>
+                    <div className='table-main-col' key={indexDay + 1}>
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
                         .map((item, indexTime) =>
-                            <div className='table-main-time'>
+                        {console.log(item.isOwn);
+                            return <div className='table-main-time'>
                                 <div
-                                    className={(item.isAvailable ? 'availableTime'
-                                        : item.isOwn ? isAdmin ? 'reservedTime' : 'ownTime' : '')}
+                                    className={item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
+                                        item.isAvailable ? 'availableTime' : ''}
                                     key={indexTime + 1}
                                     onClick={item.isAvailable ?
                                         e => this.props.handleTrainModal(e, false, isAdmin)
@@ -140,7 +140,7 @@ class RecordTrainCarousel extends React.Component {
                                     data-timestamp={item.timestamp}
                                     data-interval-type={item.type}
                                 />
-                            </div>
+                            </div>}
                         )
                     }
                 </div>

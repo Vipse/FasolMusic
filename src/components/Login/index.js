@@ -21,7 +21,7 @@ const FormItem = Form.Item;
 class LoginForm extends React.Component{
     state = {
         showSocialLogin: false,
-        activePage: 'signin',
+        activePage: 'signup',
         avatar: '',
         facebookLink: '',
         googleLink: '',
@@ -104,6 +104,11 @@ class LoginForm extends React.Component{
         }
     };
 
+    changeTab = (name) => {
+        this.setState({activePage: name});
+        this.props.resetError();
+    };
+
     render(){
         const {errorCode, urlForget, urlRegistrationStudent, urlTrialTraining} = this.props;
         const {activePage, facebookLink, googleLink} = this.state;
@@ -116,15 +121,26 @@ class LoginForm extends React.Component{
             case 400:
                 error = [{
                     validateStatus: 'error',
-                    help: "Неверное имя или пароль",
+                    help: "Такой пользователь уже существует",
                 },{
                     validateStatus: 'error',
                 }];
                 break;
-            case 500:
+            case 401:
                 error = [{
                     validateStatus: 'error',
-                    help: "Такого пользователя не существует",
+                    help: "Невозможно создать пользователя",
+                },{
+                    validateStatus: 'error',
+                }];
+                break;
+            case 402:
+                error = [{
+                    validateStatus: 'error',
+                    help: "Не все необходимые поля заполнены",
+                }, {
+                    validateStatus: 'error',
+                    help: "Не все необходимые поля заполнены",
                 },{
                     validateStatus: 'error',
                 }];
@@ -138,9 +154,9 @@ class LoginForm extends React.Component{
                 }];
                 break;
             case 405:
-                error = [{
+                error = [{}, {
                     validateStatus: 'error',
-                    help: "Неверно имя или пароль",
+                    help: "Неверный пароль",
                 },{
                     validateStatus: 'error',
                 }];
@@ -154,10 +170,10 @@ class LoginForm extends React.Component{
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <div className="login-title">
                     <span className={activePage === 'signin' ? 'active' : null}
-                          onClick={() => this.setState({activePage: 'signin'})}>Авторизация</span>
+                          onClick={() => this.changeTab('signin')}>Авторизация</span>
                     <span className='delimiter'>/</span>
                     <span className={activePage === 'signup' ? 'active' : null}
-                          onClick={() => this.setState({activePage: 'signup'})}>Регистрация</span>
+                          onClick={() => this.changeTab('signup')}>Регистрация</span>
                 </div>
                 <div className='login-body'>
                     {activePage === 'signup' ?
@@ -179,6 +195,7 @@ class LoginForm extends React.Component{
                                 rules: [{required: true, message: 'Введите ваш Email, пожалуйста'}],
                             })(
                                 <Input placeholder='E-mail*'
+                                       onChange={this.props.resetError}
                                        className='login-form-item'/>
                             )}
                         </FormItem>
@@ -189,6 +206,7 @@ class LoginForm extends React.Component{
                                 })(
                                     <Input placeholder='Пароль*'
                                            type="password"
+                                           onChange={this.props.resetError}
                                            className='login-form-item'/>
                                 )}
                             </FormItem> :
@@ -197,6 +215,7 @@ class LoginForm extends React.Component{
                                     rules: [{required: false, message: 'Введите ваш телефон, пожалуйста'}],
                                 })(
                                     <Input placeholder='Телефон'
+                                           onChange={this.props.resetError}
                                            className='login-form-item'/>
                                 )}
                             </FormItem>
@@ -226,8 +245,8 @@ class LoginForm extends React.Component{
                     </div>
                     <div className="login-body-socialPlate">
                         <SocialAuth
-                            facebookLink={facebookLink}
-                            googleLink={googleLink}
+                            facebookLink={activePage === 'signup' ? facebookLink : ''}
+                            googleLink={activePage === 'signup' ? googleLink : ''}
                             onChange={activePage === 'signin' ? this.handleSocialAuth : this.handleSocialRegistration}
                             isLogin={activePage === 'signin'}
                         />
@@ -241,7 +260,7 @@ class LoginForm extends React.Component{
 const Login = Form.create()(LoginForm);
 
 Login.propTypes = {
-    errorCode: PropTypes.oneOf([0,200, 400, 404, 500]),
+    errorCode: PropTypes.oneOf([0,200, 400, 401, 402, 404, 405]),
     urlForget: PropTypes.string,
     urlRegistration: PropTypes.string,
     onSubmit: PropTypes.func,

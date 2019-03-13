@@ -93,6 +93,7 @@ class LoginPage extends React.Component {
                                                         urlRegistrationStudent='/registration'
                                                         urlTrialTraining='trial-training'
                                                         errorCode={this.props.errorCode}
+                                                        resetError={this.props.onResetError}
                                                         onSubmitLogin={(obj) => this.props.onLogin(obj, this.props.history)}
                                                         onSubmitRegistration={(obj) => this.props.onRegisterUser(obj, this.props.history)}
                                                         onSocialAuthorization={(obj) =>
@@ -170,7 +171,7 @@ const mapDispatchToProps = dispatch => {
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),
         onGetIdUserByToken: (token, history) => dispatch(actions.getIdUserByToken(token, history)),
-
+        onResetError: () => dispatch(actions.resetError())
     }
 };
 
