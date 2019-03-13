@@ -63,19 +63,29 @@ class TimeGrid extends Component {
   getCurrentIntervalsDay = (date) => { 
     
     let {intervals} = this.props;
-
     let answer = [];
-    if( Array.isArray(intervals) && intervals.length > 0){
+    let dateM = date.getTime();
 
-        for(let i = 0; i < intervals.length; i++){
-              if(intervals[i].day === moment(date.getTime()).day()){
-                //this.numberDay++;
-
-                
-                answer = [...answer, ...intervals[i].intervals];
-              }
-        }
+    if( Array.isArray(intervals)){ 
+        intervals.forEach((el)=> {
+          
+          el.intervals.forEach((elem)=> {
+               console.log('dateM :', dateM);
+               console.log('elem.start :', elem.start*1000);
+               console.log('elem.end :', elem.end*1000);
+                (dateM >= elem.start*1000 && dateM <= elem.end*1000) ? 
+                    answer = [...answer, {start:elem.start, end:elem.end}] :  null
+          })
+        })  
+        // for(let i = 0; i < intervals.length; i++){
+        //         if(intervals[i].day === moment(date.getTime()).day()){
+                  
+        //           answer = [...answer, ...intervals[i].intervals];
+        //         }
+        // }
     }
+console.log('answer :', answer);
+console.log("----------------------------------");
     return answer;
   }
 
@@ -197,15 +207,17 @@ class TimeGrid extends Component {
                 get(resource, resourceIdAccessor)
             )
 
-            //console.log('date', date)
-            //console.log('min', min)
-            //console.log('dates.merge(date, min)', dates.merge(date, min))
-            //console.log('-------------------')
+            // console.log('date', date)
+            // console.log('min', min)
+            // console.log('dates.merge(date, min)', dates.merge(date, min))
+            // console.log('max', max)
+            // console.log('dates.merge(date, max)', dates.merge(date, max))
+            // console.log('-------------------')
         return (
           <DayColumn
             {...this.props}
 
-            intervals={this.getCurrentIntervalsDay(date)}
+            intervals={this.props.intervals}
             min={dates.merge(date, min)}
             max={dates.merge(date, max)}
             resource={resource && resource.id}

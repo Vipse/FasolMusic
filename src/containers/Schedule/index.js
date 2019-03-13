@@ -961,8 +961,6 @@ class Schedule extends React.Component {
                                 notRedirectDiscipline = true;
                              }
 
-
-                             console.log('this.props.history :', this.props.history);
             calendar = (<Calendar
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}
                                   selectable

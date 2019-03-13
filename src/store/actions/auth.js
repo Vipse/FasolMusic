@@ -20,18 +20,6 @@ export const setOnlineStatus = (id, isOnline) => {
     }
 };
 
-export const getInfoLanding = (userInfo, history) => {
-    return (dispatch) => {
-        return axiosLand.post('getInfoLanding',
-                JSON.stringify({id: 1}))
-                    .then(res => {
-                        return res;
-                    })
-                    .catch(err => {
-                        console.log('error: ',err);
-                    })
-    }
-};
 
 export const autoLogin = (history) => {
     return (dispatch) => {

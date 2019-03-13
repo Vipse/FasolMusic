@@ -9,6 +9,7 @@ import { elementType, dateFormat } from './utils/propTypes'
 import EventSlot from './EventSlot';
 import { DropTarget } from 'react-dnd';
 import MasterListSlot from './MasterListSlot';
+import moment from 'moment';
 
 const squareTarget = {
   drop(props) {
@@ -201,7 +202,28 @@ class TimeSlotGroup extends Component {
 
 
     const flag = Array.isArray(intervals) ? intervals.some(el => {
-        return (value.getTime() >= el.start*1000) && value.getTime() < (el.end * 1000)
+      
+      
+        if(Array.isArray(el.intervals)){
+           
+            for(let i = 0; i < el.intervals.length; i++){
+              // console.log('moment(value.getTime()) :', moment(value.getTime()));
+              // console.log('moment(elem.start*1000) :', moment(el.intervals[i].start*1000));
+              // console.log(' moment(elem.end * 1000) :',  moment(el.intervals[i].end * 1000));
+    
+    
+              return moment(value.getTime()).isBetween( moment(el.intervals[i].start*1000), moment(el.intervals[i].end * 1000))
+            }
+        } 
+        else{
+          console.log("object", value);
+          console.log('start :', new Date(el.start*1000));
+          console.log('end :', new Date(el.end*1000));
+          console.log("-----------------------------------------");
+          let valuetM = value.getTime();
+          return (valuetM >= el.start*1000) && valuetM <= (el.end * 1000)
+        }
+         
     }) : null
 
    

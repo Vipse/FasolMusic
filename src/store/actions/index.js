@@ -71,7 +71,6 @@ export {
     checkEmailAvailability,
     reportBug,
     registerTrainer,
-    getInfoLanding,
     getIdUserByToken,
     setOnlineStatus,
     connectionToSocialNetwork,

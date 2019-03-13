@@ -130,8 +130,16 @@ class Header extends React.Component {
         const {disciplinesList, id, weekInterval} = this.props;
         const {type} = data;
 
-        const time0 = weekInterval.start;
-        const time1 = weekInterval.end;
+        let time0 = null;
+        let time1 = null;
+        if(!weekInterval){
+            time0 = moment(Date.now()).startOf('week').format('X');
+            time1 = moment(Date.now()).endOf('week').format('X');
+        }
+        else{
+            time0 = weekInterval.start;
+            time1 = weekInterval.end;
+        }
 
         this.props.showSpinner();
 

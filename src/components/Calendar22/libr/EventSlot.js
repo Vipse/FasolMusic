@@ -112,16 +112,10 @@ class EventSlot extends Component {
 
         const eventKey = event.idMaster ? event.idMaster: event.id;
         let funcOnClick = (eventKey && eventKey != 1) ? () => onGotoPage(eventKey) : () => {};
-
-        funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
+            funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
+        
         let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
-
-        console.log('event :', event);
-        if(event.hasOwnProperty('apiPatients')){
-            console.log('event :', event);
-            debugger
-        }
-        crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e,event.id) : crossFunc
+            crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e,event.id) : crossFunc
 
         return (
             <div key = {event.dateStart} onClick={funcOnClick}  className="event-group" style={{backgroundColor}}>
