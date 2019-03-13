@@ -11,7 +11,7 @@ debugger
         discipline,
         currency,
         description: description + ' тренировок в количестве: ' + amount,
-        test: true
+        test: false
     };
 
     return (dispatch) => {
