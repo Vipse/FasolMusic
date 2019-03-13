@@ -120,6 +120,7 @@ class Schedule extends React.Component {
     }
 
     deleteTrialTraining = (id) => {
+        debugger;
         this.props.onGetTrainingsTrialStatus(this.props.id)
         this.props.onRemoveTrialTraining(id)
     }
@@ -159,52 +160,33 @@ class Schedule extends React.Component {
         if(isPushBtnTrialTraining === 'trial'){
                             this.trialTime = idEvent;
 
-                            this.setState({isShowFreeTrainers : true,
-                                    apiPatients : [ {trainer: null, start: new Date(idEvent), apiPatients: true, id: idEvent}]})
+                            this.setState({apiPatients : [ {trainer: null, start: new Date(idEvent), apiPatients: true, id: idEvent}]})
 
-                            this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
                             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
+                            this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters)
+                                .then(() => {
+                                    this.setState({isShowFreeTrainers: true})
+                                })
+                            
         }
 
         else if(!this.props.isPushBtnTransfer){
+            const patients = [ {trainer: null, start: new Date(idEvent), id: idEvent, apiPatients: true}];
+            const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
+            
+            this.timeEvent = idEvent;
 
-            if(isPushBtnAdd) {
+            this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining});
+            this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters)
+                .then(() => {
+                    this.setState({isShowFreeTrainers: true})
+                })
 
-                        let {trainerList} = this.props;
-                        for(let i = 0; i < trainerList.length; i++){
-
-                            if(trainerList[i].idMaster === mainUser){
-                                let trainer= {...trainerList[i]};
-                                trainer.start = new Date(idEvent); //idEvent ~ time
-
-                                this.setState({newModalSaveSchedule:true, apiPatients : [...this.state.apiPatients, trainer]})
-
-                                i = Infinity;
-                            }
-                        }
-
-
-                        const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
-                        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining + 1}); // show Сохранитьreturn;
-
-            }
-
-            else{
-                
-                this.timeEvent = idEvent;
-                const patients = [ {trainer: null, start: new Date(idEvent), id: idEvent, apiPatients: true}];
-                const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
-
-                message.info('Выберите одного из тренеров')
-                this.setState({isShowFreeTrainers : true, apiPatients: patients});
-
-                this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining});
-                this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters);
-
-
-            }
+            message.info('Выберите одного из тренеров')
+            this.setState({isShowFreeTrainers : true, apiPatients: patients});
         }
 
+        this.state.isShowFreeTrainers && this.setState({isShowFreeTrainers: false})
 
     }
 
@@ -334,7 +316,10 @@ class Schedule extends React.Component {
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); // убрать Сохранить
         this.props.onChangeBtnBack(false);
         this.props.onGetDisciplineCommunication(id);
-        this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, this.props.id);
+
+
+        this.props.onGetTrainingsTrialStatus(id); // ?
+        this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, id);
 
         this.setState({theTrialMasterSelect: false,newModalSaveSchedule: false, apiPatients: [], sendingModal: true, theMasterSelect: false})
         message.success("Тренировки распределены по расписанию");

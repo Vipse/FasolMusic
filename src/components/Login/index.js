@@ -21,7 +21,7 @@ const FormItem = Form.Item;
 class LoginForm extends React.Component{
     state = {
         showSocialLogin: false,
-        activePage: 'signup',
+        activePage: 'signin',
         avatar: '',
         facebookLink: '',
         googleLink: '',

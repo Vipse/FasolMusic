@@ -20,6 +20,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 import VKApp from '../../components/VKApp';
 import { detect } from 'detect-browser';
+import sbjs from 'sourcebuster';
 
 const browser = detect();
 
@@ -38,6 +39,12 @@ class App extends React.Component {
             widget: null,
             id: null
         };
+        sbjs.init({
+            domain: 'https://web.fasolonline.ru',
+            lifetime: 3,
+            callback: () => console.log("DONE SBJ"),
+          });
+          
     }
 
     toggle = () => {
@@ -251,6 +258,7 @@ class App extends React.Component {
     }
 
     render() {
+        console.log('sbjs.get :', sbjs.get);
         let name, avatar;
 
         if (this.props.mode === "master" && this.props.profileCoach) {

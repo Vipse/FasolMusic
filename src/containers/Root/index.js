@@ -9,10 +9,6 @@ class Root extends React.Component{
 
     render(){
 
-    //     let m = window.location.search.split("?path=")[1]
-    //    if(m) 
-    //         window.location.href = "http://localhost:3000/app/coach?path=140032"
-
         if(!sessionStorage.getItem('landing')){
             let params = window.location.search.replace('?','').split('&').reduce( function(p,e){
                 let a = e.split('=');
@@ -22,18 +18,11 @@ class Root extends React.Component{
             if(params['landing']) sessionStorage.setItem('landing', params['landing'])
         }
        
-        // window.addEventListener("beforeunload", function (event) {
-        //     // Cancel the event as stated by the standard.
-        //     event.preventDefault();
-        //     let href = window.location.href;
-        //     href.replace('coach', 'coach/?path=')
-        //     window.location.reload(href)
-        //     console.log("replace")
-        //   });
- 
-        //   console.log('window :', window);
 
-        return (       
+        return (  
+            window.location.search ?
+                <Redirect to={`/app/${window.location.search.split("?path=")[1]}`}/>
+            :     
             <Switch>
                 <Route path="/signin" component={LoginPage}/>
                 <Route path="/registration" component={LoginPage}/>

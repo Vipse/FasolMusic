@@ -316,6 +316,7 @@
 }
 .rbc-smallcalendar-wrapper {
   margin-top: 5px;
+  width: 30%;
 }
 .rbc-smallcalendar-wrapper .change-worktime {
   margin: 0px 0px 15px 15px;

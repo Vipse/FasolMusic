@@ -83,6 +83,7 @@ class EventSlot extends Component {
         let isNearDay =  moment(event.start.getTime()).diff(moment(Date.now()), 'days');
             isNearDay = (isNearDay < 1) ? false : true
         
+        let viewCross = event.isComplete ? false : true // если заверешна то без крестика
         
         if( event.status && 
             !event.isBooking && 
@@ -96,12 +97,12 @@ class EventSlot extends Component {
             return connectDragSource(
                 <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
                         <div>
-                            <div className="event-group-cross">
+                            {viewCross && <div className="event-group-cross">
                                 <Icon 
                                     type='close' 
                                     size={7} 
                                     onClick={dragFunc}/>
-                            </div>
+                            </div>}
                             <p className="event-group-text" >
                                 {nameBlock}
                             </p>
@@ -117,12 +118,14 @@ class EventSlot extends Component {
         let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
             crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e,event.id) : crossFunc
 
+        
+
         return (
             <div key = {event.dateStart} onClick={funcOnClick}  className="event-group" style={{backgroundColor}}>
                     <div>
-                        <div className="event-group-cross">
+                        {viewCross && <div className="event-group-cross">
                             <Icon type='close' size={7} onClick={crossFunc}/>
-                        </div>
+                        </div>}
                         <p className="event-group-text" >
                             {nameBlock}
                         </p>
