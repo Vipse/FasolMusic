@@ -106,11 +106,13 @@ export function closeSocket() {
 const resgisterResponse = (message) => {
     if (message.response == 'accepted') {
         setRegisterState(REGISTERED);
+        callbacks.setWebSocketStatus('registered');
     } else {
         setRegisterState(NOT_REGISTERED);
-        var errorMessage = message.message ? message.message
+        let errorMessage = message.message ? message.message
                 : 'Unknown reason for register rejection.';
         console.log(errorMessage);
+        callbacks.setWebSocketStatus(errorMessage);
         //window.alert('Error registering user. See console for further information.');
     }
 }

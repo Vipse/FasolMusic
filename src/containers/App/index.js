@@ -44,7 +44,7 @@ class App extends React.Component {
             lifetime: 3,
             callback: () => console.log("DONE SBJ"),
           });
-          
+
     }
 
     toggle = () => {
@@ -83,7 +83,8 @@ class App extends React.Component {
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
             setConversationMode, setChatStory, setChatTrainingId, setNewTimer, onSaveMessage,
-            setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus} = this.props;
+            setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus,
+            setWebSocketStatus} = this.props;
 
         createSocket(
             'wss://web.fasolonline.ru:8443/one2one',
@@ -102,6 +103,7 @@ class App extends React.Component {
                 setBeginTime,
                 setIsTrialStatus,
                 setIsCompleteStatus,
+                setWebSocketStatus,
 
                 get_from: () => this.props.from,
                 get_to: () => this.props.to,
@@ -214,9 +216,9 @@ class App extends React.Component {
     showTransferInterval = () => {
         const {weekInterval, discCommunication, disciplinesList, currDiscipline} = this.props;
         const idMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
-        
+
         if(weekInterval && idMaster){
-            
+
             let chooseWeekdays = [0,1,2,3,4,5,6];
             this.setState({scheduleSpinner: true})
 
@@ -231,7 +233,7 @@ class App extends React.Component {
     pushBtnUnfresh = () => {
 
         const {weekInterval} = this.props;
-        
+
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
@@ -459,6 +461,7 @@ const mapDispatchToProps = dispatch => {
         setBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
         setIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
         setIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
+        setWebSocketStatus: (status) => dispatch(actions.setWebSocketStatus(status)),
 
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
@@ -476,7 +479,7 @@ const mapDispatchToProps = dispatch => {
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onChangeBtnBack: (status) => dispatch(actions.changeBtnBack(status)),
         onChangeBtnTransfer: (status) => dispatch(actions.changeBtnTransfer(status)),
-        
+
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
@@ -484,7 +487,6 @@ const mapDispatchToProps = dispatch => {
         onChangePushBtnUnfresh: (status) => dispatch(actions.changePushBtnUnfresh(status)),
         onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
         onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
-        onSetOnlineStatus: (id, status) => dispatch(actions.setOnlineStatus(id, status)),
     }
 };
 

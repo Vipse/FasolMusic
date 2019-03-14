@@ -59,7 +59,7 @@ class ChatCard extends React.Component {
 			}
 		}
 
-		if (browser && browser.os === 'iOS') return (
+		if (browser && browser.os === 'iOS')
 			Modal.warning({
 				title: 'Устройство не поддерживается',
 				width: '500px',
@@ -68,8 +68,9 @@ class ChatCard extends React.Component {
 				maskClosable: true,
 				okText: 'Продолжить',
 				onOk: () => {}
-			})
-		)
+			});
+
+		this.checkWebSocketStatus();
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -83,6 +84,32 @@ class ChatCard extends React.Component {
 	componentWillUnmount() {
 		this.onStop();
 	}
+
+	checkWebSocketStatus = () => {
+		const {webSockedStatus} = this.props;
+
+		if (webSockedStatus.indexOf('is already registered') !== -1)
+			Modal.error({
+				title: 'Чат недоступен',
+				width: '500px',
+				className: 'fast-modal',
+				content: 'Вход в данный аккаунт осуществлен с другого устройства ' +
+					'(или вкладки браузера) в данный момент!',
+				maskClosable: true,
+				okText: 'Продолжить',
+				onOk: () => {}
+			});
+		else if (webSockedStatus !== 'registered')
+			Modal.error({
+				title: 'Чат недоступен',
+				width: '500px',
+				className: 'fast-modal',
+				content: 'Не удалось подключиться к чату :(',
+				maskClosable: true,
+				okText: 'Продолжить',
+				onOk: () => {}
+			});
+	};
 
 	finishedTrialModal = () => {
 		Modal.warning({
