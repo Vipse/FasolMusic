@@ -2,6 +2,8 @@ import kurentoUtils from 'kurento-utils'
 import {Modal} from "antd";
 import { detect } from 'detect-browser';
 import incomingCallSound from '../../sounds/incoming_call_sound.mp3'
+import React from "react";
+import ProfileAvatar from "../../components/ProfileAvatar";
 const browser = detect();
 let ws,
     callbacks,
@@ -249,10 +251,9 @@ const incomingCall = (message) => {
     if(browser && browser.name === "safari") {
         console.log("this is safari");
         incomingCallModal = Modal.confirm({
-            title: `Звонок от ${fromName}`,
+            title: [`Звонок от ${fromName}`, <ProfileAvatar img={callbacks.get_interlocutorAvatar()} size='small'/>],
             width: '500px',
             className: 'fast-modal',
-            icon: '',
             content: 'Хотите ли вы принять вызов?',
             okText: 'Да',
             cancelText: 'Нет',
@@ -269,10 +270,9 @@ const incomingCall = (message) => {
         callSound.loop = true;
         callSound.play().then(
             incomingCallModal = Modal.confirm({
-                title: `Звонок от ${fromName}`, //4124
+                title: [`Звонок от ${fromName}`, <ProfileAvatar img={callbacks.get_interlocutorAvatar()} size='small'/>],
                 width: '500px',
                 className: 'fast-modal',
-                icon: '',
                 content: 'Хотите ли вы принять вызов?',
                 okText: 'Да',
                 cancelText: 'Нет',

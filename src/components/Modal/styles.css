@@ -47,11 +47,16 @@
   display: none;
 }
 .fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title {
+  display: flex;
+  align-items: center;
   padding: 14px 25px;
   text-align: left;
   font-family: RobotoRegularItalic;
   background: #ff7daa;
   font-size: 20px;
+}
+.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title .profileAvatar {
+  margin-left: 1rem;
 }
 .fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-content {
   text-align: center;

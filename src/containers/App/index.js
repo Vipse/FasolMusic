@@ -111,6 +111,8 @@ class App extends React.Component {
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_interlocutorName: () => this.props.interlocutorName,
+                get_interlocutorAvatar: () => this.props.interlocutorAvatar,
+
                 get_chatStory: () => this.props.chatStory,
                 get_visitInfo: () => this.getChatInfo(),
                 get_timer: () => this.props.timer,
@@ -422,6 +424,7 @@ const mapStateToProps = state => {
         chatStory: state.chatWS.chatStory,
         conversationMode: state.chatWS.conversationMode,
         interlocutorName: state.chatWS.interlocutorName,
+        interlocutorAvatar: state.chatWS.interlocutorAvatar,
         timer: state.chatWS.timer,
         countTrainingDiscipline: state.training.countTrainingDiscipline,
         statusBtnBack: state.student.statusBtnBack,
