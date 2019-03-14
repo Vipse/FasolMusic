@@ -164,6 +164,20 @@
     background-color: #00c853
 }
 
+.chat-card-time {
+    background-color: #fff;
+    margin-right: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 9px;
+    border-radius: 16px;
+    text-transform: capitalize;
+    font-size: 12px;
+    line-height: 1
+}
+
 .chat-card-body {
     display: flex;
     height: 750px;

@@ -307,6 +307,10 @@ class ChatCard extends React.Component {
 							<div className='chat-card-title-avatar'><ProfileAvatar img={interlocutorAvatar}
 																					size='small'/></div>
 							<div className='chat-card-title-name'>{interlocutorName}</div>
+							<div className='chat-card-time'>{
+								moment(this.props.beginTime).format('HH:mm') + ' — ' +
+								moment(this.props.beginTime).add(1, 'hours').format('HH:mm')}
+							</div>
 							<div className={statusClass}>{online}</div>
 						</div>
 						<div className='chat-card-btns'>
