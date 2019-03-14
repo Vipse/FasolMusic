@@ -52,8 +52,8 @@ class ChatVideoPanel extends React.Component{
                             btnText=''
                             size='small'
                             type='no-brd'
-                            icon='search'
-                            iconSize={16}
+                            icon='fullscreen'
+                            iconSize={18}
                             title='Во весь экран'
                             onClick={this.props.onFullScreen}
                         />

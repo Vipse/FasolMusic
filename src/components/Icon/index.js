@@ -65,7 +65,8 @@ const iconList = [
     "notification-calendar",
     "notification-calendar_canceled",
     "notification-email",
-    "notification-payment"
+    "notification-payment",
+    "fullscreen"
 ];
 
 class Icon extends React.Component{

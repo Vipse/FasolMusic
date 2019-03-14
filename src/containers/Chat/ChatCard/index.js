@@ -304,8 +304,9 @@ class ChatCard extends React.Component {
 								type='go'
 								onClick={this.handleChangeType}
 							/>
-							<div className='chat-card-title-avatar'><ProfileAvatar img={interlocutorAvatar}
-																					size='small'/></div>
+							<div className='chat-card-title-avatar'>
+								<ProfileAvatar img={interlocutorAvatar} size='small'/>
+							</div>
 							<div className='chat-card-title-name'>{interlocutorName}</div>
 							<div className='chat-card-time'>{
 								moment(this.props.beginTime).format('HH:mm') + ' — ' +
