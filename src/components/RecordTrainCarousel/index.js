@@ -126,21 +126,18 @@ class RecordTrainCarousel extends React.Component {
                     <div className='table-main-col' key={indexDay + 1}>
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
-                        .map((item, indexTime) =>
-                        {console.log(item.isOwn);
-                            return <div className='table-main-time'>
-                                <div
-                                    className={item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
-                                        item.isAvailable ? 'availableTime' : ''}
-                                    key={indexTime + 1}
-                                    onClick={item.isAvailable ?
-                                        e => this.props.handleTrainModal(e, false, isAdmin)
-                                        : (item.isOwn) ? e => this.props.handleTrainModal(e, true, isAdmin, item)
-                                            : null}
-                                    data-timestamp={item.timestamp}
-                                    data-interval-type={item.type}
+                        .map((item, indexTime) => <div className='table-main-time'>
+                                <div className={item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
+                                    item.isAvailable ? 'availableTime' : ''}
+                                     key={indexTime + 1}
+                                     onClick={item.isAvailable ?
+                                         e => this.props.handleTrainModal(e, false, isAdmin)
+                                         : (item.isOwn) ? e => this.props.handleTrainModal(e, true, isAdmin, item)
+                                             : null}
+                                     data-timestamp={item.timestamp}
+                                     data-interval-type={item.type}
                                 />
-                            </div>}
+                            </div>
                         )
                     }
                 </div>

@@ -47,8 +47,9 @@ class CoachProfile extends React.Component {
     };
 
     render() {
-        const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink,email,phones,mode} = this.props;
+        const {img, name, discipline, specialization, aboutMe, rate, ratingsCount, promoLink, email, phones, mode} = this.props;
         const {youtubeLoading, rateModalVisible} = this.state;
+        const isAdmin = mode === 'admin';
         const youtubeOpts = {
             height: '360',
             width: '640',
@@ -72,20 +73,20 @@ class CoachProfile extends React.Component {
                                 <div className="profile-coach-info-discipline">{discipline ? discipline.join(', ') : ''}
                                 {specialization ? ('; ' + specialization.join(', ')) : ""}</div>
 
-                                {mode !== 'student' && 
+                                {isAdmin ?
                                 <div>
                                     <div className="profile-coach-info-email"> <span>Email: </span> {email ? email : '-'} </div>
                                     <div className="profile-coach-info-phones"> <span>Телефон: </span> {phones ? phones : '-'} </div>
-                                </div> }
-                                
+                                </div> : null}
 
-                                <div className="profile-coach-info-btn">
-                                    <Button onClick={() => console.log('openDialog')}
-                                            btnText='Открыть диалог'
-                                            size='default'
-                                            type='light-blue'
-                                    />
-                                </div>
+                                {!isAdmin ?
+                                    <div className="profile-coach-info-btn">
+                                        <Button onClick={() => this.props.onGoToChat()}
+                                                btnText='Открыть чат'
+                                                size='default'
+                                                type='light-blue'
+                                        />
+                                    </div> : null}
                             </div>
 
                             <div className="profile-coach-rate">

@@ -187,8 +187,8 @@ class CoachPersonalDataForm extends React.Component {
             enabledDays[i] && selectedTimes[i].forEach((interval) => {
                 preparedTrainingTime[objIndex] = {
                     day: getSelectedIDs(dayList, String(i), true),
-                    datestart: moment().utcOffset("+03:00").hour(interval[0]).format('X'),
-                    dateend: moment().utcOffset("+03:00").hour(interval[1]).format('X')
+                    datestart: moment().utcOffset("+03:00").startOf('day').hour(interval[0]).format('X'),
+                    dateend: moment().utcOffset("+03:00").startOf('day').hour(interval[1]).format('X')
                 };
                 ++objIndex;
             });

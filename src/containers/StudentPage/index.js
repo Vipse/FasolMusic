@@ -23,7 +23,8 @@ class StudentPage extends React.Component{
         super(props);
         this.state = {
             loading: true,
-            selectorsValues: {}
+            selectorsValues: {},
+            currentWeekTrainings: {}
         }
     }
 
@@ -56,6 +57,10 @@ class StudentPage extends React.Component{
             this.props.onGetInfoPatient(nextProps.match.params.id)
                 .then(res => this.setState({loading: false}));
         }
+
+        if (nextProps.trainerTrainings !== this.props.trainerTrainings && !this.props.trainerTrainings) {
+            this.setState({currentWeekTrainings: nextProps.trainerTrainings})
+        }
     }
 
     goToChat = (idTo, idTraining, interlocutorName, interlocutorAvatar, beginTime, isComplete, isTrial = false) => {
@@ -66,6 +71,40 @@ class StudentPage extends React.Component{
         this.props.onSetIsCompleteStatus(isComplete);
         this.props.onSetIsTrialStatus(isTrial);
         this.props.history.push('/app/chat');
+    };
+
+    getNearestTrain = () => {
+        const {id} = this.props;
+        const {currentWeekTrainings} = this.state;
+
+        for (let day in currentWeekTrainings)
+            if (moment(+day).date() >= moment().date()) {
+                for (let train in currentWeekTrainings[day]) {
+                    let trainInfo = currentWeekTrainings[day][train].allInfo;
+                    if (trainInfo && +trainInfo.idMaster === +id
+                        && moment(+trainInfo.date * 1000).hours() >= moment().hours()) {
+                        return trainInfo;
+                    }
+                }
+            }
+        return null;
+    };
+
+    goToNearestChat = () => {
+        const {profileStudent: {id, name, avatar}} = this.props;
+        let nearestTrain = this.getNearestTrain();
+
+        if (nearestTrain) {
+            const {idTraining, date, isComplete, trial} = nearestTrain;
+            this.goToChat(id, idTraining, name, avatar, +date * 1000, isComplete, trial);
+        }
+        else Modal.warning({
+            title: 'Нет занятий',
+            width: '500px',
+            className: 'fast-modal',
+            content: 'На текущей неделе нет занятий с этим студентом',
+            maskClosable: true
+        });
     };
 
     goToCoachProfile = (idCoach) => {
@@ -174,6 +213,8 @@ class StudentPage extends React.Component{
                                     discipline={this.getDisciplinesString()}
                                     level={this.getLevelsString()}
                                     paidTrainingsCount={0}
+                                    isAdmin={isAdmin}
+                                    onGoToChat={this.goToNearestChat}
                                 />
                                 <StudentPagePerfectCoach
                                     sex={bestsex}

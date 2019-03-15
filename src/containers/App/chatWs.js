@@ -93,11 +93,11 @@ export function createSocket(wsUrl,_props,_callbacks) {
             default:
 				console.error('Unrecognized message', parsedMessage);
         }
-    }
+    };
 
     ws.onopen = () => {
         console.log("Open socket")
-    }
+    };
     return ws;
 }
 export function closeSocket() {
@@ -106,7 +106,7 @@ export function closeSocket() {
 }
 
 const resgisterResponse = (message) => {
-    if (message.response == 'accepted') {
+    if (message.response === 'accepted') {
         setRegisterState(REGISTERED);
         callbacks.setWebSocketStatus('registered');
     } else {
@@ -115,9 +115,30 @@ const resgisterResponse = (message) => {
                 : 'Unknown reason for register rejection.';
         console.log(errorMessage);
         callbacks.setWebSocketStatus(errorMessage);
-        //window.alert('Error registering user. See console for further information.');
+
+        if (errorMessage.indexOf('is already registered') !== -1)
+            Modal.error({
+                title: 'Чат недоступен',
+                width: '500px',
+                className: 'fast-modal',
+                content: 'Вход в данный аккаунт осуществлен с другого устройства ' +
+                    '(или вкладки браузера) в данный момент!',
+                maskClosable: true,
+                okText: 'Продолжить',
+                onOk: () => {}
+            });
+        else
+            Modal.error({
+                title: 'Чат недоступен',
+                width: '500px',
+                className: 'fast-modal',
+                content: 'Не удалось подключиться к чату :(',
+                maskClosable: true,
+                okText: 'Продолжить',
+                onOk: () => {}
+            });
     }
-}
+};
 
 const setRegisterState = (nextState) => {
     switch (nextState) {
@@ -177,7 +198,7 @@ export const stop = (flag) => {
         else if (document.webkitCancelFullScreen) document.webkitCancelFullScreen();
         else if (document.msExitFullscreen) document.msExitFullscreen();
     }
-    
+
     callbacks.setIsCallingStatus(false);
     clearInterval(timerInterval);
     callbacks.setNewTimer({
