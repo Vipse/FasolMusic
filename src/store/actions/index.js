@@ -136,7 +136,8 @@ export {
     setConversationMode,
     setNewTimer,
     setChatInterlocutorInfo,
-    checkInterlocutorOnlineStatus
+    checkInterlocutorOnlineStatus,
+    setWebSocketStatus
 } from './chatWS'
 
 export {

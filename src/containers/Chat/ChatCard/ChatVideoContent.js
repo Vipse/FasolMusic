@@ -16,8 +16,12 @@ const browser = detect();
 class ChatVideoContent extends React.Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			isFullScreen: false
+		};
+
 		this.isSafari = browser ? browser.name === 'safari' || browser.os === 'iOS' : true;
-		this.interlocutorVideo = null;
+		this.videoArea = null;
 	}
 
 	/*renderPlayer = () => {
@@ -54,6 +58,10 @@ class ChatVideoContent extends React.Component {
 		this.isSafari && this.startPlayVideo(this.videoOut, this.videoOutPlayInterval);
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+    	if (prevProps.isCalling !== this.props.isCalling) this.setState({isFullScreen: this.isFullScreen()});
+	}
+
 	startPlayVideo = (video, intervalVar) =>{
 		let promise;
 		this.videoOut && (promise = this.videoOut.play());
@@ -84,7 +92,6 @@ class ChatVideoContent extends React.Component {
 	setVideoOutRef = (video) => {
 		this.isSafari && (this.videoOut = video);
 		this.props.setVideoOut(video);
-		this.interlocutorVideo = video;
 	};
 
 	setVideoInRef = (video) => {
@@ -125,8 +132,28 @@ class ChatVideoContent extends React.Component {
 		</Hoc>
 	);
 
-	onFullScreen = () => {
-		this.interlocutorVideo.requestFullscreen();
+	isFullScreen = () => !!(document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen
+		|| document.msFullscreenElement || document.fullscreenElement);
+
+	handleFullScreen = () => {
+		if (this.isFullScreen()) {
+			if (document.exitFullscreen) document.exitFullscreen();
+			else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+			else if (document.webkitCancelFullScreen) document.webkitCancelFullScreen();
+			else if (document.msExitFullscreen) document.msExitFullscreen();
+			this.changeFullScreenState(false);
+		}
+		else {
+			if (this.videoArea.requestFullscreen) this.videoArea.requestFullscreen();
+			else if (this.videoArea.mozRequestFullScreen) this.videoArea.mozRequestFullScreen();
+			else if (this.videoArea.webkitRequestFullScreen) this.videoArea.webkitRequestFullScreen();
+			else if (this.videoArea.msRequestFullscreen) this.videoArea.msRequestFullscreen();
+			this.changeFullScreenState(true);
+		}
+	};
+
+	changeFullScreenState = (isActive) => {
+		this.setState({isFullScreen: isActive});
 	};
 
 	renderCallArea = () => {
@@ -135,7 +162,7 @@ class ChatVideoContent extends React.Component {
 		let {s, m, h} = this.props.timer;
 
 		return (<Hoc>
-			<div className='chat-card-video__area'>
+			<figure className='chat-card-video__area' ref={videoArea => this.videoArea = videoArea}>
 				{this.isSafari ? this.renderSafariVideos() : this.renderVideos()}
                 <div className={panelClass}>
                     {this.props.idTraining ? (
@@ -149,7 +176,8 @@ class ChatVideoContent extends React.Component {
                                 this.props.onCall();
                             }}
                             onChat = {this.props.onChat}
-							onFullScreen={this.onFullScreen}
+							isFullScreen={this.state.isFullScreen}
+							onFullScreen={this.handleFullScreen}
                             uploadFiles={this.props.uploadFile}
                             sec={s}
                             min={m}
@@ -158,7 +186,7 @@ class ChatVideoContent extends React.Component {
                             isCalling={this.props.isCalling}/>) : null}
 
                 </div>
-			</div>
+			</figure>
 
 
 		</Hoc>)

@@ -18,7 +18,8 @@ const initialState = {
     },
     interlocutorName: '',
     interlocutorAvatar: '',
-    interlocutorStatus: 'offline'
+    interlocutorStatus: 'offline',
+    webSockedStatus: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -89,6 +90,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 interlocutorStatus: action.status,
+            }
+        case actionTypes.SET_WEBSOCKET_STATUS:
+            return {
+                ...state,
+                webSockedStatus: action.status,
             }
 
         default: return state;

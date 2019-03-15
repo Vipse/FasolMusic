@@ -14,7 +14,7 @@ class ChatVideoPanel extends React.Component{
     };
 
     render(){
-        const {isCalling, sec, min, hour, disabled} = this.props;
+        const {isCalling, sec, min, hour, disabled, isFullScreen} = this.props;
 
 
         return (
@@ -52,9 +52,9 @@ class ChatVideoPanel extends React.Component{
                             btnText=''
                             size='small'
                             type='no-brd'
-                            icon='search'
-                            iconSize={16}
-                            title='Во весь экран'
+                            icon={isFullScreen ? 'exit_fullscreen' : 'fullscreen'}
+                            iconSize={18}
+                            title={isFullScreen ? 'Выйти из полноэкранного режима' : 'Во весь экран'}
                             onClick={this.props.onFullScreen}
                         />
                     </div>
@@ -101,6 +101,7 @@ ChatVideoPanel.propTypes = {
     onCall: PropTypes.func,
     uploadFiles: PropTypes.func,
     onChat: PropTypes.func,
+    onFullScreen: PropTypes.func,
 };
 
 ChatVideoPanel.defaultProps = {
@@ -114,6 +115,7 @@ ChatVideoPanel.defaultProps = {
     onCall: () => {},
     uploadFiles: () => {},
     onChat: () => {},
+    onFullScreen: () => {},
 };
 
 export default ChatVideoPanel

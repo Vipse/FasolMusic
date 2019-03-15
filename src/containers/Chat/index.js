@@ -140,7 +140,8 @@ class Chat extends React.Component{
             interlocutorAvatar: this.props.interlocutorAvatar,
             online: this.props.interlocutorStatus,
             setConversationMode: this.props.onSetConversationMode,
-            beginTime: this.props.beginTime
+            beginTime: this.props.beginTime,
+            webSockedStatus: this.props.webSockedStatus
         };
 
         console.log('chatProps', chatProps);
@@ -205,7 +206,8 @@ const mapStateToProps = state =>{
         conversationMode: state.chatWS.conversationMode,
         interlocutorName: state.chatWS.interlocutorName,
         interlocutorAvatar: state.chatWS.interlocutorAvatar,
-        interlocutorStatus: state.chatWS.interlocutorStatus
+        interlocutorStatus: state.chatWS.interlocutorStatus,
+        webSockedStatus: state.chatWS.webSockedStatus
     }
 }
 
