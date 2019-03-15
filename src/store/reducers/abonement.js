@@ -18,6 +18,7 @@ const initialState = {
             name: 'vocals'
         }
     },
+    
     disciplinesCode: [125470, 125485],
     weekInterval : null,
 };
@@ -30,7 +31,6 @@ const reducer = (state = initialState, action) => {
                 dataCreate: action.dataCreate,
             }
         case actionTypes.GET_ABONEMENTS:
-            console.log('action :', action);
             return {
                 ...state,
                 allAbonements: action.allAbonements,
@@ -41,9 +41,17 @@ const reducer = (state = initialState, action) => {
                 allAbonements2: action.allAbonements2,
             }    
         case actionTypes.CHANGE_CURRENT_DISCIPLINE:
+            let currDiscipline = action.currDiscipline;
+            if(typeof action.currDiscipline === 'string'){
+                for(let elem in state.disciplines){
+                    if(state.disciplines[elem].code == action.currDiscipline) currDiscipline = state.disciplines[elem]
+                }
+                
+            }
+
             return {
                 ...state,
-                currDiscipline: action.currDiscipline,
+                currDiscipline: currDiscipline,
             } 
         case actionTypes.SET_WEEK_INTERVAL:
             return {

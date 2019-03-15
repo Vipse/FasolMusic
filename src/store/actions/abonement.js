@@ -32,6 +32,7 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
                 let fdata = res.data.result;
                 const discAbonement = Object.keys(res.data.result);  
        
+                
                 if(fdata.hasOwnProperty(currDiscipline.code)){
                     fdata[currDiscipline.code].map((el) => {  
                         el.fio = '#'+el.key + ' ' + el.masterFio ? el.masterFio : '';
@@ -44,6 +45,15 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
                     fdata = fdata[currDiscipline.code].filter((el) => !el.isBooking); // remove booking training
                 }  
 
+                let mainDiscipline = null;
+                let countInDiscipline = 0;
+                for( let el in fdata){
+                    if(countInDiscipline < fdata[el].length){
+                        countInDiscipline = fdata[el].length;
+                        mainDiscipline = el;
+                    }
+                }
+
                 dispatch({
                     type: actionTypes.GET_ABONEMENTS,
                     allAbonements: fdata,
@@ -53,6 +63,8 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
                     type: actionTypes.SET_DISC_ABONEMENT,
                     discAbonement : discAbonement,
                 });
+
+                return mainDiscipline            
         })
         .catch(err => {
             console.log(err);
@@ -77,8 +89,6 @@ export const getAbonements2 = (idStudent) => (dispatch) => {
 }
 
 export const transferTrainining = (value) =>  {
-    console.log('value :', value);
-    debugger
     return (dispatch, getState) => 
 
         axios.post('/catalog.fasol/transferTrainining', JSON.stringify(value))
@@ -220,6 +230,7 @@ export const setWeekInterval = (interval) => {
 
 export const changeCurrDiscipline = (currDiscipline) => {
     
+
     return ({
         type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
         currDiscipline: currDiscipline            
