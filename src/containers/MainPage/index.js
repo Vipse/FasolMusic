@@ -53,7 +53,6 @@ class MainPage extends React.Component{
 	}
 
 	goToChat = (idTo, idTraining, interlocutorName, interlocutorAvatar, beginTime, isComplete, isTrial = false) => {
-		console.log(idTo);
 		this.props.onSetChatToId(idTo);
 		this.props.onSetChatInterlocutorInfo(interlocutorName, interlocutorAvatar);
 		this.props.onSetChatTrainingId(idTraining);

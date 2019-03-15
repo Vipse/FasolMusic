@@ -24,7 +24,8 @@ class CoachPage extends React.Component{
         this.state = {
             loading: true,
             selectorsValues: {},
-            trainModal: {visible: false}
+            trainModal: {visible: false},
+            currentWeekTrainings: {}
         }
     }
 
@@ -51,6 +52,10 @@ class CoachPage extends React.Component{
             this.setState({loading: true});
             this.props.onGetInfoDoctor(nextProps.match.params.id)
                 .then(res => this.setState({loading: false}));
+        }
+
+        if (nextProps.trainerTrainings !== this.props.trainerTrainings && !this.props.trainerTrainings) {
+            this.setState({currentWeekTrainings: nextProps.trainerTrainings})
         }
     }
 
@@ -162,6 +167,47 @@ class CoachPage extends React.Component{
         return this.props.onRateMaster(auth.id, id, rate, feedback);
     };
 
+    getNearestTrain = () => {
+        const {auth: {id}} = this.props;
+        const {currentWeekTrainings} = this.state;
+
+        for (let day in currentWeekTrainings)
+            if (moment(+day).date() >= moment().date()) {
+                for (let train in currentWeekTrainings[day]) {
+                    let trainInfo = currentWeekTrainings[day][train].allInfo;
+                    if (trainInfo && +trainInfo.idStudent === +id
+                        && moment(+trainInfo.date * 1000).hours() >= moment().hours()) {
+                        return trainInfo;
+                    }
+                }
+            }
+        return null;
+    };
+
+    goToNearestChat = () => {
+        const {profileCoach: {id, name, avatar}} = this.props;
+        let nearestTrain = this.getNearestTrain();
+
+        if (nearestTrain) {
+            const {idTraining, date, isComplete, trial} = nearestTrain;
+
+            this.props.onSetChatToId(id);
+            this.props.onSetChatInterlocutorInfo(name, avatar);
+            this.props.onSetChatTrainingId(idTraining);
+            this.props.onSetBeginTime(+date * 1000);
+            this.props.onSetIsCompleteStatus(isComplete);
+            this.props.onSetIsTrialStatus(trial);
+            this.props.history.push('/app/chat');
+        }
+        else Modal.warning({
+            title: 'Нет занятий',
+            width: '500px',
+            className: 'fast-modal',
+            content: 'На текущей неделе нет занятий с этим коучем',
+            maskClosable: true
+        });
+    };
+
     render() {
         const { id, avatar, name, aboutme, promovideo, email, phones } = this.props.profileCoach;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileCoach;
@@ -196,6 +242,7 @@ class CoachPage extends React.Component{
                                     ratingsCount={19}
                                     onRateMaster={this.handleRateMaster}
                                     mode={this.props.mode}
+                                    onGoToChat={this.goToNearestChat}
                                 />
                             </Col>
                             <Col span={13} offset={32}>
@@ -253,6 +300,13 @@ const mapDispatchToProps = dispatch => {
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
         onRateMaster: (idStudent, idMaster, rate, feedback) => dispatch(actions.rateMaster(idStudent, idMaster, rate, feedback)),
+
+        onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
+        onSetChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
+        onSetChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),
+        onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
+        onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
+        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
     }
 };
 
