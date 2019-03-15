@@ -54,7 +54,7 @@ class Chat extends React.Component{
         if (user_mode === 'student')
             this.props.onGetTrainingNotFinished(id, moment().add(1, 'weeks').format('X'), 10);
         else {
-            let start = moment().subtract(1, 'hours').format('X');
+            let start = moment().format('X');
             let end = moment().add(1, 'weeks').format('X');
             this.props.onGetFutureTrainerTraining(id, start, end);
         }

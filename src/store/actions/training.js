@@ -97,7 +97,6 @@ export const getAllTrainingStudent = (id, dateStart, dateEnd) => {
     return (dispatch) => {
         axios.post('/catalog.fasol/getAllTrainingStudent', JSON.stringify(obj))
             .then(res => {
-                console.log("getAllTrainingStudent", res);
 
                 let arr = [];
                 if (!res.data.error) arr = res.data.result;

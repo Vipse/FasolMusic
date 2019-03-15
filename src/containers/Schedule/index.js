@@ -120,7 +120,6 @@ class Schedule extends React.Component {
     }
 
     deleteTrialTraining = (id) => {
-        debugger;
         this.props.onGetTrainingsTrialStatus(this.props.id)
         this.props.onRemoveTrialTraining(id)
     }
@@ -550,7 +549,7 @@ class Schedule extends React.Component {
     componentDidUpdate() {
         const{id, currDiscipline} = this.props;
 
-        this.props.onGetFutureTrialTraining(id, currDiscipline)
+        //this.props.onGetFutureTrialTraining(id, currDiscipline)
         this.props.onGetCountTrainingByDiscipline(id, currDiscipline.code);
         // if(this.props.mode === 'student'){
         //     this.props.onIssetTrial(id);

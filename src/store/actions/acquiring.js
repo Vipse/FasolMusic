@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 
 
 export const getToken = (idUser, amount, price, discipline, currency = 'RUB', description = 'Покупка') => {
-debugger
+
     let obj = {
         idUser,
         amount,
@@ -17,8 +17,7 @@ debugger
     return (dispatch) => {
         return axios.post('/catalog.fasol/getToken', JSON.stringify(obj))
             .then(res => {
-                debugger
-                console.log('getToken :', getToken);
+                
                 dispatch({
                     type: actionTypes.GET_TOKEN,
                     token: res.data.result.token,
