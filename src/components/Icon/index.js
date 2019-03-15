@@ -39,6 +39,7 @@ const iconList = [
     "incoming-calls",
     "left-arrow-forward_small",
     "mail",
+    "microphone",
     "no",
     "notification",
     "order-form",
@@ -66,7 +67,8 @@ const iconList = [
     "notification-calendar_canceled",
     "notification-email",
     "notification-payment",
-    "fullscreen"
+    "fullscreen",
+    "exit_fullscreen"
 ];
 
 class Icon extends React.Component{
