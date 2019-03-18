@@ -67,12 +67,10 @@ class TimeGrid extends Component {
     let dateM = date.getTime();
 
     if( Array.isArray(intervals)){ 
+      debugger
         intervals.forEach((el)=> {
           
           el.intervals.forEach((elem)=> {
-               console.log('dateM :', dateM);
-               console.log('elem.start :', elem.start*1000);
-               console.log('elem.end :', elem.end*1000);
                 (dateM >= elem.start*1000 && dateM <= elem.end*1000) ? 
                     answer = [...answer, {start:elem.start, end:elem.end}] :  null
           })
@@ -84,8 +82,6 @@ class TimeGrid extends Component {
         //         }
         // }
     }
-console.log('answer :', answer);
-console.log("----------------------------------");
     return answer;
   }
 

@@ -121,6 +121,7 @@ export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) =
                     let answer = []
                     let freeInterval = rez.data.result.interval;
 
+                    debugger
                     for(let elem in freeInterval){
                         answer.push({
                             day: moment(+elem * 1000).day(),

@@ -4,7 +4,8 @@ const initialState = {
     dataForCreate: {},
     currDiscipline: {
         ruText: 'Вокал',
-        code: 125485
+        code: 125485,
+        name: 'vocals'
     },
     disciplines: {
         'guitar' : {
@@ -41,8 +42,9 @@ const reducer = (state = initialState, action) => {
                 allAbonements2: action.allAbonements2,
             }    
         case actionTypes.CHANGE_CURRENT_DISCIPLINE:
+        
             let currDiscipline = action.currDiscipline;
-            if(typeof action.currDiscipline === 'string'){
+            if(action.currDiscipline && typeof action.currDiscipline === 'string'){
                 for(let elem in state.disciplines){
                     if(state.disciplines[elem].code == action.currDiscipline) currDiscipline = state.disciplines[elem]
                 }
@@ -51,7 +53,7 @@ const reducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                currDiscipline: currDiscipline,
+                currDiscipline: {...currDiscipline},
             } 
         case actionTypes.SET_WEEK_INTERVAL:
             return {

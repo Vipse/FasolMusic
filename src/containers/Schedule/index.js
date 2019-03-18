@@ -506,7 +506,7 @@ class Schedule extends React.Component {
 
         this.setIntervalAndView(this.state.currentDate, 'week');
 
-        this.props.onGetAbonementsFilter(id, currDiscipline);
+        this.props.onGetAbonementsFilter(id, currDiscipline, true);
 
         if(this.props.mode === 'student'){
             this.props.onGetDisciplineCommunication(id);
@@ -1249,7 +1249,7 @@ const mapDispatchToProps = dispatch => {
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onSetChooseTheMasterByStudent: (master) => dispatch(actions.setChooseTheMasterByStudent(master)),
         onNoSetBtnTraining: () => dispatch(actions.noSetBtnTraining()),
-        onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
+        onGetAbonementsFilter: (idStudent, currDiscipline, isFirst) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline, isFirst)),
 
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
