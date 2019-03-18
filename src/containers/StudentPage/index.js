@@ -101,7 +101,7 @@ class StudentPage extends React.Component{
         else Modal.warning({
             title: 'Нет занятий',
             width: '500px',
-            className: 'fast-modal',
+            className: 'quick-modal',
             content: 'На текущей неделе нет занятий с этим студентом',
             maskClosable: true
         });
@@ -118,7 +118,7 @@ class StudentPage extends React.Component{
         else Modal.warning({
             title: 'Изменение расписания',
             width: '500px',
-            className: 'fast-modal',
+            className: 'quick-modal',
             content: 'Вы находитесь в профиле студента! Изменения вашего расписания осуществляется в разделе “График работы”.',
             maskClosable: true,
             okText: 'Перейти в график работы',

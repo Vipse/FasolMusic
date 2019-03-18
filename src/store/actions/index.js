@@ -116,6 +116,7 @@ export {
     docEmergancyCallReceivedMark,
     makeArchiveOfFiles,
     getSelectors,
+    getMultipleSelectors,
     searchUsers,
     getNotifications,
     readNotification,

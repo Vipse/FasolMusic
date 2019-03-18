@@ -141,7 +141,7 @@ class App extends React.Component {
              Modal.warning({
                  title: 'Мобильное устройство',
                  width: '500px',
-                 className: 'fast-modal',
+                 className: 'quick-modal',
                  content: 'Для более удобной работы с платформой зайдите с компьютера! ' +
                      'Но вы всегда можете записаться на тренировку и с телефона, ' +
                      'здесь для вас также доступен весь функционал! Браузер: '

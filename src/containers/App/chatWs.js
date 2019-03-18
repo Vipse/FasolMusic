@@ -120,7 +120,7 @@ const resgisterResponse = (message) => {
             Modal.error({
                 title: 'Чат недоступен',
                 width: '500px',
-                className: 'fast-modal',
+                className: 'quick-modal',
                 content: 'Вход в данный аккаунт осуществлен с другого устройства ' +
                     '(или вкладки браузера) в данный момент!',
                 maskClosable: true,
@@ -131,7 +131,7 @@ const resgisterResponse = (message) => {
             Modal.error({
                 title: 'Чат недоступен',
                 width: '500px',
-                className: 'fast-modal',
+                className: 'quick-modal',
                 content: 'Не удалось подключиться к чату :(',
                 maskClosable: true,
                 okText: 'Продолжить',
@@ -280,7 +280,7 @@ const incomingCall = (message) => {
         incomingCallModal = Modal.confirm({
             title: [`Звонок от ${fromName}`, <ProfileAvatar img={callbacks.get_interlocutorAvatar()} size='small'/>],
             width: '500px',
-            className: 'fast-modal',
+            className: 'quick-modal',
             content: 'Хотите ли вы принять вызов?',
             okText: 'Да',
             cancelText: 'Нет',
@@ -299,7 +299,7 @@ const incomingCall = (message) => {
             incomingCallModal = Modal.confirm({
                 title: [`Звонок от ${fromName}`, <ProfileAvatar img={callbacks.get_interlocutorAvatar()} size='small'/>],
                 width: '500px',
-                className: 'fast-modal',
+                className: 'quick-modal',
                 content: 'Хотите ли вы принять вызов?',
                 okText: 'Да',
                 cancelText: 'Нет',

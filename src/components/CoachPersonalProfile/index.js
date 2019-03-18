@@ -8,6 +8,7 @@ import '../../icon/style.css'
 import Row from "../Row";
 import Col from "../Col";
 import CoachPersonalData from "../CoachPersonalData";
+import StudentPersonalProfile from "../../containers/PersonalInfo";
 
 class CoachPersonalProfile extends React.Component{
 
@@ -27,7 +28,8 @@ class CoachPersonalProfile extends React.Component{
                             profileCoach={profile}
                             onSubmit={this.props.onSubmit}
                             onSocialConnect={this.props.onSocialConnect}
-                            getSelectors={this.props.getSelectors}
+                            getMultipleSelectors={this.props.getMultipleSelectors}
+                            selectors={this.props.selectors}
                             onChangePassword={this.props.onChangePassword}
                             uploadFile={this.props.uploadFile}
                         />

@@ -26,27 +26,27 @@
   top: -40px;
   right: 35px;
 }
-.fast-modal .ant-modal-content {
+.quick-modal .ant-modal-content {
   border-radius: 5px;
   overflow: hidden;
 }
-.fast-modal .ant-modal-content .ant-modal-close {
+.quick-modal .ant-modal-content .ant-modal-close {
   display: unset;
 }
-.fast-modal .ant-modal-content .ant-modal-body {
+.quick-modal .ant-modal-content .ant-modal-body {
   display: flex;
   flex-direction: column;
   padding: 0;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .anticon {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .anticon {
   display: none;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title {
   display: flex;
   align-items: center;
   padding: 14px 25px;
@@ -55,22 +55,22 @@
   background: #ff7daa;
   font-size: 20px;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title .profileAvatar {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-title .profileAvatar {
   margin-left: 1rem;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-content {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-body .ant-modal-confirm-content {
   text-align: center;
   margin: 20px 20px 0;
   font-family: RobotoMedium;
   font-size: 16px;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns {
   display: flex;
   justify-content: center;
   margin: 25px;
   float: unset;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button {
   min-width: 140px;
   height: 42px;
   font-family: RobotoMedium;
@@ -83,7 +83,7 @@
   text-shadow: unset;
   text-transform: uppercase;
 }
-.fast-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button:hover {
+.quick-modal .ant-modal-content .ant-modal-body .ant-modal-confirm-body-wrapper .ant-modal-confirm-btns button:hover {
   background-color: transparent;
   color: #ffc800;
 }

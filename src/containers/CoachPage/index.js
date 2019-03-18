@@ -91,8 +91,6 @@ class CoachPage extends React.Component{
             }
         };
 
-        console.log("onCreateAbonement", submitObj);
-
         this.props.onCreateAbonement(submitObj)
             .then(res => {
             if (res && res.data && res.data.result)
@@ -105,7 +103,6 @@ class CoachPage extends React.Component{
     onTailAbonement = (idTraining) => {
         let obj = {idTraining};
 
-        console.log("onTailAbonement", obj);
         this.props.onTransferTraininingToEnd(obj)
             .then(res => {
                 if (res && res.data && res.data.result)
@@ -116,7 +113,6 @@ class CoachPage extends React.Component{
     };
 
     onFreezeAbonement = (idSubscription) => {
-        console.log("onFreezeAbonement", idSubscription);
         this.props.onFreezeAbonement(idSubscription)
             .then(res => {
                 if (res && res.data && res.data.process)
@@ -133,6 +129,7 @@ class CoachPage extends React.Component{
 
     handleTrainModal = (e, redirectable, isAdmin, item) => {
         e.preventDefault();
+
         /*this.setState({
             trainModal: {
                 visible: true,
@@ -141,11 +138,12 @@ class CoachPage extends React.Component{
                 isAdmin: isAdmin ? isAdmin : false
             }
         });*/
+
         if (redirectable && isAdmin) this.goToStudentProfile(item.idStudent);
         else Modal.warning({
             title: 'Изменение расписания',
             width: '500px',
-            className: 'fast-modal',
+            className: 'quick-modal',
             content: 'Вы находитесь в профиле коуча! Изменения вашего расписания осуществляется в разделе “Календарь”.',
             maskClosable: true,
             okText: 'Перейти в календарь',
@@ -202,7 +200,7 @@ class CoachPage extends React.Component{
         else Modal.warning({
             title: 'Нет занятий',
             width: '500px',
-            className: 'fast-modal',
+            className: 'quick-modal',
             content: 'На текущей неделе нет занятий с этим коучем',
             maskClosable: true
         });
@@ -239,7 +237,6 @@ class CoachPage extends React.Component{
                                     aboutMe={aboutme}
                                     promoLink={promovideo}
                                     rate={5}
-                                    ratingsCount={19}
                                     onRateMaster={this.handleRateMaster}
                                     mode={this.props.mode}
                                     onGoToChat={this.goToNearestChat}

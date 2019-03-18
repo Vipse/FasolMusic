@@ -22,7 +22,8 @@ class StudentPersonalProfile extends React.Component {
                             profileStudent={profile}
                             onSubmit={this.props.onSubmit}
                             onSocialConnect={this.props.onSocialConnect}
-                            getSelectors={this.props.getSelectors}
+                            getMultipleSelectors={this.props.getMultipleSelectors}
+                            selectors={this.props.selectors}
                             onChangePassword={this.props.onChangePassword}
                             uploadFile={this.props.uploadFile}
                         />

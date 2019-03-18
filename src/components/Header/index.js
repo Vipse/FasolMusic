@@ -160,7 +160,7 @@ class Header extends React.Component {
         this.props.isTransferTrainPopupActive && Modal.info({
             title: 'Перенос тренировки',
             width: '500px',
-            className: 'fast-modal',
+            className: 'quick-modal',
             content: 'Зеленым цветом в календаре подсветилось доступное время у коуча, ' +
                 'перетяни тренировку которую хочешь перенести на любое доступное время и помни, ' +
                 'одну тренировку можно перенести только один раз и не позднее 24 часов до начала тренировки!',

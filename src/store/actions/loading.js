@@ -87,6 +87,22 @@ export const getSelectors = (name) => {
     }
 };
 
+export const getMultipleSelectors = (namesArr) => {
+    return (dispatch) => {
+        let arr = namesArr.map((name) => dispatch(getSelectors(name))
+            .then(res => res)
+            .catch(err => err));
+
+        return Promise.all(arr)
+            .then(res => {
+                return res.every(selectorType => selectorType.data.length);
+            })
+            .catch(err => {
+                console.log('error: ', err);
+            })
+    }
+};
+
 export const searchUsers = (name) => {
     return (dispatch, getState) => {
         let obj = {
