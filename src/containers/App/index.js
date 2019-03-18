@@ -252,7 +252,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log('sbjs.get :', sbjs.get);
         let name, avatar;
 
         if (this.props.mode === "master" && this.props.profileCoach) {

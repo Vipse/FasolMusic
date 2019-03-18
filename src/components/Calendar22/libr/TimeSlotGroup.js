@@ -199,29 +199,19 @@ class TimeSlotGroup extends Component {
     const backgroundColor= hovered ? '#e8f8fc ' : 'white';
 
     const {intervals, value, freeTrainers, isAdmin} = this.props;
-
+    let valuetM = value.getTime();
 
     const flag = Array.isArray(intervals) ? intervals.some(el => {
-      
-      
-        if(Array.isArray(el.intervals)){
-           
-            for(let i = 0; i < el.intervals.length; i++){
-              // console.log('moment(value.getTime()) :', moment(value.getTime()));
-              // console.log('moment(elem.start*1000) :', moment(el.intervals[i].start*1000));
-              // console.log(' moment(elem.end * 1000) :',  moment(el.intervals[i].end * 1000));
-    
-    
-              return moment(value.getTime()).isBetween( moment(el.intervals[i].start*1000), moment(el.intervals[i].end * 1000))
-            }
+          
+        if(Array.isArray(el.intervals)){    
+              for(let i = 0; i < el.intervals.length; i++){
+                if(value.getTime() >= el.intervals[i].start*1000 && value.getTime() < el.intervals[i].end * 1000)
+                    return true
+              }
         } 
         else{
-          console.log("object", value);
-          console.log('start :', new Date(el.start*1000));
-          console.log('end :', new Date(el.end*1000));
-          console.log("-----------------------------------------");
-          let valuetM = value.getTime();
-          return (valuetM >= el.start*1000) && valuetM <= (el.end * 1000)
+          
+          if((valuetM >= el.start*1000) && valuetM < (el.end * 1000)) return true
         }
          
     }) : null

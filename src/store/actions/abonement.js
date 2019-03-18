@@ -64,6 +64,12 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
                     discAbonement : discAbonement,
                 });
 
+                // mainDiscipline && dispatch({
+                //     type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
+                //     currDiscipline : mainDiscipline,
+                // });
+                
+
                 return mainDiscipline            
         })
         .catch(err => {
