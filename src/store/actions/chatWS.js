@@ -106,3 +106,10 @@ export const checkInterlocutorOnlineStatus = (id) => {
             })
     }
 }
+
+export const setWebSocketStatus = (status) => {
+    return ({
+        type: actionTypes.SET_WEBSOCKET_STATUS,
+        status,
+    });
+}

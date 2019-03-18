@@ -38,7 +38,6 @@ class App extends React.Component {
             widget: null,
             id: null
         };
-          
     }
 
     toggle = () => {
@@ -77,7 +76,8 @@ class App extends React.Component {
      runChatWS = () => {
         const {chatProps, setChatFromId, setChatToId, setReceptionStatus, setIsCallingStatus,
             setConversationMode, setChatStory, setChatTrainingId, setNewTimer, onSaveMessage,
-            setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus} = this.props;
+            setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus,
+            setWebSocketStatus} = this.props;
 
         createSocket(
             'wss://web.fasolonline.ru:8443/one2one',
@@ -96,6 +96,7 @@ class App extends React.Component {
                 setBeginTime,
                 setIsTrialStatus,
                 setIsCompleteStatus,
+                setWebSocketStatus,
 
                 get_from: () => this.props.from,
                 get_to: () => this.props.to,
@@ -103,6 +104,8 @@ class App extends React.Component {
                 get_isCalling: () => this.props.isCalling,
                 get_user_mode: () => this.props.mode,
                 get_interlocutorName: () => this.props.interlocutorName,
+                get_interlocutorAvatar: () => this.props.interlocutorAvatar,
+
                 get_chatStory: () => this.props.chatStory,
                 get_visitInfo: () => this.getChatInfo(),
                 get_timer: () => this.props.timer,
@@ -208,9 +211,9 @@ class App extends React.Component {
     showTransferInterval = () => {
         const {weekInterval, discCommunication, disciplinesList, currDiscipline} = this.props;
         const idMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
-        
+
         if(weekInterval && idMaster){
-            
+
             let chooseWeekdays = [0,1,2,3,4,5,6];
             this.setState({scheduleSpinner: true})
 
@@ -225,7 +228,7 @@ class App extends React.Component {
     pushBtnUnfresh = () => {
 
         const {weekInterval} = this.props;
-        
+
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
@@ -413,6 +416,7 @@ const mapStateToProps = state => {
         chatStory: state.chatWS.chatStory,
         conversationMode: state.chatWS.conversationMode,
         interlocutorName: state.chatWS.interlocutorName,
+        interlocutorAvatar: state.chatWS.interlocutorAvatar,
         timer: state.chatWS.timer,
         countTrainingDiscipline: state.training.countTrainingDiscipline,
         statusBtnBack: state.student.statusBtnBack,
@@ -452,6 +456,7 @@ const mapDispatchToProps = dispatch => {
         setBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
         setIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
         setIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
+        setWebSocketStatus: (status) => dispatch(actions.setWebSocketStatus(status)),
 
         hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
         makeReview: (obj) => dispatch(actions.makeReview(obj)),
@@ -469,7 +474,7 @@ const mapDispatchToProps = dispatch => {
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onChangeBtnBack: (status) => dispatch(actions.changeBtnBack(status)),
         onChangeBtnTransfer: (status) => dispatch(actions.changeBtnTransfer(status)),
-        
+
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
@@ -477,7 +482,6 @@ const mapDispatchToProps = dispatch => {
         onChangePushBtnUnfresh: (status) => dispatch(actions.changePushBtnUnfresh(status)),
         onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
         onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
-        onSetOnlineStatus: (id, status) => dispatch(actions.setOnlineStatus(id, status)),
     }
 };
 

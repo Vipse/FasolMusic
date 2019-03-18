@@ -38,7 +38,7 @@ class ChatContent extends React.Component {
 
         if (showEndDescription && prevProps.data !== data && data.length) {
             const lastMsg = data[data.length - 1];
-            
+
             if (lastMsg && lastMsg.isVisEnd)
                 this.showEndDescriptionModal(lastMsg.endType);
         }
@@ -76,12 +76,12 @@ class ChatContent extends React.Component {
                     >
                         {loadingChatStory ? <Spinner/> :
                             this.props.data.map((e, i) => {
-                                const messProps = +e.from === +this.props.from
+                                const messProps = (e && +e.from === +this.props.from)
                                     ? {isMy: true,}
                                     : {
                                         img: this.props.interlocutorAvatar,
                                         online: this.props.online,
-                                    }
+                                    };
                                 return (<ChatMessage
                                     {...e}
                                     {...messProps}

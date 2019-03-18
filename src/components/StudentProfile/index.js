@@ -11,7 +11,7 @@ class StudentProfile extends React.Component {
     state = {};
 
     render() {
-        const {img, name, discipline, level, paidTrainingsCount, email, phones} = this.props;
+        const {img, name, discipline, level, paidTrainingsCount, email, phones, isAdmin} = this.props;
 
         return (
             <Card title="Профиль студента">
@@ -35,13 +35,13 @@ class StudentProfile extends React.Component {
                                 <div className="profile-student-info-count">Тренировок оплачено: <span className="profile-student-info-count-number">{paidTrainingsCount}</span></div>
                             </div>
                         </div>
-                        <div className="profile-student-btn-row">
-                            <Button onClick={() => console.log('openDialog')}
-                                    btnText='Открыть диалог'
+                        {!isAdmin ? <div className="profile-student-btn-row">
+                            <Button onClick={() => this.props.onGoToChat()}
+                                    btnText='Открыть чат'
                                     size='default'
                                     type='light-blue'
                             />
-                        </div>
+                        </div> : null}
                     </div>
             </Card>
         )
