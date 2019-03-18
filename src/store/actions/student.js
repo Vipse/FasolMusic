@@ -216,7 +216,9 @@ export const getTrainingTrialStatusByDiscipline = (disciplineId, idStudent) => {
                 });
                 return res.data.result;
             })
-            .catch(err => {console.log(err)})
+            .catch(err => {
+                console.log(err)
+            })
     }
 };
 
@@ -226,21 +228,33 @@ export const getTrainingsTrialStatus = (idStudent) => {
             type: actionTypes.RESET_TRAININGS_TRIAL_STATUS,
         });
 
-        getState().loading.selectors.discipline.forEach(item =>
+        let arr = getState().loading.selectors.discipline.map(item =>
             dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
+
+        return Promise.all(arr)
+            .then((res) => {
+                dispatch({
+                    type: actionTypes.SET_TRAININGS_AVAILABLE_STATUS,
+                    isTrialTrainingsAvailableCount:
+                    res.filter(discipline => !discipline.isTrialTraining).length
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
     };
 };
 
 export const getDisciplineCommunication = (idStudent) => {
-    
+
     return (dispatch) => {
         return axios.post('/catalog.fasol/getStudentMasterDisciplineCommunication', JSON.stringify({idStudent}))
             .then(res => {
-                
+
                 let obj = {};
                 res.data.result.forEach((el) => obj[el.discipline] = el)
 
-                
+
                 dispatch({
                     type: actionTypes.GET_DISCIPLINE_COMMUNICATION,
                     discCommunication: obj
@@ -316,10 +330,10 @@ export const setPushBtnTransferTraining = (type) => {
 }
 
 export const unsetPushBtnTransferTraining = () => {
-    
+
     return ({
         type: actionTypes.UNSET_IS_PUSH_BTN_TRANSFER,
-        isPushBtnTransfer: false            
+        isPushBtnTransfer: false
     });
 }
 export const setPushBtnAddTraining = (type) => {

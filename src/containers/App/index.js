@@ -154,7 +154,7 @@ class App extends React.Component {
         const {id, currDiscipline} = this.props;
         this.props.getSelectors('discipline')
             .then(res => this.props.mode === 'student' && this.props.onGetTrainingsTrialStatus(this.props.id));
-        if (this.props.mode === "master"){
+        if (this.props.mode === "master") {
             this.props.onGetInfoDoctor(id);
         }
         else if (this.props.mode === "student") {
@@ -178,13 +178,11 @@ class App extends React.Component {
         const login = localStorage.getItem('_fasol-user'),
             pass = localStorage.getItem('_fasol-pass');
 
-
         (!this.props.id && !this.props.mode && login && pass) &&
         this.props.onLogin({
             userName: login,
             password: pass,
         }, this.props.history);
-
     }
 
     gotoHandler = (id, userGroup) => {
@@ -305,7 +303,6 @@ class App extends React.Component {
                                             authMode={this.props.mode}
                                             searchData={this.props.usersHeaderSearch}
                                             onGoto={this.gotoHandler}
-                                            notifications={this.state.notifications}
                                             getNotifId={id => this.props.readNotification(id)}
                                             getNotifications={() => this.props.getNotifications(this.props.id)}
                                             logout={this.props.onLogout}
@@ -317,7 +314,7 @@ class App extends React.Component {
                                             disciplinesList={this.props.disciplinesList}
 
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
-                                            isTrialTrainingsAvailable={this.props.isTrialTrainingsAvailable}
+                                            isTrialTrainingsAvailableCount={this.props.isTrialTrainingsAvailableCount}
                                             countTrainingDiscipline = {this.props.countTrainingDiscipline}
                                             discCommunication = {this.props.discCommunication}
                                             studentBalance = {this.props.studentBalance}
@@ -393,7 +390,7 @@ const mapStateToProps = state => {
         profileStudent: state.profilePatient,
         selectors: state.loading.selectors,
         trialTrainingForDisciplines: state.student.trialTrainingForDisciplines,
-        isTrialTrainingsAvailable: state.student.isTrialTrainingsAvailable,
+        isTrialTrainingsAvailableCount: state.student.isTrialTrainingsAvailableCount,
         frozenTraining: (state.profilePatient) ? state.profilePatient.frozenTraining : '-',
         usersHeaderSearch: state.loading.usersHeaderSearch,
         weekInterval: state.abonement.weekInterval,
