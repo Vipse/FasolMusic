@@ -68,7 +68,7 @@ class RecordTrainCarousel extends React.Component {
         let timeIntervals = [];
 
         for (let i = 0; i < 7; i++) {
-            let curDayBegin = moment(curWeekBegin).add(i, 'days'); //
+            let curDayBegin = moment(curWeekBegin).add(i, 'days');
             let time = [];
 
             let dayIntervals = intervals[moment(curDayBegin).format('X')];
@@ -117,7 +117,7 @@ class RecordTrainCarousel extends React.Component {
         }
 
         let timesColumnArr = [];
-        for (let i = availableHoursArea[0] + 1; i < availableHoursArea[1] + 1; i++)
+        for (let i = availableHoursArea[0]; i < availableHoursArea[1]; i++)
             timesColumnArr.push(<div>{moment(i, 'H').format('H:mm')}</div>);
 
         return <div className='table-main-row'>
