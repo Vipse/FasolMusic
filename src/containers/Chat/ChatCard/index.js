@@ -63,7 +63,7 @@ class ChatCard extends React.Component {
 			Modal.warning({
 				title: 'Устройство не поддерживается',
 				width: '500px',
-				className: 'fast-modal',
+				className: 'quick-modal',
 				content: 'Возможны проблемы с работой чата',
 				maskClosable: true,
 				okText: 'Продолжить',
@@ -87,7 +87,7 @@ class ChatCard extends React.Component {
 		Modal.warning({
 			title: 'Отлично потренировались! :)',
 			width: '500px',
-			className: 'fast-modal',
+			className: 'quick-modal',
 			content: 'Вы конечно хотите продолжать и специально для вас, ' +
 				'если вы произведете оплату в течении  24 часов, ' +
 				'мы вам подарим еще 1 бесплатную тренировку!',
@@ -101,7 +101,7 @@ class ChatCard extends React.Component {
 		Modal.confirm({
 			title: 'Тренировка еще не началась',
 			width: '500px',
-			className: 'fast-modal',
+			className: 'quick-modal',
 			content: 'Тренировка пока еще не началась, нужно подождать до ' +
 				moment(this.props.beginTime).format('HH:mm DD MMM') + ' Как только начнется тренировка ' +
 				'коуч сам вам позвонит и не забудьте принять вызов! :) Но вы всегда можете написать ему в чат :)',
@@ -116,7 +116,7 @@ class ChatCard extends React.Component {
 		PopupModal.info({
 			title: 'Что нужно для пробного!',
 			width: '500px',
-			className: 'fast-modal',
+			className: 'quick-modal',
 			content: 'Подготовьте камеру и микрофон, проверьте интернет-соединение ' +
 				'и подготовьте инструмент если вы гитарист, а все остальное сделаем мы! ' +
 				'Только не пропустите наш звонок!) P.S. Лучше зайти на платформу за 10 минут :)',

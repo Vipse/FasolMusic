@@ -45,11 +45,11 @@ export const getAllInfoMasters = (typeMasters, masterList) => {
     return (dispatch) => {
         let arr = [];
         masterList.forEach(el => {
-        
+
             arr.push(getInfoMasters(el)
                 .catch((err) => { console.log(err)}));
         });
-                
+
         return Promise.all(arr)
             .then((rez) => {
                     if(typeMasters === 'free')
@@ -66,7 +66,7 @@ export const getAllInfoMasters = (typeMasters, masterList) => {
                             adminMasters: rez,
                         })
                     }
-                   
+
             })
             .catch((err) => {
                 console.log(err)
@@ -74,14 +74,10 @@ export const getAllInfoMasters = (typeMasters, masterList) => {
     }
 }
 
-export const getReport = (dateStart, dateEnd) => {
-    const obj = {
-        dateStart,
-        dateEnd
-    };
+export const getReport = () => {
 
     return (dispatch) => {
-        return axios.post('/catalog.fasol/reportToExcel', JSON.stringify(obj))
+        return axios.post('/catalog.fasol/reportToExcel')
             .then(res => {
                 console.log('reportToExcel', res);
                 dispatch({

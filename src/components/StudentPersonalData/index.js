@@ -33,7 +33,8 @@ class StudentPersonalDataForm extends React.Component {
             avatarLink: "",
             isChangePasswordModalVisible: false,
             isSendSuggestionsModalVisible: false,
-            selectorsValues: {}
+            loadingSelectors: true,
+            isSaveBtnActive: false
         }
     }
 
@@ -43,19 +44,19 @@ class StudentPersonalDataForm extends React.Component {
             avatarLink: avatar
         });
 
-        const {getSelectors} = this.props;
         const selectorsNames = ['interests', 'goal', 'discipline', 'qualities',
             'styles', 'professions', 'musicalExperience', 'countries'];
 
-        selectorsNames.forEach((name) => {
-            getSelectors(name)
-                .then(res => this.setState({
-                    selectorsValues: {
-                        ...this.state.selectorsValues,
-                        [name + "List"]: res.data
-                    }}))
-                .catch(err => console.log(err))
-        });
+        this.props.getMultipleSelectors(selectorsNames)
+            .then(res => {
+                this.setState({loadingSelectors: false,
+                    isSaveBtnActive: res
+                });
+                if (!res) {
+                    message.error('Ошибка при загрузке данных для выбора. Попробуйте перезагрузить страницу', 0)
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -102,7 +103,7 @@ class StudentPersonalDataForm extends React.Component {
     };
 
     prepareDisciplines = (data) => {
-        const {disciplineList, goalList, stylesList, musicalExperienceList} = this.state.selectorsValues;
+        const {discipline, goal, styles, musicalExperience} = this.props.selectors;
         let disciplinesNumsArr = [];
         for (let key in data)
             if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
@@ -110,12 +111,12 @@ class StudentPersonalDataForm extends React.Component {
         let preparedDisciplines = [];
         disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({
-                discipline: getSelectedIDs(disciplineList, data["discipline-" + i]),
-                specialization: getSelectedNestedIDs(disciplineList, data["specialization-" + i], [data["discipline-" + i]]),
-                level: getSelectedNestedIDs(disciplineList, data["level-" + i], [data["discipline-" + i]], false, '2'),
-                experiense: getSelectedIDs(musicalExperienceList, data["experiense-" + i]),
-                goals: getSelectedIDs(goalList, data["goals-" + i]),
-                musicstyles: getSelectedIDs(stylesList, data["musicstyles-" + i]),
+                discipline: getSelectedIDs(discipline, data["discipline-" + i]),
+                specialization: getSelectedNestedIDs(discipline, data["specialization-" + i], [data["discipline-" + i]]),
+                level: getSelectedNestedIDs(discipline, data["level-" + i], [data["discipline-" + i]], false, '2'),
+                experiense: getSelectedIDs(musicalExperience, data["experiense-" + i]),
+                goals: getSelectedIDs(goal, data["goals-" + i]),
+                musicstyles: getSelectedIDs(styles, data["musicstyles-" + i]),
                 favoritesingers: data["favoritesingers-" + i]
             });
         });
@@ -128,27 +129,27 @@ class StudentPersonalDataForm extends React.Component {
 
         this.props.form.validateFieldsAndScroll(antFormConfig, (err, values) => {
             if (!err && this.props.profileStudent.id) {
-                const {interestsList, qualitiesList, professionsList, countriesList} = this.state.selectorsValues;
+                const {interests, qualities, professions, countries} = this.props.selectors;
 
                 const finalData = {
                     id: this.props.profileStudent.id,
                     name: values.name,
                     phones: values.phones,
                     email: values.email,
-                    country: getSelectedIDs(countriesList, values.country),
+                    country: getSelectedIDs(countries, values.country),
                     avatar: this.state.avatarLink,
 
                     sex: values.sex === "Мужской" ? "m" : values.sex === "Женский" ? "w" : null,
                     datebirth: moment(values.datebirth).format('X'),
-                    work: getSelectedIDs(professionsList, values.work),
-                    interests: getSelectedIDs(interestsList, values.interests),
+                    work: getSelectedIDs(professions, values.work),
+                    interests: getSelectedIDs(interests, values.interests),
 
                     disciplines: this.prepareDisciplines(values),
 
                     bestsex: values.bestsex === "Мужской" ? "m" : values.bestsex === "Женский" ? "w" : null,
                     bestage: values.bestage,
                     bestishomework: values.bestishomework === "Да" ? 1 : values.bestishomework === "Нет" ? 0 : null,
-                    bestqualities: getSelectedIDs(qualitiesList, values.bestqualities),
+                    bestqualities: getSelectedIDs(qualities, values.bestqualities),
                     bestcomment: values.bestcomment
                 };
 
@@ -169,12 +170,12 @@ class StudentPersonalDataForm extends React.Component {
 
     render() {
         const rootClass = cn('student-data');
-        const { form, profileStudent } = this.props;
-        const { selectorsValues, avatarLink, uploadingNewData,
+        const { form, profileStudent, selectors } = this.props;
+        const { avatarLink, uploadingNewData, isSaveBtnActive,
             isChangePasswordModalVisible, isSendSuggestionsModalVisible } = this.state;
         const { getFieldDecorator } = form;
-        const {interestsList, professionsList, disciplineList, goalList,
-            stylesList, qualitiesList, musicalExperienceList, countriesList} = selectorsValues;
+        const {interests, professions, discipline, goal,
+            styles, qualities, musicalExperience, countries} = selectors;
 
         return (
             <div className={rootClass}>
@@ -189,32 +190,32 @@ class StudentPersonalDataForm extends React.Component {
                             getFieldDecorator={getFieldDecorator}
                             showChangePasswordModal={() => this.setState({isChangePasswordModalVisible: true})}
                             showSendSuggestionsModal={() => this.setState({isSendSuggestionsModalVisible: true})}
-                            countriesList={getSelectorValues(countriesList)}
+                            countriesList={getSelectorValues(countries)}
                             isStudent={true}
                         />
                         <div className='student-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
                             profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
-                            interestsList={getSelectorValues(interestsList)}
-                            professionsList={getSelectorValues(professionsList)}
+                            interestsList={getSelectorValues(interests)}
+                            professionsList={getSelectorValues(professions)}
                             isStudent={true}
                         />
                         <div className='student-data-title'>Уровни подготовки по дисциплинам</div>
                         <PersonalDataSkill
                             profile={profileStudent}
                             form={form}
-                            disciplineObj={disciplineList}
-                            goalList={getSelectorValues(goalList)}
-                            stylesList={getSelectorValues(stylesList)}
-                            musicalExperienceList={getSelectorValues(musicalExperienceList)}
+                            disciplineObj={discipline}
+                            goalList={getSelectorValues(goal)}
+                            stylesList={getSelectorValues(styles)}
+                            musicalExperienceList={getSelectorValues(musicalExperience)}
                             isStudent={true}
                         />
                         <div className='student-data-title'>Идеальный тренер</div>
                         <PersonalDataPreferences
                             profile={profileStudent}
                             getFieldDecorator={getFieldDecorator}
-                            qualitiesList={getSelectorValues(qualitiesList)}
+                            qualitiesList={getSelectorValues(qualities)}
                             isStudent={true}
                         />
 
@@ -223,7 +224,7 @@ class StudentPersonalDataForm extends React.Component {
                             onClick={this.handleSubmitInfo}
                             btnText='Сохранить изменения'
                             size='default'
-                            disable={uploadingNewData}
+                            disable={uploadingNewData || !isSaveBtnActive}
                             type='light-blue'
                             style={{marginRight: "20px"}}
                         />

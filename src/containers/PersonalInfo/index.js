@@ -39,19 +39,19 @@ class PersonalInfo extends React.Component {
                             profileStudent={this.props.profileStudent}
                             onSubmit={this.props.onSaveUserEdit}
                             onSocialConnect={this.props.connectionToSocialNetwork}
-                            getSelectors={this.props.getSelectors}
+                            getMultipleSelectors={this.props.getMultipleSelectors}
+                            selectors={this.props.selectors}
                             uploadFile={this.props.uploadFile}
                             onChangePassword={this.props.onChangePassword}
-                            //onDeleteAvatar={this.props.onDeleteAvatar}
                         />) : (
                         <CoachPersonalProfile
                             profileCoach={this.props.profileCoach}
                             onSubmit={this.props.onSaveUserEdit}
                             onSocialConnect={this.props.connectionToSocialNetwork}
-                            getSelectors={this.props.getSelectors}
+                            getMultipleSelectors={this.props.getMultipleSelectors}
+                            selectors={this.props.selectors}
                             uploadFile={this.props.uploadFile}
                             onChangePassword={this.props.onChangePassword}
-                            //onDeleteAvatar={this.props.onDeleteAvatar}
                         />)}
                 </Hoc>
         )
@@ -63,6 +63,7 @@ const mapStateToProps = state => {
         profileCoach: state.profileDoctor,
         profileStudent: state.profilePatient,
         auth: state.auth,
+        selectors: state.loading.selectors,
     }
 };
 
@@ -72,10 +73,9 @@ const mapDispatchToProps = dispatch => {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
         connectionToSocialNetwork: (idProfile, idSocial, networkName) => dispatch(actions.connectionToSocialNetwork(idProfile, idSocial, networkName)),
-        getSelectors: (name) => dispatch(actions.getSelectors(name)),
+        getMultipleSelectors: (name) => dispatch(actions.getMultipleSelectors(name)),
         onChangePassword: (id, newPass) => dispatch(actions.changePassword(id, newPass)),
-        uploadFile: (file) => dispatch(actions.uploadFile(file)),
-        //onDeleteAvatar: (id) => dispatch(actions.deleteAvatar(id)),
+        uploadFile: (file) => dispatch(actions.uploadFile(file))
     }
 };
 

@@ -27,14 +27,14 @@ class Header extends React.Component {
         showBtnBack: false,
     };
 
-    componentWillReceiveProps(nextProps) { 
+    componentWillReceiveProps(nextProps) {
         if(this.props.statusBtnBack === false && this.props.statusBtnBack !== this.state.showBtnBack){
             this.setState({showBtnBack: false})
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.isTrialTrainingsAvailable !== this.props.isTrialTrainingsAvailable &&
-            this.props.isTrialTrainingsAvailable && this.props.isOnMainPage)
+        if (prevProps.isTrialTrainingsAvailableCount !== this.props.isTrialTrainingsAvailableCount &&
+            this.props.isTrialTrainingsAvailableCount > 1 && this.props.isOnMainPage)
             this.setState({isTrialTrainingModalVisible: true});
     }
 
@@ -68,7 +68,7 @@ class Header extends React.Component {
         this.setState({actionTrialTraining: true})
     }
 
-    onUnfreshTraining = () => {    
+    onUnfreshTraining = () => {
         const {statusBtnBack} = this.props;
 
         this.resetAllActionApp();
@@ -90,7 +90,7 @@ class Header extends React.Component {
             time0 = weekInterval.start;
             time1 = weekInterval.end;
         }
-        
+
         const codeDisc = disciplinesList[data.type].code;
         this.props.showSpinner();
 
@@ -98,9 +98,9 @@ class Header extends React.Component {
 
         this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
         this.props.onSetFreeIntervals(array, data.type);
-        
+
         if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-            
+
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);
             this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0})
             this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining)
@@ -109,7 +109,7 @@ class Header extends React.Component {
             message.success('Количество добавленных тренировок '+ useFrozenTraining);
         }
         else {
-            
+
             this.props.onSetPushTrialTraining(null);
             this.props.onSetMasterTheDisicipline(null);
             this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc])
@@ -151,7 +151,7 @@ class Header extends React.Component {
             .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
         this.props.onGoToSchedule();
         this.props.onUnsetPushBtnTransferTraining();
-        this.setState({isTrialTrainingModalVisible: false});       
+        this.setState({isTrialTrainingModalVisible: false});
     };
 
     handleTransfer = () => {
@@ -160,18 +160,18 @@ class Header extends React.Component {
         this.props.isTransferTrainPopupActive && Modal.info({
             title: 'Перенос тренировки',
             width: '500px',
-            className: 'fast-modal',
+            className: 'quick-modal',
             content: 'Зеленым цветом в календаре подсветилось доступное время у коуча, ' +
                 'перетяни тренировку которую хочешь перенести на любое доступное время и помни, ' +
                 'одну тренировку можно перенести только один раз и не позднее 24 часов до начала тренировки!',
             onOk: () => {this.props.onTransferTrainPopupClose()}
         });
-        
+
         //this.props.onChangePushBtnUnfresh(true); // app func
         this.props.showTransferInterval();
         this.props.onChangeBtnTransfer(true)
         this.props.onSetPushTrialTraining(null);
-        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); 
+        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
         this.props.onChangeBtnBack(!statusBtnBack)
 
         this.setState({showBtnBack: true})
@@ -187,7 +187,7 @@ class Header extends React.Component {
             studentBalance,
             trialTrainingForDisciplines,
             disciplinesList,
-            isTrialTrainingsAvailable,
+            isTrialTrainingsAvailableCount,
             useFrozenTraining,
             countTrainingDiscipline
         } = this.props;
@@ -211,13 +211,13 @@ class Header extends React.Component {
                     <React.Fragment>
                         <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>
-                            {isTrialTrainingsAvailable && showTrialModal && <Button
+                            {(isTrialTrainingsAvailableCount && showTrialModal) ? <Button
                                 btnText='ПРОБНАЯ ТРЕНИРОВКА'
                                 size='default'
                                 type='border-pink'
                                 className="header-btn"
                                 onClick={this.onSubmitBtnTrialTraining}
-                            />}
+                            /> : null}
                             {useFrozenTraining ? <Button
                                 btnText={'Разморозить тренировку(' + useFrozenTraining + ')'}
                                 size='default'
@@ -225,8 +225,8 @@ class Header extends React.Component {
                                 className="header-btn"
                                 onClick={this.onUnfreshTraining}
                             /> : null}
-        
-                        
+
+
                             {countTrainingDiscipline ?
                                 <Button
                                     btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'

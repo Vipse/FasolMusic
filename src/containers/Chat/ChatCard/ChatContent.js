@@ -48,7 +48,7 @@ class ChatContent extends React.Component {
         Modal.info({
             title: 'Тренировка ' + (endType === 'transfer' ? 'перенесена' : 'завершена'),
             width: '500px',
-            className: 'fast-modal'
+            className: 'quick-modal'
         });
     };
 

@@ -87,6 +87,22 @@ export const getSelectors = (name) => {
     }
 };
 
+export const getMultipleSelectors = (namesArr) => {
+    return (dispatch) => {
+        let arr = namesArr.map((name) => dispatch(getSelectors(name))
+            .then(res => res)
+            .catch(err => err));
+
+        return Promise.all(arr)
+            .then(res => {
+                return res.every(selectorType => selectorType.data.length);
+            })
+            .catch(err => {
+                console.log('error: ', err);
+            })
+    }
+};
+
 export const searchUsers = (name) => {
     return (dispatch, getState) => {
         let obj = {
@@ -165,6 +181,23 @@ export const getUserCountry = () => {
                     type: actionTypes.GET_USER_COUNTRY,
                     country: res.data.country
                 });
+
+                return res;
+            })
+            .catch(err => {console.log(err)})
+    }
+};
+
+export const getAbonementsPrice = () => {
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/getContent', JSON.stringify({id: 3783}))
+            .then(res => {
+                console.log('getAbonementsPrice', res);
+                dispatch({
+                    type: actionTypes.GET_ABONEMENTS_PRICE,
+                    priceList: res.data.result.abonement
+                });
+
                 return res;
             })
             .catch(err => {console.log(err)})

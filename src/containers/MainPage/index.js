@@ -25,16 +25,16 @@ class MainPage extends React.Component{
 		const {id} = this.props;
 		let start, end;
 
-		start = moment(Date.now()).startOf('day').format('X');
-		end = moment(Date.now()).endOf('day').format('X');
+		start = moment().utcOffset("+03:00").startOf('day').format('X');
+		end = moment().utcOffset("+03:00").endOf('day').format('X');
 		this.props.onGetTodayTrainerTraining(id, end, start);
 
-		start = moment(Date.now()).format('X');
-		end = moment(Date.now()).add(1, 'weeks').format('X');
+		start = moment().utcOffset("+03:00").startOf('week').format('X');
+		end = moment().add(1, 'weeks').format('X');
 		this.props.onGetFutureTrainerTraining(id, start, end);
 
-		start = moment(Date.now()).subtract(1, 'weeks').format('X');
-		end = moment(Date.now()).format('X');
+		start = moment().subtract(1, 'weeks').format('X');
+		end = moment().format('X');
 		this.props.onGetPostTrainerTraining(id, start, end);
 	};
 
@@ -44,7 +44,7 @@ class MainPage extends React.Component{
 
 		if (this.props.mode === "student") {
 			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), 3);
-			this.props.onGetAllTrainingStudent(this.props.id, moment(Date.now()).subtract(1, 'weeks').format('X'), moment(Date.now()).format('X'));
+			this.props.onGetAllTrainingStudent(this.props.id, moment().subtract(1, 'weeks').format('X'), moment().format('X'));
 			this.props.onGetMyMastersOrStudents({idStudent: this.props.id});
 		} else if (this.props.mode === "master") {
 			this.props.onGetMyMastersOrStudents({idMaster: this.props.id});
@@ -207,7 +207,7 @@ const mapDispatchToProps = dispatch => {
 		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
 		getSelectors: (name) => dispatch(actions.getSelectors(name)),
 
-		onGetReport: (dateStart, dateEnd) => dispatch(actions.getReport(dateStart, dateEnd))
+		onGetReport: () => dispatch(actions.getReport())
     }
 };
 

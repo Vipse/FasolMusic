@@ -92,7 +92,8 @@ class CoachProfile extends React.Component {
                             <div className="profile-coach-rate">
                                 <div className="profile-coach-rate-count">
                                     <Rate disabled defaultValue={rate}/>
-                                <span className="profile-coach-rate-count-amount">({ratingsCount} оценок)</span></div>
+                                    {ratingsCount >= 0 ? <span className="profile-coach-rate-count-amount">({ratingsCount} оценок)</span> : null}
+                                </div>
                                 <div className="profile-coach-rate-info">
                                     <p>Предложение оценить препода в несколько строк</p>
                                 </div>
