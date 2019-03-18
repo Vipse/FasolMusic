@@ -6,7 +6,8 @@ const initialState = {
     visitId: 0,
     selectors: {},
     promoList: [],
-    country: ''
+    country: '',
+    priceList: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -53,6 +54,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 country: action.country,
+            };
+        case actionTypes.GET_ABONEMENTS_PRICE:
+            return {
+                ...state,
+                priceList: action.priceList,
             };
 
         default:

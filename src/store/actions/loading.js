@@ -181,6 +181,23 @@ export const getUserCountry = () => {
                     type: actionTypes.GET_USER_COUNTRY,
                     country: res.data.country
                 });
+
+                return res;
+            })
+            .catch(err => {console.log(err)})
+    }
+};
+
+export const getAbonementsPrice = () => {
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/getContent', JSON.stringify({id: 3783}))
+            .then(res => {
+                console.log('getAbonementsPrice', res);
+                dispatch({
+                    type: actionTypes.GET_ABONEMENTS_PRICE,
+                    priceList: res.data.result.abonement
+                });
+
                 return res;
             })
             .catch(err => {console.log(err)})

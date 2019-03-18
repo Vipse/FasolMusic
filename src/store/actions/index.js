@@ -121,7 +121,8 @@ export {
     getNotifications,
     readNotification,
     getPromoList,
-    getUserCountry
+    getUserCountry,
+    getAbonementsPrice
 } from './loading'
 
 export {
