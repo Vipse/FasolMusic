@@ -24,7 +24,7 @@ export const createAbonement = (dataCreate) => {
 }
 
 
-export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => {
+export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) => (dispatch) => {
   
     return axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
         .then(res => {
@@ -45,14 +45,22 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
                     fdata = fdata[currDiscipline.code].filter((el) => !el.isBooking); // remove booking training
                 }  
 
-                let mainDiscipline = null;
-                let countInDiscipline = 0;
-                for( let el in fdata){
-                    if(countInDiscipline < fdata[el].length){
-                        countInDiscipline = fdata[el].length;
-                        mainDiscipline = el;
+                if(isFirst) {
+                    let mainDiscipline = null;
+                    let countInDiscipline = 0;
+                    for( let el in fdata){
+                        if(countInDiscipline < fdata[el].length){
+                            countInDiscipline = fdata[el].length;
+                            mainDiscipline = el;
+                        }
                     }
+
+                    mainDiscipline && dispatch({
+                        type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
+                        currDiscipline : mainDiscipline,
+                    });
                 }
+               
 
                 dispatch({
                     type: actionTypes.GET_ABONEMENTS,
@@ -62,15 +70,7 @@ export const getAbonementsFilter = (idStudent, currDiscipline) => (dispatch) => 
                 dispatch({
                     type: actionTypes.SET_DISC_ABONEMENT,
                     discAbonement : discAbonement,
-                });
-
-                // mainDiscipline && dispatch({
-                //     type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
-                //     currDiscipline : mainDiscipline,
-                // });
-                
-
-                return mainDiscipline            
+                });          
         })
         .catch(err => {
             console.log(err);
