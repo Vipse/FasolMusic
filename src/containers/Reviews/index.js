@@ -78,7 +78,6 @@ const mapDispatchToProps = dispatch => {
 			dispatch(actions.getAllReviews(numberOfRequest, reviewsLoadCount, dateStart, dateEnd)),
 		onSendAnswer: (answer) => dispatch(actions.putCommentAnswer(answer)),
 		onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-        onSelectTretment: (id) => dispatch(actions.selectTreatment(id)),
         onGetAllReviewsByPatient: (numberOfRequest, reviewsLoadCount, dateStart, dateEnd) =>
             dispatch(actions.getAllReviewsByPatient(numberOfRequest, reviewsLoadCount, dateStart, dateEnd)),
 	}
