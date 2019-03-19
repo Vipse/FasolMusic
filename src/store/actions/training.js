@@ -3,11 +3,12 @@ import * as actionTypes from './actionTypes';
 import {getInfoMasters, getInfoStudents} from './student'
 import { setChatStory } from './chatWS'
 
-export const getTrainingNotFinished = (idUser, dateMax, max) => {
+export const getTrainingNotFinished = (idUser, dateMin, dateMax, max) => {
     return dispatch => {
         let obj = {
             idUser
         };
+        obj = (dateMin) ? {...obj, dateMin} : obj;
         obj = (dateMax) ? {...obj, dateMax} : obj;
         obj = (max) ? {...obj, max} : obj;
 

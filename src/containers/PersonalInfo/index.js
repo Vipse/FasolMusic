@@ -23,7 +23,7 @@ class PersonalInfo extends React.Component {
             this.props.onGetInfoDoctor)(this.props.auth.id)
             .then(res => {
                 this.setState({loadingData: false});
-                if (res && res.data.error)
+                if (res && res.data && res.data.error)
                     message.error("Произошла ошибка при загрузке данных, попробуйте ещё раз");
             });
     };

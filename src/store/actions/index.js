@@ -41,27 +41,6 @@ export {
     getTodayVisits,
     getFreeVisitsBySpec,
 } from './schedules';
-export {
-    getActualTreatments,
-    getCompletedTreatments,
-    getAllTreatments,
-    getPaginationTreatments,
-    getAppsBetweenDocAndUser,
-    getCompletedApps,
-    seletVisit,
-    selectTreatment,
-    clearSelections,
-    closeTreatment,
-    uploadChatFile,
-    uploadConclusion,
-    addFileToApp,
-    getAllFilesTreatment,
-    changeReceptionStatus,
-    getReceptionDuration,
-    clearCallback,
-    cancelAppByPatient
-} from './treatment'
-
 
 export {
     login,
