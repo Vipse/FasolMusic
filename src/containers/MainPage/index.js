@@ -7,7 +7,6 @@ import './styles.css'
 import StudentMain from './StudentMain';
 import CouchMain from "./CouchMain"
 import AdminMain from "./AdminMain";
-import VKApp from './../../components/VKApp/index';
 
 class MainPage extends React.Component{
 	constructor(props) {
@@ -79,8 +78,6 @@ class MainPage extends React.Component{
 					cancelModal ={this.state.cancelModal}
 					closeCancel = {() => {this.setState({cancelModal: false})}}
 					saveCancel = {() => {}}
-					getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
-					treatmentsCount={this.props.treatmentsCount}
 					addConclusion = {this.props.addConclusion}
 					makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 
@@ -114,8 +111,6 @@ class MainPage extends React.Component{
 					cancelModal = {this.state.cancelModal}
 					closeCancel= {() => {this.setState({cancelModal: false})}}
 					saveCancel = {() => {}}
-					getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
-					treatmentsCount={this.props.treatmentsCount}
 					addConclusion = {this.props.addConclusion}
 					makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 					{...this.props}/>
@@ -148,15 +143,9 @@ const mapStateToProps = state => {
 		studentTrainings: state.training.studentTrainings,
 
 		patients: state.patients.docPatients,
-		visits: state.schedules.visits,
-		reviews: state.reviews.reviews,
-		docTodayInfo: state.doctor.todayInfo,
 		patientDoctors: state.patients.patientDoctorsShort,
-		nearVisits: state.schedules.nearVisits,
-		nearVisitsLoaded: state.schedules.nearVisitsLoaded,
         myDoctorsLoaded: state.patients.myDoctorsLoaded,
 		intervals: state.patients.intervals,
-		availableIntervals: state.profileDoctor.workIntervals,
 		userInfoShort: state.profilePatient,
 
 		reportLinks: state.admin.reportLinks
@@ -165,19 +154,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-		onGetDocPatients: () => dispatch(actions.getDocPatients()),
-		onGetTodayVisits: (start, end) => dispatch(actions.getTodayVisits(start, end)),
-		onGetAllReviews: () => dispatch(actions.getAllReviews()),
 		onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-
-		getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
-		onGetPatientDoctors: (count) => dispatch(actions.getPatientDoctors(count)),
-		onGetIntervalForDate: (beginDay, endDay, id) => dispatch(actions.getDateIntervalWithoutMakingApp(beginDay, endDay, id)),
-		onGetAllDocIntervals: (id) => dispatch(actions.getAllDocIntervals(id)),
-		onSendUserPoleValue: (pole, value) => dispatch(actions.sendUserPoleValue(pole, value)),
-		onGetUserInfoShort: () => dispatch(actions.getUserInfoShort()),
-        makeReview: (obj) => dispatch(actions.makeReview(obj)),
-        makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
 
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
 		onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),

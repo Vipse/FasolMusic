@@ -1,20 +1,13 @@
 import React from 'react'
-import axios from 'axios'
 import {connect} from 'react-redux';
-import {NavLink, Redirect, Route} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import Hoc from '../../hoc'
-import Icon from "../../components/Icon/index.js";
 import Row from "../../components/Row/index.js";
 import Col from "../../components/Col/index.js";
 import Login from "../../components/Login/index.js";
 import {message} from 'antd';
 import LoginForget from "../../components/LoginForget/index.js";
-import Registration from "../../components/Registration/index.js";
 import CreateProfile from "../../components/CreateProfile";
-
-import RegistrationPatient from "../../components/RegistrationPatient/index.js";
-import langsArray from "../../helpers/langsArray"
-import addInfoObj from "../../helpers/addInfoObj"
 
 import moment from 'moment'
 import * as actions from '../../store/actions'
@@ -158,7 +151,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
         onRegisterUser: (userInfo, history) => dispatch(actions.registerUser(userInfo, history)),
-        onCheckEmailAvailability: (email) => dispatch(actions.checkEmailAvailability(email)),
         onSocialNetworkCheck: (idSocial, networkName) => dispatch(actions.socialNetworkCheck(idSocial, networkName)),
         onSocialAuthorization: (idSocial, history) => dispatch(actions.socialAuthorization(idSocial, history)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),

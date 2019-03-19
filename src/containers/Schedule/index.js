@@ -1203,37 +1203,14 @@ const mapStateToProps = state => {
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
         busytrainers: state.admin.busytrainers,
-        statusBtnBack: state.student.statusBtnBack,
-
-        intervals: state.schedules.visIntervals,
-        min: state.schedules.min,   // !   1540929600
-        max:  state.schedules.max,   // !  1540875600
-        chosenData: state.schedules.chosenData,
-        cancelData: state.schedules.cancelData,
-        allUserVisits:  state.schedules.allUserVisits,
-        emergencyAvailable:  state.doctor.emergencyAvailable
+        statusBtnBack: state.student.statusBtnBack
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetDocPatients: () => dispatch(actions.getDocPatients()),
-
-        onGetAllIntervals: (start, end) => dispatch(actions.getAllIntervals(start, end)),
-        clearReceptions: () => dispatch(actions.clearIntervals()),
-        onAddInterval: (obj, start, end) => dispatch(actions.addInterval(obj, start, end)),
-
-        onSendMessage: (mess) => dispatch(actions.sendMessage(mess)),
-        onCloseCancelModal: (obj) => dispatch(actions.cancelEventsRange(obj)),
-        onClearVisits: () => dispatch(actions.clearVisits()),
-
-        onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-        onSelectEvent: (event) => dispatch(actions.selectEvent(event)),
-        onEventDelete: () => dispatch(actions.deleteEvent()),
-
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
-
         onTransferTrainining: (value) => dispatch(actions.transferTrainining(value)),
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         onChangeSubscription: (data) => dispatch(actions.changeSubscription(data)),

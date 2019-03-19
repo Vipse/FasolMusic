@@ -152,14 +152,14 @@ class App extends React.Component {
 
     componentDidMount() {
         const {id} = this.props;
-        
+
         this.props.getSelectors('discipline')
             .then(res => this.props.mode === 'student' && this.props.onGetTrainingsTrialStatus(this.props.id));
 
         if (this.props.mode === "master") {
             this.props.onGetInfoDoctor(id)
-                .then((data) => {                  
-                            data.disciplines.forEach((el) => 
+                .then((data) => {
+                            data.disciplines.forEach((el) =>
                                 el.discipline.forEach((elem) => {
                                     elem && this.props.onChangeCurrDiscipline({...elem, code: elem.id})
                                 })
@@ -429,7 +429,8 @@ const mapStateToProps = state => {
 
         isTransferTrainPopupActive: state.student.isTransferTrainPopupActive
     }
-}
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
@@ -441,8 +442,6 @@ const mapDispatchToProps = dispatch => {
         onGetAbonementsFilter: (idStudent, currDiscipline) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
 
-        onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-        getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
         getNotifications: (id) => dispatch(actions.getNotifications(id)),
         readNotification: (id) => dispatch(actions.readNotification(id)),
 
@@ -464,8 +463,6 @@ const mapDispatchToProps = dispatch => {
         setIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
         setWebSocketStatus: (status) => dispatch(actions.setWebSocketStatus(status)),
 
-        hasNoReviewToFreeApp: ()=>dispatch(actions.hasNoReviewToFreeApp()),
-        makeReview: (obj) => dispatch(actions.makeReview(obj)),
         onSetPushBtnTransferTraining: (type) => dispatch(actions.setPushBtnTransferTraining(type)),
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)),
