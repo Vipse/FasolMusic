@@ -219,7 +219,7 @@ export const isPushBtnUnfresh = () => {
 export const changePushBtnUnfresh = (isPushBtnUnfresh) => {
     
     return ({
-        type: actionTypes.IS_PUSH_BTN_UNFRESH,  
+        type: actionTypes.CHANGE_PUSH_BTN_UNFRESH,  
         isPushBtnUnfresh
 
     });

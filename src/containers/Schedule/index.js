@@ -529,9 +529,8 @@ class Schedule extends React.Component {
                                 'Вот и все, вперед покорять музыку вместе с Fasol музыкальная качалка.',
                             zIndex: 1010
                         });
-                        this.props.onIsPushBtnUnfresh()
+                        this.props.onChangePushBtnUnfresh(true)
                     }
-
                 })
         }
 
@@ -1260,6 +1259,8 @@ const mapDispatchToProps = dispatch => {
         onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
+        onChangePushBtnUnfresh: (status) => dispatch(actions.isPushBtnUnfresh(status)),
+
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
         onGetFutureTrialTraining: (id, discipline) => dispatch(actions.getFutureTrialTraining(id, discipline)),

@@ -36,7 +36,7 @@ export const getInfoDoctor = (id) => {
                     });
                 }
 
-                return res;
+                return res.data.result.data;
             })
             .catch(err => {
                 console.log(err);

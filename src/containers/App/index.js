@@ -151,14 +151,23 @@ class App extends React.Component {
      };
 
     componentDidMount() {
-        const {id, currDiscipline} = this.props;
+        const {id} = this.props;
+        
         this.props.getSelectors('discipline')
             .then(res => this.props.mode === 'student' && this.props.onGetTrainingsTrialStatus(this.props.id));
+
         if (this.props.mode === "master") {
-            this.props.onGetInfoDoctor(id);
+            this.props.onGetInfoDoctor(id)
+                .then((data) => {                  
+                            data.disciplines.forEach((el) => 
+                                el.discipline.forEach((elem) => {
+                                    elem && this.props.onChangeCurrDiscipline({...elem, code: elem.id})
+                                })
+                            )
+                })
         }
+
         else if (this.props.mode === "student") {
-            //this.props.onGetAbonements(id, currDiscipline);
             this.props.onGetInfoPatient(id);
             this.props.onGetMasterList();
             this.props.onGetStudentBalance(id);
