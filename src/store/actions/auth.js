@@ -160,20 +160,6 @@ export const logout = () => {
 
 };
 
-export const checkEmailAvailability = (email) => {
-    return () => {
-        const emailObj = {
-            email: email
-        };
-        return axios.post('/catalog.doc2/emailVerification',
-            JSON.stringify(emailObj))
-            .then(res => res)
-            .catch(err => {
-                console.log('error: ', err);
-            })
-    }
-};
-
 export const getIdUserByToken = (token, history) => {
     console.log("getIdUserByToken")
     return (dispatch, getState) => {

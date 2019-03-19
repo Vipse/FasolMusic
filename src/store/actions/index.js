@@ -1,53 +1,14 @@
 export {
-    getDocPatients,
-    getPatientDoctors,
-    getNotDocPatients,
-    clearNotDocPatients,
-    addPatient,
-    addDoctor,
-    removePatient,
-    removeDoctor,
-    getDateInterval,
-    getDateIntervalWithoutMakingApp,
-    setReception,
-    setReceptionByPatient,
-    selectPatient,
-    unselectPatient,
-    makeReview,
-    getNotPatientDoctors,
-    clearNotPatientDoctors,
-    getSelectedPatientInfo,
-    sendMessage,
     setFreeIntervals,
     setNeedSaveIntervals,
+    selectPatient
 } from './patients';
-
-export {
-    getAllReviews,
-    getAllReviewsByPatient,
-    putCommentAnswer,
-
-} from './reviews';
-
-export {
-    selectEvent,
-    deleteEvent,
-    cancelEventsRange,
-
-    getAllIntervals,
-    clearIntervals,
-    clearVisits,
-    addInterval,
-    getTodayVisits,
-    getFreeVisitsBySpec,
-} from './schedules';
 
 export {
     login,
     logout,
     registerUser,
     resetRegisterStatus,
-    checkEmailAvailability,
     reportBug,
     registerTrainer,
     getIdUserByToken,
@@ -61,39 +22,18 @@ export {
 export {
     getInfoPatient,
     saveUserEdit,
-    sendNewInfoPatient,
-    sendNewPasswordPatient,
-    deleteAvatar,
-    sendUserPoleValue,
-    getUserInfoShort,
-    hasNoReviewToFreeApp,
     changePassword
 } from './patientData'
 
 export {
-    getDocTodayInfo,
-    getDocShortInfo,
-    setExIntervalInfo,
-    switchExInterval,
-    getEmergencyAvailability
-} from './doctor'
-
-export {
-    sendNewInfoDoctor,
     getInfoDoctor,
     getTrainerTrainings,
-    getAllDocIntervals,
-    getDateWorkIntervalWithoutMakingAppAll,
     uploadFile
 } from './doctorData'
 
 export {
     loadingStart,
     loadingEnd,
-    docEmergancyCallReceived,
-    docEmergancyCallSend,
-    docEmergancyCallReceivedMark,
-    makeArchiveOfFiles,
     getSelectors,
     getMultipleSelectors,
     searchUsers,

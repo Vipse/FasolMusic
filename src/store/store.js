@@ -3,10 +3,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import patientsReducer from './reducers/patients'
-import reviewsReducer from './reducers/reviews'
-import schedulesReducer from './reducers/schedules'
 import authReducer from './reducers/auth'
-import doctorReducer from './reducers/doctor'
 import infoDoctorReducer from './reducers/doctorData'
 import infoPatientReducer from './reducers/patientData'
 import chatWSReducer from './reducers/chatWS'
@@ -22,10 +19,7 @@ import homeworkReducer from './reducers/homework'
 
 const rootReducer = combineReducers({
     patients: patientsReducer,
-    reviews: reviewsReducer,
-    schedules: schedulesReducer,
     auth: authReducer,
-    doctor: doctorReducer,
     profileDoctor: infoDoctorReducer,
     profilePatient: infoPatientReducer,
     chatWS: chatWSReducer,
