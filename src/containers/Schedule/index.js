@@ -120,8 +120,10 @@ class Schedule extends React.Component {
     }
 
     deleteTrialTraining = (id) => {
-        this.props.onGetTrainingsTrialStatus(this.props.id)
+
         this.props.onRemoveTrialTraining(id)
+            .then(this.props.onGetTrainingsTrialStatus(this.props.id))
+            .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.props.id))
     }
 
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
@@ -249,6 +251,17 @@ class Schedule extends React.Component {
         this.setState({isShowFreeTrainers : false, newModalSaveSchedule: true});
     }
 
+    updateAfterFilling = () => {
+        const {id, currDiscipline} = this.props;
+
+        setTimeout(() => {
+            this.props.onGetStudentBalance(id);
+            this.props.onGetUseFrozenTraining(id);
+            this.props.onGetTrainingsTrialStatus(id);
+            this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, id);
+        }, 500);
+    }
+
     fillTrainingWeek = () => { // создание абонемента
 
         const {
@@ -264,6 +277,7 @@ class Schedule extends React.Component {
             useFrozenTraining
         } = this.props;
 
+        
         
 
         let buf = 'vocals';
@@ -286,10 +300,7 @@ class Schedule extends React.Component {
             if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code)) {             
                 this.props.onAddAmountTraining(subsForDisc[currDiscipline.code], abonementIntervals.countTraining)
                     .then(() => {
-                            setTimeout(() => {
-                                this.props.onGetStudentBalance(id);
-                                this.props.onGetUseFrozenTraining(id);
-                            }, 1000);
+                        this.updateAfterFilling();
                     })
             }
         }
@@ -304,10 +315,7 @@ class Schedule extends React.Component {
                         }
 
                         this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
-                        setTimeout(()=>{
-                            this.props.onGetStudentBalance(id);
-                            this.props.onGetUseFrozenTraining(id);
-                        }, 1000);
+                        this.updateAfterFilling();
                 });
         }
 
@@ -315,10 +323,6 @@ class Schedule extends React.Component {
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); // убрать Сохранить
         this.props.onChangeBtnBack(false);
         this.props.onGetDisciplineCommunication(id);
-
-
-        this.props.onGetTrainingsTrialStatus(id); // ?
-        this.props.onGetTrainingTrialStatusByDiscipline(currDiscipline.code, id);
 
         this.setState({theTrialMasterSelect: false,newModalSaveSchedule: false, apiPatients: [], sendingModal: true, theMasterSelect: false})
         message.success("Тренировки распределены по расписанию");
@@ -1073,6 +1077,8 @@ class Schedule extends React.Component {
                                     <Button btnText='Удалить тренировку'
                                         onClick= {() => {
                                             this.props.onRemoveTrialTraining(this.deleteIdTraining)
+                                                .then(this.props.onGetTrainingsTrialStatus(this.props.id))
+                                                .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.props.id))
                                                 .then(() => this.props.onGetAbonementsFilter(id, currDiscipline))
 
                                             this.setState({modalRemoveTrialTraining: false});
