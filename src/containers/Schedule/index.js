@@ -168,13 +168,13 @@ class Schedule extends React.Component {
                                 .then(() => {
                                     this.setState({isShowFreeTrainers: true})
                                 })
-                            
+
         }
 
         else if(!this.props.isPushBtnTransfer){
             const patients = [ {trainer: null, start: new Date(idEvent), id: idEvent, apiPatients: true}];
             const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
-            
+
             this.timeEvent = idEvent;
 
             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining});
@@ -212,7 +212,7 @@ class Schedule extends React.Component {
             }
             this.props.onSetPushTrialTraining('first_trainer');
             this.props.onSetChooseTheMasterByStudent(idMaster);
-            
+
             setTimeout(() => this.fillTrainingWeek(), 1000);
             this.setState({isShowFreeTrainers : false});
             return;
@@ -277,9 +277,6 @@ class Schedule extends React.Component {
             useFrozenTraining
         } = this.props;
 
-        
-        
-
         let buf = 'vocals';
 
         for(let el in disciplines){
@@ -297,7 +294,7 @@ class Schedule extends React.Component {
 
         if(selectMaster){
 
-            if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code)) {             
+            if(subsForDisc && subsForDisc.hasOwnProperty(currDiscipline.code)) {
                 this.props.onAddAmountTraining(subsForDisc[currDiscipline.code], abonementIntervals.countTraining)
                     .then(() => {
                         this.updateAfterFilling();
@@ -310,7 +307,7 @@ class Schedule extends React.Component {
 
                         if(abonementIntervals.countTraining !== 1) this.props.onEditUseFrozenTraining(id,useFrozenTraining);
                         if(this.props.isPushBtnUnfresh){
-                        
+
                             this.props.onIsPushBtnUnfresh();
                         }
 
@@ -319,7 +316,7 @@ class Schedule extends React.Component {
                 });
         }
 
-        
+
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0}); // убрать Сохранить
         this.props.onChangeBtnBack(false);
         this.props.onGetDisciplineCommunication(id);
@@ -346,7 +343,7 @@ class Schedule extends React.Component {
 
 
     setTransfer_1_Training = () => {
-        
+
             const {id, currDiscipline, discCommunication} = this.props;
             const {id: idTraining, idMaster} = this.delEvent.event;
 
@@ -399,10 +396,10 @@ class Schedule extends React.Component {
                     setTimeout(()=>{
                         this.props.onGetStudentBalance(id);
                         this.props.onGetUseFrozenTraining(id);
-                        
+
                         this.props.onGetDisciplineCommunication(id);
                         this.props.onGetSubscriptionsByStudentId(id);
-                        
+
                     }, 1000);
                 })
 
@@ -462,7 +459,7 @@ class Schedule extends React.Component {
         this.resetAllEvent();
         this.props.onChangeSubscription(scheduleForWeek)
             .then(() => this.props.onGetAbonementsFilter(id, currDiscipline));
-        
+
         this.setState({modalTransferTraining: false});
     }
 
@@ -523,7 +520,7 @@ class Schedule extends React.Component {
                         PopupModal.info({
                             title: 'Отлично! Теперь ты в нашей команде!',
                             width: '500px',
-                            className: 'fast-modal',
+                            className: 'quick-modal',
                             content: 'Пробежимся по правилам: Каждую тренировку можно переносить 1 раз; ' +
                                 'Перенос тренировки возможен за 24 часа до ее начала, ' +
                                 'если осталось меньше 24 часов до начала, перенос тренировки невозможен, ' +
@@ -594,8 +591,8 @@ class Schedule extends React.Component {
         const {start, end} = this.state.isEditorMode
             ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
 
-           
-        let endW = moment(end.getTime()).endOf('week').format('X') 
+
+        let endW = moment(end.getTime()).endOf('week').format('X')
 
         this.state.isEditorMode ? isOnDay ? null : this.props.onGetAllIntervals(start, end) : null
 
@@ -618,7 +615,7 @@ class Schedule extends React.Component {
                 },
             })
 
-       
+
 
         const dateStart = Math.floor(+start.getTime() / 1000);
         const dateEnd = endW;
@@ -637,7 +634,7 @@ class Schedule extends React.Component {
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 1000))
         }
 
-        
+
         if(this.state.theMasterSelect){
             this.props.onGetTheMasterInterval(dateStart, dateEnd, chooseTheMaster, chooseWeekdays)
                 .then(() => {
@@ -659,7 +656,7 @@ class Schedule extends React.Component {
                 .then(() => {
                     this.setState({theMasterSelect: true, scheduleSpinner: false})
                 });
-            } 
+            }
         }
 
 
@@ -822,7 +819,7 @@ class Schedule extends React.Component {
             let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
                 max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
 
-        
+
 
             calendar = (<Calendar
                     selectable
@@ -913,7 +910,7 @@ class Schedule extends React.Component {
 
                 let min = new Date( currY, currM, currD, 8);
                 let max = new Date( currY, currM, currD, 23);
-    
+
                 console.log('min :',min);
             // надо нормальную проверка для коуча и студента
 
@@ -938,13 +935,13 @@ class Schedule extends React.Component {
                              }
 
                              else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
-                                
+
                                 filterInterval = this.props.theMasterInterval;
                                 notRedirectDiscipline = true;
 
                              }
                              else if(isNeedSaveIntervals){
-                               
+
                                 filterInterval =  this.props.superFreeInterval;
                                 notRedirectDiscipline = true;
                              }

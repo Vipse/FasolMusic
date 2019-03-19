@@ -33,6 +33,7 @@ class Payment extends React.Component{
             this.props.onGetDisciplineCommunication(this.props.id);
             this.props.onGetNextTraining(this.props.id);
             this.props.onGetUserCountry();
+            this.props.onGetAbonementsPrice();
         }
         else {
             let start = null;
@@ -96,7 +97,7 @@ class Payment extends React.Component{
     };
 
     render() {
-        let {deadlinePay, disciplinesList} = this.props;
+        let {deadlinePay, studentBalance, nextTrainingTime, country, priceList} = this.props;
         let isStudent = this.props.auth.mode === "student";
 
         return (
@@ -105,10 +106,11 @@ class Payment extends React.Component{
                     <StudentPayment
                         showTrialModal = {this.showCreateTrainModal}
                         deadlinePay = {deadlinePay}
-                        studentBalance = {this.props.studentBalance}
-                        nextTrainingTime={this.props.nextTrainingTime}
+                        studentBalance = {studentBalance}
+                        nextTrainingTime={nextTrainingTime}
                         onSubmitPaySubscription = {this.onSubmitPaySubscription}
-                        country={this.props.country}
+                        country={country}
+                        priceList={priceList}
                     />)
                     : (<CoachPayment
                         completedAmount={this.countCompletedTrainingsNumber()}
@@ -165,6 +167,7 @@ const mapStateToProps = state => {
         id: state.auth.id,
         mode: state.auth.mode,
         country: state.loading.country,
+        priceList: state.loading.priceList,
         deadlinePay: state.student.deadlinePay,
         disciplinesList: state.abonement.disciplines,
         nextTrainingTime: state.training.nextTrainingTime,
@@ -195,7 +198,8 @@ const mapDispatchToProps = dispatch => {
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
         onGetNextTraining: (id) => dispatch(actions.getNextTraining(id)),
-        onGetUserCountry: () => dispatch(actions.getUserCountry())
+        onGetUserCountry: () => dispatch(actions.getUserCountry()),
+        onGetAbonementsPrice: () => dispatch(actions.getAbonementsPrice())
     }
 };
 

@@ -41,7 +41,8 @@ class CoachPersonalDataForm extends React.Component {
             isChangePasswordModalVisible: false,
             isSendSuggestionsModalVisible: false,
             isChangePromoModalVisible: false,
-            selectorsValues: {}
+            loadingSelectors: true,
+            isSaveBtnActive: false
         }
     }
 
@@ -53,19 +54,19 @@ class CoachPersonalDataForm extends React.Component {
         });
         this.loadTrainingTime();
 
-        const {getSelectors} = this.props;
         const selectorsNames = ['interests', 'goal', 'discipline', 'qualities',
             'styles', 'professions', 'day', 'musicalExperience', 'countries'];
 
-        selectorsNames.forEach((name) => {
-            getSelectors(name)
-                .then(res => this.setState({
-                    selectorsValues: {
-                        ...this.state.selectorsValues,
-                        [name + "List"]: res.data
-                    }}))
-                .catch(err => console.log(err))
-        });
+        this.props.getMultipleSelectors(selectorsNames)
+            .then(res => {
+                this.setState({loadingSelectors: false,
+                    isSaveBtnActive: res
+                });
+                if (!res) {
+                    message.error('Ошибка при загрузке данных для выбора. Попробуйте перезагрузить страницу', 0)
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -157,7 +158,7 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareDisciplines = (data) => {
-        const {disciplineList, stylesList, musicalExperienceList} = this.state.selectorsValues;
+        const {discipline, styles, musicalExperience} = this.props.selectors;
         let disciplinesNumsArr = [];
         for (let key in data)
             if (key.indexOf('discipline-') !== -1) disciplinesNumsArr.push(+key.slice(11));
@@ -165,12 +166,12 @@ class CoachPersonalDataForm extends React.Component {
         let preparedDisciplines = [];
         disciplinesNumsArr.forEach((i) => {
             preparedDisciplines.push({
-                discipline: getSelectedIDs(disciplineList, data["discipline-" + i]),
-                specialization: getSelectedNestedIDs(disciplineList, data["specialization-" + i], [data["discipline-" + i]]),
-                receptions: getSelectedNestedIDs(disciplineList, data["receptions-" + i], [data["discipline-" + i], data["specialization-" + i]]),
-                level: getSelectedNestedIDs(disciplineList, data["level-" + i], [data["discipline-" + i]], false, '2'),
-                experiense: getSelectedIDs(musicalExperienceList, data["experiense-" + i], true),
-                musicstyles: getSelectedIDs(stylesList, data["musicstyles-" + i]),
+                discipline: getSelectedIDs(discipline, data["discipline-" + i]),
+                specialization: getSelectedNestedIDs(discipline, data["specialization-" + i], [data["discipline-" + i]]),
+                receptions: getSelectedNestedIDs(discipline, data["receptions-" + i], [data["discipline-" + i], data["specialization-" + i]]),
+                level: getSelectedNestedIDs(discipline, data["level-" + i], [data["discipline-" + i]], false, '2'),
+                experiense: getSelectedIDs(musicalExperience, data["experiense-" + i], true),
+                musicstyles: getSelectedIDs(styles, data["musicstyles-" + i]),
                 favoritesingers: data["favoritesingers-" + i]
             });
         });
@@ -179,14 +180,15 @@ class CoachPersonalDataForm extends React.Component {
     };
 
     prepareTrainingTime = () => {
-        const {selectorsValues: {dayList}, trainingTime: {enabledDays, selectedTimes}} = this.state;
+        const {trainingTime: {enabledDays, selectedTimes}} = this.state;
+        const {day} = this.props.selectors;
         let preparedTrainingTime = {};
         let objIndex = 0;
 
         for (let i = 0; i < 7; ++i) {
             enabledDays[i] && selectedTimes[i].forEach((interval) => {
                 preparedTrainingTime[objIndex] = {
-                    day: getSelectedIDs(dayList, String(i), true),
+                    day: getSelectedIDs(day, String(i), true),
                     datestart: moment().utcOffset("+03:00").startOf('day').hour(interval[0]).format('X'),
                     dateend: moment().utcOffset("+03:00").startOf('day').hour(interval[1]).format('X')
                 };
@@ -201,19 +203,19 @@ class CoachPersonalDataForm extends React.Component {
 
         this.props.form.validateFieldsAndScroll(antFormConfig, (err, values) => {
             if (!err && this.props.profileCoach.id) {
-                const {interestsList, qualitiesList, countriesList} = this.state.selectorsValues;
+                const {interests, qualities, countries} = this.props.selectors;
 
                 const finalData = {
                     id: this.props.profileCoach.id,
                     name: values.name,
                     phones: values.phones,
                     email: values.email,
-                    country: getSelectedIDs(countriesList, values.country),
+                    country: getSelectedIDs(countries, values.country),
                     avatar: this.state.avatarLink,
 
                     sex: values.sex === "Мужской" ? "m" : values.sex === "Женский" ? "w" : null,
                     datebirth: moment(values.datebirth).format('X'),
-                    interests: getSelectedIDs(interestsList, values.interests),
+                    interests: getSelectedIDs(interests, values.interests),
                     aboutme: values.aboutme,
 
                     promovideo: this.state.promoLink,
@@ -223,7 +225,7 @@ class CoachPersonalDataForm extends React.Component {
                     bestsex: values.bestsex === "Мужской" ? "m" : values.bestsex === "Женский" ? "w" : null,
                     bestage: values.bestage,
                     bestishomework: values.bestishomework === "Да" ? 1 : values.bestishomework === "Нет" ? 0 : null,
-                    bestqualities: getSelectedIDs(qualitiesList, values.bestqualities),
+                    bestqualities: getSelectedIDs(qualities, values.bestqualities),
                     bestcomment: values.bestcomment,
 
                     trainingtime: this.prepareTrainingTime()
@@ -248,11 +250,12 @@ class CoachPersonalDataForm extends React.Component {
     render() {
         const rootClass = cn('coach-data');
         const { form, profileCoach } = this.props;
-        const { selectorsValues, avatarLink, trainingTime, uploadingNewData,
+        const {avatarLink, trainingTime, uploadingNewData, isSaveBtnActive,
             isChangePasswordModalVisible, isSendSuggestionsModalVisible} = this.state;
         const { getFieldDecorator } = form;
-        const {interestsList, disciplineList, stylesList, qualitiesList,
-            musicalExperienceList, countriesList} = selectorsValues;
+        const {interests, discipline, styles, qualities,
+            musicalExperience, countries} = this.props.selectors;
+
         return (
             <div className={rootClass}>
                 <Card title="Мои личные данные">
@@ -266,13 +269,13 @@ class CoachPersonalDataForm extends React.Component {
                             getFieldDecorator={getFieldDecorator}
                             showChangePasswordModal={() => this.setState({isChangePasswordModalVisible: true})}
                             showSendSuggestionsModal={() => this.setState({isSendSuggestionsModalVisible: true})}
-                            countriesList={getSelectorValues(countriesList)}
+                            countriesList={getSelectorValues(countries)}
                         />
                         <div className='coach-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo
                             profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
-                            interestsList={getSelectorValues(interestsList)}
+                            interestsList={getSelectorValues(interests)}
                         />
                         <div className='coach-data-title'>Проморолик</div>
                         <CoachPersonalDataPromo
@@ -283,15 +286,15 @@ class CoachPersonalDataForm extends React.Component {
                         <PersonalDataSkill
                             profile={profileCoach}
                             form={form}
-                            disciplineObj={disciplineList}
-                            stylesList={getSelectorValues(stylesList)}
-                            musicalExperienceList={getSelectorValues(musicalExperienceList, true)}
+                            disciplineObj={discipline}
+                            stylesList={getSelectorValues(styles)}
+                            musicalExperienceList={getSelectorValues(musicalExperience, true)}
                         />
                         <div className='coach-data-title'>Идеальный студент</div>
                         <PersonalDataPreferences
                             profile={profileCoach}
                             getFieldDecorator={getFieldDecorator}
-                            qualitiesList={getSelectorValues(qualitiesList)}
+                            qualitiesList={getSelectorValues(qualities)}
                         />
                         <div className='coach-data-title'>Удобное время проведения тренировок</div>
                         <PersonalDataTime
@@ -305,7 +308,7 @@ class CoachPersonalDataForm extends React.Component {
                             onClick={this.handleSubmitInfo}
                             btnText='Сохранить изменения'
                             size='default'
-                            disable={uploadingNewData}
+                            disable={uploadingNewData || !isSaveBtnActive}
                             type='light-blue'
                             style={{marginRight: "20px"}}
                         />

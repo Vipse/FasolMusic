@@ -4,14 +4,14 @@ const initialState = {
     myCoach: [],
     deadlinePay: {},
     trialTrainingForDisciplines: {},
-    isTrialTrainingsAvailable: false,
+    isTrialTrainingsAvailableCount: 0,
     isTransferTrainPopupActive: true,
     statusBtnBack: false
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
-        case actionTypes.GET_DEADLINE_PAY: 
+        case actionTypes.GET_DEADLINE_PAY:
             return {
                 ...state,
                 deadlinePay: action.deadlinePay,
@@ -25,24 +25,24 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 userInfo: action.userInfo
-            } 
+            }
         case actionTypes.GET_AVAILABLE_INTERVAL:
             return {
                 ...state,
                 freeInterval: action.freeInterval
-            }  
+            }
         case actionTypes.SET_WEEKDAYS_AND_DISCIPLINE_AND_ARRMASTERS:
             return {
                 ...state,
                 weekdays: action.weekdays,
                 disciplineId: action.disciplineId,
                 masters: action.masters
-            }  
+            }
         case actionTypes.GET_FULL_INFO_MASTERS:
             return {
                 ...state,
                 fullInfoMasters: action.fullInfoMasters
-            }  
+            }
         case actionTypes.GET_THE_MASTER_INTERVAL:
             return {
                 ...state,
@@ -54,8 +54,12 @@ const reducer = (state = initialState, action) => {
                 trialTrainingForDisciplines: {
                     ...state.trialTrainingForDisciplines,
                     [action.disciplineId]: action.status
-                },
-                isTrialTrainingsAvailable: state.isTrialTrainingsAvailable || !action.status
+                }
+            }
+        case actionTypes.SET_TRAININGS_AVAILABLE_STATUS:
+            return {
+                ...state,
+                isTrialTrainingsAvailableCount: action.isTrialTrainingsAvailableCount
             }
         case actionTypes.RESET_TRAININGS_TRIAL_STATUS:
             return {
@@ -76,38 +80,38 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isPushBtnTransfer: !state.isPushBtnTransfer
-            }  
+            }
         case actionTypes.UNSET_IS_PUSH_BTN_TRANSFER:
-        
+
             return {
                 ...state,
                 isPushBtnTransfer: action.isPushBtnTransfer
-            } 
-            
+            }
+
         case actionTypes.SET_IS_PUSH_BTN_ADD:
             return {
                 ...state,
                 isPushBtnAdd: !state.isPushBtnAdd
-            }    
+            }
         case actionTypes.SET_IS_PUSH_TRIAL_TRAINING:
             return {
                 ...state,
                 isPushBtnTrialTraining: action.isPushBtnTrialTraining
-            } 
-      
+            }
+
         case actionTypes.SET_NO_PUSH_BTN:
             return {
                 ...state,
                 isPushBtnAdd: action.isPushBtnAdd,
                 isPushBtnTransfer: action.isPushBtnTransfer
-            }     
+            }
         case actionTypes.GET_DISCIPLINE_COMMUNICATION:
             return {
                 ...state,
                 discCommunication: action.discCommunication
             }
         case actionTypes.SET_MASTER_THE_DISCIPLINE:
-           
+
             return {
                 ...state,
                 selectMaster: action.selectMaster
@@ -121,14 +125,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 useFrozenTraining: action.useFrozenTraining
-            }   
+            }
         case actionTypes.CHANGE_BTN_BACK:
             return {
                 ...state,
                 statusBtnBack: action.statusBtnBack
-            }   
-            
-            
+            }
+
+
 
         default: return state;
     }
