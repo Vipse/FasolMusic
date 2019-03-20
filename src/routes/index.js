@@ -1,14 +1,12 @@
 import MainPage from '../containers/MainPage'
 import Schedule from '../containers/Schedule'
 import Homework from '../containers/Homework'
-import Patients from '../containers/Patients'
 import StudentPage from '../containers/StudentPage'
 import CoachPage from "../containers/CoachPage"
 import PersonalInfo from '../containers/PersonalInfo'
 import Payment from '../containers/Payment'
 import Bonus from '../containers/Bonus'
 import Reviews from '../containers/Reviews'
-import MyDoctors from '../containers/MyDoctors'
 
 import Chat from '../containers/Chat'
 
@@ -26,11 +24,6 @@ export const coachRoutes = [
     {
         path: '/app/homework',
         component: Homework,
-        exact: true,
-    },
-    {
-        path: '/app/patients',
-        component: Patients,
         exact: true,
     },
     {
@@ -80,11 +73,6 @@ export const studentRoutes = [
     {
         path: '/app/homework',
         component: Homework,
-        exact: true,
-    },
-    {
-        path: '/app/students',
-        component: MyDoctors,
         exact: true,
     },
     {

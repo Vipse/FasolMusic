@@ -81,7 +81,12 @@ export const getMasterSchedule = (idMaster, dateStart, dateEnd) => {
             .then(res => {
                 console.log("masterSchedule", res);
 
-                res.data.result.interval.dateStart = dateStart;
+                if (!Array.isArray(res.data.result.interval))
+                    res.data.result.interval.dateStart = dateStart;
+                else {
+                    res.data.result.interval = {};
+                    res.data.result.interval.dateStart = dateStart;
+                }
 
                 dispatch({
                     type: actionTypes.MASTER_SCHEDULE,

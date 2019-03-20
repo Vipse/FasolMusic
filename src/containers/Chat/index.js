@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux';
 import Row from '../../components/Row'
 import Col from '../../components/Col'
-import ChatDialogs from "../../components/ChatDialogs";
 import Hoc from '../../hoc'
 
 import ChatCard from './ChatCard'
@@ -19,7 +18,7 @@ class Chat extends React.Component{
 
     componentDidMount() {
         this.props.getSelectors('discipline')
-            .then((res) => {
+            .then(res => {
                 this.loadTrainingsList();
             });
         this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
@@ -52,7 +51,10 @@ class Chat extends React.Component{
         const {user_mode, id} = this.props;
 
         if (user_mode === 'student')
-            this.props.onGetTrainingNotFinished(id, moment().add(1, 'weeks').format('X'), 10);
+            this.props.onGetTrainingNotFinished(
+                id,
+                moment().utcOffset("+03:00").startOf('week').format('X'),
+                moment().add(1, 'weeks').format('X'), 10);
         else {
             let start = moment().utcOffset("+03:00").startOf('week').format('X');
             let end = moment().add(1, 'weeks').format('X');
@@ -209,14 +211,14 @@ const mapStateToProps = state =>{
         interlocutorStatus: state.chatWS.interlocutorStatus,
         webSockedStatus: state.chatWS.webSockedStatus
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
 	return {
         onCompleteTraining: (obj) => dispatch(actions.completeReception(obj)),
         onTransferTraininingToEnd: (value) => dispatch(actions.transferTraininingToEnd(value)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
-        onGetTrainingNotFinished:(idStudent, dateMax, max) => dispatch(actions.getTrainingNotFinished(idStudent, dateMax, max)),
+        onGetTrainingNotFinished:(idStudent, dateMin, dateMax, max) => dispatch(actions.getTrainingNotFinished(idStudent, dateMin, dateMax, max)),
         onGetFutureTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getFutureTrainerTraining(idMaster, dateMin, dateMax)),
         onGetChatHistory: (id) => dispatch(actions.getTrainingChatHistory(id)),
         onSetConversationMode: (mode) => dispatch(actions.setConversationMode(mode)),

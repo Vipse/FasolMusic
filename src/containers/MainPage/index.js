@@ -7,7 +7,6 @@ import './styles.css'
 import StudentMain from './StudentMain';
 import CouchMain from "./CouchMain"
 import AdminMain from "./AdminMain";
-import VKApp from './../../components/VKApp/index';
 
 class MainPage extends React.Component{
 	constructor(props) {
@@ -43,7 +42,10 @@ class MainPage extends React.Component{
 		this.props.onGetNextTraining(this.props.id);
 
 		if (this.props.mode === "student") {
-			this.props.onGetTrainingNotFinished(this.props.id, moment().add(1, 'weeks').format('X'), 3);
+			this.props.onGetTrainingNotFinished(
+				this.props.id,
+				moment().utcOffset("+03:00").startOf('week').format('X'),
+				moment().add(1, 'weeks').format('X'), 3);
 			this.props.onGetAllTrainingStudent(this.props.id, moment().subtract(1, 'weeks').format('X'), moment().format('X'));
 			this.props.onGetMyMastersOrStudents({idStudent: this.props.id});
 		} else if (this.props.mode === "master") {
@@ -76,8 +78,6 @@ class MainPage extends React.Component{
 					cancelModal ={this.state.cancelModal}
 					closeCancel = {() => {this.setState({cancelModal: false})}}
 					saveCancel = {() => {}}
-					getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
-					treatmentsCount={this.props.treatmentsCount}
 					addConclusion = {this.props.addConclusion}
 					makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 
@@ -111,8 +111,6 @@ class MainPage extends React.Component{
 					cancelModal = {this.state.cancelModal}
 					closeCancel= {() => {this.setState({cancelModal: false})}}
 					saveCancel = {() => {}}
-					getCompletedApps = {(pagination)=>this.props.onGetActualTreatments({status: "topical", ...pagination})}
-					treatmentsCount={this.props.treatmentsCount}
 					addConclusion = {this.props.addConclusion}
 					makeArchiveOfFiles = {this.props.makeArchiveOfFiles}
 					{...this.props}/>
@@ -145,19 +143,9 @@ const mapStateToProps = state => {
 		studentTrainings: state.training.studentTrainings,
 
 		patients: state.patients.docPatients,
-		visits: state.schedules.visits,
-		reviews: state.reviews.reviews,
-		actualTreatments: state.treatments.treatments,
-		completedApps: state.treatments.completedApps,
-		docTodayInfo: state.doctor.todayInfo,
 		patientDoctors: state.patients.patientDoctorsShort,
-		nearVisits: state.schedules.nearVisits,
-		nearVisitsLoaded: state.schedules.nearVisitsLoaded,
         myDoctorsLoaded: state.patients.myDoctorsLoaded,
-        treatmentsCount: state.treatments.treatmentsCount,
-        completedAppsLoaded: state.treatments.completedAppsLoaded,
 		intervals: state.patients.intervals,
-		availableIntervals: state.profileDoctor.workIntervals,
 		userInfoShort: state.profilePatient,
 
 		reportLinks: state.admin.reportLinks
@@ -166,25 +154,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-		onGetDocPatients: () => dispatch(actions.getDocPatients()),
-		onSelectReception: (id) => dispatch(actions.seletVisit(id)),
-		onSelectTretment: (id) => dispatch(actions.selectTreatment(id)),
-		onGetTodayVisits: (start, end) => dispatch(actions.getTodayVisits(start, end)),
-		onGetAllReviews: () => dispatch(actions.getAllReviews()),
-		onGetActualTreatments: (obj) => dispatch(actions.getPaginationTreatments(obj)),
-        onGetCompletedApp: (obj) => dispatch(actions.getCompletedApps(obj)),
 		onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-
-		getDocTodayInfo: () => dispatch(actions.getDocTodayInfo()),
-		onGetPatientDoctors: (count) => dispatch(actions.getPatientDoctors(count)),
-		onGetIntervalForDate: (beginDay, endDay, id) => dispatch(actions.getDateIntervalWithoutMakingApp(beginDay, endDay, id)),
-		onGetAllDocIntervals: (id) => dispatch(actions.getAllDocIntervals(id)),
-		onSendUserPoleValue: (pole, value) => dispatch(actions.sendUserPoleValue(pole, value)),
-		onGetUserInfoShort: () => dispatch(actions.getUserInfoShort()),
-        makeReview: (obj) => dispatch(actions.makeReview(obj)),
-        addConclusion:(id_zap, file) => dispatch(actions.uploadConclusion(id_zap, file)),
-        makeArchiveOfFiles: (files) => dispatch(actions.makeArchiveOfFiles(files)),
-		cancelAppByPatient: (id) => dispatch(actions.cancelAppByPatient(id)),
 
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
 		onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),
@@ -192,7 +162,7 @@ const mapDispatchToProps = dispatch => {
 
 		onGetMyMastersOrStudents: (obj) => dispatch(actions.getMyMastersOrStudents(obj)),
 
-		onGetTrainingNotFinished:(idStudent, dateMax, max) => dispatch(actions.getTrainingNotFinished(idStudent, dateMax, max)),
+		onGetTrainingNotFinished:(idStudent, dateMin, dateMax, max) => dispatch(actions.getTrainingNotFinished(idStudent, dateMin, dateMax, max)),
 		onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
 		onSetChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
 		onSetChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),

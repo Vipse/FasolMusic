@@ -11,6 +11,9 @@
   z-index: 99;
   top: 0;
 }
+.trainings-all .tableheader .ant-input-search {
+  width: 37%;
+}
 .trainings-all .menu-header {
   display: flex;
   font-size: 12px;

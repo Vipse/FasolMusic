@@ -64,24 +64,12 @@ class Reviews extends React.Component{
 
 const mapStateToProps = state => {
 	return {
-		reviews: state.reviews.reviews,
-		ratingAll: state.reviews.ratingAll,
-		commentCount: state.reviews.commentCount,
 		isDoctor: state.auth.mode === "master",
-		reviewsByPatient: state.reviews.reviewsByPatient,
 	}
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		onGetAllReviews: (numberOfRequest, reviewsLoadCount, dateStart, dateEnd) =>
-			dispatch(actions.getAllReviews(numberOfRequest, reviewsLoadCount, dateStart, dateEnd)),
-		onSendAnswer: (answer) => dispatch(actions.putCommentAnswer(answer)),
-		onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
-        onSelectTretment: (id) => dispatch(actions.selectTreatment(id)),
-        onGetAllReviewsByPatient: (numberOfRequest, reviewsLoadCount, dateStart, dateEnd) =>
-            dispatch(actions.getAllReviewsByPatient(numberOfRequest, reviewsLoadCount, dateStart, dateEnd)),
-	}
+	return {}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews);
