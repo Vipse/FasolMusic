@@ -40,6 +40,15 @@
 .message__panel-btns .btn.btn-call:hover {
   background-color: #078c3c;
 }
+.message__panel-btns .btn.btn-piano {
+  background-color: #00c853;
+}
+.message__panel-btns .btn.btn-piano .anticon-team {
+  margin: 0 !important;
+}
+.message__panel-btns .btn.btn-piano:hover {
+  background-color: #078c3c;
+}
 .message__panel-btns .btn.btn-endcall {
   background-color: #ef5350;
 }

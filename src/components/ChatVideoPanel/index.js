@@ -72,6 +72,17 @@ class ChatVideoPanel extends React.Component{
                             title='Начать разговор'
                             onClick={this.props.onCall}
                         />
+
+                        <Button
+                            className='btn-piano toggle-client'
+                            btnText=''
+                            size='small'
+                            type='no-brd'
+                            icon='team'
+                            iconSize={15}
+                            title='Пианино'
+                            onClick={null}
+                        />
                     </div>}
                     <div className="message__panel-full">
                         <Button
