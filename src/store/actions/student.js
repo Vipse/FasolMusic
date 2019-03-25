@@ -116,25 +116,19 @@ export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) =
     if( !Array.isArray(discipline)) discipline = [discipline]
     let obj =  { dateStart , dateEnd, discipline};
 
-
-    console.log("GETЕЕЕЕ", obj)
     return (dispatch) => {
 
         return axios.post('/catalog.fasol/getIntervalOnWeekdays', JSON.stringify(obj))
             .then(rez => {
-                    console.log('AVAIL rez :', rez);
                     let answer = []
                     let freeInterval = rez.data.result.interval;
 
-                    debugger
                     for(let elem in freeInterval){
                         answer.push({
                             day: moment(+elem * 1000).day(),
                             intervals: freeInterval[elem]
                         })
                     }
-
-                    console.log('rez.data.result.masters :', rez.data.result.masters);
                 dispatch({
                     type: actionTypes.GET_AVAILABLE_INTERVAL,
                     freeInterval: answer,
@@ -145,6 +139,7 @@ export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline) =
                     discipline: discipline,
                     masters: rez.data.result.masters
                 })
+                return answer; 
             })
             .catch(err => {
                 console.log(err);

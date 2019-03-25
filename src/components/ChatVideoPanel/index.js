@@ -73,7 +73,7 @@ class ChatVideoPanel extends React.Component{
                             onClick={this.props.onCall}
                         />
 
-                        <Button
+                       {/* <Button
                             className='btn-piano toggle-client'
                             btnText=''
                             size='small'
@@ -82,7 +82,7 @@ class ChatVideoPanel extends React.Component{
                             iconSize={15}
                             title='Пианино'
                             onClick={null}
-                        />
+                       /> */}
                     </div>}
                     <div className="message__panel-full">
                         <Button

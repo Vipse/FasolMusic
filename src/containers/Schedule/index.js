@@ -60,6 +60,7 @@ class Schedule extends React.Component {
             scheduleSpinner: true,
             modalRemoveTrialTraining: false,
             newModalSaveSchedule: false,
+            isSpinnerFreeTrainers: false
         }
     };
 
@@ -166,7 +167,7 @@ class Schedule extends React.Component {
                             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters)
                                 .then(() => {
-                                    this.setState({isShowFreeTrainers: true})
+                                    this.setState({isShowFreeTrainers: true, isSpinnerFreeTrainers: false})
                                 })
 
         }
@@ -180,14 +181,14 @@ class Schedule extends React.Component {
             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining});
             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters)
                 .then(() => {
-                    this.setState({isShowFreeTrainers: true})
+                    this.setState({isShowFreeTrainers: true, isSpinnerFreeTrainers: false})
                 })
 
             message.info('Выберите одного из тренеров')
-            this.setState({isShowFreeTrainers : true, apiPatients: patients});
+            this.setState({apiPatients: patients});
         }
 
-        this.state.isShowFreeTrainers && this.setState({isShowFreeTrainers: false})
+        this.state.isShowFreeTrainers && this.setState({isSpinnerFreeTrainers: true})
 
     }
 
@@ -493,7 +494,11 @@ class Schedule extends React.Component {
             }
         }
 
-        this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc]);
+        
+        this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc])
+            .then(data => {
+                if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
+            })
         this.props.onSetFreeIntervals(array, data.type);
         this.props.onGetAbonementsFilter(id, currDiscipline);
     };
@@ -642,7 +647,8 @@ class Schedule extends React.Component {
         }
         else if(isPushBtnTrialTraining === 'trial' || isPushBtnUnfresh){
             this.props.onGetAvailableInterval(dateStart, dateEnd, chooseWeekdays, currDiscipline.code)
-                .then(() => {
+                .then(data => {
+                    if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
                     setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
                 });
         }
@@ -1003,6 +1009,7 @@ class Schedule extends React.Component {
                                   scheduleSpinner = {this.state.scheduleSpinner}
                                   countTrainingDiscipline = {this.props.countTrainingDiscipline}
                                   onRemoveTrialTraining = {this.deleteTrialTraining}
+                                  isSpinnerFreeTrainers = {this.state.isSpinnerFreeTrainers}
 
             />)
         }

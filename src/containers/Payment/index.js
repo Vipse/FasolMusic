@@ -65,7 +65,10 @@ class Payment extends React.Component{
 
                 this.props.onSetPushTrialTraining(null);
                 this.props.onSetMasterTheDisicipline(null);
-                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc]);
+                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc])
+                    .then(data => {
+                        if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
+                    })
                 this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
         }
         this.props.onGetAbonementsFilter(id, disciplinesList[data.type]);

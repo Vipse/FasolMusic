@@ -44,6 +44,7 @@ class Calendar extends React.Component {
     super(props);
     this.state = {
         isWorkTime: false,   
+        
     }
   }
   
@@ -166,6 +167,7 @@ class Calendar extends React.Component {
                   setChoosenTrainer={setChoosenTrainer}
                   selectAnyTrainer = {this.props.selectAnyTrainer}
                   onGotoPage = {this.props.onGotoPage}
+                  isSpinnerFreeTrainers = {this.props.isSpinnerFreeTrainers}
               /> 
               :
               <div className="table-footer wrapper-small-calendar">
