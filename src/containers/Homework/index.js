@@ -33,7 +33,7 @@ class Homework extends React.Component {
         this.props.onSetChatToId(idTo);
         this.props.onSetChatInterlocutorInfo(interlocutorName, interlocutorAvatar);
         this.props.onSetChatTrainingId(idTraining);
-        this.props.onSetBeginTime(beginTime);
+        this.props.onSetBeginTime(+beginTime * 1000);
         this.props.onSetIsCompleteStatus(isComplete);
         this.props.onSetIsTrialStatus(isTrial);
         this.props.history.push('/app/chat');

@@ -1,23 +1,15 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 
-export const selectPatient = (id) => {
+export const selectStudent = (id) => {
     return {
-        type: actionTypes.SELECT_PATIENT,
+        type: actionTypes.SELECT_STUDENT,
         id: id,
     }
 };
 
-export const unselectPatient = () => {
-    return {
-        type: actionTypes.UNSELECT_PATIENT,
-    }
-};
-
 export const setFreeIntervals = (freeIntervals, discipline ) => {
-
-
-    return (dispatch, getState) => {
+    return (dispatch) => {
         let obj = { discipline : [] };
         let type = {vocals : '125485', guitar : '125470'};
 
@@ -31,7 +23,7 @@ export const setFreeIntervals = (freeIntervals, discipline ) => {
             freeIntervals: freeIntervals,
         });
 
-        console.log("obj", obj)
+        console.log("obj", obj);
         axios.post('/catalog.fasol/getMasterList', JSON.stringify({ 'discipline' : [125485, 125470]}))
             .then((rez) => {
                 let masterListObj = {};
@@ -41,7 +33,7 @@ export const setFreeIntervals = (freeIntervals, discipline ) => {
                 dispatch({
                     type: actionTypes.GET_MASTER_LIST,
                     trainerList: masterList,
-                })
+                });
 
                 masterList.forEach((el) =>  masterListObj[el.idMaster] = el)
 

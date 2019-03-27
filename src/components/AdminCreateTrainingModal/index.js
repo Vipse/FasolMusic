@@ -7,7 +7,7 @@ import './styles.css'
 import moment from "moment";
 
 const AdminCreateTrainingModal = (props) => {
-    
+
     return (
         <Modal title={props.params.item ? moment(props.params.item.timestamp * 1000).format('HH:mm DD.MM.YYYY') : ''}
                width={500}
@@ -17,13 +17,13 @@ const AdminCreateTrainingModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 AdminCreateTrainingModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -32,7 +32,7 @@ AdminCreateTrainingModal.propTypes = {
 AdminCreateTrainingModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},

@@ -162,10 +162,10 @@ class Payment extends React.Component{
 
 const mapStateToProps = state => {
     return {
-        profileDoctor: state.profileDoctor,
-        profileStudent: state.profilePatient,
-        frozenTraining: (state.profilePatient) ? state.profilePatient.frozenTraining : 0,
-        mainUser: (state.profilePatient) ? state.profilePatient.mainUser : null,
+        profileCoach: state.profileCoach,
+        profileStudent: state.profileStudent,
+        frozenTraining: (state.profileStudent) ? state.profileStudent.frozenTraining : 0,
+        mainUser: (state.profileStudent) ? state.profileStudent.mainUser : null,
         auth: state.auth,
         id: state.auth.id,
         mode: state.auth.mode,
@@ -174,10 +174,10 @@ const mapStateToProps = state => {
         deadlinePay: state.student.deadlinePay,
         disciplinesList: state.abonement.disciplines,
         nextTrainingTime: state.training.nextTrainingTime,
-        amountTraining: state.profilePatient.amountTraining,
+        amountTraining: state.profileStudent.amountTraining,
         discCommunication: state.student.discCommunication,
         subsForDisc : state.abonement.subsForDisc,
-        abonementIntervals: state.patients.abonementIntervals,
+        abonementIntervals: state.students.abonementIntervals,
         studentBalance: state.abonement.studentBalance,
         postTraining: state.trainer.postTraining
     }

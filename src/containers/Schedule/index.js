@@ -36,7 +36,7 @@ class Schedule extends React.Component {
 
             newVisitData: {
                 date: null,
-                patients: [],
+                students: [],
             },
             cancelModal: false,
             newMessageModal: false,
@@ -173,7 +173,7 @@ class Schedule extends React.Component {
         }
 
         else if(!this.props.isPushBtnTransfer){
-            const patients = [ {trainer: null, start: new Date(idEvent), id: idEvent, apiPatients: true}];
+            const students = [ {trainer: null, start: new Date(idEvent), id: idEvent, apiPatients: true}];
             const countTraining = abonementIntervals ? abonementIntervals.countTraining : 0
 
             this.timeEvent = idEvent;
@@ -185,7 +185,7 @@ class Schedule extends React.Component {
                 })
 
             message.info('Выберите одного из тренеров')
-            this.setState({apiPatients: patients});
+            this.setState({apiPatients: students});
         }
 
         this.state.isShowFreeTrainers && this.setState({isSpinnerFreeTrainers: true})
@@ -494,7 +494,7 @@ class Schedule extends React.Component {
             }
         }
 
-        
+
         this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc])
             .then(data => {
                 if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
@@ -1135,7 +1135,7 @@ class Schedule extends React.Component {
                 />
                 <NewVisitModal visible={this.state.newVisitModal}
                                {...this.state.newVisitData}
-                               patients={this.props.patients}
+                               students={this.props.students}
                                onCancel={this.closeNewVisitModal}
                                onSave={this.onSaveNewVisit}
                 />
@@ -1174,22 +1174,22 @@ const mapStateToProps = state => {
         chooseDiscipline: state.student.discipline,
         chooseArrMasters: state.student.masters, //id masterov
         fullInfoMasters: state.student.fullInfoMasters,
-        amountTraining: state.patients.amountTraining, // поменять на student
+        amountTraining: state.students.amountTraining, // поменять на student
         eventTraining: state.trainer.eventTraining,
         isPushBtnTransfer: state.student.isPushBtnTransfer,
         isPushBtnAdd: state.student.isPushBtnAdd,
         isPushBtnTrialTraining: state.student.isPushBtnTrialTraining,
-        profileStudent: state.profilePatient,
+        profileStudent: state.profileStudent,
         selectDisciplines: state.abonement.disciplines,
         currDiscipline: state.abonement.currDiscipline,
         disciplines: state.abonement.disciplines,
         chooseTheMaster: state.abonement.chooseTheMaster,
-        mainUser: (state.profilePatient) ? (state.profilePatient.mainUser ? state.profilePatient.mainUser : null) : null,
+        mainUser: (state.profileStudent) ? (state.profileStudent.mainUser ? state.profileStudent.mainUser : null) : null,
 
-        patients:  state.patients.docPatients,
-        freeIntervals:  state.patients.freeIntervals,
-        abonementIntervals: state.patients.abonementIntervals,
-        countTraining: state.patients.countTraining,
+        students:  state.students.coachStudents,
+        freeIntervals:  state.students.freeIntervals,
+        abonementIntervals: state.students.abonementIntervals,
+        countTraining: state.students.countTraining,
         isUser:  state.auth.mode === "user",
         isAdmin:  state.auth.mode === "admin",
         superFreeInterval: state.student.freeInterval,

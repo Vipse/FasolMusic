@@ -90,7 +90,7 @@ class TopPanel extends React.Component{
 TopPanel.propTypes = {
     receptionsToday: PropTypes.number,
     receptionsActual: PropTypes.number,
-    patients: PropTypes.number,
+    students: PropTypes.number,
     nextTraining: PropTypes.number,
     nextTrainingTime: PropTypes.number,
 };
@@ -98,7 +98,7 @@ TopPanel.propTypes = {
 TopPanel.defaultProps = {
     receptionsToday: 0,
     receptionsActual: 0,
-    patients: 0,
+    students: 0,
     nextTraining: 0,
 };
 

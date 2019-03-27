@@ -1,44 +1,12 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
-    docPatients: [],
-    notDocPatients: [],
-    selectedPatientInfo:{},
+    coachStudents: [],
     availableAreaTime: [],
 };
 
 const reducer = (state = initialState, action) => {
-    switch (action.type){
-        case actionTypes.GET_DOCTORS_PATIENTS: 
-            return {
-                ...state,
-                docPatients: action.patients,
-            }
-        case actionTypes.GET_NOT_DOCTORS_PATIENTS:
-            return {
-                ...state,
-                notDocPatients: action.patients,
-            }
-        case actionTypes.GET_SELECTED_PATIENT_INFO:
-            return {
-                ...state,
-                selectedPatientInfo: {
-                    diseases: action.diseases,
-                    treatments: action.treatments,
-                    infoUser: action.infoUser,
-                }
-            }
-
-        case actionTypes.GET_DATE_INTERVAL:
-            return {
-                ...state,
-                intervals: action.intervals,
-            }
-        case actionTypes.GET_DATE_INTERVAL_WITHOUT_MAKING_APP:
-            return {
-                ...state,
-                intervals: action.intervals,
-            }
+    switch (action.type) {
         case actionTypes.SET_RECEPTION:
             return {
                 ...state,
@@ -65,7 +33,6 @@ const reducer = (state = initialState, action) => {
                 isLoadingPatientDoctorsShort: false,
                 myDoctorsLoaded: true
             }
-
         case actionTypes.GET_PATIENT_DOCTORS_LOADING:
             return {
                 ...state,
@@ -77,16 +44,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 freeIntervals: action.freeIntervals,
             }
-
         case actionTypes.SET_NEED_SAVE_INTERVALS:
             return {
                 ...state,
                 abonementIntervals: action.abonementIntervals,
                 amountTraining: action.amountTraining
-            }    
-      
-    
-            
+            }
         default: return state;
     }
 }

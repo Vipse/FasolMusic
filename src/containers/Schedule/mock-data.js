@@ -1,4 +1,4 @@
-export const patientsArr = [{
+export const studentsArr = [{
     name: 'Иванов И.И.'
 }, {
     name: 'Петров П.П.'
@@ -119,7 +119,7 @@ export let fasolIntervals =  [
             {
                 start: 1540875800000,
                 end: 1540929400000
-            }    
+            }
         ]
     },
     {
@@ -128,7 +128,7 @@ export let fasolIntervals =  [
             {
                 start: 1540875900000,
                 end: 1540929300000
-            }    
+            }
         ]
     },
     {
@@ -137,7 +137,7 @@ export let fasolIntervals =  [
             {
                 start: 1540875900000,
                 end: 1540929300000
-            }    
+            }
         ]
     },
     {
@@ -146,22 +146,22 @@ export let fasolIntervals =  [
             {
                 start: 1540875900000,
                 end: 1540929300000
-            }    
+            }
         ]
     },
     {
         day: 4,
-        intervals: [  
+        intervals: [
         ]
     },
     {
         day: 5,
-        intervals: [  
+        intervals: [
         ]
     },
     {
         day: 6,
-        intervals: [  
+        intervals: [
         ]
     }
 ]

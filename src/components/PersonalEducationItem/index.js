@@ -28,10 +28,10 @@ class PersonalEducationItemForm extends React.Component{
         this.state = {
             educatBlock : 0,
             idCurrentDegree : null,
-            mainEducationArr: props.profileDoctor.educationsgroup1 || [],
-            secondEducationArr: props.profileDoctor.educationsgroup2 || [],
-            degree: {name: props.profileDoctor.academicdegree || "", doc: []},
-            status: {name: props.profileDoctor.academicstatus || "", doc: []}
+            mainEducationArr: props.profileCoach.educationsgroup1 || [],
+            secondEducationArr: props.profileCoach.educationsgroup2 || [],
+            degree: {name: props.profileCoach.academicdegree || "", doc: []},
+            status: {name: props.profileCoach.academicstatus || "", doc: []}
         }
     }
 
@@ -48,7 +48,7 @@ class PersonalEducationItemForm extends React.Component{
                     academicdegreedoc: this.state.degree.doc,
                     academicstatus: this.state.status.name,
                     academicstatusdoc: this.state.status.doc,
-                    works: this.props.profileDoctor.works // fix server bug
+                    works: this.props.profileCoach.works // fix server bug
                 };
                 this.props.onSubmit(toSubmitObj);
             }
@@ -374,12 +374,12 @@ class PersonalEducationItemForm extends React.Component{
     };
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.profileDoctor && JSON.stringify(nextProps.profileDoctor) !== JSON.stringify(this.props.profileDoctor)) {
+        if (this.props.profileCoach && JSON.stringify(nextProps.profileCoach) !== JSON.stringify(this.props.profileCoach)) {
             this.setState({
-                mainEducationArr: nextProps.profileDoctor.educationsgroup1,
-                secondEducationArr: nextProps.profileDoctor.educationsgroup2,
-                degree: {name: nextProps.profileDoctor.academicdegree, doc: []},
-                status: {name: nextProps.profileDoctor.academicstatus, doc: []}
+                mainEducationArr: nextProps.profileCoach.educationsgroup1,
+                secondEducationArr: nextProps.profileCoach.educationsgroup2,
+                degree: {name: nextProps.profileCoach.academicdegree, doc: []},
+                status: {name: nextProps.profileCoach.academicstatus, doc: []}
             });
         }
     }
@@ -540,11 +540,11 @@ class PersonalEducationItemForm extends React.Component{
 const PersonalEducationItem  = Form.create()(PersonalEducationItemForm);
 
 PersonalEducationItem.propTypes = {
-    profileDoctor: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 PersonalEducationItem.defaultProps = {
-    profileDoctor: {}
+    profileCoach: {}
 };
 
 export default PersonalEducationItem

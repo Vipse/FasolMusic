@@ -6,7 +6,7 @@ import Content from './content'
 import './styles.css'
 
 const NewRecordScheduleModal = (props) => {
-    
+
     return (
         <Modal title='Записаться на тренировку'
                width={400}
@@ -16,13 +16,13 @@ const NewRecordScheduleModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 NewRecordScheduleModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -31,7 +31,7 @@ NewRecordScheduleModal.propTypes = {
 NewRecordScheduleModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},

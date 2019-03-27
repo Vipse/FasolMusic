@@ -124,7 +124,7 @@ class MainPage extends React.Component{
 					reportLinks={this.props.reportLinks}
 
 					onGetRegistrationRepost={this.props.onGetRegistrationRepost}
-					reportRegistrationLinks={this.props.reportRegistrationLinks}					
+					reportRegistrationLinks={this.props.reportRegistrationLinks}
 				/>
 
 			</div> : null;
@@ -145,11 +145,11 @@ const mapStateToProps = state => {
 		futureTraining: state.trainer.futureTraining,
 		studentTrainings: state.training.studentTrainings,
 
-		patients: state.patients.docPatients,
-		patientDoctors: state.patients.patientDoctorsShort,
-        myDoctorsLoaded: state.patients.myDoctorsLoaded,
-		intervals: state.patients.intervals,
-		userInfoShort: state.profilePatient,
+		students: state.students.coachStudents,
+		patientDoctors: state.students.patientDoctorsShort,
+        myDoctorsLoaded: state.students.myDoctorsLoaded,
+		intervals: state.students.intervals,
+		userInfoShort: state.profileStudent,
 
 		reportLinks: state.admin.reportLinks,
 		reportRegistrationLinks: state.admin.reportRegistrationLinks
@@ -158,7 +158,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-		onSelectPatient: (id) => dispatch(actions.selectPatient(id)),
+		onSelectPatient: (id) => dispatch(actions.selectStudent(id)),
 
 		onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
 		onSetHomeworkEdit: (idTraining, homework) => dispatch(actions.setHomeworkEdit(idTraining, homework)),
@@ -184,7 +184,7 @@ const mapDispatchToProps = dispatch => {
 		onGetReport: () => dispatch(actions.getReport()),
 		onGetRegistrationRepost: () => dispatch(actions.getRegistrationRepost()),
 
-		
+
     }
 };
 

@@ -9,7 +9,7 @@ import Input from '../Input'
 import Rate from '../Rate'
 import Icon from '../Icon'
 import Popover from '../Popover'
-import {profileDoctor} from '../PersonalContactItem/mock-data'
+import {profileCoach} from '../PersonalContactItem/mock-data'
 
 import './style.css'
 import '../../icon/style.css'
@@ -24,7 +24,7 @@ class PersonalEducation extends React.Component{
                 <Accordion defaultActiveKey={['1']}>
                     <Panel header="Образование" key="1">
                         <PersonalEducationItem
-                            profileDoctor={this.props.profileDoctor}
+                            profileCoach={this.props.profileCoach}
                             onSubmit={this.props.onSubmit}
                             uploadFile={this.props.uploadFile}
                         />
@@ -36,12 +36,12 @@ class PersonalEducation extends React.Component{
 }
 
 PersonalEducation.propTypes = {
-    profileDoctor: PropTypes.object,
+    profileCoach: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 PersonalEducation.defaultProps = {
-    profileDoctor: {},
+    profileCoach: {},
     onSubmit: () => {}
 };
 

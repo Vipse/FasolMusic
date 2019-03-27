@@ -194,7 +194,7 @@ class StudentPayment extends React.Component{
 
 const mapStateToProps = state => {
     return {
-        //freeIntervals: state.patients.freeIntervals,
+        //freeIntervals: state.students.freeIntervals,
     };
 };
 

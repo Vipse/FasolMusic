@@ -9,7 +9,7 @@ import Input from '../Input'
 import Rate from '../Rate'
 import Icon from '../Icon'
 import Popover from '../Popover'
-import {profileDoctor} from '../PersonalContactItem/mock-data'
+import {profileCoach} from '../PersonalContactItem/mock-data'
 
 import './style.css'
 import '../../icon/style.css'
@@ -24,7 +24,7 @@ class PersonalContact extends React.Component{
                 <Accordion defaultActiveKey={['1']}>
                     <Panel header="Контакты" key="1">
                         <PersonalContactItem
-                            profileDoctor={this.props.profileDoctor}
+                            profileCoach={this.props.profileCoach}
                             onSubmit={this.props.onSubmit}
                             onSubmitPassword={this.props.onSubmitPassword}
                             onDeleteAvatar={this.props.onDeleteAvatar}
@@ -38,12 +38,12 @@ class PersonalContact extends React.Component{
 }
 
 PersonalContact.propTypes = {
-    profileDoctor: PropTypes.object,
+    profileCoach: PropTypes.object,
     onSubmit: PropTypes.func
 };
 
 PersonalContact.defaultProps = {
-    profileDoctor: {},
+    profileCoach: {},
     onSubmit: () => {}
 };
 

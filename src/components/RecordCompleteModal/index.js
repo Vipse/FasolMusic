@@ -6,7 +6,7 @@ import Content from './content'
 import './styles.css'
 
 const RecordCompleteModal = (props) => {
-    
+
     return (
         <Modal title='Спасибо!'
                width={400}
@@ -16,13 +16,13 @@ const RecordCompleteModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 RecordCompleteModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -31,7 +31,7 @@ RecordCompleteModal.propTypes = {
 RecordCompleteModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},

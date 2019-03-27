@@ -73,7 +73,7 @@ class AutoComplete extends React.Component{
           });
     };
 
-    patientsRender = (dataArr) => {
+    studentsRender = (dataArr) => {
         return dataArr.map((item) => {
             return (<AddNewPatientItem
                 {...item}
@@ -151,7 +151,7 @@ class AutoComplete extends React.Component{
                                     (inputValue.length > 2 ?
                                         (
                                             (searchRes).length ?
-                                                this.patientsRender(searchRes)
+                                                this.studentsRender(searchRes)
                                                 : <div className='entry-list'>{(authMode === "student" ? "Коучи" :
                                                 authMode === "master" ? "Студенты" : "Пользователи") + " не найдены"}</div>
                                         )

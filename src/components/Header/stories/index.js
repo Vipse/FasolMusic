@@ -3,14 +3,14 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Header from '../';
 
-import {notificationArr, patientsArr} from './mock-data'
+import {notificationArr, studentsArr} from './mock-data'
 
 storiesOf('Header', module)
     .add('Header', () => (
         <div>
-            <Header 
+            <Header
                 content="15.09.2017"
-                data={patientsArr}
+                data={studentsArr}
                 notifications = {notificationArr}
                 getNotifId = {(id) => console.log('notif id:', id)}
                 getNotifications={() => console.log('getNotifications')}
@@ -20,9 +20,9 @@ storiesOf('Header', module)
                 logout={() => alert()}
             />
 
-            <Header 
+            <Header
                 content="15.09.2017"
-                data={patientsArr}
+                data={studentsArr}
                 notifications = {notificationArr}
                 getNotifId = {(id) => console.log('notif id:', id)}
                 getNotifications={() => console.log('getNotifications')}
