@@ -268,8 +268,8 @@ const mapStateToProps = state => {
         loadingPastTrainsList: state.homework.loading,
         isRequestFailed: state.homework.isRequestFailed,
         endAchieved: state.homework.endAchieved,
-        profileStudent: state.profilePatient,
-        trainerTrainings: state.profileDoctor.trainerTrainings,
+        profileStudent: state.profileStudent,
+        trainerTrainings: state.profileCoach.trainerTrainings,
         masterPostTrainings: state.trainer.postTraining,
         studentTrainings: state.training.studentTrainings
     }

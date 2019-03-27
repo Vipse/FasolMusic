@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const profileDoctor = {
+export const profileCoach = {
     /*personalContact*/
             secondname  : "Иванова",
             firstname   : "Иван",

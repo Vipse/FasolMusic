@@ -6,7 +6,7 @@ import Content from './content'
 import './styles.css'
 
 const NewVisitByPatientModal = (props) => {
-    
+
     return (
         <Modal title='Запись на прием'
                visible={props.visible}
@@ -15,13 +15,13 @@ const NewVisitByPatientModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 NewVisitByPatientModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -30,7 +30,7 @@ NewVisitByPatientModal.propTypes = {
 NewVisitByPatientModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},

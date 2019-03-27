@@ -1,8 +1,8 @@
 export {
     setFreeIntervals,
     setNeedSaveIntervals,
-    selectPatient
-} from './patients';
+    selectStudent
+} from './students';
 
 export {
     login,
@@ -23,13 +23,13 @@ export {
     getInfoPatient,
     saveUserEdit,
     changePassword
-} from './patientData'
+} from './studentData'
 
 export {
     getInfoDoctor,
     getTrainerTrainings,
     uploadFile
-} from './doctorData'
+} from './coachData'
 
 export {
     loadingStart,

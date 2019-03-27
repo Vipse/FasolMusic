@@ -12,7 +12,7 @@ class AddNewPatient extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            patients: props.data,
+            students: props.data,
             inputValue: '',
             loading: false
         };
@@ -22,7 +22,7 @@ class AddNewPatient extends React.Component{
         this.props.onAdd(id, this.state.inputValue);
     };
 
-    patientsRender = (dataArr) => {
+    studentsRender = (dataArr) => {
         return dataArr.map((item, index) => {
             return (<AddNewPatientItem {...item}
                                         onAdd={this.onAddHandler}
@@ -39,7 +39,7 @@ class AddNewPatient extends React.Component{
             this.setState({
                 inputValue: '',
                 loading: false,
-                patients: []
+                students: []
             })
     }
 
@@ -114,10 +114,10 @@ class AddNewPatient extends React.Component{
                             (
                                 this.state.loading ? <Spinner/> :
                                     this.props.data.length === 0 ?
-                                        (<div className="no-patients">Пациенты не найдены</div>)
-                                        : this.patientsRender(this.props.data)
+                                        (<div className="no-students">Пациенты не найдены</div>)
+                                        : this.studentsRender(this.props.data)
                             )
-                            : (<div className="no-patients">Введите больше символов для поиска</div>)}
+                            : (<div className="no-students">Введите больше символов для поиска</div>)}
                     </ScrollArea>
                 </div>
             </Modal>

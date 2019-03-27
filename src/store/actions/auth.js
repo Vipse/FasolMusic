@@ -2,8 +2,8 @@ import axios from './axiosSettings'
 import axiosLand from './axiosSettingsLand'
 
 import * as actionTypes from './actionTypes';
-import {getInfoDoctor} from "./doctorData";
-import {getInfoPatient} from "./patientData";
+import {getInfoDoctor} from "./coachData";
+import {getInfoPatient} from "./studentData";
 
 export const setOnlineStatus = (id, isOnline) => {
     return dispatch => {

@@ -20,9 +20,9 @@ class PersonalExperienceItemForm extends React.Component{
         super(props);
         this.state = {
             experBlock: 0,
-            experience: props.profileDoctor.experience || null,
-            works: props.profileDoctor.works || [],
-            category: {name: props.profileDoctor.category || "", doc: props.profileDoctor.copycontract || []}
+            experience: props.profileCoach.experience || null,
+            works: props.profileCoach.works || [],
+            category: {name: props.profileCoach.category || "", doc: props.profileCoach.copycontract || []}
         }
     }
 
@@ -37,8 +37,8 @@ class PersonalExperienceItemForm extends React.Component{
                     experience: this.state.experience,
                     category: this.state.category.name,
                     categorydoc: this.state.category.doc,
-                    educationsgroup1: this.props.profileDoctor.educationsgroup1, // fix server bug
-                    educationsgroup2: this.props.profileDoctor.educationsgroup2 // fix server bug
+                    educationsgroup1: this.props.profileCoach.educationsgroup1, // fix server bug
+                    educationsgroup2: this.props.profileCoach.educationsgroup2 // fix server bug
                 };
                 this.props.onSubmit(toSubmitObj);
             }
@@ -254,11 +254,11 @@ class PersonalExperienceItemForm extends React.Component{
     };
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.profileDoctor && JSON.stringify(nextProps.profileDoctor) !== JSON.stringify(this.props.profileDoctor)) {
+        if (this.props.profileCoach && JSON.stringify(nextProps.profileCoach) !== JSON.stringify(this.props.profileCoach)) {
             this.setState({
-                experience: nextProps.profileDoctor.experience,
-                works: nextProps.profileDoctor.works,
-                category: {name: nextProps.profileDoctor.category, doc: nextProps.profileDoctor.copycontract}
+                experience: nextProps.profileCoach.experience,
+                works: nextProps.profileCoach.works,
+                category: {name: nextProps.profileCoach.category, doc: nextProps.profileCoach.copycontract}
             });
         }
     }
@@ -371,11 +371,11 @@ class PersonalExperienceItemForm extends React.Component{
 const PersonalExperienceItem  = Form.create()(PersonalExperienceItemForm);
 
 PersonalExperienceItem.propTypes = {
-    profileDoctor: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 PersonalExperienceItem.defaultProps = {
-    profileDoctor: {}
+    profileCoach: {}
 };
 
 export default PersonalExperienceItem

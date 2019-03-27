@@ -4,12 +4,12 @@ import { action } from '@storybook/addon-actions';
 
 import AutoComplete from '../';
 
-import {patientsArr} from './mock-data'
+import {studentsArr} from './mock-data'
 storiesOf('AutoComplete', module)
     .add('Search', () => (
         <div>
            <AutoComplete
-              data={patientsArr}
+              data={studentsArr}
               onAdd = {(id) => console.log('add',id, name)}
               onGoto = {(id) => console.log('goto',id)}
 		    />

@@ -6,7 +6,7 @@ import Content from './content'
 import './styles.css'
 
 const PromoVideoModal = (props) => {
-    
+
     return (
         <Modal title='Проморолик'
                width={500}
@@ -16,13 +16,13 @@ const PromoVideoModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 PromoVideoModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -31,7 +31,7 @@ PromoVideoModal.propTypes = {
 PromoVideoModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},
