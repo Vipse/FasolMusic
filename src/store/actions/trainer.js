@@ -2,8 +2,7 @@
 
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
-import moment from "moment";
-import { dateMath } from 'date-arithmetic';
+import {getCountTrainingByDiscipline} from './training';
 
 export const getMasterList = (discipline = "") => {
     return dispatch => {
@@ -73,6 +72,7 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                     type: actionTypes.GET_TRAINER_TRAINING_BY_TRAINER,
                     eventTraining: formatTrainng,
                 })
+                dispatch(getCountTrainingByDiscipline(idMaster,currDiscipline.code))
             })
             .catch(err => {
                 console.log('error: ',err);

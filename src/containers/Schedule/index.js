@@ -555,7 +555,7 @@ class Schedule extends React.Component {
         const{id, currDiscipline} = this.props;
 
         //this.props.onGetFutureTrialTraining(id, currDiscipline)
-        this.props.onGetCountTrainingByDiscipline(id, currDiscipline.code);
+       // this.props.onGetCountTrainingByDiscipline(id, currDiscipline.code);
         // if(this.props.mode === 'student'){
         //     this.props.onIssetTrial(id);
         // }

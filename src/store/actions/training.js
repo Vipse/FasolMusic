@@ -156,6 +156,7 @@ export const getCountTrainingByDiscipline = (idUser, discipline) => {
         idUser,
         discipline: String(discipline)
     };
+    
     return dispatch => {
         axios.post('/catalog.fasol/allTrainingByDiscipline', JSON.stringify(obj))
             .then(res => {

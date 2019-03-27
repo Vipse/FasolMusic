@@ -1,5 +1,6 @@
  import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
+import {getCountTrainingByDiscipline} from './training';
 
 export const createAbonement = (dataCreate) => {
     let type = {vocals : '125485', guitar : '125470'};
@@ -70,7 +71,10 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) 
                 dispatch({
                     type: actionTypes.SET_DISC_ABONEMENT,
                     discAbonement : discAbonement,
-                });          
+                });    
+                
+                dispatch(getCountTrainingByDiscipline(idStudent, currDiscipline.code))
+                
         })
         .catch(err => {
             console.log(err);
