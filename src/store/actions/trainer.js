@@ -36,15 +36,11 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
         return axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
-                console.log("REEES", res.data.result);
                 const allTraining = res.data.result.result;
                 let formatTrainng = [];
 
                 for (let key in allTraining) {
                     if (allTraining.hasOwnProperty(key)){
-
-                        console.log('allTraining[key] :', allTraining[key]);
-                        
                         for(let element in allTraining[key]){
                             for(let el in allTraining[key][element]){
                                     
@@ -57,6 +53,7 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                                                 idSubscription:elem.idSubscription,
                                                 idStudent: elem.idStudent,
                                                 isBooking: elem.isBooking,
+                                                isComplete: elem.isComplete,
                                                 start: new Date(elem.date * 1000),
                                                 status: elem.status
                                                 

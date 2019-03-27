@@ -35,6 +35,14 @@ const reducer = (state = initialState, action) => {
                     htmlLink: action.htmlLink
                 }
             }
+        case actionTypes.GET_REPORT_REGISTRATION_LINKS:
+            return {
+                ...state,
+                reportRegistrationLinks: {
+                    excelLink: action.excelRegLink,
+                    htmlLink: action.htmlRegLink
+                }
+            }
         default: return state;
     }
 };

@@ -90,3 +90,21 @@ export const getReport = () => {
             .catch(err => console.log(err));
     }
 };
+
+
+export const getRegistrationRepost = () => {
+
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/registrationListToExcel')
+            .then(res => {
+                console.log('registrationListToExcel', res);
+                dispatch({
+                    type: actionTypes.GET_REPORT_REGISTRATION_LINKS,
+                    excelRegLink: res.data.result.doclink,
+                    htmlRegLink: res.data.result.htmllinc
+                });
+                return res;
+            })
+            .catch(err => console.log(err));
+    }
+};

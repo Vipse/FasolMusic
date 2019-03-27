@@ -17,6 +17,8 @@ class AdminMain extends React.Component{
     state = {
         loadingLinks: false,
         reportLinksReady: false,
+        loadingRegLinks:false,
+        reportLinksRegReady: false
     };
 
     filesList = [];
@@ -26,6 +28,12 @@ class AdminMain extends React.Component{
             this.setState({
                 reportLinksReady: true,
                 loadingLinks: false
+            });
+
+        if (prevProps.reportRegistrationLinks !== this.props.reportRegistrationLinks && this.state.loadingRegLinks)
+            this.setState({
+                reportLinksRegReady: true,
+                loadingRegLinks: false
             });
     }
 
@@ -50,6 +58,7 @@ class AdminMain extends React.Component{
     handleCreateReport = () => {
         this.setState({loadingLinks: true});
         this.props.onGetReport()
+
             .then(res => {
                 if (res && res.data && res.data.process) message.success('Отчет сформирован');
                 else message.error('Ошибка при формировании отчета');
@@ -58,9 +67,21 @@ class AdminMain extends React.Component{
             .catch(err => console.log(err));
     };
 
+    handleCreateRegistrationReport = () => {
+        this.setState({loadingRegLinks: true});
+        this.props.onGetRegistrationRepost()
+
+            .then(res => {
+                if (res && res.data && res.data.process) message.success('Отчет сформирован');
+                else message.error('Ошибка при формировании отчета');
+                this.setState({loadingRegLinks : false});
+            })
+            .catch(err => console.log(err));
+    };
+
     render() {
-        const {reportLinks} = this.props;
-        const {loadingLinks, reportLinksReady} = this.state;
+        const {reportLinks, reportRegistrationLinks} = this.props;
+        const {loadingLinks, reportLinksReady, loadingRegLinks, reportLinksRegReady} = this.state;
 
         return (
             <Hoc>
@@ -101,6 +122,37 @@ class AdminMain extends React.Component{
                                                 type='light-pink'
                                                 btnText='Сформировать отчет'
                                                 onClick={this.handleCreateReport}
+                                            />}
+                                </div>
+                            </div>
+
+                            <div className="admin-payload">
+                                <div className="admin-payload-btnPlate">
+                                    {loadingRegLinks ? <Spinner/> :
+                                        reportLinksRegReady ?
+                                            <React.Fragment>
+                                                <a className="admin-payload-btnPlate-link"
+                                                   target='_blank'
+                                                   href={reportRegistrationLinks.excelLink}>
+                                                    <Button
+                                                        type='light-pink'
+                                                        btnText='Загрузить Excel-файл регистраций'
+                                                    />
+                                                </a>
+                                                <a className="admin-payload-btnPlate-link"
+                                                   target='_blank'
+                                                   href={reportRegistrationLinks.htmlLink}
+                                                >
+                                                    <Button
+                                                        type='light-pink'
+                                                        btnText='Открыть HTML регистраций'
+                                                    />
+                                                </a>
+                                            </React.Fragment>
+                                            : <Button
+                                                type='light-pink'
+                                                btnText='Сформировать отчет регистраций'
+                                                onClick={this.handleCreateRegistrationReport}
                                             />}
                                 </div>
                             </div>

@@ -122,6 +122,9 @@ class MainPage extends React.Component{
 				<AdminMain
 					onGetReport={this.props.onGetReport}
 					reportLinks={this.props.reportLinks}
+
+					onGetRegistrationRepost={this.props.onGetRegistrationRepost}
+					reportRegistrationLinks={this.props.reportRegistrationLinks}					
 				/>
 
 			</div> : null;
@@ -148,7 +151,8 @@ const mapStateToProps = state => {
 		intervals: state.patients.intervals,
 		userInfoShort: state.profilePatient,
 
-		reportLinks: state.admin.reportLinks
+		reportLinks: state.admin.reportLinks,
+		reportRegistrationLinks: state.admin.reportRegistrationLinks
     }
 };
 
@@ -177,7 +181,10 @@ const mapDispatchToProps = dispatch => {
 		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
 		getSelectors: (name) => dispatch(actions.getSelectors(name)),
 
-		onGetReport: () => dispatch(actions.getReport())
+		onGetReport: () => dispatch(actions.getReport()),
+		onGetRegistrationRepost: () => dispatch(actions.getRegistrationRepost()),
+
+		
     }
 };
 
