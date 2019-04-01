@@ -42,6 +42,7 @@ class StudentPage extends React.Component{
                 .catch(err => console.log(err))
         });
 
+        this.props.onGetStudentBalance(this.props.match.params.id);
         this.props.onGetInfoPatient(this.props.match.params.id)
             .then(res => this.setState({loading: false}));
 
@@ -54,6 +55,7 @@ class StudentPage extends React.Component{
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.id !== this.props.match.params.id) {
             this.setState({loading: true});
+            this.props.onGetStudentBalance(nextProps.match.params.id);
             this.props.onGetInfoPatient(nextProps.match.params.id)
                 .then(res => this.setState({loading: false}));
         }
@@ -187,7 +189,7 @@ class StudentPage extends React.Component{
         const { id, avatar, name, frozenTraining,email, phones } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
         const {trainerTrainings, studentTrainings, match,
-            trainings, loadingPastTrainsList, isRequestFailed, endAchieved} = this.props;
+            trainings, loadingPastTrainsList, isRequestFailed, endAchieved, studentBalance} = this.props;
         const isAdmin = this.props.mode === 'admin';
 
         if (this.state.loading === true) {
@@ -212,7 +214,7 @@ class StudentPage extends React.Component{
                                     phones={phones}
                                     discipline={this.getDisciplinesString()}
                                     level={this.getLevelsString()}
-                                    paidTrainingsCount={0}
+                                    paidTrainingsCount={studentBalance}
                                     isAdmin={isAdmin}
                                     onGoToChat={this.goToNearestChat}
                                 />
@@ -271,7 +273,8 @@ const mapStateToProps = state => {
         profileStudent: state.profileStudent,
         trainerTrainings: state.profileCoach.trainerTrainings,
         masterPostTrainings: state.trainer.postTraining,
-        studentTrainings: state.training.studentTrainings
+        studentTrainings: state.training.studentTrainings,
+        studentBalance: state.abonement.studentBalance
     }
 };
 
@@ -287,13 +290,14 @@ const mapDispatchToProps = dispatch => {
         onGetTrainingHistoryList: (idUser, search) => dispatch(actions.getTrainingHistoryList(idUser, search)),
         onChangeRequestMaxAmount: (amount) => dispatch(actions.changeRequestMaxAmount(amount)),
         onResetTrainingHistoryList: () => dispatch(actions.resetTrainingHistoryList()),
+        onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
 
         onSetChatToId: (id) => dispatch(actions.setChatToId(id)),
         onSetChatTrainingId: (id) => dispatch(actions.setChatTrainingId(id)),
         onSetChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),
         onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
         onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
-        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
+        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial))
     }
 };
 
