@@ -2,10 +2,10 @@ import { createStore, applyMiddleware, combineReducers} from 'redux'
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import patientsReducer from './reducers/patients'
+import studentsReducer from './reducers/students'
 import authReducer from './reducers/auth'
-import infoDoctorReducer from './reducers/doctorData'
-import infoPatientReducer from './reducers/patientData'
+import infoCoachReducer from './reducers/coachData'
+import infoStudentReducer from './reducers/studentData'
 import chatWSReducer from './reducers/chatWS'
 import loadingReducer from './reducers/loading'
 import studentReducer from './reducers/student'
@@ -18,10 +18,10 @@ import homeworkReducer from './reducers/homework'
 
 
 const rootReducer = combineReducers({
-    patients: patientsReducer,
+    students: studentsReducer,
     auth: authReducer,
-    profileDoctor: infoDoctorReducer,
-    profilePatient: infoPatientReducer,
+    profileCoach: infoCoachReducer,
+    profileStudent: infoStudentReducer,
     chatWS: chatWSReducer,
     loading: loadingReducer,
     abonement: abonementReducer,

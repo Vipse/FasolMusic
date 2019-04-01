@@ -140,7 +140,7 @@ export const menuCoach =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
     {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
-    //{name: 'app/patients', title: 'Мои пациенты', iconType: 'user',},
+    //{name: 'app/students', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
     {name: 'app/bonus', title: 'Получить бонусы', iconType: 'bonus', svg: true},

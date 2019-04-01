@@ -117,7 +117,7 @@ class PersonalContactItemForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const { fio, phone, email, oldPassword, newPassword, avatar} = this.props.profileDoctor;
+        const { fio, phone, email, oldPassword, newPassword, avatar} = this.props.profileCoach;
         const rootClass = cn('personal-contact');
 
         return (
@@ -249,11 +249,11 @@ class PersonalContactItemForm extends React.Component{
 const PersonalContactItem  = Form.create()(PersonalContactItemForm);
 
 PersonalContactItem.propTypes = {
-    profileDoctor: PropTypes.object
+    profileCoach: PropTypes.object
 };
 
 PersonalContactItem.defaultProps = {
-    profileDoctor: {}
+    profileCoach: {}
 };
 
 export default PersonalContactItem

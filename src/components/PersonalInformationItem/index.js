@@ -34,7 +34,7 @@ class PersonalInformationItemForm extends React.Component{
     render(){
         const { getFieldDecorator } = this.props.form;
 
-        let {language, isChildConsult, consultationPrice, isFreeConsult, about} = this.props.profileDoctor;
+        let {language, isChildConsult, consultationPrice, isFreeConsult, about} = this.props.profileCoach;
 
         const rootClass = cn('personal-information');
         const RadioGroup = Radio.Group;

@@ -60,8 +60,8 @@ class PersonalInfo extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        profileCoach: state.profileDoctor,
-        profileStudent: state.profilePatient,
+        profileCoach: state.profileCoach,
+        profileStudent: state.profileStudent,
         auth: state.auth,
         selectors: state.loading.selectors,
     }

@@ -6,7 +6,7 @@ import Content from './content'
 import './styles.css'
 
 const ShortRegistrationModal = (props) => {
-    
+
     return (
         <Modal title='Быстрая регистрация'
                width={400}
@@ -16,13 +16,13 @@ const ShortRegistrationModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 ShortRegistrationModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -31,7 +31,7 @@ ShortRegistrationModal.propTypes = {
 ShortRegistrationModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},

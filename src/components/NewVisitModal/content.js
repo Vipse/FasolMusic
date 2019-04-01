@@ -107,7 +107,7 @@ class ContentForm extends React.Component {
     };
 
     renderOptions = () => {
-        return this.props.patients.length && this.props.patients.map((patient, i) => {
+        return this.props.students.length && this.props.students.map((patient, i) => {
             return (
                 <Select.Option value={patient.id}
                                key={`my_patient_${i}`}>
@@ -132,7 +132,7 @@ class ContentForm extends React.Component {
         const {getFieldDecorator} = this.props.form;
         const {visible, date} = this.props;
         const icons = this.getType();
-        let timeElement = this.props.isChoosebleTime 
+        let timeElement = this.props.isChoosebleTime
             ? <div className='modal-time'>
                 <FormItem>
                     {getFieldDecorator('time',{
@@ -165,7 +165,7 @@ class ContentForm extends React.Component {
                     {timeElement}
                 </div>
 
-                {!this.props.patients.length ?
+                {!this.props.students.length ?
                     <FormItem className="user-select"
                         validateStatus='error'
                               help="Добавьте пациентов в свой список"
@@ -189,12 +189,12 @@ class ContentForm extends React.Component {
                             </Select>
                         )}
                 </FormItem>}
-                
+
                 <TextArea label='Комментарий к приему'
                             value={this.state.message}
                             onChange={message => this.setState({message})}
                           className="NewVisitModal-txtarea"/>
-                
+
 
                 <FormItem>
                     {getFieldDecorator('type', {

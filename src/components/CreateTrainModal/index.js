@@ -6,7 +6,7 @@ import Content from './content'
 import './styles.css'
 
 const CreateTrainModal = (props) => {
-    
+
     return (
         <Modal title={props.title}
                width={770}
@@ -17,13 +17,13 @@ const CreateTrainModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 CreateTrainModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     unauthorized: PropTypes.bool,
     closable: PropTypes.bool,
@@ -35,7 +35,7 @@ CreateTrainModal.propTypes = {
 CreateTrainModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     unauthorized: false,
     closable: true,

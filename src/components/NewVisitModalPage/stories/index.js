@@ -2,7 +2,7 @@ import React from 'react';
 import {storiesOf} from '@storybook/react';
 import NewVisitModalPage from '../';
 
-const patients = [{
+const students = [{
         name: 'name1'
     }, {
         name: 'name2'
@@ -16,7 +16,7 @@ storiesOf('Modal - NewVisitModalPage', module)
             <NewVisitModalPage visible={true}
                                userName='Петров-Иванов Александр Константинович'
                                defaultDate={new Date(2018, 1, 4, 8, 10)}
-                               patients={patients}
+                               students={students}
                                onSave={(obj) => console.log(obj)}
                                availableArea={[
                                    {

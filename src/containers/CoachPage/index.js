@@ -279,9 +279,9 @@ class CoachPage extends React.Component{
 const mapStateToProps = state => {
     return {
         auth: state.auth,
-        profileCoach: state.profileDoctor,
+        profileCoach: state.profileCoach,
         masterSchedule: state.student.masterSchedule,
-        trainerTrainings: state.profileDoctor.trainerTrainings,
+        trainerTrainings: state.profileCoach.trainerTrainings,
         mode: state.auth.mode,
     }
 };

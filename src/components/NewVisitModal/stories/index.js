@@ -2,7 +2,7 @@ import React from 'react';
 import {storiesOf} from '@storybook/react';
 import NewVisitModal from '../';
 
-const patients = [{
+const students = [{
         id: 1,
         name: 'name1'
     }, {
@@ -19,7 +19,7 @@ storiesOf('Modal - NewVisitModal', module)
             <NewVisitModal visible={true}
                            userName='Петров-Иванов Александр Константинович'
                            date={new Date(2018,1,4,8,10)}
-                           patients={patients}
+                           students={students}
                            isChoosebleTime={true}
                            onSave = {(obj) => console.log(obj)}
             />

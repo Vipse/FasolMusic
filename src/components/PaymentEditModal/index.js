@@ -6,7 +6,7 @@ import Content from './content'
 import './styles.css'
 
 const PaymentEditModal = (props) => {
-    
+
     return (
         <Modal title='Данные карты'
                visible={props.visible}
@@ -15,13 +15,13 @@ const PaymentEditModal = (props) => {
              <Content {...props}/>
         </Modal>
         )
-    
+
 }
 
 PaymentEditModal.propTypes = {
     visible: PropTypes.bool,
     date: PropTypes.number,
-    patients: PropTypes.array,
+    students: PropTypes.array,
     isChoosebleTime: PropTypes.bool,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -30,7 +30,7 @@ PaymentEditModal.propTypes = {
 PaymentEditModal.defaultProps = {
     visible: false,
     date: null,
-    patients: [],
+    students: [],
     isChoosebleTime: false,
     onSave: () => {},
     onCancel: () => {},
