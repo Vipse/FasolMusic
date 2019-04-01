@@ -91,6 +91,7 @@ class ChatAudioContent extends React.Component {
 
                 <div className={panelClass}>
                     <ChatVideoPanel
+                        mode={this.props.mode}
                         onStop={() => {
                             this.props.onStop();
                         }}

@@ -86,6 +86,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isPushBtnUnfresh: action.isPushBtnUnfresh
             }
+        case actionTypes.GET_USER_FONO:
+            return {
+                ...state,
+                toUserFono: action.toUserFono
+            }
+            
         default: return state;
     }
 };

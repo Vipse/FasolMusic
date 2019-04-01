@@ -241,7 +241,7 @@ class ChatCard extends React.Component {
 			onChat: () => this.setState(prev => ({isActiveChat: !prev.isActiveChat})),
 			timer: this.props.timer,
 			isCalling: this.props.isCalling,
-			isActiveChat: this.state.isActiveChat
+			isActiveChat: this.state.isActiveChat,
         };
 
 		switch (this.props.mode) {
@@ -252,13 +252,13 @@ class ChatCard extends React.Component {
 				/>;
                 break;
             case 'voice':
-                content = <ChatAudioContent
+				content = <ChatAudioContent
                     {...chatProps}
                     {...chatAdditionalProps}
                 />;
                 break;
             case "video":
-                content = <ChatVideoContent
+				content = <ChatVideoContent
                     {...chatProps}
                     {...chatAdditionalProps}
                 />;

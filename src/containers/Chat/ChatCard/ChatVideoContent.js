@@ -166,7 +166,8 @@ class ChatVideoContent extends React.Component {
 				{this.isSafari ? this.renderSafariVideos() : this.renderVideos()}
                 <div className={panelClass}>
                     {this.props.idTraining ? (
-                        <ChatVideoPanel
+						<ChatVideoPanel
+							user_mode={this.props.user_mode}
                             onStop={() => {
                                 this.props.onStop();
                             }}

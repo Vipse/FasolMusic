@@ -24,9 +24,8 @@ export const createAbonement = (dataCreate) => {
         
 }
 
-
 export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) => (dispatch) => {
-  
+
     return axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
         .then(res => {
            
@@ -209,7 +208,25 @@ export const getStudentBalance = (idStudent) => {
         
 }
 
+export const getUserFono = (idTo) => {
 
+    return (dispatch, getState) => 
+        axios.post('/catalog.fasol/getUserFono', JSON.stringify({idUser: idTo}))
+            .then(res => {
+                console.log("getUserFono", res);
+                debugger
+                dispatch({
+                    type: actionTypes.GET_USER_FONO,
+                    toUserFono: res.data.result,
+                });
+                sessionStorage.setItem("_id-fono", res.data.result)
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+        })
+        
+}
 
 
 

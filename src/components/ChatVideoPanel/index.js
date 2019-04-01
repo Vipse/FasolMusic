@@ -14,7 +14,7 @@ class ChatVideoPanel extends React.Component{
     };
 
     render(){
-        const {isCalling, sec, min, hour, disabled, isFullScreen} = this.props;
+        const {isCalling, sec, min, hour, disabled, isFullScreen, user_mode} = this.props;
 
 
         return (
@@ -73,16 +73,32 @@ class ChatVideoPanel extends React.Component{
                             onClick={this.props.onCall}
                         />
 
-                       {/* <Button
-                            className='btn-piano toggle-client'
-                            btnText=''
-                            size='small'
-                            type='no-brd'
-                            icon='team'
-                            iconSize={15}
-                            title='Пианино'
-                            onClick={null}
-                       /> */}
+                        {/*user_mode === 'student' ? 
+                            <Button
+                                id="connect"
+                                className='btn-piano toggle-client'
+                                btnText=''
+                                size='small'
+                                type='no-brd'
+                                icon='team'
+                                iconSize={15}
+                                title='Пианино'
+                                onClick={null}
+                            /> :
+                            <Button
+                                id="connect"
+                                className='btn-piano toggle-server'
+                                btnText=''
+                                size='small'
+                                type='no-brd'
+                                icon='team'
+                                iconSize={15}
+                                title='Пианино'
+                                onClick={null}
+                            /> 
+                    
+                */}
+                        
                     </div>}
                     <div className="message__panel-full">
                         <Button

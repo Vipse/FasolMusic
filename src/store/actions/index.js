@@ -76,6 +76,7 @@ export {
     getStudentBalance,
     isPushBtnUnfresh,
     changePushBtnUnfresh,
+    getUserFono
 } from './abonement'
 
 export {

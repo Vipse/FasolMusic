@@ -10,12 +10,13 @@ import '../../icon/style.css'
 class Button extends React.Component {
 
         render() {
-            const {className, type, size, btnText, icon, iconSize, title, svg, disable, onClick} = this.props;
+            const {id, className, type, size, btnText, icon, iconSize, title, svg, disable, onClick} = this.props;
 
             const rootClass = cn( `${className}`, 'btn',`btn-size-${size}`, `btn-type-${type}`);
 
             return (
-                <button className={rootClass}
+                <button id={id}
+                        className={rootClass}
                         title={title}
                         onClick={onClick}
                         {...(disable ? { disabled: true } : {})}

@@ -23,6 +23,8 @@ class Chat extends React.Component{
             });
         this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
         this.props.idTraining && this.loadChatHistory(this.props.idTraining);
+
+        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -37,6 +39,9 @@ class Chat extends React.Component{
                 this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
                 this.loadChatHistory(this.props.idTraining);
             } else this.loadTrainingsList();
+        }
+        if(prevProps.idTo !== this.props.idTo){
+            this.props.idTo && this.props.onGetUserFono(this.props.idTo);
         }
     }
 
@@ -229,8 +234,8 @@ const mapDispatchToProps = dispatch => {
         onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
         onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
         onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
-        onCheckInterlocutorOnlineStatus: (id) => dispatch(actions.checkInterlocutorOnlineStatus(id))
-
+        onCheckInterlocutorOnlineStatus: (id) => dispatch(actions.checkInterlocutorOnlineStatus(id)),
+        onGetUserFono: (idTo) => dispatch(actions.getUserFono(idTo)),
         //uploadFile: (id_zap, id_user, file, callback) => dispatch(actions.uploadChatFile(id_zap,id_user, file,callback)),
 	}
 };
