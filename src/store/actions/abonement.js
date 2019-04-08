@@ -3,16 +3,9 @@ import * as actionTypes from './actionTypes';
 import {getCountTrainingByDiscipline} from './training';
 
 export const createAbonement = (dataCreate) => {
-    let type = {vocals : '125485', guitar : '125470'};
-
-    for( let key in type ){
-        if(String(key) === dataCreate.discipline){
-            dataCreate.discipline =  [ type[key] ];
-        }
-    }
     console.log("POST abon", dataCreate)
-    return (dispatch, getState) => 
 
+    return (dispatch, getState) => 
         axios.post('/catalog.fasol/createSubscription', JSON.stringify(dataCreate))
             .then(res => {
                 console.log("createSubscription", res);
@@ -31,10 +24,24 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) 
            
                 let fdata = res.data.result;
                 const discAbonement = Object.keys(res.data.result);  
-       
-                
-                if(fdata.hasOwnProperty(currDiscipline.code)){
-                    fdata[currDiscipline.code].map((el) => {  
+     
+                let mainDiscipline = currDiscipline.code;
+                if(isFirst) {
+                        let countInDiscipline = 0;
+                        for( let el in fdata){
+                            if(countInDiscipline < fdata[el].length){
+                                countInDiscipline = fdata[el].length;
+                                mainDiscipline = el;
+                            }
+                        }
+                        mainDiscipline && dispatch({
+                            type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
+                            currDiscipline : mainDiscipline,
+                        });
+                }
+
+                if(fdata.hasOwnProperty(mainDiscipline)){
+                    fdata[mainDiscipline].map((el) => {  
                         el.fio = '#'+el.key + ' ' + el.masterFio ? el.masterFio : '';
                         el.start = new Date(+el.start * 1000);
                         el.discipline = el.discipline.map( elem => elem.name).join(',')
@@ -42,29 +49,12 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) 
                         el.idMaster = el.idMaster;
                         el.isBooking = el.isBooking;      
                     })
-                    fdata = fdata[currDiscipline.code].filter((el) => !el.isBooking); // remove booking training
+                    fdata = fdata[mainDiscipline].filter((el) => !el.isBooking); // remove booking training
                 }  
-
-                if(isFirst) {
-                    let mainDiscipline = null;
-                    let countInDiscipline = 0;
-                    for( let el in fdata){
-                        if(countInDiscipline < fdata[el].length){
-                            countInDiscipline = fdata[el].length;
-                            mainDiscipline = el;
-                        }
-                    }
-
-                    mainDiscipline && dispatch({
-                        type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
-                        currDiscipline : mainDiscipline,
-                    });
-                }
-               
-
+                
                 dispatch({
                     type: actionTypes.GET_ABONEMENTS,
-                    allAbonements: fdata,
+                    allAbonements: fdata  ,
                 });
 
                 dispatch({
