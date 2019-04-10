@@ -42,7 +42,7 @@ class StudentMain extends React.Component{
                     avatar: item.avatarMaster,
                     start: +item.start * 1000,
                     end: +item.start * 1000 + 3600000,
-                    discipline: item.disciplineSubscription.length ?
+                    discipline: item.disciplineSubscription.length && item.disciplineSubscription[0] ?
                         selectors.discipline.find(discipline => discipline.id === +item.disciplineSubscription[0]).nameRus : null,
                     idProfile: item.idMaster,
                     idTraining: item.id,
