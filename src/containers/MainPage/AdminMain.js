@@ -18,7 +18,8 @@ class AdminMain extends React.Component{
         loadingLinks: false,
         reportLinksReady: false,
         loadingRegLinks:false,
-        reportLinksRegReady: false
+        reportLinksRegReady: false,
+        reportDateRange: []
     };
 
     filesList = [];
@@ -56,15 +57,31 @@ class AdminMain extends React.Component{
     };
 
     handleCreateReport = () => {
-        this.setState({loadingLinks: true});
-        this.props.onGetReport()
+        const {reportDateRange} = this.state;
+    
+        if (reportDateRange.length) {
+            this.setState({loadingLinks: true});
+            this.props.onGetReport(reportDateRange[0], reportDateRange[1])
+                .then(res => {
+                    if (res && res.data && res.data.process) message.success('Отчет сформирован');
+                    else message.error('Ошибка при формировании отчета');
+                    this.setState({loadingLinks: false});
+                })
+                .catch(err => console.log(err));
+        }
+        else message.error('Не выбран период');
+    };
 
-            .then(res => {
-                if (res && res.data && res.data.process) message.success('Отчет сформирован');
-                else message.error('Ошибка при формировании отчета');
-                this.setState({loadingLinks: false});
-            })
-            .catch(err => console.log(err));
+    handleChangeReportDateRange = (dateRange) => {
+        this.setState({
+            loadingLinks: false,
+            reportLinksReady: false,
+            reportDateRange: dateRange.every((item => item)) ?
+                [
+                    moment(dateRange[0]).startOf('day').format('X'),
+                    moment(dateRange[1]).endOf('day').format('X')
+                ] : []
+        });
     };
 
     handleCreateRegistrationReport = () => {
@@ -96,6 +113,12 @@ class AdminMain extends React.Component{
                     <Col className='section' xs={11}>
                         <Card title="Получение отчета">
                             <div className="admin-payload">
+                                <p>Выберите период для формирования отчета</p>
+                                <DatePicker width ="100%"
+                                            rangeSet={{placeholderStart: "От", placeholderEnd: "До"}}
+                                            range
+                                            onChange={this.handleChangeReportDateRange}
+                                />
                                 <div className="admin-payload-btnPlate">
                                     {loadingLinks ? <Spinner/> :
                                         reportLinksReady ?
