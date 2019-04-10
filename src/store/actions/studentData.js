@@ -3,13 +3,10 @@ import * as actionTypes from './actionTypes';
 import { getInfoDoctor } from "./coachData";
 
 export const getInfoPatient = (id) => {
-    let obj = {id};
+
     return (dispatch) => {
-        return axios.post('/catalog.fasol/getUserInfo',
-            JSON.stringify(obj))
+        return axios.post('/catalog.fasol/getUserInfo',JSON.stringify({id}))
             .then(res => {
-                console.log("receivedStudentData", res);
-                res.data.result.data.mainUser = 128555;
                 if (res.data.result && res.data.result.data.userGroup === 'student') {
                     res.data.result.data.id = id;
                     dispatch({

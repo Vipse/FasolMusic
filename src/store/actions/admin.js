@@ -108,3 +108,25 @@ export const getRegistrationRepost = () => {
             .catch(err => console.log(err));
     }
 };
+
+
+export const getInfoScheduleStudent = (id) => {
+
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/getUserInfo',JSON.stringify({id}))
+            .then(res => {
+                if (res.data.result && res.data.result.data.userGroup === 'student') {
+                    res.data.result.data.id = id;
+                    dispatch({
+                        type: actionTypes.INFO_SCHEDULE_STUDENT,
+                        profileStudent: res.data.result.data,
+                    });
+                }
+
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+};

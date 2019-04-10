@@ -114,6 +114,12 @@ class StudentPage extends React.Component{
         this.props.history.push(link + idCoach);
     };
 
+    goToStudentSchedule = () => {
+        const {id} = this.props.profileStudent;
+        id && this.props.onGetInfoScheduleStudent(id)
+                .then(() => this.props.history.push('/app/schedule'+id))
+    }
+
     handleTrainModal = (e, redirectable, isAdmin, item) => {
         e.preventDefault();
         if (redirectable && isAdmin) this.goToCoachProfile(item.idMaster);
@@ -217,6 +223,7 @@ class StudentPage extends React.Component{
                                     paidTrainingsCount={studentBalance}
                                     isAdmin={isAdmin}
                                     onGoToChat={this.goToNearestChat}
+                                    goToStudentSchedule={this.goToStudentSchedule}
                                 />
                                 <StudentPagePerfectCoach
                                     sex={bestsex}
@@ -297,7 +304,8 @@ const mapDispatchToProps = dispatch => {
         onSetChatInterlocutorInfo: (interlocutorName, interlocutorAvatar) => dispatch(actions.setChatInterlocutorInfo(interlocutorName, interlocutorAvatar)),
         onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
         onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
-        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial))
+        onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
+        onGetInfoScheduleStudent: (id) => dispatch(actions.getInfoScheduleStudent(id))
     }
 };
 

@@ -70,6 +70,13 @@ class Schedule extends React.Component {
             })
         }
     }
+
+    getCurrentId = () => { 
+        const {isAdmin, id, history, sheduleStudent} = this.props;
+        (isAdmin && history.location.pathname === '/app/schedule'+sheduleStudent.id) ? sheduleStudent.id : id
+
+    }
+
     selectAnyTrainer = () => {
         let {fullInfoMasters} = this.props;
         const min = 0;
@@ -226,7 +233,7 @@ class Schedule extends React.Component {
 
     updateAfterFilling = () => {
         const {id, currDiscipline} = this.props;
-
+        /////////
         setTimeout(() => {
             this.props.onGetStudentBalance(id);
             this.props.onGetUseFrozenTraining(id);
@@ -434,7 +441,9 @@ class Schedule extends React.Component {
     };
 
     componentDidMount() {
-        const {id, currDiscipline} = this.props;
+        const {currDiscipline, isAdmin} = this.props;
+        const id = this.getCurrentId() 
+
         const start =  moment(Date.now()).startOf('week').format('X');
         const end = moment(Date.now()).endOf('week').format('X');
 
@@ -549,8 +558,7 @@ class Schedule extends React.Component {
         if(mode === 'master'){
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
         }
-        if(mode === 'master' || mode === 'student'){
-
+        if(mode === 'student'){
             this.props.onGetAbonementsFilter(id, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 1000))
         }
@@ -1090,7 +1098,8 @@ const mapStateToProps = state => {
         masterList: state.admin.masterList.interval,
         freetrainers: state.admin.freetrainers,
         busytrainers: state.admin.busytrainers,
-        statusBtnBack: state.student.statusBtnBack
+        statusBtnBack: state.student.statusBtnBack,
+        sheduleStudent: state.admin.profileStudent
     };
 };
 

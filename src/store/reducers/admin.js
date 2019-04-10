@@ -43,6 +43,12 @@ const reducer = (state = initialState, action) => {
                     htmlLink: action.htmlRegLink
                 }
             }
+        case actionTypes.INFO_SCHEDULE_STUDENT:
+            return {
+                ...state,
+                profileStudent: action.profileStudent,
+            }
+            
         default: return state;
     }
 };

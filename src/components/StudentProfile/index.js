@@ -35,13 +35,23 @@ class StudentProfile extends React.Component {
                                 <div className="profile-student-info-count">Тренировок оплачено: <span className="profile-student-info-count-number">{paidTrainingsCount}</span></div>
                             </div>
                         </div>
-                        {!isAdmin ? <div className="profile-student-btn-row">
-                            <Button onClick={() => this.props.onGoToChat()}
-                                    btnText='Открыть чат'
-                                    size='default'
-                                    type='light-blue'
-                            />
-                        </div> : null}
+                        {!isAdmin ? 
+                            (<div className="profile-student-btn-row">
+                                <Button onClick={() => this.props.onGoToChat()}
+                                        btnText='Открыть чат'
+                                        size='default'
+                                        type='light-blue'
+                                />
+                            </div>) : 
+                            (<div className="profile-student-btn-row">
+                                <Button onClick={this.props.goToStudentSchedule}
+                                        btnText='Открыть расписание'
+                                        size='default'
+                                        type='light-blue'
+                                />
+                            </div>)
+                        }
+
                     </div>
             </Card>
         )

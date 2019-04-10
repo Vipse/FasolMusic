@@ -140,7 +140,8 @@ export {
     getFreeAndBusyMasterList,
     getAllInfoMasters,
     getReport,
-    getRegistrationRepost
+    getRegistrationRepost,
+    getInfoScheduleStudent
 } from './admin'
 
 

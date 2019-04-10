@@ -4,6 +4,9 @@
 .profile-card-student .profile-student {
   display: flex;
 }
+.profile-card-student .profile-student-btn-row {
+  margin-top: 10px;
+}
 .profile-card-student .profile-student-avatar {
   margin-right: 30px;
 }

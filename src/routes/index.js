@@ -133,6 +133,11 @@ export const adminRoutes = [
         path: '/app/student:id',
         component: StudentPage,
         exact: true,
+    },
+    {
+        path: '/app/schedule:id',
+        component: Schedule,
+        exact: true,
     }
 ]
 
@@ -140,7 +145,6 @@ export const menuCoach =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'График работы', iconType: 'calendar', svg: true},
     {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
-    //{name: 'app/students', title: 'Мои пациенты', iconType: 'user',},
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
     {name: 'app/bonus', title: 'Получить бонусы', iconType: 'bonus', svg: true},
@@ -150,17 +154,11 @@ export const menuCoach =[
 export const menuStudent =[
     {name: 'app', title: 'Главная', iconType: 'dashboard', svg: true},
     {name: 'app/schedule', title: 'Календарь', iconType: 'calendar', svg: true},
-
     {name: 'app/homework', title: 'Домашние задания', iconType: 'order-form', svg: true},
-   // {name: 'app/treatment', title: 'Обращения', iconType: 'order-form', svg: true},
-   // {name: 'app/doctors', title: 'Мои врачи', iconType: 'user',},
-
-
     {name: 'app/personal-info', title: 'Мой профиль', iconType: 'setting_edit', svg: true},
     {name: 'app/payment', title: 'Оплата', iconType: 'credit-card', svg: true},
     {name: 'app/bonus', title: 'Бонусы', iconType: 'bonus', svg: true},
     {name: 'app/chat', title: 'Чат', iconType: 'order-form', svg: true}
-    //{name: 'app/reviews', title: 'Мои отзывы', iconType: 'chat', svg: true},
 ];
 
 export const menuAdmin =[
