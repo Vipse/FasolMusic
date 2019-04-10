@@ -181,7 +181,7 @@ const mapDispatchToProps = dispatch => {
 		onGetTodayTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getTodayTrainerTraining(idMaster, dateMin, dateMax)),
 		getSelectors: (name) => dispatch(actions.getSelectors(name)),
 
-		onGetReport: () => dispatch(actions.getReport()),
+		onGetReport: (dateStart, dateEnd) => dispatch(actions.getReport(dateStart, dateEnd)),
 		onGetRegistrationRepost: () => dispatch(actions.getRegistrationRepost()),
 
 

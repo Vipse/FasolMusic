@@ -74,10 +74,14 @@ export const getAllInfoMasters = (typeMasters, masterList) => {
     }
 }
 
-export const getReport = () => {
+export const getReport = (dateStart, dateEnd) => {
+    const obj = {
+        dateStart,
+        dateEnd
+    };
 
     return (dispatch) => {
-        return axios.post('/catalog.fasol/reportToExcel')
+        return axios.post('/catalog.fasol/reportToExcel', JSON.stringify(obj))
             .then(res => {
                 console.log('reportToExcel', res);
                 dispatch({
