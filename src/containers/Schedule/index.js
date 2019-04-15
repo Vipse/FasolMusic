@@ -69,12 +69,17 @@ class Schedule extends React.Component {
                 notRedirectDiscipline: false
             })
         }
+        this.id = this.getCurrentId()
     }
 
     getCurrentId = () => { 
         const {isAdmin, id, history, sheduleStudent} = this.props;
-        (isAdmin && history.location.pathname === '/app/schedule'+sheduleStudent.id) ? sheduleStudent.id : id
+        return (sheduleStudent && isAdmin && history.location.pathname === '/app/schedule'+sheduleStudent.id) ? sheduleStudent.id : id
+    }
 
+    isStudentSchedule = () => { 
+        const {isAdmin, history, sheduleStudent} = this.props;
+        return (sheduleStudent && isAdmin && history.location.pathname === '/app/schedule'+sheduleStudent.id) ? true : false
     }
 
     selectAnyTrainer = () => {
@@ -232,8 +237,9 @@ class Schedule extends React.Component {
     }
 
     updateAfterFilling = () => {
-        const {id, currDiscipline} = this.props;
-        /////////
+        const {currDiscipline} = this.props;
+        const id = this.id
+        
         setTimeout(() => {
             this.props.onGetStudentBalance(id);
             this.props.onGetUseFrozenTraining(id);
@@ -244,7 +250,6 @@ class Schedule extends React.Component {
 
     fillTrainingWeek = () => { // создание абонемента
         const {
-            id,
             abonementIntervals,
             currDiscipline,
             disciplines,
@@ -253,6 +258,7 @@ class Schedule extends React.Component {
             subsForDisc,
             useFrozenTraining
         } = this.props;
+        const id = this.id;
 
         if(isPushBtnTrialTraining){
             this.props.onSetPushTrialTraining('choose_trial');
@@ -295,9 +301,10 @@ class Schedule extends React.Component {
 
     setTransfer_1_Training = () => {
 
-            const {id, currDiscipline, discCommunication} = this.props;
+            const {currDiscipline, discCommunication} = this.props;
             const {id: idTraining} = this.delEvent.event;
             const currMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code] : null
+            const id = this.id;
 
             if(this.transferDay && currMaster){
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay})
@@ -318,7 +325,8 @@ class Schedule extends React.Component {
     }
 
     setTransfer_End_Training = () => {
-        const {id, currDiscipline} = this.props;
+        const {currDiscipline} = this.props;
+        const id = this.id
 
         if(this.cancelId){
                 this.props.onTransferTraininingToEnd({idTraining : this.cancelId})
@@ -328,7 +336,8 @@ class Schedule extends React.Component {
     }
 
     freezeAbonement = () => {
-        const {id, currDiscipline} = this.props;
+        const {currDiscipline} = this.props;
+        const id = this.id
 
         if(this.freezeIdSubscription) {
             this.props.onFreezeAbonement(this.freezeIdSubscription)
@@ -351,7 +360,8 @@ class Schedule extends React.Component {
     setAbonement_Training = () => {
         let subs = this.props.allAbonements;
         const {start} = this.delEvent.event;
-        const {id, currDiscipline} = this.props;
+        const {currDiscipline} = this.props;
+        const id = this.id
         let scheduleForWeek = {}; 
         let trainingtime = {};
 
@@ -417,7 +427,8 @@ class Schedule extends React.Component {
 
     onSendDataTrialModal = (data) => {
 
-        const {id, currDiscipline} = this.props;
+        const {currDiscipline} = this.props;
+        const id = this.id
 
         let array = [];
         let weekdays = []; // post
@@ -518,7 +529,8 @@ class Schedule extends React.Component {
     };
 
     dateChangeHandler = (date, view, action, isOnDay) => {
-        const {chooseWeekdays, id, mode, currDiscipline, chooseTheMaster, isPushBtnTrialTraining,discCommunication,isPushBtnUnfresh} = this.props;
+        const {chooseWeekdays, mode, currDiscipline, chooseTheMaster, isPushBtnTrialTraining,discCommunication,isPushBtnUnfresh} = this.props;
+        const id =  this.id
 
         const {start, end} = this.state.isEditorMode
             ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
@@ -588,7 +600,8 @@ class Schedule extends React.Component {
 
     changeCurrDiscipline = (disc) => {
         const {start, end} = this.state.isEditorMode;
-        const {currDiscipline, id, mode} = this.props;
+        const {currDiscipline, mode} = this.props;
+        const id= this.id
 
         if(mode === 'student'){
            // this.props.onGetAbonementsFilter(id, currDiscipline);
@@ -698,12 +711,12 @@ class Schedule extends React.Component {
             trainerList,
             masterList,
             allAbonements,
-            id,
             currDiscipline,
             isPushBtnTransfer,
             isPushBtnAdd,
             isPushBtnTrialTraining} = this.props;
 
+        const id = this.getCurrentId();
         let isNeedSaveIntervals = false
         if(abonementIntervals){
             isNeedSaveIntervals = abonementIntervals.visibleCreateTrainModal;
@@ -728,7 +741,8 @@ class Schedule extends React.Component {
 
         }
 
-        if (this.props.isAdmin) {
+        console.log('this.isStudentSchedule()', this.isStudentSchedule())
+        if (this.props.isAdmin && !this.isStudentSchedule()) {
             const currDate = this.state.currentDate,
             currY = currDate.getFullYear(),
             currM = currDate.getMonth(),

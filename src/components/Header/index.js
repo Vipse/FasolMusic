@@ -213,7 +213,7 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
-                {isStudent ?
+                {isStudent || authMode==='admin' ?
                     <React.Fragment>
                         <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>
