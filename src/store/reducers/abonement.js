@@ -45,7 +45,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CHANGE_CURRENT_DISCIPLINE:
 
             let currDiscipline = action.currDiscipline;
-            if(action.currDiscipline && typeof action.currDiscipline === 'string'){
+            if(!Object.is(currDiscipline)){
                 for(let elem in state.disciplines){
                     if(state.disciplines[elem].code == action.currDiscipline) currDiscipline = state.disciplines[elem]
                 }

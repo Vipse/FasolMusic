@@ -305,8 +305,9 @@ class Schedule extends React.Component {
             const {id: idTraining} = this.delEvent.event;
             const currMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code] : null
             const id = this.id;
-
+            debugger
             if(this.transferDay && currMaster){
+                debugger
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay})
                         .then(() => this.setState({scheduleSpinner: true}))
                         .then(() => this.props.onGetAbonementsFilter(id,currDiscipline))
@@ -741,7 +742,6 @@ class Schedule extends React.Component {
 
         }
 
-        console.log('this.isStudentSchedule()', this.isStudentSchedule())
         if (this.props.isAdmin && !this.isStudentSchedule()) {
             const currDate = this.state.currentDate,
             currY = currDate.getFullYear(),

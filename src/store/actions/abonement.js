@@ -20,12 +20,11 @@ export const createAbonement = (dataCreate) => {
 export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) => (dispatch) => {
 
     return axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
-        .then(res => {
-           
+        .then(res => {         
                 let fdata = res.data.result;
                 const discAbonement = Object.keys(res.data.result);  
-     
                 let mainDiscipline = currDiscipline.code;
+
                 if(isFirst) {
                         let countInDiscipline = 0;
                         for( let el in fdata){
@@ -62,12 +61,12 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) 
                     discAbonement : discAbonement,
                 });    
                 
-                dispatch(getCountTrainingByDiscipline(idStudent, currDiscipline.code))
+                dispatch(getCountTrainingByDiscipline(idStudent, mainDiscipline))
                 
         })
         .catch(err => {
             console.log(err);
-    })
+        })
     
 }
 
@@ -92,6 +91,7 @@ export const transferTrainining = (value) =>  {
 
         axios.post('/catalog.fasol/transferTrainining', JSON.stringify(value))
             .then(res => {
+                debugger
                 console.log("transferTrainining", res);
                 // dispatch({
                 //     type: actionTypes.GET_ABONEMENTS2,

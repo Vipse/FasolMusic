@@ -144,7 +144,7 @@ class Header extends React.Component {
             time1 = weekInterval.end;
         }
 
-        this.props.showSpinner();
+       // this.props.showSpinner();
 
         this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code])
             .then((data) => {
