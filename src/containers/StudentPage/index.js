@@ -41,7 +41,6 @@ class StudentPage extends React.Component{
                     }}))
                 .catch(err => console.log(err))
         });
-
         this.props.onGetStudentBalance(this.props.match.params.id);
         this.props.onGetInfoPatient(this.props.match.params.id)
             .then(res => this.setState({loading: false}));
@@ -114,10 +113,21 @@ class StudentPage extends React.Component{
         this.props.history.push(link + idCoach);
     };
 
+    fetchStudentInfo = (id) => {
+        this.props.onGetInfoPatient(id);
+        this.props.onGetMasterList();
+        this.props.onGetStudentBalance(id);
+        this.props.onGetUseFrozenTraining(id);
+        this.props.onGetSubscriptionsByStudentId(id);
+        this.props.onGetDisciplineCommunication(id);
+    }
+
     goToStudentSchedule = () => {
         const {id} = this.props.profileStudent;
-        id && this.props.onGetInfoScheduleStudent(id)
-                .then(() => this.props.history.push('/app/schedule'+id))
+        if(id){
+            this.props.onGetInfoScheduleStudent(id).then(() => this.props.history.push('/app/schedule'+id))
+            this.fetchStudentInfo(id)
+        } 
     }
 
     handleTrainModal = (e, redirectable, isAdmin, item) => {
@@ -305,7 +315,11 @@ const mapDispatchToProps = dispatch => {
         onSetBeginTime: (beginTime) => dispatch(actions.setBeginTime(beginTime)),
         onSetIsCompleteStatus: (isComplete) => dispatch(actions.setIsCompleteStatus(isComplete)),
         onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
-        onGetInfoScheduleStudent: (id) => dispatch(actions.getInfoScheduleStudent(id))
+        onGetInfoScheduleStudent: (id) => dispatch(actions.getInfoScheduleStudent(id)),
+        onGetMasterList: (allInfo) => dispatch(actions.getMasterList(allInfo)),
+        onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
+        onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
+        onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
     }
 };
 

@@ -46,7 +46,7 @@ class Payment extends React.Component{
     onSendDataModal = (data) => {
 
         let array = [];
-        const {disciplinesList, discCommunication,subsForDisc, abonementIntervals, id} = this.props;
+        const {disciplinesList, discCommunication,subsForDisc, abonementIntervals, id, isAdmin} = this.props;
         const time0 = moment(Date.now()).startOf('week').format('X');
         const time1 = moment(Date.now()).endOf('week').format('X');
         const codeDisc = disciplinesList[data.type].code;
@@ -65,7 +65,7 @@ class Payment extends React.Component{
 
                 this.props.onSetPushTrialTraining(null);
                 this.props.onSetMasterTheDisicipline(null);
-                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc])
+                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc], isAdmin)
                     .then(data => {
                         if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
                     })
@@ -179,7 +179,8 @@ const mapStateToProps = state => {
         subsForDisc : state.abonement.subsForDisc,
         abonementIntervals: state.students.abonementIntervals,
         studentBalance: state.abonement.studentBalance,
-        postTraining: state.trainer.postTraining
+        postTraining: state.trainer.postTraining,
+        isAdmin:  state.auth.mode === "admin",
     }
 };
 
@@ -188,10 +189,9 @@ const mapDispatchToProps = dispatch => {
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),
         onGetDeadlinePay: (idStudent) => dispatch(actions.getDeadlinePay(idStudent)),
-        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
+        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline, isCallAdmin) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline,isCallAdmin)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
-        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),

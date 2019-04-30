@@ -86,17 +86,13 @@ export const getAbonements2 = (idStudent) => (dispatch) => {
        
 }
 
-export const transferTrainining = (value) =>  {
+export const transferTrainining = (value, isCallAdmin) =>  {
+    debugger
     return (dispatch, getState) => 
-
-        axios.post('/catalog.fasol/transferTrainining', JSON.stringify(value))
-            .then(res => {
-                debugger
+        
+        axios.post('/catalog.fasol/transferTrainining', JSON.stringify({...value, isCallAdmin}))
+            .then(res => {               
                 console.log("transferTrainining", res);
-                // dispatch({
-                //     type: actionTypes.GET_ABONEMENTS2,
-                //     allAbonements2: res.data.result,
-                // });
             })
             .catch(err => {
                 console.log(err);
@@ -104,10 +100,10 @@ export const transferTrainining = (value) =>  {
         
 }
 
-export const transferTraininingToEnd = (value) => {
+export const transferTraininingToEnd = (value, isCallAdmin) => {
 
     return (dispatch, getState) => 
-        axios.post('/catalog.fasol/TransferTraininingToEnd', JSON.stringify(value))
+        axios.post('/catalog.fasol/TransferTraininingToEnd', JSON.stringify({...value, isCallAdmin}))
             .then(res => {
 
                 console.log("TransferTraininingToEnd", res);
@@ -120,12 +116,12 @@ export const transferTraininingToEnd = (value) => {
         
 }
 
-export const changeSubscription = (value) => {
+export const changeSubscription = (value, isCallAdmin) => {
 
 
 console.log('changeSubscription', value)
     return (dispatch, getState) => 
-        axios.post('/catalog.fasol/changeSubscription', JSON.stringify(value))
+        axios.post('/catalog.fasol/changeSubscription', JSON.stringify({...value, isCallAdmin}))
             .then(res => {
                
                 console.log("changeSubscription", res);

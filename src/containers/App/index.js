@@ -136,7 +136,7 @@ class App extends React.Component {
          }
      };
 
-     warnIfMobileDevice = () => {
+    warnIfMobileDevice = () => {
          if (browser && /iOS|Android OS|BlackBerry OS|Windows Mobile|Amazon OS/i.test(browser.os))
              Modal.warning({
                  title: 'Мобильное устройство',
@@ -150,11 +150,24 @@ class App extends React.Component {
              });
      };
 
-    componentDidMount() {
-        const {id} = this.props;
+    componentWillReceiveProps(nextProps) {
+    }
 
+    fetchStudentInfo = (id) => {
+        this.props.onGetInfoPatient(id);
+        this.props.onGetMasterList();
+        this.props.onGetStudentBalance(id);
+        this.props.onGetUseFrozenTraining(id);
+        this.props.onGetSubscriptionsByStudentId(id);
+        this.props.onGetDisciplineCommunication(id);
+        this.warnIfMobileDevice();
+    }
+
+    componentDidMount() {
+        const {id, mode} = this.props;
+        const {pathname} = this.props.history.location;
         this.props.getSelectors('discipline')
-            .then(res => this.props.mode === 'student' && this.props.onGetTrainingsTrialStatus(this.props.id));
+            .then(() => (mode === 'student' ||  this.isStudentSchedule()) && this.props.onGetTrainingsTrialStatus(this.props.id));
 
         if (this.props.mode === "master") {
             this.props.onGetInfoDoctor(id)
@@ -166,21 +179,25 @@ class App extends React.Component {
                             )
                 })
         }
-
         else if (this.props.mode === "student") {
-            this.props.onGetInfoPatient(id);
-            this.props.onGetMasterList();
-            this.props.onGetStudentBalance(id);
-            this.props.onGetUseFrozenTraining(id);
-            this.props.onGetSubscriptionsByStudentId(id);
-            this.props.onGetDisciplineCommunication(id);
-            this.warnIfMobileDevice();
+           this.fetchStudentInfo(id)
+        }
+        else if (this.props.mode === 'admin'){         
+            if(this.isStudentSchedule()){
+                let id = +pathname.replace('/app/schedule', '');
+                Number.isInteger(id) && this.fetchStudentInfo(id)
+            }
         }
 
         if (id) {
             this.runChatWS();
             this.runNotificationsWS();
         }
+    }
+
+    isStudentSchedule = () => { 
+        const {pathname} = this.props.history.location;
+        return pathname.includes('/app/schedule') && pathname.length !== ('/app/schedule'.length) ? true : false
     }
 
     componentWillMount() {
@@ -212,11 +229,12 @@ class App extends React.Component {
     };
 
     onGoToSchedule = () => {
-        this.props.history.push('/app/schedule');
+        const {pathname} =  this.props.history.location;
+        if(!pathname.includes('/app/schedule')) this.props.history.push('/app/schedule')
     };
 
     showTransferInterval = () => {
-        const {weekInterval, discCommunication, disciplinesList, currDiscipline} = this.props;
+        const {weekInterval, discCommunication, disciplinesList, currDiscipline, isAdmin} = this.props;
         const idMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
 
         if(weekInterval && idMaster){
@@ -225,7 +243,7 @@ class App extends React.Component {
             this.setState({scheduleSpinner: true})
 
             this.onGoToSchedule();
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
              .then(() => {
                 this.setState({scheduleSpinner: false})
              })
@@ -234,14 +252,14 @@ class App extends React.Component {
 
     pushBtnUnfresh = () => {
 
-        const {weekInterval} = this.props;
+        const {weekInterval, isAdmin} = this.props;
 
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
             this.setState({scheduleSpinner: true})
 
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays)
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
              .then(() => {
                 this.setState({scheduleSpinner: false})
                  this.props.onSetPushBtnAddTraining()
@@ -321,7 +339,6 @@ class App extends React.Component {
                                             isOnMainPage={this.props.location.pathname === '/app'}
                                             frozenTraining={this.props.frozenTraining}
                                             disciplinesList={this.props.disciplinesList}
-
                                             trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
                                             isTrialTrainingsAvailableCount={this.props.isTrialTrainingsAvailableCount}
                                             countTrainingDiscipline = {this.props.countTrainingDiscipline}
@@ -330,7 +347,7 @@ class App extends React.Component {
                                             useFrozenTraining = {this.props.useFrozenTraining}
                                             subsForDisc = {this.props.subsForDisc}
                                             abonementIntervals = {this.props.abonementIntervals}
-
+                                            isAdmin={this.props.isAdmin}
                                             onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
                                             onSetFreeIntervals = {this.props.onSetFreeIntervals}
                                             onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
@@ -350,7 +367,7 @@ class App extends React.Component {
                                             statusBtnBack = {this.props.statusBtnBack}
                                             onChangeBtnTransfer = {this.props.onChangeBtnTransfer}
                                             weekInterval ={this.props.weekInterval}
-
+                                            isStudentSchedule={this.isStudentSchedule()}
                                             notifications = {this.props.notifications}
                                             showSpinner = {() => this.setState({scheduleSpinner: true})}
                                             hideSpinner = {() => this.setState({scheduleSpinner: false})}
@@ -411,7 +428,7 @@ const mapStateToProps = state => {
         abonementIntervals: state.students.abonementIntervals,
         currDiscipline: state.abonement.currDiscipline,
         notifications: state.training.notifications,
-
+        isAdmin:  state.auth.mode === "admin",
         from: state.chatWS.from,
         to: state.chatWS.to,
         idTraining: state.chatWS.idTraining,
@@ -465,10 +482,10 @@ const mapDispatchToProps = dispatch => {
 
         onSetPushBtnTransferTraining: (type) => dispatch(actions.setPushBtnTransferTraining(type)),
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
-        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays)),
+        onGetTheMasterInterval:(dateStart,dateEnd,idMaster,weekdays,isCallAdmin)=>dispatch(actions.getTheMasterInterval(dateStart,dateEnd,idMaster,weekdays,isCallAdmin)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         onGetTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),
-        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
+        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin)=>dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),

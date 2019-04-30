@@ -32,7 +32,7 @@ class LoginPage extends React.Component {
     }
 
     onSendDataTrialModal = (data) => {
-        const {disciplinesList} = this.props;
+        const {disciplinesList,isAdmin} = this.props;
         const {email, type} = data;
         const registerData = {
             email,
@@ -52,7 +52,7 @@ class LoginPage extends React.Component {
 
                     const time0 = moment(Date.now()).startOf('week').format('X');
                     const time1 = moment(Date.now()).endOf('week').format('X');
-                    this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code])
+                    this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code],isAdmin)
                         .then(data => {
                             if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
                         })
@@ -146,7 +146,8 @@ class LoginPage extends React.Component {
 const mapStateToProps = state => {
     return {
         errorCode: state.auth.errorCode,
-        disciplinesList: state.abonement.disciplines
+        disciplinesList: state.abonement.disciplines,
+        isAdmin:  state.auth.mode === "admin",
     }
 };
 
@@ -161,7 +162,7 @@ const mapDispatchToProps = dispatch => {
         uploadFile: (file) => dispatch(actions.uploadFile(file)),
         onRegisterTrainer: (userInfo, history) => dispatch(actions.registerTrainer(userInfo, history)),
         onUnauthorizedTrialDataSave: (data) => dispatch(actions.unauthorizedTrialDataSave(data)),
-        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline) => dispatch(actions.getAvailableInterval(dateStart, dateEnd, weekdays, discipline)),
+        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin) => dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin)),
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),

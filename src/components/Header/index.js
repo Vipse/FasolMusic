@@ -78,7 +78,7 @@ class Header extends React.Component {
 
     onCreateUnfreshAbonement = (data) => {
 
-        const {disciplinesList, discCommunication, useFrozenTraining, subsForDisc, weekInterval, id} = this.props;
+        const {disciplinesList, discCommunication, useFrozenTraining,subsForDisc,weekInterval,id,isAdmin} = this.props;
         let array = [];
         let time0 = null;
         let time1 = null;
@@ -112,7 +112,7 @@ class Header extends React.Component {
 
             this.props.onSetPushTrialTraining(null);
             this.props.onSetMasterTheDisicipline(null);
-            this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc])
+            this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc], isAdmin)
                 .then(data => {
                     if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')         
                     setTimeout(() => this.props.hideSpinner(), 1000)
@@ -130,7 +130,7 @@ class Header extends React.Component {
 
     onSendDataTrialModal = (data) => {
 
-        const {disciplinesList, id, weekInterval} = this.props;
+        const {disciplinesList, id, weekInterval, isAdmin} = this.props;
         const {type} = data;
 
         let time0 = null;
@@ -146,7 +146,7 @@ class Header extends React.Component {
 
        // this.props.showSpinner();
 
-        this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code])
+        this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code],isAdmin)
             .then((data) => {
                 if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
             })
@@ -195,7 +195,8 @@ class Header extends React.Component {
             disciplinesList,
             isTrialTrainingsAvailableCount,
             useFrozenTraining,
-            countTrainingDiscipline
+            countTrainingDiscipline,
+            isStudentSchedule
         } = this.props;
 
         let showTrialModal = false;
@@ -213,7 +214,7 @@ class Header extends React.Component {
                         onGoto={onGoto}
                     />
                 </div>
-                {isStudent || authMode==='admin' ?
+                {isStudent || isStudentSchedule ?
                     <React.Fragment>
                         <div className="header-balance"><span>Баланс {studentBalance}</span></div>
                         <div className='header-train'>

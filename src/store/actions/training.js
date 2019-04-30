@@ -172,10 +172,10 @@ export const getCountTrainingByDiscipline = (idUser, discipline) => {
     }
 }
 
-export const removeTrialTraining = (idTraining) => {
+export const removeTrialTraining = (idTraining, isCallAdmin) => {
 
     return dispatch => {
-        return axios.post('/catalog.fasol/removeTrialTraining', JSON.stringify({idTraining}))
+        return axios.post('/catalog.fasol/removeTrialTraining', JSON.stringify({idTraining, isCallAdmin}))
             .then(res => {
 
                 console.log('res', res)
