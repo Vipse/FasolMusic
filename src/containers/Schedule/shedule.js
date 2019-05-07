@@ -1,16 +1,17 @@
 
-export function fillTrainingWeek(idStudent, amount, discipline, apiPatients) {
+export function fillTrainingWeek(idStudent, amount, discipline, apiPatients,isNoTrial) {
  
     const begin = apiPatients.reduce((min, el) => {
             return el.start.getTime() < min ? el.start.getTime() : min;
         }, Infinity);
 
     const abonement = {
-            idStudent : idStudent,
-            dateStart :  Math.floor( +begin / 1000),
-            amount: amount,
-            discipline : discipline,
-            trainingtime: { }       
+            idStudent,
+            dateStart:  Math.floor( +begin / 1000),
+            amount,
+            discipline,
+            trainingtime: {},
+            isNoTrial       
     }
     
     apiPatients.forEach((el) => {

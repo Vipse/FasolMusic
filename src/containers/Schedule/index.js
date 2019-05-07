@@ -200,7 +200,7 @@ class Schedule extends React.Component {
             this.props.onSetPushTrialTraining('first_trainer');
             this.props.onSetChooseTheMasterByStudent(idMaster);
 
-            setTimeout(() => this.fillTrainingWeek(), 1000);
+            setTimeout(() => this.fillTrainingWeek(false), 1000);
             this.setState({isShowFreeTrainers : false});
             return;
         }
@@ -247,7 +247,7 @@ class Schedule extends React.Component {
         }, 500);
     }
 
-    fillTrainingWeek = () => { // создание абонемента
+    fillTrainingWeek = (isNoTrial=true) => { // создание абонемента
         const {
             abonementIntervals,
             currDiscipline,
@@ -269,7 +269,7 @@ class Schedule extends React.Component {
             }
         }
         else{
-            this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, [currDiscipline.code], [...this.state.apiPatients]))
+            this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, [currDiscipline.code], [...this.state.apiPatients],isNoTrial))
                 .then(() => {
                         if(abonementIntervals.countTraining !== 1) this.props.onEditUseFrozenTraining(id,useFrozenTraining);
                         if(this.props.isPushBtnUnfresh){
