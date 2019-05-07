@@ -78,7 +78,8 @@ class RecordTrainCarousel extends React.Component {
             let ownTrains = [];
             if (curDayTrainerTrainings)
                 for (let train in curDayTrainerTrainings) {
-                    if (isAdmin || +curDayTrainerTrainings[train].allInfo.idStudent === +studentID)
+                    if (!+curDayTrainerTrainings[train].allInfo.isBooking && (isAdmin
+                        || (+curDayTrainerTrainings[train].allInfo.idStudent === +studentID)))
                         ownTrains.push(curDayTrainerTrainings[train].allInfo.date);
                 }
 
@@ -123,7 +124,7 @@ class RecordTrainCarousel extends React.Component {
         return <div className='table-main-row'>
             <div className='table-main-times'>{timesColumnArr}</div>
             {headers.map((item, indexDay) =>
-                    <div className='table-main-col' key={indexDay + 1}>
+                <div className='table-main-col' key={indexDay + 1}>
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
@@ -181,10 +182,10 @@ class RecordTrainCarousel extends React.Component {
                                 <div className='type-name'>Свободно</div>
                             </div>}
                             {isAdmin ?
-                            <div className="type">
-                                <div className='type-color-reserved'/>
-                                <div className='type-name'>Есть тренировка</div>
-                            </div> :
+                                <div className="type">
+                                    <div className='type-color-reserved'/>
+                                    <div className='type-name'>Есть тренировка</div>
+                                </div> :
                                 <div className="type">
                                     <div className='type-color-own'/>
                                     <div className='type-name'>Ваша тренировка</div>
