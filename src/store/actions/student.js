@@ -9,10 +9,14 @@ export const getUserInfo = (idMaster) => {
     return (dispatch) =>
          axios.post('/catalog.fasol/getUserInfo', JSON.stringify(obj))
         .then(rez => {
-            rez.data.result.data['idMaster'] = idMaster;
+            let fdata = rez.data.result.data;
+            fdata['idMaster'] = idMaster;
+            fdata.hasOwnProperty('aboutme') ? fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+            fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
+
             dispatch({
                 type: actionTypes.GET_USER_INFO,
-                userInfo: rez.data.result.data,
+                userInfo: fdata,
             })
         })
         .catch(err => {
@@ -26,7 +30,10 @@ export const getInfoMasters = (idMaster) => {
 
         return axios.post('/catalog.fasol/getUserInfo', JSON.stringify(obj))
             .then(rez => {
-                rez.data.result.data['idMaster'] = idMaster;
+                let fdata = rez.data.result.data;
+                fdata['idMaster'] = idMaster;
+                fdata.hasOwnProperty('aboutme') ? fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+                fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
                 return rez.data.result.data;
             })
             .catch(err => {
@@ -40,8 +47,11 @@ export const getInfoStudents = (idStudent) => {
 
     return axios.post('/catalog.fasol/getUserInfo', JSON.stringify(obj))
         .then(rez => {
-            rez.data.result.data['idStudent'] = idStudent;
-            return rez.data.result.data;
+            let fdata = rez.data.result.data;
+            fdata['idStudent'] = idStudent;
+            fdata.hasOwnProperty('aboutme') ? fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+            fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
+            return fdata;
         })
         .catch(err => {
             console.log(err);
@@ -230,7 +240,6 @@ export const getTrainingsTrialStatus = (idStudent) => {
             type: actionTypes.RESET_TRAININGS_TRIAL_STATUS,
         });
 
-        debugger
         let arr = getState().loading.selectors.discipline.map(item =>
             dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
 

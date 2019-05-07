@@ -125,11 +125,12 @@ class TimeSlotGroup extends Component {
           if(events[i].start.getTime() === valueTime && showLabels) {
             return (
               <EventSlot 
+                  key={this.props.value.getTime()}
                   value={this.props.value.getTime()}
                   event={events[i]}
                   showTransferEvent={showTransferEvent} 
                   setChoosenTrainer={this.props.setChoosenTrainer}
-                  freeTrainers={freeTrainers}
+                  freeTrainers={freeTrainers}Б
                   idEvent={events[i].start.getTime()}
                   handleDrop={handleDrop}
                   setAbonement_Training = {this.props.setAbonement_Training}
@@ -146,6 +147,7 @@ class TimeSlotGroup extends Component {
     
     if(freeTrainers && freeTrainers.idEvent === this.props.value.getTime() && !showLabels){ // рендер выпадающего списка freeTrainer
         return <EventSlot 
+            key={this.props.value.getTime()}
             value={this.props.value.getTime()}
             showTransferEvent={showTransferEvent} 
             freeTrainers={freeTrainers}
@@ -178,6 +180,7 @@ class TimeSlotGroup extends Component {
     if(freetrainers.length || busytrainers.length)
       return (
           <MasterListSlot 
+              key={value.getTime()}
               freetrainers = {freetrainers}
               busytrainers = {busytrainers}
               value = {value.getTime()}

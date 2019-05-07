@@ -32,8 +32,11 @@ export const getFreeAndBusyMasterList = (dateStart, dateEnd) => {
 
             return axios.post('/catalog.fasol/getUserInfo', JSON.stringify(obj))
                 .then(rez => {
-                    rez.data.result.data['idMaster'] = idMaster;
-                    return rez.data.result.data;
+                    let fdata = rez.data.result.data;
+                    fdata['idMaster'] = idMaster;
+                    fdata.hasOwnProperty('aboutme') ?  fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+                    fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
+                    return fdata;
                 })
                 .catch(err => {
                     console.log(err);
@@ -119,11 +122,15 @@ export const getInfoScheduleStudent = (id) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/getUserInfo',JSON.stringify({id}))
             .then(res => {
-                if (res.data.result && res.data.result.data.userGroup === 'student') {
-                    res.data.result.data.id = id;
+                let fdata = res.data.result.data;
+                if (fdata && fdata.userGroup === 'student') {
+                    fdata.id = id;
+                    fdata.hasOwnProperty('aboutme') ? fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+                    fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
+
                     dispatch({
                         type: actionTypes.INFO_SCHEDULE_STUDENT,
-                        profileStudent: res.data.result.data,
+                        profileStudent: fdata,
                     });
                 }
 

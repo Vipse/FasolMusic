@@ -124,8 +124,8 @@ class Schedule extends React.Component {
 
     deleteTrialTraining = (id) => {
         this.props.onRemoveTrialTraining(id, this.props.isAdmin)
-            .then(this.props.onGetTrainingsTrialStatus(this.props.id))
-            .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.props.id))
+            .then(this.props.onGetTrainingsTrialStatus(this.id))
+            .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
     }
 
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
@@ -304,9 +304,7 @@ class Schedule extends React.Component {
             const {id: idTraining} = this.delEvent.event;
             const currMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code] : null
             const id = this.id;
-            debugger
             if(this.transferDay && currMaster){
-                debugger
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay}, isAdmin)
                         .then(() => this.setState({scheduleSpinner: true}))
                         .then(() => this.props.onGetAbonementsFilter(id,currDiscipline))
@@ -696,6 +694,7 @@ class Schedule extends React.Component {
             currDiscipline,
             isPushBtnTransfer,
             isPushBtnAdd,
+            profileStudent,
             isPushBtnTrialTraining} = this.props;
 
         const id = this.getCurrentId();
@@ -897,9 +896,12 @@ class Schedule extends React.Component {
             />)
         }
 
+        
+        let cardTitle = (this.isStudentSchedule() && profileStudent.name) ? "Расписание - "+profileStudent.name : 'Расписание тренировок'
+
         return (
             <Hoc>
-                <Card title='Расписание тренировок'>
+                <Card title={cardTitle}>
                         {calendar}
                 </Card>
 
@@ -963,8 +965,8 @@ class Schedule extends React.Component {
                                     <Button btnText='Удалить тренировку'
                                         onClick= {() => {
                                             this.props.onRemoveTrialTraining(this.deleteIdTraining, this.props.isAdmin)
-                                                .then(this.props.onGetTrainingsTrialStatus(this.props.id))
-                                                .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.props.id))
+                                                .then(this.props.onGetTrainingsTrialStatus(this.id))
+                                                .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
                                                 .then(() => this.props.onGetAbonementsFilter(id, currDiscipline))
 
                                             this.setState({modalRemoveTrialTraining: false});

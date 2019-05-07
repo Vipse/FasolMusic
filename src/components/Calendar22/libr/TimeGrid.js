@@ -67,7 +67,6 @@ class TimeGrid extends Component {
     let dateM = date.getTime();
 
     if( Array.isArray(intervals)){ 
-      debugger
         intervals.forEach((el)=> {
           
           el.intervals.forEach((elem)=> {

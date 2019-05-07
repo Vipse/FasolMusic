@@ -268,6 +268,7 @@
   text-align: center;
   height: 52px;
   line-height: 52px;
+  flex: auto;
 }
 .rbc-day-slot.rbc-time-column .rbc-timeslot-group-OK {
   background-color: rgba(0, 255, 0, 0.2) !important;

@@ -172,7 +172,7 @@ class App extends React.Component {
         if (this.props.mode === "master") {
             this.props.onGetInfoDoctor(id)
                 .then((data) => {
-                            data.disciplines.forEach((el) =>
+                            data.discipline && data.disciplines.forEach((el) =>
                                 el.discipline.forEach((elem) => {
                                     elem && this.props.onChangeCurrDiscipline({...elem, code: elem.id})
                                 })

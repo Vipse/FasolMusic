@@ -7,11 +7,15 @@ export const getInfoPatient = (id) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/getUserInfo',JSON.stringify({id}))
             .then(res => {
-                if (res.data.result && res.data.result.data.userGroup === 'student') {
-                    res.data.result.data.id = id;
+                let fdata = res.data.result.data;
+                if (fdata && fdata.userGroup === 'student') {
+                    fdata.id = id;
+                    fdata.hasOwnProperty('aboutme') ? fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+                    fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
+
                     dispatch({
                         type: actionTypes.INFO_PATIENT,
-                        profileStudent: res.data.result.data,
+                        profileStudent: fdata,
                     });
                 }
 
@@ -26,8 +30,10 @@ export const getInfoPatient = (id) => {
 export const saveUserEdit = (data, userGroup) => {
     return (dispatch, getState) => {
         const userType = userGroup ? userGroup : getState().auth.mode;
-        console.log("savingUserData", data);
-
+        data.hasOwnProperty('aboutme') ? data.aboutme = data.aboutme.replace(/(["])/g, "\'") : ''
+        data.hasOwnProperty('bestcomment') ? data.bestcomment = data.bestcomment.replace(/(["])/g, "\'") : ''
+        
+        
         return axios.post('/catalog.fasol/saveUserEdit',
             JSON.stringify(data))
             .then(res => {

@@ -8,13 +8,15 @@ export const getInfoDoctor = (id) => {
         return axios.post('/catalog.fasol/getUserInfo',
          JSON.stringify(obj))
             .then(res => {
-
-                if (res.data.result && res.data.result.data.userGroup === 'master') {
-                    res.data.result.data.id = id;
+                let fdata = res.data.result.data
+                if (fdata && fdata.userGroup === 'master') {
+                    fdata.id = id;
+                    fdata.hasOwnProperty('aboutme') ?  fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+                    fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
 
                     dispatch({
                         type: actionTypes.INFO_DOCTOR,
-                        profileCoach: res.data.result.data,
+                        profileCoach: fdata,
                     });
                 }
 

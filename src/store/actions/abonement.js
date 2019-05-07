@@ -87,7 +87,6 @@ export const getAbonements2 = (idStudent) => (dispatch) => {
 }
 
 export const transferTrainining = (value, isCallAdmin) =>  {
-    debugger
     return (dispatch, getState) => 
         
         axios.post('/catalog.fasol/transferTrainining', JSON.stringify({...value, isCallAdmin}))
@@ -200,7 +199,6 @@ export const getUserFono = (idTo) => {
         axios.post('/catalog.fasol/getUserFono', JSON.stringify({idUser: idTo}))
             .then(res => {
                 console.log("getUserFono", res);
-                debugger
                 dispatch({
                     type: actionTypes.GET_USER_FONO,
                     toUserFono: res.data.result,
