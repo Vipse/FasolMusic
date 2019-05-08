@@ -148,7 +148,7 @@ class Schedule extends React.Component {
                 for(let i = 0; i < trainerList.length; i++){
                     if(trainerList[i].idMaster == selectMaster){
                         let trainer= {...trainerList[i], apiPatients: true, id: idEvent};
-                        trainer.start = new Date(idEvent); //idEvent ~ time
+                        trainer.start = new Date(idEvent);
 
                         this.setState({newModalSaveSchedule: true,apiPatients : [...this.state.apiPatients, trainer]})
                         return
@@ -200,7 +200,7 @@ class Schedule extends React.Component {
             this.props.onSetPushTrialTraining('first_trainer');
             this.props.onSetChooseTheMasterByStudent(idMaster);
 
-            setTimeout(() => this.fillTrainingWeek(false), 1000);
+            setTimeout(() => this.fillTrainingWeek(0), 1000);
             this.setState({isShowFreeTrainers : false});
             return;
         }
@@ -247,7 +247,7 @@ class Schedule extends React.Component {
         }, 500);
     }
 
-    fillTrainingWeek = (isNoTrial=true) => { // создание абонемента
+    fillTrainingWeek = (isNoTrial) => { // создание абонемента
         const {
             abonementIntervals,
             currDiscipline,
@@ -258,6 +258,7 @@ class Schedule extends React.Component {
             useFrozenTraining
         } = this.props;
         const id = this.id;
+        isNoTrial = isNoTrial === 0 ? 0 : 1
 
         if(isPushBtnTrialTraining){
             this.props.onSetPushTrialTraining('choose_trial');
@@ -269,9 +270,9 @@ class Schedule extends React.Component {
             }
         }
         else{
-            this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, [currDiscipline.code], [...this.state.apiPatients],isNoTrial))
+            this.props.onCreateAbonement(fillTrainingWeek(id, abonementIntervals.countTraining, isNoTrial, [currDiscipline.code], [...this.state.apiPatients] ))
                 .then(() => {
-                        if(abonementIntervals.countTraining !== 1) this.props.onEditUseFrozenTraining(id,useFrozenTraining);
+                        if(isNoTrial === 1) this.props.onEditUseFrozenTraining(id,useFrozenTraining);
                         if(this.props.isPushBtnUnfresh){
                             this.props.onIsPushBtnUnfresh();
                         }
@@ -815,8 +816,8 @@ class Schedule extends React.Component {
 
                             let filterInterval = [];
                             let notRedirectDiscipline = false;
-
-                            if(0 !== this.countTraining === this.state.apiPatients.length){
+          
+                            if(0 !== this.countTraining && this.countTraining <= this.state.apiPatients.length){
                                 //nothing
                             }
                              else if(isPushBtnTrialTraining === 'trial'){
