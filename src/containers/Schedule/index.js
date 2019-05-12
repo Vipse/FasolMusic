@@ -128,9 +128,20 @@ class Schedule extends React.Component {
             .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
     }
 
+    clickOnEvent = (event) => {
+        
+        const {isPushBtnTransfer} = this.props;
+        if(isPushBtnTransfer){
+            this.delEvent = {event};
+        }
+    }
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
-        const {isPushBtnTrialTraining, abonementIntervals} = this.props;
+        const {isPushBtnTrialTraining, abonementIntervals, isPushBtnTransfer} = this.props;
 
+        if(isPushBtnTransfer && this.delEvent){
+            this.transferDay = {dateStart: Math.floor(+idEvent / 1000)}
+            this.setTransfer_1_Training();
+        }
         if(this.state.theMasterSelect){
             let {trainerList} = this.props;
             for(let i = 0; i < trainerList.length; i++){
@@ -248,6 +259,7 @@ class Schedule extends React.Component {
     }
 
     fillTrainingWeek = (isNoTrial) => { // создание абонемента
+
         const {
             abonementIntervals,
             currDiscipline,
@@ -255,7 +267,8 @@ class Schedule extends React.Component {
             isPushBtnTrialTraining,
             selectMaster,
             subsForDisc,
-            useFrozenTraining
+            useFrozenTraining,
+            isAdmin,
         } = this.props;
         const id = this.id;
         isNoTrial = isNoTrial === 0 ? 0 : 1
@@ -276,7 +289,7 @@ class Schedule extends React.Component {
                         if(this.props.isPushBtnUnfresh){
                             this.props.onIsPushBtnUnfresh();
                         }
-                        this.props.onGetAbonementsFilter(id, currDiscipline); // получить уже распредленное время тренировок в абонементе
+                        this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin); // получить уже распредленное время тренировок в абонементе
                         this.updateAfterFilling();
                 });
         }
@@ -308,7 +321,7 @@ class Schedule extends React.Component {
             if(this.transferDay && currMaster){
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay}, isAdmin)
                         .then(() => this.setState({scheduleSpinner: true}))
-                        .then(() => this.props.onGetAbonementsFilter(id,currDiscipline))
+                        .then(() => this.props.onGetAbonementsFilter(id,currDiscipline,isAdmin))
                         .then(() => this.setState({scheduleSpinner: false}))
             }
 
@@ -329,19 +342,19 @@ class Schedule extends React.Component {
 
         if(this.cancelId){
                 this.props.onTransferTraininingToEnd({idTraining : this.cancelId}, isAdmin)
-                    .then(() => this.props.onGetAbonementsFilter(id, currDiscipline));
+                    .then(() => this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin));
         }
         this.setState({modalCancelTraining: false});
     }
 
     freezeAbonement = () => {
-        const {currDiscipline} = this.props;
+        const {currDiscipline,isAdmin} = this.props;
         const id = this.id
 
         if(this.freezeIdSubscription) {
             this.props.onFreezeAbonement(this.freezeIdSubscription)
                 .then(() => {
-                    this.props.onGetAbonementsFilter(id, currDiscipline);
+                    this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin);
                     setTimeout(()=>{
                         this.props.onGetStudentBalance(id);
                         this.props.onGetUseFrozenTraining(id);
@@ -405,7 +418,7 @@ class Schedule extends React.Component {
         this.props.onChangeBtnBack(false);
         this.resetAllEvent();
         this.props.onChangeSubscription(scheduleForWeek, isAdmin)
-            .then(() => this.props.onGetAbonementsFilter(id, currDiscipline));
+            .then(() => this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin));
 
         this.setState({modalTransferTraining: false});
     }
@@ -447,7 +460,7 @@ class Schedule extends React.Component {
                 if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
             })
         this.props.onSetFreeIntervals(array, data.type);
-        this.props.onGetAbonementsFilter(id, currDiscipline);
+        this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin);
     };
 
     componentDidMount() {
@@ -462,7 +475,7 @@ class Schedule extends React.Component {
 
         this.setIntervalAndView(this.state.currentDate, 'week');
 
-        this.props.onGetAbonementsFilter(id, currDiscipline, true);
+        this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin, true);
 
         if(this.props.mode === 'student' || this.isStudentSchedule()){
             this.props.onGetDisciplineCommunication(id);
@@ -552,7 +565,7 @@ class Schedule extends React.Component {
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
         }
         if(mode === 'student'){
-            this.props.onGetAbonementsFilter(id, currDiscipline)
+            this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 1000))
         }
 
@@ -696,7 +709,9 @@ class Schedule extends React.Component {
             isPushBtnTransfer,
             isPushBtnAdd,
             profileStudent,
-            isPushBtnTrialTraining} = this.props;
+            isPushBtnTrialTraining,
+            history,
+            isAdmin} = this.props;
 
         const id = this.getCurrentId();
         let isNeedSaveIntervals = false
@@ -729,9 +744,8 @@ class Schedule extends React.Component {
             currM = currDate.getMonth(),
             currD = currDate.getDate();
 
-            let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
-                max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
-
+            let min = new Date( currY, currM, currD, 8);
+            let max = new Date( currY, currM, currD, 23);
 
             calendar = (<Calendar
                     selectable
@@ -778,8 +792,8 @@ class Schedule extends React.Component {
                 currM = currDate.getMonth(),
                 currD = currDate.getDate();
 
-            let min = new Date(new Date(1540875600 /*this.props.min*/ * 1000).setFullYear(currY, currM, currD)),
-                max = new Date(new Date(1540929600 /*this.props.max*/ * 1000).setFullYear(currY, currM, currD));
+                let min = new Date( currY, currM, currD, 8);
+                let max = new Date( currY, currM, currD, 23);
 
             calendar = (<Calendar receptionNum={this.props.eventTraining ? this.props.eventTraining.length : 0}
                                   isUser = {true}
@@ -816,8 +830,7 @@ class Schedule extends React.Component {
 
                             let filterInterval = [];
                             let notRedirectDiscipline = false;
-          
-                            if(0 !== this.countTraining && this.countTraining <= this.state.apiPatients.length){
+                            if(0 !== this.countTraining && this.countTraining <= this.state.apiPatients.length){                          
                                 //nothing
                             }
                              else if(isPushBtnTrialTraining === 'trial'){
@@ -855,7 +868,8 @@ class Schedule extends React.Component {
                                   gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
-                                  onGotoPage= { (id) => this.props.history.push('/app/coach' + id)}
+                                  onGotoPage= {id => history.push('/app/coach' + id)}
+                                  clickOnEvent = {this.clickOnEvent}
                                   selectAnyTrainer = {this.selectAnyTrainer}
                                   mode = {this.props.mode}
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
@@ -869,7 +883,7 @@ class Schedule extends React.Component {
                                   currDiscipline = {this.props.currDiscipline}
                                   onChangeCurrDiscipline = {(disc) => {
                                     this.props.onChangeCurrDiscipline(disc);
-                                    this.props.onGetAbonementsFilter(id, disc);
+                                    this.props.onGetAbonementsFilter(id, disc, isAdmin);
                                     }}
                                   min= {min}
                                   max= {max}
@@ -968,7 +982,7 @@ class Schedule extends React.Component {
                                             this.props.onRemoveTrialTraining(this.deleteIdTraining, this.props.isAdmin)
                                                 .then(this.props.onGetTrainingsTrialStatus(this.id))
                                                 .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
-                                                .then(() => this.props.onGetAbonementsFilter(id, currDiscipline))
+                                                .then(() => this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin))
 
                                             this.setState({modalRemoveTrialTraining: false});
                                         }}
@@ -1122,7 +1136,7 @@ const mapDispatchToProps = dispatch => {
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onSetChooseTheMasterByStudent: (master) => dispatch(actions.setChooseTheMasterByStudent(master)),
         onNoSetBtnTraining: () => dispatch(actions.noSetBtnTraining()),
-        onGetAbonementsFilter: (idStudent, currDiscipline, isFirst) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline, isFirst)),
+        onGetAbonementsFilter: (idStudent, currDiscipline,isCallAdmin,isFirst) => dispatch(actions.getAbonementsFilter(idStudent, currDiscipline,isCallAdmin,isFirst)),
 
         onAddAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),

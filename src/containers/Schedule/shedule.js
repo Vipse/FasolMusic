@@ -11,7 +11,7 @@ export function fillTrainingWeek(idStudent, amount, isNoTrial, discipline, apiPa
             amount,
             discipline,
             trainingtime: {},
-            isNoTrial       
+            isNoTrial      
     }
     
     apiPatients.forEach((el) => {
