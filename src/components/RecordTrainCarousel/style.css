@@ -79,10 +79,20 @@
   background-color: rgba(33, 190, 221, 0.2);
   border: 1px solid #21bedd;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  line-height: 1;
+  color: #344051;
+}
+.train-carousel .table-main-time .ownTime:hover > span {
+  display: none;
 }
 .train-carousel .table-main-time .ownTime:hover {
   background-color: rgba(33, 190, 221, 0.5);
   line-height: 1;
+  font-size: 14px;
 }
 .train-carousel .table-main-time .ownTime:hover:after {
   content: '-';
