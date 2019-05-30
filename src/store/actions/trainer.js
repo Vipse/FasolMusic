@@ -44,7 +44,7 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                             for(let el in allTraining[key][element]){
                                     
                                         const elem = allTraining[key][element].allInfo;
-                                        if(elem.disciplines.includes(String(currDiscipline.code)) && !elem.isBooking){
+                                        if(elem.disciplines.includes(currDiscipline.code) && !elem.isBooking){
                                             formatTrainng.push({
                                                 fio: elem.fio,
                                                 id: elem.date,
@@ -54,7 +54,8 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                                                 isBooking: elem.isBooking,
                                                 isComplete: elem.isComplete,
                                                 start: new Date(elem.date * 1000),
-                                                status: elem.status
+                                                status: elem.status,
+                                                wasTransfer: elem.wasTransfer
                                                 
 
                                             });
@@ -104,9 +105,10 @@ export const getFutureTrainerTraining = (idMaster, dateMin, dateMax) => {
             idMaster, 
             dateMin,
             dateMax,
-            future: 1
+            future: 1,
+            withoutComplete: 1
         };
-        axios.post('/catalog.fasol/getTrainerTraining',
+        return axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
                 console.log('getFutureTrainerTraining:', res.data.result.result);
@@ -122,7 +124,12 @@ export const getFutureTrainerTraining = (idMaster, dateMin, dateMax) => {
 }
 export const getTodayTrainerTraining = (idMaster, dateMin, dateMax) => {
     return dispatch => {
-        const obj = {idMaster, dateMin,dateMax}
+        const obj = {
+            idMaster, 
+            dateMin,
+            dateMax,
+            withoutComplete: 1
+        }
         axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {

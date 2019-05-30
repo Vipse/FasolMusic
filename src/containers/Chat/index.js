@@ -9,6 +9,7 @@ import ChatCard from './ChatCard'
 import * as actions from '../../store/actions'
 import ChatTrainingsList from "../../components/ChatTrainingsList";
 import moment from "moment";
+import {message} from 'antd';
 
 class Chat extends React.Component{
     state = {
@@ -118,7 +119,9 @@ class Chat extends React.Component{
                                 selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
                             idProfile: train.idStudent,
                             idTraining: train.idTraining,
-                            isComplete: train.isComplete
+                            isComplete: train.isComplete,
+                            wasTransfer: train.wasTransfer,
+                            trial: train.trial
                         });
                     }
 
@@ -127,6 +130,28 @@ class Chat extends React.Component{
         }
     };
 
+    transferToEnd = (idTraining) => {
+        const {id} = this.props;
+        const start = moment().utcOffset("+03:00").startOf('week').format('X');
+        const end = moment().add(1, 'weeks').format('X');
+
+        this.props.onTransferTraininingToEnd({idTraining}, this.props.isAdmin)
+            .then(() => {
+                message.success("Тренировка перенесена в конец")
+                this.props.onGetFutureTrainerTraining(id, start, end);
+            })
+    }
+    completeTraining = (value) => {
+        const {id} = this.props;
+        const start = moment().utcOffset("+03:00").startOf('week').format('X');
+        const end = moment().add(1, 'weeks').format('X');
+
+        this.props.onCompleteTraining(value)
+            .then(() =>  {
+                message.success("Тренировка засчитана")
+                this.props.onGetFutureTrainerTraining(id, start, end);
+            })
+    }
     render(){
         const isStudent = this.props.user_mode === "student";
 
@@ -182,6 +207,9 @@ class Chat extends React.Component{
                                     goToChat={this.goToChat}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
                                     data={this.state.nearTrainings}
+                                    completeTraining={this.completeTraining}
+                                    tailTraining={this.transferToEnd}
+                                    user_mode={this.props.user_mode}
                                 />
                         }
                     </Col>
@@ -214,7 +242,8 @@ const mapStateToProps = state =>{
         interlocutorName: state.chatWS.interlocutorName,
         interlocutorAvatar: state.chatWS.interlocutorAvatar,
         interlocutorStatus: state.chatWS.interlocutorStatus,
-        webSockedStatus: state.chatWS.webSockedStatus
+        webSockedStatus: state.chatWS.webSockedStatus,
+        isAdmin:  state.auth.mode === "admin",
     }
 };
 

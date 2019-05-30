@@ -211,7 +211,8 @@ class Schedule extends React.Component {
             this.props.onSetPushTrialTraining('first_trainer');
             this.props.onSetChooseTheMasterByStudent(idMaster);
 
-            setTimeout(() => this.fillTrainingWeek(0), 1000);
+            setTimeout(() => this.fillTrainingWeek(), 1000);
+            this.isNoTrial = 0;
             this.setState({isShowFreeTrainers : false});
             return;
         }
@@ -258,7 +259,7 @@ class Schedule extends React.Component {
         }, 500);
     }
 
-    fillTrainingWeek = (isNoTrial) => { // создание абонемента
+    fillTrainingWeek = () => { // создание абонемента
 
         const {
             abonementIntervals,
@@ -271,7 +272,7 @@ class Schedule extends React.Component {
             isAdmin,
         } = this.props;
         const id = this.id;
-        isNoTrial = isNoTrial === 0 ? 0 : 1
+        let isNoTrial = this.isNoTrial === 0 ? 0 : 1
 
         if(isPushBtnTrialTraining){
             this.props.onSetPushTrialTraining('choose_trial');
@@ -298,6 +299,7 @@ class Schedule extends React.Component {
         this.props.onChangeBtnBack(false);
         this.props.onGetDisciplineCommunication(id);
 
+        this.isNoTrial = null;
         this.setState({theTrialMasterSelect: false,newModalSaveSchedule: false, apiPatients: [], sendingModal: true, theMasterSelect: false})
         message.success("Тренировки распределены по расписанию");
     }
@@ -555,32 +557,32 @@ class Schedule extends React.Component {
 
         const dateStart = Math.floor(+start.getTime() / 1000);
         const dateEnd = endW;
+        const spinEnd = () => setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
         this.props.onSetWeekInterval({start: dateStart, end: dateEnd});
 
         if(mode === 'admin'){
             this.props.onGetFreeAndBusyMasterList(dateStart, dateEnd)
-                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 1000))
+                .then(spinEnd)
         }
         if(mode === 'master'){
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
+                .then(spinEnd)
         }
         if(mode === 'student'){
             this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin)
-                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 1000))
+                .then(spinEnd)
         }
 
 
         if(this.state.theMasterSelect){
             this.props.onGetTheMasterInterval(dateStart, dateEnd, chooseTheMaster, chooseWeekdays,isAdmin)
-                .then(() => {
-                    setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
-                });
+                .then(spinEnd);
         }
         else if(isPushBtnTrialTraining === 'trial' || isPushBtnUnfresh){
             this.props.onGetAvailableInterval(dateStart, dateEnd, chooseWeekdays, currDiscipline.code, isAdmin)
                 .then(data => {
                     if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
-                    setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
+                    spinEnd()
                 });
         }
 
