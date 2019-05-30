@@ -28,6 +28,7 @@ let incomingCallModal = null;
 let callSound = null;
 
 export const sendMessage = (message) => {
+
     ws.send(JSON.stringify(message));
 
     if (message && message.id === 'chat') {
@@ -80,6 +81,7 @@ export function createSocket(wsUrl,_props,_callbacks) {
                 break;
             case 'chat':
                 callbacks.setChatStory([...callbacks.get_chatStory(), {...parsedMessage}]);
+                closeCall(parsedMessage)
                 break;
             case 'chatHistory':
 				(parsedMessage.chat.length > 0) && (
@@ -217,6 +219,15 @@ export const stop = (flag) => {
     if (incomingCallModal) incomingCallModal.destroy();
     if (callSound) callSound.pause();
 };
+
+
+const closeCall = (message) => {
+    if(message.id == 'chat' && message.type == 'stop'){
+        if (incomingCallModal) incomingCallModal.destroy();
+        stop(true);
+    }
+    
+}
 
 const callResponse = (message) => {
     let msg = {
