@@ -63,7 +63,7 @@ class EventSlot extends Component {
             onGotoPage,
             isPushBtnTransfer,
             idEvent,
-
+            clickOnEvent,
             isDragging,
             connectDragSource,
             item,
@@ -85,35 +85,36 @@ class EventSlot extends Component {
         
         let viewCross = event.isComplete ? false : true // если заверешна то без крестика
         
-        if( event.status && 
-            !event.isBooking && 
-            !event.isComplete && 
-            mode !== 'master' && 
-            !event.wasTransfer && 
-            isNearDay &&
-            isPushBtnTransfer &&
-            !event.trial
-        ){
-            return connectDragSource(
-                <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
-                        <div>
-                            {viewCross && <div className="event-group-cross">
-                                <Icon 
-                                    type='close' 
-                                    size={7} 
-                                    onClick={dragFunc}/>
-                            </div>}
-                            <p className="event-group-text" >
-                                {nameBlock}
-                            </p>
-                        </div>
-                </div>
-            )
-        }
+        // if( event.status && 
+        //     !event.isBooking && 
+        //     !event.isComplete && 
+        //     mode !== 'master' && 
+        //     !event.wasTransfer && 
+        //     isNearDay &&
+        //     isPushBtnTransfer &&
+        //     !event.trial
+        // ){
+        //     return connectDragSource(
+        //         <div key= {event.id} className="event-group" style={{opacity, backgroundColor}}>
+        //                 <div>
+        //                     {viewCross && <div className="event-group-cross">
+        //                         <Icon 
+        //                             type='close' 
+        //                             size={7} 
+        //                             onClick={dragFunc}/>
+        //                     </div>}
+        //                     <p className="event-group-text" >
+        //                         {nameBlock}
+        //                     </p>
+        //                 </div>
+        //         </div>
+        //     )
+        // }
 
         const eventKey = event.idMaster ? event.idMaster: event.id;
         let funcOnClick = (eventKey && eventKey != 1) ? () => onGotoPage(eventKey) : () => {};
-            funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
+        funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
+        if(isPushBtnTransfer) funcOnClick = () => clickOnEvent(event)
         
         let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
             crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e,event.id) : crossFunc
@@ -151,4 +152,5 @@ EventSlot.propTypes = {
   }
 
 
-  export default DragSource('event-group', itemSource, collect)(EventSlot);
+  //export default DragSource('event-group', itemSource, collect)(EventSlot);
+  export default EventSlot;

@@ -17,9 +17,13 @@ export const createAbonement = (dataCreate) => {
         
 }
 
-export const getAbonementsFilter = (idStudent, currDiscipline, isFirst = false) => (dispatch) => {
-
-    return axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify({'idStudent': idStudent,  "pastOnly": false}))
+export const getAbonementsFilter = (idStudent, currDiscipline, isCallAdmin, isFirst = false) => (dispatch) => {
+    const obj = {
+        idStudent, 
+        pastOnly: false,
+        isCallAdmin
+    }
+    return axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify(obj))
         .then(res => {         
                 let fdata = res.data.result;
                 const discAbonement = Object.keys(res.data.result);  

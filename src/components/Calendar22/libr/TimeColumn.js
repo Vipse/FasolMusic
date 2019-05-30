@@ -117,7 +117,7 @@ export default class TimeColumn extends Component {
         onRemoveTrialTraining = {onRemoveTrialTraining}
         deleteTraining = {this.props.deleteTraining}
         deleteEventApiPatient = {this.props.deleteEventApiPatient}
-
+        clickOnEvent= {this.props.clickOnEvent}
       />
     )
   }

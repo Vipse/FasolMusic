@@ -140,6 +140,7 @@ class TimeSlotGroup extends Component {
                   isPushBtnTransfer = {isPushBtnTransfer}
                   deleteTraining = {this.props.deleteTraining}
                   deleteEventApiPatient={this.props.deleteEventApiPatient}
+                  clickOnEvent={this.props.clickOnEvent}
                  
             />)
           }
