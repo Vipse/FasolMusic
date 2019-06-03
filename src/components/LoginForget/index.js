@@ -58,15 +58,15 @@ class LoginForgetForm extends React.Component{
                     Нет проблем. Мы отправим вам инструкцию по сбросу пароля.
                     <FormItem>
                         {getFieldDecorator('phone')(
-                            <Input placeholder="Телефон"/>
+                            <Input placeholder="Введите почту"/>
                         )}
                     </FormItem>
                     {this.props.text}
                 </div>
-                <div className="login-form-control">
+                <div className="loginforget-control">
                     <Button disable={!(validatePhone(phone))}
                             htmlType="submit"
-                            btnText='Отправить ссылку'
+                            btnText='Отправить'
                             size='large'
                             type='gradient'/>
                     <div>Вернуться на страницу {link}</div>

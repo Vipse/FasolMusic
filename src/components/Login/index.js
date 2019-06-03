@@ -205,6 +205,7 @@ class LoginForm extends React.Component{
                                     rules: [{required: true, message: 'Введите ваш пароль, пожалуйста'}],
                                 })(
                                     <Input placeholder='Пароль*'
+                                           addonAfter={<NavLink className="login-form-navlink" to={urlForget}>{"Забыли пароль?"}</NavLink>}
                                            type="password"
                                            onChange={this.props.resetError}
                                            className='login-form-item'/>
