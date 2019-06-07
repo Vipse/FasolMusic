@@ -183,12 +183,15 @@ export const register = (id1, id2, user_mode) => {
     callbacks.setChatFromId(id1);
     setRegisterState(REGISTERING);
 
-    ws.onopen = () => sendMessage({
+    ws.onopen = () => {
+        console.log("true register")
+        sendMessage({
         id : 'register',
         name : id1,
         other_name: id2,
         mode: user_mode,
-    });
+    })
+};
 }
 
 export const stop = (flag) => {

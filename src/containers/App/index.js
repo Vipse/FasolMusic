@@ -67,6 +67,7 @@ class App extends React.Component {
                 });
             },
             function() {
+                setTimeout(() => this.runNotificationsWS(), 5000)
                 console.warn('WebSocket connection closed');
             },
             {'skipSubprotocolCheck': true, id : this.props.id}
@@ -110,10 +111,14 @@ class App extends React.Component {
                 get_visitInfo: () => this.getChatInfo(),
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
+            })
+            .onerror = () => {
+                console.log("onerror")
+                setTimeout(() => this.runChatWS(), 5000)
             }
-        );
-
-        register('' + this.props.id, ''/*+this.props.user_id*/, this.props.mode);
+        
+        register(''+this.props.id, '', this.props.mode)
+        setInterval(() => register(''+this.props.id, '', this.props.mode), 30000);
     };
 
      getChatInfo = () => {
