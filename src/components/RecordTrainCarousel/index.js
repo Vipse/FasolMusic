@@ -72,7 +72,7 @@ class RecordTrainCarousel extends React.Component {
             let time = [];
 
             let dayIntervals = intervals[moment(curDayBegin).format('X')];
-
+            
             let curDayTrainerTrainings = trainerTrainings[moment(curDayBegin).format('X')];
 
             let ownTrains = [];
@@ -103,6 +103,7 @@ class RecordTrainCarousel extends React.Component {
                 time.push({
                     timestamp: curHourBegin.format('X'),
                     type: 'default',
+                    isBooking: curHourTraining && curHourTraining.allInfo.isBooking,
                     isAvailable,
                     isOwn,
                     idTraining: curHourTraining && curHourTraining.allInfo.idTraining,
@@ -128,8 +129,8 @@ class RecordTrainCarousel extends React.Component {
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
-                                <div className={item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
-                                    item.isAvailable ? 'availableTime' : ''}
+                                <div className={item.isBooking ? '' : item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
+                                    item.isAvailable ? 'availableTime' : 'notAvaiableTime'}
                                      key={indexTime + 1}
                                      onClick={item.isAvailable ?
                                          e => this.props.handleTrainModal(e, false, isAdmin)
@@ -137,7 +138,9 @@ class RecordTrainCarousel extends React.Component {
                                              : null}
                                      data-timestamp={item.timestamp}
                                      data-interval-type={item.type}
-                                />
+                                >
+                                <span>{ item.isOwn ? item.studentName.substring(0, item.studentName.indexOf('@') > 0 ? item.studentName.indexOf('@') : item.studentName.length) : `` }</span>
+                                </div>
                             </div>
                         )
                     }
