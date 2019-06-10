@@ -16,7 +16,8 @@ export {
     setOnlineStatus,
     connectionToSocialNetwork,
     socialNetworkCheck,
-    socialAuthorization
+    socialAuthorization,
+    forgetEmail
 } from './auth'
 
 export {

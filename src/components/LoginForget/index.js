@@ -11,6 +11,8 @@ import Input from '../Input'
 import './style.css'
 import '../../icon/style.css'
 
+import {message} from 'antd';
+
 const FormItem = Form.Item;
 
 function validatePhone(number='') {
@@ -32,6 +34,12 @@ class LoginForgetForm extends React.Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.props.onSubmit(values);
+                this.props.onForgetEmail(values.email)
+                .then(()=>{
+                    message.success("Письмо для восстановления отправлено");
+                    this.props.history.push('/signin');
+                })
+
             }
         });
     };
@@ -43,7 +51,6 @@ class LoginForgetForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const {phone} = this.props.form.getFieldsValue();
         const link = this.props.onUrlChange ?
             (<span onClick={this.goBackHandler}
                    className="loginforget-backlink">Авторизации</span>)
@@ -57,15 +64,13 @@ class LoginForgetForm extends React.Component{
                 <div className="loginforget-body">
                     Нет проблем. Мы отправим вам инструкцию по сбросу пароля.
                     <FormItem>
-                        {getFieldDecorator('phone')(
+                        {getFieldDecorator('email')(
                             <Input placeholder="Введите почту"/>
                         )}
                     </FormItem>
-                    {this.props.text}
                 </div>
                 <div className="loginforget-control">
-                    <Button disable={!(validatePhone(phone))}
-                            htmlType="submit"
+                    <Button htmlType="submit"
                             btnText='Отправить'
                             size='large'
                             type='gradient'/>

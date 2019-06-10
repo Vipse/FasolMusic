@@ -323,3 +323,19 @@ export const reportBug = (text, href) => {
             })
     }
 };
+
+export const forgetEmail = (email) => {
+    return (dispatch, getState) => {
+       return axios.post('/catalog.fasol/passwordRecovery',
+                JSON.stringify({
+                    login: email
+                }))
+                    .then(res => {
+
+                     
+                    })
+                    .catch(err => {
+                        console.log('error: ',err);
+                    })
+    }
+}
