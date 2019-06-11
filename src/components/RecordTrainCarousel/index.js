@@ -139,7 +139,17 @@ class RecordTrainCarousel extends React.Component {
                                      data-timestamp={item.timestamp}
                                      data-interval-type={item.type}
                                 >
-                                <span>{ item.isOwn ? item.studentName.substring(0, item.studentName.indexOf('@') > 0 ? item.studentName.indexOf('@') : item.studentName.length) : `` }</span>
+                                <span>{ 
+                                    item.isOwn ? 
+                                        (item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") ?
+                                            item.studentName.substring(0,
+                                                item.studentName.indexOf('@') > 0 ? 
+                                                    item.studentName.indexOf('@') 
+                                                    : item.studentName.length
+                                             ) 
+                                            : ``
+                                        : `` 
+                                    }</span>
                                 </div>
                             </div>
                         )
