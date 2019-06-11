@@ -330,10 +330,6 @@ export const forgetEmail = (email) => {
                 JSON.stringify({
                     login: email
                 }))
-                    .then(res => {
-
-                     
-                    })
                     .catch(err => {
                         console.log('error: ',err);
                     })

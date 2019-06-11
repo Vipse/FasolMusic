@@ -15,18 +15,6 @@ import {message} from 'antd';
 
 const FormItem = Form.Item;
 
-function validatePhone(number='') {
-    let rez = number.match(/\d/g);
-
-    if(rez){
-        if (rez.length === 11 || rez.length === 12) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
 class LoginForgetForm extends React.Component{
 
     handleSubmit = (e) => {
@@ -35,11 +23,13 @@ class LoginForgetForm extends React.Component{
             if (!err) {
                 this.props.onSubmit(values);
                 this.props.onForgetEmail(values.email)
-                .then(()=>{
+                .then((res)=>{
+                    if(res.data.error !== undefined) {message.success("Такого аккаунта не существует");}
+                    else {
                     message.success("Письмо для восстановления отправлено");
                     this.props.history.push('/signin');
+                    }
                 })
-
             }
         });
     };
@@ -98,3 +88,5 @@ LoginForget.defaultProps = {
 };
 
 export default withRouter(LoginForget)
+
+
