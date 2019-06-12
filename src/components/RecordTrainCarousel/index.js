@@ -130,7 +130,7 @@ class RecordTrainCarousel extends React.Component {
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
                                 <div className={item.isBooking ? '' : item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
-                                    item.isAvailable ? 'availableTime' : 'notAvaiableTime'}
+                                    item.isAvailable ? (isAdmin ? 'adminAvaiableTime' : 'availableTime') : 'notAvaiableTime'}
                                      key={indexTime + 1}
                                      onClick={item.isAvailable ?
                                          e => this.props.handleTrainModal(e, false, isAdmin)

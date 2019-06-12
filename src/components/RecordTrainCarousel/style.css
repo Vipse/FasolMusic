@@ -127,6 +127,13 @@
 .train-carousel .table-main-time .availableTime:hover:after {
   content: '+';
 }
+.train-carousel .table-main-time .adminAvaiableTime {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 255, 0, 0.2);
+  border: 1px solid #00ff00;
+  cursor: pointer;
+}
 .train-carousel .table-main-row {
   display: flex;
   width: 100%;
