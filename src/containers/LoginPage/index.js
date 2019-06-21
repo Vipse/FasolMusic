@@ -101,6 +101,8 @@ class LoginPage extends React.Component {
                             <Route path="/signin/forget"
                                    exact
                                    render={() => <LoginForget urlLogin={this.props.match.url}
+                                                              onForgetEmail={this.props.onForgetEmail}
+                                                              history={this.props.history}
                                                               onUrlChange={() => {
                                                                   this.props.history.replace(this.props.match.url)
                                                               }}/>}
@@ -167,7 +169,9 @@ const mapDispatchToProps = dispatch => {
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),
         onGetIdUserByToken: (token, history) => dispatch(actions.getIdUserByToken(token, history)),
-        onResetError: () => dispatch(actions.resetError())
+        onResetError: () => dispatch(actions.resetError()),
+        onForgetEmail:(email) => dispatch(actions.forgetEmail(email))
+
     }
 };
 

@@ -11,19 +11,9 @@ import Input from '../Input'
 import './style.css'
 import '../../icon/style.css'
 
+import {message} from 'antd';
+
 const FormItem = Form.Item;
-
-function validatePhone(number='') {
-    let rez = number.match(/\d/g);
-
-    if(rez){
-        if (rez.length === 11 || rez.length === 12) {
-            return true;
-        }
-    }
-    return false;
-}
-
 
 class LoginForgetForm extends React.Component{
 
@@ -32,6 +22,14 @@ class LoginForgetForm extends React.Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.props.onSubmit(values);
+                this.props.onForgetEmail(values.email)
+                .then((res)=>{
+                    if(res.data.error !== undefined) {message.success("Такого аккаунта не существует");}
+                    else {
+                    message.success("Письмо для восстановления отправлено");
+                    this.props.history.push('/signin');
+                    }
+                })
             }
         });
     };
@@ -43,7 +41,6 @@ class LoginForgetForm extends React.Component{
 
     render(){
         const { getFieldDecorator } = this.props.form;
-        const {phone} = this.props.form.getFieldsValue();
         const link = this.props.onUrlChange ?
             (<span onClick={this.goBackHandler}
                    className="loginforget-backlink">Авторизации</span>)
@@ -57,16 +54,14 @@ class LoginForgetForm extends React.Component{
                 <div className="loginforget-body">
                     Нет проблем. Мы отправим вам инструкцию по сбросу пароля.
                     <FormItem>
-                        {getFieldDecorator('phone')(
-                            <Input placeholder="Телефон"/>
+                        {getFieldDecorator('email')(
+                            <Input placeholder="Введите почту"/>
                         )}
                     </FormItem>
-                    {this.props.text}
                 </div>
-                <div className="login-form-control">
-                    <Button disable={!(validatePhone(phone))}
-                            htmlType="submit"
-                            btnText='Отправить ссылку'
+                <div className="loginforget-control">
+                    <Button htmlType="submit"
+                            btnText='Отправить'
                             size='large'
                             type='gradient'/>
                     <div>Вернуться на страницу {link}</div>
@@ -93,3 +88,5 @@ LoginForget.defaultProps = {
 };
 
 export default withRouter(LoginForget)
+
+

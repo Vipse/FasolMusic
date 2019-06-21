@@ -1,3 +1,9 @@
+.login-form-navlink {
+  color: #21bedd;
+  font-family: "Roboto", sans-serif;
+  padding-left: 23px;
+  font-size: 14px;
+}
 .login-form {
   margin-top: 10%;
   max-width: 60rem;
