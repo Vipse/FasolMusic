@@ -130,7 +130,7 @@ class RecordTrainCarousel extends React.Component {
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
                                 <div className={item.isBooking ? '' : item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
-                                    item.isAvailable ? 'availableTime' : 'notAvaiableTime'}
+                                    item.isAvailable ? (isAdmin ? 'adminAvaiableTime' : 'availableTime') : 'notAvaiableTime'}
                                      key={indexTime + 1}
                                      onClick={item.isAvailable ?
                                          e => this.props.handleTrainModal(e, false, isAdmin)
@@ -139,7 +139,17 @@ class RecordTrainCarousel extends React.Component {
                                      data-timestamp={item.timestamp}
                                      data-interval-type={item.type}
                                 >
-                                <span>{ item.isOwn ? item.studentName.substring(0, item.studentName.indexOf('@') > 0 ? item.studentName.indexOf('@') : item.studentName.length) : `` }</span>
+                                <span>{ 
+                                    item.isOwn ? 
+                                        (item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") ?
+                                            item.studentName.substring(0,
+                                                item.studentName.indexOf('@') > 0 ? 
+                                                    item.studentName.indexOf('@') 
+                                                    : item.studentName.length
+                                             ) 
+                                            : ``
+                                        : `` 
+                                    }</span>
                                 </div>
                             </div>
                         )
