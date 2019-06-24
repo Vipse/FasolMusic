@@ -24,8 +24,6 @@ class Chat extends React.Component{
             });
         this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
         this.props.idTraining && this.loadChatHistory(this.props.idTraining);
-
-        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -110,19 +108,21 @@ class Chat extends React.Component{
                 for (let dayItem in masterNearTrainings)
                     for (let trainItem in masterNearTrainings[dayItem]) {
                         let train = masterNearTrainings[dayItem][trainItem].allInfo;
-                        arrData.push({
-                            name: train.fio,
-                            avatar: train.avatar,
-                            start: +train.date * 1000,
-                            end: +train.date * 1000 + 3600000,
-                            discipline: train.disciplines.length ?
-                                selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
-                            idProfile: train.idStudent,
-                            idTraining: train.idTraining,
-                            isComplete: train.isComplete,
-                            wasTransfer: train.wasTransfer,
-                            trial: train.trial
-                        });
+                        if (!train.isBooking) {
+                            arrData.push({
+                                name: train.fio,
+                                avatar: train.avatar,
+                                start: +train.date * 1000,
+                                end: +train.date * 1000 + 3600000,
+                                discipline: train.disciplines.length ?
+                                    selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
+                                idProfile: train.idStudent,
+                                idTraining: train.idTraining,
+                                isComplete: train.isComplete,
+                                wasTransfer: train.wasTransfer,
+                                trial: train.trial
+                            });
+                        }
                     }
 
                 return arrData;
