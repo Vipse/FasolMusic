@@ -141,6 +141,7 @@ class TimeSlotGroup extends Component {
                   deleteTraining = {this.props.deleteTraining}
                   deleteEventApiPatient={this.props.deleteEventApiPatient}
                   clickOnEvent={this.props.clickOnEvent}
+                  selectIdEvent={this.props.selectIdEvent}
                  
             />)
           }

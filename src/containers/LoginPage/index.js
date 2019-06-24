@@ -72,7 +72,7 @@ class LoginPage extends React.Component {
             <div className="loginPage">
                 <Hoc>
                     <div className="loginPage-header">
-                        <a className="loginPage-header-logo" href='https://fasolonline.ru'>
+                        <a className="loginPage-header-logo" href='https://fasolstudio.by'>
                             <img src={logo} width={156} height={80}/>
                         </a>
                     </div>
