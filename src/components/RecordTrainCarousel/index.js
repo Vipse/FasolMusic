@@ -99,10 +99,12 @@ class RecordTrainCarousel extends React.Component {
                             curHourTraining = curDayTrainerTrainings[train];
                             break;
                         }
-
+                //console.log("Каво");
+                //console.log(curHourTraining);
                 time.push({
                     timestamp: curHourBegin.format('X'),
                     type: 'default',
+                    isComplete:curHourTraining && curHourTraining.allInfo.isComplete,
                     isBooking: curHourTraining && curHourTraining.allInfo.isBooking,
                     isAvailable,
                     isOwn,
@@ -121,7 +123,14 @@ class RecordTrainCarousel extends React.Component {
         let timesColumnArr = [];
         for (let i = availableHoursArea[0]; i < availableHoursArea[1]; i++)
             timesColumnArr.push(<div>{moment(i, 'H').format('H:mm')}</div>);
-
+        console.log("IS ADMIN?");
+        console.log(isAdmin);
+        console.log('IS STUDENT',this.props.isStudentPage);
+        console.log(studentID);
+        console.log("INTERVALS");
+        console.log(timeIntervals);
+        console.log("PROPS");
+        console.log(this.props);
         return <div className='table-main-row'>
             <div className='table-main-times'>{timesColumnArr}</div>
             {headers.map((item, indexDay) =>
@@ -129,26 +138,38 @@ class RecordTrainCarousel extends React.Component {
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
-                                <div className={item.isBooking ? '' : item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
-                                    item.isAvailable ? (isAdmin ? 'adminAvaiableTime' : 'availableTime') : 'notAvaiableTime'}
+                                <div className=
+                                    {  // item.isComplete ? 'completeTime' : (
+                                        //                                                       == ТУТ ПОФИКСИТЬ НА ЧТО ТО ДРУГОЕ БОЛЕЕ НАДЕЖНОЕ   
+                                            item.isBooking ? (isAdmin ? 'bookingTime' : (studentID == item.idStudent ? 'bookingTime' : '')) : (
+                                                item.isOwn ? (item.isComplete ? 'completeTime' : (isAdmin ? 'reservedTime' : 'ownTime')) : (
+                                                    item.isAvailable ? (isAdmin ? 'adminAvaiableTime' : 'availableTime') : 'notAvaiableTime'
+                                                )
+                                            )
+                                        //)
+                                    }
+
                                      key={indexTime + 1}
                                      onClick={item.isAvailable ?
                                          e => this.props.handleTrainModal(e, false, isAdmin)
-                                         : (item.isOwn) ? e => this.props.handleTrainModal(e, true, isAdmin, item)
+                                         : (item.isOwn || item.isBooking) ? e => this.props.handleTrainModal(e, true, isAdmin, item)
                                              : null}
                                      data-timestamp={item.timestamp}
                                      data-interval-type={item.type}
                                 >
-                                <span>{ 
-                                    item.isOwn ? 
-                                        (item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") ?
-                                            item.studentName.substring(0,
-                                                item.studentName.indexOf('@') > 0 ? 
-                                                    item.studentName.indexOf('@') 
-                                                    : item.studentName.length
-                                             ) 
-                                            : ``
-                                        : `` 
+                                <span>{
+                                    //item.isBooking ? 'reserved' : (
+                                    
+                                        (item.isOwn || item.isBooking ? (isAdmin ? true : studentID == item.idStudent ? true:false) : false) ? 
+                                            (item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") ?
+                                                item.studentName.substring(0,
+                                                    item.studentName.indexOf('@') > 0 ? 
+                                                        item.studentName.indexOf('@') 
+                                                        : item.studentName.length
+                                                ) 
+                                                : ``
+                                            : `` 
+                                    //)
                                     }</span>
                                 </div>
                             </div>
@@ -204,6 +225,10 @@ class RecordTrainCarousel extends React.Component {
                                     <div className='type-name'>Ваша тренировка</div>
                                 </div>
                             }
+                            <div className="type">
+                                <div className='type-color-complete'/>
+                                <div className='type-name'>Завершенная тренировка </div>
+                            </div>
                         </div>
                     </div>
                 </div>

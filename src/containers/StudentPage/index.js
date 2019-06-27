@@ -130,9 +130,20 @@ class StudentPage extends React.Component{
         } 
     }
 
+    goToStudentProfile = (idStudent) => {
+        let link = "/app/student";
+        this.props.history.push(link + idStudent);
+    }
+
     handleTrainModal = (e, redirectable, isAdmin, item) => {
+        console.log("HANDLE TRAIN MODAL")
+        console.log(item);
         e.preventDefault();
         if (redirectable && isAdmin) this.goToCoachProfile(item.idMaster);
+        /* if (redirectable && !isAdmin) {
+            console.log(item)
+            this.goToStudentProfile(item.idStudent);
+        } */
         else Modal.warning({
             title: 'Изменение расписания',
             width: '500px',
@@ -156,6 +167,8 @@ class StudentPage extends React.Component{
                     idStudent: train.idStudent,
                     idMaster: train.idMaster,
                     idTraining: train.id,
+                    isBooking: train.isBooking,
+                    isComplete: train.isComplete,
                     idSubscription: train.idSubscription,
                     fio: train.fioMaster
                 };
@@ -264,7 +277,8 @@ class StudentPage extends React.Component{
                                 />
                                 <RecordTrainCarousel
                                     onGetIntervals={this.getSchedule}
-                                    trainerTrainings={isAdmin ? this.prepareStudentOwnTrains(studentTrainings) : trainerTrainings}
+                                    trainerTrainings={isAdmin ? this.prepareStudentOwnTrains(studentTrainings) : trainerTrainings}  
+                                    /* trainerTrainings = {trainerTrainings} */
                                     studentID={match.params.id}
                                     handleTrainModal={this.handleTrainModal}
                                     isAdmin={isAdmin}

@@ -102,18 +102,16 @@
   						color: #344051;
 
 
-						&:hover > span {
-							display: none;
-						}  
+						/* &:hover > span {
+							//display: none;
+						}   */
 						&:hover {
 							background-color: rgba(33, 190, 221, 0.5);
 							line-height: 1;
 
-							font-size: 14px;
+							//font-size: 14px;
 
-							&:after {
-								content: '-';
-							}
+							
 						}
 					}
 
@@ -160,6 +158,44 @@
 						border: 1px solid rgba(0, 255, 0, 1);
 						cursor: pointer;
 					}
+
+					.completeTime {
+						display: flex;
+						height: 100%;
+						width: 100%;
+						align-items: center;
+						justify-content: center;
+						background-color: rgb(235, 203, 23);
+						border: 1px solid rgb(136, 134, 14);
+						font-size: 8px;
+  						line-height: 1;
+						color: #344051;
+
+						&:hover {
+							background-color: rgba(206, 204, 97, 0.514);
+							cursor: pointer;
+						}
+					}
+
+					
+
+					.bookingTime {
+						display: flex;
+						height: 100%;
+						width: 100%;
+						align-items: center;
+						justify-content: center;
+						background-color: rgba(157, 23, 235, 0.24);
+						font-size: 8px;
+  						line-height: 1;
+						color: #344051;
+						border: 1px solid rgba(87, 0, 138, 0.582);
+						
+						&:hover {
+							background-color: rgba(179, 99, 226, 0.219);
+							cursor: pointer;
+						}
+					}
 				}
 
 				&-row {
@@ -184,14 +220,20 @@
 
 			&-footer {
 				display: flex;
-				justify-content: center;
+				justify-content: space-between;
 				margin-top: 7px;
 
 				.type {
 					display: flex;
-					padding-left: 30px;
+					padding:0;
+					margin-left: 20px;
+					
 					align-items: center;
-
+					justify-content: space-between;
+					
+					&-name {
+						display: flex;
+					}
 					&-color {
 
 						&-available {
@@ -216,6 +258,14 @@
 							margin-right: 10px;
 							background-color: rgba(33, 190, 221, 0.2);
 							border: 2px solid #21bedd;
+						}
+
+						&-complete {
+							min-width: 30px;
+							min-height: 30px;
+							margin-right: 10px;
+							background-color: rgb(235, 203, 23);
+							border: 2px solid #00000041;
 						}
 					}
 				}
