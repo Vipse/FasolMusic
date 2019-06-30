@@ -99,8 +99,7 @@ class RecordTrainCarousel extends React.Component {
                             curHourTraining = curDayTrainerTrainings[train];
                             break;
                         }
-                //console.log("Каво");
-                //console.log(curHourTraining);
+            
                 time.push({
                     timestamp: curHourBegin.format('X'),
                     type: 'default',
@@ -123,14 +122,7 @@ class RecordTrainCarousel extends React.Component {
         let timesColumnArr = [];
         for (let i = availableHoursArea[0]; i < availableHoursArea[1]; i++)
             timesColumnArr.push(<div>{moment(i, 'H').format('H:mm')}</div>);
-        console.log("IS ADMIN?");
-        console.log(isAdmin);
-        console.log('IS STUDENT',this.props.isStudentPage);
-        console.log(studentID);
-        console.log("INTERVALS");
-        console.log(timeIntervals);
-        console.log("PROPS");
-        console.log(this.props);
+      
         return <div className='table-main-row'>
             <div className='table-main-times'>{timesColumnArr}</div>
             {headers.map((item, indexDay) =>
@@ -139,14 +131,12 @@ class RecordTrainCarousel extends React.Component {
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
                                 <div className=
-                                    {  // item.isComplete ? 'completeTime' : (
-                                        //                                                       == ТУТ ПОФИКСИТЬ НА ЧТО ТО ДРУГОЕ БОЛЕЕ НАДЕЖНОЕ   
+                                    {           
                                             item.isBooking ? (isAdmin ? 'bookingTime' : (studentID == item.idStudent ? 'bookingTime' : '')) : (
                                                 item.isOwn ? (item.isComplete ? 'completeTime' : (isAdmin ? 'reservedTime' : 'ownTime')) : (
                                                     item.isAvailable ? (isAdmin ? 'adminAvaiableTime' : 'availableTime') : 'notAvaiableTime'
                                                 )
                                             )
-                                        //)
                                     }
 
                                      key={indexTime + 1}
@@ -157,9 +147,7 @@ class RecordTrainCarousel extends React.Component {
                                      data-timestamp={item.timestamp}
                                      data-interval-type={item.type}
                                 >
-                                <span>{
-                                    //item.isBooking ? 'reserved' : (
-                                    
+                                <span>{    
                                         (item.isOwn || item.isBooking ? (isAdmin ? true : studentID == item.idStudent ? true:false) : false) ? 
                                             (item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") ?
                                                 item.studentName.substring(0,
@@ -169,7 +157,6 @@ class RecordTrainCarousel extends React.Component {
                                                 ) 
                                                 : ``
                                             : `` 
-                                    //)
                                     }</span>
                                 </div>
                             </div>
