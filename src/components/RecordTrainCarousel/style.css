@@ -152,7 +152,7 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  background-color: rgba(157, 23, 235, 0.24);
+  background-color: rgba(136, 136, 136, 0.24);
   font-size: 8px;
   line-height: 1;
   color: #344051;
@@ -180,15 +180,18 @@
 }
 .train-carousel .table-footer {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-evently;
   margin-top: 7px;
 }
 .train-carousel .table-footer .type {
+  width: 45%;
   display: flex;
   padding: 0;
   margin-left: 20px;
+  font-size: 12px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .train-carousel .table-footer .type-name {
   display: flex;
@@ -219,5 +222,12 @@
   min-height: 30px;
   margin-right: 10px;
   background-color: #ebcb17;
+  border: 2px solid #00000041;
+}
+.train-carousel .table-footer .type-color-booking {
+  min-width: 30px;
+  min-height: 30px;
+  margin-right: 10px;
+  background-color: rgba(136, 136, 136, 0.24);
   border: 2px solid #00000041;
 }

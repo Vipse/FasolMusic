@@ -198,10 +198,10 @@ class RecordTrainCarousel extends React.Component {
                             {this.renderAvailableAppointments(trainerTrainings, intervals)}
                         </div>
                         <div className="table-footer">
-                            {!isStudentPage && <div className="type">
-                                <div className='type-color-available'/>
-                                <div className='type-name'>Свободно</div>
-                            </div>}
+                            <div className="type">
+                                <div className='type-color-booking'/>
+                                <div className='type-name'>Забронированная тренировка</div>
+                            </div>
                             {isAdmin ?
                                 <div className="type">
                                     <div className='type-color-reserved'/>
@@ -214,8 +214,13 @@ class RecordTrainCarousel extends React.Component {
                             }
                             <div className="type">
                                 <div className='type-color-complete'/>
-                                <div className='type-name'>Завершенная тренировка </div>
+                                <div className='type-name'>Завершенная тренировка  </div>
                             </div>
+                           
+                            {!isStudentPage && <div className="type">
+                                <div className='type-color-available'/>
+                                <div className='type-name'>Свободно</div>
+                            </div>}
                         </div>
                     </div>
                 </div>
