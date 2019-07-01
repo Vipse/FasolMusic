@@ -172,7 +172,7 @@ class RecordTrainCarousel extends React.Component {
         const {intervals, trainerTrainings, isAdmin, isStudentPage} = this.props;
         const rootClass = cn('train-carousel');
         return (
-            <Card title={isStudentPage ? "Расписание тренировок" : "Записаться на тренировку"}>
+            <Card title={isAdmin ? "Расписание тренировок" : isStudentPage ? "Расписание тренировок" : "Записаться на тренировку"}>
                 <div className={rootClass}>
                     <div>
                         <div className='table-header'>
