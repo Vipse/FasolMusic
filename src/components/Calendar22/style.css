@@ -46,6 +46,13 @@
   background-color: #ff7daa;
   border: 2px solid #ff7daa;
 }
+.table-footer .type-color-booking {
+  min-width: 30px;
+  min-height: 30px;
+  margin-right: 10px;
+  background-color: #c0c0c0;
+  border: 2px solid #00000000;
+}
 .wrapper-small-calendar {
   padding-top: 30px;
 }

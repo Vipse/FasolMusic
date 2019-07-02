@@ -75,7 +75,7 @@ class EventSlot extends Component {
         let backgroundColor = event.status ? {} : '#eee'; // прошло ли время тренировки
             backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
             backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
-            backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
+            backgroundColor = event.isBooking ? '#c0c0c0' : backgroundColor;  // бронированные тренировки
 
         let nameBlock =  (event.name) ? event.name : (event.fio) ? event.fio : '';
             nameBlock += event.trial ? ' Пробная ' : '';
