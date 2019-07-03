@@ -31,6 +31,7 @@ class ChatTrainingsList extends React.Component {
                                        tailTraining = {this.props.tailTraining}
                                        user_mode = {this.props.user_mode}
                                        isComplete= {item.isComplete}
+                                       isTrial={item.isTrial || item.trial}
             />)
         });
     };
