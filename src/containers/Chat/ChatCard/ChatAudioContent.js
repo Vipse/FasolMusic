@@ -77,16 +77,15 @@ class ChatAudioContent extends React.Component {
 			<div className='chat-card-video__area'>
 				{this.isSafari ? (
                     <video className='chat-card-video__box'
-                        autoPlay
-                        ref={this.setVideoOutRef}
-                        playsInline
-                        poster=''
+                    ref={this.setVideoOutRef}
+                    playsInline
+                    poster=''
                     ></video>
                 ) : (
                     <video className='chat-card-video__box'
-                            ref={this.setVideoOutRef}
-                            autoPlay
-                            poster=''
+						ref={this.setVideoOutRef}
+                        autoPlay
+						poster=''
 						></video>
                 )}
 

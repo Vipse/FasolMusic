@@ -55,7 +55,7 @@ class App extends React.Component {
     runNotificationsWS = () => {
         const that = this;
         //let id = 3199;
-        let conn = new ab.Session('wss://web.fasolonline.ru/wss2/',
+        let conn = new ab.Session('wss://web.fasolstudio.by/wss2/',
             function() {
                 that.props.getNotifications(that.props.id);
 
@@ -81,7 +81,7 @@ class App extends React.Component {
             setWebSocketStatus} = this.props;
 
         createSocket(
-            'wss://web.fasolonline.ru:8443/one2one',
+            'wss://web.fasolstudio.by:8443/one2one',
             chatProps,
             {
                 setChatFromId,

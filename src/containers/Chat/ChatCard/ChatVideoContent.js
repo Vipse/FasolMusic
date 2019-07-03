@@ -122,12 +122,10 @@ class ChatVideoContent extends React.Component {
 			<video className='chat-card-video__box'
 				   poster=''
 				   playsInline
-				   autoPlay
 				   ref={this.setVideoOutRef}
 			></video>
 			<video className='chat-card-video__mini'
 				   playsInline
-				   autoPlay
 				   ref={this.setVideoInRef}
 				   id='setVideoInRef'
 			></video>

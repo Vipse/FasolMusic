@@ -23,7 +23,7 @@ class Chat extends React.Component{
                 this.loadTrainingsList();
             });
         this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
-        this.props.idTraining && this.loadChatHistory(this.props.idTraining);
+        this.props.idTraining && this.loadChatHistory(this.props.idTraining);    
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -109,21 +109,21 @@ class Chat extends React.Component{
                     for (let trainItem in masterNearTrainings[dayItem]) {
                         let train = masterNearTrainings[dayItem][trainItem].allInfo;
                         if (!train.isBooking) {
-                            arrData.push({
-                                name: train.fio,
-                                avatar: train.avatar,
-                                start: +train.date * 1000,
-                                end: +train.date * 1000 + 3600000,
-                                discipline: train.disciplines.length ?
-                                    selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
-                                idProfile: train.idStudent,
-                                idTraining: train.idTraining,
-                                isComplete: train.isComplete,
-                                wasTransfer: train.wasTransfer,
-                                trial: train.trial
-                            });
-                        }
+                        arrData.push({
+                            name: train.fio,
+                            avatar: train.avatar,
+                            start: +train.date * 1000,
+                            end: +train.date * 1000 + 3600000,
+                            discipline: train.disciplines.length ?
+                                selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
+                            idProfile: train.idStudent,
+                            idTraining: train.idTraining,
+                            isComplete: train.isComplete,
+                            wasTransfer: train.wasTransfer,
+                            trial: train.trial
+                        });
                     }
+                }
 
                 return arrData;
             }
@@ -156,7 +156,7 @@ class Chat extends React.Component{
         const isStudent = this.props.user_mode === "student";
 
         const chatProps = {
-            wsURL: 'wss://web.fasolonline.ru:8443/one2one',
+            wsURL: 'wss://web.fasolstudio.by:8443/one2one',
             timer: this.props.timer,
             chatStory: this.props.chatStory,
             loadingChatStory: this.state.loadingChatStory,

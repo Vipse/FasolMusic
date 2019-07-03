@@ -19,9 +19,19 @@ class NearTrainingsItem extends React.Component{
             idProfile,
             isComplete,
             isTrial,
+            completeTraining,
+            tailTraining,
+            user_mode,
+            wasTransfer,
+            trial,
             onGoto
         } = this.props;
 
+        const timeIn24Hour = moment().add(90, 'm').format('x')
+        let isBtnNearTrainings = start < timeIn24Hour ? true : false
+
+        
+        console.log('user_mode :', this.props);
         return (
             <div className='nearTraining'>
                 <div className='nearTraining-circleDate'>
@@ -40,12 +50,40 @@ class NearTrainingsItem extends React.Component{
                     </div>
                 </div>
                 <div className='nearTraining-chatBtn'>
-                    <Button
-                        btnText="Открыть чат"
-                        type="border-green"
-                        size='small'
-                        onClick={() => goToChat(idProfile, idTraining, name, avatar, start, isComplete, isTrial)}
-                    />
+
+                    {((user_mode == 'master' || user_mode == 'admin') && !isComplete ) ? 
+                        <div className='nearTraining-chatBtn-item'>
+                            <div className='nearTraining-chatBtn-item'>
+                                <Button
+                                    btnText="Засчитать"
+                                    type="border-green"
+                                    size='small'
+                                    onClick={() => completeTraining({idTraining})}
+                                />
+                            </div>
+                            
+                            {(!wasTransfer && !trial) ? 
+                                <div className='nearTraining-chatBtn-item'>
+                                    <Button
+                                        btnText="Перенести в конец"
+                                        type="border-green"
+                                        size='small'
+                                        onClick={() => tailTraining(idTraining)}
+                                    />
+                                </div> : ''}
+                        </div> : ''}
+                        
+                    
+                    
+                    {isBtnNearTrainings ? 
+                        <div className='nearTraining-chatBtn-item'>
+                            <Button
+                                btnText="Открыть чат"
+                                type="border-green"
+                                size='small'
+                                onClick={() => goToChat(idProfile, idTraining, name, avatar, start, isComplete, isTrial)}
+                            />
+                        </div> : ''}
                 </div>
             </div>
         )
