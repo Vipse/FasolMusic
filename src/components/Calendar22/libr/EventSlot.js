@@ -78,6 +78,15 @@ class EventSlot extends Component {
             backgroundColor = event.isBooking ? '#c0c0c0' : backgroundColor;  // бронированные тренировки
 
         let nameBlock =  (event.name) ? event.name : (event.fio) ? event.fio : '';
+
+        nameBlock = (nameBlock !== null && nameBlock !== undefined && nameBlock!=="" && nameBlock !== " ") ?
+            nameBlock.substring(0,
+                nameBlock.indexOf('@') > 0 ? 
+                    nameBlock.indexOf('@') 
+                    : nameBlock.length
+            ) 
+            : ``;
+
             nameBlock += event.trial ? ' Пробная ' : '';
                
         let isNearDay =  moment(event.start.getTime()).diff(moment(Date.now()), 'days');
