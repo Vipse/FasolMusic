@@ -57,13 +57,13 @@ class CoachPersonalDataForm extends React.Component {
         const selectorsNames = ['interests', 'goal', 'discipline', 'qualities',
             'styles', 'professions', 'day', 'musicalExperience', 'countries'];
 
-        const selectorsLoad = this.props.getMultipleSelectors(selectorsNames)
+        const selectorsLoad = () => this.props.getMultipleSelectors(selectorsNames)
             .then(res => {
                 this.setState({loadingSelectors: false,
                     isSaveBtnActive: res
                 });
                 if (!res) {
-                    setTimeout(() => selectorsLoad(), 500);
+                    setTimeout(() => selectorsLoad(), 5000);
                     message.error('Ошибка при загрузке данных для выбора. Повторная попытка', 5);
                 }
             })
