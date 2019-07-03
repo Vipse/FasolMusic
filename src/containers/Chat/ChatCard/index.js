@@ -207,7 +207,7 @@ class ChatCard extends React.Component {
     };
 
     render() {
-		const {interlocutorName, interlocutorAvatar, online} = this.props;
+		const {interlocutorName, interlocutorAvatar, online, beginTime} = this.props;
 		const iconType = this.getIconByType();
         const statusClass = cn('chat-card-status', `chat-card-${online}`);
         const dialogsClass = cn('chat-card-dialogs', {'chat-card-dialogs-active': this.state.isActiveFiles});
@@ -318,6 +318,7 @@ class ChatCard extends React.Component {
 					</div>
 				</div>
 				<CompletionTrainingModal
+					beginTime={beginTime}
 					visible={this.state.completionModalVisible}
 					isTrial={this.props.isTrial}
 					onComplete={() => this.onCloseTraining('complete')}

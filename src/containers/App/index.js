@@ -397,7 +397,7 @@ class App extends React.Component {
                                         />
                                     </Switch>
                                 </div>
-                                {/*this.renderVKApp()*/}
+                                {this.renderVKApp()}
                             </div>
                             {this.state.scheduleSpinner &&
                                 <div className = "schedule-spinner">
