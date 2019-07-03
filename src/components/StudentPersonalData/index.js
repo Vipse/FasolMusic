@@ -47,16 +47,18 @@ class StudentPersonalDataForm extends React.Component {
         const selectorsNames = ['interests', 'goal', 'discipline', 'qualities',
             'styles', 'professions', 'musicalExperience', 'countries'];
 
-        this.props.getMultipleSelectors(selectorsNames)
+        const selectorsLoad = this.props.getMultipleSelectors(selectorsNames)
             .then(res => {
                 this.setState({loadingSelectors: false,
                     isSaveBtnActive: res
                 });
                 if (!res) {
-                    message.error('Ошибка при загрузке данных для выбора. Попробуйте перезагрузить страницу', 0)
+                    setTimeout(() => selectorsLoad(), 500);
+                    message.error('Ошибка при загрузке данных для выбора. Повторная попытка', 5);
                 }
             })
             .catch(err => console.log(err));
+        selectorsLoad();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
