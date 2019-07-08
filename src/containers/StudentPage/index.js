@@ -130,11 +130,6 @@ class StudentPage extends React.Component{
         } 
     }
 
-    goToStudentProfile = (idStudent) => {
-        let link = "/app/student";
-        this.props.history.push(link + idStudent);
-    }
-
     handleTrainModal = (e, redirectable, isAdmin, item) => {
         e.preventDefault();
         if (redirectable && isAdmin) this.goToCoachProfile(item.idMaster);
@@ -203,8 +198,6 @@ class StudentPage extends React.Component{
     getSchedule = (dateStart, dateEnd) => {
         const {id: idAuth, match, mode} = this.props;
         const {id: idProfile} = match.params;
-       /*  if (mode === 'master') this.props.onGetOwnTrainings(idAuth, dateStart, dateEnd);
-        else this.props.onGetAllTrainingStudent(idProfile, dateStart, dateEnd); */
         this.props.onGetAllTrainingStudent(idProfile, dateStart, dateEnd);
     };
 
@@ -270,8 +263,7 @@ class StudentPage extends React.Component{
                                                onChangeRequestMaxAmount={this.props.onChangeRequestMaxAmount}
                                 />
                                 <RecordTrainCarousel
-                                    onGetIntervals={this.getSchedule}
-                                    /* trainerTrainings={isAdmin ? this.prepareStudentOwnTrains(studentTrainings) : trainerTrainings} */  
+                                    onGetIntervals={this.getSchedule} 
                                     trainerTrainings = {this.prepareStudentOwnTrains(studentTrainings)}
                                     studentID={match.params.id}
                                     handleTrainModal={this.handleTrainModal}

@@ -86,9 +86,6 @@
   font-size: 8px;
   line-height: 1;
   color: #344051;
-  /* &:hover > span {
-							//display: none;
-						}   */
 }
 .train-carousel .table-main-time .ownTime:hover {
   background-color: rgba(33, 190, 221, 0.5);
