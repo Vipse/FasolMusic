@@ -130,15 +130,7 @@ class RecordTrainCarousel extends React.Component {
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
-                                <div className=
-                                    {           
-                                            item.isBooking ? (isAdmin ? 'bookingTime' : (studentID == item.idStudent ? 'bookingTime' : '')) : (
-                                                item.isOwn ? (item.isComplete ? 'completeTime' : (isAdmin ? 'reservedTime' : 'ownTime')) : (
-                                                    item.isAvailable ? (isAdmin ? 'adminAvaiableTime' : 'availableTime') : 'notAvaiableTime'
-                                                )
-                                            )
-                                    }
-
+                                <div className = { this.getCellType(item) }
                                      key={indexTime + 1}
                                      onClick={item.isAvailable ?
                                          e => this.props.handleTrainModal(e, false, isAdmin)
@@ -147,17 +139,7 @@ class RecordTrainCarousel extends React.Component {
                                      data-timestamp={item.timestamp}
                                      data-interval-type={item.type}
                                 >
-                                <span>{    
-                                        (item.isOwn || item.isBooking ? (isAdmin ? true : studentID == item.idStudent ? true:false) : false) ? 
-                                            (item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") ?
-                                                item.studentName.substring(0,
-                                                    item.studentName.indexOf('@') > 0 ? 
-                                                        item.studentName.indexOf('@') 
-                                                        : item.studentName.length
-                                                ) 
-                                                : ``
-                                            : `` 
-                                    }</span>
+                                <span>{ this.getCellName(item) }</span>
                                 </div>
                             </div>
                         )
@@ -166,6 +148,52 @@ class RecordTrainCarousel extends React.Component {
             )}
         </div>
     };
+
+    getCellName = (item) => {
+        const {isAdmin, studentID} = this.props;
+        let isNeed = false;
+        
+        if (item.isOwn || item.isBooking) {
+            if (isAdmin) isNeed = true;
+            else if (studentID == item.idStudent) isNeed = true;
+        }
+
+        if (isNeed === true && item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") {
+            let name = item.studentName.substring(0,
+                                                    item.studentName.indexOf('@') > 0 ? 
+                                                        item.studentName.indexOf('@') 
+                                                        : item.studentName.length
+                                                 )
+
+            if (name.indexOf(" ") < 0) {
+                name = name.substring(0,12) + " " + name.substring(12,name.length);
+            }
+               
+            return name;
+          
+        }
+        else return undefined
+    }
+
+   
+    getCellType = (item) => {
+        const {isAdmin, studentID} = this.props;
+
+        if ( item.isBooking ) {
+            if ( isAdmin ) return "bookingTime";
+            else if ( studentID == item.idStudent ) return "bookingTime"; 
+            else return ""
+        }
+        else if ( item.isOwn ){
+            if (item.isComplete) return "completeTime";
+            else return isAdmin ? 'reservedTime' : 'ownTime';
+        }
+        else if ( item.isAvailable ) {
+            return isAdmin ? 'adminAvaiableTime' : 'availableTime'
+        }
+        else return "";
+
+    }
 
     render() {
         const {weekStart} = this.state;
