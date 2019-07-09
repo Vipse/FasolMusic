@@ -17,10 +17,15 @@ const initialState = {
             ruText: 'Вокал',
             code: 125485,
             name: 'vocals'
+        },
+        'fono':{
+            ruText: 'Фортепиано',
+            code: 144051,
+            name: 'fono'
         }
     },
 
-    disciplinesCode: [125470, 125485],
+    disciplinesCode: [125470, 125485, 144051],
     weekInterval : null,
     studentBalance: 0,
 };

@@ -11,7 +11,7 @@ export const selectStudent = (id) => {
 export const setFreeIntervals = (freeIntervals, discipline ) => {
     return (dispatch) => {
         let obj = { discipline : [] };
-        let type = {vocals : '125485', guitar : '125470'};
+        let type = {vocals : '125485', guitar : '125470', fono: '144051'};
 
         for( let key in type ){
             if(String(key) === discipline){
@@ -24,7 +24,7 @@ export const setFreeIntervals = (freeIntervals, discipline ) => {
         });
 
         console.log("obj", obj);
-        axios.post('/catalog.fasol/getMasterList', JSON.stringify({ 'discipline' : [125485, 125470]}))
+        axios.post('/catalog.fasol/getMasterList', JSON.stringify({ 'discipline' : [125485, 125470, 144051]}))
             .then((rez) => {
                 let masterListObj = {};
                 const masterList = rez.data.result.masterlist;
