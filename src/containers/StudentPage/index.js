@@ -156,6 +156,8 @@ class StudentPage extends React.Component{
                     idStudent: train.idStudent,
                     idMaster: train.idMaster,
                     idTraining: train.id,
+                    isBooking: train.isBooking,
+                    isComplete: train.isComplete,
                     idSubscription: train.idSubscription,
                     fio: train.fioMaster
                 };
@@ -196,9 +198,7 @@ class StudentPage extends React.Component{
     getSchedule = (dateStart, dateEnd) => {
         const {id: idAuth, match, mode} = this.props;
         const {id: idProfile} = match.params;
-
-        if (mode === 'master') this.props.onGetOwnTrainings(idAuth, dateStart, dateEnd);
-        else this.props.onGetAllTrainingStudent(idProfile, dateStart, dateEnd);
+        this.props.onGetAllTrainingStudent(idProfile, dateStart, dateEnd);
     };
 
     render() {
@@ -263,8 +263,8 @@ class StudentPage extends React.Component{
                                                onChangeRequestMaxAmount={this.props.onChangeRequestMaxAmount}
                                 />
                                 <RecordTrainCarousel
-                                    onGetIntervals={this.getSchedule}
-                                    trainerTrainings={isAdmin ? this.prepareStudentOwnTrains(studentTrainings) : trainerTrainings}
+                                    onGetIntervals={this.getSchedule} 
+                                    trainerTrainings = {this.prepareStudentOwnTrains(studentTrainings)}
                                     studentID={match.params.id}
                                     handleTrainModal={this.handleTrainModal}
                                     isAdmin={isAdmin}
