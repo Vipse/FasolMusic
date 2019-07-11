@@ -189,7 +189,7 @@ class Calendar extends React.Component {
                 </div>
                 <div className="type">
                     <div className='type-color-booking'/>
-                    <div className='type-name'>Забронировнная тренировка</div>
+                    <div className='type-name'>Забронированная тренировка</div>
                 </div>
             
             </div>
