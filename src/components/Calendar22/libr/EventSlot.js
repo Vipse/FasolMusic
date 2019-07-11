@@ -80,6 +80,7 @@ class EventSlot extends Component {
             onGotoPage,
             isPushBtnTransfer,
             idEvent,
+            selectIdEvent,
             clickOnEvent,
             isDragging,
             connectDragSource,
@@ -89,10 +90,11 @@ class EventSlot extends Component {
         const opacity = isDragging ? 0 : 1;
         const dragFunc = event.trial ? this.props.onRemoveTrialTraining : () => this.props.onCancelTraining(event.id, event.idSubscription)
 
-        let backgroundColor = event.status ? {} : '#f3f3f3'; // прошло ли время тренировки
+        let backgroundColor = event.status ? '#b6e0ff' : '#f3f3f3'; // прошло ли время тренировки
             backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
             backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
             backgroundColor = event.isBooking ? '#c0c0c0' : backgroundColor;  // бронированные тренировки
+            backgroundColor = (event.id === selectIdEvent) ? '#FDC4ED' : backgroundColor
 
         let nameBlock = this.getSlotName(event);
                
