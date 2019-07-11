@@ -30,15 +30,15 @@ class FreeTrainers extends React.Component {
             <div className='my-free-coach' id="my-coach-wrapper">
                
                     <Card title="Выбери коуча">
+                        <Button 
+                            btnText='Выбрать любого'
+                            size='default'
+                            type='border-pink'
+                            className="header-btn header-btn-transfer my-coach-any"
+                            onClick={this.props.selectAnyTrainer}
+                        />      
                         {!this.props.isSpinnerFreeTrainers ? 
-                            <div>
-                                <Button 
-                                    btnText='Выбрать любого'
-                                    size='default'
-                                    type='border-pink'
-                                    className="header-btn header-btn-transfer my-coach-any"
-                                    onClick={this.props.selectAnyTrainer}
-                                />         
+                            <div className="scroll-trainers">   
                                 <div>
                                     {Array.isArray(freeTrainers) && freeTrainers.length ?
                                             this.studentsRender(freeTrainers)

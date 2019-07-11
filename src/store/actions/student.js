@@ -240,8 +240,12 @@ export const getTrainingsTrialStatus = (idStudent) => {
             type: actionTypes.RESET_TRAININGS_TRIAL_STATUS,
         });
 
-        let arr = getState().loading.selectors.discipline.map(item =>
-            dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
+
+        let arr = [];
+        if (getState().loading.selectors.discipline) {
+            arr = getState().loading.selectors.discipline.map(item =>
+                dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
+        }
 
         return Promise.all(arr)
             .then((res) => {

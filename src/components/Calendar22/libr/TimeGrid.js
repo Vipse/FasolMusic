@@ -23,7 +23,11 @@ import moment from 'moment';
 class TimeGrid extends Component {
   constructor(props) {
     super(props)
-    this.state = { gutterWidth: undefined, isOverflowing: null }
+    this.state = { 
+      gutterWidth: undefined, 
+      isOverflowing: null,
+      selectIdEvent: null
+    }
     this.handleSelectEvent = this.handleSelectEvent.bind(this)
     this.handleDoubleClickEvent = this.handleDoubleClickEvent.bind(this)
     this.handleHeaderClick = this.handleHeaderClick.bind(this)
@@ -51,15 +55,24 @@ class TimeGrid extends Component {
   componentWillReceiveProps(nextProps) {
     const { range, scrollToTime } = this.props
     // When paginating, reset scroll
-    if (
-      !dates.eq(nextProps.range[0], range[0], 'minute') ||
-      !dates.eq(nextProps.scrollToTime, scrollToTime, 'minute')
-    ) {
+    if (!dates.eq(nextProps.range[0], range[0], 'minute') ||
+      !dates.eq(nextProps.scrollToTime, scrollToTime, 'minute')) {
       this.calculateScroll()
+    }
+    if(nextProps.isPushBtnTransfer !== this.props.isPushBtnTransfer && nextProps.isPushBtnTransfer == false){
+      this.setState({selectIdEvent: null})
+    }
+
+  }
+
+
+  clickOnEvent = (event) => {
+    if(!event.trial){
+      this.props.clickOnEvent(event)   
+      this.setState({selectIdEvent: event.id})
     }
   }
 
-  // fasol - для каждого DayColumn соответствующий intervals
   getCurrentIntervalsDay = (date) => { 
     
     let {intervals} = this.props;
@@ -152,6 +165,7 @@ class TimeGrid extends Component {
                     ref={gutterRef}
                     className="rbc-time-gutter"
                     showLabels={false}
+                    clickOnEvent={this.clickOnEvent}
                   />
                   {eventsRendered}
                  
@@ -217,6 +231,7 @@ class TimeGrid extends Component {
             max={dates.merge(date, max)}
             resource={resource && resource.id}
             eventComponent={components.event}
+            clickOnEvent={this.clickOnEvent}
           
             dayWrapperComponent={components.dayWrapper}
             className={cn({ 'rbc-now': dates.eq(date, today, 'day') })}
@@ -225,6 +240,7 @@ class TimeGrid extends Component {
             date={date}
             events={events}  //eventsToDisplay
             showLabels={true}
+            selectIdEvent={this.state.selectIdEvent}
           />
         )
       })

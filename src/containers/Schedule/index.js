@@ -129,10 +129,9 @@ class Schedule extends React.Component {
     }
 
     clickOnEvent = (event) => {
-        
         const {isPushBtnTransfer} = this.props;
         if(isPushBtnTransfer){
-            this.delEvent = {event};
+            this.delEvent = {event, wasTransfer: event.wasTransfer};
         }
     }
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
@@ -140,7 +139,7 @@ class Schedule extends React.Component {
 
         if(isPushBtnTransfer && this.delEvent){
             this.transferDay = {dateStart: Math.floor(+idEvent / 1000)}
-            this.setTransfer_1_Training();
+            this.setState({modalTransferTraining: true})
         }
         if(this.state.theMasterSelect){
             let {trainerList} = this.props;
@@ -560,7 +559,7 @@ class Schedule extends React.Component {
         const spinEnd = () => setTimeout(() => this.setState({scheduleSpinner: false}), 1000)
         this.props.onSetWeekInterval({start: dateStart, end: dateEnd});
 
-        if(mode === 'admin'){
+        if(mode === 'admin' && !this.isStudentSchedule()){
             this.props.onGetFreeAndBusyMasterList(dateStart, dateEnd)
                 .then(spinEnd)
         }
@@ -568,7 +567,7 @@ class Schedule extends React.Component {
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
                 .then(spinEnd)
         }
-        if(mode === 'student'){
+        if(mode === 'student' || this.isStudentSchedule()){
             this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin)
                 .then(spinEnd)
         }
@@ -589,7 +588,10 @@ class Schedule extends React.Component {
         if(this.props.isPushBtnTransfer){
                 if(discCommunication.hasOwnProperty(currDiscipline.code)){
                     this.props.onGetTheMasterInterval(dateStart, dateEnd, discCommunication[currDiscipline.code].idMaster, [0,1,2,3,4,5,6], isAdmin)
-                    .then(() => this.setState({theMasterSelect: true, scheduleSpinner: false}));
+                    .then(() => {
+                        this.setState({theMasterSelect: true, scheduleSpinner: false})
+                        spinEnd()
+                    });
                 }
         }
     };
@@ -746,8 +748,8 @@ class Schedule extends React.Component {
             currM = currDate.getMonth(),
             currD = currDate.getDate();
 
-            let min = new Date( currY, currM, currD, 8);
-            let max = new Date( currY, currM, currD, 23);
+            let min = new Date( currY, currM, currD, 9);
+            let max = new Date( currY, currM, currD, 22);
 
             calendar = (<Calendar
                     selectable
@@ -794,8 +796,8 @@ class Schedule extends React.Component {
                 currM = currDate.getMonth(),
                 currD = currDate.getDate();
 
-                let min = new Date( currY, currM, currD, 8);
-                let max = new Date( currY, currM, currD, 23);
+                let min = new Date( currY, currM, currD, 9);
+                let max = new Date( currY, currM, currD, 22);
 
             calendar = (<Calendar receptionNum={this.props.eventTraining ? this.props.eventTraining.length : 0}
                                   isUser = {true}
@@ -822,8 +824,8 @@ class Schedule extends React.Component {
                 currM = currDate.getMonth(),
                 currD = currDate.getDate();
 
-                let min = new Date( currY, currM, currD, 8);
-                let max = new Date( currY, currM, currD, 23);
+                let min = new Date( currY, currM, currD, 9);
+                let max = new Date( currY, currM, currD, 22);
 
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
@@ -931,19 +933,17 @@ class Schedule extends React.Component {
                     className="schedule-message-modal-wrapper"
                 >
                         <div className="schedule-message-modal">
-                                <div className="schedule-message-btn">
+                                {(isAdmin || (this.delEvent && !this.delEvent.wasTransfer)) && <div className="schedule-message-btn">
                                     <Button btnText='Перенести 1 треню'
                                         onClick= {this.setTransfer_1_Training}
                                         type='yellow'/>
-                                </div>
+                                </div>}
 
-                                { ( this.delEvent && this.delEvent.event.trial) ?
-                                    null :
-                                        <div className="schedule-message-btn">
+                                <div className="schedule-message-btn">
                                             <Button btnText='Новое расписание'
                                             onClick= {this.setAbonement_Training}
                                             type='yellow'/>
-                                </div> }
+                                </div> 
                         </div>
                 </Modal>
 

@@ -27,6 +27,11 @@ class ChatTrainingsList extends React.Component {
                                        key={index}
                                        onGoto={this.props.onGoto}
                                        goToChat = {this.props.goToChat}
+                                       completeTraining = {this.props.completeTraining}
+                                       tailTraining = {this.props.tailTraining}
+                                       user_mode = {this.props.user_mode}
+                                       isComplete= {item.isComplete}
+                                       isTrial={item.isTrial || item.trial}
             />)
         });
     };

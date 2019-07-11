@@ -83,12 +83,14 @@ class EventSlot extends Component {
             selectIdEvent,
             clickOnEvent,
             isDragging,
+            selectIdEvent,
             connectDragSource,
             item,
         } = this.props;
 
         const opacity = isDragging ? 0 : 1;
         const dragFunc = event.trial ? this.props.onRemoveTrialTraining : () => this.props.onCancelTraining(event.id, event.idSubscription)
+
 
         let backgroundColor = event.status ? '#b6e0ff' : '#f3f3f3'; // прошло ли время тренировки
             backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    

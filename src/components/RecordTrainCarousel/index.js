@@ -99,10 +99,11 @@ class RecordTrainCarousel extends React.Component {
                             curHourTraining = curDayTrainerTrainings[train];
                             break;
                         }
-
+            
                 time.push({
                     timestamp: curHourBegin.format('X'),
                     type: 'default',
+                    isComplete:curHourTraining && curHourTraining.allInfo.isComplete,
                     isBooking: curHourTraining && curHourTraining.allInfo.isBooking,
                     isAvailable,
                     isOwn,
@@ -121,7 +122,7 @@ class RecordTrainCarousel extends React.Component {
         let timesColumnArr = [];
         for (let i = availableHoursArea[0]; i < availableHoursArea[1]; i++)
             timesColumnArr.push(<div>{moment(i, 'H').format('H:mm')}</div>);
-
+      
         return <div className='table-main-row'>
             <div className='table-main-times'>{timesColumnArr}</div>
             {headers.map((item, indexDay) =>
@@ -129,27 +130,16 @@ class RecordTrainCarousel extends React.Component {
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
                         .map((item, indexTime) => <div className='table-main-time'>
-                                <div className={item.isBooking ? '' : item.isOwn ? (isAdmin ? 'reservedTime' : 'ownTime') :
-                                    item.isAvailable ? (isAdmin ? 'adminAvaiableTime' : 'availableTime') : 'notAvaiableTime'}
+                                <div className = { this.getCellType(item) }
                                      key={indexTime + 1}
                                      onClick={item.isAvailable ?
                                          e => this.props.handleTrainModal(e, false, isAdmin)
-                                         : (item.isOwn) ? e => this.props.handleTrainModal(e, true, isAdmin, item)
+                                         : (item.isOwn || item.isBooking) ? e => this.props.handleTrainModal(e, true, isAdmin, item)
                                              : null}
                                      data-timestamp={item.timestamp}
                                      data-interval-type={item.type}
                                 >
-                                <span>{ 
-                                    item.isOwn ? 
-                                        (item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") ?
-                                            item.studentName.substring(0,
-                                                item.studentName.indexOf('@') > 0 ? 
-                                                    item.studentName.indexOf('@') 
-                                                    : item.studentName.length
-                                             ) 
-                                            : ``
-                                        : `` 
-                                    }</span>
+                                <span>{ this.getCellName(item) }</span>
                                 </div>
                             </div>
                         )
@@ -159,12 +149,58 @@ class RecordTrainCarousel extends React.Component {
         </div>
     };
 
+    getCellName = (item) => {
+        const {isAdmin, studentID} = this.props;
+        let isNeed = false;
+        
+        if (item.isOwn || item.isBooking) {
+            if (isAdmin) isNeed = true;
+            else if (studentID == item.idStudent) isNeed = true;
+        }
+
+        if (isNeed === true && item.studentName !== null && item.studentName !== undefined && item.studentName!=="" && item.studentName !== " ") {
+            let name = item.studentName.substring(0,
+                                                    item.studentName.indexOf('@') > 0 ? 
+                                                        item.studentName.indexOf('@') 
+                                                        : item.studentName.length
+                                                 )
+
+            if (name.indexOf(" ") < 0) {
+                name = name.substring(0,12) + " " + name.substring(12,name.length);
+            }
+               
+            return name;
+          
+        }
+        else return undefined
+    }
+
+   
+    getCellType = (item) => {
+        const {isAdmin, studentID} = this.props;
+
+        if ( item.isBooking ) {
+            if ( isAdmin ) return "bookingTime";
+            else if ( studentID == item.idStudent ) return "bookingTime"; 
+            else return ""
+        }
+        else if ( item.isOwn ){
+            if (item.isComplete) return "completeTime";
+            else return isAdmin ? 'reservedTime' : 'ownTime';
+        }
+        else if ( item.isAvailable ) {
+            return isAdmin ? 'adminAvaiableTime' : 'availableTime'
+        }
+        else return "";
+
+    }
+
     render() {
         const {weekStart} = this.state;
         const {intervals, trainerTrainings, isAdmin, isStudentPage} = this.props;
         const rootClass = cn('train-carousel');
         return (
-            <Card title={isStudentPage ? "Расписание тренировок" : "Записаться на тренировку"}>
+            <Card title={isAdmin ? "Расписание тренировок" : isStudentPage ? "Расписание тренировок" : "Записаться на тренировку"}>
                 <div className={rootClass}>
                     <div>
                         <div className='table-header'>
@@ -190,10 +226,10 @@ class RecordTrainCarousel extends React.Component {
                             {this.renderAvailableAppointments(trainerTrainings, intervals)}
                         </div>
                         <div className="table-footer">
-                            {!isStudentPage && <div className="type">
-                                <div className='type-color-available'/>
-                                <div className='type-name'>Свободно</div>
-                            </div>}
+                            <div className="type">
+                                <div className='type-color-booking'/>
+                                <div className='type-name'>Забронированная тренировка</div>
+                            </div>
                             {isAdmin ?
                                 <div className="type">
                                     <div className='type-color-reserved'/>
@@ -204,6 +240,15 @@ class RecordTrainCarousel extends React.Component {
                                     <div className='type-name'>Ваша тренировка</div>
                                 </div>
                             }
+                            <div className="type">
+                                <div className='type-color-complete'/>
+                                <div className='type-name'>Завершенная тренировка  </div>
+                            </div>
+                           
+                            {!isStudentPage && <div className="type">
+                                <div className='type-color-available'/>
+                                <div className='type-name'>Свободно</div>
+                            </div>}
                         </div>
                     </div>
                 </div>

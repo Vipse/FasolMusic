@@ -120,7 +120,7 @@ class PersonalDataTime extends React.Component {
 
         if (enabledDays[dayKey] || !i) return (
             <Slider className={"slider-" + i}
-                    range step={1} min={9} max={23}
+                    range step={1} min={8} max={23}
                     value={[selectedTimes[dayKey][i][0], selectedTimes[dayKey][i][1]]}
                     disabled={!enabledDays[dayKey]}
                     onChange={(value) => this.handleChangeSlider(dayKey, i, value)}

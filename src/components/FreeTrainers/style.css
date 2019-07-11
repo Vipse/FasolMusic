@@ -1,6 +1,9 @@
 #my-coach-wrapper .ant-card-head-title {
   background-color: transparent !important;
 }
+.my-free-coach .scroll-trainers {
+  overflow-y: scroll;
+}
 .my-free-coach .ant-card-head-title {
   background-color: transparent;
 }
