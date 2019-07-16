@@ -72,14 +72,35 @@ class Schedule extends React.Component {
         this.id = this.getCurrentId()
     }
 
+
+    isStudentLocation = () => {
+        const {isAdmin} = this.props;
+        const {pathname} = this.props.location;
+        const r = /\d+/;
+        let m;
+
+
+        if(isAdmin  && (m = pathname.match(r)) && pathname.indexOf('schedule') != -1){
+            return m[0]  ; // перешли ли мы в расписание студента как админы 
+        }
+        return null
+    }
     getCurrentId = () => { 
-        const {id, match} = this.props;
-        return (Object.keys(match.params).length && match.params.id) ? match.params.id : id
+        const{id} = this.props;
+        let final;
+
+        if(final = this.isStudentLocation()){
+            return final
+        }
+        return id
     }
 
     isStudentSchedule = () => { 
-        const {match} = this.props;
-        return (Object.keys(match.params).length && match.params.id) ? true : false
+
+        if(this.isStudentLocation()){
+            return true
+        }
+        return false
     }
 
     selectAnyTrainer = () => {
@@ -194,6 +215,7 @@ class Schedule extends React.Component {
         const { profileStudent: fdata, isPushBtnTrialTraining, masterListObj, abonementIntervals, isAdmin} = this.props;
         let start = null,
             end = null;
+        const id = this.getCurrentId();
 
         if(isPushBtnTrialTraining === 'trial'){
             let {trainerList} = this.props;
@@ -238,7 +260,7 @@ class Schedule extends React.Component {
             this.setState({apiPatients: bufApiPatient})
         }
 
-        this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, chooseWeekdays, isAdmin)
+        this.props.onGetTheMasterInterval(dateStart, dateEnd, idMaster, chooseWeekdays, isAdmin, id)
             .then(() => this.setState({theMasterSelect: true}));
 
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
@@ -441,7 +463,7 @@ class Schedule extends React.Component {
     onSendDataTrialModal = (data) => {
 
         const {currDiscipline,isAdmin} = this.props;
-        const id = this.id
+        const id = this.getCurrentId()
 
         let array = [];
         let weekdays = []; // post
@@ -456,7 +478,7 @@ class Schedule extends React.Component {
         }
 
 
-        this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc], isAdmin)
+        this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc], isAdmin, id)
             .then(data => {
                 if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
             })
@@ -525,7 +547,7 @@ class Schedule extends React.Component {
 
     dateChangeHandler = (date, view, action, isOnDay) => {
         const {chooseWeekdays, mode, currDiscipline, chooseTheMaster, isPushBtnTrialTraining,discCommunication,isPushBtnUnfresh,isAdmin} = this.props;
-        const id =  this.id
+        const id =  this.getCurrentId()
 
         const {start, end} = this.state.isEditorMode
             ? findTimeInterval(date, 'month'): isOnDay ? findTimeInterval(date, 'day') : findTimeInterval(date, this.state.view);
@@ -574,11 +596,11 @@ class Schedule extends React.Component {
 
 
         if(this.state.theMasterSelect){
-            this.props.onGetTheMasterInterval(dateStart, dateEnd, chooseTheMaster, chooseWeekdays,isAdmin)
+            this.props.onGetTheMasterInterval(dateStart, dateEnd, chooseTheMaster, chooseWeekdays,isAdmin, id)
                 .then(spinEnd);
         }
         else if(isPushBtnTrialTraining === 'trial' || isPushBtnUnfresh){
-            this.props.onGetAvailableInterval(dateStart, dateEnd, chooseWeekdays, currDiscipline.code, isAdmin)
+            this.props.onGetAvailableInterval(dateStart, dateEnd, chooseWeekdays, currDiscipline.code, isAdmin, id)
                 .then(data => {
                     if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
                     spinEnd()
@@ -587,7 +609,7 @@ class Schedule extends React.Component {
 
         if(this.props.isPushBtnTransfer){
                 if(discCommunication.hasOwnProperty(currDiscipline.code)){
-                    this.props.onGetTheMasterInterval(dateStart, dateEnd, discCommunication[currDiscipline.code].idMaster, [0,1,2,3,4,5,6], isAdmin)
+                    this.props.onGetTheMasterInterval(dateStart, dateEnd, discCommunication[currDiscipline.code].idMaster, [0,1,2,3,4,5,6], isAdmin, id)
                     .then(() => {
                         this.setState({theMasterSelect: true, scheduleSpinner: false})
                         spinEnd()
@@ -1161,10 +1183,10 @@ const mapDispatchToProps = dispatch => {
 
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetAllInfoMasters: (typeMasters, masterList) => dispatch(actions.getAllInfoMasters(typeMasters,masterList)),
-        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin)=>dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin)),
+        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin,idStudent)=>dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin, idStudent)),
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onMasterFreeOnDate: (dateStart, chooseArrMasters) => dispatch(actions.masterFreeOnDate(dateStart, chooseArrMasters)),
-        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays, isCallAdmin) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays, isCallAdmin)),
+        onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays, isCallAdmin, idStudent) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays, isCallAdmin, idStudent)),
         onGetTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),
     }
 };

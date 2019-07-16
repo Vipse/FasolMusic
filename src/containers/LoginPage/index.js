@@ -50,12 +50,12 @@ class LoginPage extends React.Component {
                     this.props.onUnauthorizedTrialDataSave(data);
 
 
-                    const time0 = moment(Date.now()).startOf('week').format('X');
-                    const time1 = moment(Date.now()).endOf('week').format('X');
-                    this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code],isAdmin)
-                        .then(data => {
-                            if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
-                        })
+                    // const time0 = moment(Date.now()).startOf('week').format('X');
+                    // const time1 = moment(Date.now()).endOf('week').format('X');
+                    // this.props.onGetAvailableInterval(time0, time1, Object.keys(data.selectedDays), [disciplinesList[type].code],isAdmin)
+                    //     .then(data => {
+                    //         if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
+                    //     })
                     this.props.onSetPushTrialTraining('trial');
                     this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
@@ -164,7 +164,6 @@ const mapDispatchToProps = dispatch => {
         uploadFile: (file) => dispatch(actions.uploadFile(file)),
         onRegisterTrainer: (userInfo, history) => dispatch(actions.registerTrainer(userInfo, history)),
         onUnauthorizedTrialDataSave: (data) => dispatch(actions.unauthorizedTrialDataSave(data)),
-        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin) => dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin)),
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),

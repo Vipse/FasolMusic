@@ -72,6 +72,7 @@
   text-align: center;
   color: #fff;
   font-size: 14px;
+  overflow: hidden;
 }
 .train-carousel .table-main-time .ownTime {
   height: 100%;
@@ -86,16 +87,9 @@
   line-height: 1;
   color: #344051;
 }
-.train-carousel .table-main-time .ownTime:hover > span {
-  display: none;
-}
 .train-carousel .table-main-time .ownTime:hover {
   background-color: rgba(33, 190, 221, 0.5);
   line-height: 1;
-  font-size: 14px;
-}
-.train-carousel .table-main-time .ownTime:hover:after {
-  content: '-';
 }
 .train-carousel .table-main-time .reservedTime {
   height: 100%;
@@ -134,6 +128,38 @@
   border: 1px solid #00ff00;
   cursor: pointer;
 }
+.train-carousel .table-main-time .completeTime {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebcb17;
+  border: 1px solid #88860e;
+  font-size: 8px;
+  line-height: 1;
+  color: #344051;
+}
+.train-carousel .table-main-time .completeTime:hover {
+  background-color: rgba(206, 204, 97, 0.514);
+  cursor: pointer;
+}
+.train-carousel .table-main-time .bookingTime {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(136, 136, 136, 0.24);
+  font-size: 8px;
+  line-height: 1;
+  color: #344051;
+  border: 1px solid rgba(87, 0, 138, 0.582);
+}
+.train-carousel .table-main-time .bookingTime:hover {
+  background-color: rgba(179, 99, 226, 0.219);
+  cursor: pointer;
+}
 .train-carousel .table-main-row {
   display: flex;
   width: 100%;
@@ -152,13 +178,21 @@
 }
 .train-carousel .table-footer {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-evently;
   margin-top: 7px;
 }
 .train-carousel .table-footer .type {
+  width: 45%;
   display: flex;
-  padding-left: 30px;
+  padding: 0;
+  margin-left: 20px;
+  font-size: 12px;
   align-items: center;
+  justify-content: flex-start;
+}
+.train-carousel .table-footer .type-name {
+  display: flex;
 }
 .train-carousel .table-footer .type-color-available {
   width: 30px;
@@ -180,4 +214,18 @@
   margin-right: 10px;
   background-color: rgba(33, 190, 221, 0.2);
   border: 2px solid #21bedd;
+}
+.train-carousel .table-footer .type-color-complete {
+  min-width: 30px;
+  min-height: 30px;
+  margin-right: 10px;
+  background-color: #ebcb17;
+  border: 2px solid #00000041;
+}
+.train-carousel .table-footer .type-color-booking {
+  min-width: 30px;
+  min-height: 30px;
+  margin-right: 10px;
+  background-color: rgba(136, 136, 136, 0.24);
+  border: 2px solid #00000041;
 }

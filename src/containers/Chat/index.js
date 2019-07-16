@@ -203,6 +203,7 @@ class Chat extends React.Component{
                                     />
                                 ) :
                                 <ChatTrainingsList
+                                    user_mode = {this.props.user_mode}
                                     onGoto={(val) => this.gotoHandler(val)}
                                     goToChat={this.goToChat}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}

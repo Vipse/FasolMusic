@@ -73,6 +73,36 @@ class CoachPage extends React.Component{
         else return [];
     };
 
+
+    isStudentLocation = () => {
+        const {isAdmin} = this.props;
+        const {pathname} = this.props.location;
+        const r = /\d+/;
+        let m;
+
+
+        if(isAdmin  && (m = pathname.match(r)) && pathname.indexOf('schedule') != -1){
+            return m[0]  ; // перешли ли мы в расписание студента как админы 
+        }
+        return null
+    }
+    getCurrentId = () => { 
+        const{id} = this.props;
+        let final;
+
+        if(final = this.isStudentLocation()){
+            return final
+        }
+        return id
+    }
+
+    isStudentSchedule = () => { 
+
+        if(this.isStudentLocation()){
+            return true
+        }
+        return false
+    }
     getIntervals = (dateStart, dateEnd) => {
         const id = this.props.match.params.id;
         this.props.onGetMasterSchedule(id, dateStart, dateEnd);

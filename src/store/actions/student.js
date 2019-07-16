@@ -122,9 +122,9 @@ export const createTraining = (obj) => {
     }
 }
 
-export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline, isCallAdmin) => {
+export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline, isCallAdmin, idStudent) => {
     if( !Array.isArray(discipline)) discipline = [discipline]
-    let obj =  { dateStart , dateEnd, discipline, isCallAdmin};
+    let obj =  { dateStart , dateEnd, discipline, isCallAdmin, idStudent};
 
     return (dispatch) => {
 
@@ -178,13 +178,14 @@ export const masterFreeOnDate = (date, chooseMasters) => {
     }
 }
 
-export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays, isCallAdmin) => {
+export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays, isCallAdmin, idStudent) => {
     let obj = {
         dateStart,
         dateEnd,
         idMaster,
         weekdays,
-        isCallAdmin
+        isCallAdmin,
+        idStudent
     };
 
     return (dispatch) => {
@@ -240,8 +241,12 @@ export const getTrainingsTrialStatus = (idStudent) => {
             type: actionTypes.RESET_TRAININGS_TRIAL_STATUS,
         });
 
-        let arr = getState().loading.selectors.discipline.map(item =>
-            dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
+
+        let arr = [];
+        if (getState().loading.selectors.discipline) {
+            arr = getState().loading.selectors.discipline.map(item =>
+                dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
+        }
 
         return Promise.all(arr)
             .then((res) => {

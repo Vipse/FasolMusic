@@ -18,20 +18,16 @@ class NearTrainingsItem extends React.Component{
             idTraining,
             idProfile,
             isComplete,
-            isTrial,
+            trial,
             completeTraining,
             tailTraining,
-            user_mode,
-            wasTransfer,
-            trial,
-            onGoto
+            onGoto,
+            user_mode
         } = this.props;
-
-        const timeIn24Hour = moment().add(90, 'm').format('x')
-        let isBtnNearTrainings = start < timeIn24Hour ? true : false
+        
+        const isAfter = moment(+start).subtract(2, 'hour') > moment() ? false : true
 
         
-        console.log('user_mode :', this.props);
         return (
             <div className='nearTraining'>
                 <div className='nearTraining-circleDate'>
@@ -49,42 +45,37 @@ class NearTrainingsItem extends React.Component{
                         {discipline}
                     </div>
                 </div>
-                <div className='nearTraining-chatBtn'>
+                {user_mode == 'master' && isAfter && <div className='nearTraining-chatBtn'>
+                    {/*<div className="btn-push">
+                        <Button
+                            btnText="Открыть чат"
+                            type="border-green"
+                            size='small'
+                            onClick={() => goToChat(idProfile, idTraining, name, avatar, start, isComplete, trial)}
+                        />
+                    </div> */}
+                    
+                    <div className="btn-push">
+                        <Button
+                            btnText="Засчитать"
+                            type="border-green"
+                            size='small'
+                            onClick={() => completeTraining({idTraining})}
+                        />
+                    </div>
 
-                    {((user_mode == 'master' || user_mode == 'admin') && !isComplete ) ? 
-                        <div className='nearTraining-chatBtn-item'>
-                            <div className='nearTraining-chatBtn-item'>
-                                <Button
-                                    btnText="Засчитать"
-                                    type="border-green"
-                                    size='small'
-                                    onClick={() => completeTraining({idTraining})}
-                                />
-                            </div>
-                            
-                            {(!wasTransfer && !trial) ? 
-                                <div className='nearTraining-chatBtn-item'>
-                                    <Button
-                                        btnText="Перенести в конец"
-                                        type="border-green"
-                                        size='small'
-                                        onClick={() => tailTraining(idTraining)}
-                                    />
-                                </div> : ''}
-                        </div> : ''}
-                        
-                    
-                    
-                    {isBtnNearTrainings ? 
-                        <div className='nearTraining-chatBtn-item'>
-                            <Button
-                                btnText="Открыть чат"
-                                type="border-green"
-                                size='small'
-                                onClick={() => goToChat(idProfile, idTraining, name, avatar, start, isComplete, isTrial)}
-                            />
-                        </div> : ''}
-                </div>
+                    <div className="btn-push">
+                        {!trial && <Button
+                            btnText="Перенести в конец"
+                            type="border-green"
+                            size='small'
+                            onClick={() => tailTraining(idTraining)}
+                        />}
+                    </div>
+                </div> }
+
+
+                
             </div>
         )
     }

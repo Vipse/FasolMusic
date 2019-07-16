@@ -112,7 +112,7 @@ class Header extends React.Component {
 
             this.props.onSetPushTrialTraining(null);
             this.props.onSetMasterTheDisicipline(null);
-            this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc], isAdmin)
+            this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc], isAdmin, id)
                 .then(data => {
                     if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')         
                     setTimeout(() => this.props.hideSpinner(), 1000)
@@ -146,7 +146,7 @@ class Header extends React.Component {
 
        // this.props.showSpinner();
 
-        this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code],isAdmin)
+        this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code],isAdmin, id)
             .then((data) => {
                 if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
             })

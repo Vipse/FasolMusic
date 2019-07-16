@@ -40,6 +40,36 @@ class App extends React.Component {
         };
     }
 
+    isStudentLocation = () => {
+        const {isAdmin} = this.props;
+        const {pathname} = this.props.location;
+        const r = /\d+/;
+        let m;
+
+
+        if(isAdmin  && (m = pathname.match(r)) && pathname.indexOf('schedule') != -1){
+            return m[0]  ; // перешли ли мы в расписание студента как админы 
+        }
+        return null
+    }
+    getCurrentId = () => { 
+        const{id} = this.props;
+        let final;
+
+        if(final = this.isStudentLocation()){
+            return final
+        }
+        return id
+    }
+
+    isStudentSchedule = () => { 
+
+        if(this.isStudentLocation()){
+            return true
+        }
+        return false
+    }
+
     toggle = () => {
         this.setState({
             collapsed: !this.state.collapsed,
@@ -54,12 +84,13 @@ class App extends React.Component {
 
     runNotificationsWS = () => {
         const that = this;
+        const id = this.getCurrentId()
         //let id = 3199;
         let conn = new ab.Session('wss://web.fasolstudio.by/wss2/',
             function() {
-                that.props.getNotifications(that.props.id);
+                that.props.getNotifications(id);
 
-                conn.subscribe("" + that.props.id, function(topic, data) {
+                conn.subscribe("" + id, function(topic, data) {
                     that.props.onSaveNotification(data.arr);
                     that.setState({
                         notifications: data.arr
@@ -70,7 +101,7 @@ class App extends React.Component {
                 setTimeout(() => this.runNotificationsWS(), 5000)
                 console.warn('WebSocket connection closed');
             },
-            {'skipSubprotocolCheck': true, id : this.props.id}
+            {'skipSubprotocolCheck': true, id}
         );
     };
 
@@ -79,6 +110,7 @@ class App extends React.Component {
             setConversationMode, setChatStory, setChatTrainingId, setNewTimer, onSaveMessage,
             setChatInterlocutorInfo, setBeginTime, setIsTrialStatus, setIsCompleteStatus,
             setWebSocketStatus} = this.props;
+            const id = this.getCurrentId()
 
         createSocket(
             'wss://web.fasolstudio.by:8443/one2one',
@@ -117,8 +149,8 @@ class App extends React.Component {
                 setTimeout(() => this.runChatWS(), 5000)
             }
         
-        register(''+this.props.id, '', this.props.mode)
-        setInterval(() => register(''+this.props.id, '', this.props.mode), 30000);
+        register('' + id, '', this.props.mode)
+        setInterval(() => register(''+ id, '', this.props.mode), 30000);
     };
 
      getChatInfo = () => {
@@ -169,10 +201,12 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        const {id, mode} = this.props;
+        const {mode} = this.props;
+        const id = this.getCurrentId()
         const {pathname} = this.props.history.location;
+
         this.props.getSelectors('discipline')
-            .then(() => (mode === 'student' ||  this.isStudentSchedule()) && this.props.onGetTrainingsTrialStatus(this.props.id));
+            .then(() => (mode === 'student' ||  this.isStudentSchedule()) && this.props.onGetTrainingsTrialStatus(id));
 
         if (this.props.mode === "master") {
             this.props.onGetInfoDoctor(id)
@@ -188,11 +222,10 @@ class App extends React.Component {
         else if (this.props.mode === "student") {
            this.fetchStudentInfo(id)
         }
-        else if (this.props.mode === 'admin'){         
-            if(this.isStudentSchedule()){
-                let id = +pathname.replace('/app/schedule', '');
-                Number.isInteger(id) && this.fetchStudentInfo(id)
-            }
+        else if (mode == 'admin' && this.isStudentSchedule()){ 
+            let id = +pathname.replace('/app/schedule', '');
+            Number.isInteger(id) && this.fetchStudentInfo(id)
+            
         }
 
         if (id) {
@@ -207,10 +240,11 @@ class App extends React.Component {
     }
 
     componentWillMount() {
+        const id = this.getCurrentId()
         const login = localStorage.getItem('_fasol-user'),
             pass = localStorage.getItem('_fasol-pass');
 
-        (!this.props.id && !this.props.mode && login && pass) &&
+        (!id && !this.props.mode && login && pass) &&
         this.props.onLogin({
             userName: login,
             password: pass,
@@ -242,6 +276,7 @@ class App extends React.Component {
     showTransferInterval = () => {
         const {weekInterval, discCommunication, disciplinesList, currDiscipline, isAdmin} = this.props;
         const idMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
+        const id = this.getCurrentId()
 
         if(weekInterval && idMaster){
 
@@ -249,7 +284,7 @@ class App extends React.Component {
             this.setState({scheduleSpinner: true})
 
             this.onGoToSchedule();
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin, id)
              .then(() => {
                 this.setState({scheduleSpinner: false})
              })
@@ -259,13 +294,14 @@ class App extends React.Component {
     pushBtnUnfresh = () => {
 
         const {weekInterval, isAdmin} = this.props;
+        const id = this.getCurrentId()
 
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
             this.setState({scheduleSpinner: true})
 
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
+            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin, id)
              .then(() => {
                 this.setState({scheduleSpinner: false})
                  this.props.onSetPushBtnAddTraining()
@@ -287,6 +323,8 @@ class App extends React.Component {
 
     render() {
         let name, avatar;
+        const id = this.getCurrentId()
+        console.log('----------- id', id)
 
         if (this.props.mode === "master" && this.props.profileCoach) {
             name = this.props.profileCoach.name;
@@ -307,7 +345,7 @@ class App extends React.Component {
         return (
             <div className="main">
                 {
-                    this.props.id ?
+                    id ?
                         <React.Fragment>
                             <div className={siderClass}>
                                 <SideNav
@@ -331,13 +369,13 @@ class App extends React.Component {
                                             )
                                         }
                                     </button>
-                                    <Header id={this.props.id}
+                                    <Header id={id}
                                             findName={this.props.onGetSearchUsers}
                                             authMode={this.props.mode}
                                             searchData={this.props.usersHeaderSearch}
                                             onGoto={this.gotoHandler}
                                             getNotifId={id => this.props.readNotification(id)}
-                                            getNotifications={() => this.props.getNotifications(this.props.id)}
+                                            getNotifications={() => this.props.getNotifications(id)}
                                             logout={this.props.onLogout}
                                             showTransferInterval={this.showTransferInterval}
                                             isPushBtnAdd={this.pushBtnUnfresh}
@@ -488,10 +526,10 @@ const mapDispatchToProps = dispatch => {
 
         onSetPushBtnTransferTraining: (type) => dispatch(actions.setPushBtnTransferTraining(type)),
         onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
-        onGetTheMasterInterval:(dateStart,dateEnd,idMaster,weekdays,isCallAdmin)=>dispatch(actions.getTheMasterInterval(dateStart,dateEnd,idMaster,weekdays,isCallAdmin)),
+        onGetTheMasterInterval:(dateStart,dateEnd,idMaster,weekdays,isCallAdmin,idStudent)=>dispatch(actions.getTheMasterInterval(dateStart,dateEnd,idMaster,weekdays,isCallAdmin,idStudent)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         onGetTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),
-        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin)=>dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin)),
+        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin, idStudent)=>dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin,idStudent)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),
         onChangeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
         onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
