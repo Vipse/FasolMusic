@@ -58,22 +58,22 @@ class NotificationItem extends React.Component{
                 iconType = 'notification-email';
                 break;
             case 'next':
-                iconType = 'notification-next';
+                iconType = 'notification-calendar';
                 break;
             case 'nextpay':
-                iconType = 'notification-nextpay';
+                iconType = 'notification-payment';
                 break;
             case 'canceltraining':
-                iconType = 'notification-canceltraining';
+                iconType = 'notification-calendar_canceled';
                 break;
             case 'newmessage':
-                iconType = 'notification-newmessage';
+                iconType = 'notification-email';
                 break;
             case 'transfertraining':
-                iconType = 'notification-transfertraining';       
+                iconType = 'notification-calendar';       
                 break;
             case 'scheduleChanged':
-                iconType = 'notification-scheduleChanged';       
+                iconType = 'notification-calendar';       
                 break;
         }
 
