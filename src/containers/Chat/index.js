@@ -100,15 +100,18 @@ class Chat extends React.Component{
                         idProfile: item.idMaster,
                         idTraining: item.id,
                         isTrial: item.trial,
-                        isComplete: item.isComplete
+                        isComplete: item.isComplete,
+                        isBooking: item.isBooking
                     }
+                }).filter((item)=>{
+                    if(!item.isBooking) return item
                 });
             } else {
                 let arrData = [];
                 for (let dayItem in masterNearTrainings)
                     for (let trainItem in masterNearTrainings[dayItem]) {
                         let train = masterNearTrainings[dayItem][trainItem].allInfo;
-                        if (!train.isBooking) {
+                        if (train.isBooking === false) {
                             arrData.push({
                                 name: train.fio,
                                 avatar: train.avatar,
