@@ -48,7 +48,7 @@ class ChatCard extends React.Component {
 				if (!isComplete && !trainingStarts && moment() < moment(beginTime)) this.notBeganModal();
 			}
 
-			if (!isComplete) {
+			if (!isComplete && moment() > moment(beginTime) ) {
 				this.props.changeTrainingStatus(true);
 				this.setState({isCurTrainingEnd: false});
 				startReception();
@@ -242,8 +242,8 @@ class ChatCard extends React.Component {
 			timer: this.props.timer,
 			isCalling: this.props.isCalling,
 			isActiveChat: this.state.isActiveChat,
-        };
-
+		};
+		
 		switch (this.props.mode) {
 			case 'chat':
 				content = <ChatTextContent
