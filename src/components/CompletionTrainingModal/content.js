@@ -28,8 +28,8 @@ class ContentForm extends React.Component {
                         type="light-pink"
                     /> : 
                     <Button
-                        onClick={() => {}}
-                        
+                        onClick={this.props.onRemoveTrial}
+                        disable={moment() < beginTime ? true:false}
                         htmlType="submit"
                         btnText="Не пришел!"
                         type="light-pink"

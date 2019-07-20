@@ -198,6 +198,7 @@ class Chat extends React.Component{
                                               onExitTraining={() => this.goToChat(0, 0, '', 0)}
                                               completeTraining={this.props.onCompleteTraining}
                                               tailTraining={this.props.onTransferTraininingToEnd}
+                                              removeTrialTraining={this.props.onRemoveTrialTraining}
                                               changeTrainingStatus={this.props.onSetTrainingStatus}
                                               onCheckOnlineStatus={this.props.onCheckOnlineStatus}
                                     />
@@ -265,6 +266,7 @@ const mapDispatchToProps = dispatch => {
         onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
         onCheckInterlocutorOnlineStatus: (id) => dispatch(actions.checkInterlocutorOnlineStatus(id)),
         onGetUserFono: (idTo) => dispatch(actions.getUserFono(idTo)),
+        onRemoveTrialTraining:(idTraining, isCallAdmin) => dispatch(actions.removeTrialTraining(idTraining, isCallAdmin)),
         //uploadFile: (id_zap, id_user, file, callback) => dispatch(actions.uploadChatFile(id_zap,id_user, file,callback)),
 	}
 };
