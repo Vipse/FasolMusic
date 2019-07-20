@@ -202,6 +202,10 @@ class StudentPage extends React.Component{
         this.props.onGetAllTrainingStudent(idProfile, dateStart, dateEnd);
     };
 
+    clearAllBookingTrainings = (id) => {  
+       this.props.onClearAllBookingTrainings(id);    
+    }
+
     render() {
         const { id, avatar, name, frozenTraining,email, phones } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
@@ -249,7 +253,7 @@ class StudentPage extends React.Component{
                                 />}
                                 {isAdmin && <BookingClearButton
                                 id={id}
-                                clearAllBookingTrainings={this.props.onClearAllBookingTrainings}
+                                clearAllBookingTrainings={this.clearAllBookingTrainings}
                                 />}
                                 
                             </Col>

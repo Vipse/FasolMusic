@@ -12,9 +12,6 @@ import {Modal} from "antd";
 
 class ClearBooking extends React.Component {
 
-    sendClearBooking = () => {
-
-    }
 
     handleModalClear = (e,id) => {
        
