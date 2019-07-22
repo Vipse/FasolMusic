@@ -52,7 +52,7 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isCallAdmin, isFi
                         el.idMaster = el.idMaster;
                         el.isBooking = el.isBooking;      
                     })
-                    fdata = fdata[mainDiscipline].filter((el) => !el.isBooking); // remove booking training
+                    fdata = fdata[mainDiscipline] /* .filter((el) => !el.isBooking); */ // remove booking training
                 }  
                 
                 dispatch({
