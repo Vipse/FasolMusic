@@ -30,6 +30,7 @@ CompletionTrainingModal.defaultProps = {
     visible: false,
     onComplete: () => {},
     onCancel: () => {},
+    onRemoveTrial: () => {},
 };
 
 export default CompletionTrainingModal;

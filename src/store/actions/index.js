@@ -106,7 +106,8 @@ export {
     unsetPushBtnTransferTraining,
     rateMaster,
     changeBtnBack,
-    changeBtnTransfer
+    changeBtnTransfer,
+    clearAllBookingTrainings
 } from './student'
 
 export {

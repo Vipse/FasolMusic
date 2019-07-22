@@ -421,3 +421,18 @@ export const rateMaster = (idStudent, idMaster, rate, feedback) => {
     }
 };
 
+export const clearAllBookingTrainings = (idStudent) => {
+    const obj = {
+        "idStudent": idStudent
+      };
+    
+    return (dispatch) => {
+        return axios.post('/catalog.fasol/removeBookingByIdStudent', JSON.stringify(obj))
+            .then(res => {
+                return res;
+            })
+            .catch(err => {console.log(err)})
+    }
+}
+
+

@@ -56,6 +56,23 @@ class EventSlot extends Component {
         this.props.deleteEventApiPatient(id)
     }
 
+    getSlotName = (event) => {
+        let name = (event.name) ? 
+            event.name : (event.fio) ? 
+                event.fio : '';
+        
+        if (name !== null && name !== undefined && name !== "" && name !== " "){
+            name = name.substring(0,
+                                    name.indexOf('@') > 0 ? 
+                                        name.indexOf('@') : name.length
+                                 ) 
+        }
+
+        name += event.trial ? ' Пробная ' : '';
+        
+        return name;
+    }
+
     render() {
         const {
             event,
@@ -63,9 +80,9 @@ class EventSlot extends Component {
             onGotoPage,
             isPushBtnTransfer,
             idEvent,
+            selectIdEvent,
             clickOnEvent,
             isDragging,
-            selectIdEvent,
             connectDragSource,
             item,
         } = this.props;
@@ -73,14 +90,14 @@ class EventSlot extends Component {
         const opacity = isDragging ? 0 : 1;
         const dragFunc = event.trial ? this.props.onRemoveTrialTraining : () => this.props.onCancelTraining(event.id, event.idSubscription)
 
-        let backgroundColor = event.status ? '#b6e0ff' : '#eee'; // прошло ли время тренировки
+
+        let backgroundColor = event.status ? '#b6e0ff' : '#f3f3f3'; // прошло ли время тренировки
             backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
             backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
-            backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
+            backgroundColor = event.isBooking ? '#c0c0c0' : backgroundColor;  // бронированные тренировки
             backgroundColor = (event.id === selectIdEvent) ? '#FDC4ED' : backgroundColor
 
-        let nameBlock =  (event.name) ? event.name : (event.fio) ? event.fio : '';
-            nameBlock += event.trial ? ' Пробная ' : '';
+        let nameBlock = this.getSlotName(event);
                
         let isNearDay =  moment(event.start.getTime()).diff(moment(Date.now()), 'days');
             isNearDay = (isNearDay < 1) ? false : true

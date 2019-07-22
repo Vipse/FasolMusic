@@ -42,7 +42,8 @@ class CouchMain extends React.Component {
             for (let dayItem in futureTraining)
                 for (let trainItem in futureTraining[dayItem]) {
                     let train = futureTraining[dayItem][trainItem].allInfo;
-                    arrData.push({
+                    
+                    if (!train.isBooking) arrData.push({
                         name: train.fio,
                         avatar: train.avatar,
                         start: +train.date * 1000,
@@ -51,7 +52,8 @@ class CouchMain extends React.Component {
                             selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
                         idProfile: train.idStudent,
                         idTraining: train.idTraining,
-                        isComplete: train.isComplete
+                        isComplete: train.isComplete,
+                        isBooking: train.isBooking
                     });
                 }
 

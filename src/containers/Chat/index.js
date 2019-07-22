@@ -23,7 +23,7 @@ class Chat extends React.Component{
                 this.loadTrainingsList();
             });
         this.props.onCheckInterlocutorOnlineStatus(this.props.idTo);
-        this.props.idTraining && this.loadChatHistory(this.props.idTraining);    
+        this.props.idTraining && this.loadChatHistory(this.props.idTraining);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -100,30 +100,33 @@ class Chat extends React.Component{
                         idProfile: item.idMaster,
                         idTraining: item.id,
                         isTrial: item.trial,
-                        isComplete: item.isComplete
+                        isComplete: item.isComplete,
+                        isBooking: item.isBooking
                     }
+                }).filter((item)=>{
+                    if(!item.isBooking) return item
                 });
             } else {
                 let arrData = [];
                 for (let dayItem in masterNearTrainings)
                     for (let trainItem in masterNearTrainings[dayItem]) {
                         let train = masterNearTrainings[dayItem][trainItem].allInfo;
-                        if (!train.isBooking) {
-                        arrData.push({
-                            name: train.fio,
-                            avatar: train.avatar,
-                            start: +train.date * 1000,
-                            end: +train.date * 1000 + 3600000,
-                            discipline: train.disciplines.length ?
-                                selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
-                            idProfile: train.idStudent,
-                            idTraining: train.idTraining,
-                            isComplete: train.isComplete,
-                            wasTransfer: train.wasTransfer,
-                            trial: train.trial
-                        });
+                        if (train.isBooking === false) {
+                            arrData.push({
+                                name: train.fio,
+                                avatar: train.avatar,
+                                start: +train.date * 1000,
+                                end: +train.date * 1000 + 3600000,
+                                discipline: train.disciplines.length ?
+                                    selectors.discipline.find(discipline => discipline.id === +train.disciplines[0]).nameRus : null,
+                                idProfile: train.idStudent,
+                                idTraining: train.idTraining,
+                                isComplete: train.isComplete,
+                                wasTransfer: train.wasTransfer,
+                                trial: train.trial
+                            });
+                        }
                     }
-                }
 
                 return arrData;
             }
@@ -198,12 +201,12 @@ class Chat extends React.Component{
                                               onExitTraining={() => this.goToChat(0, 0, '', 0)}
                                               completeTraining={this.props.onCompleteTraining}
                                               tailTraining={this.props.onTransferTraininingToEnd}
+                                              removeTrialTraining={this.props.onRemoveTrialTraining}
                                               changeTrainingStatus={this.props.onSetTrainingStatus}
                                               onCheckOnlineStatus={this.props.onCheckOnlineStatus}
                                     />
                                 ) :
                                 <ChatTrainingsList
-                                    user_mode = {this.props.user_mode}
                                     onGoto={(val) => this.gotoHandler(val)}
                                     goToChat={this.goToChat}
                                     openNearTrains={() => this.props.history.push('/app/schedule')}
@@ -266,6 +269,7 @@ const mapDispatchToProps = dispatch => {
         onSetIsTrialStatus: (isTrial) => dispatch(actions.setIsTrialStatus(isTrial)),
         onCheckInterlocutorOnlineStatus: (id) => dispatch(actions.checkInterlocutorOnlineStatus(id)),
         onGetUserFono: (idTo) => dispatch(actions.getUserFono(idTo)),
+        onRemoveTrialTraining:(idTraining, isCallAdmin) => dispatch(actions.removeTrialTraining(idTraining, isCallAdmin)),
         //uploadFile: (id_zap, id_user, file, callback) => dispatch(actions.uploadChatFile(id_zap,id_user, file,callback)),
 	}
 };

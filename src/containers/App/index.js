@@ -84,13 +84,12 @@ class App extends React.Component {
 
     runNotificationsWS = () => {
         const that = this;
-        const id = this.getCurrentId()
         //let id = 3199;
         let conn = new ab.Session('wss://web.fasolstudio.by/wss2/',
             function() {
-                that.props.getNotifications(id);
+                that.props.getNotifications(that.props.id);
 
-                conn.subscribe("" + id, function(topic, data) {
+                conn.subscribe("" + that.props.id, function(topic, data) {
                     that.props.onSaveNotification(data.arr);
                     that.setState({
                         notifications: data.arr
@@ -101,7 +100,7 @@ class App extends React.Component {
                 setTimeout(() => this.runNotificationsWS(), 5000)
                 console.warn('WebSocket connection closed');
             },
-            {'skipSubprotocolCheck': true, id}
+            {'skipSubprotocolCheck': true, id : this.props.id}
         );
     };
 

@@ -48,7 +48,7 @@ class ChatCard extends React.Component {
 				if (!isComplete && !trainingStarts && moment() < moment(beginTime)) this.notBeganModal();
 			}
 
-			if (!isComplete) {
+			if (!isComplete && moment() > moment(beginTime) ) {
 				this.props.changeTrainingStatus(true);
 				this.setState({isCurTrainingEnd: false});
 				startReception();
@@ -159,6 +159,20 @@ class ChatCard extends React.Component {
 		this.setState({completionModalVisible: false});
 	};
 
+	onRemoveTrialTraining = () => {
+		const {idTraining} = this.props;
+
+		this.props.removeTrialTraining(idTraining,true)
+		.then(res => {
+			console.log(res);
+			this.props.changeTrainingStatus(false);
+			this.setState({isCurTrainingEnd: true});
+			this.props.onExitTraining();
+		});
+
+		this.setState({completionModalVisible: false});
+	};
+
 	/*uploadOnlyFile = (id_zap, id_user, callback) => {
 		return (file, isConclusion) => {
 			isConclusion ? (
@@ -242,8 +256,8 @@ class ChatCard extends React.Component {
 			timer: this.props.timer,
 			isCalling: this.props.isCalling,
 			isActiveChat: this.state.isActiveChat,
-        };
-
+		};
+		
 		switch (this.props.mode) {
 			case 'chat':
 				content = <ChatTextContent
@@ -322,6 +336,7 @@ class ChatCard extends React.Component {
 					visible={this.state.completionModalVisible}
 					isTrial={this.props.isTrial}
 					onComplete={() => this.onCloseTraining('complete')}
+					onRemoveTrial={() => this.onRemoveTrialTraining()}
 					onTail={() => this.onCloseTraining('transfer')}
 					onCancel={() => this.setState({completionModalVisible: false})}
 				/>
