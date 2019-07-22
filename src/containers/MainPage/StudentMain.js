@@ -47,8 +47,11 @@ class StudentMain extends React.Component{
                     idProfile: item.idMaster,
                     idTraining: item.id,
                     isTrial: item.trial,
-                    isComplete: item.isComplete
+                    isComplete: item.isComplete,
+                    isBooking: item.isBooking
                 }
+            }).filter((item)=>{
+                if(!item.isBooking) return item
             });
         }
     };
