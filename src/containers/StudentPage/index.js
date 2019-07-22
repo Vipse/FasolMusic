@@ -7,6 +7,7 @@ import StudentPagePerfectCoach from "../../components/StudentPagePerfectCoach";
 import FrozenTrainingChanger from "../../components/FrozenTrainingChanger";
 import TrainsHistory from "../../components/TrainsHistory";
 import RecordTrainCarousel from "../../components/RecordTrainCarousel";
+import BookingClearButton from "../../components/ClearBooking";
 
 import Hoc from '../../hoc'
 import * as actions from '../../store/actions'
@@ -201,6 +202,10 @@ class StudentPage extends React.Component{
         this.props.onGetAllTrainingStudent(idProfile, dateStart, dateEnd);
     };
 
+    clearAllBookingTrainings = (id) => {  
+       this.props.onClearAllBookingTrainings(id);    
+    }
+
     render() {
         const { id, avatar, name, frozenTraining,email, phones } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
@@ -246,6 +251,11 @@ class StudentPage extends React.Component{
                                     frozenCount={frozenTraining}
                                     onSaveFrozenBalance={this.changeFrozenBalance}
                                 />}
+                                {isAdmin && <BookingClearButton
+                                id={id}
+                                clearAllBookingTrainings={this.clearAllBookingTrainings}
+                                />}
+                                
                             </Col>
                             <Col span={14}>
                                 <TrainsHistory onGotoChat={this.goToChat}
@@ -320,6 +330,8 @@ const mapDispatchToProps = dispatch => {
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
+        onClearAllBookingTrainings: (idStudent) => dispatch(actions.clearAllBookingTrainings(idStudent)),
+
     }
 };
 
