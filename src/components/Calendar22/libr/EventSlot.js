@@ -80,7 +80,6 @@ class EventSlot extends Component {
             onGotoPage,
             isPushBtnTransfer,
             idEvent,
-            selectIdEvent,
             clickOnEvent,
             isDragging,
             selectIdEvent,
