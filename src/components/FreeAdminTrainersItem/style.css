@@ -38,3 +38,28 @@
   line-height: 24px;
   color: #777777;
 }
+.myStudent-info-student {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
+.myStudent-info-student-info {
+  height: 100%;
+  margin-left: 10px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.myStudent-info-student-info-name {
+  font-size: 13px;
+  font-family: RobotoBlack, sans-serif;
+  color: #2abc6c;
+}
+.myStudent-info-student-info-name:hover {
+  color: #000000;
+}
+.myStudent-info-student-info-status {
+  font-weight: 800;
+}
