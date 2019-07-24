@@ -141,6 +141,9 @@ class EventSlot extends Component {
         
 
         return (
+           (event.isBooking && mode == 'student') ?
+           <div></div>
+           :
             <div key = {event.dateStart} onClick={funcOnClick}  className="event-group" style={{backgroundColor}}>
                     <div>
                         {viewCross && <div className="event-group-cross">
