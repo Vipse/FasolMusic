@@ -518,7 +518,7 @@ class Schedule extends React.Component {
 
         this.setIntervalAndView(this.state.currentDate, 'week');
 
-        this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin, true);
+        this.props.onGetAbonementsFilter(id, 'default', isAdmin, true)
 
         if(this.props.mode === 'student' || this.isStudentSchedule()){
             this.props.onGetDisciplineCommunication(id);
