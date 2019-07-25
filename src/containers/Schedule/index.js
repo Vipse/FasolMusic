@@ -553,6 +553,11 @@ class Schedule extends React.Component {
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
+            
+            this.props.onGetInfoDoctor(id)
+            .then(()=>{
+                this.setCurrDiscipline();
+            })
         }
 
     }
@@ -643,6 +648,7 @@ class Schedule extends React.Component {
         const {currDiscipline, mode} = this.props;
         const id= this.id
 
+
         if(mode === 'student'){
            // this.props.onGetAbonementsFilter(id, currDiscipline);
         }
@@ -650,6 +656,20 @@ class Schedule extends React.Component {
             this.props.onGetTrainerTraining(id, start, end, disc);
         }
         this.props.onChangeCurrDiscipline(disc)
+    }
+
+    setCurrDiscipline = () => {
+        let {mode} = this.props;
+
+        if (mode == 'master') {
+            let trainer = this.props.profileCoach;
+
+            if (trainer.disciplines.length == 1) {
+            let discipline = trainer.disciplines[0].discipline[0]
+            discipline.code=discipline.id
+            this.changeCurrDiscipline(discipline)
+            }
+        }
     }
 
     closeNewVisitModal = () => {
@@ -1132,6 +1152,7 @@ const mapStateToProps = state => {
         disciplines: state.abonement.disciplines,
         chooseTheMaster: state.abonement.chooseTheMaster,
         mainUser: (state.profileStudent) ? (state.profileStudent.mainUser ? state.profileStudent.mainUser : null) : null,
+        profileCoach:state.profileCoach,
 
         students:  state.students.coachStudents,
         freeIntervals:  state.students.freeIntervals,
@@ -1205,6 +1226,8 @@ const mapDispatchToProps = dispatch => {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
         onGetUserInfo: (id) => dispatch(actions.getUserInfo(id)),
+        onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
+        
 
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetAllInfoMasters: (typeMasters, masterList) => dispatch(actions.getAllInfoMasters(typeMasters,masterList)),
