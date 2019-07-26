@@ -55,7 +55,8 @@ class Schedule extends React.Component {
             scheduleSpinner: true,
             modalRemoveTrialTraining: false,
             newModalSaveSchedule: false,
-            isSpinnerFreeTrainers: false
+            isSpinnerFreeTrainers: false,
+            modalMasterListData:null
         }
     };
 
@@ -98,13 +99,54 @@ class Schedule extends React.Component {
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
     }
 
-    showMasterList = (freetrainers, busytrainers) =>{
+    showMasterList = (freetrainers, busytrainers, time) =>{
         this.freetrainers = freetrainers;
         this.busytrainers = busytrainers;
-
+    
         this.props.onGetAllInfoMasters('free', [...freetrainers])
             .then(() => this.props.onGetAllInfoMasters('busy', [ ...busytrainers])
-            .then(() => this.setState({modalMasterList: true})));
+            .then(() => this.setState({chosenTime:time}))
+            .then(()=>{
+                const date = moment(time).format('X');
+
+                let trainers = this.props.busytrainers.map((item)=>{
+                    return {
+                        id:item.idMaster,
+                        disciplines:{code:item.disciplines[0].discipline[0].value}
+                    }
+                })
+
+                    Promise.all(trainers.map( async(item) => {
+
+                        await this.props.onGetTrainerTraining(item.id,date,date)
+                        let training = this.props.trainerTraining[Object.keys(this.props.trainerTraining)[0]]['1'].allInfo
+                        
+                        await this.props.onGetUserInfo(training.idStudent);
+                        let student = this.props.studentInfo
+
+                        /* await this.props.onGetAllTrainingStudent(training.idStudent);
+                        let allTrainings = this.props.studentTrainings; */ // Заменить функцией которая будет
+
+                        return {
+                            idStudent:training.idStudent,
+                            idMaster:training.idMaster,
+                            isTrial:training.trial,
+                            isBooking:training.isBooking,
+                            name:student.name ? student.name:student.fio,
+                            avatar:student.avatar,
+                            isOnline:student.online
+                        }
+
+                    }))
+                    .then((res) => {
+                        this.setState({modalMasterListData:res})
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })
+                
+            })
+            .then(() => this.setState({modalMasterList: true})))
 
     }
 
@@ -476,7 +518,7 @@ class Schedule extends React.Component {
 
         this.setIntervalAndView(this.state.currentDate, 'week');
 
-        this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin, true);
+        this.props.onGetAbonementsFilter(id, 'default', isAdmin, true)
 
         if(this.props.mode === 'student' || this.isStudentSchedule()){
             this.props.onGetDisciplineCommunication(id);
@@ -511,6 +553,11 @@ class Schedule extends React.Component {
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline)
                 .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
+            
+            this.props.onGetInfoDoctor(id)
+            .then(()=>{
+                this.setCurrDiscipline();
+            })
         }
 
     }
@@ -601,6 +648,7 @@ class Schedule extends React.Component {
         const {currDiscipline, mode} = this.props;
         const id= this.id
 
+
         if(mode === 'student'){
            // this.props.onGetAbonementsFilter(id, currDiscipline);
         }
@@ -608,6 +656,20 @@ class Schedule extends React.Component {
             this.props.onGetTrainerTraining(id, start, end, disc);
         }
         this.props.onChangeCurrDiscipline(disc)
+    }
+
+    setCurrDiscipline = () => {
+        let {mode} = this.props;
+
+        if (mode == 'master') {
+            let trainer = this.props.profileCoach;
+
+            if (trainer.disciplines.length == 1) {
+            let discipline = trainer.disciplines[0].discipline[0]
+            discipline.code=discipline.id
+            this.changeCurrDiscipline(discipline)
+            }
+        }
     }
 
     closeNewVisitModal = () => {
@@ -1007,7 +1069,6 @@ class Schedule extends React.Component {
                                 return (<FreeAdminTrainersItem {...item}
                                                         key={index}
                                                         onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-
                                 />)
                             })}
 
@@ -1018,8 +1079,10 @@ class Schedule extends React.Component {
                             {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
                                 return (<FreeAdminTrainersItem {...item}
                                                         key={index}
-                                                        onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-
+                                                        onGoto={(id) => this.props.history.push('/app/coach'+id)}
+                                                        onGotoStudent={(id) => this.props.history.push('/app/student'+id)}
+                                                        data={this.state.modalMasterListData}
+                                                        isBusy={true}
                                 />)
                             })}
                         </div>
@@ -1076,6 +1139,8 @@ const mapStateToProps = state => {
         chooseDiscipline: state.student.discipline,
         chooseArrMasters: state.student.masters, //id masterov
         fullInfoMasters: state.student.fullInfoMasters,
+        studentInfo: state.student.userInfo,
+        studentTrainings: state.training.studentTrainings,
         amountTraining: state.students.amountTraining, // поменять на student
         eventTraining: state.trainer.eventTraining,
         isPushBtnTransfer: state.student.isPushBtnTransfer,
@@ -1087,6 +1152,7 @@ const mapStateToProps = state => {
         disciplines: state.abonement.disciplines,
         chooseTheMaster: state.abonement.chooseTheMaster,
         mainUser: (state.profileStudent) ? (state.profileStudent.mainUser ? state.profileStudent.mainUser : null) : null,
+        profileCoach:state.profileCoach,
 
         students:  state.students.coachStudents,
         freeIntervals:  state.students.freeIntervals,
@@ -1147,6 +1213,7 @@ const mapDispatchToProps = dispatch => {
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
         onChangePushBtnUnfresh: (status) => dispatch(actions.isPushBtnUnfresh(status)),
+        onGetAllTrainingStudent: (id,dateStart,dateEnd) => dispatch(actions.getAllTrainingStudent(id,dateStart,dateEnd)),
 
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
@@ -1158,6 +1225,9 @@ const mapDispatchToProps = dispatch => {
 
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
+        onGetUserInfo: (id) => dispatch(actions.getUserInfo(id)),
+        onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),
+        
 
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetAllInfoMasters: (typeMasters, masterList) => dispatch(actions.getAllInfoMasters(typeMasters,masterList)),

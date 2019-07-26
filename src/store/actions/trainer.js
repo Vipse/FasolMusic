@@ -44,7 +44,23 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                             for(let el in allTraining[key][element]){
                                     
                                         const elem = allTraining[key][element].allInfo;
-                                        if(elem.disciplines.includes(currDiscipline.code) /* && !elem.isBooking */){
+                                        if (currDiscipline) {
+                                            if(elem.disciplines.includes(currDiscipline.code) /* && !elem.isBooking */){
+                                                formatTrainng.push({
+                                                    fio: elem.fio,
+                                                    id: elem.date,
+                                                    idMaster: elem.idMaster,
+                                                    idSubscription:elem.idSubscription,
+                                                    idStudent: elem.idStudent,
+                                                    isBooking: elem.isBooking,
+                                                    isComplete: elem.isComplete,
+                                                    start: new Date(elem.date * 1000),
+                                                    status: elem.status,
+                                                    wasTransfer: elem.wasTransfer
+                                                });
+                                            }
+                                        }
+                                        else {
                                             formatTrainng.push({
                                                 fio: elem.fio,
                                                 id: elem.date,
@@ -56,10 +72,8 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                                                 start: new Date(elem.date * 1000),
                                                 status: elem.status,
                                                 wasTransfer: elem.wasTransfer
-                                                
-
                                             });
-                                        }
+                                        }   
                             }
                         }
                         
@@ -73,7 +87,7 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                     type: actionTypes.GET_TRAINER_TRAINING_BY_TRAINER,
                     eventTraining: formatTrainng,
                 })
-                dispatch(getCountTrainingByDiscipline(idMaster,currDiscipline.code))
+                if(currDiscipline) dispatch(getCountTrainingByDiscipline(idMaster,currDiscipline.code))
             })
             .catch(err => {
                 console.log('error: ',err);

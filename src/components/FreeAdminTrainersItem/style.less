@@ -38,5 +38,34 @@
       line-height: 24px;
       color: #777777;
     }
+    &-student {
+      //background-color: rgba(255, 0, 0, 0.527);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 10px;
+      
+      &-info{
+        //background-color: rgba(255, 251, 0, 0.274);
+        height: 100%;
+        margin-left: 10px;
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &-name{
+          font-size: 13px;
+          font-family: RobotoBlack, sans-serif;
+          color: #2abc6c;
+          &:hover{
+            color: #000000;
+          }
+        }
+        &-status{
+          font-weight: 800;
+        }
+      }
+    }
   }
 }
