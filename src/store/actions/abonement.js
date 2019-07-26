@@ -24,10 +24,42 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isCallAdmin, isFi
         isCallAdmin
     }
     return axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify(obj))
-        .then(res => {         
+        .then(res => {   
                 let fdata = res.data.result;
                 const discAbonement = Object.keys(res.data.result);  
-                let mainDiscipline = currDiscipline.code;
+                let mainDiscipline = null;  
+                if (currDiscipline=="default"){
+
+                    let mas = [];
+                    
+                    for (let key in fdata){
+                      mas.push(fdata[key])
+                    }
+
+                    mas = mas.map( item => {
+                        return item.filter( item => {
+                           if (!item.isComplete && !item.isBooking) return item
+                        })
+                    })
+
+                    mas = mas.map((item)=>{
+                        return {
+                            length:item.length,
+                            code:item[0].discipline[0].id,
+                            name:item[0].discipline[0].value
+                        }
+                    })
+
+                    let defaultDiscipline = mas.reduce((previousItem, item)=>{
+                       if (item.length > previousItem.length) return item
+                       else return previousItem
+                    })
+        
+                if (defaultDiscipline.code) mainDiscipline = defaultDiscipline.code;
+                }
+                else {
+                    mainDiscipline = currDiscipline.code;
+                }
 
                 if(isFirst) {
                         let countInDiscipline = 0;
