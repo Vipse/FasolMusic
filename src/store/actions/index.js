@@ -21,6 +21,13 @@ export {
 } from './auth'
 
 export {
+    getPushNotificationsToken,
+    refreshPushNotificationsToken,
+    askForPermissionToReceiveNotifications,
+    sendPushNotification
+} from './notifications'
+
+export {
     getInfoPatient,
     saveUserEdit,
     changePassword

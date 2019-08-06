@@ -20,6 +20,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 import VKApp from '../../components/VKApp';
 import { detect } from 'detect-browser';
+import firebase, { messaging } from 'firebase'
 
 const browser = detect();
 
@@ -184,9 +185,21 @@ class App extends React.Component {
                                 })
                             )
                 })
+
+            this.props.onGetPushNotificationsToken(id,true)
+            .then(token => {
+                if (token) this.props.onRefreshPushNotificationsToken(id,token);
+            })
+
         }
         else if (this.props.mode === "student") {
-           this.fetchStudentInfo(id)
+            this.fetchStudentInfo(id)
+
+            this.props.onGetPushNotificationsToken(id,true)
+            .then(token => {
+                if (token) this.props.onRefreshPushNotificationsToken(id,token);
+            })
+           
         }
         else if (this.props.mode === 'admin'){         
             if(this.isStudentSchedule()){
@@ -199,6 +212,14 @@ class App extends React.Component {
             this.runChatWS();
             this.runNotificationsWS();
         }
+        
+        if (!firebase.apps.length){
+            console.log("Initialize firebase app")
+            firebase.initializeApp({
+            messagingSenderId: '913021465205'
+            })
+        };
+       
     }
 
     isStudentSchedule = () => { 
@@ -375,6 +396,8 @@ class App extends React.Component {
                                             weekInterval ={this.props.weekInterval}
                                             isStudentSchedule={this.isStudentSchedule()}
                                             notifications = {this.props.notifications}
+                                            pushNotificationsToken = {this.props.pushNotificationsToken}
+                                            askForPermissionToReceiveNotifications = {this.props.onAskForPermissionToReceiveNotifications}
                                             showSpinner = {() => this.setState({scheduleSpinner: true})}
                                             hideSpinner = {() => this.setState({scheduleSpinner: false})}
                                     />
@@ -418,6 +441,7 @@ const mapStateToProps = state => {
         auth: state.auth,
         id: state.auth.id,
         mode: state.auth.mode,
+        pushNotificationsToken:state.auth.pushNotificationsToken,
         profileCoach: state.profileCoach,
         profileStudent: state.profileStudent,
         selectors: state.loading.selectors,
@@ -508,6 +532,10 @@ const mapDispatchToProps = dispatch => {
         onChangePushBtnUnfresh: (status) => dispatch(actions.changePushBtnUnfresh(status)),
         onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
         onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
+
+        onAskForPermissionToReceiveNotifications: (id) => dispatch(actions.askForPermissionToReceiveNotifications(id)),
+        onGetPushNotificationsToken : (id,changeStatus) => dispatch(actions.getPushNotificationsToken(id,changeStatus)),
+        onRefreshPushNotificationsToken : (id,token) => dispatch(actions.refreshPushNotificationsToken(id,token))
     }
 };
 

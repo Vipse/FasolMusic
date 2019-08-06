@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
     id: sessionStorage.getItem('_fasol-id') ? sessionStorage.getItem('_fasol-id') : 0,
+    pushNotificationsToken: null,
     mode: sessionStorage.getItem('_fasol-mode') ? sessionStorage.getItem('_fasol-mode') : "", // doc / user
     error: null,
     errorCode: 0,
@@ -10,6 +11,11 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
+        case actionTypes.ALLOW_NOTIFICATIONS:
+            return {
+                ...state,
+                pushNotificationsToken: action.token,
+            }
         case actionTypes.AUTH_START:
             return {
                 ...state,

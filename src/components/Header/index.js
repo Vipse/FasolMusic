@@ -38,6 +38,14 @@ class Header extends React.Component {
             this.setState({isTrialTrainingModalVisible: true});
     }
 
+    askForPermissionToNotifications = () => {
+        const {id,pushNotificationsToken} = this.props;
+
+        if (!pushNotificationsToken) {
+            this.props.askForPermissionToReceiveNotifications(id)
+        }
+    }
+
     logout = () => {
         localStorage.removeItem('landing');
         this.props.logout();
@@ -61,6 +69,8 @@ class Header extends React.Component {
 
     onSubmitBtnTrialTraining = () => {
         const {statusBtnBack} = this.props;
+
+        this.askForPermissionToNotifications();
 
         this.resetAllActionApp();
         this.props.onChangeBtnBack(!statusBtnBack)

@@ -272,6 +272,8 @@ class CoachPersonalDataForm extends React.Component {
                             showChangePasswordModal={() => this.setState({isChangePasswordModalVisible: true})}
                             showSendSuggestionsModal={() => this.setState({isSendSuggestionsModalVisible: true})}
                             countriesList={getSelectorValues(countries)}
+                            askForPermissionToReceiveNotifications={this.props.askForPermissionToReceiveNotifications}
+                            pushNotificationsToken={this.props.pushNotificationsToken}
                         />
                         <div className='coach-data-title'>Дополнительная информация</div>
                         <PersonalDataInfo

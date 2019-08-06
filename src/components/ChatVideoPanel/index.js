@@ -13,6 +13,20 @@ class ChatVideoPanel extends React.Component{
         return (''+number).length < 2 ? '0'+number : number;
     };
 
+    sendPushNotification = () => {
+        const {calledID,callerName} = this.props;
+        let type = 'call';
+
+        if (this.props.user_mode=='student') type = "call_To_Master"
+        else if (this.props.user_mode=='master') type = "call_To_Student"
+
+		this.props.getPushNotificationsToken(calledID,false)
+		.then(token => {
+			if (token != false) this.props.sendPushNotification(token,type,callerName)
+		})
+		
+	}
+
     render(){
         const {isCalling, sec, min, hour, disabled, isFullScreen, user_mode} = this.props;
 
@@ -70,7 +84,10 @@ class ChatVideoPanel extends React.Component{
                             icon='phone-call-outcoming'
                             iconSize={15}
                             title='Начать разговор'
-                            onClick={this.props.onCall}
+                            onClick={()=>{
+                                this.props.onCall()
+                                this.sendPushNotification()
+                            }}
                         />
 
                         {/*user_mode === 'student' ? 
