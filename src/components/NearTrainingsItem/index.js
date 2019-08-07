@@ -85,15 +85,16 @@ class NearTrainingsItem extends React.Component{
                             />
                         </div> 
                     : ''}
-
-                    <div className="btn-push">
-                        {!trial && <Button
-                            btnText="Перенести в конец"
-                            type="border-green"
-                            size='small'
-                            onClick={() => tailTraining(idTraining)}
-                        />}
-                    </div>
+                    {!this.props.isTrial ?
+                        <div className="btn-push">
+                            {!trial && <Button
+                                btnText="Перенести в конец"
+                                type="border-green"
+                                size='small'
+                                onClick={() => tailTraining(idTraining)}
+                            />}
+                        </div>
+                    : ''}
                 </div> }
 
 
