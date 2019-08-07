@@ -54,6 +54,7 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                                                     idStudent: elem.idStudent,
                                                     isBooking: elem.isBooking,
                                                     isComplete: elem.isComplete,
+                                                    trial:elem.trial,
                                                     start: new Date(elem.date * 1000),
                                                     status: elem.status,
                                                     wasTransfer: elem.wasTransfer
@@ -69,6 +70,7 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
                                                 idStudent: elem.idStudent,
                                                 isBooking: elem.isBooking,
                                                 isComplete: elem.isComplete,
+                                                trial:elem.trial,
                                                 start: new Date(elem.date * 1000),
                                                 status: elem.status,
                                                 wasTransfer: elem.wasTransfer
