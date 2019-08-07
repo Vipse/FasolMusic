@@ -7,6 +7,14 @@ import '../../icon/style.css'
 import Button from "../Button";
 
 class NearTrainingsItem extends React.Component{
+
+    constructor() {
+        super();
+        this.state = {
+          deleteTrialDisabled: false
+        }
+      }
+
     render(){
         const {
             start,
@@ -63,6 +71,20 @@ class NearTrainingsItem extends React.Component{
                             onClick={() => completeTraining({idTraining})}
                         />
                     </div>
+                    {this.props.isTrial && !this.state.deleteTrialDisabled ? 
+                        <div className="btn-push">
+                            <Button 
+                                disable={this.state.deleteTrialDisabled}
+                                btnText="Не пришел"
+                                type="border-green"
+                                size='small'
+                                onClick={() => {
+                                    this.props.removeTrialTraining(idTraining,true)
+                                    this.setState({deleteTrialDisabled:true})
+                                }}
+                            />
+                        </div> 
+                    : ''}
 
                     <div className="btn-push">
                         {!trial && <Button

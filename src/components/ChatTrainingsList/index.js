@@ -32,6 +32,7 @@ class ChatTrainingsList extends React.Component {
                                        user_mode = {this.props.user_mode}
                                        isComplete= {item.isComplete}
                                        isTrial={item.isTrial || item.trial}
+                                       removeTrialTraining={this.props.removeTrialTraining}
             />)
         });
     };
