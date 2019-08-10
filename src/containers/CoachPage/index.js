@@ -226,7 +226,7 @@ class CoachPage extends React.Component{
                 <Hoc>
                     <div className="coach-page">
                         <Row type="flex" gutter={32}>
-                            <Col span={11}>
+                            {!isAdmin && <Col span={11}>
                                 <CoachProfile
                                     email={email}
                                     img={avatar}
@@ -241,8 +241,8 @@ class CoachPage extends React.Component{
                                     mode={this.props.mode}
                                     onGoToChat={this.goToNearestChat}
                                 />
-                            </Col>
-                            <Col span={13} offset={32}>
+                            </Col>}
+                            <Col span={isAdmin ? 32 : 13} offset={32}>
                                 <RecordTrainCarousel
                                     onGetIntervals={this.getIntervals}
                                     intervals={masterSchedule}
@@ -251,6 +251,35 @@ class CoachPage extends React.Component{
                                     studentID={auth.id}
                                     isAdmin={isAdmin}
                                 />
+                                {isAdmin ?
+                                <Row>
+                                    <Col span={13}>
+                                        <CoachProfile
+                                            email={email}
+                                            img={avatar}
+                                            name={name}
+                                            phones={phones}
+                                            discipline={this.getDisciplinesList()}
+                                            specialization={this.getSpecializationsList()}
+                                            aboutMe={aboutme}
+                                            promoLink={promovideo}
+                                            rate={5}
+                                            onRateMaster={this.handleRateMaster}
+                                            mode={this.props.mode}
+                                            onGoToChat={this.goToNearestChat}
+                                        />
+                                    </Col>
+                                    <Col span={11}>
+                                        <CoachPagePerfectStudent
+                                            sex={bestsex}
+                                            age={bestage}
+                                            homework={bestishomework}
+                                            qualities={getNamesFromObjArr(bestqualities)}
+                                            comment={bestcomment}
+                                        />
+                                    </Col>
+                                </Row>
+                                : 
                                 <CoachPagePerfectStudent
                                     sex={bestsex}
                                     age={bestage}
@@ -258,6 +287,9 @@ class CoachPage extends React.Component{
                                     qualities={getNamesFromObjArr(bestqualities)}
                                     comment={bestcomment}
                                 />
+                                }
+                                
+                               
                             </Col>
                         </Row>
                         <AdminCreateTrainingModal

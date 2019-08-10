@@ -56,6 +56,13 @@
 				height: 317px;
 				align-items: center;
 
+				&-admin{
+					height: 517px !important;
+					@media (min-width: 1281px) {
+						height: 717px !important;
+					}
+				}
+
 				&-col{
 					width: 13.5%;
 					margin-right: -1px;
@@ -88,6 +95,13 @@
 					font-size: 14px;
 					overflow: hidden;
 
+					&-admin{
+						height: 30px !important;
+						@media (min-width: 1281px) {
+							height: 40px !important;
+						}
+					}
+
 					.ownTime {
 						height: 100%;
 						width: 100%;
@@ -119,9 +133,13 @@
 						display: flex;
   						align-items: center;
   						justify-content: center;
-  						font-size: 8px;
+  						font-size: 10px;
   						line-height: 1;
-  						color: #344051;
+						color: #344051;
+						  
+						@media (min-width: 1281px) {
+							font-size: 13px;
+						}
 
 						&:hover {
 							background-color: rgba(33, 190, 221, 0.5);
@@ -171,6 +189,30 @@
 						}
 					}
 
+					.completeTime-admin {
+						display: flex;
+						height: 100%;
+						width: 100%;
+						align-items: center;
+						justify-content: center;
+						background-color: rgb(235, 203, 23);
+						border: 1px solid rgb(136, 134, 14);
+						font-size: 10px;
+  						line-height: 1;
+						color: #344051;
+
+						&:hover {
+							background-color: rgba(206, 204, 97, 0.514);
+							cursor: pointer;
+						}
+
+						@media (min-width: 1281px) {
+							font-size: 13px;
+						}
+
+						
+					}
+
 					
 
 					.bookingTime {
@@ -185,11 +227,28 @@
 						color: #344051;
 						border: 1px solid rgba(87, 0, 138, 0.582);
 						
+						&-admin {
+							display: flex;
+							height: 100%;
+							width: 100%;
+							align-items: center;
+							justify-content: center;
+							background-color: rgba(136, 136, 136, 0.24);;
+							font-size: 10px;
+							line-height: 1;
+							color: #344051;
+							border: 1px solid rgba(87, 0, 138, 0.582);
+
+							@media (min-width: 1281px) {
+								font-size: 13px;
+							}
+						}
 						&:hover {
 							background-color: rgba(179, 99, 226, 0.219);
 							cursor: pointer;
 						}
 					}
+					
 				}
 
 				&-row {
@@ -208,6 +267,28 @@
 						font-size: 12px;
 						text-align: center;
 						color: #344051;
+					}
+				}
+
+				&-times-admin {
+					display: flex;
+					flex-direction: column;
+					margin: 27px 3px 0 0;
+
+					@media (min-width: 1281px) {
+						margin: 32px 3px 0 0;
+					}
+
+					div {
+						height: 29px;
+						font-family: RobotoRegularItalic;
+						font-size: 13px;
+						text-align: center;
+						color: #344051;
+
+						@media (min-width: 1281px) {
+							height: 39px;
+						}
 					}
 				}
 			}
