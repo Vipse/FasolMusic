@@ -124,12 +124,12 @@ class RecordTrainCarousel extends React.Component {
             timesColumnArr.push(<div>{moment(i, 'H').format('H:mm')}</div>);
       
         return <div className='table-main-row'>
-            <div className='table-main-times'>{timesColumnArr}</div>
+            <div className={isAdmin ? "table-main-times-admin" : 'table-main-times'}>{timesColumnArr}</div>
             {headers.map((item, indexDay) =>
                 <div className='table-main-col' key={indexDay + 1}>
                     <div className='table-main-day' key={indexDay + 1}>{item}</div>
                     {timeIntervals[indexDay]
-                        .map((item, indexTime) => <div className='table-main-time'>
+                        .map((item, indexTime) => <div className={isAdmin ? "table-main-time table-main-time-admin" : "table-main-time"}>
                                 <div className = { this.getCellType(item) }
                                      key={indexTime + 1}
                                      onClick={item.isAvailable ?
@@ -180,12 +180,12 @@ class RecordTrainCarousel extends React.Component {
         const {isAdmin, studentID} = this.props;
 
         if ( item.isBooking ) {
-            if ( isAdmin ) return "bookingTime";
+            if ( isAdmin ) return "bookingTime-admin";
             else if ( studentID == item.idStudent ) return "bookingTime"; 
             else return ""
         }
         else if ( item.isOwn ){
-            if (item.isComplete) return "completeTime";
+            if (item.isComplete) return isAdmin ? "completeTime-admin":"completeTime";
             else return isAdmin ? 'reservedTime' : 'ownTime';
         }
         else if ( item.isAvailable ) {
@@ -222,7 +222,7 @@ class RecordTrainCarousel extends React.Component {
                                     onClick={this.nextCarouselItem}
                             />
                         </div>
-                        <div className="table-main">
+                        <div className={isAdmin ? "table-main table-main-admin" : "table-main"}>
                             {this.renderAvailableAppointments(trainerTrainings, intervals)}
                         </div>
                         <div className="table-footer">
