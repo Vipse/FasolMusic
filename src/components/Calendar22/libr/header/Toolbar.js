@@ -36,10 +36,12 @@ class Toolbar extends React.Component {
       receptionNum,
       isNeedSaveIntervals, 
       fillTrainingWeek,
+      showNewTrialTrainingModal,
        selectDisciplines, 
        currDiscipline, 
        onChangeCurrDiscipline,
        notRedirectDiscipline,
+       isPushBtnTrialTraining,
       } = this.props;
 
     let optionDisciplines = [];
@@ -80,7 +82,7 @@ class Toolbar extends React.Component {
               btnText={'Сохранить'}
               size='small'
               type='yellow-black'
-              onClick={fillTrainingWeek}
+              onClick={ isPushBtnTrialTraining ? showNewTrialTrainingModal : fillTrainingWeek }
               /> : null
         }
 

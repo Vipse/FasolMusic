@@ -53,6 +53,22 @@ class App extends React.Component {
         closeSocket();
     }
 
+    runFirebase = () => {
+        if (!firebase.apps.length){
+            console.log("Initialize firebase app")
+            firebase.initializeApp({
+            messagingSenderId: '913021465205'
+            })
+        };
+    }
+
+    setupPushNotificationsToken = (id) => {
+        this.props.onGetPushNotificationsToken(id,true)
+            .then(token => {
+                if (token) this.props.onRefreshPushNotificationsToken(id,token);
+        })
+    }
+
     runNotificationsWS = () => {
         const that = this;
         //let id = 3199;
@@ -172,6 +188,9 @@ class App extends React.Component {
     componentDidMount() {
         const {id, mode} = this.props;
         const {pathname} = this.props.history.location;
+
+        this.runFirebase();
+        
         this.props.getSelectors('discipline')
             .then(() => (mode === 'student' ||  this.isStudentSchedule()) && this.props.onGetTrainingsTrialStatus(this.props.id));
 
@@ -185,20 +204,11 @@ class App extends React.Component {
                                 })
                             )
                 })
-
-            this.props.onGetPushNotificationsToken(id,true)
-            .then(token => {
-                if (token) this.props.onRefreshPushNotificationsToken(id,token);
-            })
-
+            this.setupPushNotificationsToken(id);
         }
         else if (this.props.mode === "student") {
             this.fetchStudentInfo(id)
-
-            this.props.onGetPushNotificationsToken(id,true)
-            .then(token => {
-                if (token) this.props.onRefreshPushNotificationsToken(id,token);
-            })
+            this.setupPushNotificationsToken(id);
            
         }
         else if (this.props.mode === 'admin'){         
@@ -213,13 +223,6 @@ class App extends React.Component {
             this.runNotificationsWS();
         }
         
-        if (!firebase.apps.length){
-            console.log("Initialize firebase app")
-            firebase.initializeApp({
-            messagingSenderId: '913021465205'
-            })
-        };
-       
     }
 
     isStudentSchedule = () => { 

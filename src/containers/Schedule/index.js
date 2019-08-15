@@ -10,6 +10,7 @@ import Hoc from '../../hoc'
 import Button from "../../components/Button";
 import Calendar from "../../components/Calendar22";
 import CancelVisitModal from "../../components/CancelVisitModal";
+import NewTrialTrainingModal from "../../components/NewTrialTrainingModal"
 import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
 import FreeAdminTrainersItem from './../../components/FreeAdminTrainersItem/index';
@@ -36,6 +37,8 @@ class Schedule extends React.Component {
                 students: [],
             },
             cancelModal: false,
+            newTrialTrainingModal:false,
+            getPushPermissionModal:false,
             newMessageModal: false,
             receptionsScheduleModal: false,
             sendingModal: false,
@@ -232,6 +235,42 @@ class Schedule extends React.Component {
         this.state.isShowFreeTrainers && this.setState({isSpinnerFreeTrainers: true})
     }
 
+    showNewTrialTrainingModal = () => {
+        this.setState({newTrialTrainingModal:true})
+    }
+
+    closeNewTrialTrainingModal = () => {
+        this.setState({newTrialTrainingModal:false})
+    }
+
+    acceptNewTrialModal = () => {
+        this.fillTrainingWeek();
+        
+        if(Notification.permission !== "granted") {
+            this.setState({getPushPermissionModal:true});
+            
+            this.props.onAskForPermissionToReceivePushNotifications()
+            .then(()=>{
+                this.setState({getPushPermissionModal:false});
+            })
+        }
+    }
+
+    pushNotificationsRequestModal = () => {
+        return  <div className = { this.state.getPushPermissionModal ? "showPushPermissionModal" : "hidePushPermissionModal"} >
+                <div>
+                    Разреши Fasol отправлять тебе <br/> пуш-уведомления
+                </div>
+               
+                <div className="showPushPermissionModal-low">
+                Будем уведомлять тебя о  начале занятий,
+                <br/>
+                изменениях в расписании и оплате
+                </div>
+
+           </div>
+    }
+
     setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
         const { profileStudent: fdata, isPushBtnTrialTraining, masterListObj, abonementIntervals, isAdmin} = this.props;
         let start = null,
@@ -252,7 +291,8 @@ class Schedule extends React.Component {
             this.props.onSetPushTrialTraining('first_trainer');
             this.props.onSetChooseTheMasterByStudent(idMaster);
 
-            setTimeout(() => this.fillTrainingWeek(), 1000);
+
+            //setTimeout(() => this.fillTrainingWeek(), 1000);
             this.isNoTrial = 0;
             this.setState({isShowFreeTrainers : false});
             return;
@@ -301,7 +341,7 @@ class Schedule extends React.Component {
     }
 
     fillTrainingWeek = () => { // создание абонемента
-
+ 
         const {
             abonementIntervals,
             currDiscipline,
@@ -973,6 +1013,9 @@ class Schedule extends React.Component {
                                   countTrainingDiscipline = {this.props.countTrainingDiscipline}
                                   onRemoveTrialTraining = {this.deleteTrialTraining}
                                   isSpinnerFreeTrainers = {this.state.isSpinnerFreeTrainers}
+                                  showNewTrialTrainingModal = {this.showNewTrialTrainingModal}
+                                  isPushBtnTrialTraining = {isPushBtnTrialTraining}
+
 
             />)
         }
@@ -982,6 +1025,7 @@ class Schedule extends React.Component {
 
         return (
             <Hoc>
+                {this.pushNotificationsRequestModal()}
                 <Card title={cardTitle}>
                         {calendar}
                 </Card>
@@ -1098,6 +1142,10 @@ class Schedule extends React.Component {
                                   }}
                                   onCancel={() => this.setState({cancelModal: false})}
                 />
+                <NewTrialTrainingModal visible={this.state.newTrialTrainingModal}
+                                       onCancel={this.closeNewTrialTrainingModal}
+                                       onSave={this.acceptNewTrialModal}
+                />
                 <NewVisitModal visible={this.state.newVisitModal}
                                {...this.state.newVisitData}
                                students={this.props.students}
@@ -1153,6 +1201,7 @@ const mapStateToProps = state => {
         chooseTheMaster: state.abonement.chooseTheMaster,
         mainUser: (state.profileStudent) ? (state.profileStudent.mainUser ? state.profileStudent.mainUser : null) : null,
         profileCoach:state.profileCoach,
+        pushNotificationsToken:state.auth.pushNotificationsToken,
 
         students:  state.students.coachStudents,
         freeIntervals:  state.students.freeIntervals,
@@ -1236,6 +1285,8 @@ const mapDispatchToProps = dispatch => {
         onMasterFreeOnDate: (dateStart, chooseArrMasters) => dispatch(actions.masterFreeOnDate(dateStart, chooseArrMasters)),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays, isCallAdmin) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays, isCallAdmin)),
         onGetTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),
+
+        onAskForPermissionToReceivePushNotifications: (id) => dispatch(actions.askForPermissionToReceiveNotifications(id)),
     }
 };
 

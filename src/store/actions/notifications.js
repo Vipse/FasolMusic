@@ -1,19 +1,20 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 import firebase from 'firebase'
+import { detect } from 'detect-browser';
 
 
 export const sendPushNotification = (token,type,callerName) => {
     return dispatch => {
 
-        const config = {
+        const header = {
             headers: {
                 'Content-Type':'application/json',
                 'Authorization':'key=AAAA1JRR8nU:APA91bEno9o3N32bR45v2D8rKVNbaijNn5PI-atQ8Uc2Ufh2zN3I4RiOFiM6KzNi1aYnTvs2RusImwD8iYPKyWiIf4EkKPculkFNvy3UBnDpAMdUbIl7m6iBZQ4YDxOW4QLAmk9uLExO',
               }
         }
 
-        let data,body = null;
+        let data,body = {};
         
         switch (type) {
             case 'call_To_Master':
@@ -40,11 +41,19 @@ export const sendPushNotification = (token,type,callerName) => {
                     }
                 break;
 
-            default: data = {}
+            default: 
+                data = {
+                    "notification": {
+                        "title": "Входящий звонок",
+                        "body": `${callerName}`,
+                        "icon": "https://cdn4.iconfinder.com/data/icons/communication-and-audio/128/6-512.png"
+                    },
+                    "to": `${token}`
+                }
         }
 
         setTimeout(() => {
-            axios.post('https://fcm.googleapis.com/fcm/send',data,config)
+            axios.post('https://fcm.googleapis.com/fcm/send',data,header)
             .then(res => {
                 console.log(res)
             })
@@ -74,7 +83,6 @@ export const getPushNotificationsToken = (idUser,changeStore) => {
 
                 console.log("FCM USER TOKEN:\n",token)
                 if (changeStore == true && token != false) {
-                   
                     dispatch({
                         type: actionTypes.ALLOW_NOTIFICATIONS,
                         token: token
@@ -92,61 +100,73 @@ export const getPushNotificationsToken = (idUser,changeStore) => {
 
 export const askForPermissionToReceiveNotifications = (idUser) => {
     return dispatch => {
+        return new Promise((resolve,reject) => {
 
-        let isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-        if (!isSafari){
+            const browser = detect();
+            const supportedBrowsers = {chrome:'',firefox:'',opera:'',edge:''}
 
-            const messaging = firebase.messaging();
-            messaging.requestPermission()
-            .then(res => {
-                messaging.getToken()
-                .then(token => {
+            const isSupported = (browser && browser.name in supportedBrowsers);
 
-                    let obj = {
-                        idUser,
-                        message:token
-                    };
+            if (isSupported) {
 
-                    axios.post('/catalog.fasol/putMessageDesktop',
-                    JSON.stringify(obj))
-                    .then(res => {
-                        dispatch({
-                            type: actionTypes.ALLOW_NOTIFICATIONS,
-                            token:token
+                const messaging = firebase.messaging();
+                messaging.requestPermission()
+                .then(permissionType => {
+                    messaging.getToken()
+                    .then(token => {
+
+                        let obj = {
+                            idUser,
+                            message:token
+                        };
+
+                        axios.post('/catalog.fasol/putMessageDesktop',
+                        JSON.stringify(obj))
+                        .then(res => {
+                            dispatch({
+                                type: actionTypes.ALLOW_NOTIFICATIONS,
+                                token:token
+                            })
+                            resolve(permissionType)
                         })
-                    })
-                    .catch(err => console.log(err)) 
+                        .catch(err => console.log(err)) 
 
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })    
 
                 })
                 .catch(err => {
                     console.log(err)
-                })    
-            })
-            .catch(err => {
-                console.log(err)
-            }) 
-        }
-
+                    resolve('failed')
+                }) 
+            }
+            else reject();
+        })
     }
 }
 
 export const refreshPushNotificationsToken = (idUser,token) => {
 
     return dispatch => {
+        const browser = detect();
+        const supportedBrowsers = {chrome:'',firefox:'',opera:'',edge:''}
 
-        let isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-    
-        if (!isSafari){
+        const isSupported = (browser && browser.name in supportedBrowsers);
+        
+        if (isSupported){
+
             const messaging = firebase.messaging();
 
             if (Notification.permission == "granted") {
                 messaging.getToken()
                 .then(newToken => {
 
-                    let isNewDevice = (token == newToken) ? false : true;
+                    const isNewDevice = (token == newToken) ? false : true;
         
                     if (isNewDevice) {
+
                         let obj = {
                             idUser,
                             message:newToken
@@ -160,6 +180,7 @@ export const refreshPushNotificationsToken = (idUser,token) => {
                             type: actionTypes.ALLOW_NOTIFICATIONS,
                             token: newToken
                         })
+
                     }
         
                 })
@@ -170,9 +191,10 @@ export const refreshPushNotificationsToken = (idUser,token) => {
                     messaging.getToken()
                     .then(newToken => {
 
-                        let isNewDevice = (token == newToken) ? false : true;
+                        const isNewDevice = (token == newToken) ? false : true;
             
                         if (isNewDevice) {
+
                             let obj = {
                                 idUser,
                                 message:newToken
@@ -186,6 +208,7 @@ export const refreshPushNotificationsToken = (idUser,token) => {
                                 type: actionTypes.ALLOW_NOTIFICATIONS,
                                 token: newToken
                             })
+
                         }
             
                     })
