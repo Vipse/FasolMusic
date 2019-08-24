@@ -173,10 +173,14 @@ console.log('changeSubscription', value)
 }
 
 
-export const freezeAbonement = (idSubscription) => {
-    const obj = {
+export const freezeAbonement = (idSubscription,idUser) => {
+    const obj = idUser ? {
+        idSubscription,
+        idUser
+    } : {
         idSubscription
     }
+    
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/frozenTraining', JSON.stringify(obj))
             .then(res => {
