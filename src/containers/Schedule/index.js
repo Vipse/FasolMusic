@@ -1028,11 +1028,16 @@ class Schedule extends React.Component {
 
                                 <div className="schedule-message-btn">
                                     <Button btnText='Заморозка расписания'
-                                    disable= {!this.props.profileStudent.canFrozen}
-                                    onClick= {()=>{this.setState({
-                                        modalFreezeSchedule: true,
-                                        modalCancelTraining : false
-                                    })}}
+                                    disable= {
+                                        isAdmin ? false : !this.props.profileStudent.canFrozen
+                                    }
+                                    onClick= {()=>{
+                                        isAdmin ? this.freezeAbonement() :
+                                        this.setState({ 
+                                            modalFreezeSchedule: true,
+                                            modalCancelTraining : false
+                                        })
+                                    }}
                                     type='yellow'/>
                                 </div>
                         </div>
