@@ -33,7 +33,7 @@ class NearTrainingsItem extends React.Component{
             user_mode
         } = this.props;
         
-        const isAfter = moment(+start).subtract(2, 'hour') > moment() ? false : true
+        const isAfter = moment(+start) > moment() ? false : true
 
         
         return (
@@ -74,7 +74,6 @@ class NearTrainingsItem extends React.Component{
                     {this.props.isTrial && !this.state.deleteTrialDisabled ? 
                         <div className="btn-push">
                             <Button 
-                                disable={moment() < beginTime ? true:false}
                                 btnText="Не пришел"
                                 type="border-green"
                                 size='small'
