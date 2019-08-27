@@ -171,6 +171,7 @@ EventSlot.propTypes = {
   EventSlot.defaultProps = {
       freeTrainers: null,
       showTransferEvent: () => {},
+      deleteTraining: () => {},
   }
 
 
