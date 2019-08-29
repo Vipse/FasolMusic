@@ -28,6 +28,7 @@ const reducer = (state = initialState, action) => {
                 id: action.id,
                 mode: action.usergroup,
             };
+
         case actionTypes.REG_DOCTOR_START:
             return {
                 ...state,
