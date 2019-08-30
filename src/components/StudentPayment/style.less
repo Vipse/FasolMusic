@@ -23,6 +23,29 @@
     grid-template-columns: 580px 890px;
     grid-gap: 30px;
 
+    @media (max-width:1920px) { 
+      grid-template-rows: 523px 306px;
+      grid-template-columns: 31% 31% 35%;
+      grid-template-areas: "plans plans plans" "stats stats data";
+    }
+   
+    @media (max-width:1600px) {    
+      grid-template-rows: 523px 366px;
+      grid-template-columns: 31% 31% 35%;
+      grid-template-areas: "plans plans plans" "stats stats data";
+    } 
+
+    @media (max-width:1400px) {    
+      grid-template-columns: 30% 29.5% 37.5%;
+      grid-template-areas: "plans plans plans" "stats stats data";
+    } 
+  
+    @media (max-width:1280px) { 
+      grid-template-rows: 523px 286px 266px;
+      grid-template-areas: "plans plans" "stats stats" "data null";
+      grid-template-columns: 39% 61%;
+    }
+
     &-trainingPlans {
       grid-area: plans;
 
@@ -35,7 +58,14 @@
 
       .plansPlate {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        margin: 5px 5px;
+
+        @media(min-width: 1900px){
+          justify-content: center;
+        }
       }
 
       .spinner-wrapper {
