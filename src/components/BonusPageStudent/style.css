@@ -15,6 +15,22 @@
   font-family: RobotoMedium, sans-serif;
   color: #000;
 }
+@media (max-width: 1920px) {
+  .bonus-student {
+    grid-template-columns: calc(100%*0.45) calc(100%*0.25) calc(100%*0.25);
+  }
+}
+@media (max-width: 1600px) {
+  .bonus-student {
+    grid-template-columns: calc(100%*0.35) calc(100%*0.3) calc(100%*0.3);
+  }
+}
+@media (max-width: 1280px) {
+  .bonus-student {
+    grid-template-areas: "invite invite invite" "record data refer" "record data refer";
+    grid-template-columns: calc(100%*0.45) calc(100%*0.25) calc(100%*0.25);
+  }
+}
 .bonus-student .offers {
   grid-area: record;
 }
@@ -107,6 +123,7 @@
   font-family: RobotoMediumItalic, sans-serif;
   font-size: 20px;
   margin-top: 22px;
+  margin-bottom: 8px;
 }
 .bonus-student .invite .info {
   font-family: RobotoRegular, sans-serif;
