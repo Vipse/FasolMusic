@@ -24,42 +24,10 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isCallAdmin, isFi
         isCallAdmin
     }
     return axios.post('/catalog.fasol/GetSubscriptionsNew', JSON.stringify(obj))
-        .then(res => {   
+        .then(res => {         
                 let fdata = res.data.result;
                 const discAbonement = Object.keys(res.data.result);  
-                let mainDiscipline = null;  
-                if (currDiscipline=="default"){
-
-                    let mas = [];
-                    
-                    for (let key in fdata){
-                      mas.push(fdata[key])
-                    }
-
-                    mas = mas.map( item => {
-                        return item.filter( item => {
-                           if (!item.isComplete && !item.isBooking) return item
-                        })
-                    })
-
-                    mas = mas.map((item)=>{
-                        return {
-                            length:item.length,
-                            code:item[0].discipline[0].id,
-                            name:item[0].discipline[0].value
-                        }
-                    })
-
-                    let defaultDiscipline = mas.reduce((previousItem, item)=>{
-                       if (item.length > previousItem.length) return item
-                       else return previousItem
-                    })
-        
-                if (defaultDiscipline.code) mainDiscipline = defaultDiscipline.code;
-                }
-                else {
-                    mainDiscipline = currDiscipline.code;
-                }
+                let mainDiscipline = currDiscipline.code;
 
                 if(isFirst) {
                         let countInDiscipline = 0;
@@ -84,7 +52,7 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isCallAdmin, isFi
                         el.idMaster = el.idMaster;
                         el.isBooking = el.isBooking;      
                     })
-                    fdata = fdata[mainDiscipline] /* .filter((el) => !el.isBooking); */ // remove booking training
+                    fdata = fdata[mainDiscipline].filter((el) => !el.isBooking); // remove booking training
                 }  
                 
                 dispatch({
@@ -198,7 +166,7 @@ export const getSubscriptionsByStudentId = (idStudent) => {
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/getSubscriptionsByStudentId', JSON.stringify({idStudent}))
             .then(res => {
-                console.log("getSubscriptionsByStudentId", res);
+               
                 dispatch({
                     type: actionTypes.GET_SUBSCRIPTION_FOR_DISCIPLINE,
                     subsForDisc: res.data.result,

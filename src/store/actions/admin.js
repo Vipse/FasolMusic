@@ -13,9 +13,18 @@ export const getFreeAndBusyMasterList = (dateStart, dateEnd) => {
         return axios.post('/catalog.fasol/freeAndBusyMasterList',
             JSON.stringify(obj))
             .then(res => {
+                let final = {};
+                if(res.data && res.data.result.interval){
+                    const {interval} = res.data.result;
+                    for(let key in interval){
+                        final = {...final, ...interval[key]}
+                    }
+                }
+
+                console.log('--------------final :', final);
                 dispatch({
                     type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST,
-                    masterList: res.data.result,
+                    masterList: final,
                 })
             })
             .catch(err => {

@@ -1,0 +1,12 @@
+.list-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+  width: 100%;
+}
+.list-slot-text {
+  color: black;
+  height: 100%;
+  margin: 0;
+}

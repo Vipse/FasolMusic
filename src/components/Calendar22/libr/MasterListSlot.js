@@ -16,8 +16,8 @@ class MasterListSlot extends Component {
     }
 
     showModalMasterList = () => {
-        const { freetrainers, busytrainers, value } = this.props;
-        this.props.showMasterList(freetrainers, busytrainers, value)
+        const { freetrainers, busytrainers } = this.props;
+        this.props.showMasterList(freetrainers, busytrainers)
     }
 
     render() {

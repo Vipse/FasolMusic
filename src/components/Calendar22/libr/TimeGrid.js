@@ -23,11 +23,7 @@ import moment from 'moment';
 class TimeGrid extends Component {
   constructor(props) {
     super(props)
-    this.state = { 
-      gutterWidth: undefined, 
-      isOverflowing: null,
-      selectIdEvent: null
-    }
+    this.state = { gutterWidth: undefined, isOverflowing: null }
     this.handleSelectEvent = this.handleSelectEvent.bind(this)
     this.handleDoubleClickEvent = this.handleDoubleClickEvent.bind(this)
     this.handleHeaderClick = this.handleHeaderClick.bind(this)
@@ -55,24 +51,15 @@ class TimeGrid extends Component {
   componentWillReceiveProps(nextProps) {
     const { range, scrollToTime } = this.props
     // When paginating, reset scroll
-    if (!dates.eq(nextProps.range[0], range[0], 'minute') ||
-      !dates.eq(nextProps.scrollToTime, scrollToTime, 'minute')) {
+    if (
+      !dates.eq(nextProps.range[0], range[0], 'minute') ||
+      !dates.eq(nextProps.scrollToTime, scrollToTime, 'minute')
+    ) {
       this.calculateScroll()
     }
-    if(nextProps.isPushBtnTransfer !== this.props.isPushBtnTransfer && nextProps.isPushBtnTransfer == false){
-      this.setState({selectIdEvent: null})
-    }
-
   }
 
-
-  clickOnEvent = (event) => {
-    if(!event.trial){
-      this.props.clickOnEvent(event)   
-      this.setState({selectIdEvent: event.id})
-    }
-  }
-
+  // fasol - для каждого DayColumn соответствующий intervals
   getCurrentIntervalsDay = (date) => { 
     
     let {intervals} = this.props;
@@ -165,7 +152,6 @@ class TimeGrid extends Component {
                     ref={gutterRef}
                     className="rbc-time-gutter"
                     showLabels={false}
-                    clickOnEvent={this.clickOnEvent}
                   />
                   {eventsRendered}
                  
@@ -216,12 +202,6 @@ class TimeGrid extends Component {
                 get(resource, resourceIdAccessor)
             )
 
-            // console.log('date', date)
-            // console.log('min', min)
-            // console.log('dates.merge(date, min)', dates.merge(date, min))
-            // console.log('max', max)
-            // console.log('dates.merge(date, max)', dates.merge(date, max))
-            // console.log('-------------------')
         return (
           <DayColumn
             {...this.props}
@@ -229,18 +209,10 @@ class TimeGrid extends Component {
             intervals={this.props.intervals}
             min={dates.merge(date, min)}
             max={dates.merge(date, max)}
-            resource={resource && resource.id}
-            eventComponent={components.event}
-            clickOnEvent={this.clickOnEvent}
           
-            dayWrapperComponent={components.dayWrapper}
-            className={cn({ 'rbc-now': dates.eq(date, today, 'day') })}
-            style={segStyle(1, this.slots)}
-            key={idx + '-' + id}
             date={date}
             events={events}  //eventsToDisplay
             showLabels={true}
-            selectIdEvent={this.state.selectIdEvent}
           />
         )
       })
@@ -403,68 +375,12 @@ TimeGrid.propTypes = {
   events: PropTypes.array.isRequired,
   resources: PropTypes.array,
 
-  step: PropTypes.number,
-  range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  min: PropTypes.instanceOf(Date),
-  max: PropTypes.instanceOf(Date),
-  now: PropTypes.instanceOf(Date),
 
-  scrollToTime: PropTypes.instanceOf(Date),
-  eventPropGetter: PropTypes.func,
-  dayPropGetter: PropTypes.func,
-  dayFormat: dateFormat,
-  showMultiDayTimes: PropTypes.bool,
-  culture: PropTypes.string,
-
-  rtl: PropTypes.bool,
-  width: PropTypes.number,
-
-  titleAccessor: accessor.isRequired,
-  allDayAccessor: accessor.isRequired,
-  startAccessor: accessor.isRequired,
-  endAccessor: accessor.isRequired,
-  resourceAccessor: accessor.isRequired,
-
-  resourceIdAccessor: accessor.isRequired,
-  resourceTitleAccessor: accessor.isRequired,
-
-  selected: PropTypes.object,
-  selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-  longPressThreshold: PropTypes.number,
-
-  onNavigate: PropTypes.func,
-  onSelectEnd: PropTypes.func,
-  onSelectStart: PropTypes.func,
-  onSelectEvent: PropTypes.func,
-  onDoubleClickEvent: PropTypes.func,
-  onDrillDown: PropTypes.func,
-  getDrilldownView: PropTypes.func.isRequired,
-
-  messages: PropTypes.object,
-  components: PropTypes.object.isRequired,
-
-  showTransferEvent: PropTypes.func,
-  freeTrainers: PropTypes.object,
-  showModalTransferEvent: PropTypes.func,
-  setChoosenTrainer: PropTypes.func,
-  transferTraining: PropTypes.func,
-  onCancelTraining: PropTypes.func,
-  trainerTraining: PropTypes.object,
 }
 
  
 
 TimeGrid.defaultProps = {
-  events: [],
-  step: 30,
-  min: dates.startOf(new Date(), 'day'),
-  max: dates.endOf(new Date(), 'day'),
-  scrollToTime: dates.startOf(new Date(), 'day'),
-  /* these 2 are needed to satisfy requirements from TimeColumn required props
-   * There is a strange bug in React, using ...TimeColumn.defaultProps causes weird crashes
-   */
-  type: 'gutter',
-  now: new Date(),
 }
 
 export default TimeGrid;

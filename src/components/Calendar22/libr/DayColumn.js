@@ -25,7 +25,6 @@ class DayColumn extends React.Component {
       culture,
       dayPropGetter,
       masterList,
-      selectIdEvent,
       date,
       ...props
     } = this.props
@@ -50,7 +49,6 @@ class DayColumn extends React.Component {
         max={max}
         step={step}
         masterList={columnMasterList}
-        selectIdEvent={selectIdEvent}
       > 
         
       </TimeColumn>

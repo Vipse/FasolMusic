@@ -4,6 +4,54 @@ import * as actionTypes from './actionTypes';
 import moment from "moment";
 
 
+export const getStudentsSchedule = (id, dateStart, dateEnd) => {
+    let obj = { 
+        idStudent: id,
+        dateStart,
+        dateEnd
+     };
+    return (dispatch) =>
+        axios.post('/catalog.fasol/GetSubscriptionsStudentDate2', JSON.stringify(obj))
+            .then(rez => {
+               if(rez.status == 200){
+                   let data = rez.data.result;
+                   let final = {};
+                   let currDiscipline = null;
+
+                   const getMainDiscipline = (key, data) => {
+                       
+                       if (key == 'primary' && Object.keys(data[key])){
+                           currDiscipline = data[key][0]
+                       }
+                   }
+                   const spreadAllTraining = (key, key2, data) => {
+                       const elem = (data[key])[key2]
+                       final = { ...final, ...elem }
+                   }
+
+                   for(let key in data){
+                        getMainDiscipline(key, data);
+                        for(let key2 in data[key]){
+                            spreadAllTraining(key, key2, data)
+                        }
+                   }
+
+                   console.log('-------------------finla :', final);
+
+                   dispatch({
+                       type: actionTypes.GET_STUDENTS_SCHEDULE,
+                       studentSchedule: final,
+                   })
+                   currDiscipline && dispatch({
+                       type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
+                       currDiscipline,
+                   });
+               }              
+            })
+            .catch(err => console.log(err))
+}
+
+
 export const getUserInfo = (idMaster) => {
     let obj = {id : idMaster};
     return (dispatch) =>
@@ -128,28 +176,31 @@ export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline, i
 
     return (dispatch) => {
 
-        return axios.post('/catalog.fasol/getIntervalOnWeekdays', JSON.stringify(obj))
+        return axios.post('/catalog.fasol/getIntervalOnWeekdaysOnlyDate', JSON.stringify(obj))
             .then(rez => {
-                    let answer = []
-                    let freeInterval = rez.data.result.interval;
+                    // let answer = []
+                    // let freeInterval = rez.data.result.interval;
 
-                    for(let elem in freeInterval){
-                        answer.push({
-                            day: moment(+elem * 1000).day(),
-                            intervals: freeInterval[elem]
+                    // for(let elem in freeInterval){
+                    //     answer.push({
+                    //         day: moment(+elem * 1000).day(),
+                    //         intervals: freeInterval[elem]
+                    //     })
+                    // }
+                    if(rez.data){
+                        dispatch({
+                            type: actionTypes.GET_AVAILABLE_INTERVAL,
+                            freeInterval: rez.data.result.interval,
                         })
+                        dispatch({
+                            type: actionTypes.SET_WEEKDAYS_AND_DISCIPLINE_AND_ARRMASTERS,
+                            weekdays: weekdays,
+                            discipline: discipline,
+                            masters: rez.data.result.masters
+                        })
+                        return rez.data.result.interval; 
                     }
-                dispatch({
-                    type: actionTypes.GET_AVAILABLE_INTERVAL,
-                    freeInterval: answer,
-                })
-                dispatch({
-                    type: actionTypes.SET_WEEKDAYS_AND_DISCIPLINE_AND_ARRMASTERS,
-                    weekdays: weekdays,
-                    discipline: discipline,
-                    masters: rez.data.result.masters
-                })
-                return answer; 
+                
             })
             .catch(err => {
                 console.log(err);
@@ -188,26 +239,29 @@ export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays, isC
     };
 
     return (dispatch) => {
-        return axios.post('/catalog.fasol/getMasterInterval', JSON.stringify(obj))
+        return axios.post('/catalog.fasol/getMasterIntervalOnlyDate', JSON.stringify(obj))
             .then(res => {
-
-                let answer = []
-                let freeInterval = res.data.result.interval;
-
-                for(let elem in freeInterval){
-                    answer.push({
-                        day: moment(+elem * 1000).day(),
-                        intervals: freeInterval[elem]
+                
+                if(res.data){
+                    dispatch({
+                        type: actionTypes.GET_THE_MASTER_INTERVAL,
+                        theMasterInterval: res.data.result.interval,
                     })
-                }
+                    return res;
+                    // let answer = {}
+                    // let freeInterval = res.data.result.interval;
 
-                dispatch({
-                    type: actionTypes.GET_THE_MASTER_INTERVAL,
-                    theMasterInterval: answer,
-                })
-                return res;
+                    // for (let elem in freeInterval) {
+                    //     answer[moment(+elem * 1000).day()] = { ...freeInterval[elem]}
+                    // }
+                    // dispatch({
+                    //     type: actionTypes.GET_THE_MASTER_INTERVAL,
+                    //     theMasterInterval: answer,
+                    // })
+                    // return res;
+                }
             })
-            .catch(err => {console.log(err);})
+            .catch(err => console.log(err))
     }
 }
 
@@ -240,12 +294,8 @@ export const getTrainingsTrialStatus = (idStudent) => {
             type: actionTypes.RESET_TRAININGS_TRIAL_STATUS,
         });
 
-
-        let arr = [];
-        if (getState().loading.selectors.discipline) {
-            arr = getState().loading.selectors.discipline.map(item =>
-                dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
-        }
+        let arr = getState().loading.selectors.discipline.map(item =>
+            dispatch(getTrainingTrialStatusByDiscipline(item.id, idStudent)));
 
         return Promise.all(arr)
             .then((res) => {
@@ -419,19 +469,4 @@ export const rateMaster = (idStudent, idMaster, rate, feedback) => {
             .catch(err => {console.log(err)})
     }
 };
-
-export const clearAllBookingTrainings = (idStudent) => {
-    const obj = {
-        "idStudent": idStudent
-      };
-    
-    return (dispatch) => {
-        return axios.post('/catalog.fasol/removeBookingByIdStudent', JSON.stringify(obj))
-            .then(res => {
-                return res;
-            })
-            .catch(err => {console.log(err)})
-    }
-}
-
 

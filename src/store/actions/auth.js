@@ -154,10 +154,10 @@ export const logout = () => {
         sessionStorage.removeItem('_fasol-mode');
         localStorage.removeItem('_fasol-id');
         localStorage.removeItem('_fasol-mode');
-        dispatch({type: actionTypes.LOG_OUT});
         dispatch(setOnlineStatus(getState().auth.id, false));
         dispatch(authSuccess(0, ''));
     }
+
 };
 
 export const getIdUserByToken = (token, history) => {
@@ -323,15 +323,3 @@ export const reportBug = (text, href) => {
             })
     }
 };
-
-export const forgetEmail = (email) => {
-    return (dispatch, getState) => {
-       return axios.post('/catalog.fasol/passwordRecovery',
-                JSON.stringify({
-                    login: email
-                }))
-                    .catch(err => {
-                        console.log('error: ',err);
-                    })
-    }
-}

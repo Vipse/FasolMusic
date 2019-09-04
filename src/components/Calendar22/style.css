@@ -46,12 +46,12 @@
   background-color: #ff7daa;
   border: 2px solid #ff7daa;
 }
-.table-footer .type-color-booking {
+.table-footer .type-color-bron {
   min-width: 30px;
   min-height: 30px;
   margin-right: 10px;
-  background-color: #c0c0c0;
-  border: 2px solid #00000000;
+  background-color: #21bedd;
+  border: 2px solid #21bedd;
 }
 .wrapper-small-calendar {
   padding-top: 30px;
@@ -383,7 +383,7 @@
   font-weight: bold;
 }
 .event-group-freetrainers {
-  min-height: 100px ;
+  min-height: 100px;
 }
 .event-group-cross {
   position: absolute;
@@ -400,22 +400,9 @@
   right: 1px;
 }
 .event-group-text {
-  line-height: 13px;
+  line-height: 14px;
   text-align: left;
-}
-.list-slot {
-  height: 85%;
-  margin: 4px;
-  border-radius: 5px;
-  font-size: 60%;
-  padding: 5px 10px 5px 6px;
-  font-weight: bold;
-}
-.list-slot-text {
-  color: black;
-  height: 100%;
-  margin: 0;
-  margin-top: -10px;
+  font-size: 11px;
 }
 .wrapper-calendar {
   position: relative;
@@ -426,4 +413,60 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
+}
+.rbc-calendar-eventwrapper {
+  margin-right: 10px;
+}
+.rbc-smallcalendar-eventwrapper {
+  margin-top: 5px;
+  width: 30%;
+}
+.rbc-smallcalendar-eventwrapper .change-worktime {
+  margin: 0px 0px 15px 15px;
+}
+.rbc-smallcalendar-eventwrapper .block-change-worktime {
+  height: 35px;
+  width: 15px;
+  margin: 0px 0px 15px 15px;
+}
+.rbc-timeslot-newgroup {
+  font-family: 'icon' !important;
+  color: #b6e0ff;
+  font-size: 25px;
+  text-align: center;
+  height: 52px;
+  line-height: 52px;
+  flex: auto;
+}
+.rbc-timeslot-newgroup-OK {
+  background-color: rgba(0, 255, 0, 0.2) !important;
+  border: 1px solid #00ff00;
+}
+.rbc-timeslot-newgroup-OK:hover {
+  position: relative;
+  z-index: 5;
+  background-color: rgba(0, 255, 0, 0.6);
+  line-height: 1;
+  cursor: pointer;
+}
+.rbc-timeslot-newgroup-OK:hover:after {
+  margin-top: 12px;
+  content: '+';
+}
+.rbc-time-newslot.rbc-newlabel {
+  color: #21bedd;
+  display: flex;
+}
+.rbc-time-newslot.rbc-newlabel > span {
+  margin: auto;
+}
+.rbc-calendar-eventwrapper-cells {
+  display: flex;
+}
+.rbc-calendar-eventwrapper-cells .rbc-label {
+  height: 52px;
+}
+.rbc-calendar-eventwrapper-cells .rbc-label p.event-timebody {
+  margin-bottom: 3px;
+  font-size: 12px;
 }

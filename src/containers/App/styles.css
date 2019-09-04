@@ -100,6 +100,10 @@ body {
 .main-content {
   margin-top: 100px;
   padding: 30px 50px 40px 30px;
+  
+}
+.main-content.ant-card{
+  min-width: 950px;
 }
 .main-footer {
   position: relative;

@@ -4,8 +4,8 @@
 }
 
 .table-footer {
-   
-    
+
+
     margin-top: 7px;
 
     .type {
@@ -47,6 +47,7 @@
                 background-color: #fdc401;
                 border: 2px solid #fdc401;
             }
+
             &-error {
                 min-width: 30px;
                 min-height: 30px;
@@ -54,21 +55,23 @@
                 background-color: #ff7daa;
                 border: 2px solid #ff7daa;
             }
-            &-booking {
+
+            &-bron {
                 min-width: 30px;
                 min-height: 30px;
                 margin-right: 10px;
-                background-color: rgb(192, 192, 192);;
-                border: 2px solid #00000000;
-            }
-            
+                background-color: #21bedd;
+                border: 2px solid #21bedd;
 
-            
+            }
+
+
+
         }
     }
 }
 
-.wrapper-small-calendar{
+.wrapper-small-calendar {
     padding-top: 30px;
 }
 
@@ -77,14 +80,17 @@
     position: relative;
     margin-bottom: 20px;
     font-size: 20px;
+
     .arrowsGroup {
         margin-left: 20px;
         background-color: transparent;
     }
+
     &-label {
         margin-left: 20px;
         text-transform: capitalize;
     }
+
     &-receptionCount {
         margin: auto 25px auto 10px;
         height: 20px;
@@ -95,7 +101,8 @@
         border-radius: 10px;
         padding: 0 10px;
     }
-    &-discipline{
+
+    &-discipline {
         margin-right: auto;
         margin-left: 20px;
     }
@@ -109,6 +116,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
     &>span {
         margin: auto;
         text-transform: capitalize;
@@ -146,8 +154,10 @@
         display: flex;
         font-size: 32px;
         height: 100px;
+
         &-content {
             margin: 0 auto;
+
             .icon-count {
                 display: inline-block;
                 text-align: center;
@@ -158,6 +168,7 @@
                 background-color: #dddddd;
             }
         }
+
         .root_schedule {
             width: 100%;
             height: 135px;
@@ -168,15 +179,19 @@
             border: 1px solid transparent;
             border-left: 1px solid #ddd;
             background-color: #fff;
+
             &:hover {
                 border: #85cafd 1px solid;
             }
+
             &.no-edit:hover {
                 border: #f25328 1px solid;
             }
+
             &>.icon-no {
                 color: #f25328;
             }
+
             &>.icon {
                 position: absolute;
                 right: 10px;
@@ -184,40 +199,49 @@
                 z-index: 10;
             }
         }
+
         &-schedule {
             display: table;
             position: relative;
             width: 100%; //height: 100px;
             // border-left: 1px solid #DDD;
-           // background-color: white;
+            // background-color: white;
             z-index: 2;
+
             .schedule-isDayOff-item {
                 display: table-cell;
                 font-size: 14px;
                 color: #344051;
                 text-align: center;
             }
+
             .schedule-time {
                 display: table-row;
+
                 &-item {
                     display: table-cell;
                     font-size: 14px;
                     color: #344051;
+
                     &.empty {
                         width: 35%;
                     }
                 }
             }
+
             .schedule-emrgtime {
                 display: table-row;
+
                 &-item {
                     display: table-cell;
                     font-size: 14px;
                     color: #f25328;
+
                     &.with-sign {
                         width: 35%;
                         display: flex;
                         height: 100%;
+
                         div {
                             display: inline-block;
                             margin-left: auto;
@@ -226,20 +250,24 @@
                 }
             }
         }
+
         &-coming {
             .month-row-segment-content {
                 color: #21bedd;
             }
+
             .icon-count {
                 background-color: #21bedd;
             }
         }
     }
+
     .user-month-row-segment {
         height: 85px;
         margin: 10px 0 5px 0;
         position: relative;
         border: 0;
+
         .user-visit {
             font-size: 13px;
             background-color: #21bedd;
@@ -249,26 +277,32 @@
             margin: 0 10px;
             padding: 10px;
             cursor: pointer;
+
             .separate-visit-div:not(:last-child) {
                 margin-bottom: 15px;
             }
+
             .separate-visit-div .icon {
                 color: white;
                 position: absolute;
                 right: 20px;
             }
+
             .vis-info {
                 color: white;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+
                 &-btn {
                     text-align: center;
+
                     &:hover {
                         cursor: pointer;
                     }
                 }
             }
+
             &-gap {
                 position: absolute;
                 height: 25px;
@@ -289,6 +323,7 @@
     max-width: 90px;
     display: flex;
     color: #21bedd;
+
     .icon {
         margin: auto;
     }
@@ -307,21 +342,24 @@
         text-align: center;
         height: 52px;
         line-height: 52px;
-        flex:auto;
-        
+        flex: auto;
+
         &-OK {
             background-color: rgba(0, 255, 0, 0.2) !important;
             border: 1px solid #00ff00;
         }
+
         &-OK:hover {
             position: relative;
             z-index: 5;
             background-color: rgba(0, 255, 0, 0.6);
             line-height: 1;
+
             &:after {
-               margin-top: 12px;
+                margin-top: 12px;
                 content: '+';
             }
+
             cursor: pointer;
         }
     }
@@ -330,6 +368,7 @@
 .rbc-time-slot.rbc-label {
     color: #21bedd;
     display: flex;
+
     &>span {
         margin: auto;
     }
@@ -337,13 +376,16 @@
 
 .rbc-header {
     cursor: pointer;
+
     .header-month {
         margin: auto;
     }
+
     .header-week {
         &-weekday {
             font-size: 12px;
         }
+
         &-day {
             font-size: 14px;
             text-align: center;
@@ -353,27 +395,31 @@
 
 .rbc-header.rbc-today {
     background-color: #e8f8fc !important;
+
     .header-week>div {
         font-family: "RobotoBold";
     }
 }
 
-.rbc-calendar-wrapper{
+.rbc-calendar-wrapper {
     min-width: 78%;
     margin-right: 10px;
 }
-.rbc-smallcalendar-wrapper{
+
+.rbc-smallcalendar-wrapper {
     margin-top: 5px;
     width: 30%;
-    .change-worktime{
+
+    .change-worktime {
         margin: 0px 0px 15px 15px;
     }
-    .block-change-worktime{
+
+    .block-change-worktime {
         height: 35px;
         width: 15px;
         margin: 0px 0px 15px 15px;
     }
-    
+
 }
 
 
@@ -390,9 +436,10 @@
         color: #ffffff;
         font-size: 11px;
     }
+
     .rbc-event {
         display: flex;
-        padding: 4px; 
+        padding: 4px;
         height: 55px !important;
         margin-top: -10px;
         padding: 0;
@@ -415,9 +462,11 @@
         position: relative;
         z-index: 1;
         background-color: #f1f9ff;
+
         &:before {
             content: "\E900";
         }
+
         border: 1px #85cafd dashed;
         cursor: pointer;
     }
@@ -425,7 +474,7 @@
 
 
 //EventSlot
-.event-group{
+.event-group {
     position: relative;
     background-color: #fdc401;
 
@@ -436,57 +485,128 @@
     color: #000;
     padding: 5px 15px 5px 6px;
     font-weight: bold;
-    &-freetrainers{
-        min-height: 100px ;
+
+    &-freetrainers {
+        min-height: 100px;
     }
-    &-cross{
+
+    &-cross {
         position: absolute;
         top: 5px;
         right: 5px;
         height: 10px;
         width: 10px;
-        span{
+
+        span {
             width: 100%;
             height: 100%;
             position: absolute;
             top: 1px;
             right: 1px;
         }
-        &-hover{
-            cursor: pointer;
-        }
-        
+
     }
-    &-text{
-        line-height: 13px;
+
+    &-text {
+        line-height: 14px;
         text-align: left;
+        font-size: 11px;
     }
 }
 
 
-.list-slot{
-    height: 85%;
-    margin: 4px;
-    border-radius: 5px;
-    font-size: 60%;
-    padding: 5px 10px 5px 6px;
-    font-weight: bold;
-    &-text{
-        color: black;
-        height: 100%;
-        margin: 0;
-        margin-top: -10px;
-    }
-}
 
-.wrapper-calendar{
+
+.wrapper-calendar {
     position: relative;
 
-    .schedule-spinner{
+    .schedule-spinner {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 99;
+    }
+}
+
+
+/////////
+
+.rbc-calendar-eventwrapper {
+    margin-right: 10px;
+}
+
+.rbc-smallcalendar-eventwrapper {
+    margin-top: 5px;
+    width: 30%;
+
+    .change-worktime {
+        margin: 0px 0px 15px 15px;
+    }
+
+    .block-change-worktime {
+        height: 35px;
+        width: 15px;
+        margin: 0px 0px 15px 15px;
+    }
+
+}
+
+
+
+
+// new style eeee
+
+
+    .rbc-timeslot-newgroup {
+        font-family: 'icon' !important;
+        color: #b6e0ff;
+        font-size: 25px;
+        text-align: center;
+        height: 52px;
+        line-height: 52px;
+        flex: auto;
+
+        &-OK {
+            background-color: rgba(0, 255, 0, 0.2) !important;
+            border: 1px solid #00ff00;
+        }
+
+        &-OK:hover {
+            position: relative;
+            z-index: 5;
+            background-color: rgba(0, 255, 0, 0.6);
+            line-height: 1;
+
+            &:after {
+                margin-top: 12px;
+                content: '+';
+            }
+
+            cursor: pointer;
+        }
+    }
+
+
+.rbc-time-newslot.rbc-newlabel {
+    color: #21bedd;
+    display: flex;
+
+    &>span {
+        margin: auto;
+    }
+}
+
+
+.rbc-calendar-eventwrapper{
+    &-cells{
+        display: flex;
+        .rbc-label{
+            height: 52px;
+            p.event-timebody{
+                margin-bottom: 3px;
+                font-size: 12px;
+            }
+        }
     }
 }

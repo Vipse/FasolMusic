@@ -170,7 +170,7 @@ const mapDispatchToProps = dispatch => {
         onChangeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),
         onGetIdUserByToken: (token, history) => dispatch(actions.getIdUserByToken(token, history)),
         onResetError: () => dispatch(actions.resetError()),
-        onForgetEmail:(email) => dispatch(actions.forgetEmail(email))
+        onForgetEmail:(email) => {}//dispatch(actions.forgetEmail(email))
 
     }
 };

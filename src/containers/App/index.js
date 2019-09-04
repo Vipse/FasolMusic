@@ -268,7 +268,7 @@ class App extends React.Component {
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
              .then(() => {
                 this.setState({scheduleSpinner: false})
-                 this.props.onSetPushBtnAddTraining()
+                this.props.onSetPushBtnTransferTraining(true)
             })
         }
 
@@ -397,7 +397,7 @@ class App extends React.Component {
                                         />
                                     </Switch>
                                 </div>
-                                {this.renderVKApp()}
+                                {/*this.renderVKApp()*/}
                             </div>
                             {this.state.scheduleSpinner &&
                                 <div className = "schedule-spinner">
@@ -487,7 +487,7 @@ const mapDispatchToProps = dispatch => {
         setWebSocketStatus: (status) => dispatch(actions.setWebSocketStatus(status)),
 
         onSetPushBtnTransferTraining: (type) => dispatch(actions.setPushBtnTransferTraining(type)),
-        onSetPushBtnAddTraining: () => dispatch(actions.setPushBtnAddTraining()),
+        onSetPushBtnAddTraining: (type) => dispatch(actions.setPushBtnAddTraining(type)),
         onGetTheMasterInterval:(dateStart,dateEnd,idMaster,weekdays,isCallAdmin)=>dispatch(actions.getTheMasterInterval(dateStart,dateEnd,idMaster,weekdays,isCallAdmin)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
         onGetTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),

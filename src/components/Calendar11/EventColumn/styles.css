@@ -1,22 +1,52 @@
-.rbc-time-column {
+.rbc-time-eventcolumn {
   display: inline-flex;
   flex-direction: column;
   min-height: 100%;
 }
-.rbc-time-column .rbc-timeslot-group {
+.rbc-time-eventcolumn .rbc-timeslot-group {
   flex: 1;
 }
 .rbc-timeslot-group {
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
   min-height: 40px;
   display: flex;
   flex-flow: column nowrap;
 }
-.rbc-time-gutter,
-.rbc-header-gutter {
+.rbc-timeslot-group-OK {
+  background-color: rgba(0, 255, 0, 0.2) !important;
+  border-top: 1px solid #0f0;
+  border-right: 1px solid #0f0;
+}
+.rbc-time-eventgutter {
   flex: none;
+  width: 90px;
+  text-align: center;
+}
+.rbc-time-eventgutter .event-timebody {
+  width: 100%;
+}
+.rbc-header-eventgutter {
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 .rbc-label {
   padding: 0 5px;
+}
+.rbc-label .event-body {
+  margin: auto;
+}
+.rbc-label .icon-clock {
+  margin: auto;
+  font-size: 28px;
+  width: 100%;
+}
+.rbc-label.rbc-header-gutter.rbc-clock-icon {
+  width: 10%;
+  max-width: 90px;
+  display: flex;
+  color: #21bedd;
+  height: 52px;
 }
 .rbc-day-slot {
   position: relative;
@@ -34,7 +64,7 @@
   right: 0;
 }
 .rbc-day-slot .rbc-event {
-  border: 1px solid #265985;
+  border: 1px solid black;
   display: flex;
   max-height: 100%;
   min-height: 20px;
@@ -56,9 +86,6 @@
   line-height: 1;
   height: 100%;
   min-height: 1em;
-}
-.rbc-day-slot .rbc-time-slot {
-  border-top: 1px solid #f7f7f7;
 }
 .rbc-time-slot {
   flex: 1 0 0;

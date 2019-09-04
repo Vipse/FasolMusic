@@ -22,14 +22,14 @@ class LoginForgetForm extends React.Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 this.props.onSubmit(values);
-                this.props.onForgetEmail(values.email)
-                .then((res)=>{
-                    if(res.data.error !== undefined) {message.success("Такого аккаунта не существует");}
-                    else {
-                    message.success("Письмо для восстановления отправлено");
-                    this.props.history.push('/signin');
-                    }
-                })
+                //this.props.onForgetEmail(values.email)
+                // .then((res)=>{
+                //     if(res.data.error !== undefined) {message.success("Такого аккаунта не существует");}
+                //     else {
+                //     message.success("Письмо для восстановления отправлено");
+                //     this.props.history.push('/signin');
+                //     }
+                // })
             }
         });
     };

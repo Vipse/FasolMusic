@@ -16,8 +16,7 @@ export {
     setOnlineStatus,
     connectionToSocialNetwork,
     socialNetworkCheck,
-    socialAuthorization,
-    forgetEmail
+    socialAuthorization
 } from './auth'
 
 export {
@@ -107,7 +106,7 @@ export {
     rateMaster,
     changeBtnBack,
     changeBtnTransfer,
-    clearAllBookingTrainings
+    getStudentsSchedule
 } from './student'
 
 export {

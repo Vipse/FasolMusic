@@ -1,41 +1,18 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import moment from 'moment'
 import uncontrollable from 'uncontrollable'
 import cn from 'classnames'
-import {
-  accessor,
-  elementType,
-  dateFormat,
-  dateRangeFormat,
-  views as componentViews,
-} from './utils/propTypes'
-
-import { notify } from './utils/helpers'
-import { navigate, views } from './utils/constants'
-import defaultFormats from './header/formats'
-import message from './utils/messages'
-import moveDate from './utils/move'
 import Toolbar from './header/Toolbar'
-import BackgroundWrapper from './BackgroundWrapper'
-
-import omit from 'lodash/omit'
-import defaults from 'lodash/defaults'
-import SmallCalendar from './../../SmallCalendar/index';
 import Spinner from "../../Spinner";
+
 
 import Button from './../../Button/index';
 import CancelVisitModal from './../../CancelVisitModal/index';
 import Week from './Week';
 import FreeTrainers from './../../FreeTrainers/index';
-
-function viewNames(_views) {
-  return !Array.isArray(_views) ? Object.keys(_views) : _views
-}
-
-function isValidView(view, { views: _views }) {
-  let names = viewNames(_views)
-  return names.indexOf(view) !== -1
-}
+import DateColumn from './../../Calendar11/DateColumn/index';
+import EventColumn from './../../Calendar11/EventColumn/index';
 
 let now = new Date()
 
@@ -46,13 +23,68 @@ class Calendar extends React.Component {
         isWorkTime: false,   
         
     }
+    this.now = (new Date).getTime()
   }
-  
-  getDrilldownView = date => {
-    const { view, drilldownView, getDrilldownView } = this.props
 
-    if (!getDrilldownView) return drilldownView
-        return getDrilldownView(date, view, ['week'])
+  componentWillReceiveProps(nextProps) {
+    const {studentSchedule, intervals} = this.props;
+
+    if (studentSchedule == nextProps.studentSchedule && 
+      intervals == nextProps.intervals){
+
+      return false // проверить!
+    }
+    return true
+      
+  }
+
+  getIntervalForColumn = (startTime) => {
+    const {intervals} = this.props;
+    const amountDay = startTime.day();
+  
+    if (intervals && intervals.hasOwnProperty(amountDay)){
+      return {...intervals[amountDay]}
+    }
+  }
+
+  rendertEventColumn = () => {
+
+    const { min, max, studentSchedule, intervals} = this.props;
+
+    let arrRender = [];
+    const endOf = moment().endOf('week');
+    let startOf = moment().startOf('week');
+    let startTime = moment(+min);
+    let endTime = moment(+max);
+    
+    while (startOf.isBefore(endOf)) {
+        arrRender.push(
+            <EventColumn
+                key={startOf.format('X')}
+                timeDay={startOf.format('X')}
+                studentSchedule={studentSchedule}
+                startTime={startTime.format('X')}
+                endTime={endTime.format('X')} 
+                intervals={intervals}//{this.getIntervalForColumn(startTime)}
+                isAdmin={this.props.isAdmin}
+
+                //admin
+                masterList={this.props.masterList}
+
+                //func
+                deleteTraining={this.props.deleteTraining}
+                onCancelTraining={this.props.onCancelTraining}
+                deleteEventApiPatient={this.props.deleteEventApiPatient}
+
+              />)
+
+        startOf.add(1, 'day')
+
+        startTime.add(1, 'day')
+        endTime.add(1, 'day')
+    }
+
+    return arrRender;
   }
 
   changeWorkTime = () => {
@@ -61,6 +93,11 @@ class Calendar extends React.Component {
 
   render() {
     let {
+      min,
+      max,
+      currentDate,
+
+
         view,
         toolbar,
         events,
@@ -71,7 +108,7 @@ class Calendar extends React.Component {
         style,
         className,
         elementProps,
-        date: current,
+        
         length,
         receptionNum,
         onChange,
@@ -84,22 +121,9 @@ class Calendar extends React.Component {
       ...props
     } = this.props
 
-    formats = defaultFormats(formats)
-    messages = message(messages)
+  
 
-    let names = ['week'];
-    
-    let viewComponents = defaults(
-      components[view] || {},
-      omit(components, names),
-      {
-        dayWrapper: BackgroundWrapper,
-        dateCellWrapper: BackgroundWrapper,
-      }
-    )
-
-    const label = Week.title(current, { formats, culture, length })
-    
+    const label = 'calendar label'
     return (
       <div className="wrapper-calendar">    
 
@@ -109,21 +133,25 @@ class Calendar extends React.Component {
             </div>}
 
         <div
-          {...elementProps}
-          className={cn('rbc-calendar', className, {
-            'rbc-rtl': props.rtl,
-          })}
-          style={style}
+          className={'rbc-calendar'}
         >
-          <div className='rbc-calendar-wrapper'>      
-            {toolbar && (
+          <div className='rbc-calendar-eventwrapper'>    
               <Toolbar
+                min={min}
+                max={max}
                 mode = {this.props.mode}
-                date={current}
-                view={view}
-                views={names}
+                currentDate={currentDate}
+                isAdmin={this.props.isAdmin}
+
+                //func
+                dateChange={this.props.dateChange}
+                
+
+              
+              
+              
+              //
                 label={label}
-                onNavigate={this.handleNavigate}
                 messages={messages}
                 receptionNum={receptionNum}
                 isUser = {this.props.isUser}
@@ -135,8 +163,18 @@ class Calendar extends React.Component {
                 notRedirectDiscipline = {this.props.notRedirectDiscipline}
                 countTrainingDiscipline = {this.props.countTrainingDiscipline}
               />
-            )}
-            <Week
+
+              <div className="rbc-calendar-eventwrapper-cells">
+                <DateColumn
+                  min={min}
+                  max={max} />
+
+              
+                {this.rendertEventColumn()}
+
+              </div>
+            
+            {/* <Week
               ref="view"
               {...props}
               {...formats}
@@ -149,18 +187,13 @@ class Calendar extends React.Component {
               events={events}
               date={current}
               length={length}
-              components={viewComponents}
-              getDrilldownView={this.getDrilldownView} // для навигации по  header в timegrid
               onNavigate={this.handleNavigate}
               onDrillDown={this.handleDrillDown}
               onSelectEvent={this.handleSelectEvent} 
-            />
+            /> */}
 
           </div>
-          <div className='rbc-smallcalendar-wrapper'>
-          
-         
-            
+          <div className='rbc-smallcalendar-eventwrapper'>     
             { this.props.isShowFreeTrainers ?
               <FreeTrainers 
                   freeTrainers={freeTrainers} 
@@ -188,169 +221,31 @@ class Calendar extends React.Component {
                     <div className='type-name'>Перенеси тренировку</div>
                 </div>
                 <div className="type">
-                    <div className='type-color-booking'/>
-                    <div className='type-name'>Забронированная тренировка</div>
+                  <div className='type-color-bron' />
+                  <div className='type-name'>Забронированная тренировка</div>
                 </div>
+
+                
             
-            </div>
-              
+              </div>  
             }
               
-            
-
-
             <CancelVisitModal visible={this.state.isWorkTime}
                               onCancel={() => this.setState({isWorkTime: false})}
                 />
-          </div> 
-
-          
-        </div>
-       
+          </div>  
+        </div>      
       </div>
     )
   }
 
-  handleNavigate = (action, newDate, isOnDay) => { 
-    let { view, date, onNavigate, ...props } = this.props
-    let ViewComponent = Week;
 
-    date = moveDate(ViewComponent, {
-      ...props,
-      action,
-      date: newDate || date,
-    })
-
-    onNavigate(date, view, action, isOnDay)
-  }
-
-  handleViewChange = (view, date) => {
-    if (view !== this.props.view && isValidView(view, this.props)) {
-      this.props.onView(view, date)
-    }
-  }
-
-  handleSelectEvent = (...args) => {
-    notify(this.props.onSelectEvent, args)
-  }
-
-
-  handleDrillDown = (date, view) => {
-    const { onDrillDown } = this.props;
-    
-    if (onDrillDown) {
-      onDrillDown(date, view, this.drilldownView)
-      return
-    }
-    if (view) this.handleViewChange(view, date)
-    this.handleNavigate(navigate.DATE, date, true)
-  }
 }
 
 Calendar.propTypes = {
   elementProps: PropTypes.object,
 
   date: PropTypes.instanceOf(Date),
-
-  view: PropTypes.string,
-  events: PropTypes.arrayOf(PropTypes.object),
-  titleAccessor: accessor,
-  allDayAccessor: accessor,
-  startAccessor: accessor,
-  endAccessor: accessor,
-  resourceAccessor: accessor,
-  resources: PropTypes.arrayOf(PropTypes.object),
-  resourceIdAccessor: accessor,
-  resourceTitleAccessor: accessor,
-  onNavigate: PropTypes.func,
-  onView: PropTypes.func,
-  onDrillDown: PropTypes.func,
-  onSelectEvent: PropTypes.func,
-  onDoubleClickEvent: PropTypes.func,
-  onSelecting: PropTypes.func,
-  selected: PropTypes.object,
-  views: componentViews,
-  drilldownView: PropTypes.string,
-  getDrilldownView: PropTypes.func,
-  length: PropTypes.number,
-  toolbar: PropTypes.bool,
-  popup: PropTypes.bool,
-  popupOffset: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-  ]),
-  selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-  resizable: PropTypes.bool,
-  longPressThreshold: PropTypes.number,
-  step: PropTypes.number,
-  timeslots: PropTypes.number,
-  rtl: PropTypes.bool,
-  eventPropGetter: PropTypes.func,
-  slotPropGetter: PropTypes.func,
-  dayPropGetter: PropTypes.func,
-  showMultiDayTimes: PropTypes.bool,
-  min: PropTypes.instanceOf(Date),
-  max: PropTypes.instanceOf(Date),
-  scrollToTime: PropTypes.instanceOf(Date),
-  culture: PropTypes.string,
-  formats: PropTypes.shape({
-    dayFormat: dateFormat,
-    weekdayFormat: dateFormat,
-    timeGutterFormat: dateFormat,
-    monthHeaderFormat: dateFormat,
-    dayRangeHeaderFormat: dateRangeFormat,
-    dayHeaderFormat: dateFormat,
-    agendaHeaderFormat: dateRangeFormat,
-    selectRangeFormat: dateRangeFormat,
-    agendaDateFormat: dateFormat,
-    agendaTimeFormat: dateFormat,
-    agendaTimeRangeFormat: dateRangeFormat,
-    eventTimeRangeFormat: dateRangeFormat,
-    eventTimeRangeStartFormat: dateFormat,
-    eventTimeRangeEndFormat: dateFormat,
-  }),
-components: PropTypes.shape({
-    event: elementType,
-    dayWrapper: elementType,
-    dateCellWrapper: elementType,
-
-    toolbar: elementType,
-
-    agenda: PropTypes.shape({
-      date: elementType,
-      time: elementType,
-      event: elementType,
-    }),
-
-    day: PropTypes.shape({
-      header: elementType,
-      event: elementType,
-    }),
-    week: PropTypes.shape({
-      header: elementType,
-      event: elementType,
-    }),
-    month: PropTypes.shape({
-      header: elementType,
-      dateHeader: elementType,
-      event: elementType,
-    }),
-  }),
-
-  messages: PropTypes.shape({
-    allDay: PropTypes.node,
-    previous: PropTypes.node,
-    next: PropTypes.node,
-    today: PropTypes.node,
-    month: PropTypes.node,
-    week: PropTypes.node,
-    day: PropTypes.node,
-    agenda: PropTypes.node,
-    date: PropTypes.node,
-    time: PropTypes.node,
-    event: PropTypes.node,
-    showMore: PropTypes.func,
-  }),
 
   showTransferEvent: PropTypes.func,
   freeTrainers: PropTypes.object,
@@ -367,25 +262,6 @@ components: PropTypes.shape({
 
 Calendar.defaultProps = {
   elementProps: {},
-  popup: false,
-  toolbar: true,
-  view: views.WEEK,
-  views: [views.MONTH, views.WEEK, views.DAY],
-  date: now,
-  step: 30,
-  length: 30,
-
-  drilldownView: views.DAY,
-
-  titleAccessor: 'title',
-  allDayAccessor: 'allDay',
-  startAccessor: 'start',
-  endAccessor: 'end',
-  resourceAccessor: 'resourceId',
-
-  resourceIdAccessor: 'id',
-  resourceTitleAccessor: 'title',
-
   longPressThreshold: 250,
 }
 

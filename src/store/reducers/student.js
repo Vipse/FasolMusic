@@ -131,7 +131,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 statusBtnBack: action.statusBtnBack
             }
-
+        case actionTypes.GET_STUDENTS_SCHEDULE:
+            return {
+                ...state,
+                studentSchedule: action.studentSchedule
+            }
 
 
         default: return state;

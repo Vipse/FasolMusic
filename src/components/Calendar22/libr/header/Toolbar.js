@@ -4,17 +4,13 @@ import { navigate } from '../utils/constants'
 import Button from '../../../Button'
 import Arrow from '../../../Arrow'
 import { Select } from 'antd';
+import moment from 'moment'
 
 const Option = Select.Option;
 
 class Toolbar extends React.Component {
 
   static propTypes = {
-    view: PropTypes.string.isRequired,
-    views: PropTypes.arrayOf(PropTypes.string).isRequired,
-    label: PropTypes.string.isRequired,
-    messages: PropTypes.object,
-    onNavigate: PropTypes.func.isRequired,
   }
 
   changeSelectorDiscipline = (codeDisc) => {
@@ -30,8 +26,28 @@ class Toolbar extends React.Component {
     }
   }
 
+  getLabelToolbar = () => {
+    const { min } = this.props;
+
+    const startDate = moment(+min).startOf('week')
+    const endDate = moment(+min).endOf('week')
+
+    if (startDate.get('month') == endDate.get('month')){
+      return startDate.format('MMM D') + ' - ' + endDate.format('D')
+    }
+    else {
+      return startDate.format('MMM D') + ' - ' + endDate.format('MMM D')
+    }
+  }
+
   render() {
-    let { messages, 
+    const {
+      min, 
+      max,
+      isAdmin,
+      
+      //
+      messages, 
       label, 
       receptionNum,
       isNeedSaveIntervals, 
@@ -50,12 +66,11 @@ class Toolbar extends React.Component {
         }
     }
 
-    console.log('notRedirectDiscipline :', notRedirectDiscipline);
     return (
       <div className="rbc-toolbar">
         <Button
             className='btn-transfer-training'
-            btnText={messages.today}
+            btnText="cегодня"
             size='small'
             type='dark-blue'
             onClick={this.navigate.bind(null, navigate.TODAY)}/>
@@ -63,8 +78,8 @@ class Toolbar extends React.Component {
                onClickNext={this.navigate.bind(null, navigate.NEXT)}
                onClickPrev={this.navigate.bind(null, navigate.PREVIOUS)}/>
 
-        <span className="rbc-toolbar-label">{label}</span>      
-        <span className="rbc-toolbar-receptionCount">{this.props.countTrainingDiscipline}</span>
+        <span className="rbc-toolbar-label">{this.getLabelToolbar()}</span>  
+        {!isAdmin && <span className="rbc-toolbar-receptionCount">{this.props.countTrainingDiscipline}</span>}
 
         <div  className="rbc-toolbar-discipline">
           {(currDiscipline && !notRedirectDiscipline) ?
@@ -89,7 +104,7 @@ class Toolbar extends React.Component {
   }
 
   navigate = action => {
-    this.props.onNavigate(action)
+    this.props.dateChange(action)
   }
 
 

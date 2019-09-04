@@ -16,7 +16,8 @@ import abonementReducer from './reducers/abonement'
 import acquiringReducer from './reducers/acquiring'
 import homeworkReducer from './reducers/homework'
 
-const appReducer = combineReducers({
+
+const rootReducer = combineReducers({
     students: studentsReducer,
     auth: authReducer,
     profileCoach: infoCoachReducer,
@@ -30,15 +31,7 @@ const appReducer = combineReducers({
     admin: adminReducer,
     acquiring: acquiringReducer,
     homework: homeworkReducer
-  })
-  
-  const rootReducer = (state, action) => {
-    if (action.type === 'LOG_OUT') {
-      state = undefined
-    }
-  
-    return appReducer(state, action)
-  }
+});
 
 export default function configureStore() {
     return createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

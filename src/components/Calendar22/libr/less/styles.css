@@ -360,7 +360,7 @@ button.rbc-input::-moz-focus-inner {
   width: 100%;
 }
 .rbc-time-column {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   min-height: 100%;
 }
@@ -368,7 +368,6 @@ button.rbc-input::-moz-focus-inner {
   flex: 1;
 }
 .rbc-timeslot-group {
-  border-bottom: 1px solid #DDD;
   min-height: 40px;
   display: flex;
   flex-flow: column nowrap;

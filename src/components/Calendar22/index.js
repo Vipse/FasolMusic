@@ -14,24 +14,7 @@ momentLocalizer(moment);
 
 class BigCalendar extends React.Component{
     
-    //сервер_дата -> moment_дата
-    //private
 
-    changeIntervalDate = (start, end) => { 
-        return {
-            start: new Date((+start)*1000),
-            end: new Date((+end)*1000),
-        }
-    };
-
-    changeEvents = () => {
-        return this.props.events ? this.props.events.map((event) => {
-                return {
-                    ...event,
-                    ...this.changeIntervalDate(event.start, event.end),
-                }
-            }) : [];
-    };
     
     render() {
         if(this.props.isAdmin) {
@@ -41,31 +24,14 @@ class BigCalendar extends React.Component{
                 {...this.props}
             />
         }
-        console.log('this.props :', this.props);
 
-        return (<div>
-            {
-                true ? // this.props.isUser
-                    <Calendar
-                        events = {this.changeEvents()}
-                        isUser={true} // это для коуча
-                        isAdmin
-                         
-                        {...this.props}
+        return (
+            <Calendar
+                events={this.props.events}
+                {...this.props}
 
-                   />
-                    :
-                    <Calendar
-                        events = {this.changeEvents()}
-                        
-                            //  schedules={this.changeSchedule()} 
-                            // обычные интервалы и экстренные и переводит в Date
-        
-                        {...this.props}
-
-                    />
-            }
-        </div>);
+            />
+        );
     }
 }
 
