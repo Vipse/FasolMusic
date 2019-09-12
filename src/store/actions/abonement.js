@@ -108,10 +108,11 @@ export const transferTraininingToEnd = (value, isCallAdmin) => {
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/TransferTraininingToEnd', JSON.stringify({...value, isCallAdmin}))
             .then(res => {
-
-                console.log("TransferTraininingToEnd", res);
-                
-                return res;
+                if(res.data.code !== 200){
+                    console.log("TransferTraininingToEnd", res);             
+                    return res;
+                }       
+                //Promise.reject("error");     
             })
             .catch(err => {
                 console.log(err);
@@ -148,12 +149,14 @@ export const freezeAbonement = (idSubscription) => {
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/frozenTraining', JSON.stringify(obj))
             .then(res => {
-                console.log("frozenTraining", res);
-                // dispatch({
-                //     type: actionTypes.GET_ABONEMENTS2,
-                //     allAbonements2: res.data.result,
-                // });
-                return res;
+                if(res.data.code == 200){
+                    dispatch({
+                        type: actionTypes.GET_STUDENTS_SCHEDULE,
+                        studentSchedule: {},
+                    });
+                    return res;
+                }
+                
             })
             .catch(err => {
                 console.log(err);

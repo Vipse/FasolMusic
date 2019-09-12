@@ -56,6 +56,7 @@ class EventColumn extends React.Component{
                                 deleteTraining={this.props.deleteTraining}
                                 onCancelTraining={this.props.onCancelTraining}
                                 deleteEventApiPatient={this.props.deleteEventApiPatient}
+                                clickOnEvent={this.props.clickOnEvent}
                             /> : ''}
                     </div>
                 </div>)

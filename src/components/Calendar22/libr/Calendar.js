@@ -49,7 +49,7 @@ class Calendar extends React.Component {
 
   rendertEventColumn = () => {
 
-    const { min, max, studentSchedule, intervals} = this.props;
+    const { min, max, studentSchedule, intervals, currDiscipline, isAdmin, clickOnEvent} = this.props;
 
     let arrRender = [];
     const endOf = moment().endOf('week');
@@ -66,7 +66,9 @@ class Calendar extends React.Component {
                 startTime={startTime.format('X')}
                 endTime={endTime.format('X')} 
                 intervals={intervals}//{this.getIntervalForColumn(startTime)}
-                isAdmin={this.props.isAdmin}
+                isAdmin={isAdmin}
+                currDiscipline={currDiscipline}
+                clickOnEvent={clickOnEvent}
 
                 //admin
                 masterList={this.props.masterList}

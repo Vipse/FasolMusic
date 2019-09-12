@@ -52,6 +52,9 @@ class App extends React.Component {
         closeSocket();
     }
 
+    componentDidUpdate(prevProps){
+        this.state.scheduleSpinner && this.setState({scheduleSpinner: false});
+    }
     runNotificationsWS = () => {
         const that = this;
         //let id = 3199;
@@ -251,7 +254,7 @@ class App extends React.Component {
             this.onGoToSchedule();
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
              .then(() => {
-                this.setState({scheduleSpinner: false})
+               // this.setState({scheduleSpinner: false})
              })
         }
     }
@@ -267,7 +270,7 @@ class App extends React.Component {
 
             this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
              .then(() => {
-                this.setState({scheduleSpinner: false})
+                //this.setState({scheduleSpinner: false})
                 this.props.onSetPushBtnTransferTraining(true)
             })
         }

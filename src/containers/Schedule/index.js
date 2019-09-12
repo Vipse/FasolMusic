@@ -75,7 +75,6 @@ class Schedule extends React.Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.statusBtnBack !== this.props.statusBtnBack && nextProps.statusBtnBack === false){
             this.setState({
-                scheduleSpinner: false,
                 isShowFreeTrainers: false,
                 apiPatients: [],
                 theMasterSelect: false,
@@ -94,6 +93,10 @@ class Schedule extends React.Component {
         const {match} = this.props;
         return (Object.keys(match.params).length && match.params.id) ? true : false
     }
+
+
+
+
 
     selectAnyTrainer = () => {
         let {fullInfoMasters} = this.props;
@@ -142,10 +145,10 @@ class Schedule extends React.Component {
     }
 
     clickOnEvent = (event) => {
-        
         const {isPushBtnTransfer} = this.props;
         if(isPushBtnTransfer){
             this.delEvent = {event};
+            console.log('this.delEvent  :', this.delEvent );
         }
     }
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
@@ -337,7 +340,7 @@ class Schedule extends React.Component {
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay}, isAdmin)
                         .then(() => this.setState({scheduleSpinner: true}))
                         .then(() => this.props.onGetAbonementsFilter(id,currDiscipline,isAdmin))
-                        .then(() => this.setState({scheduleSpinner: false}))
+                        //.then(() => this.setState({scheduleSpinner: false}))
             }
 
             this.props.onChangeBtnBack(false);
@@ -353,11 +356,12 @@ class Schedule extends React.Component {
 
     setTransfer_End_Training = () => {
         const {currDiscipline, isAdmin} = this.props;
+        const {startDate, endDate} = this.state;
         const id = this.id
 
         if(this.cancelId){
                 this.props.onTransferTraininingToEnd({idTraining : this.cancelId}, isAdmin)
-                    .then(() => this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin));
+                    .then(() => this.props.onGetStudentsSchedule(id, startDate, endDate, currDiscipline)); 
         }
         this.setState({modalCancelTraining: false});
     }
@@ -498,7 +502,7 @@ class Schedule extends React.Component {
             this.props.onGetDisciplineCommunication(id);
 
             this.props.onCheckToken(id)
-                .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
+                //.then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
                 .then((checkToken) => {
 
                     if(checkToken.length){
@@ -519,23 +523,24 @@ class Schedule extends React.Component {
                 })
 
             //
-            this.props.onGetStudentsSchedule(id, startDate, endDate);
+            this.props.onGetStudentsSchedule(id, startDate, endDate, currDiscipline);
             //
         }
 
         if(this.props.isAdmin) {
 
             this.props.onGetFreeAndBusyMasterList(start, end)
-                .then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
+                //.then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline)
-                .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
+               // .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
         }
 
     }
 
     componentDidUpdate(prevProps){
+            console.log('this.state.scheduleSpinner :', this.state.scheduleSpinner);
         this.state.scheduleSpinner && this.setState({ scheduleSpinner: false })
 
     }
@@ -606,7 +611,7 @@ class Schedule extends React.Component {
 
         
 
-        this.props.onGetStudentsSchedule(id, newStart, newEnd)
+        this.props.onGetStudentsSchedule(id, newStart, newEnd, currDiscipline)
         
         if (isPushBtnTransfer) {
             if (discCommunication.hasOwnProperty(currDiscipline.code)) {
@@ -654,15 +659,15 @@ class Schedule extends React.Component {
 
         if(mode === 'admin'){
             this.props.onGetFreeAndBusyMasterList(dateStart, dateEnd)
-                .then(spinEnd)
+                //.then(spinEnd)
         }
         if(mode === 'master'){
             this.props.onGetTrainerTraining(id, dateStart, dateEnd, currDiscipline)
-                .then(spinEnd)
+                //.then(spinEnd)
         }
         if(mode === 'student'){
             this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin)
-                .then(spinEnd)
+                //.then(spinEnd)
         }
 
 
@@ -681,7 +686,7 @@ class Schedule extends React.Component {
         if(this.props.isPushBtnTransfer){
                 if(discCommunication.hasOwnProperty(currDiscipline.code)){
                     this.props.onGetTheMasterInterval(dateStart, dateEnd, discCommunication[currDiscipline.code].idMaster, [0,1,2,3,4,5,6], isAdmin)
-                    .then(() => this.setState({theMasterSelect: true, scheduleSpinner: false}));
+                    .then(() => this.setState({theMasterSelect: true}));
                 }
         }
     };
@@ -689,10 +694,12 @@ class Schedule extends React.Component {
     changeCurrDiscipline = (disc) => {
         const {start, end} = this.state.isEditorMode;
         const {currDiscipline, mode} = this.props;
-        const id= this.id
+        const {startDate, endDate} = this.state;
+        const id = this.id
 
         if(mode === 'student'){
-           // this.props.onGetAbonementsFilter(id, currDiscipline);
+            
+            this.props.onGetStudentsSchedule(id, startDate, endDate, disc);
         }
         else if(mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, disc);
@@ -850,6 +857,8 @@ class Schedule extends React.Component {
                 endDate={this.state.endDate * 1000}
                 min={this.min * 1000}
                 max={this.max * 1000}
+                onChangeCurrDiscipline = {this.changeCurrDiscipline}
+                
                 //
 
 
@@ -919,7 +928,8 @@ class Schedule extends React.Component {
                                   highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
                         />)
         }
-        else {
+        else { // student
+            
             const currDate = this.state.currentDate,
                 currY = currDate.getFullYear(),
                 currM = currDate.getMonth(),
@@ -972,6 +982,7 @@ class Schedule extends React.Component {
                 deleteTraining={this.deleteTraining} 
                 onCancelTraining={this.onCancelTraining}
                 deleteEventApiPatient={this.deleteEventApiPatient}    
+                clickOnEvent = {this.clickOnEvent}
 
 
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}
@@ -999,10 +1010,7 @@ class Schedule extends React.Component {
 
                                   selectDisciplines = {this.props.selectDisciplines}
                                   currDiscipline = {this.props.currDiscipline}
-                                  onChangeCurrDiscipline = {(disc) => {
-                                    this.props.onChangeCurrDiscipline(disc);
-                                    this.props.onGetAbonementsFilter(id, disc, isAdmin);
-                                    }}
+                                  onChangeCurrDiscipline = {this.changeCurrDiscipline}
                                   
                                   onPopoverClose={this.eventDeleteHandler}
                                   onPopoverEmail={this.onPatientEmail}
@@ -1244,7 +1252,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         //
-        onGetStudentsSchedule: (id, start, end) => dispatch(actions.getStudentsSchedule(id, start, end)),
+        onGetStudentsSchedule: (id, start, end, disc) => dispatch(actions.getStudentsSchedule(id, start, end, disc)),
         //
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),

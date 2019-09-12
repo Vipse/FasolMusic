@@ -2,11 +2,12 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
     dataForCreate: {},
-    currDiscipline: {
-        ruText: 'Вокал',
-        code: 125485,
-        name: 'vocals'
-    },
+    currDiscipline: {},
+    // currDiscipline: {
+    //     ruText: 'Вокал',
+    //     code: 125485,
+    //     name: 'vocals'
+    // },
     disciplines: {
         'guitar' : {
             ruText: 'Гитара',

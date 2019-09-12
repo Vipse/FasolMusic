@@ -104,7 +104,7 @@ class Header extends React.Component {
             this.props.onEditUseFrozenTraining(id, useFrozenTraining);
             this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0})
             this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining)
-                .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
+                //.then(() => setTimeout(() => this.props.hideSpinner(), 1000))
 
             message.success('Количество добавленных тренировок '+ useFrozenTraining);
         }
@@ -115,7 +115,7 @@ class Header extends React.Component {
             this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc], isAdmin)
                 .then(data => {
                     if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')         
-                    setTimeout(() => this.props.hideSpinner(), 1000)
+                   // setTimeout(() => this.props.hideSpinner(), 1000)
                 })
 
         }
@@ -154,7 +154,7 @@ class Header extends React.Component {
         this.props.onChangeCurrDiscipline(disciplinesList[type]);
 
         this.props.onGetAbonementsFilter(id,disciplinesList[type])
-            .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
+           // .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
         this.props.onGoToSchedule();
         this.props.onUnsetPushBtnTransferTraining();
         this.setState({isTrialTrainingModalVisible: false});

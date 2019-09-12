@@ -4,7 +4,7 @@ import * as actionTypes from './actionTypes';
 import moment from "moment";
 
 
-export const getStudentsSchedule = (id, dateStart, dateEnd) => {
+export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
     let obj = { 
         idStudent: id,
         dateStart,
@@ -16,25 +16,35 @@ export const getStudentsSchedule = (id, dateStart, dateEnd) => {
                if(rez.status == 200){
                    let data = rez.data.result;
                    let final = {};
-                   let currDiscipline = null;
+                   let popularDisc = null;
 
                    const getMainDiscipline = (key, data) => {
-                       
+                    
                        if (key == 'primary' && Object.keys(data[key])){
-                           currDiscipline = data[key][0]
+                           
+                        popularDisc = Object.keys(data[key])[0]
                        }
                    }
                    const spreadAllTraining = (key, key2, data) => {
-                       const elem = (data[key])[key2]
-                       final = { ...final, ...elem }
+                       const elem = (data[key])[key2];
+                       const len = Object.keys(disc).length;
+                       
+                       if(!len || len && disc.code == key2){
+                            final = { ...final, ...elem }
+                       }
+                       
                    }
 
-                   for(let key in data){
+
+
+                    for(let key in data){
                         getMainDiscipline(key, data);
+                    }
+                    for(let key in data){
                         for(let key2 in data[key]){
                             spreadAllTraining(key, key2, data)
                         }
-                   }
+                    }
 
                    console.log('-------------------finla :', final);
 
@@ -42,9 +52,11 @@ export const getStudentsSchedule = (id, dateStart, dateEnd) => {
                        type: actionTypes.GET_STUDENTS_SCHEDULE,
                        studentSchedule: final,
                    })
-                   currDiscipline && dispatch({
+                   
+                   //если нету ключей значит первый раз идет вызов
+                   !Object.keys(disc).length && popularDisc && dispatch({
                        type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
-                       currDiscipline,
+                       currDiscipline: popularDisc,
                    });
                }              
             })

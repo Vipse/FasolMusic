@@ -5,6 +5,10 @@ import moment from 'moment'
 import './styles.css'
 
 class EventTraining extends React.Component{
+    constructor(props) {
+        super(props);
+    };
+
 
     getBgColor = () => {
         const {event} = this.props;
@@ -43,18 +47,19 @@ class EventTraining extends React.Component{
     }
 
     render() {
-        const {event} = this.props;
+        const {event, clickOnEvent} = this.props;
         const backgroundColor = this.getBgColor()
         const functionCross = this.getFunctionCross()
         
+        const clickFunction = () => clickOnEvent(event)
 
         return (
-                <div class='event-group' style={{ backgroundColor }}>
+                <div className='event-group' style={{ backgroundColor }} onClick={clickFunction}>
                     <div> 
-                        <div class="event-group-cross" onClick={functionCross}>
+                        <div className="event-group-cross" onClick={functionCross}>
                             {!event.isComplete && <span className="icon icon-close"></span>}
                         </div>
-                        <p class="event-group-text">{event.masterFio}</p>
+                        <p className="event-group-text">{event.masterFio}</p>
                     </div>
                 </div>
         )
