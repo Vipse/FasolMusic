@@ -79,7 +79,7 @@ export const getAbonementsFilter = (idStudent, currDiscipline, isCallAdmin, isFi
                     fdata[mainDiscipline].map((el) => {  
                         el.fio = '#'+el.key + ' ' + el.masterFio ? el.masterFio : '';
                         el.start = new Date(+el.start * 1000);
-                        el.discipline = el.discipline.map( elem => elem.name).join(',')
+                        el.discipline = el.discipline;
                         el.comment = 'comment';
                         el.idMaster = el.idMaster;
                         el.isBooking = el.isBooking;      
