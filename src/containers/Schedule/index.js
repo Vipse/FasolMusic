@@ -1029,7 +1029,7 @@ class Schedule extends React.Component {
                                 <div className="schedule-message-btn">
                                     <Button btnText={ isAdmin ? 'Заморозка расписания' :
                                          this.props.profileStudent.canFrozen ?
-                                            'Заморозка расписания' : 'Заморозка недоступна до \b ' + moment.unix(this.props.profileStudent.dateFrozen).format("DD/MM/YYYY") 
+                                            'Заморозка расписания' : 'Заморозка недоступна до ' + moment.unix(this.props.profileStudent.dateFrozen).format("DD/MM/YYYY") 
                                     }
                                     disable= {
                                         isAdmin ? false : !this.props.profileStudent.canFrozen
