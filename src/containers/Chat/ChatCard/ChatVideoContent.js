@@ -185,8 +185,12 @@ class ChatVideoContent extends React.Component {
                             sec={s}
                             min={m}
 							disabled={false /*replace on prod: this.props.isComplete || !this.props.trainingStarts*/}
-                            hour={h}
-                            isCalling={this.props.isCalling}/>) : null}
+							hour={h}
+							getPushNotificationsToken={this.props.getPushNotificationsToken}
+							sendPushNotification ={this.props.sendPushNotification}
+							calledID={this.props.to}
+							callerName={this.props.callerName}
+							isCalling={this.props.isCalling}/>) : null}
 
                 </div>
 			</figure>

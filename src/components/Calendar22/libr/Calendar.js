@@ -134,6 +134,8 @@ class Calendar extends React.Component {
                 onChangeCurrDiscipline = {this.props.onChangeCurrDiscipline}
                 notRedirectDiscipline = {this.props.notRedirectDiscipline}
                 countTrainingDiscipline = {this.props.countTrainingDiscipline}
+                showNewTrialTrainingModal = {this.props.showNewTrialTrainingModal}
+                isPushBtnTrialTraining = {this.props.isPushBtnTrialTraining}
               />
             )}
             <Week
