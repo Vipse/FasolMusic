@@ -293,7 +293,7 @@ class Schedule extends React.Component {
             this.props.onSetChooseTheMasterByStudent(idMaster);
 
 
-            //setTimeout(() => this.fillTrainingWeek(), 1000);
+            setTimeout(() => this.fillTrainingWeek(), 1000);
             this.isNoTrial = 0;
             this.setState({isShowFreeTrainers : false});
             return;
