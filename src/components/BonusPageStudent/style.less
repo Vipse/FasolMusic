@@ -21,6 +21,19 @@
   grid-template-columns: 493px 481px 480px;
   grid-gap: 30px;
 
+  @media (max-width:1920px) { 
+    grid-template-columns: calc(100%*0.45) calc(100%*0.25) calc(100%*0.25);
+  }
+
+  @media (max-width:1600px) {    
+    grid-template-columns: calc(100%*0.35) calc(100%*0.30) calc(100%*0.30);
+  }
+
+  @media (max-width:1280px) { 
+    grid-template-areas: "invite invite invite" "record data refer" "record data refer";   
+    grid-template-columns: calc(100%*0.45) calc(100%*0.25) calc(100%*0.25);
+  }
+
   .offers {
     grid-area: record;
     .ant-card-body {
@@ -128,6 +141,7 @@
       font-family: RobotoMediumItalic, sans-serif;
       font-size: 20px;
       margin-top: 22px;
+      margin-bottom: 8px;
     }
 
     .info {

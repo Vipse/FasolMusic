@@ -56,7 +56,8 @@ class Schedule extends React.Component {
             modalRemoveTrialTraining: false,
             newModalSaveSchedule: false,
             isSpinnerFreeTrainers: false,
-            modalMasterListData:null
+            modalMasterListData:null,
+            modalFreezeSchedule:false,
         }
     };
 
@@ -409,15 +410,16 @@ class Schedule extends React.Component {
                 this.props.onTransferTraininingToEnd({idTraining : this.cancelId}, isAdmin)
                     .then(() => this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin));
         }
-        this.setState({modalCancelTraining: false});
+        this.setState({modalCancelTraining: false, modalFreezeSchedule: false});
     }
 
     freezeAbonement = () => {
         const {currDiscipline,isAdmin} = this.props;
+        const idUser = this.props.profileStudent.id;
         const id = this.id
 
         if(this.freezeIdSubscription) {
-            this.props.onFreezeAbonement(this.freezeIdSubscription)
+            this.props.onFreezeAbonement(this.freezeIdSubscription, idUser)
                 .then(() => {
                     this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin);
                     setTimeout(()=>{
@@ -1046,7 +1048,49 @@ class Schedule extends React.Component {
                                 </div>
 
                                 <div className="schedule-message-btn">
-                                    <Button btnText='Заморозка расписания'
+                                <Button btnText={ isAdmin ? 'Заморозка расписания' :
+                                         this.props.profileStudent.canFrozen ?
+                                            'Заморозка расписания' : 'Заморозка недоступна до ' + moment.unix(this.props.profileStudent.dateFrozen).format("DD/MM/YYYY") 
+                                    }
+                                    disable= {
+                                        isAdmin ? false : !this.props.profileStudent.canFrozen
+                                    }
+                                    onClick= {()=>{
+                                        isAdmin ? this.freezeAbonement() :
+                                        this.setState({ 
+                                            modalFreezeSchedule: true,
+                                            modalCancelTraining : false
+                                        })
+                                    }}
+                                    type='yellow'/>
+                                </div>
+                        </div>
+                </Modal>
+
+                <Modal
+                    title='Внимание'
+                    visible={this.state.modalFreezeSchedule}
+                    onCancel={() => this.setState({modalFreezeSchedule: false})}
+                    width={420}
+                    className="schedule-message-modal-wrapper"
+                > 
+                        <div className="schedule-message-modal"> 
+                            <div className="schedule-message-modal-text">
+                                Замораживать тренировки можно только раз в 3 месяца, вы уверены что хотите заморозить тренировку?
+                            </div>
+                        </div>
+                        <div className="schedule-message-modal">
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Назад'
+                                        onClick= {()=>{this.setState({
+                                                modalFreezeSchedule: false,
+                                                modalCancelTraining : true
+                                            })}}
+                                        type='yellow'/>
+                                </div>
+
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Заморозить'
                                     onClick= {this.freezeAbonement}
                                     type='yellow'/>
                                 </div>
@@ -1219,7 +1263,7 @@ const mapDispatchToProps = dispatch => {
 
 
         onGetTrainerTraining: (id, dateMin, dateMax, currDiscipline) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, currDiscipline)),
-        onFreezeAbonement: (idSubscription) => dispatch(actions.freezeAbonement(idSubscription)),
+        onFreezeAbonement: (idSubscription,idUser) => dispatch(actions.freezeAbonement(idSubscription,idUser)),
         onGetInfoMasters: (idMaster) => dispatch(actions.getInfoMasters(idMaster)),
         onSetChooseMasterAllInfo: (allInfo) => dispatch(actions.setChooseMasterAllInfo(allInfo)),
         onSetPushTrialTraining: (type) => dispatch(actions.setPushTrialTraining(type)),

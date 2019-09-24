@@ -50,7 +50,6 @@ class Toolbar extends React.Component {
         }
     }
 
-    console.log('notRedirectDiscipline :', notRedirectDiscipline);
     return (
       <div className="rbc-toolbar">
         <Button

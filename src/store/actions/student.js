@@ -221,7 +221,6 @@ export const getTrainingTrialStatusByDiscipline = (disciplineId, idStudent) => {
     return (dispatch) => {
         return axios.post('/catalog.fasol/isTrainingTrial', JSON.stringify(obj))
             .then(res => {
-                console.log("getTrainingTrialStatusByDiscipline", res);
                 dispatch({
                     type: actionTypes.GET_TRAINING_TRIAL_STATUS,
                     disciplineId,

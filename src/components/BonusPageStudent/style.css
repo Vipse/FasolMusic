@@ -15,11 +15,27 @@
   font-family: RobotoMedium, sans-serif;
   color: #000;
 }
+@media (max-width: 1920px) {
+  .bonus-student {
+    grid-template-columns: calc(45%) calc(25%) calc(25%);
+  }
+}
+@media (max-width: 1600px) {
+  .bonus-student {
+    grid-template-columns: calc(35%) calc(30%) calc(30%);
+  }
+}
+@media (max-width: 1280px) {
+  .bonus-student {
+    grid-template-areas: "invite invite invite" "record data refer" "record data refer";
+    grid-template-columns: calc(45%) calc(25%) calc(25%);
+  }
+}
 .bonus-student .offers {
   grid-area: record;
 }
 .bonus-student .offers .ant-card-body {
-  height: calc(100% - 66px);
+  height: calc(34%);
 }
 .bonus-student .offers-item {
   margin: 25px;
@@ -107,6 +123,7 @@
   font-family: RobotoMediumItalic, sans-serif;
   font-size: 20px;
   margin-top: 22px;
+  margin-bottom: 8px;
 }
 .bonus-student .invite .info {
   font-family: RobotoRegular, sans-serif;

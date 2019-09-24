@@ -323,7 +323,6 @@ class App extends React.Component {
     render() {
         let name, avatar;
         const id = this.getCurrentId()
-        console.log('----------- id', id)
 
         if (this.props.mode === "master" && this.props.profileCoach) {
             name = this.props.profileCoach.name;

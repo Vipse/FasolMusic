@@ -11,7 +11,6 @@ class MasterListSlot extends Component {
     };
 
     showTransferEvent = () => {
-        console.log('this.props :', this.props);
         this.props.showTransferEvent(this.props.event.id);
     }
 
