@@ -81,7 +81,6 @@ export const getPushNotificationsToken = (idUser,changeStore) => {
             .then(res => {
                 let token = res.data.result[0].message;
 
-                console.log("FCM USER TOKEN:\n",token)
                 if (changeStore == true && token != false) {
                     dispatch({
                         type: actionTypes.ALLOW_NOTIFICATIONS,

@@ -17,7 +17,7 @@ class AbonementCard extends React.Component{
                 </div>
                 <div className="plan-lessonCost">
                     <p className="plan-lessonCost-number">{lessonCost + ' ' + currency}</p>
-                    <p className="plan-lessonCost-text">за тренировку</p>
+                    <p className="plan-lessonCost-text">экономия</p>
                 </div>
                 <div className="plan-select">
                     <div className="plan-select-totalPrice">{price + ' ' + currency}</div>

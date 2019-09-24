@@ -202,7 +202,6 @@ export const getSubscriptionsByStudentId = (idStudent) => {
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/getSubscriptionsByStudentId', JSON.stringify({idStudent}))
             .then(res => {
-                console.log("getSubscriptionsByStudentId", res);
                 dispatch({
                     type: actionTypes.GET_SUBSCRIPTION_FOR_DISCIPLINE,
                     subsForDisc: res.data.result,
@@ -219,7 +218,6 @@ export const getStudentBalance = (idStudent) => {
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/getStudentBalance', JSON.stringify({idStudent}))
             .then(res => {
-                console.log("getStudentBalance", res);
                 
                 dispatch({
                     type: actionTypes.GET_STUDENT_BALANCE,

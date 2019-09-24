@@ -15,7 +15,6 @@ export const getTrainingNotFinished = (idUser, dateMin, dateMax, max) => {
         axios.post('/catalog.fasol/getTrainingNotFinished',
             JSON.stringify(obj))
             .then(res => {
-                console.log('getTrainingNotFinished', res.data.result.result);
                 dispatch({
                     type: actionTypes.GET_TRAINING_NOT_FINISHED,
                     nearTraining: res.data.result.result,

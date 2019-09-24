@@ -552,7 +552,6 @@ class Schedule extends React.Component {
         const {currDiscipline, isAdmin} = this.props;
         const id = this.getCurrentId() 
 
-        console.log('SCH this.props.match', this.props.match)
         const start =  moment(Date.now()).startOf('week').format('X');
         const end = moment(Date.now()).endOf('week').format('X');
 

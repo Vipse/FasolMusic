@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal} from "antd";
+import {Modal, message} from "antd";
 import {docRoutes, patientRoutes, adminRoutes, menuDoc, menuPatient} from '../../routes'
 import {coachRoutes, studentRoutes, menuStudent, menuCoach, menuAdmin} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
@@ -21,6 +21,7 @@ import '../../styles/fonts.css';
 import VKApp from '../../components/VKApp';
 import { detect } from 'detect-browser';
 import firebase, { messaging } from 'firebase'
+import WarningModal from '../../components/WarningModal';
 
 const browser = detect();
 
@@ -37,7 +38,9 @@ class App extends React.Component {
             notifications: [],
             scheduleSpinner: false,
             widget: null,
-            id: null
+            id: null,
+            mustLeaveReview: false,
+            isWarningModal: false
         };
     }
 
@@ -128,6 +131,8 @@ class App extends React.Component {
                 get_visitInfo: () => this.getChatInfo(),
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
+                show_error: () => this.setState({isWarningModal: true}),
+                show_error_from_server: () => this.setState({isServerWarningModal: true})
             })
             .onerror = () => {
                 console.log("onerror")
@@ -430,6 +435,19 @@ class App extends React.Component {
                                   <Spinner isInline={true} size='large'/>
                                 </div>}
 
+                            <React.Fragment>
+                                    <WarningModal 
+                                        onClick={() => this.setState({isWarningModal: false})}
+                                        visible={this.state.isWarningModal} 
+                                        message={'Пользователь недоступен'}
+                                    />
+
+                                    <WarningModal 
+                                        onClick={() => this.setState({isServerWarningModal: false})}
+                                        visible={this.state.isServerWarningModal} 
+                                        message={'Вы отключены от видеосервера. Выйдите и зайдите в систему снова'}
+                                    />
+                            </React.Fragment> 
 
                         </React.Fragment> :
                         <Redirect to='/signin'/>
