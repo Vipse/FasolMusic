@@ -215,6 +215,9 @@ class Chat extends React.Component{
                                     tailTraining={this.transferToEnd}
                                     user_mode={this.props.user_mode}
                                     removeTrialTraining={this.props.onRemoveTrialTraining}
+                                    refreshTrainingsList={this.loadTrainingsList}
+
+
                                 />
                         }
                     </Col>
