@@ -164,7 +164,7 @@ class TimeSlotGroup extends Component {
                   clickOnEvent={this.props.clickOnEvent}
                   selectIdEvent={this.props.selectIdEvent}
                   showTooLateTransferModal={this.showTooLateTransferModal}
-                  showWasTransferModal={this.showTooLateTransferModal}
+                  showWasTransferModal={this.showWasTransferModal}
                  
             />)
           }

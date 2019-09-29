@@ -52,10 +52,10 @@ class EventSlot extends Component {
         this.props.deleteTraining(this.props.event.id);
     }
 
-    onCancelTraining = (e, id, idSubscription) => {
+    onCancelTraining = (e, id, idSubscription, event) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        this.props.onCancelTraining(id, idSubscription)
+        this.props.onCancelTraining(id, idSubscription, event)
     }
 
     deleteEventApiPatients = (e, id) => {
@@ -148,22 +148,23 @@ class EventSlot extends Component {
             let time =  moment().add(24,'hour');
             let start =  moment(value);
             
-            if (time > start){
-                backgroundColor = 'rgb(145, 145, 145)';
-                funcOnClick = () => {
-                    showTooLateTransferModal()
-                }
-            }
-            else if(event.wasTransfer)  {
+            if(event.wasTransfer)  {
                 backgroundColor = 'rgb(145, 145, 145)';
                 funcOnClick = () => {
                     showWasTransferModal()
                 }
             }
+            else if (time > start){
+                backgroundColor = 'rgb(145, 145, 145)';
+                funcOnClick = () => {
+                    showTooLateTransferModal()
+                }
+            }
+            else funcOnClick = () => clickOnEvent(event)
         }
         else if (isPushBtnTransfer) funcOnClick = () => clickOnEvent(event)
         
-        let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
+        let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription, event)
             crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e,event.id) : crossFunc
 
         
