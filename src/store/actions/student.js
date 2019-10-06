@@ -35,8 +35,6 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
                        
                    }
 
-
-
                     for(let key in data){
                         getMainDiscipline(key, data);
                     }
@@ -45,8 +43,6 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
                             spreadAllTraining(key, key2, data)
                         }
                     }
-
-                   console.log('-------------------finla :', final);
 
                    dispatch({
                        type: actionTypes.GET_STUDENTS_SCHEDULE,
@@ -63,6 +59,14 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
             .catch(err => console.log(err))
 }
 
+export const handleSelecting = (id) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.HANDLE_SELECTING,
+            id,
+        })
+    }
+}
 
 export const getUserInfo = (idMaster) => {
     let obj = {id : idMaster};

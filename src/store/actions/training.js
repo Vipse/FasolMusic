@@ -3,6 +3,31 @@ import * as actionTypes from './actionTypes';
 import {getInfoMasters, getInfoStudents} from './student'
 import { setChatStory } from './chatWS'
 
+
+
+
+
+export const handleChangeTime = (newStart, newEnd) => {
+    return dispatch => {
+        dispatch({
+            type: actionTypes.HANDLE_CHANGE_TIME,
+            newStart,
+            newEnd
+        })
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 export const getTrainingNotFinished = (idUser, dateMin, dateMax, max) => {
     return dispatch => {
         let obj = {

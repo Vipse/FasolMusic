@@ -6,7 +6,10 @@ const initialState = {
     trialTrainingForDisciplines: {},
     isTrialTrainingsAvailableCount: 0,
     isTransferTrainPopupActive: true,
-    statusBtnBack: false
+    statusBtnBack: false,
+
+    studentSchedule: {},
+    
 };
 
 const reducer = (state = initialState, action) => {
@@ -137,6 +140,20 @@ const reducer = (state = initialState, action) => {
                 studentSchedule: action.studentSchedule
             }
 
+        case actionTypes.HANDLE_SELECTING:
+            
+            let newSchedule = {...state.studentSchedule};
+
+            for(let key in newSchedule){
+                if(newSchedule[key].id == action.id) newSchedule[key].isSelecting = true;
+                else newSchedule[key].isSelecting = false;
+               
+            }
+            
+            return {
+                ...state,
+                studentSchedule: newSchedule
+            }
 
         default: return state;
     }

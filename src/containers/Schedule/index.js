@@ -27,8 +27,9 @@ class Schedule extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment().startOf('week').format('X'),
-            endDate: moment().endOf('week').format('X'),
+            startDate: props.startDate,
+            endDate:  props.endDate,
+            eventWillTransfer: null,
 
             //
             isEditorMode: false,
@@ -147,8 +148,9 @@ class Schedule extends React.Component {
     clickOnEvent = (event) => {
         const {isPushBtnTransfer} = this.props;
         if(isPushBtnTransfer){
+            this.props.onHandleSelecting(event.id)
+            //this.setState({eventWillTransfer: event.id})
             this.delEvent = {event};
-            console.log('this.delEvent  :', this.delEvent );
         }
     }
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
@@ -580,7 +582,7 @@ class Schedule extends React.Component {
         this.min = moment([m.get('year'), m.get('month'), m.get('date'), 8]).format('X')
         this.max = moment([m.get('year'), m.get('month'), m.get('date'), 23]).format('X')
     
-        
+        this.props.handleChangeTime(newStart, newEnd);
         this.setState({ 
             startDate: newStart, 
             endDate: newEnd,
@@ -983,6 +985,7 @@ class Schedule extends React.Component {
                 onCancelTraining={this.onCancelTraining}
                 deleteEventApiPatient={this.deleteEventApiPatient}    
                 clickOnEvent = {this.clickOnEvent}
+                eventWillTransfer = {this.state.eventWillTransfer}
 
 
                                   receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}
@@ -1194,6 +1197,8 @@ const mapStateToProps = state => {
         //
         studentSchedule: state.student.studentSchedule,
         masterList: state.admin.masterList,
+        startDate: state.training.startDate,
+        endDate: state.training.endDate,
 
 
 
@@ -1253,6 +1258,8 @@ const mapDispatchToProps = dispatch => {
     return {
         //
         onGetStudentsSchedule: (id, start, end, disc) => dispatch(actions.getStudentsSchedule(id, start, end, disc)),
+        onHandleSelecting: (id) => dispatch(actions.handleSelecting(id)),
+        handleChangeTime: (newStart, newEnd) => dispatch(actions.handleChangeTime(newStart, newEnd)),
         //
         onCreateAbonement: (data) => dispatch(actions.createAbonement(data)),
         onSetNeedSaveIntervals: (obj) => dispatch(actions.setNeedSaveIntervals(obj)),

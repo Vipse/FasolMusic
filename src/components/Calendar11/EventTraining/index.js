@@ -7,16 +7,26 @@ import './styles.css'
 class EventTraining extends React.Component{
     constructor(props) {
         super(props);
+        this.state = {
+            eventWillTransfer: false
+        }
     };
+
+
+     componentDidUpdate(prevProps, prevState) {
+         console.log("componentDidUpdate");
+           
+    }
 
 
     getBgColor = () => {
         const {event} = this.props;
-        
-        let backgroundColor = event.status ? {} : '#eee'; // прошло ли время тренировки
+        let backgroundColor = event.status ? 'rgba(33, 190, 221, 0.2)' : '#eee'; // прошло ли время тренировки
         backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
         backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
+        backgroundColor = event.isSelecting ? '#fdedc4' : backgroundColor  //тренировка выбрана для переноса
+        
         return backgroundColor;
     }
 
@@ -47,10 +57,12 @@ class EventTraining extends React.Component{
     }
 
     render() {
+        console.log("render");
         const {event, clickOnEvent} = this.props;
         const backgroundColor = this.getBgColor()
         const functionCross = this.getFunctionCross()
         
+        console.log('backgroundColor', backgroundColor)
         const clickFunction = () => clickOnEvent(event)
 
         return (

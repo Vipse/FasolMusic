@@ -49,7 +49,15 @@ class Calendar extends React.Component {
 
   rendertEventColumn = () => {
 
-    const { min, max, studentSchedule, intervals, currDiscipline, isAdmin, clickOnEvent} = this.props;
+    const { min, 
+       max, 
+       studentSchedule, 
+       intervals,
+       currDiscipline, 
+       isAdmin, 
+       clickOnEvent,
+       eventWillTransfer
+      } = this.props;
 
     let arrRender = [];
     const endOf = moment().endOf('week');
@@ -69,6 +77,7 @@ class Calendar extends React.Component {
                 isAdmin={isAdmin}
                 currDiscipline={currDiscipline}
                 clickOnEvent={clickOnEvent}
+                eventWillTransfer={eventWillTransfer}
 
                 //admin
                 masterList={this.props.masterList}

@@ -243,7 +243,7 @@ class App extends React.Component {
     };
 
     showTransferInterval = () => {
-        const {weekInterval, discCommunication, disciplinesList, currDiscipline, isAdmin} = this.props;
+        const {weekInterval, discCommunication, startDate, endDate, currDiscipline, isAdmin} = this.props;
         const idMaster = discCommunication.hasOwnProperty(currDiscipline.code) ? discCommunication[currDiscipline.code].idMaster : null
 
         if(weekInterval && idMaster){
@@ -252,7 +252,7 @@ class App extends React.Component {
             this.setState({scheduleSpinner: true})
 
             this.onGoToSchedule();
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
+            this.props.onGetTheMasterInterval(startDate, endDate, idMaster, chooseWeekdays, isAdmin)
              .then(() => {
                // this.setState({scheduleSpinner: false})
              })
@@ -261,14 +261,14 @@ class App extends React.Component {
 
     pushBtnUnfresh = () => {
 
-        const {weekInterval, isAdmin} = this.props;
+        const {weekInterval, isAdmin, startDate, endDate} = this.props;
 
         if(weekInterval){
             let idMaster = this.props.profileStudent.mainUser;
             let chooseWeekdays = [1,2,3,4,5,6,7];
             this.setState({scheduleSpinner: true})
 
-            this.props.onGetTheMasterInterval(weekInterval.start, weekInterval.end, idMaster, chooseWeekdays, isAdmin)
+            this.props.onGetTheMasterInterval(startDate, endDate, idMaster, chooseWeekdays, isAdmin)
              .then(() => {
                 //this.setState({scheduleSpinner: false})
                 this.props.onSetPushBtnTransferTraining(true)
@@ -418,6 +418,9 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        startDate: state.training.startDate,
+        endDate: state.training.endDate,
+
         auth: state.auth,
         id: state.auth.id,
         mode: state.auth.mode,

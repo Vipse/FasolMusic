@@ -106,7 +106,9 @@ export {
     rateMaster,
     changeBtnBack,
     changeBtnTransfer,
-    getStudentsSchedule
+
+    getStudentsSchedule,
+    handleSelecting
 } from './student'
 
 export {
@@ -120,6 +122,8 @@ export {
 
 
 export {
+    handleChangeTime,
+    
     getTrainingNotFinished,
     getNextTraining,
     getMyMastersOrStudents,

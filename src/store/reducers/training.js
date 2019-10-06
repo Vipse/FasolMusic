@@ -1,16 +1,28 @@
 
 
 import * as actionTypes from '../actions/actionTypes'
+import moment from 'moment'
 
 const initialState = {
     nearTraining: [],
     myCoachOrStudents: [],
     studentTrainings: [],
     
+    startDate: moment().startOf('week').format('X'),
+    endDate: moment().endOf('week').format('X'),
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
+
+       
+        case actionTypes.HANDLE_CHANGE_TIME:
+            return {
+                ...state,
+                startDate: action.newStart,
+                endDate: action.newEnd
+            }
+
         case actionTypes.GET_TRAINING_NOT_FINISHED: 
             return {
                 ...state,

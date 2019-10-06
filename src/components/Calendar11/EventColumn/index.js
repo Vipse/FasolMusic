@@ -35,7 +35,7 @@ class EventColumn extends React.Component{
     }
 
     renderCells = () => {
-        const { startTime, endTime, studentSchedule } = this.props;
+        const { startTime, endTime, studentSchedule, eventWillTransfer } = this.props;
         let startTimeMoment = moment(+startTime * 1000);
         let endTimeMoment = moment(+endTime * 1000);
         let arrReander = [];
@@ -52,6 +52,7 @@ class EventColumn extends React.Component{
                             <EventTraining  
                                 key={startEvent}
                                 event = {studentSchedule[startEvent]}
+                                eventWillTransfer = {eventWillTransfer}
 
                                 deleteTraining={this.props.deleteTraining}
                                 onCancelTraining={this.props.onCancelTraining}
