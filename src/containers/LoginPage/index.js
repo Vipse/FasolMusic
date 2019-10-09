@@ -78,8 +78,8 @@ class LoginPage extends React.Component {
                     </div>
 
                     <Row style={{marginLeft: 0, marginRight: 0}}>
-                        <Col xs={{span: 12, offset: 6}}
-                             sm={{span: 12, offset: 6}}
+                        <Col xs={{span: 24, offset: 0}}
+                             sm={{span: 24, offset: 0}}
                              md={{span: 12, offset: 6}}
                              lg={{span: 12, offset: 6}}
                              xl={{span: 12, offset: 6}}>

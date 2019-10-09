@@ -33,12 +33,23 @@
 			user-select: none;
 			cursor: pointer;
 
+			@media screen and (max-width: 575px) { 
+				font-size: 16px;
+			}
+
 			&.delimiter {
 				margin: 0 0.7rem;
 				text-decoration: none;
 				font-size: 37px;
 				cursor: default;
 				color: #000;
+
+				@media screen and (max-width: 575px) { 
+					font-size: 30px;
+				}
+				@media screen and (max-width: 350px) { 
+					font-size: 25px;
+				}
 			}
 
 			&:hover {
@@ -50,6 +61,13 @@
 				font-size: 37px;
 				text-decoration: unset;
 				cursor: default;
+
+				@media screen and (max-width: 575px) { 
+					font-size: 30px;
+				}
+				@media screen and (max-width: 350px) { 
+					font-size: 25px;
+				}
 			}
 		}
 	}
@@ -58,17 +76,55 @@
 		padding: 3rem 4.375rem;
 		text-align: center;
 
+		@media screen and (max-width: 575px) { 
+			padding: 1.5rem 2.175rem;
+		}
+
 		&-text {
 			font-size: 15px;
 			color: #000;
 			font-family: Roboto, sans-serif;
 
+
+			@media screen and (max-width: 575px) { 
+				font-size: 14px;
+			}
+
+			@media screen and (max-width: 350px) { 
+				font-size: 12px;
+			}
+			
+
 			&-title {
 				font-weight: 900;
+
+				@media screen and (max-width: 575px) { 
+					display: none;
+				}
+
+				&-mobile {
+					font-weight: 900;
+					display: none;
+					@media screen and (max-width: 575px) { 
+						display: inline;
+					}
+				}
 			}
 
 			&-body {
 				font-weight: 400;
+
+				@media screen and (max-width: 575px) { 
+					display: none;
+				}
+
+				&-mobile {
+					font-weight: 400;
+					display: none;
+					@media screen and (max-width: 575px) { 
+						display: inline;
+					}
+				}
 			}
 		}
 
@@ -78,8 +134,20 @@
 			flex-direction: row;
 			justify-content: space-between;
 
+			@media screen and (max-width: 575px) { 
+				flex-direction: column;
+
+				.ant-row {
+					width:100%;
+				}
+			}
+
 			.ant-row {
 				width: 45%;
+
+				@media screen and (max-width: 575px) { 		
+					width:100%;
+				}
 
 				.input-root.login-form-item {
 					border-color: #000;
@@ -104,6 +172,11 @@
 
 			&-btn {
 				width: 25rem;
+
+				@media screen and (max-width: 575px) { 
+					width: 15rem;
+				}
+				
 			}
 		}
 

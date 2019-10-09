@@ -31,12 +31,27 @@
   user-select: none;
   cursor: pointer;
 }
+@media screen and (max-width: 575px) {
+  .login-title span {
+    font-size: 16px;
+  }
+}
 .login-title span.delimiter {
   margin: 0 0.7rem;
   text-decoration: none;
   font-size: 37px;
   cursor: default;
   color: #000;
+}
+@media screen and (max-width: 575px) {
+  .login-title span.delimiter {
+    font-size: 30px;
+  }
+}
+@media screen and (max-width: 350px) {
+  .login-title span.delimiter {
+    font-size: 25px;
+  }
 }
 .login-title span:hover {
   text-decoration: none;
@@ -47,20 +62,73 @@
   text-decoration: unset;
   cursor: default;
 }
+@media screen and (max-width: 575px) {
+  .login-title span.active {
+    font-size: 30px;
+  }
+}
+@media screen and (max-width: 350px) {
+  .login-title span.active {
+    font-size: 25px;
+  }
+}
 .login-body {
   padding: 3rem 4.375rem;
   text-align: center;
+}
+@media screen and (max-width: 575px) {
+  .login-body {
+    padding: 1.5rem 2.175rem;
+  }
 }
 .login-body-text {
   font-size: 15px;
   color: #000;
   font-family: Roboto, sans-serif;
 }
+@media screen and (max-width: 575px) {
+  .login-body-text {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 350px) {
+  .login-body-text {
+    font-size: 12px;
+  }
+}
 .login-body-text-title {
   font-weight: 900;
 }
+@media screen and (max-width: 575px) {
+  .login-body-text-title {
+    display: none;
+  }
+}
+.login-body-text-title-mobile {
+  font-weight: 900;
+  display: none;
+}
+@media screen and (max-width: 575px) {
+  .login-body-text-title-mobile {
+    display: inline;
+  }
+}
 .login-body-text-body {
   font-weight: 400;
+}
+@media screen and (max-width: 575px) {
+  .login-body-text-body {
+    display: none;
+  }
+}
+.login-body-text-body-mobile {
+  font-weight: 400;
+  display: none;
+}
+@media screen and (max-width: 575px) {
+  .login-body-text-body-mobile {
+    display: inline;
+  }
 }
 .login-body-fields {
   width: 100%;
@@ -68,8 +136,21 @@
   flex-direction: row;
   justify-content: space-between;
 }
+@media screen and (max-width: 575px) {
+  .login-body-fields {
+    flex-direction: column;
+  }
+  .login-body-fields .ant-row {
+    width: 100%;
+  }
+}
 .login-body-fields .ant-row {
   width: 45%;
+}
+@media screen and (max-width: 575px) {
+  .login-body-fields .ant-row {
+    width: 100%;
+  }
 }
 .login-body-fields .ant-row .input-root.login-form-item {
   border-color: #000;
@@ -89,6 +170,11 @@
 }
 .login-body-controls-btn {
   width: 25rem;
+}
+@media screen and (max-width: 575px) {
+  .login-body-controls-btn {
+    width: 15rem;
+  }
 }
 .login-body-socialPlate {
   width: 60%;
