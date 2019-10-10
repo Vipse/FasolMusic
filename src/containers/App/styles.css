@@ -1,6 +1,11 @@
 body {
   min-width: 1300px;
 }
+@media screen and (max-width: 768px) {
+  body {
+    min-width: 0;
+  }
+}
 .ant-layout {
   background-color: #ddebf5;
 }
