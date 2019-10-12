@@ -32,10 +32,11 @@ body {
   background-color: transparent;
 }
 .main {
+  min-width: 1300px;
   display: flex;
   flex-wrap: wrap;
   background-color: #f9f5f6;
-  overflow: hidden;
+  overflow: scroll;
   background-size: 130%;
 }
 .main .schedule-spinner {
