@@ -113,9 +113,9 @@ export const askForPermissionToReceiveNotifications = (idUser) => {
                 .then(permissionType => {
                     messaging.getToken()
                     .then(token => {
-
+                      
                         let obj = {
-                            idUser,
+                            idUser:idUser,
                             message:token
                         };
 

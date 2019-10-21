@@ -245,12 +245,13 @@ class Schedule extends React.Component {
     }
 
     acceptNewTrialModal = () => {
+        const {id} = this.props;
         this.fillTrainingWeek();
         
         if(Notification.permission !== "granted") {
             this.setState({getPushPermissionModal:true});
             
-            this.props.onAskForPermissionToReceivePushNotifications()
+            this.props.onAskForPermissionToReceivePushNotifications(id)
             .then(()=>{
                 this.setState({getPushPermissionModal:false});
             })
