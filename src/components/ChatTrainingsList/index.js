@@ -33,6 +33,7 @@ class ChatTrainingsList extends React.Component {
                                        isComplete= {item.isComplete}
                                        isTrial={item.isTrial || item.trial}
                                        removeTrialTraining={this.props.removeTrialTraining}
+                                       refreshTrainingsList={this.props.refreshTrainingsList}
             />)
         });
     };

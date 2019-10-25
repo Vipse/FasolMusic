@@ -64,12 +64,13 @@ class NearTrainingsItem extends React.Component{
                     </div> */}
                     
                     <div className="btn-push">
+                    { !this.state.deleteTrialDisabled ?
                         <Button
                             btnText="Засчитать"
                             type="border-green"
                             size='small'
                             onClick={() => completeTraining({idTraining})}
-                        />
+                        />:""}
                     </div>
                     {this.props.isTrial && !this.state.deleteTrialDisabled ? 
                         <div className="btn-push">
@@ -80,6 +81,7 @@ class NearTrainingsItem extends React.Component{
                                 onClick={() => {
                                     this.props.removeTrialTraining(idTraining,true)
                                     this.setState({deleteTrialDisabled:true})
+                                    this.props.refreshTrainingsList();
                                 }}
                             />
                         </div> 
