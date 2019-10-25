@@ -22,7 +22,7 @@ class ChatVideoPanel extends React.Component{
 
 		this.props.getPushNotificationsToken(calledID,false)
 		.then(token => {
-			if (token != false) this.props.sendPushNotification(token,type,callerName)
+			if (token) this.props.sendPushNotification(token,type,callerName)
 		})
 		
 	}
