@@ -21,7 +21,7 @@ const FormItem = Form.Item;
 class LoginForm extends React.Component{
     state = {
         showSocialLogin: false,
-        activePage: 'signin',
+        activePage: 'signup',
         avatar: '',
         facebookLink: '',
         googleLink: '',
@@ -170,7 +170,7 @@ class LoginForm extends React.Component{
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <div className="login-title">
                     <span className={activePage === 'signin' ? 'active' : null}
-                          onClick={() => this.changeTab('signin')}>Авторизация</span>
+                          onClick={() => this.changeTab('signin')}>Вход</span>
                     <span className='delimiter'>/</span>
                     <span className={activePage === 'signup' ? 'active' : null}
                           onClick={() => this.changeTab('signup')}>Регистрация</span>
@@ -181,12 +181,19 @@ class LoginForm extends React.Component{
                         <p className='login-body-text-title'>
                             Зарегистрируйтесь и пройдите бесплатную пробную тренировку по вокалу или по гитаре один на один с коучем в режиме онлайн. 💻
                         </p>
+                        <p className='login-body-text-title-mobile'>
+                            Первое занятие по Вокалу🎤 Гитаре🎸 или фортепиано🎹 абсолютно бесплатно!
+                        </p>
+                        <br/><br/>
                         <p className='login-body-text-body'>
                             Самостоятельно выбирайте удобное время и понравившегося вам коуча. 📆👆
                             Не теряйте время на дорогу! ⏰
                             Fasol музыкальная качалка идет в ногу со временем,
                             делая обучение мобильным, не привязанным к определенной локации.
                             Даем каждому возможность освоить новое хобби и приобрести новых друзей! 🌍💪
+                        </p>
+                        <p className='login-body-text-body-mobile'>
+                        После регистрации вы сможете выбрать удобное время📆 и подходящего педагога👆 внутри вашего личного кабинета!:)
                         </p>
                     </div> : null}
                     <div className='login-body-fields'>
@@ -244,14 +251,14 @@ class LoginForm extends React.Component{
                             type='bright-blue'
                         />
                     </div>
-                    <div className="login-body-socialPlate">
+                    {/* <div className="login-body-socialPlate">
                         <SocialAuth
                             facebookLink={activePage === 'signup' ? facebookLink : ''}
                             googleLink={activePage === 'signup' ? googleLink : ''}
                             onChange={activePage === 'signin' ? this.handleSocialAuth : this.handleSocialRegistration}
                             isLogin={activePage === 'signin'}
                         />
-                    </div>
+                    </div> */}
                 </div>
             </Form>
         )
