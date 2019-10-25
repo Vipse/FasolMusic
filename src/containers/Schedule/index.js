@@ -60,7 +60,8 @@ class Schedule extends React.Component {
             modalRemoveTrialTraining: false,
             newModalSaveSchedule: false,
             isSpinnerFreeTrainers: false,
-            modalMasterListData:null
+            modalMasterListData:null,
+            modalTransferEvent:null
         }
     };
 
@@ -414,10 +415,13 @@ class Schedule extends React.Component {
             this.setState({modalTransferTraining: false});
     }
 
-    onCancelTraining = (transferId, idSubscription) => {
+    onCancelTraining = (transferId, idSubscription, event) => {
         this.cancelId = transferId; // для переноса в конец
         this.freezeIdSubscription = idSubscription; // для заморозки
-        this.setState({modalCancelTraining: true});
+        this.setState({
+            modalCancelTraining: true,
+            modalTransferEvent: event
+        });
     }
 
     setTransfer_End_Training = () => {
@@ -808,6 +812,7 @@ class Schedule extends React.Component {
 
     render() {
         const {
+            mode,
             abonementIntervals,
             trainerList,
             masterList,
@@ -1064,7 +1069,17 @@ class Schedule extends React.Component {
                 > 
                         <div className="schedule-message-modal">
                                 <div className="schedule-message-btn">
-                                    <Button btnText='Перенести треню в конец'
+                                    <Button btnText={
+                                        mode == 'student' && this.state.modalTransferEvent ? 
+                                            this.state.modalTransferEvent.wasTransfer ? 'Перенос одной тренировки доступен только 1 раз' :
+                                                moment().add(24,'hour') > this.state.modalTransferEvent.start  ? 'Перенос доступен не позже чем за 24 часа до начала тренировки' : 'Перенести тренировку в конец'
+                                        : 'Перенести тренировку в конец'
+                                    }
+                                        disable={mode == 'student' ? 
+                                                    (this.state.modalTransferEvent ?
+                                                    this.state.modalTransferEvent.wasTransfer || moment().add(24,'hour') > this.state.modalTransferEvent.start 
+                                                    : false)
+                                                : false}
                                         onClick= {this.setTransfer_End_Training}
                                         type='yellow'/>
                                 </div>

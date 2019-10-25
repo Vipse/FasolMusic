@@ -6,6 +6,10 @@ import Icon from './../../Icon/index';
 import { PerfectScrollbar } from 'react-perfect-scrollbar';
 import NotificationItem from './../../Notification/index';
 
+
+import Modal from '../../Modal/index';
+import Button from "../../Button";
+
 import { DragSource } from 'react-dnd';
 import moment from 'moment'
 
@@ -35,6 +39,10 @@ function collect(connect, monitor){
 class EventSlot extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            modalWasTransfer: false,
+            modalTooLateTransfer: false,
+        }
     };
 
     onRemoveTrialTraining = (e) => {
@@ -44,10 +52,10 @@ class EventSlot extends Component {
         this.props.deleteTraining(this.props.event.id);
     }
 
-    onCancelTraining = (e, id, idSubscription) => {
+    onCancelTraining = (e, id, idSubscription, event) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        this.props.onCancelTraining(id, idSubscription)
+        this.props.onCancelTraining(id, idSubscription, event)
     }
 
     deleteEventApiPatients = (e, id) => {
@@ -75,6 +83,7 @@ class EventSlot extends Component {
 
     render() {
         const {
+            value,
             event,
             mode,
             onGotoPage,
@@ -85,6 +94,8 @@ class EventSlot extends Component {
             selectIdEvent,
             connectDragSource,
             item,
+            showTooLateTransferModal,
+            showWasTransferModal
         } = this.props;
 
         const opacity = isDragging ? 0 : 1;
@@ -133,9 +144,27 @@ class EventSlot extends Component {
         const eventKey = event.idMaster ? event.idMaster: event.id;
         let funcOnClick = (eventKey && eventKey != 1) ? () => onGotoPage(eventKey) : () => {};
         funcOnClick = mode === 'master' ? () => onGotoPage(event.idStudent) : funcOnClick;
-        if(isPushBtnTransfer) funcOnClick = () => clickOnEvent(event)
+        if(isPushBtnTransfer && mode!=='admin' && mode!=='master') {
+            let time =  moment().add(24,'hour');
+            let start =  moment(value);
+            
+            if(event.wasTransfer)  {
+                backgroundColor = 'rgb(145, 145, 145)';
+                funcOnClick = () => {
+                    showWasTransferModal()
+                }
+            }
+            else if (time > start){
+                backgroundColor = 'rgb(145, 145, 145)';
+                funcOnClick = () => {
+                    showTooLateTransferModal()
+                }
+            }
+            else funcOnClick = () => clickOnEvent(event)
+        }
+        else if (isPushBtnTransfer) funcOnClick = () => clickOnEvent(event)
         
-        let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
+        let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription, event)
             crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e,event.id) : crossFunc
 
         
@@ -154,6 +183,7 @@ class EventSlot extends Component {
                         </p>
                     </div>
             </div>
+            
         )
         
     }
