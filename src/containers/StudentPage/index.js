@@ -227,6 +227,16 @@ class StudentPage extends React.Component{
                 <Hoc>
                     <div className="student-page">
                         <Row type="flex" gutter={32}>
+                            {isAdmin && <Col span={24}>
+                                <RecordTrainCarousel
+                                    onGetIntervals={this.getSchedule} 
+                                    trainerTrainings = {this.prepareStudentOwnTrains(studentTrainings)}
+                                    studentID={match.params.id}
+                                    handleTrainModal={this.handleTrainModal}
+                                    isAdmin={isAdmin}
+                                    isStudentPage={true}
+                                />
+                            </Col>}
                             <Col span={10} className='section'>
                                 <StudentProfile
                                     img={avatar}
@@ -247,15 +257,6 @@ class StudentPage extends React.Component{
                                     qualities={getNamesFromObjArr(bestqualities)}
                                     comment={bestcomment}
                                 />
-                                {isAdmin && <FrozenTrainingChanger
-                                    frozenCount={frozenTraining}
-                                    onSaveFrozenBalance={this.changeFrozenBalance}
-                                />}
-                                {isAdmin && <BookingClearButton
-                                id={id}
-                                clearAllBookingTrainings={this.clearAllBookingTrainings}
-                                />}
-                                
                             </Col>
                             <Col span={14}>
                                 <TrainsHistory onGotoChat={this.goToChat}
@@ -272,14 +273,22 @@ class StudentPage extends React.Component{
                                                onResetTrainingHistoryList={this.props.onResetTrainingHistoryList}
                                                onChangeRequestMaxAmount={this.props.onChangeRequestMaxAmount}
                                 />
-                                <RecordTrainCarousel
+                                {!isAdmin && <RecordTrainCarousel
                                     onGetIntervals={this.getSchedule} 
                                     trainerTrainings = {this.prepareStudentOwnTrains(studentTrainings)}
                                     studentID={match.params.id}
                                     handleTrainModal={this.handleTrainModal}
                                     isAdmin={isAdmin}
                                     isStudentPage={true}
-                                />
+                                />}
+                                {isAdmin && <FrozenTrainingChanger
+                                    frozenCount={frozenTraining}
+                                    onSaveFrozenBalance={this.changeFrozenBalance}
+                                />}
+                                {isAdmin && <BookingClearButton
+                                id={id}
+                                clearAllBookingTrainings={this.clearAllBookingTrainings}
+                                />}
                             </Col>
                         </Row>
                     </div>
