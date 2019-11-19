@@ -14,12 +14,12 @@ import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
 import FreeAdminTrainersItem from './../../components/FreeAdminTrainersItem/index';
 
-import ReceptionsScheduleModal from "../../components/ReceptionsScheduleModal";
 import Modal from './../../components/Modal/index';
 import * as actions from '../../store/actions'
 import Card from './../../components/Card/index';
 
 import './styles.css'
+import ListTrainersModal from '../../components/ListTrainersModal';
 
 class Schedule extends React.Component {
     
@@ -44,7 +44,6 @@ class Schedule extends React.Component {
             },
             cancelModal: false,
             newMessageModal: false,
-            receptionsScheduleModal: false,
             sendingModal: false,
             receptionData: {
                 dates: [],
@@ -747,46 +746,6 @@ class Schedule extends React.Component {
         this.setState({isEditorMode});
     };
 
-    closeReceptionSchedule = () => {
-        this.setState({
-            receptionsScheduleModal: false,
-            receptionData: {
-                ...this.state.receptionData,
-                dates: [],
-            }
-        })
-    };
-
-    onSaveReceptionSchedule = (interval) => {
-        this.props.onAddInterval(interval, this.state.interval.start, this.state.interval.end);
-        this.setState({
-            receptionsScheduleModal: false,
-            receptionData: {
-                ...this.state.receptionData,
-                dates: [],
-            }
-        })
-    };
-
-    openReceptionSchedule = (date, schedule) => {
-        if (schedule) {
-            this.setState({
-                receptionData: {
-                    ...this.state.receptionData,
-                    currentSched: schedule
-                }
-            })
-        }
-        if (date.length !== 0) {
-            this.setState({
-                receptionsScheduleModal: true,
-                receptionData: {
-                    ...this.state.receptionData,
-                    dates: [].concat(this.state.receptionData.dates, date)
-                }
-            })
-        }
-    };
 
     eventDeleteHandler = (id) => {
         this.props.onEventDelete(id);
@@ -932,13 +891,6 @@ class Schedule extends React.Component {
         }
         else { // student
             
-            const currDate = this.state.currentDate,
-                currY = currDate.getFullYear(),
-                currM = currDate.getMonth(),
-                currD = currDate.getDate();
-
-                let min = new Date( currY, currM, currD, 8);
-                let max = new Date( currY, currM, currD, 23);
 
             editorBtn = (<Button btnText='Редактор графика'
                                  onClick={() => this.changeToEditorMode(true)}
@@ -1119,39 +1071,7 @@ class Schedule extends React.Component {
                         </div>
                 </Modal>
 
-                <Modal
-                    title='Список коучей'
-                    visible={this.state.modalMasterList}
-                    onCancel={() => this.setState({modalMasterList : false})}
-                    width={720}
-                    className="schedule-message-modal-wrapper"
-                >
-                    <div className="admin-trainer-wrapper">
-                        <div className="block-free-trainer">
-                            <p className="free-trainer">Свободные тренера</p>
-                            {this.props.freetrainers && this.props.freetrainers.map((item, index) => {
-                                return (<FreeAdminTrainersItem {...item}
-                                                        key={index}
-                                                        onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-
-                                />)
-                            })}
-
-                        </div>
-
-                        <div className="block-free-trainer">
-                            <p className="free-trainer">Занятые тренера</p>
-                            {this.props.busytrainers && this.props.busytrainers.map((item, index) => {
-                                return (<FreeAdminTrainersItem {...item}
-                                                        key={index}
-                                                        onGoto= {(id) => this.props.history.push('/app/coach'+id)}
-
-                                />)
-                            })}
-                        </div>
-                    </div>
-                </Modal>
-
+                <ListTrainersModal />
 
                 <CancelVisitModal visible={this.state.cancelModal}
                                   {...this.props.cancelData}
@@ -1172,21 +1092,7 @@ class Schedule extends React.Component {
                                  onCancel={this.closeNewMessage}
                                  onSend={ this.onSendNewMessage}
                 />
-                <ReceptionsScheduleModal visible={this.state.receptionsScheduleModal}
-                                         dateSet={{
-                                             defaultStartValue: moment(dates[0]),
-                                             defaultEndValue: moment(dates[dates.length - 1]),
-                                         }}
-                                         intervalTime={+intervalTime || timePeriod[0]}
-                                         type={type}
-                                         selOptions={timePeriod}
-                                         timeSetCall={timeSetCall}
-                                         timeSetReception={timeSetReception}
-                                         onCancel={this.closeReceptionSchedule}
-                                         onSave={(info) => this.onSaveReceptionSchedule(info)}
-                                         isDayOff={!!(+isDayOff)}
-                                         emergencyAvailable={this.props.emergencyAvailable}
-                />
+
             </Hoc>
         )
     }

@@ -18,7 +18,7 @@
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "moment": "^2.20.1",
-    "node-gyp": "^3.8.0",
+    "node-gyp": "^1.0.3",
     "react": "^16.2.0",
     "react-big-calendar": "^0.17.0",
     "react-calendar": "^2.12.0",

@@ -10,47 +10,62 @@ export const getFreeAndBusyMasterList = (dateStart, dateEnd) => {
             dateEnd
         }
 
-        return axios.post('/catalog.fasol/freeAndBusyMasterList',
-            JSON.stringify(obj))
+        return axios.post('/catalog.fasol/freeAndBusyMasterListNewVersionShort', JSON.stringify(obj))
             .then(res => {
-                let final = {};
-                if(res.data && res.data.result.interval){
-                    const {interval} = res.data.result;
-                    for(let key in interval){
-                        final = {...final, ...interval[key]}
-                    }
-                }
+                if (!res.data.error) {
+                    const masterList = res.data.result ? res.data.result : {}
 
-                console.log('--------------final :', final);
-                dispatch({
-                    type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST,
-                    masterList: final,
-                })
+                    dispatch({
+                        type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST,
+                        masterList,
+                    })
+                }
             })
             .catch(err => {
-                console.log('error: ',err);
+                console.log('error: ', err);
+            })
+    }
+}
+
+export const getFreeAndBusyMasterListOnHour = (dateStart) => {
+    return dispatch => {
+        const obj = { dateStart }
+
+        return axios.post('/catalog.fasol/freeAndBusyMasterListOnHour', JSON.stringify(obj))
+            .then(res => {
+                debugger
+                if (!res.data.error) {
+                    const masterList = res.data.result ? res.data.result : {}
+
+                    dispatch({
+                        type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST,
+                        masterList,
+                    })
+                }
+            })
+            .catch(err => {
+                console.log('error: ', err);
             })
     }
 }
 
 
+export const getInfoMasters = (idMaster) => {
+    let obj = { id: idMaster };
 
-        export const getInfoMasters = (idMaster) => {
-            let obj = {id : idMaster};
+    return axios.post('/catalog.fasol/getUserInfo', JSON.stringify(obj))
+        .then(rez => {
+            let fdata = rez.data.result.data;
+            fdata['idMaster'] = idMaster;
+            fdata.hasOwnProperty('aboutme') ? fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
+            fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
+            return fdata;
+        })
+        .catch(err => {
+            console.log(err);
+        })
 
-            return axios.post('/catalog.fasol/getUserInfo', JSON.stringify(obj))
-                .then(rez => {
-                    let fdata = rez.data.result.data;
-                    fdata['idMaster'] = idMaster;
-                    fdata.hasOwnProperty('aboutme') ?  fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
-                    fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
-                    return fdata;
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-
-        }
+}
 
 export const getAllInfoMasters = (typeMasters, masterList) => {
     return (dispatch) => {
@@ -58,25 +73,23 @@ export const getAllInfoMasters = (typeMasters, masterList) => {
         masterList.forEach(el => {
 
             arr.push(getInfoMasters(el)
-                .catch((err) => { console.log(err)}));
+                .catch((err) => { console.log(err) }));
         });
 
         return Promise.all(arr)
             .then((rez) => {
-                    if(typeMasters === 'free')
-                    {
-                        dispatch({
-                            type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_FREE,
-                            adminMasters: rez,
-                        })
-                    }
-                    else  if(typeMasters === 'busy')
-                    {
-                        dispatch({
-                            type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_BUSY,
-                            adminMasters: rez,
-                        })
-                    }
+                if (typeMasters === 'free') {
+                    dispatch({
+                        type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_FREE,
+                        adminMasters: rez,
+                    })
+                }
+                else if (typeMasters === 'busy') {
+                    dispatch({
+                        type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_BUSY,
+                        adminMasters: rez,
+                    })
+                }
 
             })
             .catch((err) => {
@@ -128,7 +141,7 @@ export const getRegistrationRepost = () => {
 export const getInfoScheduleStudent = (id) => {
 
     return (dispatch) => {
-        return axios.post('/catalog.fasol/getUserInfo',JSON.stringify({id}))
+        return axios.post('/catalog.fasol/getUserInfo', JSON.stringify({ id }))
             .then(res => {
                 let fdata = res.data.result.data;
                 if (fdata && fdata.userGroup === 'student') {
