@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import ProfileAvatar from '../ProfileAvatar'
-import Hoc from "../Hoc"
+
 import Icon from "../Icon"
 import DownloadLink from "../DownloadLink"
 
@@ -96,7 +96,7 @@ const ChatMessage = props => {
                 )
         }
     return (
-        <Hoc>
+        <React.Fragment>
             {
                 isDate ?
                     (<div className='message-today'>{moment(date * 1000).format("D MMMM YYYY")}</div>)
@@ -106,7 +106,7 @@ const ChatMessage = props => {
                         'перенесена' : 'завершена'}</div>)
                     : (content)
             }
-        </Hoc>
+        </React.Fragment>
     )
 }
 

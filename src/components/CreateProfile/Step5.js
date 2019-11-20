@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import Hoc from '../Hoc'
+
 import Checkbox from '../Checkbox'
 import Button from '../Button'
 import Hr from "../Hr";

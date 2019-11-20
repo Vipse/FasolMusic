@@ -2,7 +2,7 @@ import React from 'react'
 import Row from "../../components/Row";
 import Col from "../../components/Col";
 
-import Hoc from '../../hoc'
+
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import DownloadLink from "../../components/DownloadLink";
 import Card from "antd/es/card";
@@ -101,7 +101,7 @@ class AdminMain extends React.Component{
         const {loadingLinks, reportLinksReady, loadingRegLinks, reportLinksRegReady} = this.state;
 
         return (
-            <Hoc>
+            <React.Fragment>
                 <Row gutter={32}>
                     <Col className='section' xs={13}>
                         <Card className="payment-coach-record" title="Акты выполненных работ">
@@ -182,7 +182,7 @@ class AdminMain extends React.Component{
                         </Card>
                     </Col>
                 </Row>
-            </Hoc>
+            </React.Fragment>
         )
     }
 }

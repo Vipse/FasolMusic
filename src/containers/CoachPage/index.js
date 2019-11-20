@@ -6,7 +6,7 @@ import CoachProfile from "../../components/CoachProfile";
 import RecordTrainCarousel from "../../components/RecordTrainCarousel";
 import CoachPagePerfectStudent from "../../components/CoachPagePerfectStudent";
 
-import Hoc from '../../hoc'
+
 
 import * as actions from '../../store/actions'
 
@@ -223,7 +223,7 @@ class CoachPage extends React.Component{
             )
         } else {
             return (
-                <Hoc>
+                <React.Fragment>
                     <div className="coach-page">
                         <Row type="flex" gutter={32}>
                             {!isAdmin && <Col span={11}>
@@ -302,7 +302,7 @@ class CoachPage extends React.Component{
                             discipline={this.getDisciplinesList()}
                         />
                     </div>
-                </Hoc>
+                </React.Fragment>
             )
         }
     }

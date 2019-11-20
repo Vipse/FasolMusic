@@ -1,0 +1,18 @@
+.transfer-or-newschedule {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px 0px;
+}
+.transfer-or-newschedule-btn {
+  display: inline-block;
+  margin: 10px;
+}
+.transfer-or-newschedule .btn-yellow {
+  background-color: #ffc800;
+  color: #fff;
+  border: 1px solid #ffc800;
+}
+.transfer-or-newschedule .btn-yellow:hover {
+  background-color: white;
+  color: #ffc800;
+}

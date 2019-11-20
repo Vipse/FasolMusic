@@ -6,7 +6,6 @@ import CoachPage from "../containers/CoachPage"
 import PersonalInfo from '../containers/PersonalInfo'
 import Payment from '../containers/Payment'
 import Bonus from '../containers/Bonus'
-import Reviews from '../containers/Reviews'
 
 import Chat from '../containers/Chat'
 
@@ -46,11 +45,7 @@ export const coachRoutes = [
         component: Chat,
         exact: true,
     },
-    {
-        path: '/app/reviews',
-        component: Reviews,
-        exact: true,
-    },
+
     {
         path: '/app/bonus',
         component: Bonus,
@@ -100,11 +95,7 @@ export const studentRoutes = [
         component: Chat,
         exact: true,
     },
-    {
-        path: '/app/reviews',
-        component: Reviews,
-        exact: true,
-    },
+
     {
         path: '/app/bonus',
         component: Bonus,

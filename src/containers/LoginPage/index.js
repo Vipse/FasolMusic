@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux';
 import {Route} from 'react-router-dom'
-import Hoc from '../../hoc'
+
 import Row from "../../components/Row/index.js";
 import Col from "../../components/Col/index.js";
 import Login from "../../components/Login/index.js";
@@ -70,7 +70,7 @@ class LoginPage extends React.Component {
         const {disciplinesList} = this.props;
         return (
             <div className="loginPage">
-                <Hoc>
+                <React.Fragment>
                     <div className="loginPage-header">
                         <a className="loginPage-header-logo" href='https://fasolstudio.by'>
                             <img src={logo} width={156} height={80}/>
@@ -139,7 +139,7 @@ class LoginPage extends React.Component {
                             />
                         </Col>
                     </Row>
-                </Hoc>
+                </React.Fragment>
             </div>
         )
     }

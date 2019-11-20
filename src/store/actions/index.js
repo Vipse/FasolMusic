@@ -175,6 +175,9 @@ export {
     hideCreateTrainModal_clickUnfreeze,
     showCreateTrainModal_clickTrial,
     hideCreateTrainModal_clickTrial,
+
+    showTransferOrNewScheduleModal,
+    hideTransferOrNewScheduleModal
 } from './modal'
 
 

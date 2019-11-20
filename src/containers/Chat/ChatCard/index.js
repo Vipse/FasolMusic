@@ -10,7 +10,7 @@ import CompletionTrainingModal from "../../../components/CompletionTrainingModal
 import ChatTextContent from './ChatTextContent'
 import ChatVideoContent from './ChatVideoContent'
 import ChatAudioContent from './ChatAudioContent'
-import Hoc from '../../../hoc'
+
 
 
 import { detect } from 'detect-browser';
@@ -280,7 +280,7 @@ class ChatCard extends React.Component {
         }
 
 		return (
-			<Hoc>
+			<React.Fragment>
 				<div className='chat-card'>
 					<div className='chat-card-head'>
 						<div className='chat-card-title'>
@@ -340,7 +340,7 @@ class ChatCard extends React.Component {
 					onTail={() => this.onCloseTraining('transfer')}
 					onCancel={() => this.setState({completionModalVisible: false})}
 				/>
-			</Hoc>
+			</React.Fragment>
         )
     }
 }

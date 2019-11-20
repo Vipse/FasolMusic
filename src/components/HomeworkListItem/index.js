@@ -7,7 +7,7 @@ import Button from "../Button";
 import Rate from '../Rate'
 import Icon from '../Icon'
 import PopoverFile from '../PopoverFile'
-import Hoc from '../Hoc'
+
 
 import './style.css'
 import '../../icon/style.css'
@@ -116,15 +116,7 @@ class HomeworkListItem extends React.Component {
                             </button>
                         </div>}</div>
                 </div>
-                {/*<div className="flex-col attachments" onClick={this.handleClick}>
-                    <PopoverFile className="attachments"
-                                 data={this.refactorFiles(files)}
-                                 onAddFiles={this.props.onAddFiles}
-                                 refresh={this.props.refresh}
-                                 makeArchiveOfFiles={this.props.makeArchiveOfFiles}
-                    >
-                    </PopoverFile>
-                </div>*/}
+
             </div>
         )
     }

@@ -2,7 +2,7 @@ import React from 'react'
 
 import './styles.css'
 
-import Hoc from '../../hoc'
+
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 import CoachPersonalProfile from "../../components/CoachPersonalProfile";
@@ -33,7 +33,7 @@ class PersonalInfo extends React.Component {
         const {loadingData} = this.state;
         return (
             loadingData ? <Spinner tip="Загрузка" size="large"/> :
-                <Hoc>
+                <React.Fragment>
                     {isStudent ? (
                         <StudentPersonalProfile
                             profileStudent={this.props.profileStudent}
@@ -53,7 +53,7 @@ class PersonalInfo extends React.Component {
                             uploadFile={this.props.uploadFile}
                             onChangePassword={this.props.onChangePassword}
                         />)}
-                </Hoc>
+                </React.Fragment>
         )
     }
 }

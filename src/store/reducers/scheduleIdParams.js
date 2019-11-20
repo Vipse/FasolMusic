@@ -13,7 +13,11 @@ const initialState = {
     currentIdUser: null,
     
     crossCurrentIdTraining: null,
-    crossCurrendIdSubscription: null
+    crossCurrendIdSubscription: null,
+
+    clickedIdEvent: null, // for transfer or new schedule
+
+    timeClickFreeEvent: null, //timestamp of click on free block
 };
 
 const reducer = (state = initialState, action) => {

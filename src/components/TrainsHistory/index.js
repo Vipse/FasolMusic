@@ -1,22 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import Card from '../Card'
-import Button from '../Button'
-import PerfectScrollbar from "react-perfect-scrollbar";
 
 import './style.css'
 import '../../icon/style.css'
-import HistoryReceptionsItems from "../HistoryReceptionsItems";
-import Spinner from "../Spinner";
-import ReviewsModal from "../ReviewsModal";
-import HomeworkListItem from "../HomeworkListItem";
-import Hoc from "../Hoc";
-import Input from "../Input";
+
+;
 import Row from "../Row";
 import Col from "../Col";
 import HomeworkList from "../HomeworkList";
-import {apiTrainers} from "../../containers/Schedule/mock-data";
 
 class TrainsHistory extends React.Component {
 
@@ -66,7 +58,7 @@ class TrainsHistory extends React.Component {
 
         return (
             <div className='receptions-personal-page'>
-                <Hoc>
+                <React.Fragment>
                     <Row>
                         <Col span={24} className='section'>
                             <HomeworkList
@@ -83,7 +75,7 @@ class TrainsHistory extends React.Component {
                             />
                         </Col>
                     </Row>
-                </Hoc>
+                </React.Fragment>
             </div>
         )
     }

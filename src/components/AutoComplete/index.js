@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import AddNewPatientItem from '../AddNewPatientItem'
+import AddNewStudentItem from '../AddNewStudentItem'
 import Input from '../Input'
 import Spinner from '../Spinner'
 import {Modal} from 'antd';
@@ -75,7 +75,7 @@ class AutoComplete extends React.Component{
 
     studentsRender = (dataArr) => {
         return dataArr.map((item) => {
-            return (<AddNewPatientItem
+            return (<AddNewStudentItem
                 {...item}
                 onAdd={(id) => {
                     this.onClickHandler(id, 'add')

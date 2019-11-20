@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 import Button from '../Button'
-import Hoc from '../Hoc'
+
 
 import './style.css'
 import '../../icon/style.css'
@@ -21,7 +21,7 @@ class ChatVideoPanel extends React.Component{
             <div className='message__panel'>
 
                 {isCalling ?
-                <Hoc>
+                <React.Fragment>
                     <div className="message__panel-duration">
                         {this.checkTimeFormat(hour)} : {this.checkTimeFormat(min)} : {this.checkTimeFormat(sec)}
                     </div>
@@ -58,9 +58,9 @@ class ChatVideoPanel extends React.Component{
                             onClick={this.props.onFullScreen}
                         />
                     </div>
-                </Hoc>
+                </React.Fragment>
                 :
-                <Hoc>
+                <React.Fragment>
                     {!disabled && <div className="message__panel-btns startcall">
                         <Button
                             className='btn-call'
@@ -110,7 +110,7 @@ class ChatVideoPanel extends React.Component{
                             onClick={this.props.onChat}
                         />
                     </div>
-                </Hoc>
+                </React.Fragment>
                 }
             </div>
         )

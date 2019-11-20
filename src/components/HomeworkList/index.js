@@ -4,7 +4,7 @@ import HomeworkListItem from '../HomeworkListItem'
 import Card from '../Card'
 import Button from '../Button'
 import Input from '../Input'
-import Hoc from '../Hoc'
+
 
 import './style.css'
 import '../../icon/style.css'
@@ -92,7 +92,7 @@ class HomeworkList extends React.Component {
     tabHeaderRender = () => {
         const {isStudent, onStudentPage} = this.props;
         return (
-            <Hoc>
+            <React.Fragment>
                 <div className="tableheader">
                     <Input.Search
                         placeholder="Поиск по ДЗ..."
@@ -120,7 +120,7 @@ class HomeworkList extends React.Component {
                         <div className="attachments">Материалы</div>
                     </div>*/}
                 </div>
-            </Hoc>
+            </React.Fragment>
         )
     };
 

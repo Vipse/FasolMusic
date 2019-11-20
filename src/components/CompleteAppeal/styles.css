@@ -1,7 +1,0 @@
-.completeAppealModal {
-  text-align: center;
-  padding: 30px 0 40px 0;
-}
-.completeAppealModal > button:not(:last-child) {
-  margin-bottom: 20px;
-}

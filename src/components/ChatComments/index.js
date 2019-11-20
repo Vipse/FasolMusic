@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 import DownloadLink from '../DownloadLink'
-import Hoc from "../Hoc"
+
 
 import './style.css'
 import '../../icon/style.css'
@@ -11,7 +11,7 @@ const ChatComments = props => {
         const {comments, files} = props;
 
         return (
-            <Hoc>
+            <React.Fragment>
                 {
                     comments !== "" && files.length !== 0 &&
                     (
@@ -38,7 +38,7 @@ const ChatComments = props => {
                             </div>
                     )
                 }
-            </Hoc>
+            </React.Fragment>
         )
 }
 

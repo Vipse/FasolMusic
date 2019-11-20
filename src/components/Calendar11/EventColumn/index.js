@@ -1,10 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions'
+
 import EventTraining from '../EventTraining'
 
 import './styles.css'
 import AdminEvent from '../AdminEvent';
+import { message } from 'antd';
 
 
 class EventColumn extends React.Component{
@@ -34,6 +38,20 @@ class EventColumn extends React.Component{
         return "rbc-timeslot-group-NOT"
     }
 
+    handleClickFreeEvent = (startEvent) => {
+        const {clickedIdEvent} = this.props;
+        
+        if(clickedIdEvent){
+            console.log("startEvent", startEvent)
+            this.props.setParamsId({timeClickFreeEvent: startEvent})
+            this.props.showTransferOrNewScheduleModal()
+        }
+        else{
+            message.info('Выберите тренировку')
+        }
+        
+    }
+
     renderCells = () => {
         const { startTime, endTime, studentSchedule, eventWillTransfer } = this.props;
         let startTimeMoment = moment(+startTime * 1000);
@@ -41,14 +59,17 @@ class EventColumn extends React.Component{
         let arrReander = [];
 
         while (startTimeMoment.isBefore(endTimeMoment)) {
-            let startEvent = startTimeMoment.format('X')
-            let classStyle = "rbc-timeslot-group " + this.isIncludeIntervals(startEvent)
+            
+            const startEvent = startTimeMoment.format('X')
+            const isInclude = this.isIncludeIntervals(startEvent)
+            const classStyle = `rbc-timeslot-group ${isInclude}`
+            const handleClick = isInclude ? this.handleClickFreeEvent : () => {}
 
             
             arrReander.push(
-                <div class={classStyle}>
+                <div class={classStyle} onClick={() => handleClick(startEvent)}>
                     <div class="rbc-time-slot rbc-eventlabel">
-                        {studentSchedule && studentSchedule.hasOwnProperty(startEvent) ?
+                        {studentSchedule.hasOwnProperty(startEvent) ?
                             <EventTraining  
                                 key={startEvent}
                                 event = {studentSchedule[startEvent]}
@@ -104,7 +125,7 @@ class EventColumn extends React.Component{
             <div class='rbc-time-eventgutter rbc-time-eventcolumn'>
                 {this.renderHeadColumn()}
                 
-                    {!isAdmin ? this.renderCells() : this.renderAdminCells()}
+                {!isAdmin ? this.renderCells() : this.renderAdminCells()}
                              
             </div>
         )
@@ -118,4 +139,23 @@ EventColumn.defaultProps = {
     intervals: {}
 };
 
-export default EventColumn;
+const mapStateToProps = state => {
+
+    return {
+        studentSchedule: state.student.studentSchedule,
+        clickedIdEvent: state.scheduleIdParams.clickedIdEvent
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setParamsId: (params) => dispatch(actions.setParamsId(params)),
+
+        hideCreateTrainModal_clickUnfreeze: () => dispatch(actions.hideCreateTrainModal_clickUnfreeze()),
+        hideCreateTrainModal_clickTrial: () => dispatch(actions.hideCreateTrainModal_clickTrial()),
+          
+        showTransferOrNewScheduleModal: () => dispatch(actions.showTransferOrNewScheduleModal()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventColumn);

@@ -6,7 +6,7 @@ import ChatVideoPanel from "../../../components/ChatVideoPanel";
 import ChatContent from './ChatContent'
 
 import './style.css'
-import Hoc from '../../../hoc'
+
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import ChatFiles from "../../../components/ChatFiles";
@@ -26,7 +26,7 @@ class ChatVideoContent extends React.Component {
 
 	/*renderPlayer = () => {
 		console.log('renderPlayer',this.props.fileURL)
-		return (<Hoc>
+		return (<React.Fragment>
 			<div className='chat-card-message__area'>
 				<video className='chat-card-video__box'
 						 preload="auto"
@@ -38,7 +38,7 @@ class ChatVideoContent extends React.Component {
 					<a href={webm}>Скачать видео</a>
 				</video>
 			</div>
-		</Hoc>)
+		</React.Fragment>)
 	}*/
 
     componentWillReceiveProps(nextProps) {
@@ -103,7 +103,7 @@ class ChatVideoContent extends React.Component {
     };
 
 	renderVideos = () => (
-		<Hoc>
+		<React.Fragment>
 			<video className='chat-card-video__box'
 				   		poster=''
 				   		autoPlay
@@ -114,11 +114,11 @@ class ChatVideoContent extends React.Component {
 						ref={this.setVideoInRef}
 						id='setVideoInRef'
 			/>
-		</Hoc>
+		</React.Fragment>
 	);
 
 	renderSafariVideos = () => (
-		<Hoc>
+		<React.Fragment>
 			<video className='chat-card-video__box'
 				   poster=''
 				   playsInline
@@ -131,7 +131,7 @@ class ChatVideoContent extends React.Component {
 				   ref={this.setVideoInRef}
 				   id='setVideoInRef'
 			></video>
-		</Hoc>
+		</React.Fragment>
 	);
 
 	isFullScreen = () => !!(document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen
@@ -163,7 +163,7 @@ class ChatVideoContent extends React.Component {
 
 		let {s, m, h} = this.props.timer;
 
-		return (<Hoc>
+		return (<React.Fragment>
 			<figure className='chat-card-video__area' ref={videoArea => this.videoArea = videoArea}>
 				{this.isSafari ? this.renderSafariVideos() : this.renderVideos()}
                 <div className={panelClass}>
@@ -192,7 +192,7 @@ class ChatVideoContent extends React.Component {
 			</figure>
 
 
-		</Hoc>)
+		</React.Fragment>)
 	};
 
     render() {

@@ -5,7 +5,7 @@ import * as actions from '../../../store/actions'
 
 import './styles.css'
 
-class EventTraining extends React.Component{
+class EventTraining extends React.PureComponent{
     constructor(props) {
         super(props);
         this.state = {
@@ -21,12 +21,13 @@ class EventTraining extends React.Component{
 
 
     getBgColor = () => {
-        const {event} = this.props;
-        let backgroundColor = event.status ? 'rgba(33, 190, 221, 0.2)' : '#eee'; // прошло ли время тренировки
+        const {event, clickedIdEvent} = this.props;
+        let 
+        backgroundColor = event.status ? 'rgba(33, 190, 221, 0.2)' : '#eee'; // прошло ли время тренировки
         backgroundColor = event.isComplete ? '#fdc401' : backgroundColor; // была ли завершена тренировка    
         backgroundColor = (event.idMaster == 1) ? '#ff7daa' : backgroundColor;  // нету тренера
         backgroundColor = event.isBooking ? '#21bedd' : backgroundColor;  // бронированные тренировки
-        backgroundColor = event.isSelecting ? '#fdedc4' : backgroundColor  //тренировка выбрана для переноса
+        backgroundColor = (clickedIdEvent === event.id) ? '#fdedc4' : backgroundColor  //тренировка выбрана для переноса
         
         return backgroundColor;
     }
@@ -71,17 +72,25 @@ class EventTraining extends React.Component{
         this.props.deleteEventApiPatient(id)
     }
 
+    clickOnEvent = (idEvent) => {
+        const {isPushBtnTransfer, setParamsId} = this.props;
+
+        if(isPushBtnTransfer){
+            setParamsId({clickedIdEvent: idEvent})
+        }
+        
+    }
+
     render() {
-        console.log("render");
-        const {event, clickOnEvent} = this.props;
+        const {event} = this.props;
+        const {id} = event;
+
         const backgroundColor = this.getBgColor()
         const functionCross = this.getFunctionCross()
         
-        console.log('backgroundColor', backgroundColor)
-        const clickFunction = () => clickOnEvent(event)
 
         return (
-                <div className='event-group' style={{ backgroundColor }} onClick={clickFunction}>
+                <div className='event-group' style={{ backgroundColor }} onClick={() => this.clickOnEvent(id)}>
                     <div> 
                         <div className="event-group-cross" onClick={functionCross}>
                             {!event.isComplete && <span className="icon icon-close"></span>}
@@ -99,7 +108,9 @@ class EventTraining extends React.Component{
 
 const mapStateToProps = state => {
     return {
+        clickedIdEvent: state.scheduleIdParams.clickedIdEvent,
 
+        isPushBtnTransfer: state.student.isPushBtnTransfer,
     }
 }
 

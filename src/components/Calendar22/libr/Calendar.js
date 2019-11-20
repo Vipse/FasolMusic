@@ -2,14 +2,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import moment from 'moment'
 import uncontrollable from 'uncontrollable'
-import cn from 'classnames'
+
 import Toolbar from './header/Toolbar'
 import Spinner from "../../Spinner";
 
-
-import Button from './../../Button/index';
-import CancelVisitModal from './../../CancelVisitModal/index';
-import Week from './Week';
 import FreeTrainers from './../../FreeTrainers/index';
 import DateColumn from './../../Calendar11/DateColumn/index';
 import EventColumn from './../../Calendar11/EventColumn/index';
@@ -19,23 +15,8 @@ let now = new Date()
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-        isWorkTime: false,   
-        
-    }
+
     this.now = (new Date).getTime()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {studentSchedule, intervals} = this.props;
-
-    if (studentSchedule == nextProps.studentSchedule && 
-      intervals == nextProps.intervals){
-
-      return false // проверить!
-    }
-    return true
-      
   }
 
   getIntervalForColumn = (startTime) => {
@@ -51,7 +32,6 @@ class Calendar extends React.Component {
 
     const { min, 
        max, 
-       studentSchedule, 
        intervals,
        currDiscipline, 
        isAdmin, 
@@ -70,7 +50,6 @@ class Calendar extends React.Component {
             <EventColumn
                 key={startOf.format('X')}
                 timeDay={startOf.format('X')}
-                studentSchedule={studentSchedule}
                 startTime={startTime.format('X')}
                 endTime={endTime.format('X')} 
                 intervals={intervals}//{this.getIntervalForColumn(startTime)}
@@ -96,10 +75,6 @@ class Calendar extends React.Component {
     }
 
     return arrRender;
-  }
-
-  changeWorkTime = () => {
-    this.setState({isWorkTime: true});
   }
 
   render() {
@@ -184,24 +159,7 @@ class Calendar extends React.Component {
                 {this.rendertEventColumn()}
 
               </div>
-            
-            {/* <Week
-              ref="view"
-              {...props}
-              {...formats}
-              messages={messages}
-              culture={culture}
-
-              masterList={this.props.masterList}
-              isAdmin = {this.props.isAdmin}
-
-              events={events}
-              date={current}
-              length={length}
-              onNavigate={this.handleNavigate}
-              onDrillDown={this.handleDrillDown}
-              onSelectEvent={this.handleSelectEvent} 
-            /> */}
+    
 
           </div>
           <div className='rbc-smallcalendar-eventwrapper'>     
@@ -241,9 +199,7 @@ class Calendar extends React.Component {
               </div>  
             }
               
-            <CancelVisitModal visible={this.state.isWorkTime}
-                              onCancel={() => this.setState({isWorkTime: false})}
-                />
+   
           </div>  
         </div>      
       </div>

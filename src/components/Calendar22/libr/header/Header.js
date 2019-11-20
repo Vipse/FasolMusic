@@ -1,5 +1,4 @@
 import React from 'react'
-import Hoc from '../../../Hoc'
 
 const Header = ({ labels, label }) => {
   let content = labels  ?
@@ -16,7 +15,7 @@ const Header = ({ labels, label }) => {
         {label}
     </div>)
 
-    return <Hoc>{content}</Hoc>
+    return <React.Fragment>{content}</React.Fragment>
 }
 
 export default Header

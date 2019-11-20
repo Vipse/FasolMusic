@@ -2,10 +2,9 @@ import React from 'react'
 import Row from "../../components/Row";
 import Col from "../../components/Col";
 import TopPanel from "../../components/TopPanel";
-import Reviews from "../../components/Reviews";
 import NearTrainings from "../../components/NearTrainings";
 
-import Hoc from '../../hoc'
+
 import LastTrainings from "../../components/LastTrainings";
 import MyStudents from './../../components/MyStudents/index';
 
@@ -107,7 +106,7 @@ class CouchMain extends React.Component {
         const {goToChat} = this.props;
 
         return (
-            <Hoc>
+            <React.Fragment>
                 <Row>
                     <Col span={24} className='section'>
                         <TopPanel
@@ -146,7 +145,7 @@ class CouchMain extends React.Component {
                     </Col>
                 </Row>
 
-            </Hoc>
+            </React.Fragment>
         )
     }
 }

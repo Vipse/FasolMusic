@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Hoc from '../../hoc'
+
 import {connect} from "react-redux";
 import * as actions from '../../store/actions';
 
@@ -12,7 +12,7 @@ class Bonus extends React.Component{
         const {promoList} = this.props;
         let isStudent = this.props.auth.mode === "student";
         return (
-            <Hoc>
+            <React.Fragment>
                 {isStudent ?
                     <BonusPageStudent
                         onGetPromoList={() => this.props.onGetPromoList(1003)}
@@ -22,7 +22,7 @@ class Bonus extends React.Component{
                         onGetPromoList={() => this.props.onGetPromoList(1002)}
                         promoList={promoList}
                     />}
-            </Hoc>
+            </React.Fragment>
         )
     }
 }

@@ -4,11 +4,10 @@ import {connect} from 'react-redux';
 import {findTimeInterval} from '../../helpers/timeInterval'
 import {fillTrainingWeek} from './shedule';
 import {message, Modal as PopupModal} from 'antd';
-import Hoc from '../../hoc'
+
 
 import Button from "../../components/Button";
 import Calendar from "../../components/Calendar22";
-import CancelVisitModal from "../../components/CancelVisitModal";
 import NewVisitModal from "../../components/NewVisitModal";
 import NewMessageModal from "../../components/NewMessageModal";
 
@@ -19,6 +18,7 @@ import Card from './../../components/Card/index';
 import './styles.css'
 import ListTrainersModal from '../../components/Modals/ListTrainersModal';
 import TransferOrFreezeModal from '../../components/Modals/TransferOrFreezeModal';
+import TransferOrNewScheduleModal from '../../components/Modals/TransferOrNewScheduleModal';
 
 class Schedule extends React.Component {
     
@@ -35,7 +35,6 @@ class Schedule extends React.Component {
             currentDate: new Date(),
             interval: null,
             view: '',
-            newVisitModal: false,
 
             newVisitData: {
                 date: null,
@@ -146,14 +145,14 @@ class Schedule extends React.Component {
             .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
     }
 
-    clickOnEvent = (event) => {
-        const {isPushBtnTransfer} = this.props;
-        if(isPushBtnTransfer){
-            this.props.onHandleSelecting(event.id)
-            //this.setState({eventWillTransfer: event.id})
-            this.delEvent = {event};
-        }
-    }
+    // clickOnEvent = (event) => {
+    //     const {isPushBtnTransfer} = this.props;
+    //     if(isPushBtnTransfer){
+    //         this.props.onHandleSelecting(event.id)
+    //         //this.setState({eventWillTransfer: event.id})
+    //         this.delEvent = {event};
+    //     }
+    // }
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         const {isPushBtnTrialTraining, abonementIntervals, isPushBtnTransfer} = this.props;
 
@@ -712,11 +711,6 @@ class Schedule extends React.Component {
         this.props.onChangeCurrDiscipline(disc)
     }
 
-    closeNewVisitModal = () => {
-        this.setState({
-            newVisitModal: false,
-        })
-    };
 
     onSaveNewVisit = (obj) => {
         return this.props.onAddNewVisit(obj, this.state.interval.start, this.state.interval.end);
@@ -817,7 +811,6 @@ class Schedule extends React.Component {
                     }}
                     date={this.state.currentDate}
                     onNavigate={this.dateChangeHandler}
-                    gotoEditor={() => this.changeToEditorMode(true)}
                     onGotoPatient={this.gotoHandler}
                     step={60}
                     
@@ -880,7 +873,7 @@ class Schedule extends React.Component {
                                 //nothing
                             }
                              else if(isPushBtnTrialTraining === 'trial'){
-                                filterInterval = this.props.superFreeInterval;
+                                filterInterval = this.props.freeIntervals;
                                 notRedirectDiscipline = true;
                              }
                              else if(isPushBtnTrialTraining === 'select_master'){
@@ -896,13 +889,12 @@ class Schedule extends React.Component {
                              }
                              else if(isNeedSaveIntervals){
 
-                                filterInterval =  this.props.superFreeInterval;
+                                filterInterval =  this.props.freeIntervals;
                                 notRedirectDiscipline = true;
                              }
 
             calendar = (<Calendar
                                 
-                studentSchedule={this.props.studentSchedule}
                 dateChange={this.dateChange}
                 currentDate={moment().format('x')}
                 startDate={startDate * 1000}
@@ -913,7 +905,6 @@ class Schedule extends React.Component {
                 deleteTraining={this.deleteTraining} 
                 onCancelTraining={this.onCancelTraining}
                 deleteEventApiPatient={this.deleteEventApiPatient}    
-                clickOnEvent = {this.clickOnEvent}
                 eventWillTransfer = {this.state.eventWillTransfer}
 
 
@@ -926,16 +917,13 @@ class Schedule extends React.Component {
                                       };
                                   }}
                                   
-                                  gotoEditor={() => this.changeToEditorMode(true)}
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
                                   onGotoPage= {id => history.push('/app/coach' + id)}
-                                  clickOnEvent = {this.clickOnEvent}
                                   selectAnyTrainer = {this.selectAnyTrainer}
                                   mode = {this.props.mode}
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
-                                  intervals={filterInterval}
-                                  superFreeInterval = {filterInterval}
+                                  
                                   isPushBtnTransfer = {this.props.isPushBtnTransfer}
                                   notRedirectDiscipline = {notRedirectDiscipline}
                                   
@@ -972,7 +960,7 @@ class Schedule extends React.Component {
         let cardTitle = (this.isStudentSchedule() && profileStudent.name) ? "Расписание - "+profileStudent.name : 'Расписание тренировок'
 
         return (
-            <Hoc>
+            <React.Fragment>
                 <Card title={cardTitle}>
                         {calendar}
                 </Card>
@@ -1003,7 +991,7 @@ class Schedule extends React.Component {
                 </Modal>
 
 
-                <TransferOrFreezeModal />
+                
 
                 <Modal
                     title='Сообщение'
@@ -1028,29 +1016,19 @@ class Schedule extends React.Component {
                         </div>
                  </Modal> 
 
+                <TransferOrFreezeModal />
+
+                <TransferOrNewScheduleModal />
+                
                 <ListTrainersModal />
 
-                <CancelVisitModal visible={this.state.cancelModal}
-                                  {...this.props.cancelData}
-                                  onSave={(obj) => {
-                                      this.props.onCloseCancelModal(obj);
-                                      this.setState({cancelModal: false, sendingModal: true});
-                                  }}
-                                  onCancel={() => this.setState({cancelModal: false})}
-                />
-                <NewVisitModal visible={this.state.newVisitModal}
-                               {...this.state.newVisitData}
-                               students={this.props.students}
-                               onCancel={this.closeNewVisitModal}
-                               onSave={this.onSaveNewVisit}
-                />
                 <NewMessageModal visible={this.state.newMessageModal}
                                  {...this.props.chosenData}
                                  onCancel={this.closeNewMessage}
                                  onSend={ this.onSendNewMessage}
                 />
 
-            </Hoc>
+            </React.Fragment>
         )
     }
 }
@@ -1058,7 +1036,6 @@ class Schedule extends React.Component {
 const mapStateToProps = state => {
     return {
         //
-        studentSchedule: state.student.studentSchedule,
         masterList: state.admin.masterList,
         startDate: state.training.startDate,
         endDate: state.training.endDate,
@@ -1094,7 +1071,6 @@ const mapStateToProps = state => {
         countTraining: state.students.countTraining,
         isUser:  state.auth.mode === "user",
         isAdmin:  state.auth.mode === "admin",
-        superFreeInterval: state.student.freeInterval,
         theMasterInterval: state.student.theMasterInterval,
         mode: state.auth.mode,
         selectMaster: state.student.selectMaster, //из payment выбран

@@ -9,7 +9,7 @@ import TrainsHistory from "../../components/TrainsHistory";
 import RecordTrainCarousel from "../../components/RecordTrainCarousel";
 import BookingClearButton from "../../components/ClearBooking";
 
-import Hoc from '../../hoc'
+
 import * as actions from '../../store/actions'
 
 import './styles.css';
@@ -224,7 +224,7 @@ class StudentPage extends React.Component{
             )
         } else {
             return (
-                <Hoc>
+                <React.Fragment>
                     <div className="student-page">
                         <Row type="flex" gutter={32}>
                             {isAdmin && <Col span={24}>
@@ -293,7 +293,7 @@ class StudentPage extends React.Component{
                             </Col>
                         </Row>
                     </div>
-                </Hoc>
+                </React.Fragment>
             )
         }
     }

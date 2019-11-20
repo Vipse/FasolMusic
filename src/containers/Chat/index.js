@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import Row from '../../components/Row'
 import Col from '../../components/Col'
-import Hoc from '../../hoc'
+
 
 import ChatCard from './ChatCard'
 
@@ -182,7 +182,7 @@ class Chat extends React.Component{
         console.log('chatProps', chatProps);
 
         return (
-            <Hoc>
+            <React.Fragment>
                 <Row>
                     <Col xs={24} xxl={24} className='section'>
                         {
@@ -218,7 +218,7 @@ class Chat extends React.Component{
                         }
                     </Col>
                 </Row>
-            </Hoc>
+            </React.Fragment>
         )
     }
 }

@@ -1,0 +1,54 @@
+.new-patient {
+    &-item {
+        display: flex;
+        align-items: center;
+        padding: 18px 85px 18px 30px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(33, 190, 221, 0.1);
+        }
+    }
+    &-avatar {
+        position: relative;
+        margin-right: 20px;
+    }
+    &-info {
+        display: flex;
+        flex-direction: column;
+    }
+    &-name {
+        font-family: RobotoBlack, sans-serif;
+        font-size: 14px;
+        line-height: 18px;
+        color: #21bedd;
+    }
+    &-userGroup {
+        font-family: "RobotoBlack", sans-serif;
+        font-weight: 400;
+        color: #111;
+        font-size: 14px;
+        line-height: 18px;
+    }
+    &-discipline {
+        font-family: "Myriad", sans-serif;
+        font-weight: 400;
+        color: #111;
+        font-size: 14px;
+        line-height: 18px;
+    }
+    &-btn {
+        margin-left: auto;
+        .btn {
+            .icon {
+                margin-right: 0;
+                font-size: 30px !important;
+                color: #204d8d;
+            }
+            &:hover {
+                .icon {
+                    color: #21bedd;
+                }
+            }
+        }
+    }
+}

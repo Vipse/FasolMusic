@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Hoc from '../../hoc'
+
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 import CoachPayment from "../../components/CoachPayment";
@@ -104,7 +104,7 @@ class Payment extends React.Component{
         let isStudent = this.props.auth.mode === "student";
 
         return (
-            <Hoc>
+            <React.Fragment>
                 {isStudent ? (
                     <StudentPayment
                         showTrialModal = {this.showCreateTrainModal}
@@ -155,7 +155,7 @@ class Payment extends React.Component{
 
 
                 { this.state.redirectToSchedule ? <Redirect to="/app/schedule"/> : null }
-            </Hoc>
+            </React.Fragment>
         )
     }
 }

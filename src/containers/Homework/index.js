@@ -5,7 +5,7 @@ import Row from "../../components/Row";
 import Col from "../../components/Col";
 import HomeworkList from "../../components/HomeworkList";
 
-import Hoc from '../../hoc'
+
 
 import * as actions from '../../store/actions'
 
@@ -72,7 +72,7 @@ class Homework extends React.Component {
         const { mode, loading, isRequestFailed, endAchieved } = this.props;
 
         return (
-            <Hoc>
+            <React.Fragment>
             	<Row>
             		<Col span={24} className='section'>
                         <HomeworkList
@@ -88,7 +88,7 @@ class Homework extends React.Component {
                         />
             		</Col>
             	</Row>
-            </Hoc>
+            </React.Fragment>
         )
     }
 }

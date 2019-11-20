@@ -56,7 +56,7 @@ class ContentForm extends React.Component {
         const { availableDisciplines, disciplinesList } = this.props;
         let radioDisciplinesArr = [];
 
-        debugger
+        //debugger
         for (let discipline in disciplinesList) {
             let item = disciplinesList[discipline];
             if (!availableDisciplines || !availableDisciplines[item.code])

@@ -39,12 +39,12 @@ class Step3 extends React.Component{
             elArr = [];
         while (true){
             if(data['educationsgroup1-education-'+i]){
-                elArr.push(<Hoc key={'educInfo'+i}>
+                elArr.push(<React.Fragment key={'educInfo'+i}>
                     {this.renderItem(`Учебное заведение`,'educationsgroup1-education-'+i)}
                     {this.renderItem(`Специальность`,'educationsgroup1-speciality-'+i)}
                     {this.renderItem('Год окончания','educationsgroup1-finishucationyear-'+i)}
                     <Hr/>
-                </Hoc>)
+                </React.Fragment>)
             }
             else {
                 return elArr;

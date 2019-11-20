@@ -282,7 +282,6 @@ storiesOf('Calendar22', module)
                          step = {60}
                          events = {events1}
                          intervals={intervals}
-                         gotoEditor={() => console.log('go to editor')}
                          defaultDate={new Date(2018, 0, 22)}
                          onPopoverClose={action('onPopoverClose')}
                          onPopoverEmail={action('onPopoverEmail')}

@@ -1,14 +1,18 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
+       //
+       freeInterval: [], //unfreeze and trial schedule
+       masters: [], //unfreeze and trial schedule
+       studentSchedule: {},
+
+       //
     myCoach: [],
     deadlinePay: {},
     trialTrainingForDisciplines: {},
     isTrialTrainingsAvailableCount: 0,
     isTransferTrainPopupActive: true,
     statusBtnBack: false,
-
-    studentSchedule: {},
     
 };
 
@@ -140,20 +144,7 @@ const reducer = (state = initialState, action) => {
                 studentSchedule: action.studentSchedule
             }
 
-        case actionTypes.HANDLE_SELECTING:
-            
-            let newSchedule = {...state.studentSchedule};
 
-            for(let key in newSchedule){
-                if(newSchedule[key].id == action.id) newSchedule[key].isSelecting = true;
-                else newSchedule[key].isSelecting = false;
-               
-            }
-            
-            return {
-                ...state,
-                studentSchedule: newSchedule
-            }
 
         default: return state;
     }

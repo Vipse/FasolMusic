@@ -10,7 +10,7 @@ import ChatContent from './ChatContent'
 import './style.css'
 
 
-import Hoc from '../../../hoc'
+
 import PerfectScrollbar from "react-perfect-scrollbar";
 import ChatFiles from "../../../components/ChatFiles";
 import { detect } from 'detect-browser';
@@ -73,7 +73,7 @@ class ChatAudioContent extends React.Component {
 	renderCallArea = () => {
 		const panelClass = cn('chat-card-video__panel', {'chat-card-video__panel-active': this.props.isActiveChat});
         let {s, m, h} = this.props.timer;
-		return (<Hoc>
+		return (<React.Fragment>
 			<div className='chat-card-video__area'>
 				{this.isSafari ? (
                     <video className='chat-card-video__box'
@@ -112,7 +112,7 @@ class ChatAudioContent extends React.Component {
                 </div>
 			</div>
 
-		</Hoc>)
+		</React.Fragment>)
 	};
 
     render() {

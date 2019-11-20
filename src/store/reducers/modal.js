@@ -61,6 +61,18 @@ const reducer = (state = initialState, action) => {
                 visible_CreateTrainModal_Trial: false
             }
 
+            //TransferOrNewScheduleModal
+        case actionTypes.SHOW_TRANSFER_OR_NEW_SCHEDULE_MODAL:
+            return {
+                ...state,
+                visible_TransferOrNewScheduleModal: true
+            }
+        case actionTypes.HIDE_TRANSFER_OR_NEW_SCHEDULE_MODAL:
+            return {
+                ...state,
+                visible_TransferOrNewScheduleModal: false
+            }
+
             
             
         default: return state;
