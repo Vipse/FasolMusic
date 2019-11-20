@@ -7,12 +7,12 @@ import { setChatStory } from './chatWS'
 
 
 
-export const handleChangeTime = (newStart, newEnd) => {
+export const handleChangeTime = (startDate, endDate) => {
     return dispatch => {
         dispatch({
             type: actionTypes.HANDLE_CHANGE_TIME,
-            newStart,
-            newEnd
+            startDate, 
+            endDate
         })
     }
 }

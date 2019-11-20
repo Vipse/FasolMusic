@@ -1,5 +1,7 @@
  import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
+import * as actions from '../actions'
+
 import {getCountTrainingByDiscipline} from './training';
 
 export const createAbonement = (dataCreate) => {
@@ -103,16 +105,14 @@ export const transferTrainining = (value, isCallAdmin) =>  {
         
 }
 
+//////////
 export const transferTraininingToEnd = (value, isCallAdmin) => {
-
     return (dispatch, getState) => 
         axios.post('/catalog.fasol/TransferTraininingToEnd', JSON.stringify({...value, isCallAdmin}))
             .then(res => {
-                if(res.data.code !== 200){
-                    console.log("TransferTraininingToEnd", res);             
+                if(!res.data.error){        
                     return res;
-                }       
-                //Promise.reject("error");     
+                }           
             })
             .catch(err => {
                 console.log(err);

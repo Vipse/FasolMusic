@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form } from 'antd';
-import history from '../../store/history'
+import history from '../../../store/history'
 
-import FreeAdminTrainersItem from '../FreeAdminTrainersItem'
+import FreeAdminTrainersItem from '../../FreeAdminTrainersItem'
 
 const FormItem = Form.Item;
 
@@ -25,20 +25,20 @@ class ContentForm extends React.Component {
     }
 
     render() {
-        const {freetrainers, busytrainers} = this.props;
+        const {freetrainers_listModal, busytrainers_listModal} = this.props;
 
         return (
             <div className="admin-trainer-wrapper">
                 <div className="block-free-trainer">
                     <p className="free-trainer">Свободные тренера</p>
-                    {this.renderTrainers(freetrainers)}
+                    {this.renderTrainers(freetrainers_listModal)}
 
                 </div>
 
                     
                 <div className="block-free-trainer">
                     <p className="free-trainer">Занятые тренера</p>
-                    {this.renderTrainers(busytrainers)}
+                    {this.renderTrainers(busytrainers_listModal)}
                 </div>
             </div>
         )

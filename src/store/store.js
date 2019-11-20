@@ -16,6 +16,7 @@ import abonementReducer from './reducers/abonement'
 import acquiringReducer from './reducers/acquiring'
 import homeworkReducer from './reducers/homework'
 import modalReducer from './reducers/modal'
+import scheduleIdParamsReducer from './reducers/scheduleIdParams'
 
 
 const rootReducer = combineReducers({
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
     acquiring: acquiringReducer,
     homework: homeworkReducer,
 
-    modal: modalReducer
+    modal: modalReducer,
+    scheduleIdParams: scheduleIdParamsReducer
 });
 
 export default function configureStore() {

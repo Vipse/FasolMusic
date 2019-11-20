@@ -1,13 +1,24 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
+    listDisciplines: {
+        125470: {
+            ruText: 'Гитара',
+            code: 125470,
+            name: 'guitar'
+        },
+        125485: {
+            ruText: 'Вокал',
+            code: 125485,
+            name: 'vocals'
+        }
+    },
+    ///
+
+
     dataForCreate: {},
     currDiscipline: {},
-    // currDiscipline: {
-    //     ruText: 'Вокал',
-    //     code: 125485,
-    //     name: 'vocals'
-    // },
+
     disciplines: {
         'guitar' : {
             ruText: 'Гитара',

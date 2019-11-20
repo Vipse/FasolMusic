@@ -1,20 +1,10 @@
 import React from 'react';
-import moment from 'moment'
-import {Form, message} from 'antd';
-import TextArea from '../TextArea'
-import Upload from '../Upload'
-import Icon from '../Icon'
-import TimePicker from '../TimePicker'
-import {previewFile} from "../../helpers/modifyFiles";
-import Checkbox from '../Checkbox'
+import { Form } from 'antd';
+
 import Button from '../Button'
-import Hr from "../Hr";
-import Spinner from "../Spinner";
 import Radio from "../RadioBox";
 import RadioGroup from "antd/es/radio/group";
-import RangeTp from "../TimePicker/RangeTP";
-import Slider from "antd/es/slider";
-import InputNew from "../InputNew";
+
 
 const FormItem = Form.Item;
 
@@ -27,16 +17,16 @@ class ContentForm extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.visible !== this.props.visible && this.props.visible)
-            this.setState({loading: false});
+            this.setState({ loading: false });
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {unauthorized} = this.props;
+        const { unauthorized } = this.props;
 
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                this.setState({loading: true});
+                this.setState({ loading: true });
                 let finalData = {
                     ...values,
                 };
@@ -63,9 +53,10 @@ class ContentForm extends React.Component {
     };
 
     renderDisciplines = () => {
-        const {availableDisciplines, disciplinesList} = this.props;
+        const { availableDisciplines, disciplinesList } = this.props;
         let radioDisciplinesArr = [];
 
+        debugger
         for (let discipline in disciplinesList) {
             let item = disciplinesList[discipline];
             if (!availableDisciplines || !availableDisciplines[item.code])
@@ -78,13 +69,12 @@ class ContentForm extends React.Component {
     };
 
     render() {
-        const {unauthorized, trial, form} = this.props;
-        const {getFieldDecorator} = form;
-        const {loading} = this.state;
+        const {  trial, form } = this.props;
+        const { getFieldDecorator } = form;
 
         return (
             <Form onSubmit={this.handleSubmit}
-                  className="CreateTrainModal">
+                className="CreateTrainModal">
                 <p className="info">Для записи на {trial ? 'пробную ' : null}тренировку выберите дисциплину</p>
                 <div className='controls'>
                     <div className="item">
@@ -97,42 +87,28 @@ class ContentForm extends React.Component {
                                 }],
                             })(
                                 <div className="ant-radio-group">
-                                    <RadioGroup style={{display: "flex", flexDirection: "row"}}>
+                                    <RadioGroup style={{ display: "flex", flexDirection: "row" }}>
                                         {this.renderDisciplines()}
                                     </RadioGroup>
                                 </div>
                             )}
                         </FormItem>
+                        
                         <p className="info-small">Вам покажется расписание со свободным временем наших коучей,
                             выберите ячейку и коуча
                         </p>
                     </div>
-                    {unauthorized && <div className="item">
-                        <FormItem>
-                            <div className='radio-label'>Введите e-mail</div>
-                            {getFieldDecorator('email', {
-                                rules: [{
-                                    required: true,
-                                    message: 'Введите e-mail, пожалуйста'
-                                }, {
-                                    type: "email",
-                                    message: 'Неправильный формат'
-                                }],
-                            })(
-                                <InputNew width="100%" bubbleplaceholder="E-mail"/>
-                            )}
-                        </FormItem>
-                    </div>}
+
                 </div>
                 <div className="submitPlate">
-                    {loading ? <Spinner/> :
-                        <Button className="saveBtn"
-                            btnText='Далее'
-                            onClick={() => {
-                            }}
-                            size='default'
-                            type='yellow'
-                    />}
+                    <Button
+                        className="saveBtn"
+                        btnText='Далее'
+                        onClick={() => {
+                        }}
+                        size='default'
+                        type='yellow'
+                    />
                 </div>
             </Form>
         )

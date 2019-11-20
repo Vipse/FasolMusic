@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions'
 
 import './styles.css'
 
@@ -33,7 +34,15 @@ class EventTraining extends React.Component{
     getFunctionCross =  () => {
         const { event } = this.props;
 
-        let crossFunc = event.trial ? this.onRemoveTrialTraining : (e) => this.onCancelTraining(e, event.id, event.idSubscription)
+        let crossFunc;
+        if(event.trial){
+            crossFunc = this.onRemoveTrialTraining
+        }  
+        else {
+            crossFunc = (e) => this.onCancelTraining(e, event.id, event.idSubscription)
+        }
+
+
         crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e, event.id) : crossFunc
         return crossFunc
     }
@@ -45,9 +54,15 @@ class EventTraining extends React.Component{
     }
 
     onCancelTraining = (e, id, idSubscription) => {
+        const {setParamsId, showTransferOrFreezeModal} = this.props;
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        this.props.onCancelTraining(id, idSubscription)
+
+        setParamsId({
+            crossCurrentIdTraining: id,
+            crossCurrendIdSubscription: idSubscription
+        })
+        showTransferOrFreezeModal();
     }
 
     deleteEventApiPatients = (e, id) => {
@@ -78,10 +93,23 @@ class EventTraining extends React.Component{
     }
 }
 
-EventTraining.propTypes = {
-};
+//crossCurrentIdTraining: null,
+//crossCurrendIdSubscription: null
 
-EventTraining.defaultProps = {
-};
 
-export default EventTraining;
+const mapStateToProps = state => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        showTransferOrFreezeModal: () => dispatch(actions.showTransferOrFreezeModal()),
+        setParamsId: (params) => dispatch(actions.setParamsId(params)),
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventTraining);

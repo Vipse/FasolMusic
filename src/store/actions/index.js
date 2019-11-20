@@ -143,7 +143,7 @@ export {
 
 export {
     getFreeAndBusyMasterList,
-    getAllInfoMasters,
+    //getAllInfoMasters,
     getReport,
     getRegistrationRepost,
     getInfoScheduleStudent,
@@ -167,4 +167,17 @@ export {
 export {
     showListTrainersModal,
     hideListTrainersModal,
+
+    showTransferOrFreezeModal,
+    hideTransferOrFreezeModal,
+
+    showCreateTrainModal_clickUnfreeze,
+    hideCreateTrainModal_clickUnfreeze,
+    showCreateTrainModal_clickTrial,
+    hideCreateTrainModal_clickTrial,
 } from './modal'
+
+
+export {
+    setParamsId,
+} from './scheduleIdParams'

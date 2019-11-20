@@ -84,6 +84,7 @@ class EventColumn extends React.Component{
                         {masterList.hasOwnProperty(startEvent) ?
                                 <AdminEvent
                                     key={startEvent}
+                                    date={startEvent}
                                     event={masterList[startEvent]}
                                  /> : ''}
                     </div>

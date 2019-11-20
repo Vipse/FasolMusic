@@ -1,6 +1,7 @@
 
 import * as actionTypes from './actionTypes';
 import axios from './axiosSettings'
+import * as actions from '../actions'
 
 
 export const getFreeAndBusyMasterList = (dateStart, dateEnd) => {
@@ -33,14 +34,16 @@ export const getFreeAndBusyMasterListOnHour = (dateStart) => {
 
         return axios.post('/catalog.fasol/freeAndBusyMasterListOnHour', JSON.stringify(obj))
             .then(res => {
-                debugger
                 if (!res.data.error) {
-                    const masterList = res.data.result ? res.data.result : {}
+                    const {busytrainers, freetrainers} = res.data.result.interval
 
                     dispatch({
-                        type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST,
-                        masterList,
+                        type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST_ON_HOUR,
+                        freetrainers_listModal: freetrainers ? freetrainers : [],
+                        busytrainers_listModal: busytrainers ? busytrainers : []
                     })
+
+                    dispatch(actions.showListTrainersModal())
                 }
             })
             .catch(err => {
@@ -67,36 +70,36 @@ export const getInfoMasters = (idMaster) => {
 
 }
 
-export const getAllInfoMasters = (typeMasters, masterList) => {
-    return (dispatch) => {
-        let arr = [];
-        masterList.forEach(el => {
+// export const getAllInfoMasters = (typeMasters, masterList) => {
+//     return (dispatch) => {
+//         let arr = [];
+//         masterList.forEach(el => {
 
-            arr.push(getInfoMasters(el)
-                .catch((err) => { console.log(err) }));
-        });
+//             arr.push(getInfoMasters(el)
+//                 .catch((err) => { console.log(err) }));
+//         });
 
-        return Promise.all(arr)
-            .then((rez) => {
-                if (typeMasters === 'free') {
-                    dispatch({
-                        type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_FREE,
-                        adminMasters: rez,
-                    })
-                }
-                else if (typeMasters === 'busy') {
-                    dispatch({
-                        type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_BUSY,
-                        adminMasters: rez,
-                    })
-                }
+//         return Promise.all(arr)
+//             .then((rez) => {
+//                 if (typeMasters === 'free') {
+//                     dispatch({
+//                         type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_FREE,
+//                         adminMasters: rez,
+//                     })
+//                 }
+//                 else if (typeMasters === 'busy') {
+//                     dispatch({
+//                         type: actionTypes.GET_ALL_ADMIN_INFO_MASTERS_BUSY,
+//                         adminMasters: rez,
+//                     })
+//                 }
 
-            })
-            .catch((err) => {
-                console.log(err)
-            });
-    }
-}
+//             })
+//             .catch((err) => {
+//                 console.log(err)
+//             });
+//     }
+// }
 
 export const getReport = (dateStart, dateEnd) => {
     const obj = {

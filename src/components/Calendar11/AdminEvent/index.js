@@ -7,17 +7,14 @@ import './style.css'
 
 class AdminEvent extends React.Component{
 
-    showTransferEvent = () => {
-        this.props.showTransferEvent(this.props.event.id);
-    }
-
     render() {
-        const {event, showListTrainersModal} = this.props;
+        const {event, date, getFreeAndBusyMasterListOnHour} = this.props;
         const {busytrainers, freetrainers} = event;
+
         const backgroundColor = '#21bedd';
 
         return (
-            <div className="list-slot" style={{ backgroundColor }} onClick={showListTrainersModal}>
+            <div className="list-slot" style={{ backgroundColor }} onClick={() => getFreeAndBusyMasterListOnHour(date)}>
                 <div>
                     <p className="list-slot-text" >
                         {freetrainers ? `с-${freetrainers}` : null}
@@ -36,7 +33,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        showListTrainersModal: () => dispatch(actions.showListTrainersModal())
+        getFreeAndBusyMasterListOnHour: date => dispatch(actions.getFreeAndBusyMasterListOnHour(date)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AdminEvent);

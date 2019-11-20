@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
+import moment from "moment";
+import {Modal, message, Tooltip} from "antd";
+import {connect} from 'react-redux';
+import * as actions from '../../store/actions'
+
 import Button from '../Button'
 import Icon from '../Icon'
 import NotificationApp from '../NotificationApp'
 import AutoComplete from '../AutoComplete'
+import CreateTrainModal from "../../components/CreateTrainModal";
 
 import './style.css'
 import '../../icon/style.css'
-import CreateTrainModal from "../../components/CreateTrainModal";
-import moment from "moment";
-import {Modal, message, Tooltip} from "antd";
-import  ReactTooltip  from 'react-tooltip';
-import {findDOMNode} from 'react-dom'
-import Schedule from './../../containers/Schedule/index';
+
 
 
 class Header extends React.Component {
@@ -62,17 +63,25 @@ class Header extends React.Component {
     onSubmitBtnTrialTraining = () => {
         const {statusBtnBack} = this.props;
 
+        //?
         this.resetAllActionApp();
         this.props.onChangeBtnBack(!statusBtnBack)
+        //?
+
         this.setState({isTrialTrainingModalVisible: true, showBtnBack: true});
         this.setState({actionTrialTraining: true})
+
+        //this.props.showCreateTrainModal_clickTrial()
     }
 
     onUnfreshTraining = () => {
         const {statusBtnBack} = this.props;
-
+        //?
         this.resetAllActionApp();
         this.props.onChangeBtnBack(!statusBtnBack)
+        //?
+
+        //this.props.showCreateTrainModal_clickUnfreeze()
         this.setState({isUnfreshTrainingModal: true, showBtnBack: true});
     }
 
@@ -303,7 +312,8 @@ class Header extends React.Component {
                         this.setState({isUnfreshTrainingModal: false})
                     }}
                     onSave={this.onCreateUnfreshAbonement}
-                />
+                /> 
+                {/*<CreateTrainModal /> */}
             </div>
         )
     }
@@ -321,4 +331,16 @@ Header.defaultProps = {
     isStudent: false,
 };
 
-export default Header
+const mapStateToProps = state => {
+
+    return {
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        showCreateTrainModal_clickUnfreeze:() => dispatch(actions.showCreateTrainModal_clickUnfreeze()),
+        showCreateTrainModal_clickTrial:() => dispatch(actions.showCreateTrainModal_clickTrial())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

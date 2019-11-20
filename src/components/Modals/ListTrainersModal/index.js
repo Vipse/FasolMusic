@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Modal from '../Modal'
+import Modal from '../../Modal'
 import Content from './content'
 import {connect} from 'react-redux';
-import * as actions from '../../store/actions'
+import * as actions from '../../../store/actions'
 
 import './styles.css'
 
@@ -26,8 +26,8 @@ const mapStateToProps = state => {
     return {
         visible: state.modal.visible_ListTrainersModal,
 
-        freetrainers: state.admin.freetrainers,
-        busytrainers: state.admin.busytrainers,
+        freetrainers_listModal: state.admin.freetrainers_listModal,
+        busytrainers_listModal: state.admin.busytrainers_listModal,
     }
 }
 

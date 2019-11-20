@@ -19,8 +19,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.HANDLE_CHANGE_TIME:
             return {
                 ...state,
-                startDate: action.newStart,
-                endDate: action.newEnd
+                startDate: action.startDate,
+                endDate: action.endDate
             }
 
         case actionTypes.GET_TRAINING_NOT_FINISHED: 

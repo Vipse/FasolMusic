@@ -1,8 +1,8 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
-    freetrainers: [],
-    busytrainers: [],
+    freetrainers_listModal: [],
+    busytrainers_listModal: [],
 
     masterList: {},
     reportLinks: {
@@ -20,16 +20,24 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 masterList: action.masterList,
             }
-        case actionTypes.GET_ALL_ADMIN_INFO_MASTERS_FREE:
+        case actionTypes.GET_FREE_AND_BUSY_MASTER_LIST_ON_HOUR:
             return {
                 ...state,
-                freetrainers: action.adminMasters,
+                freetrainers_listModal: action.freetrainers_listModal,
+                busytrainers_listModal: action.busytrainers_listModal
             }
-        case actionTypes.GET_ALL_ADMIN_INFO_MASTERS_BUSY:
-            return {
-                ...state,
-                busytrainers: action.adminMasters,
-            }
+
+            
+        // case actionTypes.GET_ALL_ADMIN_INFO_MASTERS_FREE:
+        //     return {
+        //         ...state,
+        //         freetrainers: action.adminMasters,
+        //     }
+        // case actionTypes.GET_ALL_ADMIN_INFO_MASTERS_BUSY:
+        //     return {
+        //         ...state,
+        //         busytrainers: action.adminMasters,
+        //     }
         case actionTypes.GET_REPORT_LINKS:
             return {
                 ...state,

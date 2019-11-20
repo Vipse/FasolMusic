@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import {connect} from 'react-redux';
+
+import { Select } from 'antd';
+import moment from 'moment'
+
+import * as actions from '../../../../store/actions'
 import { navigate } from '../utils/constants'
 import Button from '../../../Button'
 import Arrow from '../../../Arrow'
-import { Select } from 'antd';
-import moment from 'moment'
 
 const Option = Select.Option;
 
@@ -14,16 +18,10 @@ class Toolbar extends React.Component {
   }
 
   changeSelectorDiscipline = (codeDisc) => {
-    const {selectDisciplines, onChangeCurrDiscipline} = this.props;
+    const {listDisciplines, changeCurrDiscipline} = this.props;
+    const discObj = listDisciplines[codeDisc];
 
-    for(let el in selectDisciplines){
-        if(selectDisciplines.hasOwnProperty(el)){
-           if(selectDisciplines[el].code === codeDisc) {
-             onChangeCurrDiscipline(selectDisciplines[el]);
-             break;
-           }  
-        }
-    }
+    changeCurrDiscipline(discObj);
   }
 
   getLabelToolbar = () => {
@@ -40,31 +38,27 @@ class Toolbar extends React.Component {
     }
   }
 
+
+
+  navigate = (action) => {
+    this.props.dateChange(action)
+  }
+
   render() {
     const {
       min, 
       max,
       isAdmin,
-      
+      listDisciplines,
       //
-      messages, 
-      label, 
-      receptionNum,
+      dateChange,
+      countTrainingDiscipline,
+      //
       isNeedSaveIntervals, 
-      fillTrainingWeek,
-       selectDisciplines, 
+      fillTrainingWeek, 
        currDiscipline, 
-       onChangeCurrDiscipline,
        notRedirectDiscipline,
       } = this.props;
-
-    let optionDisciplines = [];
-   
-    for(let el in selectDisciplines){
-        if(selectDisciplines.hasOwnProperty(el)){
-            optionDisciplines.push(selectDisciplines[el]);
-        }
-    }
 
     return (
       <div className="rbc-toolbar">
@@ -73,18 +67,27 @@ class Toolbar extends React.Component {
             btnText="cегодня"
             size='small'
             type='dark-blue'
-            onClick={this.navigate.bind(null, navigate.TODAY)}/>
+            onClick={() => dateChange(navigate.TODAY)}/>
         <Arrow type='dark-blue'
-               onClickNext={this.navigate.bind(null, navigate.NEXT)}
-               onClickPrev={this.navigate.bind(null, navigate.PREVIOUS)}/>
+               onClickNext={() => dateChange(navigate.NEXT)}
+               onClickPrev={() => dateChange(navigate.PREVIOUS)}/>
 
         <span className="rbc-toolbar-label">{this.getLabelToolbar()}</span>  
-        {!isAdmin && <span className="rbc-toolbar-receptionCount">{this.props.countTrainingDiscipline}</span>}
+        {!isAdmin && 
+          <span className="rbc-toolbar-receptionCount">{countTrainingDiscipline}</span>
+        }
 
         <div  className="rbc-toolbar-discipline">
           {(currDiscipline && !notRedirectDiscipline) ?
-              <Select value={(currDiscipline.code)} style={{ width: 120 }} onChange={this.changeSelectorDiscipline} >
-                  { optionDisciplines.map((el) =>  <Option value={el.code}>{el.ruText}</Option> )}
+                <Select 
+                  style={{ width: 120 }}
+                  value={currDiscipline.code} 
+                  onChange={this.changeSelectorDiscipline} 
+                >
+                  {Object.values(listDisciplines).map(el => (
+                    <Option value={el.code}>{el.ruText}</Option>
+                  ))}
+                  
               </Select> 
           : <span className="rbc-toolbar-label">{currDiscipline ? currDiscipline.ruText : ''}</span>}
         </div>
@@ -103,11 +106,20 @@ class Toolbar extends React.Component {
     )
   }
 
-  navigate = action => {
-    this.props.dateChange(action)
-  }
-
-
+  
 }
 
-export default Toolbar
+
+const mapStateToProps = state => {
+  return {
+    listDisciplines: state.abonement.listDisciplines,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeCurrDiscipline: (disc)=> dispatch(actions.changeCurrDiscipline(disc)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

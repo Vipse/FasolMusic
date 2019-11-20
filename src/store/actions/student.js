@@ -1,5 +1,6 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
+import * as actions from '../actions'
 
 import moment from "moment";
 
@@ -28,8 +29,8 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
                    const spreadAllTraining = (key, key2, data) => {
                        const elem = (data[key])[key2];
                        const len = Object.keys(disc).length;
-                       
-                       if(!len || len && disc.code == key2){
+
+                       if(!len || len && +disc.code === +key2){
                             final = { ...final, ...elem }
                        }
                        
@@ -50,10 +51,18 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
                    })
                    
                    //если нету ключей значит первый раз идет вызов
-                   !Object.keys(disc).length && popularDisc && dispatch({
-                       type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
-                       currDiscipline: popularDisc,
-                   });
+                   if(!Object.keys(disc).length && popularDisc){
+                        dispatch({
+                            type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
+                            currDiscipline: popularDisc,
+                        });    
+                        
+                        dispatch(actions.getCountTrainingByDiscipline(id, popularDisc))
+                   } 
+                //    else{
+                //         dispatch(actions.getCountTrainingByDiscipline(id, disc.code))
+                //    }
+                   
                }              
             })
             .catch(err => console.log(err))
