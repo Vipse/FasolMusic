@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import * as actions from '../../../store/actions'
 
 import './styles.css'
+import history from '../../../store/history';
 
 class EventTraining extends React.PureComponent{
     constructor(props) {
@@ -72,11 +73,15 @@ class EventTraining extends React.PureComponent{
         this.props.deleteEventApiPatient(id)
     }
 
-    clickOnEvent = (idEvent) => {
-        const {isPushBtnTransfer, setParamsId} = this.props;
+    clickOnEvent = (e,idEvent) => {
+        e.stopPropagation();
+        const {isPushBtnTransfer, setParamsId, event} = this.props;
 
         if(isPushBtnTransfer){
             setParamsId({clickedIdEvent: idEvent})
+        }
+        else{
+            history.push('/app/coach'+ event.idMaster)
         }
         
     }
@@ -90,7 +95,7 @@ class EventTraining extends React.PureComponent{
         
 
         return (
-                <div className='event-group' style={{ backgroundColor }} onClick={() => this.clickOnEvent(id)}>
+                <div className='event-group' style={{ backgroundColor }} onClick={e => this.clickOnEvent(e,id)}>
                     <div> 
                         <div className="event-group-cross" onClick={functionCross}>
                             {!event.isComplete && <span className="icon icon-close"></span>}

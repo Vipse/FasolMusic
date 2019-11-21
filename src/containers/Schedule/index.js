@@ -210,7 +210,7 @@ class Schedule extends React.Component {
     }
 
     setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
-        const { profileStudent: fdata, isPushBtnTrialTraining, masterListObj, abonementIntervals, isAdmin} = this.props;
+        const { isPushBtnTrialTraining, masterListObj, abonementIntervals, isAdmin} = this.props;
         let start = null,
             end = null;
 
@@ -282,7 +282,6 @@ class Schedule extends React.Component {
         const {
             abonementIntervals,
             currDiscipline,
-            disciplines,
             isPushBtnTrialTraining,
             selectMaster,
             subsForDisc,
@@ -342,7 +341,6 @@ class Schedule extends React.Component {
                     this.props.onTransferTrainining({idTraining, idMaster: currMaster.idMaster, ...this.transferDay}, isAdmin)
                         .then(() => this.setState({scheduleSpinner: true}))
                         .then(() => this.props.onGetAbonementsFilter(id,currDiscipline,isAdmin))
-                        //.then(() => this.setState({scheduleSpinner: false}))
             }
 
             this.props.onChangeBtnBack(false);
@@ -544,7 +542,6 @@ class Schedule extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-            console.log('this.state.scheduleSpinner :', this.state.scheduleSpinner);
         this.state.scheduleSpinner && this.setState({ scheduleSpinner: false })
 
     }
@@ -919,12 +916,10 @@ class Schedule extends React.Component {
                                   
                                   onGotoPatient={this.gotoHandler}
                                   step={60}
-                                  onGotoPage= {id => history.push('/app/coach' + id)}
                                   selectAnyTrainer = {this.selectAnyTrainer}
                                   mode = {this.props.mode}
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
                                   
-                                  isPushBtnTransfer = {this.props.isPushBtnTransfer}
                                   notRedirectDiscipline = {notRedirectDiscipline}
                                   
 

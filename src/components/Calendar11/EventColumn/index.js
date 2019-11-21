@@ -33,9 +33,9 @@ class EventColumn extends React.Component{
         const {intervals} = this.props;
 
         if(Array.isArray(intervals) && intervals.includes(+startEvent)) {
-            return  "rbc-timeslot-group-OK"
+            return  true
         }
-        return "rbc-timeslot-group-NOT"
+        return false
     }
 
     handleClickFreeEvent = (startEvent) => {
@@ -62,12 +62,21 @@ class EventColumn extends React.Component{
             
             const startEvent = startTimeMoment.format('X')
             const isInclude = this.isIncludeIntervals(startEvent)
-            const classStyle = `rbc-timeslot-group ${isInclude}`
-            const handleClick = isInclude ? this.handleClickFreeEvent : () => {}
+            const handleClick = isInclude ? this.handleClickFreeEvent : () => {};
+
+            let classStyle = 'rbc-timeslot-group';
+
+            if(isInclude){
+                classStyle += " rbc-timeslot-group-OK"
+            }
+            else{
+                classStyle += " rbc-timeslot-group-NOT"
+            }
+            
 
             
             arrReander.push(
-                <div class={classStyle} onClick={() => handleClick(startEvent)}>
+                <div className={classStyle} onClick={() => handleClick(startEvent)}>
                     <div class="rbc-time-slot rbc-eventlabel">
                         {studentSchedule.hasOwnProperty(startEvent) ?
                             <EventTraining  

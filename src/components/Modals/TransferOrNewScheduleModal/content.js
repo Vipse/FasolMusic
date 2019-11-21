@@ -43,7 +43,6 @@ class ContentForm extends React.Component {
                 idMaster: currMaster.idMaster,
                 dateStart: timeClickFreeEvent
             }
-            debugger
 
             transferTrainining(obj, isAdmin)
                 .then(() => getStudentsSchedule(id, startDate, endDate, idDiscipline, isAdmin))
