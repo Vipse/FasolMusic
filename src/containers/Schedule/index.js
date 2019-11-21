@@ -361,7 +361,7 @@ class Schedule extends React.Component {
 
         if(this.cancelId){
                 this.props.onTransferTraininingToEnd({idTraining : this.cancelId}, isAdmin)
-                    .then(() => this.props.onGetStudentsSchedule(id, startDate, endDate, currDiscipline)); 
+                    .then(() => this.props.onGetStudentsSchedule(id, startDate, endDate, currDiscipline.code)); 
         }
         this.setState({modalCancelTraining: false});
     }
@@ -525,7 +525,7 @@ class Schedule extends React.Component {
 
             //
             //??
-            this.props.onGetStudentsSchedule(id, startDate, endDate, currDiscipline);
+            this.props.onGetStudentsSchedule(id, startDate, endDate, currDiscipline.code);
             //
         }
 
@@ -613,7 +613,7 @@ class Schedule extends React.Component {
 
         
 
-        this.props.onGetStudentsSchedule(id, newStart, newEnd, currDiscipline)
+        this.props.onGetStudentsSchedule(id, newStart, newEnd, currDiscipline.code)
         
         if (isPushBtnTransfer) {
             if (discCommunication.hasOwnProperty(currDiscipline.code)) {

@@ -29,7 +29,7 @@ class ContentForm extends React.Component {
         const obj = {idTraining : crossCurrentIdTraining}
 
         transferTraininingToEnd(obj, isAdmin)
-        .then(() => getStudentsSchedule(currentIdUser, startDate, endDate, currDiscipline))
+        .then(() => getStudentsSchedule(currentIdUser, startDate, endDate, currDiscipline.code))
         
         onCancel();
     }
@@ -54,7 +54,7 @@ class ContentForm extends React.Component {
         if(id){
             freezeAbonement(crossCurrendIdSubscription)
             .then(() => {
-                getStudentsSchedule(id, startDate, endDate, currDiscipline);
+                getStudentsSchedule(id, startDate, endDate, currDiscipline.code);
                 getUseFrozenTraining (id);
                 getDisciplineCommunication (id); //?
                 getSubscriptionsByStudentId (id);  //?

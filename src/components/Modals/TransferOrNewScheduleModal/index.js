@@ -49,6 +49,7 @@ const mapStateToProps = state => {
         endDate: state.training.endDate,
 
 
+        studentSchedule: state.student.studentSchedule,
 
        
 

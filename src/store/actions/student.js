@@ -5,7 +5,7 @@ import * as actions from '../actions'
 import moment from "moment";
 
 
-export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
+export const getStudentsSchedule = (id, dateStart, dateEnd, disciplineCode) => {
     let obj = { 
         idStudent: id,
         dateStart,
@@ -15,52 +15,56 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disc) => {
         axios.post('/catalog.fasol/GetSubscriptionsStudentDate2', JSON.stringify(obj))
             .then(rez => {
                if(rez.status == 200){
-                   let data = rez.data.result;
-                   let final = {};
-                   let popularDisc = null;
+                   const data = rez.data.result;
 
-                   const getMainDiscipline = (key, data) => {
-                    
-                       if (key == 'primary' && Object.keys(data[key])){
-                           
-                        popularDisc = Object.keys(data[key])[0]
-                       }
-                   }
-                   const spreadAllTraining = (key, key2, data) => {
-                       const elem = (data[key])[key2];
-                       const len = Object.keys(disc).length;
-
-                       if(!len || len && +disc.code === +key2){
-                            final = { ...final, ...elem }
-                       }
-                       
-                   }
-
-                    for(let key in data){
-                        getMainDiscipline(key, data);
-                    }
-                    for(let key in data){
-                        for(let key2 in data[key]){
-                            spreadAllTraining(key, key2, data)
+                    function getPrimarySubsription(data, disciplineCode) {
+                        let primarySubs = {};
+                        
+                        if(disciplineCode){
+                            for(let key in data){
+                                if(data[key][disciplineCode]){
+                                    primarySubs['discipline'] = disciplineCode;
+                                    primarySubs['subscription'] = data[key][disciplineCode];
+                                }
+                            }
                         }
+                        else{
+                            for(let key in data){
+                            
+                                if (key == 'primary' && Object.keys(data[key])){ 
+                                    const primaryCode = Object.keys(data[key])[0];
+    
+                                    primarySubs['discipline'] = primaryCode;
+                                    primarySubs['subscription'] = data[key][primaryCode];
+                                }
+                            }
+                        }
+
+                        return primarySubs;
                     }
 
+                   const objPrimarySubsription = getPrimarySubsription(data, disciplineCode);
+
+                   
+
+
+                    console.log("objPrimarySubsription", objPrimarySubsription)
                    dispatch({
                        type: actionTypes.GET_STUDENTS_SCHEDULE,
-                       studentSchedule: final,
+                       studentSchedule: objPrimarySubsription.subscription,
                    })
                    
-                   //если нету ключей значит первый раз идет вызов
-                   if(!Object.keys(disc).length && popularDisc){
+                   //если первый раз идет вызов
+                   if(!disciplineCode){
                         dispatch({
                             type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
-                            currDiscipline: popularDisc,
+                            currDiscipline: objPrimarySubsription.discipline,
                         });    
                         
-                        dispatch(actions.getCountTrainingByDiscipline(id, popularDisc))
+                        dispatch(actions.getCountTrainingByDiscipline(id, objPrimarySubsription.discipline))
                    } 
                 //    else{
-                //         dispatch(actions.getCountTrainingByDiscipline(id, disc.code))
+                //         dispatch(actions.getCountTrainingByDiscipline(id, disciplineCode))
                 //    }
                    
                }              
