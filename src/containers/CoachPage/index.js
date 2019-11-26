@@ -76,6 +76,7 @@ class CoachPage extends React.Component{
     getIntervals = (dateStart, dateEnd) => {
         const id = this.props.match.params.id;
         this.props.onGetMasterSchedule(id, dateStart, dateEnd);
+
         this.props.onGetOwnTrainings(id, dateStart, dateEnd);
     };
 
@@ -312,7 +313,7 @@ const mapStateToProps = state => {
     return {
         auth: state.auth,
         profileCoach: state.profileCoach,
-        masterSchedule: state.student.masterSchedule,
+        masterSchedule: state.scheduleIdParams.masterschedule,
         trainerTrainings: state.profileCoach.trainerTrainings,
         mode: state.auth.mode,
     }

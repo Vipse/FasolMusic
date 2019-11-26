@@ -7,11 +7,8 @@ import CoachPayment from "../../components/CoachPayment";
 import StudentPayment from "../../components/StudentPayment";
 
 import {Redirect} from 'react-router-dom'
-import CreateTrainModal from './../../components/CreateTrainModal/index';
 import moment from 'moment'
 
-import Modal from './../../components/Modal/index';
-import Button from "../../components/Button";
 import {Modal as PopupModal, message} from 'antd';
 
 

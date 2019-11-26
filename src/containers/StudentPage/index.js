@@ -319,7 +319,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetInfoPatient: (id) => dispatch(actions.getInfoPatient(id)),
         getSelectors: (name) => dispatch(actions.getSelectors(name)),
-        onGetOwnTrainings: (id, weekStart, weekEnd) => dispatch(actions.getTrainerTrainings(id, weekStart, weekEnd)),
         onGetPostTrainerTraining: (idMaster, dateMin, dateMax) => dispatch(actions.getPostTrainerTraining(idMaster, dateMin, dateMax)),
         onGetAllTrainingStudent: (idStudent, dateMin, dateMax) => dispatch(actions.getAllTrainingStudent(idStudent, dateMin, dateMax)),
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data, 'student')),

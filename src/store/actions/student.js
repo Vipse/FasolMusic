@@ -2,6 +2,7 @@ import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 import * as actions from '../actions'
 
+import {message} from 'antd'
 import moment from "moment";
 
 
@@ -46,19 +47,17 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disciplineCode) => {
                    const objPrimarySubsription = getPrimarySubsription(data, disciplineCode);
 
                    
-
-
-                    console.log("objPrimarySubsription", objPrimarySubsription)
+                    const {subscription: subs, discipline} = objPrimarySubsription;
                    dispatch({
                        type: actionTypes.GET_STUDENTS_SCHEDULE,
-                       studentSchedule: objPrimarySubsription.subscription,
+                       studentSchedule: subs ? subs : {},
                    })
                    
                    //если первый раз идет вызов
                    if(!disciplineCode){
                         dispatch({
                             type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
-                            currDiscipline: objPrimarySubsription.discipline,
+                            currDiscipline: discipline,
                         });    
                         
                         dispatch(actions.getCountTrainingByDiscipline(id, objPrimarySubsription.discipline))
@@ -72,13 +71,11 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disciplineCode) => {
             .catch(err => console.log(err))
 }
 
-export const handleSelecting = (id) => {
-    return (dispatch) => {
-        dispatch({
-            type: actionTypes.HANDLE_SELECTING,
-            id,
-        })
-    }
+export const setParamsStatusPush = (params) => {
+    return ({
+        type: actionTypes.SET_PARAMS_STATUS_PUSH,  
+        params   
+    });
 }
 
 export const getUserInfo = (idMaster) => {
@@ -199,35 +196,7 @@ export const createTraining = (obj) => {
     }
 }
 
-export const getAvailableInterval = (dateStart, dateEnd, weekdays, discipline, isCallAdmin) => {
-    if( !Array.isArray(discipline)) discipline = [discipline]
-    let obj =  { dateStart , dateEnd, discipline, isCallAdmin};
 
-    return (dispatch) => {
-
-        return axios.post('/catalog.fasol/getIntervalOnWeekdaysOnlyDate', JSON.stringify(obj))
-            .then(rez => {
-
-                    if(!rez.data.error){
-                        dispatch({
-                            type: actionTypes.GET_AVAILABLE_INTERVAL,
-                            freeInterval: rez.data.result.interval,
-                        })
-                        dispatch({
-                            type: actionTypes.SET_WEEKDAYS_AND_DISCIPLINE_AND_ARRMASTERS,
-                            weekdays: weekdays,
-                            discipline: discipline,
-                            masters: rez.data.result.masters
-                        })
-                        return rez.data.result.interval; 
-                    }
-                
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-}
 
 
 export const masterFreeOnDate = (date, chooseMasters) => {
@@ -250,41 +219,9 @@ export const masterFreeOnDate = (date, chooseMasters) => {
     }
 }
 
-export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays, isCallAdmin) => {
-    let obj = {
-        dateStart,
-        dateEnd,
-        idMaster,
-        weekdays,
-        isCallAdmin
-    };
 
-    return (dispatch) => {
-        return axios.post('/catalog.fasol/getMasterIntervalOnlyDate', JSON.stringify(obj))
-            .then(res => {
-                
-                if(res.data){
-                    dispatch({
-                        type: actionTypes.GET_THE_MASTER_INTERVAL,
-                        theMasterInterval: res.data.result.interval,
-                    })
-                    return res;
-                    // let answer = {}
-                    // let freeInterval = res.data.result.interval;
 
-                    // for (let elem in freeInterval) {
-                    //     answer[moment(+elem * 1000).day()] = { ...freeInterval[elem]}
-                    // }
-                    // dispatch({
-                    //     type: actionTypes.GET_THE_MASTER_INTERVAL,
-                    //     theMasterInterval: answer,
-                    // })
-                    // return res;
-                }
-            })
-            .catch(err => console.log(err))
-    }
-}
+
 
 export const getTrainingTrialStatusByDiscipline = (disciplineId, idStudent) => {
     let obj = {

@@ -86,10 +86,12 @@ export {
     getUserInfo,
 
     createTraining,
-    getAvailableInterval,
+
     getMasterSchedule,
     masterFreeOnDate,
-    getTheMasterInterval,
+
+
+
     getTrainingTrialStatusByDiscipline,
     getTrainingsTrialStatus,
     transferTrainPopupDisable,
@@ -108,7 +110,7 @@ export {
     changeBtnTransfer,
 
     getStudentsSchedule,
-    handleSelecting
+    setParamsStatusPush
 } from './student'
 
 export {
@@ -183,4 +185,7 @@ export {
 
 export {
     setParamsId,
+    getAvailableInterval,
+    getTheMasterInterval,
+    clearFreeInterval,
 } from './scheduleIdParams'

@@ -9,9 +9,6 @@ import history from '../../../store/history';
 class EventTraining extends React.PureComponent{
     constructor(props) {
         super(props);
-        this.state = {
-            eventWillTransfer: false
-        }
     };
 
 
@@ -34,10 +31,21 @@ class EventTraining extends React.PureComponent{
     }
 
     getFunctionCross =  () => {
-        const { event } = this.props;
+        const { event, listNewSchedule } = this.props;
 
         let crossFunc;
-        if(event.trial){
+
+        if(event.type === 'clicked_event'){
+            crossFunc = (e) => {
+                e.stopPropagation();
+                
+                let listNew = {...listNewSchedule};
+                delete listNew[event.start];
+
+                this.props.setParamsId({listNewSchedule: listNew})
+            }    
+        }
+        else if(event.trial){
             crossFunc = this.onRemoveTrialTraining
         }  
         else {
@@ -77,7 +85,7 @@ class EventTraining extends React.PureComponent{
         e.stopPropagation();
         const {isPushBtnTransfer, setParamsId, event} = this.props;
 
-        if(isPushBtnTransfer){
+        if(isPushBtnTransfer && !event.isBooking){
             setParamsId({clickedIdEvent: idEvent})
         }
         else{
@@ -112,8 +120,14 @@ class EventTraining extends React.PureComponent{
 
 
 const mapStateToProps = state => {
+    const {
+        listNewSchedule,
+        clickedIdEvent
+    } = state.scheduleIdParams;
+
     return {
-        clickedIdEvent: state.scheduleIdParams.clickedIdEvent,
+        listNewSchedule,
+        clickedIdEvent,
 
         isPushBtnTransfer: state.student.isPushBtnTransfer,
     }

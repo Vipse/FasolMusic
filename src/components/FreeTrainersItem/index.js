@@ -15,10 +15,13 @@ class FreeTrainersItem extends React.Component{
             setChoosenTrainer,
             idMaster,
             id,
-            comment,
-            trainerList,
-            onGotoPage,
+            comment
         } = this.props;
+
+        const trainer = {
+            id: id ? id : idMaster,
+            name
+        }
 
         return (
             <div className='myStudent-wrapper'>
@@ -43,7 +46,7 @@ class FreeTrainersItem extends React.Component{
                         size='small'
                         type='border-pink'
                         className="header-btn "
-                        onClick={() => setChoosenTrainer(id ? id : idMaster)}
+                        onClick={() => setChoosenTrainer(trainer)}
                     />
             </div>
                 

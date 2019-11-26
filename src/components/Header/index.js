@@ -10,7 +10,7 @@ import Button from '../Button'
 import Icon from '../Icon'
 import NotificationApp from '../NotificationApp'
 import AutoComplete from '../AutoComplete'
-import CreateTrainModal from "../../components/CreateTrainModal";
+import CreateTrainModal from "../../components/Modals/CreateTrainModal";
 
 import './style.css'
 import '../../icon/style.css'
@@ -64,25 +64,28 @@ class Header extends React.Component {
         const {statusBtnBack} = this.props;
 
         //?
-        this.resetAllActionApp();
-        this.props.onChangeBtnBack(!statusBtnBack)
+        //this.resetAllActionApp();
+        //this.props.onChangeBtnBack(!statusBtnBack)
         //?
 
-        this.setState({isTrialTrainingModalVisible: true, showBtnBack: true});
-        this.setState({actionTrialTraining: true})
-
-        //this.props.showCreateTrainModal_clickTrial()
+        //this.setState({isTrialTrainingModalVisible: true, showBtnBack: true});
+        //this.setState({actionTrialTraining: true})
+        this.props.setParamsId({pushBtnTrial: true})
+        this.props.showCreateTrainModal_clickTrial()
     }
 
     onUnfreshTraining = () => {
-        const {statusBtnBack} = this.props;
+        //const {statusBtnBack} = this.props;
         //?
-        this.resetAllActionApp();
-        this.props.onChangeBtnBack(!statusBtnBack)
+        //this.resetAllActionApp();
+        //this.props.onChangeBtnBack(!statusBtnBack)
         //?
 
-        //this.props.showCreateTrainModal_clickUnfreeze()
-        this.setState({isUnfreshTrainingModal: true, showBtnBack: true});
+        this.props.setParamsId({pushBtnUnfresh: true})
+        this.props.showCreateTrainModal_clickUnfreeze();
+        //this.props.setParamsStatusPush({isPushBtnUnfresh: true})
+
+        //this.setState({isUnfreshTrainingModal: true, showBtnBack: true});
     }
 
     onCreateUnfreshAbonement = (data) => {
@@ -96,6 +99,7 @@ class Header extends React.Component {
             time1 = moment(Date.now()).endOf('week').format('X');
         }
         else{
+            
             time0 = weekInterval.start;
             time1 = weekInterval.end;
         }
@@ -286,7 +290,7 @@ class Header extends React.Component {
                         onClick={this.logout}
                     />
                 </div>
-                <CreateTrainModal
+                {/*<CreateTrainModal
                     title='Запишись на пробную тренировку'
                     width={770}
                     visible={this.state.isTrialTrainingModalVisible}
@@ -312,8 +316,10 @@ class Header extends React.Component {
                         this.setState({isUnfreshTrainingModal: false})
                     }}
                     onSave={this.onCreateUnfreshAbonement}
-                /> 
-                {/*<CreateTrainModal /> */}
+                /> */}
+
+                <CreateTrainModal /> 
+
             </div>
         )
     }
@@ -339,7 +345,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         showCreateTrainModal_clickUnfreeze:() => dispatch(actions.showCreateTrainModal_clickUnfreeze()),
-        showCreateTrainModal_clickTrial:() => dispatch(actions.showCreateTrainModal_clickTrial())
+        showCreateTrainModal_clickTrial:() => dispatch(actions.showCreateTrainModal_clickTrial()),
+    
+        setParamsStatusPush:(params) => dispatch(actions.setParamsStatusPush(params)),
+        setParamsId:(params) => dispatch(actions.setParamsId(params)),
+        //
     }
 }
 

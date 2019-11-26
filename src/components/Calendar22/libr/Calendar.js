@@ -9,6 +9,7 @@ import Spinner from "../../Spinner";
 import FreeTrainers from './../../FreeTrainers/index';
 import DateColumn from './../../Calendar11/DateColumn/index';
 import EventColumn from './../../Calendar11/EventColumn/index';
+import AdditionalCalendarInfo from '../../Calendar11/AdditionalCalendarInfo'
 
 let now = new Date()
 
@@ -19,24 +20,13 @@ class Calendar extends React.Component {
     this.now = (new Date).getTime()
   }
 
-  getIntervalForColumn = (startTime) => {
-    const {intervals} = this.props;
-    const amountDay = startTime.day();
-  
-    if (intervals && intervals.hasOwnProperty(amountDay)){
-      return {...intervals[amountDay]}
-    }
-  }
-
   rendertEventColumn = () => {
 
     const { min, 
        max, 
-       intervals,
        currDiscipline, 
        isAdmin, 
-       clickOnEvent,
-       eventWillTransfer
+       clickOnEvent
       } = this.props;
 
     let arrRender = [];
@@ -51,12 +41,10 @@ class Calendar extends React.Component {
                 key={startOf.format('X')}
                 timeDay={startOf.format('X')}
                 startTime={startTime.format('X')}
-                endTime={endTime.format('X')} 
-                intervals={intervals}//{this.getIntervalForColumn(startTime)}
+                endTime={endTime.format('X')}
                 isAdmin={isAdmin}
                 currDiscipline={currDiscipline}
                 clickOnEvent={clickOnEvent}
-                eventWillTransfer={eventWillTransfer}
 
                 //admin
                 masterList={this.props.masterList}
@@ -96,8 +84,6 @@ class Calendar extends React.Component {
         elementProps,
         
         length,
-        receptionNum,
-        onChange,
         highlightedDates,
         isNeedSaveIntervals,
         fillTrainingWeek,
@@ -107,102 +93,55 @@ class Calendar extends React.Component {
       ...props
     } = this.props
 
-  
 
     const label = 'calendar label'
     return (
       <div className="wrapper-calendar">    
 
-        {this.props.scheduleSpinner && 
-            <div className = "schedule-spinner">
-              <Spinner isInline={true} size='large'/>
-            </div>}
-
-        <div
-          className={'rbc-calendar'}
-        >
-          <div className='rbc-calendar-eventwrapper'>    
-              <Toolbar
-                min={min}
-                max={max}
-                mode = {this.props.mode}
-                currentDate={currentDate}
-                isAdmin={this.props.isAdmin}
-
-                //func
-                dateChange={this.props.dateChange}
-                
-
-              
-              
-              
-              //
-                label={label}
-                messages={messages}
-                receptionNum={receptionNum}
-                isUser = {this.props.isUser}
-                isNeedSaveIntervals = {isNeedSaveIntervals}
-                fillTrainingWeek = {fillTrainingWeek}
-                selectDisciplines = {this.props.selectDisciplines}
-                currDiscipline = {this.props.currDiscipline}
-                onChangeCurrDiscipline = {this.props.onChangeCurrDiscipline}
-                notRedirectDiscipline = {this.props.notRedirectDiscipline}
-                countTrainingDiscipline = {this.props.countTrainingDiscipline}
-              />
-
-              <div className="rbc-calendar-eventwrapper-cells">
-                <DateColumn
+          <div className={'rbc-calendar'}>
+            <div className='rbc-calendar-eventwrapper'>    
+                <Toolbar
                   min={min}
-                  max={max} />
+                  max={max}
+                  mode = {this.props.mode}
+                  currentDate={currentDate}
+                  isAdmin={this.props.isAdmin}
 
-              
-                {this.rendertEventColumn()}
+                  //func
+                  dateChange={this.props.dateChange}
+                  
+                
+                //
+                  label={label}
+                  messages={messages}
+                  isUser = {this.props.isUser}
+                  isNeedSaveIntervals = {isNeedSaveIntervals}
+                  fillTrainingWeek = {fillTrainingWeek}
+                  selectDisciplines = {this.props.selectDisciplines}
+                  currDiscipline = {this.props.currDiscipline}
+                  onChangeCurrDiscipline = {this.props.onChangeCurrDiscipline}
+                  notRedirectDiscipline = {this.props.notRedirectDiscipline}
+                  countTrainingDiscipline = {this.props.countTrainingDiscipline}
+                />
 
-              </div>
-    
-
-          </div>
-          <div className='rbc-smallcalendar-eventwrapper'>     
-            { this.props.isShowFreeTrainers ?
-              <FreeTrainers 
-                  freeTrainers={freeTrainers} 
-                  setChoosenTrainer={setChoosenTrainer}
-                  selectAnyTrainer = {this.props.selectAnyTrainer}
-                  onGotoPage = {this.props.onGotoPage}
-                  isSpinnerFreeTrainers = {this.props.isSpinnerFreeTrainers}
-              /> 
-              :
-              <div className="table-footer wrapper-small-calendar">
-                <div className="type">
-                    <div className='type-color-available'/>
-                    <div className='type-name'>Свободно</div>
-                </div>
-                <div className="type">
-                    <div className='type-color-own'/>
-                    <div className='type-name'>Ваша тренировка</div>
-                </div>
-                <div className="type">
-                    <div className='type-color-done'/>
-                    <div className='type-name'>Проведенная тренировка</div>
-                </div>
-                <div className="type">
-                    <div className='type-color-error'/>
-                    <div className='type-name'>Перенеси тренировку</div>
-                </div>
-                <div className="type">
-                  <div className='type-color-bron' />
-                  <div className='type-name'>Забронированная тренировка</div>
-                </div>
+                <div className="rbc-calendar-eventwrapper-cells">
+                  <DateColumn
+                    min={min}
+                    max={max} />
 
                 
+                  {this.rendertEventColumn()}
+
+                </div>
+      
+
+            </div>
+            <AdditionalCalendarInfo />
             
-              </div>  
-            }
               
    
           </div>  
-        </div>      
-      </div>
+        </div>   
     )
   }
 
@@ -232,8 +171,4 @@ Calendar.defaultProps = {
   longPressThreshold: 250,
 }
 
-export default uncontrollable(Calendar, {
-  view: 'onView',
-  date: 'onNavigate',
-  selected: 'onSelectEvent',
-})
+export default Calendar

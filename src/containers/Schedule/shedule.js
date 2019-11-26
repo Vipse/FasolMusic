@@ -1,3 +1,4 @@
+import moment from 'moment'
 
 export function fillTrainingWeek(idStudent, amount, isNoTrial, discipline, apiPatients) {
  
@@ -27,3 +28,20 @@ export function fillTrainingWeek(idStudent, amount, isNoTrial, discipline, apiPa
 
     return abonement;
 }
+
+
+export function getNewTrainingTime(trainingTime, time, event) {
+    let newTrainingTime = { ...trainingTime }
+    let weekDay = moment(+time * 1000).weekday() + 1; //+1, но надо было пн=0 ... воскр=6
+
+    if (!newTrainingTime.hasOwnProperty(weekDay)) {
+      newTrainingTime[weekDay] = []
+    }
+
+    newTrainingTime[weekDay].push({
+      id: event.idMaster,
+      start: time
+    })
+
+    return newTrainingTime
+  }

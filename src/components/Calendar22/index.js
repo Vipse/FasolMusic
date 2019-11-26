@@ -47,10 +47,7 @@ BigCalendar.propTypes = {
         })
     ),
     intervals: PropTypes.array,
-    receptionNum: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-    ]),
+
     onPopoverClose: PropTypes.func,
     onPopoverEmail: PropTypes.func,
     showTransferEvent: PropTypes.func,
@@ -74,7 +71,6 @@ BigCalendar.defaultProps = {
     events: [],
     schedules: [],
     intervals: [],
-    receptionNum: 0,
     onPopoverClose: () => {},
     onPopoverEmail: () => {},
     trainerTraining: {},

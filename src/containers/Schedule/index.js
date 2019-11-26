@@ -28,7 +28,6 @@ class Schedule extends React.Component {
         this.state = {
             //startDate: props.startDate,
             //endDate:  props.endDate,
-            eventWillTransfer: null,
 
             //
             isEditorMode: false,
@@ -59,7 +58,6 @@ class Schedule extends React.Component {
             scheduleSpinner: true,
             modalRemoveTrialTraining: false,
             newModalSaveSchedule: false,
-            isSpinnerFreeTrainers: false
         }
 
         const m = moment().startOf('week');
@@ -145,14 +143,7 @@ class Schedule extends React.Component {
             .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
     }
 
-    // clickOnEvent = (event) => {
-    //     const {isPushBtnTransfer} = this.props;
-    //     if(isPushBtnTransfer){
-    //         this.props.onHandleSelecting(event.id)
-    //         //this.setState({eventWillTransfer: event.id})
-    //         this.delEvent = {event};
-    //     }
-    // }
+
     showModalTransferEvent = (idEvent) => { // нажатие на желтую область -> появление свободных тренеров
         const {isPushBtnTrialTraining, abonementIntervals, isPushBtnTransfer} = this.props;
 
@@ -191,7 +182,7 @@ class Schedule extends React.Component {
 
                             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 1});
                             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters)
-                                .then(() => this.setState({isShowFreeTrainers: true, isSpinnerFreeTrainers: false}))
+                                .then(() => this.setState({isShowFreeTrainers: true}))
 
         }
 
@@ -201,12 +192,11 @@ class Schedule extends React.Component {
 
             this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: countTraining});
             this.props.onMasterFreeOnDate(Math.floor(+idEvent / 1000), this.props.chooseArrMasters)
-                .then(() => this.setState({isShowFreeTrainers: true, isSpinnerFreeTrainers: false}))
+                .then(() => this.setState({isShowFreeTrainers: true}))
             message.info('Выберите одного из тренеров')
             this.setState({apiPatients: students});
         }
 
-        this.state.isShowFreeTrainers && this.setState({isSpinnerFreeTrainers: true})
     }
 
     setChoosenTrainer = (idMaster) => { // выбор одного из тренеров
@@ -305,7 +295,7 @@ class Schedule extends React.Component {
                 .then(() => {
                         if(isNoTrial === 1) this.props.onEditUseFrozenTraining(id,useFrozenTraining);
                         if(this.props.isPushBtnUnfresh){
-                            this.props.onIsPushBtnUnfresh();
+                            //this.props.onIsPushBtnUnfresh();
                         }
                         this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin); // получить уже распредленное время тренировок в абонементе
                         this.updateAfterFilling();
@@ -388,60 +378,6 @@ class Schedule extends React.Component {
         this.setState({modalCancelTraining: false});
     }
 
-    setAbonement_Training = () => {
-        let subs = this.props.allAbonements;
-        const {start} = this.delEvent.event;
-        const {currDiscipline, isAdmin} = this.props;
-        const id = this.id
-        let scheduleForWeek = {}; 
-        let trainingtime = {};
-
-        const max = subs.length;
-        const curWeek = moment( start.getTime() ).week(); // текущая неделя
-
-        for(let i = 0; i < max; i++){
-
-                let item = subs[i];
-                const weekElem =  moment(item.start.getTime()).week(); // номер недели
-
-                if (curWeek === weekElem && !item.trial) {
-                    if( item.id === this.delEvent.event.id ){
-                        const weekDay =  new Date(this.transferDay.dateStart * 1000).getDay(); // номер дня в неделе ( переносимое занятие)
-
-                        if(!trainingtime.hasOwnProperty(weekDay)){
-                                trainingtime[weekDay] = [];
-                        }
-                        trainingtime[weekDay].push({id: item.idMaster, start: +this.transferDay.dateStart })
-                    }
-                    else{
-                        const weekDay =  item.start.getDay();
-                        if(!trainingtime.hasOwnProperty(weekDay)){
-                                trainingtime[weekDay] = [];
-                        }
-                        trainingtime[weekDay].push({id: item.idMaster, start: Math.floor(+item.start.getTime() / 1000) })
-                    }
-
-                    if(!scheduleForWeek.dateStart){
-                        scheduleForWeek.dateStart = Math.floor(subs[i].start.getTime() / 1000);
-                        scheduleForWeek.idSubscription = subs[i].idSubscription;
-                        scheduleForWeek.idStudent = id;
-                        scheduleForWeek.amount = subs[i].amount;
-                    }
-
-
-                }
-        }
-
-        scheduleForWeek.trainingtime = trainingtime;
-
-        this.props.onChangeBtnBack(false);
-        this.resetAllEvent();
-        this.props.onChangeSubscription(scheduleForWeek, isAdmin)
-            .then(() => this.props.onGetAbonementsFilter(id, currDiscipline,isAdmin));
-
-        this.setState({modalTransferTraining: false});
-    }
-
 
     setIntervalAndView = (date, view) => {
         const {start, end} = findTimeInterval(date, view);
@@ -474,7 +410,7 @@ class Schedule extends React.Component {
         }
 
 
-        this.props.onGetAvailableInterval(time0 ,time1, weekdays, [codeDisc], isAdmin)
+        this.props.onGetAvailableInterval(time0 ,time1, [codeDisc], isAdmin)
             .then(data => {
                 if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
             })
@@ -519,7 +455,6 @@ class Schedule extends React.Component {
                                 'Вот и все, вперед покорять музыку вместе с Fasol музыкальная качалка.',
                             zIndex: 1010
                         });
-                        this.props.onChangePushBtnUnfresh(true)
                     }
                 })
 
@@ -530,20 +465,15 @@ class Schedule extends React.Component {
         }
 
         if(this.props.isAdmin) {
-
             this.props.onGetFreeAndBusyMasterList(start, end)
-                //.then(() => setTimeout(() => this.setState({scheduleSpinner: false}), 500))
         }
         if(this.props.mode === 'master'){
             this.props.onGetTrainerTraining(id, start, end, currDiscipline)
-               // .then(() => setTimeout(() => this.setState({scheduleSpinner: false})))
         }
-
     }
 
     componentDidUpdate(prevProps){
         this.state.scheduleSpinner && this.setState({ scheduleSpinner: false })
-
     }
 
 
@@ -678,7 +608,7 @@ class Schedule extends React.Component {
                 .then(spinEnd);
         }
         else if(isPushBtnTrialTraining === 'trial' || isPushBtnUnfresh){
-            this.props.onGetAvailableInterval(dateStart, dateEnd, chooseWeekdays, currDiscipline.code, isAdmin)
+            this.props.onGetAvailableInterval(dateStart, dateEnd, currDiscipline.code, isAdmin)
                 .then(data => {
                     if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
                     spinEnd()
@@ -726,22 +656,6 @@ class Schedule extends React.Component {
         this.setState({newMessageModal: false,})
     };
 
-    changeToEditorMode = (isEditorMode) => {
-        let mode = isEditorMode ? 'month' : 'week';
-        const {start, end} = findTimeInterval(this.state.currentDate, mode);
-        isEditorMode ? this.props.onGetAllIntervals(start, end) : null
-
-        this.setState({
-            view: mode,
-            interval: {
-                start,
-                end,
-            },
-        });
-        this.setState({isEditorMode});
-    };
-
-
     eventDeleteHandler = (id) => {
         this.props.onEventDelete(id);
         this.setState({sendingModal: true});
@@ -764,29 +678,24 @@ class Schedule extends React.Component {
             masterList,
             allAbonements,
             currDiscipline,
-            isPushBtnTransfer,
-            isPushBtnAdd,
             profileStudent,
-            isPushBtnTrialTraining,
-            history,
             isAdmin} = this.props;
 
         const id = this.getCurrentId();
+        let calendar;
         let isNeedSaveIntervals = false
         if(abonementIntervals){
             isNeedSaveIntervals = abonementIntervals.visibleCreateTrainModal;
             this.countTraining = abonementIntervals.countTraining; //кол-во трень в абонементе
         }
-        const {dates, currentSched} = this.state.receptionData;
-        let editorBtn, calendar, timeSetCall = this.state.receptionData.currentSched.intervalOb, timeSetReception = [];
+        
 
-
-        if (this.props.isAdmin && !this.isStudentSchedule()) {
+        if (isAdmin && !this.isStudentSchedule()) {
 
 
             calendar = (<Calendar
                 masterList={masterList}
-                isAdmin={this.props.isAdmin}
+                isAdmin={isAdmin}
                 dateChange={this.dateChange}
                 currentDate={moment().format('x')}
                 startDate={startDate * 1000}
@@ -807,7 +716,6 @@ class Schedule extends React.Component {
                         };
                     }}
                     date={this.state.currentDate}
-                    onNavigate={this.dateChangeHandler}
                     onGotoPatient={this.gotoHandler}
                     step={60}
                     
@@ -817,7 +725,6 @@ class Schedule extends React.Component {
   
                     onPopoverClose={this.eventDeleteHandler}
                     onPopoverEmail={this.onPatientEmail}
-                    onChange={this.dateChangeHandler}
                     highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
                     showTransferEvent={this.showTransferEvent} // my
                     freeTrainers={trainerList} //my
@@ -828,67 +735,40 @@ class Schedule extends React.Component {
                     isShowFreeTrainers = {this.state.isShowFreeTrainers}
                     transferTraining = {this.transferTraining} // drag and drop
                     deleteEvent = {this.deleteEvent} // drag and drop
-                    setAbonement_Training = {this.setAbonement_Training}
                     onCancelTraining = {this.onCancelTraining}
                     trainerTraining = {this.props.trainerTraining}
                     scheduleSpinner = {this.state.scheduleSpinner}
 
                     />)
         }
-        else if (this.props.mode === 'master') {
-
-            calendar = (<Calendar receptionNum={this.props.eventTraining ? this.props.eventTraining.length : 0}
-                                  isUser = {true}
-                                  events = {this.props.eventTraining}//{this.props.allUserVisits} //
-                                  onNavigate={this.dateChangeHandler}
-                                  date={this.state.currentDate}
-                                  min= {this.min}
-                                  max= {this.max}
-                                  step={60}
-                                  mode = {this.props.mode}
-                                  selectDisciplines = {this.props.selectDisciplines}
-                                  currDiscipline = {this.props.currDiscipline}
-                                  onChangeCurrDiscipline = {this.changeCurrDiscipline}
-                                  scheduleSpinner = {this.state.scheduleSpinner}
-                                  countTrainingDiscipline = {this.props.countTrainingDiscipline}
-                                  onGotoPage= { (id) => this.props.history.push('/app/student' + id)}
-                                  onChange={this.dateChangeHandler}
-                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
-                        />)
-        }
         else { // student
             
-
-            editorBtn = (<Button btnText='Редактор графика'
-                                 onClick={() => this.changeToEditorMode(true)}
-                                 type='yellow'
-                                 icon='setting_edit'/>)
-
-                            let filterInterval = [];
                             let notRedirectDiscipline = false;
-                            if(0 !== this.countTraining && this.countTraining <= this.state.apiPatients.length){                          
-                                //nothing
-                            }
-                             else if(isPushBtnTrialTraining === 'trial'){
-                                filterInterval = this.props.freeIntervals;
-                                notRedirectDiscipline = true;
-                             }
-                             else if(isPushBtnTrialTraining === 'select_master'){
-                                filterInterval = this.props.theMasterInterval;
-                                notRedirectDiscipline = true;
-                             }
+                            // if(0 !== this.countTraining && this.countTraining <= this.state.apiPatients.length){                          
+                            //     //nothing
+                            // }
+                            //  else if(isPushBtnTrialTraining === 'trial'){
+                            //     filterInterval = this.props.freeIntervals;
+                            //     notRedirectDiscipline = true;
+                            //  }
+                            //  else if(isPushBtnTrialTraining === 'select_master'){
+                            //     filterInterval = this.props.theMasterInterval;
+                            //     notRedirectDiscipline = true;
+                            //  }
 
-                             else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
+                            //  else if(this.state.theMasterSelect || isPushBtnTransfer || isPushBtnAdd || isPushBtnTrialTraining === 'first_trainer'){
 
-                                filterInterval = this.props.theMasterInterval;
-                                notRedirectDiscipline = true;
+                            //     filterInterval = this.props.theMasterInterval;
+                            //     notRedirectDiscipline = true;
 
-                             }
-                             else if(isNeedSaveIntervals){
+                            //  }
+                            //  else if(isNeedSaveIntervals){
 
-                                filterInterval =  this.props.freeIntervals;
-                                notRedirectDiscipline = true;
-                             }
+                            //     filterInterval =  this.props.freeIntervals;
+                            //     notRedirectDiscipline = true;
+                            //  }
+
+                            // filterInterval =  this.props.freeIntervals;
 
             calendar = (<Calendar
                                 
@@ -898,14 +778,11 @@ class Schedule extends React.Component {
                 endDate={endDate * 1000}
                 min={this.min * 1000}
                 max={this.max * 1000}
-                intervals={filterInterval}
                 deleteTraining={this.deleteTraining} 
                 onCancelTraining={this.onCancelTraining}
-                deleteEventApiPatient={this.deleteEventApiPatient}    
-                eventWillTransfer = {this.state.eventWillTransfer}
+                deleteEventApiPatient={this.deleteEventApiPatient} 
 
 
-                                  receptionNum={(Array.isArray(allAbonements) && allAbonements.length) ? allAbonements.length : this.state.apiPatients.length}
                                   selectable
                                   onSelectEvent={this.props.onSelectEvent}
                                   defaultView="week"
@@ -940,13 +817,11 @@ class Schedule extends React.Component {
                                   isShowFreeTrainers = {this.state.isShowFreeTrainers}
                                   transferTraining = {this.transferTraining} // drag and drop
                                   deleteEvent = {this.deleteEvent} // drag and drop
-                                  setAbonement_Training = {this.setAbonement_Training}
                                   
                                   trainerTraining = {this.props.trainerTraining}
                                   scheduleSpinner = {this.state.scheduleSpinner}
                                   countTrainingDiscipline = {this.props.countTrainingDiscipline}
                                   onRemoveTrialTraining = {this.deleteTrialTraining}
-                                  isSpinnerFreeTrainers = {this.state.isSpinnerFreeTrainers}
 
             />)
         }
@@ -958,35 +833,7 @@ class Schedule extends React.Component {
             <React.Fragment>
                 <Card title={cardTitle}>
                         {calendar}
-                </Card>
-
-
-                <Modal
-                    title='Сообщение'
-                    visible={this.state.modalTransferTraining}
-                    onCancel={() => this.setState({modalTransferTraining : false})}
-                    width={360}
-                    className="schedule-message-modal-wrapper"
-                >
-                        <div className="schedule-message-modal">
-                                <div className="schedule-message-btn">
-                                    <Button btnText='Перенести 1 треню'
-                                        onClick= {this.setTransfer_1_Training}
-                                        type='yellow'/>
-                                </div>
-
-                                { ( this.delEvent && this.delEvent.event.trial) ?
-                                    null :
-                                        <div className="schedule-message-btn">
-                                            <Button btnText='Новое расписание'
-                                            onClick= {this.setAbonement_Training}
-                                            type='yellow'/>
-                                </div> }
-                        </div>
-                </Modal>
-
-
-                
+                </Card>                
 
                 <Modal
                     title='Сообщение'
@@ -1046,7 +893,7 @@ const mapStateToProps = state => {
         trainerTraining: state.trainer.trainerTraining,
         chooseWeekdays: state.student.weekdays,
         chooseDiscipline: state.student.discipline,
-        chooseArrMasters: state.student.masters, //id masterov
+        chooseArrMasters: state.scheduleIdParams.masters, //id masterov
         fullInfoMasters: state.student.fullInfoMasters,
         amountTraining: state.students.amountTraining, // поменять на student
         eventTraining: state.trainer.eventTraining,
@@ -1072,7 +919,7 @@ const mapStateToProps = state => {
         discAbonement: state.student.discAbonement, // id абонементов у этого студента
         masterListObj: state.trainer.masterListObj,
         subsForDisc : state.abonement.subsForDisc,
-        isPushBtnUnfresh: state.abonement.isPushBtnUnfresh,
+        isPushBtnUnfresh: state.student.isPushBtnUnfresh,
         useFrozenTraining: state.student.useFrozenTraining,
         discCommunication: state.student.discCommunication,
         checkToken: state.acquiring.checkToken,
@@ -1092,7 +939,6 @@ const mapDispatchToProps = dispatch => {
     return {
         //
         onGetStudentsSchedule: (id, start, end, disc) => dispatch(actions.getStudentsSchedule(id, start, end, disc)),
-        onHandleSelecting: (id) => dispatch(actions.handleSelecting(id)),
         handleChangeTime: (startDate, endDate) => dispatch(actions.handleChangeTime(startDate, endDate)),
         
         setParamsId: (params) => dispatch(actions.setParamsId(params)),
@@ -1123,8 +969,8 @@ const mapDispatchToProps = dispatch => {
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         onEditUseFrozenTraining: (idStudent,amountTraining) => dispatch(actions.editUseFrozenTraining(idStudent,amountTraining)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
-        onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
-        onChangePushBtnUnfresh: (status) => dispatch(actions.isPushBtnUnfresh(status)),
+        //onIsPushBtnUnfresh: () => dispatch(actions.isPushBtnUnfresh()),
+        //onChangePushBtnUnfresh: (status) => dispatch(actions.isPushBtnUnfresh(status)),
 
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
@@ -1138,7 +984,7 @@ const mapDispatchToProps = dispatch => {
         onSaveUserEdit: (data) => dispatch(actions.saveUserEdit(data)),
 
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
-        onGetAvailableInterval: (dateStart, dateEnd, weekdays, discipline,isCallAdmin)=>dispatch(actions.getAvailableInterval(dateStart,dateEnd,weekdays,discipline,isCallAdmin)),
+        onGetAvailableInterval: (dateStart, dateEnd, discipline,isCallAdmin)=>dispatch(actions.getAvailableInterval(dateStart,dateEnd,discipline,isCallAdmin)),
         onSetFreeIntervals: (freeIntervals, type) => dispatch(actions.setFreeIntervals(freeIntervals,type)),
         onMasterFreeOnDate: (dateStart, chooseArrMasters) => dispatch(actions.masterFreeOnDate(dateStart, chooseArrMasters)),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays, isCallAdmin) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays, isCallAdmin)),

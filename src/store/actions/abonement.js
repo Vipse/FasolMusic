@@ -121,11 +121,27 @@ export const transferTraininingToEnd = (value, isCallAdmin) => {
 }
 
 export const changeSubscription = (value, isCallAdmin) => {
+const obj = {
+    amount: value.amount,
+    idStudent: value.idStudent,
+    idSubscription: value.idSubscription,
+    dateStart: value.dateStart,
+    trainingtime: value.trainingTime,
+    isCallAdmin
+}
+
+const a = {
+    "dateStart":1574503200,
+    "idSubscription":151731,
+    "idStudent":"142762",
+    "amount":"2",
+    "trainingtime":{"6":[{"id":"139429","start":1574510400}]},
+    "isCallAdmin":true
+}
 
 
-console.log('changeSubscription', value)
     return (dispatch, getState) => 
-        axios.post('/catalog.fasol/changeSubscription', JSON.stringify({...value, isCallAdmin}))
+        axios.post('/catalog.fasol/changeSubscription', JSON.stringify(obj))
             .then(res => {
                
                 console.log("changeSubscription", res);

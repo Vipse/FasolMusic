@@ -12,6 +12,15 @@ class ContentForm extends React.Component {
 
     }
 
+    setParamsId = () => {
+        const {setParamsId, setParamsStatusPush, clearFreeInterval} = this.props;
+        
+        setParamsId({clickedIdEvent: null, timeClickFreeEvent: null})
+        setParamsStatusPush({isPushBtnTransfer: false})
+
+        clearFreeInterval();
+    }
+
     setTransfer_1_Training = () => {
         const {
             isAdmin,
@@ -45,9 +54,10 @@ class ContentForm extends React.Component {
             }
 
             transferTrainining(obj, isAdmin)
-                .then(() => getStudentsSchedule(id, startDate, endDate, idDiscipline, isAdmin))
+                .then(() => getStudentsSchedule(id, startDate, endDate, idDiscipline))
         }
 
+        this.setParamsId();
         onCancel();
     }
 
@@ -56,16 +66,24 @@ class ContentForm extends React.Component {
             currentIdUser,
             studentSchedule,
             clickedIdEvent,
-            timeClickFreeEvent } = this.props;
+            timeClickFreeEvent,
+        
+            startDate,
+            endDate,
+            currDiscipline,
+        
+            onCancel} = this.props;
 
+        const id = currentIdUser;
+        const idDiscipline = currDiscipline.code;
         let trainingTime = {};
         let amountTrainingInNewSchedule = 0;
-        let dateStart = null; //tistamp, start of schedule
+        let dateStart = null; //timestamp, start of schedule
         let idSubscription = null;
 
         function getNewTrainingTime(trainingTime, time, event) {
             let newTrainingTime = {...trainingTime}
-            let weekDay = moment(+time * 1000).weekday();
+            let weekDay = moment(+time * 1000).weekday()+1; //+1, но надо было пн=0 ... воскр=6
 
             if (!newTrainingTime.hasOwnProperty(weekDay)) {
                 newTrainingTime[weekDay] = []
@@ -102,8 +120,12 @@ class ContentForm extends React.Component {
             trainingTime
         }
         console.log("new schedule", obj)
-        debugger
-        //onCancel();
+
+        this.props.changeSubscription(obj, true)
+        .then(() => this.props.getStudentsSchedule(id, startDate, endDate, idDiscipline))
+        
+        this.setParamsId();
+        onCancel();
     }
 
 

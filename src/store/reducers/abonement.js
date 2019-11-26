@@ -88,17 +88,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 studentBalance: action.studentBalance
             }
-        case actionTypes.IS_PUSH_BTN_UNFRESH:
-            return {
-                ...state,
-                isPushBtnUnfresh: !state.isPushBtnUnfresh
-            }
 
-        case actionTypes.CHANGE_PUSH_BTN_UNFRESH:
-            return {
-                ...state,
-                isPushBtnUnfresh: action.isPushBtnUnfresh
-            }
         case actionTypes.GET_USER_FONO:
             return {
                 ...state,

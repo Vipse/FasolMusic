@@ -13,7 +13,7 @@ import moment from 'moment'
 import * as actions from '../../store/actions'
 import './styles.css'
 import RegistrationTrainer from '../../components/RegistrationTrainer';
-import CreateTrainModal from "../../components/CreateTrainModal";
+import CreateTrainModal from "../../components/Modals/CreateTrainModal";
 import logo from "../../img/logo.svg"
 
 class LoginPage extends React.Component {

@@ -30,19 +30,54 @@ class EventColumn extends React.Component{
 
     isIncludeIntervals = (startEvent) => {
         
-        const {intervals} = this.props;
+        const {freeInterval} = this.props;
 
-        if(Array.isArray(intervals) && intervals.includes(+startEvent)) {
+        if(Array.isArray(freeInterval) && freeInterval.includes(+startEvent)) {
             return  true
         }
         return false
     }
 
     handleClickFreeEvent = (startEvent) => {
-        const {clickedIdEvent} = this.props;
+        const {
+            masters,
+            listNewSchedule,
+            clickedIdEvent, 
+            clickedTrainer,
+
+            pushBtnUnfresh,
+            pushBtnTrial 
+        } = this.props;
         
-        if(clickedIdEvent){
-            console.log("startEvent", startEvent)
+        if (pushBtnUnfresh && clickedTrainer.id){
+            let listNew = {...listNewSchedule}
+                listNew[startEvent] = {
+                    type: 'clicked_event',
+                    start: startEvent,
+                    idMaster: clickedTrainer.id,
+                    masterFio: clickedTrainer.name
+                }
+
+            this.props.setParamsId({listNewSchedule: listNew})
+            
+        }
+        else if(pushBtnUnfresh && !clickedTrainer.id){
+            this.props.masterFreeOnDate(startEvent, masters)
+        }
+
+        else if(pushBtnTrial && !pushBtnUnfresh){
+            const listNew = {};
+            listNew[startEvent] = {
+                type: 'clicked_event',
+                start: startEvent,
+                idMaster: clickedTrainer.id,
+                masterFio: clickedTrainer.name
+            }
+
+            this.props.setParamsId({listNewSchedule: listNew})
+            this.props.masterFreeOnDate(startEvent, masters)
+        }
+        else if(clickedIdEvent){
             this.props.setParamsId({timeClickFreeEvent: startEvent})
             this.props.showTransferOrNewScheduleModal()
         }
@@ -53,7 +88,7 @@ class EventColumn extends React.Component{
     }
 
     renderCells = () => {
-        const { startTime, endTime, studentSchedule, eventWillTransfer } = this.props;
+        const { startTime, endTime, studentSchedule } = this.props;
         let startTimeMoment = moment(+startTime * 1000);
         let endTimeMoment = moment(+endTime * 1000);
         let arrReander = [];
@@ -82,7 +117,6 @@ class EventColumn extends React.Component{
                             <EventTraining  
                                 key={startEvent}
                                 event = {studentSchedule[startEvent]}
-                                eventWillTransfer = {eventWillTransfer}
 
                                 deleteTraining={this.props.deleteTraining}
                                 onCancelTraining={this.props.onCancelTraining}
@@ -145,14 +179,27 @@ EventColumn.propTypes = {
 };
 
 EventColumn.defaultProps = {
-    intervals: {}
 };
 
 const mapStateToProps = state => {
+    const {
+        listNewSchedule,
+        clickedTrainer,
+        clickedIdEvent,
+        pushBtnUnfresh,
+        pushBtnTrial
+    } = state.scheduleIdParams;
 
     return {
-        studentSchedule: state.student.studentSchedule,
-        clickedIdEvent: state.scheduleIdParams.clickedIdEvent
+        studentSchedule: {...state.student.studentSchedule, ...listNewSchedule},
+        freeInterval: state.scheduleIdParams.freeInterval,
+        masters: state.scheduleIdParams.masters,
+
+        listNewSchedule,
+        clickedTrainer,
+        clickedIdEvent,
+        pushBtnUnfresh,
+        pushBtnTrial
     }
 }
 
@@ -164,6 +211,8 @@ const mapDispatchToProps = dispatch => {
         hideCreateTrainModal_clickTrial: () => dispatch(actions.hideCreateTrainModal_clickTrial()),
           
         showTransferOrNewScheduleModal: () => dispatch(actions.showTransferOrNewScheduleModal()),
+
+        masterFreeOnDate: (date, chooseMasters) => dispatch(actions.masterFreeOnDate(date, chooseMasters))
     }
 }
 

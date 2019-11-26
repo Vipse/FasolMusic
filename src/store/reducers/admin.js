@@ -27,17 +27,7 @@ const reducer = (state = initialState, action) => {
                 busytrainers_listModal: action.busytrainers_listModal
             }
 
-            
-        // case actionTypes.GET_ALL_ADMIN_INFO_MASTERS_FREE:
-        //     return {
-        //         ...state,
-        //         freetrainers: action.adminMasters,
-        //     }
-        // case actionTypes.GET_ALL_ADMIN_INFO_MASTERS_BUSY:
-        //     return {
-        //         ...state,
-        //         busytrainers: action.adminMasters,
-        //     }
+        
         case actionTypes.GET_REPORT_LINKS:
             return {
                 ...state,

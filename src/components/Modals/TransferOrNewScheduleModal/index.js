@@ -69,8 +69,11 @@ const mapDispatchToProps = dispatch => {
             dispatch(actions.transferTrainining({idTraining, idMaster, dateStart}, isCallAdmin)),
         
         getStudentsSchedule: (id, start, end, disc) => dispatch(actions.getStudentsSchedule(id, start, end, disc)),
-    
+        changeSubscription: (data, isCallAdmin) => dispatch(actions.changeSubscription(data, isCallAdmin)),
+        setParamsId: (params) => dispatch(actions.setParamsId(params)),
+        setParamsStatusPush: (params) => dispatch(actions.setParamsStatusPush(params)),
 
+        clearFreeInterval: () => dispatch(actions.clearFreeInterval()),
 
 
 

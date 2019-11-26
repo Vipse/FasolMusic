@@ -2,9 +2,15 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
        //
-       freeInterval: [], //unfreeze and trial schedule
-       masters: [], //unfreeze and trial schedule
+      // freeInterval: [], //the main interval
+      // masters: [], //unfreeze and trial schedule
        studentSchedule: {},
+       fullInfoMasters: [], // list of masters for selecting
+
+       isPushBtnTransfer: false, //SET_PARAMS_STATUS_PUSH
+       isPushBtnUnfresh: false, //SET_PARAMS_STATUS_PUSH
+       isPushBtnTrialTraining: false, //SET_PARAMS_STATUS_PUSH
+
 
        //
     myCoach: [],
@@ -33,28 +39,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 userInfo: action.userInfo
             }
-        case actionTypes.GET_AVAILABLE_INTERVAL:
-            return {
-                ...state,
-                freeInterval: action.freeInterval
-            }
-        case actionTypes.SET_WEEKDAYS_AND_DISCIPLINE_AND_ARRMASTERS:
-            return {
-                ...state,
-                weekdays: action.weekdays,
-                disciplineId: action.disciplineId,
-                masters: action.masters
-            }
+       
+
         case actionTypes.GET_FULL_INFO_MASTERS:
             return {
                 ...state,
                 fullInfoMasters: action.fullInfoMasters
             }
-        case actionTypes.GET_THE_MASTER_INTERVAL:
-            return {
-                ...state,
-                theMasterInterval: action.theMasterInterval
-            }
+      
         case actionTypes.GET_TRAINING_TRIAL_STATUS:
             return {
                 ...state,
@@ -78,6 +70,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isTransferTrainPopupActive: false
             }
+
+
+
+            case actionTypes.SET_PARAMS_STATUS_PUSH:
+                return {
+                    ...state,
+                    ...action.params
+                }
+
         case actionTypes.CHANGE_PUSH_BTN_TRANSFER:
             return {
                 ...state,
