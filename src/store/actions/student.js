@@ -199,25 +199,6 @@ export const createTraining = (obj) => {
 
 
 
-export const masterFreeOnDate = (date, chooseMasters) => {
-
-    let obj = {
-        date,
-        arrMaster: chooseMasters
-    };
-
-    return (dispatch) => {
-        return axios.post('/catalog.fasol/masterFreeOnDate', JSON.stringify(obj))
-            .then(res => {
-                dispatch({
-                    type: actionTypes.GET_FULL_INFO_MASTERS,
-                    fullInfoMasters: res.data.result.masters,
-                })
-                return res;
-            })
-            .catch(err => {console.log(err);})
-    }
-}
 
 
 

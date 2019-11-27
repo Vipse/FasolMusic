@@ -1,0 +1,33 @@
+.rbc-time-eventcolumn {
+  display: inline-flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.rbc-time-eventcolumn .rbc-timeslot-group {
+  flex: 1;
+}
+.rbc-timeslot-group {
+  min-height: 40px;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.rbc-time-eventgutter,
+.rbc-header-eventgutter {
+  flex: none;
+}
+.rbc-label {
+  padding: 0 5px;
+}
+.rbc-label .icon-clock {
+  margin: auto;
+  font-size: 28px;
+}
+.rbc-eventlabel {
+  color: #21bedd;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.rbc-eventlabel .event-body {
+  margin: auto;
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import './styles.css'
+import DateColumnItem from '../DateColumnItem'
 
 class DateColumn extends React.Component{
 
@@ -10,7 +11,7 @@ class DateColumn extends React.Component{
 
         return (
             <div className="rbc-label rbc-header-eventgutter rbc-clock-icon">    
-                <span title className="icon icon-clock">
+                <span className="icon icon-clock">
                 </span>
             </div>)
     }
@@ -21,29 +22,23 @@ class DateColumn extends React.Component{
         let maxMoment = moment(+max);
         let arrReander = [];
 
-        //moment().format('x');
-        //moment('2010-10-20').isBefore('2010-10-21'); 
         while (minMoment.isBefore(maxMoment)){
             arrReander.push(
-                    <div className="rbc-timeslot-group rbc-timeslot-group-NOT">
-                        <div className="rbc-time-slot rbc-eventlabel">
-                        <span className="event-body">
-                            {minMoment.format('HH:mm')}
-                            </span>
-                        </div>
-                    </div>)
+                <DateColumnItem 
+                    key={minMoment.format('X')} //timestamp
+                    date={minMoment.format('x')} 
+                />
+            )
             minMoment.add(1, 'hour')        
         }
         
-
-
         return arrReander;
     }
 
     render() {
 
         return (
-            <div class='rbc-time-eventgutter rbc-time-eventcolumn'>
+            <div className='rbc-time-eventgutter rbc-time-eventcolumn'>
                 {this.renderHeadColumn()}
                 {this.renderCells()}
             </div>

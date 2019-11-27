@@ -19,12 +19,9 @@ class EventColumn extends React.Component{
         const momentDay = moment(+timeDay * 1000);
 
         return (
-            <div class="rbc-label rbc-header-eventgutter">
-                <p class="event-timebody">{momentDay.format("dddd")}</p>
-                <p class="event-timebody">{momentDay.format("D")}</p>
-                {/* <span class="event-body">
-                    
-                </span> */}
+            <div className="rbc-label rbc-header-eventgutter">
+                <p className="event-timebody">{momentDay.format("dddd")}</p>
+                <p className="event-timebody">{momentDay.format("D")}</p>
             </div>)
     }
 
@@ -112,7 +109,7 @@ class EventColumn extends React.Component{
             
             arrReander.push(
                 <div className={classStyle} onClick={() => handleClick(startEvent)}>
-                    <div class="rbc-time-slot rbc-eventlabel">
+                    <div className="rbc-time-slot rbc-eventlabel">
                         {studentSchedule.hasOwnProperty(startEvent) ?
                             <EventTraining  
                                 key={startEvent}
@@ -143,8 +140,8 @@ class EventColumn extends React.Component{
             let startEvent = startTimeMoment.format('X')
             let classStyle = "rbc-timeslot-group"
             arrReander.push(
-                <div class={classStyle}>
-                    <div class="rbc-time-slot rbc-eventlabel">
+                <div className={classStyle}>
+                    <div className="rbc-time-slot rbc-eventlabel">
                         {masterList.hasOwnProperty(startEvent) ?
                                 <AdminEvent
                                     key={startEvent}
@@ -165,7 +162,7 @@ class EventColumn extends React.Component{
         const{ isAdmin} = this.props;
 
         return (
-            <div class='rbc-time-eventgutter rbc-time-eventcolumn'>
+            <div className='rbc-time-eventgutter rbc-time-eventcolumn'>
                 {this.renderHeadColumn()}
                 
                 {!isAdmin ? this.renderCells() : this.renderAdminCells()}

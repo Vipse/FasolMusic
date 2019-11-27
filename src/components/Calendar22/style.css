@@ -406,6 +406,7 @@
   font-size: 11px;
 }
 .wrapper-calendar {
+  min-width: 1050px;
   position: relative;
 }
 .wrapper-calendar .schedule-spinner {

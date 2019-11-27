@@ -35,47 +35,5 @@ class BigCalendar extends React.Component{
     }
 }
 
-BigCalendar.propTypes = {
-    isUser: PropTypes.bool,
-    events: PropTypes.array,
-    schedules: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number,
-            isEditable: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-            intervalOb: PropTypes.array,
-            intervalEx: PropTypes.array,
-        })
-    ),
-    intervals: PropTypes.array,
-
-    onPopoverClose: PropTypes.func,
-    onPopoverEmail: PropTypes.func,
-    showTransferEvent: PropTypes.func,
-    freeTrainers: PropTypes.object,
-    showModalTransferEvent: PropTypes.func,
-    setChoosenTrainer: PropTypes.func,
-    isNeedSaveIntervals: PropTypes.bool,
-    fillTrainingWeek: PropTypes.func,
-    isShowFreeTrainers: PropTypes.bool,
-    transferTraining: PropTypes.func,
-    deleteEvent: PropTypes.func,
-    onCancelTraining: PropTypes.func,
-    trainerTraining: PropTypes.object,
-    isAdmin: PropTypes.bool,
-    showMasterList: PropTypes.func,
-};
-
-
-BigCalendar.defaultProps = {
-    isUser: false,
-    events: [],
-    schedules: [],
-    intervals: [],
-    onPopoverClose: () => {},
-    onPopoverEmail: () => {},
-    trainerTraining: {},
-    isAdmin: false,
-};
-
 
 export default BigCalendar;

@@ -98,7 +98,7 @@ const mapStateToProps = state => {
     } = state.scheduleIdParams;
 
     return {
-        freeTrainers: state.student.fullInfoMasters,
+        freeTrainers: state.scheduleIdParams.fullInfoMasters,
 
         listNewSchedule,
         pushBtnTrial,

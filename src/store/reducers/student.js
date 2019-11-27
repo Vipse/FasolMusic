@@ -41,11 +41,7 @@ const reducer = (state = initialState, action) => {
             }
        
 
-        case actionTypes.GET_FULL_INFO_MASTERS:
-            return {
-                ...state,
-                fullInfoMasters: action.fullInfoMasters
-            }
+
       
         case actionTypes.GET_TRAINING_TRIAL_STATUS:
             return {

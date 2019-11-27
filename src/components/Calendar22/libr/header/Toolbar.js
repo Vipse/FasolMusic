@@ -205,7 +205,9 @@ const mapStateToProps = state => {
     listDisciplines: state.abonement.listDisciplines,
     freeInterval: state.scheduleIdParams.freeInterval,
 
+    // UX
     useFrozenTraining: state.student.useFrozenTraining,
+    countTrainingDiscipline: state.training.countTrainingDiscipline,
 
     pushBtnUnfresh,
     pushBtnTrial

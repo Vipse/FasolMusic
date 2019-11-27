@@ -1,3 +1,6 @@
+.card-calendar {
+  min-width: 1050px;
+}
 .row-schedule {
   border-top: 15px !important;
 }
@@ -11,31 +14,4 @@
 .cancel_rec {
   margin: 5px 0 25px 0;
   background-color: transparent;
-}
-.schedule-message-modal {
-  display: flex;
-  justify-content: center;
-}
-.schedule-message-modal-wrapper {
-  top: 30%;
-}
-.schedule-message-modal-wrapper .schedule-message-btn {
-  display: inline-block;
-  margin: 10px;
-}
-.schedule-message-modal-wrapper .schedule-message-btn button {
-  width: 100px;
-}
-.schedule-message-modal-wrapper .admin-trainer-wrapper {
-  display: flex;
-  justify-content: space-around;
-}
-.schedule-message-modal-wrapper .admin-trainer-wrapper .block-free-trainer {
-  padding: 10px;
-  width: 300px;
-}
-.schedule-message-modal-wrapper .free-trainer {
-  margin: 10px;
-  text-align: center;
-  font-weight: bold;
 }

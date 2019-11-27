@@ -88,7 +88,7 @@ export {
     createTraining,
 
     getMasterSchedule,
-    masterFreeOnDate,
+ 
 
 
 
@@ -187,5 +187,6 @@ export {
     setParamsId,
     getAvailableInterval,
     getTheMasterInterval,
+    masterFreeOnDate,
     clearFreeInterval,
 } from './scheduleIdParams'

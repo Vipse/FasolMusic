@@ -20,6 +20,7 @@ const initialState = {
     // }
     freeInterval: [],
     masters: [], //list trainers for selecting
+    fullInfoMasters: [],
 
 
 
@@ -72,6 +73,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 masters: action.masters
+            }
+        case actionTypes.GET_FULL_INFO_MASTERS:
+            return {
+                ...state,
+                fullInfoMasters: action.fullInfoMasters
             }
         default: return state;
     }

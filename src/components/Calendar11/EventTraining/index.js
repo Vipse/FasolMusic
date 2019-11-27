@@ -46,14 +46,14 @@ class EventTraining extends React.PureComponent{
             }    
         }
         else if(event.trial){
-            crossFunc = this.onRemoveTrialTraining
+            //crossFunc = this.onRemoveTrialTraining
         }  
         else {
             crossFunc = (e) => this.onCancelTraining(e, event.id, event.idSubscription)
         }
 
 
-        crossFunc = event.hasOwnProperty('apiPatients') ? (e) => this.deleteEventApiPatients(e, event.id) : crossFunc
+        crossFunc = event.hasOwnProperty('apiPatients') ? () => {} : crossFunc
         return crossFunc
     }
 
@@ -73,12 +73,6 @@ class EventTraining extends React.PureComponent{
             crossCurrendIdSubscription: idSubscription
         })
         showTransferOrFreezeModal();
-    }
-
-    deleteEventApiPatients = (e, id) => {
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
-        this.props.deleteEventApiPatient(id)
     }
 
     clickOnEvent = (e,idEvent) => {
