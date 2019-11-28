@@ -6,17 +6,7 @@ import * as actions from '../../../store/actions'
 import './styles.css'
 import history from '../../../store/history';
 
-class EventTraining extends React.PureComponent{
-    constructor(props) {
-        super(props);
-    };
-
-
-     componentDidUpdate(prevProps, prevState) {
-         console.log("componentDidUpdate");
-           
-    }
-
+class EventTraining extends React.Component{
 
     getBgColor = () => {
         const {event, clickedIdEvent} = this.props;
@@ -46,27 +36,30 @@ class EventTraining extends React.PureComponent{
             }    
         }
         else if(event.trial){
-            //crossFunc = this.onRemoveTrialTraining
+            crossFunc = this.onRemoveTrialTraining
         }  
         else {
             crossFunc = (e) => this.onCancelTraining(e, event.id, event.idSubscription)
         }
 
 
-        crossFunc = event.hasOwnProperty('apiPatients') ? () => {} : crossFunc
+        //crossFunc = event.hasOwnProperty('apiPatients') ? () => {} : crossFunc
         return crossFunc
     }
 
     onRemoveTrialTraining = (e) => {
+        const {event} = this.props;
         e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
-        this.props.deleteTraining(this.props.event.id);
+
+        this.props.showRemoveTrialTrainingModal()
+        this.props.setParamsId({
+            crossCurrentIdTrialTraining: event.id
+        })
     }
 
     onCancelTraining = (e, id, idSubscription) => {
         const {setParamsId, showTransferOrFreezeModal} = this.props;
         e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
 
         setParamsId({
             crossCurrentIdTraining: id,
@@ -88,6 +81,15 @@ class EventTraining extends React.PureComponent{
         
     }
 
+    getFio = () => {
+        const {event} = this.props;
+
+        if(event.trial){
+            return `Пробная: ${event.masterFio}`
+        }
+        return event.masterFio
+    }
+
     render() {
         const {event} = this.props;
         const {id} = event;
@@ -102,7 +104,7 @@ class EventTraining extends React.PureComponent{
                         <div className="event-group-cross" onClick={functionCross}>
                             {!event.isComplete && <span className="icon icon-close"></span>}
                         </div>
-                        <p className="event-group-text">{event.masterFio}</p>
+                        <p className="event-group-text">{this.getFio()}</p>
                     </div>
                 </div>
         )
@@ -130,6 +132,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         showTransferOrFreezeModal: () => dispatch(actions.showTransferOrFreezeModal()),
+        showRemoveTrialTrainingModal: () => dispatch(actions.showRemoveTrialTrainingModal()),
+        
         setParamsId: (params) => dispatch(actions.setParamsId(params)),
     }
 }

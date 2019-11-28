@@ -18,13 +18,16 @@ class Calendar extends React.Component {
     const { min, 
        max, 
        currDiscipline, 
-       isAdmin, 
-       clickOnEvent
+       isAdmin
       } = this.props;
 
+      
     let arrRender = [];
     const endOf = moment().endOf('week');
+    
     let startOf = moment().startOf('week');
+
+
     let startTime = moment(+min);
     let endTime = moment(+max);
     
@@ -32,19 +35,16 @@ class Calendar extends React.Component {
         arrRender.push(
             <EventColumn
                 key={startOf.format('X')}
-                timeDay={startOf.format('X')}
                 startTime={startTime.format('X')}
                 endTime={endTime.format('X')}
                 isAdmin={isAdmin}
                 currDiscipline={currDiscipline}
-                clickOnEvent={clickOnEvent}
 
                 //admin
                 masterList={this.props.masterList}
 
                 //func
                 deleteTraining={this.props.deleteTraining}
-                onCancelTraining={this.props.onCancelTraining}
 
               />)
 

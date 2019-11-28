@@ -6,6 +6,15 @@
 .rbc-time-eventcolumn .rbc-timeslot-group {
   flex: 1;
 }
+.rbc-time-eventcolumn .rbc-timeslot-group:last-child {
+  border-bottom: 1px solid #ddd;
+}
+.rbc-time-eventcolumn:first-child .rbc-header-eventgutter {
+  border-left: 1px solid #ddd;
+}
+.rbc-time-eventcolumn:first-child .rbc-eventlabel {
+  border-left: 1px solid #ddd;
+}
 .rbc-timeslot-group {
   border-top: 1px solid #ddd;
   border-right: 1px solid #ddd;

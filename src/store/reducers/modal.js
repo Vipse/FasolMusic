@@ -9,6 +9,12 @@ const initialState = {
 
     visible_CreateTrainModal_Unfreeze: false,
     visible_CreateTrainModal_Trial: false,
+
+    visible_TransferOrNewScheduleModal: false,
+
+    visible_RemoveTrialTrainingModal: false,
+
+    visible_ConfirmCreateModal: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -73,7 +79,31 @@ const reducer = (state = initialState, action) => {
                 visible_TransferOrNewScheduleModal: false
             }
 
-            
+        //RemoveTrialTrainingModal
+        case actionTypes.SHOW_REMOVE_TRIAL_TRAINING_MODAL:
+            return {
+                ...state,
+                visible_RemoveTrialTrainingModal: true
+            }
+        case actionTypes.HIDE_REMOVE_TRIAL_TRAINING_MODAL:
+            return {
+                ...state,
+                visible_RemoveTrialTrainingModal: false
+            }
+
+          
+        //ConfirmCreateModal
+        case actionTypes.SHOW_CONFIRM_CREATE_MODAL:
+            return {
+                ...state,
+                visible_ConfirmCreateModal: true
+            }
+        case actionTypes.HIDE_CONFIRM_CREATE_MODAL:
+            return {
+                ...state,
+                visible_ConfirmCreateModal: false
+            }
+                
             
         default: return state;
     }

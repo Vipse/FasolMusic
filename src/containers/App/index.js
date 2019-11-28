@@ -251,6 +251,7 @@ class App extends React.Component {
             let chooseWeekdays = [0,1,2,3,4,5,6];
             this.setState({scheduleSpinner: true})
 
+            
             this.onGoToSchedule();
             this.props.onGetTheMasterInterval(startDate, endDate, idMaster, chooseWeekdays, isAdmin)
              .then(() => {

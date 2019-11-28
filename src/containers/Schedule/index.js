@@ -15,6 +15,8 @@ import './styles.css'
 import ListTrainersModal from '../../components/Modals/ListTrainersModal';
 import TransferOrFreezeModal from '../../components/Modals/TransferOrFreezeModal';
 import TransferOrNewScheduleModal from '../../components/Modals/TransferOrNewScheduleModal';
+import RemoveTrialTrainingModal from '../../components/Modals/RemoveTrialTrainingModal';
+import ConfirmCreateModal from '../../components/Modals/ConfirmCreateModal';
 
 class Schedule extends React.Component {
     
@@ -99,12 +101,6 @@ class Schedule extends React.Component {
         }, 500);
     }
 
-    onCancelTraining = (transferId, idSubscription) => {
-        this.cancelId = transferId; // для переноса в конец
-        this.freezeIdSubscription = idSubscription; // для заморозки
-        //this.setState({modalCancelTraining: true});
-    }
-
 
     componentDidMount() {
         const {startDate, endDate, setParamsId} = this.props;
@@ -185,8 +181,11 @@ class Schedule extends React.Component {
         
         const m = moment(+newStart * 1000)
         
-        this.min = moment([m.get('year'), m.get('month'), m.get('date'), 8]).format('X')
-        this.max = moment([m.get('year'), m.get('month'), m.get('date'), 23]).format('X')
+        this.min = moment([m.get('year'), m.get('month'), m.get('date'), 8])
+        this.max = moment([m.get('year'), m.get('month'), m.get('date'), 23])
+        console.log("this.min", this.min)
+        this.min = this.min.format('X')
+        this.max = this.max.format('X')
     
         this.props.handleChangeTime(newStart, newEnd);
         this.setState({ 
@@ -230,20 +229,6 @@ class Schedule extends React.Component {
     }
 
 
-    eventDeleteHandler = (id) => {
-        this.props.onEventDelete(id);
-        //this.setState({sendingModal: true});
-    }
-
-    prepareDatesForSmallCalendar = (visits) => {
-        return visits ? visits.map(item => moment(item.start*1000).format("YYYY MM DD")) : null
-    };
-
-    gotoHandler = (id) => {
-		this.props.onSelectPatient(id);
-		this.props.history.push('/app/patient'+id);
-	}
-
     render() {
         const {startDate, endDate} = this.props;
         const {
@@ -255,6 +240,7 @@ class Schedule extends React.Component {
         const id = this.getCurrentId();
         let calendar;
         
+       // console.log("render scedule", )
         
 
         if (isAdmin && !this.isStudentSchedule()) {
@@ -274,19 +260,11 @@ class Schedule extends React.Component {
 
 
 
-                    defaultView="week"
-                    onGotoPatient={this.gotoHandler}
-                    step={60}
                     
                     
                     intervals={ this.props.freeIntervals}
   
-                    onPopoverClose={this.eventDeleteHandler}
-                    highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
-                    showTransferEvent={this.showTransferEvent} // my
 
-                    onCancelTraining = {this.onCancelTraining}
-                    trainerTraining = {this.props.trainerTraining}
                     scheduleSpinner = {this.state.scheduleSpinner}
 
                     />)
@@ -329,15 +307,8 @@ class Schedule extends React.Component {
                 min={this.min * 1000}
                 max={this.max * 1000}
                 deleteTraining={this.deleteTraining} 
-                onCancelTraining={this.onCancelTraining}
-                deleteEventApiPatient={this.deleteEventApiPatient} 
 
-
-                                  selectable
-                                  defaultView="week"
                                   
-                                  onGotoPatient={this.gotoHandler}
-                                  step={60}
                                   selectAnyTrainer = {this.selectAnyTrainer}
                                   mode = {this.props.mode}
                                   events={(Array.isArray(allAbonements) && allAbonements.length) ? [...allAbonements, ...this.state.apiPatients] : this.state.apiPatients}
@@ -346,11 +317,8 @@ class Schedule extends React.Component {
 
                                   currDiscipline = {this.props.currDiscipline}
                                  
-                                  onPopoverClose={this.eventDeleteHandler}
-                                  highlightedDates = {this.prepareDatesForSmallCalendar(this.props.allUserVisits)}
-                                  // my
+                                
                                  
-                                  trainerTraining = {this.props.trainerTraining}
                                   scheduleSpinner = {this.state.scheduleSpinner}
 
             />)
@@ -360,33 +328,14 @@ class Schedule extends React.Component {
         let cardTitle = (this.isStudentSchedule() && profileStudent.name) ? "Расписание - "+profileStudent.name : 'Расписание тренировок'
 
         return (
-            <React.Fragment>
+            <>
                 <Card className='card-calendar' title={cardTitle}>
                         {calendar}
                 </Card>                
 
-                <Modal
-                    title='Сообщение'
-                    visible={this.state.modalRemoveTrialTraining}
-                    onCancel={() => this.setState({modalRemoveTrialTraining : false})}
-                    width={360}
-                    className="schedule-message-modal-wrapper"
-                >
-                        <div className="schedule-message-modal">
-                                <div className="schedule-message-btn">
-                                    <Button btnText='Удалить тренировку'
-                                        onClick= {() => {
-                                            this.props.onRemoveTrialTraining(this.deleteIdTraining, this.props.isAdmin)
-                                                .then(this.props.onGetTrainingsTrialStatus(this.id))
-                                                .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
-                                                //.then(() => this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin))
+                <ConfirmCreateModal />
 
-                                            this.setState({modalRemoveTrialTraining: false});
-                                        }}
-                                        type='yellow'/>
-                                </div>
-                        </div>
-                 </Modal> 
+                <RemoveTrialTrainingModal />
 
                 <TransferOrFreezeModal />
 
@@ -394,7 +343,7 @@ class Schedule extends React.Component {
                 
                 <ListTrainersModal />
 
-            </React.Fragment>
+            </>
         )
     }
 }
@@ -409,7 +358,6 @@ const mapStateToProps = state => {
         //
         allAbonements: state.abonement.allAbonements, // и интервалы
         id: state.auth.id,
-        trainerTraining: state.trainer.trainerTraining,
 
         fullInfoMasters: state.scheduleIdParams.fullInfoMasters,
 

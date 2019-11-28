@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux';
 
-import { Select } from 'antd';
+import { Select, message } from 'antd';
 import moment from 'moment'
 
 import * as actions from '../../../../store/actions'
@@ -14,74 +14,6 @@ import { getNewTrainingTime } from '../../../../containers/Schedule/shedule';
 const Option = Select.Option;
 
 class Toolbar extends React.Component {
-
-  fillTrainingWeek = () => {
-    const {
-      currentIdUser: id,
-      useFrozenTraining,
-      currDiscipline,
-      listNewSchedule,
-    } = this.props;
-    let trainingtime = {}
-
-    for(let key in listNewSchedule){
-      trainingtime = getNewTrainingTime(trainingtime, key, listNewSchedule[key])
-    }
-
-
-    const abonement = {
-      idStudent: id,
-      dateStart: Object.keys(listNewSchedule)[0],
-      amount: useFrozenTraining,
-      discipline: [currDiscipline.code],
-      trainingtime,
-      isNoTrial: true
-    }
-
-    this.createAbonement(abonement)
-  }
-
-  createAbonement = (abonement) => {
-    const {
-      currentIdUser: id,
-      currDiscipline,
-
-      startDate,
-      endDate,
-    } = this.props;
-
-    this.props.createAbonement(abonement)
-    .then(() => {
-      // this.props.onEditUseFrozenTraining(id, useFrozenTraining);
-      this.props.getStudentsSchedule(id, startDate, endDate, currDiscipline.code)
-    });
-  }
-
-  fillTrialTrainingWeek = () => {
-    const {
-      currentIdUser: id,
-      currDiscipline,
-      listNewSchedule,
-    } = this.props;
-    let trainingtime = {}
-
-
-    for(let key in listNewSchedule){
-      trainingtime = getNewTrainingTime(trainingtime, key, listNewSchedule[key])
-    }
-
-
-    const abonement = {
-      idStudent: id,
-      dateStart: Object.keys(listNewSchedule)[0],
-      amount: 1,
-      discipline: [currDiscipline.code],
-      trainingtime,
-      isNoTrial: false
-    }
-
-    this.createAbonement(abonement)
-  }
 
   changeSelectorDiscipline = (codeDisc) => {
     const { currentIdUser, startDate, endDate, listDisciplines } = this.props;
@@ -111,13 +43,6 @@ class Toolbar extends React.Component {
   }
 
 
-  getSaveFunction = () => {
-    const {pushBtnUnfresh, pushBtnTrial} = this.props;
-
-    if(pushBtnUnfresh && !pushBtnTrial) return this.fillTrainingWeek;
-    else if(!pushBtnUnfresh && pushBtnTrial) return this.fillTrialTrainingWeek;
-    else return () => {}
-  }
 
   render() {
     const {
@@ -173,7 +98,7 @@ class Toolbar extends React.Component {
             btnText={'Сохранить'}
             size='small'
             type='yellow-black'
-            onClick={this.getSaveFunction()}
+            onClick={this.props.showConfirmCreateModal } //getSaveFunction()
           /> : null
         }
 
@@ -221,6 +146,11 @@ const mapDispatchToProps = dispatch => {
     getStudentsSchedule: (id, start, end, disc) => dispatch(actions.getStudentsSchedule(id, start, end, disc)),
     changeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),
     getCountTrainingByDiscipline: (currentIdUser, codeDisc) => dispatch(actions.getCountTrainingByDiscipline(currentIdUser, codeDisc)),
+    getUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
+
+    setParamsId: (params) => dispatch(actions.setParamsId(params)),
+
+    showConfirmCreateModal: () => dispatch(actions.showConfirmCreateModal())
   }
 }
 

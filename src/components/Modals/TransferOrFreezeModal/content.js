@@ -43,6 +43,7 @@ class ContentForm extends React.Component {
             getUseFrozenTraining,
             getDisciplineCommunication,
             getSubscriptionsByStudentId,
+            getCountTrainingByDiscipline,
 
             startDate, 
             endDate,
@@ -58,6 +59,7 @@ class ContentForm extends React.Component {
                 getUseFrozenTraining (id);
                 getDisciplineCommunication (id); //?
                 getSubscriptionsByStudentId (id);  //?
+                getCountTrainingByDiscipline(id, currDiscipline.code);
             })
             .catch(err => console.log(err))
         }

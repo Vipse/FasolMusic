@@ -60,6 +60,7 @@ const mapDispatchToProps = dispatch => {
         getUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         getDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
         getSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
+        getCountTrainingByDiscipline: (currentIdUser, codeDisc) => dispatch(actions.getCountTrainingByDiscipline(currentIdUser, codeDisc)),
     }
 }
 

@@ -39,6 +39,7 @@ class FreeTrainers extends React.Component {
         }
 
         this.props.setParamsId({ clickedTrainer: objTrainer })
+        this.props.showConfirmCreateModal()
     }
 
     selectAnyTrainer = () => {
@@ -54,6 +55,7 @@ class FreeTrainers extends React.Component {
             name: freeTrainers[rand].name
         }
         this.setChoosenTrainer(obj)
+        this.props.showConfirmCreateModal()
     }
 
     render() {
@@ -75,7 +77,8 @@ class FreeTrainers extends React.Component {
                         <div>
                             {Array.isArray(freeTrainers) && freeTrainers.length ?
                                 this.studentsRender(freeTrainers)
-                                : <div className='noStudents'>Коучей нет</div>}
+                                : 
+                                <div className='noStudents'>Коучей нет</div>}
                         </div>
                     </div>
 
@@ -108,6 +111,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        showConfirmCreateModal: () => dispatch(actions.showConfirmCreateModal()),
+
         setParamsId: (params) => dispatch(actions.setParamsId(params)),
     }
 }

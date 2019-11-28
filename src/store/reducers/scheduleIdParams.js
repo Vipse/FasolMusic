@@ -26,12 +26,14 @@ const initialState = {
 
     crossCurrentIdTraining: null,
     crossCurrendIdSubscription: null,
+    crossCurrentIdTrialTraining: null, // for removing trial training
 
     clickedIdEvent: null, // for transfering or new schedule
     clickedTrainer: {
         id: null,
         name: null
     },
+
 
     timeClickFreeEvent: null, //timestamp of click on free block
 
@@ -45,7 +47,9 @@ const reducer = (state = initialState, action) => {
 
         case actionTypes.SET_PARAMS_ID:
             console.log("action", action)
-            if (action.params.pushBtnUnfresh || action.params.pushBtnTrial) {
+            if (action.params.hasOwnProperty('pushBtnUnfresh') 
+                || action.params.hasOwnProperty('pushBtnTrial')) {
+
                 return {
                     ...initialState,
                     ...action.params,

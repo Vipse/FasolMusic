@@ -60,3 +60,29 @@ export const hideTransferOrNewScheduleModal = () => {
         type: actionTypes.HIDE_TRANSFER_OR_NEW_SCHEDULE_MODAL
     });
 }
+
+//RemoveTrialTrainingModal
+
+export const showRemoveTrialTrainingModal = () => {
+    return ({
+        type: actionTypes.SHOW_REMOVE_TRIAL_TRAINING_MODAL,
+    });
+}
+export const hideRemoveTrialTrainingModal = () => {
+    return ({
+        type: actionTypes.HIDE_REMOVE_TRIAL_TRAINING_MODAL
+    });
+}
+
+//ConfirmCreateModal
+
+export const showConfirmCreateModal = () => {
+    return ({
+        type: actionTypes.SHOW_CONFIRM_CREATE_MODAL,
+    });
+}
+export const hideConfirmCreateModal = () => {
+    return ({
+        type: actionTypes.HIDE_CONFIRM_CREATE_MODAL
+    });
+}

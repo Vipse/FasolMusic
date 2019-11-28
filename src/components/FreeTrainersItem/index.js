@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions'
 
 import './style.css'
 import '../../icon/style.css'
 import ProfileAvatar from "../ProfileAvatar";
 import Button from "../Button";
+
+
 
 class FreeTrainersItem extends React.Component{
     render(){
@@ -54,13 +58,6 @@ class FreeTrainersItem extends React.Component{
     }
 }
 
-FreeTrainersItem.propTypes = {
 
-};
 
-FreeTrainersItem.defaultProps = {
-    setChoosenTrainer: () => {},
-    onGoto: () => {}
-};
-
-export default FreeTrainersItem
+export default FreeTrainersItem; 

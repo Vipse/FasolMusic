@@ -190,10 +190,10 @@ class Header extends React.Component {
         this.props.showTransferInterval();
         this.props.onChangeBtnTransfer(true)
         this.props.onSetPushTrialTraining(null);
-        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
-        this.props.onChangeBtnBack(!statusBtnBack)
+        //this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
+        //this.props.onChangeBtnBack(!statusBtnBack)
 
-        this.setState({showBtnBack: true})
+        //this.setState({showBtnBack: true})
     };
 
     render() {

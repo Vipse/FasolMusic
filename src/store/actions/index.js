@@ -179,7 +179,13 @@ export {
     hideCreateTrainModal_clickTrial,
 
     showTransferOrNewScheduleModal,
-    hideTransferOrNewScheduleModal
+    hideTransferOrNewScheduleModal,
+
+    showRemoveTrialTrainingModal,
+    hideRemoveTrialTrainingModal,
+
+    showConfirmCreateModal,
+    hideConfirmCreateModal
 } from './modal'
 
 

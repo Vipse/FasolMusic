@@ -10,7 +10,7 @@ class DateColumnItem extends React.Component {
         const {date} = this.props;
         const fdate  = moment(+date);
 
-        if(moment().hour() === fdate.hour()){
+        if(moment().hour() === fdate.hour() && moment().week() === fdate.week()){
             return 'rbc-now'
         }
         return         

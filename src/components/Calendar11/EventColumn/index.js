@@ -15,8 +15,8 @@ class EventColumn extends React.Component{
 
 
     renderHeadColumn = () => {
-        const {timeDay} = this.props;
-        const momentDay = moment(+timeDay * 1000);
+        const {startTime} = this.props;
+        const momentDay = moment(+startTime * 1000);
 
         return (
             <div className="rbc-label rbc-header-eventgutter">
@@ -34,6 +34,13 @@ class EventColumn extends React.Component{
         }
         return false
     }
+
+    isIncludeEvent = (startEvent) => {
+        const {studentSchedule} = this.props;
+        
+        return studentSchedule.hasOwnProperty(startEvent)
+    }
+
 
     handleClickFreeEvent = (startEvent) => {
         const {
@@ -94,11 +101,13 @@ class EventColumn extends React.Component{
             
             const startEvent = startTimeMoment.format('X')
             const isInclude = this.isIncludeIntervals(startEvent)
+            const isIncludeEvent = this.isIncludeEvent(startEvent)
+
             const handleClick = isInclude ? this.handleClickFreeEvent : () => {};
 
             let classStyle = 'rbc-timeslot-group';
 
-            if(isInclude){
+            if(isInclude && !isIncludeEvent){
                 classStyle += " rbc-timeslot-group-OK"
             }
             else{
@@ -110,16 +119,11 @@ class EventColumn extends React.Component{
             arrReander.push(
                 <div className={classStyle} onClick={() => handleClick(startEvent)}>
                     <div className="rbc-time-slot rbc-eventlabel">
-                        {studentSchedule.hasOwnProperty(startEvent) ?
+                        {isIncludeEvent  ?
                             <EventTraining  
                                 key={startEvent}
                                 event = {studentSchedule[startEvent]}
-
-                                deleteTraining={this.props.deleteTraining}
-                                onCancelTraining={this.props.onCancelTraining}
-                                deleteEventApiPatient={this.props.deleteEventApiPatient}
-                                clickOnEvent={this.props.clickOnEvent}
-                            /> : ''}
+                            /> : null}
                     </div>
                 </div>)
 
