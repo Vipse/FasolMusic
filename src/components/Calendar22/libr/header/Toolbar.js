@@ -16,11 +16,20 @@ const Option = Select.Option;
 class Toolbar extends React.Component {
 
   changeSelectorDiscipline = (codeDisc) => {
-    const { currentIdUser, startDate, endDate, listDisciplines } = this.props;
+    const { currentIdUser, mode, startDate, endDate, listDisciplines } = this.props;
     const discObj = listDisciplines[codeDisc];
 
+   
+
+    if(mode === 'student'){
+      this.props.getStudentsSchedule(currentIdUser, startDate, endDate, codeDisc);
+      
+    }
+    else if(mode === 'master'){
+      this.props.getTrainerTraining(currentIdUser, startDate, endDate, codeDisc);
+    }
+
     this.props.changeCurrDiscipline(discObj);
-    this.props.getStudentsSchedule(currentIdUser, startDate, endDate, codeDisc);
     this.props.getCountTrainingByDiscipline(currentIdUser, codeDisc)
   }
 
@@ -51,7 +60,7 @@ class Toolbar extends React.Component {
       listDisciplines,
       //
       dateChange,
-      countTrainingDiscipline,
+      countTrainingDiscipline: count,
       //
       currDiscipline,
       freeInterval
@@ -74,7 +83,7 @@ class Toolbar extends React.Component {
 
         <span className="rbc-toolbar-label">{this.getLabelToolbar()}</span>
         {!isAdmin &&
-          <span className="rbc-toolbar-receptionCount">{countTrainingDiscipline}</span>
+          <span className="rbc-toolbar-receptionCount">{count ? count : 0}</span>
         }
 
         <div className="rbc-toolbar-discipline">
@@ -123,6 +132,7 @@ const mapStateToProps = state => {
     currentIdUser,
     listNewSchedule,
     isAdmin: state.auth.mode === "admin",
+    mode: state.auth.mode,
 
     startDate: state.training.startDate,
     endDate: state.training.endDate,
@@ -147,6 +157,9 @@ const mapDispatchToProps = dispatch => {
     changeCurrDiscipline: (disc) => dispatch(actions.changeCurrDiscipline(disc)),
     getCountTrainingByDiscipline: (currentIdUser, codeDisc) => dispatch(actions.getCountTrainingByDiscipline(currentIdUser, codeDisc)),
     getUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
+
+    //trainer
+    getTrainerTraining: (id, start, end, currDiscipline) => dispatch(actions.getTrainerTraining(id, start, end, currDiscipline)),
 
     setParamsId: (params) => dispatch(actions.setParamsId(params)),
 

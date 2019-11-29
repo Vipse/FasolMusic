@@ -114,7 +114,9 @@ class EventColumn extends React.Component{
                 classStyle += " rbc-timeslot-group-NOT"
             }
             
-
+            if(isIncludeEvent){
+                debugger
+            }
             
             arrReander.push(
                 <div className={classStyle} onClick={() => handleClick(startEvent)}>

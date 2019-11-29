@@ -40,41 +40,6 @@ class Payment extends React.Component{
         this.props.onGetDeadlinePay(this.props.id);
     }
 
-    onSendDataModal = (data) => {
-
-        let array = [];
-        const {disciplinesList, discCommunication,subsForDisc, abonementIntervals, id, isAdmin} = this.props;
-        const time0 = moment(Date.now()).startOf('week').format('X');
-        const time1 = moment(Date.now()).endOf('week').format('X');
-        const codeDisc = disciplinesList[data.type].code;
-
-
-        this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
-        this.props.onSetFreeIntervals(array,  data.type);
-
-        if(discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-
-                this.props.onAddAmountTraining(subsForDisc[codeDisc], abonementIntervals.countTraining)
-
-                message.success('Количество добавленных тренировок '+ abonementIntervals.countTraining);
-        }
-        else{
-
-                this.props.onSetPushTrialTraining(null);
-                this.props.onSetMasterTheDisicipline(null);
-                this.props.onGetAvailableInterval(time0 ,time1, [0,1,2,3,4,5,6], [codeDisc], isAdmin)
-                    .then(data => {
-                        if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
-                    })
-                this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: abonementIntervals.countTraining});
-        }
-        this.props.onGetAbonementsFilter(id, disciplinesList[data.type]);
-        this.props.onGetToken(id, this.state.amount, this.state.price, codeDisc)
-        //setTimeout( () => this.props.onGetStudentBalance(id), 1500);
-
-        //this.setState({visibleCreateTrainModal: true, redirectToSchedule: true});
-    };
-
     countCompletedTrainingsNumber = () => {
         const {postTraining} = this.props;
         let count = 0;
@@ -86,14 +51,12 @@ class Payment extends React.Component{
     };
 
     showCreateTrainModal = (amount, price,currency) => {
-        this.props.onGetToken(this.props.id, amount, price, 12, currency);
+        const {id, currDiscipline, profileStudent} = this.props;
+
+        this.props.onGetToken(id, amount, price, currency, profileStudent.login);
 
         this.setState({amount, price});
         this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: amount});
-    };
-
-    hideCreateTrainModal = () => {
-        this.setState({payModal: false})
     };
 
     render() {
@@ -116,14 +79,6 @@ class Payment extends React.Component{
                         completedAmount={this.countCompletedTrainingsNumber()}
                     />)}
 
-                {/*<CreateTrainModal
-                    title='Запишись на тренировку'
-                    width={770}
-                    visible={this.state.payModal}
-                    disciplinesList={disciplinesList}
-                    onCancel={this.hideCreateTrainModal}
-                    onSave={this.onSendDataModal}
-                /> */}
 
 
                { /*<Modal
@@ -159,6 +114,9 @@ class Payment extends React.Component{
 
 const mapStateToProps = state => {
     return {
+        currDiscipline: state.abonement.currDiscipline,
+
+
         profileCoach: state.profileCoach,
         profileStudent: state.profileStudent,
         frozenTraining: (state.profileStudent) ? state.profileStudent.frozenTraining : 0,

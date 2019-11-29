@@ -2,7 +2,8 @@
 
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
-import {getCountTrainingByDiscipline} from './training';
+import { getCountTrainingByDiscipline } from './training';
+import { getPrimarySubsription } from '../../containers/Schedule/shedule';
 
 export const getMasterList = (discipline = "") => {
     return dispatch => {
@@ -18,12 +19,12 @@ export const getMasterList = (discipline = "") => {
                 })
             })
             .catch(err => {
-                console.log('error: ',err);
+                console.log('error: ', err);
             })
     }
 }
 
-export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) => {
+export const getTrainerTraining = (idMaster, dateMin, dateMax, codeDisc) => {
     return dispatch => {
         const obj = {
             idMaster,
@@ -31,59 +32,72 @@ export const getTrainerTraining = (idMaster, dateMin, dateMax, currDiscipline) =
             dateMax
         }
 
-       
-        return axios.post('/catalog.fasol/getTrainerTraining',
+
+        return axios.post('/catalog.fasol/getTrainerTraining2',
             JSON.stringify(obj))
             .then(res => {
-                const allTraining = res.data.result.result;
+                let data = res.data.result.result;
+               
                 let formatTrainng = [];
+                
+                if (!res.data.error) {
 
-                for (let key in allTraining) {
-                    if (allTraining.hasOwnProperty(key)){
-                        for(let element in allTraining[key]){
-                            for(let el in allTraining[key][element]){
-                                    
-                                        const elem = allTraining[key][element].allInfo;
-                                        if(elem.disciplines.includes(currDiscipline.code) && !elem.isBooking){
-                                            formatTrainng.push({
-                                                fio: elem.fio,
-                                                id: elem.date,
-                                                idMaster: elem.idMaster,
-                                                idSubscription:elem.idSubscription,
-                                                idStudent: elem.idStudent,
-                                                isBooking: elem.isBooking,
-                                                isComplete: elem.isComplete,
-                                                start: new Date(elem.date * 1000),
-                                                status: elem.status,
-                                                wasTransfer: elem.wasTransfer
-                                                
+                    debugger
+                    const trainerTraining = getPrimarySubsription(data, codeDisc)
 
-                                            });
-                                        }
-                            }
-                        }
-                        
+                    dispatch({
+                        type: actionTypes.GET_TRAINER_TRAINING,
+                        trainerTraining: trainerTraining.subscription,
+                    })
+
+                    //если первый раз идет вызов
+                    if (!codeDisc) {
+                        dispatch({
+                            type: actionTypes.GET_TRAINER_TRAINING_BY_TRAINER,
+                            eventTraining: formatTrainng,
+                        })
+                        dispatch(getCountTrainingByDiscipline(idMaster, trainerTraining.discipline))
                     }
                 }
-                dispatch({
-                    type: actionTypes.GET_TRAINER_TRAINING,
-                    trainerTraining: res.data.result.result,
-                })
-                dispatch({
-                    type: actionTypes.GET_TRAINER_TRAINING_BY_TRAINER,
-                    eventTraining: formatTrainng,
-                })
-                dispatch(getCountTrainingByDiscipline(idMaster,currDiscipline.code))
+
+                // for (let key in allTraining) {
+                //     if (allTraining.hasOwnProperty(key)){
+                //         for(let element in allTraining[key]){
+                //             for(let el in allTraining[key][element]){
+
+                //                         const elem = allTraining[key][element].allInfo;
+                //                         if(elem.disciplines.includes(currDiscipline.code) && !elem.isBooking){
+                //                             formatTrainng.push({
+                //                                 fio: elem.fio,
+                //                                 id: elem.date,
+                //                                 idMaster: elem.idMaster,
+                //                                 idSubscription:elem.idSubscription,
+                //                                 idStudent: elem.idStudent,
+                //                                 isBooking: elem.isBooking,
+                //                                 isComplete: elem.isComplete,
+                //                                 start: new Date(elem.date * 1000),
+                //                                 status: elem.status,
+                //                                 wasTransfer: elem.wasTransfer
+
+
+                //                             });
+                //                         }
+                //             }
+                //         }
+
+                //     }
+                // }
+
             })
             .catch(err => {
-                console.log('error: ',err);
+                console.log('error: ', err);
             })
     }
 }
 
 export const getPostTrainerTraining = (idMaster, dateMin, dateMax) => {
     return dispatch => {
-        const obj = {idMaster, dateMin, dateMax};
+        const obj = { idMaster, dateMin, dateMax };
         axios.post('/catalog.fasol/getTrainerTraining',
             JSON.stringify(obj))
             .then(res => {
@@ -94,7 +108,7 @@ export const getPostTrainerTraining = (idMaster, dateMin, dateMax) => {
                 })
             })
             .catch(err => {
-                console.log('error: ',err);
+                console.log('error: ', err);
             })
     }
 }
@@ -102,7 +116,7 @@ export const getPostTrainerTraining = (idMaster, dateMin, dateMax) => {
 export const getFutureTrainerTraining = (idMaster, dateMin, dateMax) => {
     return dispatch => {
         const obj = {
-            idMaster, 
+            idMaster,
             dateMin,
             dateMax,
             future: 1,
@@ -118,14 +132,14 @@ export const getFutureTrainerTraining = (idMaster, dateMin, dateMax) => {
                 })
             })
             .catch(err => {
-                console.log('error: ',err);
+                console.log('error: ', err);
             })
     }
 }
 export const getTodayTrainerTraining = (idMaster, dateMin, dateMax) => {
     return dispatch => {
         const obj = {
-            idMaster, 
+            idMaster,
             dateMin,
             dateMax,
             withoutComplete: 1
@@ -139,7 +153,7 @@ export const getTodayTrainerTraining = (idMaster, dateMin, dateMax) => {
                 })
             })
             .catch(err => {
-                console.log('error: ',err);
+                console.log('error: ', err);
             })
     }
 }
@@ -147,10 +161,10 @@ export const getTodayTrainerTraining = (idMaster, dateMin, dateMax) => {
 
 
 export const setChooseMasterAllInfo = (allInfo) => {
-    
+
     return ({
         type: actionTypes.SET_CHOOSE_MASTER,
-        chooseMaster: allInfo            
+        chooseMaster: allInfo
     });
 }
 

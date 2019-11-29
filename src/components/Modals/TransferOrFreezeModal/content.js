@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button } from 'antd';
+import { Form, Button, message } from 'antd';
 import history from '../../../store/history'
 
 import FreeAdminTrainersItem from '../../FreeAdminTrainersItem'
@@ -37,6 +37,7 @@ class ContentForm extends React.Component {
     onClickFreeze = () => {
         const {
             currentIdUser: id,
+            isAdmin,
             crossCurrendIdSubscription,
 
             freezeAbonement,
@@ -49,10 +50,13 @@ class ContentForm extends React.Component {
             endDate,
             currDiscipline,
             getStudentsSchedule,
+
+            canFrozen,
             onCancel,
         } = this.props;
         
-        if(id){
+       
+        if((id && canFrozen) || isAdmin){
             freezeAbonement(crossCurrendIdSubscription)
             .then(() => {
                 getStudentsSchedule(id, startDate, endDate, currDiscipline.code);
@@ -63,22 +67,40 @@ class ContentForm extends React.Component {
             })
             .catch(err => console.log(err))
         }
+        else{
+            message.info('Замораживать абонементы можно только один раз в три месяца')
+        }
         
         onCancel();
+    }
+
+    isWasTransferEvent = () => {
+        const {studentSchedule, crossCurrentIdTraining: idTraining} = this.props;
+
+        for(let key in studentSchedule){
+            if(studentSchedule[key].id === idTraining){
+                if(studentSchedule[key].wasTransfer) return true
+                else return false
+            }
+        }
+
+        return false
     }
 
     render() {
 
         return (
             <div className="transfer-or-freeze">
-                <div className="transfer-or-freeze-btn">
-                    <Button 
-                        className="btn-yellow"
-                        onClick={this.setTransfer_End_Training}
-                    >
-                        Перенести тренировку в конец 
-                    </Button>
-                </div>
+                {!this.isWasTransferEvent() && 
+                    <div className="transfer-or-freeze-btn">
+                        <Button 
+                            className="btn-yellow"
+                            onClick={this.setTransfer_End_Training}
+                        >
+                            Перенести тренировку в конец 
+                        </Button>
+                    </div>
+                }
 
                 <div className="transfer-or-freeze-btn">
                     <Button 

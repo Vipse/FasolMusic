@@ -36,14 +36,14 @@ class FreeTrainers extends React.Component {
         if(pushBtnTrial && !pushBtnUnfresh){
             const listNew = addingTrainerToListSchedule(objTrainer)      
             this.props.setParamsId({listNewSchedule: listNew})
+            this.props.showConfirmCreateModal()
         }
 
         this.props.setParamsId({ clickedTrainer: objTrainer })
-        this.props.showConfirmCreateModal()
     }
 
     selectAnyTrainer = () => {
-        const { freeTrainers } = this.props
+        const { freeTrainers, pushBtnTrial } = this.props
 
         const min = 0;
         const max = freeTrainers.length - 1;
@@ -54,8 +54,11 @@ class FreeTrainers extends React.Component {
             id: freeTrainers[rand].id,
             name: freeTrainers[rand].name
         }
+        if(pushBtnTrial){
+            this.props.showConfirmCreateModal()
+        }
         this.setChoosenTrainer(obj)
-        this.props.showConfirmCreateModal()
+        
     }
 
     render() {

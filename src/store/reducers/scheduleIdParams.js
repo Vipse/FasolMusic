@@ -39,6 +39,7 @@ const initialState = {
 
     pushBtnUnfresh: false, // is push btn
     pushBtnTrial: false, // is push btn
+    pushBtnTransfer: false, // is push btn
 };
 
 const reducer = (state = initialState, action) => {
@@ -48,7 +49,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_PARAMS_ID:
             console.log("action", action)
             if (action.params.hasOwnProperty('pushBtnUnfresh') 
-                || action.params.hasOwnProperty('pushBtnTrial')) {
+                || action.params.hasOwnProperty('pushBtnTrial')
+                || action.params.hasOwnProperty('pushBtnTransfer')) {
 
                 return {
                     ...initialState,

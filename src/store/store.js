@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers} from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -18,8 +18,7 @@ import homeworkReducer from './reducers/homework'
 import modalReducer from './reducers/modal'
 import scheduleIdParamsReducer from './reducers/scheduleIdParams'
 
-
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     students: studentsReducer,
     auth: authReducer,
     profileCoach: infoCoachReducer,
@@ -35,8 +34,19 @@ const rootReducer = combineReducers({
     homework: homeworkReducer,
 
     modal: modalReducer,
-    scheduleIdParams: scheduleIdParamsReducer
-});
+    scheduleIdParams: scheduleIdParamsReducer,
+
+    isLoading: false
+})
+
+const rootReducer = (state, action) => {
+    if (action.type === 'USER_LOGOUT') {
+        state = undefined
+    }
+
+    return appReducer(state, action)
+}
+
 
 export default function configureStore() {
     return createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

@@ -11,6 +11,8 @@ export const getFreeAndBusyMasterList = (dateStart, dateEnd) => {
             dateEnd
         }
 
+        dispatch(actions.startLoading())
+
         return axios.post('/catalog.fasol/freeAndBusyMasterListNewVersionShort', JSON.stringify(obj))
             .then(res => {
                 if (!res.data.error) {
@@ -20,10 +22,13 @@ export const getFreeAndBusyMasterList = (dateStart, dateEnd) => {
                         type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST,
                         masterList,
                     })
+
+                    dispatch(actions.endLoading())
                 }
             })
             .catch(err => {
                 console.log('error: ', err);
+                dispatch(actions.endLoading())
             })
     }
 }

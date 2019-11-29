@@ -45,3 +45,33 @@ export function getNewTrainingTime(trainingTime, time, event) {
 
     return newTrainingTime
   }
+
+
+export function getPrimarySubsription(data, disciplineCode) {
+    let primarySubs = {};
+    
+    
+    if(disciplineCode && typeof disciplineCode !== 'object'){
+        
+        for(let key in data){
+            if(data[key][disciplineCode]){
+                primarySubs['discipline'] = disciplineCode;
+                primarySubs['subscription'] = data[key][disciplineCode];
+            }
+        }
+    }
+    else{
+        
+        for(let key in data){
+        
+            if (key == 'primary' && Object.keys(data[key])){ 
+                const primaryCode = Object.keys(data[key])[0];
+
+                primarySubs['discipline'] = primaryCode;
+                primarySubs['subscription'] = data[key][primaryCode];
+            }
+        }
+    }
+
+    return primarySubs;
+}

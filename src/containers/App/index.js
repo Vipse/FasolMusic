@@ -1,17 +1,17 @@
 import React from 'react';
-import {Modal} from "antd";
+import {Modal, Spin} from "antd";
 import {docRoutes, patientRoutes, adminRoutes, menuDoc, menuPatient} from '../../routes'
 import {coachRoutes, studentRoutes, menuStudent, menuCoach, menuAdmin} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import SideNav from '../../components/SideNav'
 import Header from '../../components/Header';
+import Spinner from '../../components/Spinner'
 
 import {connect} from 'react-redux';
 import {createSocket, closeSocket, register} from './chatWs';
 import ab from '../../autobahn.js'
 
 import Icon from "../../components/Icon";
-import Spinner from "../../components/Spinner";
 
 import * as actions from '../../store/actions'
 import './styles.css';
@@ -177,7 +177,7 @@ class App extends React.Component {
         this.props.getSelectors('discipline')
             .then(() => (mode === 'student' ||  this.isStudentSchedule()) && this.props.onGetTrainingsTrialStatus(this.props.id));
 
-        if (this.props.mode === "master") {
+        if (mode === "master") {
             this.props.onGetInfoDoctor(id)
                 .then((data) => {
 
@@ -188,10 +188,10 @@ class App extends React.Component {
                             )
                 })
         }
-        else if (this.props.mode === "student") {
+        else if (mode === "student") {
            this.fetchStudentInfo(id)
         }
-        else if (this.props.mode === 'admin'){         
+        else if (mode === 'admin'){         
             if(this.isStudentSchedule()){
                 let id = +pathname.replace('/app/schedule', '');
                 Number.isInteger(id) && this.fetchStudentInfo(id)
@@ -260,23 +260,6 @@ class App extends React.Component {
         }
     }
 
-    pushBtnUnfresh = () => {
-
-        const {weekInterval, isAdmin, startDate, endDate} = this.props;
-
-        if(weekInterval){
-            let idMaster = this.props.profileStudent.mainUser;
-            let chooseWeekdays = [1,2,3,4,5,6,7];
-            this.setState({scheduleSpinner: true})
-
-            this.props.onGetTheMasterInterval(startDate, endDate, idMaster, chooseWeekdays, isAdmin)
-             .then(() => {
-                //this.setState({scheduleSpinner: false})
-                this.props.onSetPushBtnTransferTraining(true)
-            })
-        }
-
-    }
 
     renderVKApp = () => {
 		return (
@@ -290,6 +273,7 @@ class App extends React.Component {
     }
 
     render() {
+        const {isLoading} = this.props;
         let name, avatar;
 
         if (this.props.mode === "master" && this.props.profileCoach) {
@@ -308,6 +292,8 @@ class App extends React.Component {
 
         const isAdmin = this.props.mode === "admin";
 
+
+        console.log("isLoading", isLoading)
         return (
             <div className="main">
                 {
@@ -344,43 +330,14 @@ class App extends React.Component {
                                             getNotifications={() => this.props.getNotifications(this.props.id)}
                                             logout={this.props.onLogout}
                                             showTransferInterval={this.showTransferInterval}
-                                            isPushBtnAdd={this.pushBtnUnfresh}
-                                            isStudent={(this.props.mode === 'student')}
+
                                             isOnMainPage={this.props.location.pathname === '/app'}
-                                            frozenTraining={this.props.frozenTraining}
-                                            disciplinesList={this.props.disciplinesList}
-                                            trialTrainingForDisciplines={this.props.trialTrainingForDisciplines}
-                                            isTrialTrainingsAvailableCount={this.props.isTrialTrainingsAvailableCount}
-                                            countTrainingDiscipline = {this.props.countTrainingDiscipline}
-                                            discCommunication = {this.props.discCommunication}
-                                            studentBalance = {this.props.studentBalance}
-                                            useFrozenTraining = {this.props.useFrozenTraining}
-                                            subsForDisc = {this.props.subsForDisc}
-                                            abonementIntervals = {this.props.abonementIntervals}
-                                            isAdmin={this.props.isAdmin}
-                                            onGetAbonementsFilter = {this.props.onGetAbonementsFilter}
-                                            onSetFreeIntervals = {this.props.onSetFreeIntervals}
-                                            onGetTheMasterInterval = {this.props.onGetTheMasterInterval}
-                                            onChangePushBtnUnfresh = {this.props.onChangePushBtnUnfresh}
-                                            onSetMasterTheDisicipline = {this.props.onSetMasterTheDisicipline}
-                                            onSetNeedSaveIntervals = {this.props.onSetNeedSaveIntervals}
-                                            onEditUseFrozenTraining = {this.props.onEditUseFrozenTraining}
-                                            onAddAmountTraining = {this.props.onAddAmountTraining}
-                                            onGetAvailableInterval={this.props.onGetAvailableInterval}
-                                            onSetPushTrialTraining={this.props.onSetPushTrialTraining}
-                                            onChangeCurrDiscipline={this.props.onChangeCurrDiscipline}
-                                            onGoToSchedule={this.onGoToSchedule}
+
                                             isTransferTrainPopupActive={this.props.isTransferTrainPopupActive}
                                             onTransferTrainPopupClose={this.props.onTransferTrainPopupDisable}
-                                            onUnsetPushBtnTransferTraining={this.props.onUnsetPushBtnTransferTraining}
-                                            onChangeBtnBack = {this.props.onChangeBtnBack}
-                                            statusBtnBack = {this.props.statusBtnBack}
-                                            onChangeBtnTransfer = {this.props.onChangeBtnTransfer}
-                                            weekInterval ={this.props.weekInterval}
                                             isStudentSchedule={this.isStudentSchedule()}
                                             notifications = {this.props.notifications}
-                                            showSpinner = {() => this.setState({scheduleSpinner: true})}
-                                            hideSpinner = {() => this.setState({scheduleSpinner: false})}
+                                            
                                     />
                                 </div>
                                 <div className="main-content">
@@ -403,15 +360,17 @@ class App extends React.Component {
                                 </div>
                                 {/*this.renderVKApp()*/}
                             </div>
-                            {this.state.scheduleSpinner &&
+                            {isLoading &&
                                 <div className = "schedule-spinner">
                                   <Spinner isInline={true} size='large'/>
-                                </div>}
+                                </div>
+                            }
 
 
                         </React.Fragment> :
                         <Redirect to='/signin'/>
                 }
+                
             </div>
         );
     }
@@ -422,23 +381,23 @@ const mapStateToProps = state => {
         startDate: state.training.startDate,
         endDate: state.training.endDate,
 
+        isLoading: state.loading.isLoading,
+
         auth: state.auth,
         id: state.auth.id,
         mode: state.auth.mode,
         profileCoach: state.profileCoach,
         profileStudent: state.profileStudent,
         selectors: state.loading.selectors,
-        trialTrainingForDisciplines: state.student.trialTrainingForDisciplines,
-        isTrialTrainingsAvailableCount: state.student.isTrialTrainingsAvailableCount,
+
+
         frozenTraining: (state.profileStudent) ? state.profileStudent.frozenTraining : '-',
         usersHeaderSearch: state.loading.usersHeaderSearch,
         weekInterval: state.abonement.weekInterval,
-        disciplinesList: state.abonement.disciplines,
+
         discCommunication: state.student.discCommunication,
-        studentBalance: state.abonement.studentBalance,
-        useFrozenTraining: state.student.useFrozenTraining,
-        subsForDisc: state.abonement.subsForDisc,
-        abonementIntervals: state.students.abonementIntervals,
+
+
         currDiscipline: state.abonement.currDiscipline,
         notifications: state.training.notifications,
         isAdmin:  state.auth.mode === "admin",
@@ -454,8 +413,7 @@ const mapStateToProps = state => {
         interlocutorName: state.chatWS.interlocutorName,
         interlocutorAvatar: state.chatWS.interlocutorAvatar,
         timer: state.chatWS.timer,
-        countTrainingDiscipline: state.training.countTrainingDiscipline,
-        statusBtnBack: state.student.statusBtnBack,
+
 
         isTransferTrainPopupActive: state.student.isTransferTrainPopupActive
     }
@@ -512,9 +470,9 @@ const mapDispatchToProps = dispatch => {
         onSetMasterTheDisicipline: (idMaster) => dispatch(actions.setMasterTheDisicipline(idMaster)),
         onGetStudentBalance: (idStudent) => dispatch(actions.getStudentBalance(idStudent)),
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
-        onChangePushBtnUnfresh: (status) => dispatch(actions.changePushBtnUnfresh(status)),
+        
         onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
-        onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
+        
     }
 };
 

@@ -2,15 +2,15 @@ import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
 
 
-export const getToken = (idUser, amount, price, discipline, currency = 'RUB', description = 'Покупка') => {
+export const getToken = (idUser, amount, price, currency = 'RUB', login = '') => {
 
     let obj = {
         idUser,
         amount,
         price,
-        discipline,
+        discipline: 12, // default, when doesn't have discipline
         currency,
-        description: description + ' тренировок в количестве: ' + amount,
+        description: `Покупка тренировок в количестве: ${amount}. Логин покупателя ${login}` ,
         test: false
     };
 

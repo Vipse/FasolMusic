@@ -5,6 +5,8 @@ import * as actions from '../../../store/actions'
 
 import './styles.css'
 import history from '../../../store/history';
+import moment from 'moment'
+import { message } from 'antd';
 
 class EventTraining extends React.Component{
 
@@ -35,6 +37,7 @@ class EventTraining extends React.Component{
                 this.props.setParamsId({listNewSchedule: listNew})
             }    
         }
+        
         else if(event.trial){
             crossFunc = this.onRemoveTrialTraining
         }  
@@ -70,9 +73,18 @@ class EventTraining extends React.Component{
 
     clickOnEvent = (e,idEvent) => {
         e.stopPropagation();
-        const {isPushBtnTransfer, setParamsId, event} = this.props;
+        const {isAdmin, pushBtnTransfer, setParamsId, event} = this.props;
 
-        if(isPushBtnTransfer && !event.isBooking){
+        if(this.isPostEvent()){
+
+        }
+        else if(pushBtnTransfer && isAdmin){
+            setParamsId({clickedIdEvent: idEvent})
+        }
+        else if(pushBtnTransfer && event.wasTransfer){
+            message.info('Тренировка уже переносилась один раз')
+        }
+        else if(pushBtnTransfer && !event.isBooking){
             setParamsId({clickedIdEvent: idEvent})
         }
         else{
@@ -90,6 +102,15 @@ class EventTraining extends React.Component{
         return event.masterFio
     }
 
+    isPostEvent = () => {
+        const {event} = this.props;
+
+        if(moment(+event.start * 1000) <= moment()){
+            return true
+        }
+        return false
+    }
+
     render() {
         const {event} = this.props;
         const {id} = event;
@@ -101,9 +122,12 @@ class EventTraining extends React.Component{
         return (
                 <div className='event-group' style={{ backgroundColor }} onClick={e => this.clickOnEvent(e,id)}>
                     <div> 
-                        <div className="event-group-cross" onClick={functionCross}>
-                            {!event.isComplete && <span className="icon icon-close"></span>}
-                        </div>
+                        {!this.isPostEvent() && !event.isComplete &&
+                            <div className="event-group-cross" onClick={functionCross}>
+                                <span className="icon icon-close"></span>
+                            </div>
+                        }
+                        
                         <p className="event-group-text">{this.getFio()}</p>
                     </div>
                 </div>
@@ -118,14 +142,18 @@ class EventTraining extends React.Component{
 const mapStateToProps = state => {
     const {
         listNewSchedule,
-        clickedIdEvent
+        clickedIdEvent,
+
+        pushBtnTransfer
     } = state.scheduleIdParams;
 
     return {
+        isAdmin: state.auth.mode === "admin",
         listNewSchedule,
         clickedIdEvent,
 
-        isPushBtnTransfer: state.student.isPushBtnTransfer,
+        pushBtnTransfer
+
     }
 }
 

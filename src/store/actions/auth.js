@@ -2,8 +2,8 @@ import axios from './axiosSettings'
 import axiosLand from './axiosSettingsLand'
 
 import * as actionTypes from './actionTypes';
-import {getInfoDoctor} from "./coachData";
-import {getInfoPatient} from "./studentData";
+import { getInfoDoctor } from "./coachData";
+import { getInfoPatient } from "./studentData";
 
 export const setOnlineStatus = (id, isOnline) => {
     return dispatch => {
@@ -27,7 +27,7 @@ export const autoLogin = (history) => {
         const login = localStorage.getItem('_fasol-user');
         const passw = localStorage.getItem('_fasol-pass');
 
-        if(login && passw){
+        if (login && passw) {
             dispatch(login(login, passw, false, history, true));
         }
     }
@@ -39,44 +39,44 @@ export const login = (userName, password, remember, history, isAuto) => {
     return (dispatch, getState) => {
         dispatch(authStart());
         axios.post('/catalog.fasol/authorization',
-                JSON.stringify({
-                    login: userName,
-                    password: password,
-                }))
-                    .then(res => {
+            JSON.stringify({
+                login: userName,
+                password: password,
+            }))
+            .then(res => {
 
-                        !res.data.hasOwnProperty('error')
-                            ? (
-                                dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                                dispatch(setOnlineStatus(res.data.result.id, true)),
-                                sessionStorage.setItem('_fasol-id', res.data.result.id),
-                                sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                !res.data.hasOwnProperty('error')
+                    ? (
+                        dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                        dispatch(setOnlineStatus(res.data.result.id, true)),
+                        sessionStorage.setItem('_fasol-id', res.data.result.id),
+                        sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
 
-                                localStorage.setItem('_fasol-mode', res.data.result.id),
-                                localStorage.setItem('_fasol-id', res.data.result.usergroup),
-                                rememberMe(remember, userName, password),
+                        localStorage.setItem('_fasol-mode', res.data.result.id),
+                        localStorage.setItem('_fasol-id', res.data.result.usergroup),
+                        rememberMe(remember, userName, password),
 
-                                history.push(getState().training.unauthorizedTrialData ? '/app/schedule' : '/app')
-                            )
-                            : (
-                                dispatch(authFail(res.data.error)),
-                                    isAuto && (
-                                        // TODO: test
-                                        localStorage.removeItem('_fasol-user'),
-                                        localStorage.removeItem('_fasol-pass'),
-                                        localStorage.removeItem('_fasol-id'),
-                                        localStorage.removeItem('_fasol-mode'),
+                        history.push(getState().training.unauthorizedTrialData ? '/app/schedule' : '/app')
+                    )
+                    : (
+                        dispatch(authFail(res.data.error)),
+                        isAuto && (
+                            // TODO: test
+                            localStorage.removeItem('_fasol-user'),
+                            localStorage.removeItem('_fasol-pass'),
+                            localStorage.removeItem('_fasol-id'),
+                            localStorage.removeItem('_fasol-mode'),
 
-                                        localStorage.removeItem('landing'),
-                                        sessionStorage.removeItem('_fasol-id'),
-                                        sessionStorage.removeItem('_fasol-mode')
-                                    )
-                            );
-                    })
-                    .catch(err => {
-                        console.log('error: ',err);
-                        //dispatch(authFail(err.response.data.error));
-                    })
+                            localStorage.removeItem('landing'),
+                            sessionStorage.removeItem('_fasol-id'),
+                            sessionStorage.removeItem('_fasol-mode')
+                        )
+                    );
+            })
+            .catch(err => {
+                console.log('error: ', err);
+                //dispatch(authFail(err.response.data.error));
+            })
     }
 };
 
@@ -86,21 +86,21 @@ export const registerUser = (userInfo, history) => {
             type: actionTypes.REG_PATIENT_START
         });
         return axios.post('/catalog.fasol/registratin',
-                JSON.stringify(userInfo))
-                    .then(res => {
-                        if (res && res.data) {
-                            if (!res.data.hasOwnProperty('error')) {
-                                dispatch(authSuccess(res.data.result.id, res.data.result.usergroup));
-                                localStorage.setItem('_fasol-user', userInfo.email);
-                                localStorage.setItem('_fasol-pass', userInfo.password);
-                            }
-                            else dispatch(authFail(res.data.error));
-                        }
-                        return res;
-                    })
-                    .catch(err => {
-                        console.log('error: ',err);
-                    })
+            JSON.stringify(userInfo))
+            .then(res => {
+                if (res && res.data) {
+                    if (!res.data.hasOwnProperty('error')) {
+                        dispatch(authSuccess(res.data.result.id, res.data.result.usergroup));
+                        localStorage.setItem('_fasol-user', userInfo.email);
+                        localStorage.setItem('_fasol-pass', userInfo.password);
+                    }
+                    else dispatch(authFail(res.data.error));
+                }
+                return res;
+            })
+            .catch(err => {
+                console.log('error: ', err);
+            })
     }
 };
 
@@ -111,28 +111,27 @@ export const registerTrainer = (userInfo, history) => {
     return (dispatch) => {
 
         return axios.post('/catalog.fasol/registratin',
-                JSON.stringify({"catalogGroup": "master", ...userInfo}))
-                    .then(res => {
-                        if( !res.data.hasOwnProperty('error'))
-                        {
-                            dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                            sessionStorage.setItem('_fasol-id', res.data.result.id),
-                            sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
-                            localStorage.setItem('_fasol-id', res.data.result.id),
-                            localStorage.setItem('_fasol-mode', res.data.result.usergroup),
-                           // rememberMe(remember, userName, password),
+            JSON.stringify({ "catalogGroup": "master", ...userInfo }))
+            .then(res => {
+                if (!res.data.hasOwnProperty('error')) {
+                    dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                        sessionStorage.setItem('_fasol-id', res.data.result.id),
+                        sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                        localStorage.setItem('_fasol-id', res.data.result.id),
+                        localStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                        // rememberMe(remember, userName, password),
 
-                            history.push('/app')
-                        }
-                        // dispatch({
-                        //     type: actionTypes.AUTH_SUCCESS,
-                        //     id: res.data.result.id,
-                        //     usergroup: res.data.result.usergroup,
-                        // });
-                    })
-                    .catch(err => {
-                        console.log('error: ',err);
-                    })
+                        history.push('/app')
+                }
+                // dispatch({
+                //     type: actionTypes.AUTH_SUCCESS,
+                //     id: res.data.result.id,
+                //     usergroup: res.data.result.usergroup,
+                // });
+            })
+            .catch(err => {
+                console.log('error: ', err);
+            })
     }
 };
 
@@ -156,19 +155,22 @@ export const logout = () => {
         localStorage.removeItem('_fasol-mode');
         dispatch(setOnlineStatus(getState().auth.id, false));
         dispatch(authSuccess(0, ''));
-    }
 
+        dispatch({
+            type: actionTypes.USER_LOGOUT
+        });
+    }
 };
 
 export const getIdUserByToken = (token, history) => {
     console.log("getIdUserByToken")
     return (dispatch, getState) => {
-        return axios.post('/catalog.fasol/getIdUserByToken',JSON.stringify({token}))
+        return axios.post('/catalog.fasol/getIdUserByToken', JSON.stringify({ token }))
             .then(res => {
-                         console.log("res", res)
-                if(!res.data.hasOwnProperty('error')){
+                console.log("res", res)
+                if (!res.data.hasOwnProperty('error')) {
 
-                        dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
+                    dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
                         dispatch(setOnlineStatus(res.data.id, true)),
                         sessionStorage.setItem('_fasol-id', res.data.result.id),
                         sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
@@ -194,8 +196,8 @@ export const resetError = () => {
 
 const rememberMe = (flag, userName, password) => {
     flag ?
-        (localStorage.setItem('_fasol-user',userName),
-        localStorage.setItem('_fasol-pass',password))
+        (localStorage.setItem('_fasol-user', userName),
+            localStorage.setItem('_fasol-pass', password))
         : null;
 };
 
@@ -283,22 +285,22 @@ export const socialAuthorization = (idSocial, history) => {
                 !res.data.hasOwnProperty('error')
                     ? (
                         dispatch(authSuccess(res.data.result.id, res.data.result.usergroup)),
-                            sessionStorage.setItem('_fasol-id', res.data.result.id),
-                            sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
-                            localStorage.setItem('_fasol-id', res.data.result.id),
-                            localStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                        sessionStorage.setItem('_fasol-id', res.data.result.id),
+                        sessionStorage.setItem('_fasol-mode', res.data.result.usergroup),
+                        localStorage.setItem('_fasol-id', res.data.result.id),
+                        localStorage.setItem('_fasol-mode', res.data.result.usergroup),
 
-                            history.push('/app')
+                        history.push('/app')
                     )
                     : (
                         dispatch(authFail(0)),
-                            localStorage.removeItem('_fasol-id'),
-                            localStorage.removeItem('_fasol-mode'),
+                        localStorage.removeItem('_fasol-id'),
+                        localStorage.removeItem('_fasol-mode'),
 
-                            localStorage.removeItem('_fasol-user'),
-                            localStorage.removeItem('_fasol-pass'),
-                            sessionStorage.removeItem('_fasol-id'),
-                            sessionStorage.removeItem('_fasol-mode')
+                        localStorage.removeItem('_fasol-user'),
+                        localStorage.removeItem('_fasol-pass'),
+                        sessionStorage.removeItem('_fasol-id'),
+                        sessionStorage.removeItem('_fasol-mode')
                     );
 
                 return res;
@@ -314,7 +316,7 @@ export const reportBug = (text, href) => {
     return (dispatch, getState) => {
         const obj = {
             id_user: getState().auth.id,
-            message: text+" "+"PAGE: " + href
+            message: text + " " + "PAGE: " + href
         };
         return axios.post('/catalog.mf/sendLog',
             JSON.stringify(obj))

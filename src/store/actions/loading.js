@@ -2,6 +2,25 @@ import * as actionTypes from './actionTypes';
 import axios from './axiosSettings'
 
 
+
+export const startLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.START_LOADING
+        })
+    }
+};
+export const endLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.END_LOADING
+        })
+    }
+};
+
+
+
+
 export const loadingStart = (loader) => {
     return (dispatch) => {
         dispatch({

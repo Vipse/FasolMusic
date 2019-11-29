@@ -4,6 +4,7 @@ import * as actions from '../actions'
 
 import {message} from 'antd'
 import moment from "moment";
+import { getPrimarySubsription } from '../../containers/Schedule/shedule';
 
 
 export const getStudentsSchedule = (id, dateStart, dateEnd, disciplineCode) => {
@@ -18,32 +19,7 @@ export const getStudentsSchedule = (id, dateStart, dateEnd, disciplineCode) => {
                if(rez.status == 200){
                    const data = rez.data.result;
 
-                    function getPrimarySubsription(data, disciplineCode) {
-                        let primarySubs = {};
-                        
-                        if(disciplineCode){
-                            for(let key in data){
-                                if(data[key][disciplineCode]){
-                                    primarySubs['discipline'] = disciplineCode;
-                                    primarySubs['subscription'] = data[key][disciplineCode];
-                                }
-                            }
-                        }
-                        else{
-                            for(let key in data){
-                            
-                                if (key == 'primary' && Object.keys(data[key])){ 
-                                    const primaryCode = Object.keys(data[key])[0];
-    
-                                    primarySubs['discipline'] = primaryCode;
-                                    primarySubs['subscription'] = data[key][primaryCode];
-                                }
-                            }
-                        }
-
-                        return primarySubs;
-                    }
-
+                   debugger
                    const objPrimarySubsription = getPrimarySubsription(data, disciplineCode);
 
                    

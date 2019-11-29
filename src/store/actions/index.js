@@ -32,6 +32,9 @@ export {
 } from './coachData'
 
 export {
+    startLoading,
+    endLoading,
+
     loadingStart,
     loadingEnd,
     getSelectors,

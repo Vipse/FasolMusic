@@ -43,8 +43,6 @@ class Calendar extends React.Component {
                 //admin
                 masterList={this.props.masterList}
 
-                //func
-                deleteTraining={this.props.deleteTraining}
 
               />)
 

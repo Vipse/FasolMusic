@@ -42,6 +42,8 @@ const mapStateToProps = state => {
         startDate: state.training.startDate,
         endDate: state.training.endDate,
         currDiscipline: state.abonement.currDiscipline,
+        studentSchedule: state.student.studentSchedule,
+        canFrozen: state.profileStudent.canFrozen,
 
         currentIdUser,
         crossCurrentIdTraining,

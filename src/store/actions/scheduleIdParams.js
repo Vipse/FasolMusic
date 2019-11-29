@@ -1,5 +1,6 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
+import * as actions from '../actions'
 import {message} from 'antd'
 
 export const setParamsId = (params) => { 
@@ -14,6 +15,7 @@ export const getAvailableInterval = (dateStart, dateEnd, discipline, isCallAdmin
     let obj =  { dateStart , dateEnd, discipline, isCallAdmin};
 
     return (dispatch) => {
+        dispatch(actions.startLoading())
 
         return axios.post('/catalog.fasol/getIntervalOnWeekdaysOnlyDate', JSON.stringify(obj))
             .then(rez => {
@@ -32,10 +34,12 @@ export const getAvailableInterval = (dateStart, dateEnd, discipline, isCallAdmin
                                 masters: rez.data.result.masters
                             })
                         }      
-                    }          
+                    }  
+                    dispatch(actions.endLoading())        
             })
             .catch(err => {
                 console.log(err);
+                dispatch(actions.endLoading())
             })
     }
 }

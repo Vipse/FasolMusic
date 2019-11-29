@@ -14,6 +14,7 @@ import CreateTrainModal from "../../components/Modals/CreateTrainModal";
 
 import './style.css'
 import '../../icon/style.css'
+import history from '../../store/history';
 
 
 
@@ -28,12 +29,7 @@ class Header extends React.Component {
         showBtnBack: false,
     };
 
-    componentWillReceiveProps(nextProps) {
-        if(this.props.statusBtnBack === false && this.props.statusBtnBack !== this.state.showBtnBack){
-            this.setState({showBtnBack: false})
-        }
-    }
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState) {
         if (prevProps.isTrialTrainingsAvailableCount !== this.props.isTrialTrainingsAvailableCount &&
             this.props.isTrialTrainingsAvailableCount > 1 && this.props.isOnMainPage)
             this.setState({isTrialTrainingModalVisible: true});
@@ -41,159 +37,45 @@ class Header extends React.Component {
 
     logout = () => {
         localStorage.removeItem('landing');
+        history.push('/signin')
         this.props.logout();
     }
 
-    resetAllEvent = () => {
-        this.props.onSetPushTrialTraining(null)
-        this.props.onUnsetPushBtnTransferTraining();
-        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
-    }
-
-    resetAllActionApp = () => {
-        const {statusBtnBack} = this.props;
-
-        this.props.onSetPushTrialTraining(null)
-        this.props.onUnsetPushBtnTransferTraining();
-        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
-        this.props.onChangeBtnBack(!statusBtnBack)
-        this.setState({showBtnBack: false})
-    }
-
     onSubmitBtnTrialTraining = () => {
-        const {statusBtnBack} = this.props;
-
-        //?
-        //this.resetAllActionApp();
-        //this.props.onChangeBtnBack(!statusBtnBack)
-        //?
-
-        //this.setState({isTrialTrainingModalVisible: true, showBtnBack: true});
-        //this.setState({actionTrialTraining: true})
         this.props.setParamsId({pushBtnTrial: true})
         this.props.showCreateTrainModal_clickTrial()
     }
 
     onUnfreshTraining = () => {
-        //const {statusBtnBack} = this.props;
-        //?
-        //this.resetAllActionApp();
-        //this.props.onChangeBtnBack(!statusBtnBack)
-        //?
-
         this.props.setParamsId({pushBtnUnfresh: true})
         this.props.showCreateTrainModal_clickUnfreeze();
-        //this.props.setParamsStatusPush({isPushBtnUnfresh: true})
-
-        //this.setState({isUnfreshTrainingModal: true, showBtnBack: true});
     }
-
-    onCreateUnfreshAbonement = (data) => {
-
-        const {disciplinesList, discCommunication, useFrozenTraining,subsForDisc,weekInterval,id,isAdmin} = this.props;
-        let array = [];
-        let time0 = null;
-        let time1 = null;
-        if(!weekInterval){
-            time0 = moment(Date.now()).startOf('week').format('X');
-            time1 = moment(Date.now()).endOf('week').format('X');
-        }
-        else{
-            
-            time0 = weekInterval.start;
-            time1 = weekInterval.end;
-        }
-
-        const codeDisc = disciplinesList[data.type].code;
-        this.props.showSpinner();
-
-        this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: true, countTraining: +useFrozenTraining});
-
-        this.props.onChangeCurrDiscipline(disciplinesList[data.type]);
-        this.props.onSetFreeIntervals(array, data.type);
-
-        if(discCommunication && discCommunication.hasOwnProperty(codeDisc) && subsForDisc.hasOwnProperty(codeDisc) && discCommunication[codeDisc].idMaster){
-
-            this.props.onEditUseFrozenTraining(id, useFrozenTraining);
-            this.props.onSetNeedSaveIntervals({visibleTrialModal: false, countTraining: 0})
-            this.props.onAddAmountTraining(subsForDisc[codeDisc], useFrozenTraining)
-                //.then(() => setTimeout(() => this.props.hideSpinner(), 1000))
-
-            message.success('Количество добавленных тренировок '+ useFrozenTraining);
-        }
-        else {
-
-            this.props.onSetPushTrialTraining(null);
-            this.props.onSetMasterTheDisicipline(null);
-            this.props.onGetAvailableInterval(time0, time1, [0, 1, 2, 3, 4, 5, 6], [codeDisc], isAdmin)
-                .then(data => {
-                    if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')         
-                   // setTimeout(() => this.props.hideSpinner(), 1000)
-                })
-
-        }
-
-        this.props.onGetAbonementsFilter(id,disciplinesList[data.type])
-
-        this.props.onChangePushBtnUnfresh(true);
-        this.props.onGoToSchedule();
-        this.setState({isUnfreshTrainingModal: false});
-    }
-
-
-    onSendDataTrialModal = (data) => {
-
-        const {disciplinesList, id, weekInterval, isAdmin} = this.props;
-        const {type} = data;
-
-        let time0 = null;
-        let time1 = null;
-        if(!weekInterval){
-            time0 = moment(Date.now()).startOf('week').format('X');
-            time1 = moment(Date.now()).endOf('week').format('X');
-        }
-        else{
-            time0 = weekInterval.start;
-            time1 = weekInterval.end;
-        }
-
-       // this.props.showSpinner();
-
-        this.props.onGetAvailableInterval(time0, time1, [0,1,2,3,4,5,6], [disciplinesList[type].code],isAdmin)
-            .then((data) => {
-                if(!data.length)  message.info('На выбранной неделе нет свободных тренеров - перейди на следующую неделю')
-            })
-        this.props.onSetPushTrialTraining('trial');
-        this.props.onChangeCurrDiscipline(disciplinesList[type]);
-
-        this.props.onGetAbonementsFilter(id,disciplinesList[type])
-           // .then(() => setTimeout(() => this.props.hideSpinner(), 1000))
-        this.props.onGoToSchedule();
-        this.props.onUnsetPushBtnTransferTraining();
-        this.setState({isTrialTrainingModalVisible: false});
-    };
 
     handleTransfer = () => {
-        const {statusBtnBack} = this.props;
+        const {isAdmin, currDiscipline} = this.props;
 
-        this.props.isTransferTrainPopupActive && Modal.info({
-            title: 'Перенос тренировки',
-            width: '500px',
-            className: 'quick-modal',
-            content: 'Зеленым цветом в календаре подсветилось доступное время у коуча, ' +
-                'перетяни тренировку которую хочешь перенести на любое доступное время и помни, ' +
-                'одну тренировку можно перенести только один раз и не позднее 24 часов до начала тренировки!',
-            onOk: () => {this.props.onTransferTrainPopupClose()}
-        });
-
-        //this.props.onChangePushBtnUnfresh(true); // app func
-        this.props.showTransferInterval();
-        this.props.onChangeBtnTransfer(true)
-        this.props.onSetPushTrialTraining(null);
-        //this.props.onSetNeedSaveIntervals({visibleCreateTrainModal: false, countTraining: 0});
-        //this.props.onChangeBtnBack(!statusBtnBack)
-
-        //this.setState({showBtnBack: true})
+        if(currDiscipline.code){
+            this.props.isTransferTrainPopupActive && Modal.info({
+                title: 'Перенос тренировки',
+                width: '500px',
+                className: 'quick-modal',
+                content: 'Зеленым цветом в календаре подсветилось доступное время у коуча, ' +
+                    'перетяни тренировку которую хочешь перенести на любое доступное время и помни, ' +
+                    'одну тренировку можно перенести только один раз и не позднее 24 часов до начала тренировки!',
+                onOk: () => {this.props.onTransferTrainPopupClose()}
+            });
+    
+            this.props.showTransferInterval();
+            this.props.setParamsId({pushBtnTransfer: true})
+        }
+        else {
+            message.info('Выберите дисциплину в расписании')
+        }
+       
+        if(!isAdmin){
+            history.push('/app/schedule')
+        }
+        
     };
 
     render() {
@@ -205,7 +87,6 @@ class Header extends React.Component {
             onGoto,
             studentBalance,
             trialTrainingForDisciplines,
-            disciplinesList,
             isTrialTrainingsAvailableCount,
             useFrozenTraining,
             countTrainingDiscipline,
@@ -290,33 +171,6 @@ class Header extends React.Component {
                         onClick={this.logout}
                     />
                 </div>
-                {/*<CreateTrainModal
-                    title='Запишись на пробную тренировку'
-                    width={770}
-                    visible={this.state.isTrialTrainingModalVisible}
-                    availableDisciplines={trialTrainingForDisciplines}
-                    disciplinesList={disciplinesList}
-                    unauthorized={false}
-                    closable={true}
-                    trial={true}
-                    onCancel={() => {
-                        this.setState({isTrialTrainingModalVisible: false})
-                    }}
-                    onSave={this.onSendDataTrialModal}
-                />
-
-                <CreateTrainModal
-                    title='Создание абонемента (разморозка)'
-                    width={770}
-                    visible={this.state.isUnfreshTrainingModal}
-                    availableDisciplines={disciplinesList}
-                    disciplinesList={disciplinesList}
-                    closable={true}
-                    onCancel={() => {
-                        this.setState({isUnfreshTrainingModal: false})
-                    }}
-                    onSave={this.onCreateUnfreshAbonement}
-                /> */}
 
                 <CreateTrainModal /> 
 
@@ -340,6 +194,18 @@ Header.defaultProps = {
 const mapStateToProps = state => {
 
     return {
+        isAdmin:  state.auth.mode === "admin",
+        isStudent: state.auth.mode === 'student',
+        
+        currDiscipline: state.abonement.currDiscipline,
+
+        //UX
+        useFrozenTraining: state.student.useFrozenTraining,
+        studentBalance: state.abonement.studentBalance,
+        countTrainingDiscipline: state.training.countTrainingDiscipline,
+
+        isTrialTrainingsAvailableCount: state.student.isTrialTrainingsAvailableCount,
+        trialTrainingForDisciplines: state.student.trialTrainingForDisciplines,
     }
 }
 const mapDispatchToProps = dispatch => {
