@@ -7,45 +7,7 @@ import moment from "moment";
 import { getPrimarySubsription } from '../../containers/Schedule/shedule';
 
 
-export const getStudentsSchedule = (id, dateStart, dateEnd, disciplineCode) => {
-    let obj = { 
-        idStudent: id,
-        dateStart,
-        dateEnd
-     };
-    return (dispatch) =>
-        axios.post('/catalog.fasol/GetSubscriptionsStudentDate2', JSON.stringify(obj))
-            .then(rez => {
-               if(rez.status == 200){
-                   const data = rez.data.result;
 
-                   debugger
-                   const objPrimarySubsription = getPrimarySubsription(data, disciplineCode);
-
-                   
-                    const {subscription: subs, discipline} = objPrimarySubsription;
-                   dispatch({
-                       type: actionTypes.GET_STUDENTS_SCHEDULE,
-                       studentSchedule: subs ? subs : {},
-                   })
-                   
-                   //если первый раз идет вызов
-                   if(!disciplineCode){
-                        dispatch({
-                            type: actionTypes.CHANGE_CURRENT_DISCIPLINE,
-                            currDiscipline: discipline,
-                        });    
-                        
-                        dispatch(actions.getCountTrainingByDiscipline(id, objPrimarySubsription.discipline))
-                   } 
-                //    else{
-                //         dispatch(actions.getCountTrainingByDiscipline(id, disciplineCode))
-                //    }
-                   
-               }              
-            })
-            .catch(err => console.log(err))
-}
 
 export const setParamsStatusPush = (params) => {
     return ({

@@ -14,11 +14,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 trainerList: action.trainerList,
             }
-        case actionTypes.GET_TRAINER_TRAINING:
-            return {
-                ...state,
-                trainerTraining: action.trainerTraining,
-            }
+     
         case actionTypes.GET_POST_TRAINER_TRAINING:
             return {
                 ...state,

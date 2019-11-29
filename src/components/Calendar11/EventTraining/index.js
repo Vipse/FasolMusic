@@ -23,7 +23,14 @@ class EventTraining extends React.Component{
     }
 
     getFunctionCross =  () => {
-        const { event, listNewSchedule } = this.props;
+        const { 
+            isAdmin,
+            event, 
+            listNewSchedule,
+        
+            startDate,
+            endDate,
+            currDiscipline} = this.props;
 
         let crossFunc;
 
@@ -31,10 +38,26 @@ class EventTraining extends React.Component{
             crossFunc = (e) => {
                 e.stopPropagation();
                 
+                function isEmptyListNewSchedule(list){
+                    if(Object.keys(list).length){
+                        return false
+                    }
+                    return true
+                }
+
                 let listNew = {...listNewSchedule};
                 delete listNew[event.start];
 
                 this.props.setParamsId({listNewSchedule: listNew})
+                
+                if(isEmptyListNewSchedule(listNew)){
+                    
+                    this.props.getAvailableInterval(startDate, endDate, currDiscipline.code, isAdmin)
+                    .then(() => {
+                        this.props.setParamsId({clickedTrainer: {id: null, name: null}})
+                    })
+                }
+               
             }    
         }
         
@@ -73,7 +96,7 @@ class EventTraining extends React.Component{
 
     clickOnEvent = (e,idEvent) => {
         e.stopPropagation();
-        const {isAdmin, pushBtnTransfer, setParamsId, event} = this.props;
+        const {isAdmin, isTrainer, pushBtnTransfer, setParamsId, event} = this.props;
 
         if(this.isPostEvent()){
 
@@ -88,18 +111,25 @@ class EventTraining extends React.Component{
             setParamsId({clickedIdEvent: idEvent})
         }
         else{
-            history.push('/app/coach'+ event.idMaster)
+            if(isTrainer){
+                history.push('/app/student'+ event.idStudent)
+            }
+            else{
+                history.push('/app/coach'+ event.idMaster)
+            }
+            
         }
         
     }
 
-    getFio = () => {
-        const {event} = this.props;
+    getName = () => {
+        const {event, isTrainer} = this.props;
+        const name = event.masterFio ? event.masterFio : event.fio
 
         if(event.trial){
-            return `Пробная: ${event.masterFio}`
+            return `Пробная: ${name}`
         }
-        return event.masterFio
+        return name
     }
 
     isPostEvent = () => {
@@ -112,7 +142,7 @@ class EventTraining extends React.Component{
     }
 
     render() {
-        const {event} = this.props;
+        const {event, isTrainer} = this.props;
         const {id} = event;
 
         const backgroundColor = this.getBgColor()
@@ -122,13 +152,13 @@ class EventTraining extends React.Component{
         return (
                 <div className='event-group' style={{ backgroundColor }} onClick={e => this.clickOnEvent(e,id)}>
                     <div> 
-                        {!this.isPostEvent() && !event.isComplete &&
+                        {!isTrainer && !this.isPostEvent() && !event.isComplete &&
                             <div className="event-group-cross" onClick={functionCross}>
                                 <span className="icon icon-close"></span>
                             </div>
                         }
                         
-                        <p className="event-group-text">{this.getFio()}</p>
+                        <p className="event-group-text">{this.getName()}</p>
                     </div>
                 </div>
         )
@@ -149,6 +179,12 @@ const mapStateToProps = state => {
 
     return {
         isAdmin: state.auth.mode === "admin",
+        isTrainer: state.auth.mode === "master",
+        currDiscipline: state.abonement.currDiscipline,
+
+        startDate: state.training.startDate,
+        endDate: state.training.endDate,
+
         listNewSchedule,
         clickedIdEvent,
 
@@ -159,6 +195,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        getAvailableInterval: (start, end, discipline, isAdmin)=>dispatch(actions.getAvailableInterval(start, end,discipline,isAdmin)),
+
         showTransferOrFreezeModal: () => dispatch(actions.showTransferOrFreezeModal()),
         showRemoveTrialTrainingModal: () => dispatch(actions.showRemoveTrialTrainingModal()),
         

@@ -22,7 +22,13 @@ class FreeTrainers extends React.Component {
     };
 
     setChoosenTrainer = (objTrainer) => {
-        const {listNewSchedule, pushBtnTrial, pushBtnUnfresh} = this.props;
+        const {
+            isAdmin,
+            listNewSchedule, 
+            pushBtnTrial, 
+            startDate, 
+            endDate,
+        } = this.props;
 
         function addingTrainerToListSchedule(objTrainer){
             let listNew = {...listNewSchedule}
@@ -33,11 +39,16 @@ class FreeTrainers extends React.Component {
             return listNew
         }
 
-        if(pushBtnTrial && !pushBtnUnfresh){
-            const listNew = addingTrainerToListSchedule(objTrainer)      
-            this.props.setParamsId({listNewSchedule: listNew})
+        const listNew = addingTrainerToListSchedule(objTrainer)
+        this.props.setParamsId({listNewSchedule: listNew}) 
+
+        if(pushBtnTrial){            
             this.props.showConfirmCreateModal()
         }
+
+
+        const week = [0,1,2,3,4,5,6]
+        this.props.getTheMasterInterval(startDate, endDate, objTrainer.id, week, isAdmin)
 
         this.props.setParamsId({ clickedTrainer: objTrainer })
     }
@@ -106,6 +117,12 @@ const mapStateToProps = state => {
     return {
         freeTrainers: state.scheduleIdParams.fullInfoMasters,
 
+        startDate: state.training.startDate,
+        endDate: state.training.endDate,
+
+        currDiscipline: state.abonement.currDiscipline,
+        discCommunication: state.student.discCommunication,
+
         listNewSchedule,
         pushBtnTrial,
         pushBtnUnfresh
@@ -114,6 +131,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        getTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays, isAdmin) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays, isAdmin)),
+        
         showConfirmCreateModal: () => dispatch(actions.showConfirmCreateModal()),
 
         setParamsId: (params) => dispatch(actions.setParamsId(params)),

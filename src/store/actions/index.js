@@ -112,13 +112,13 @@ export {
     changeBtnBack,
     changeBtnTransfer,
 
-    getStudentsSchedule,
+  
     setParamsStatusPush
 } from './student'
 
 export {
     getMasterList,
-    getTrainerTraining,
+  
     setChooseMasterAllInfo,
     getPostTrainerTraining,
     getFutureTrainerTraining,
@@ -193,6 +193,9 @@ export {
 
 
 export {
+    getStudentsSchedule,
+    getTrainerTraining,
+
     setParamsId,
     getAvailableInterval,
     getTheMasterInterval,

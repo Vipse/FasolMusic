@@ -64,7 +64,7 @@ class ContentForm extends React.Component {
     setAbonement_Training = () => {
         const {
             currentIdUser,
-            studentSchedule,
+            listSchedule,
             clickedIdEvent,
             timeClickFreeEvent,
         
@@ -97,8 +97,8 @@ class ContentForm extends React.Component {
             return newTrainingTime
         }
 
-        for (let key in studentSchedule) {
-            const event = studentSchedule[key];
+        for (let key in listSchedule) {
+            const event = listSchedule[key];
 
             if (event.id === clickedIdEvent) {
                 trainingTime = getNewTrainingTime(trainingTime, timeClickFreeEvent, event)

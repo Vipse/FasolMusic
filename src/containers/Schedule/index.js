@@ -153,7 +153,9 @@ class Schedule extends React.Component {
 
         this.props.onGetStudentsSchedule(id, newStart, newEnd, currDiscipline.code)
         
+        
         if (pushBtnTransfer && discCommunication.hasOwnProperty(currDiscipline.code)) {
+            
             this.props.onGetTheMasterInterval(newStart, newEnd, discCommunication[currDiscipline.code].idMaster, week, isAdmin)
         }
     }

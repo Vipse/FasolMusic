@@ -74,24 +74,33 @@ class ContentForm extends React.Component {
         onCancel();
     }
 
-    isWasTransferEvent = () => {
-        const {studentSchedule, crossCurrentIdTraining: idTraining} = this.props;
-
-        for(let key in studentSchedule){
-            if(studentSchedule[key].id === idTraining){
-                if(studentSchedule[key].wasTransfer) return true
-                else return false
-            }
+    isVisibleTransferEvent = () => {
+        const {isAdmin, listSchedule, crossCurrentIdTraining: idTraining} = this.props;
+        if(isAdmin) {
+            return true
         }
 
-        return false
+        function wasTransferEvent(list, idTraining){
+            for(let key in list){
+                if(list[key].id === idTraining){
+                    if(list[key].wasTransfer) return true
+                    else return false
+                }
+            }
+        }
+       
+        if(wasTransferEvent(listSchedule, idTraining)){
+            return false
+        }
+
+        return true
     }
 
     render() {
 
         return (
             <div className="transfer-or-freeze">
-                {!this.isWasTransferEvent() && 
+                {this.isVisibleTransferEvent() && 
                     <div className="transfer-or-freeze-btn">
                         <Button 
                             className="btn-yellow"

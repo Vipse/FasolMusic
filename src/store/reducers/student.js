@@ -4,7 +4,7 @@ const initialState = {
        //
       // freeInterval: [], //the main interval
       // masters: [], //unfreeze and trial schedule
-       studentSchedule: {},
+       listSchedule: {},
        fullInfoMasters: [], // list of masters for selecting
 
        isPushBtnTransfer: false, //SET_PARAMS_STATUS_PUSH
@@ -135,11 +135,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 statusBtnBack: action.statusBtnBack
             }
-        case actionTypes.GET_STUDENTS_SCHEDULE:
-            return {
-                ...state,
-                studentSchedule: action.studentSchedule
-            }
+
 
 
 

@@ -168,7 +168,7 @@ export const freezeAbonement = (idSubscription) => {
                 if(res.data.code == 200){
                     dispatch({
                         type: actionTypes.GET_STUDENTS_SCHEDULE,
-                        studentSchedule: {},
+                        listSchedule: {},
                     });
                     return res;
                 }

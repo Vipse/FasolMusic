@@ -11,6 +11,7 @@ import moment from 'moment'
 
 const initialState = {
     currentIdUser: null,
+    listSchedule: {}, // list events
     listNewSchedule: {}, // clicked event that will be new schedule
     // {
     //     type: 'clicked_event'
@@ -48,14 +49,15 @@ const reducer = (state = initialState, action) => {
 
         case actionTypes.SET_PARAMS_ID:
             console.log("action", action)
-            if (action.params.hasOwnProperty('pushBtnUnfresh') 
+            if (action.params.hasOwnProperty('pushBtnUnfresh')
                 || action.params.hasOwnProperty('pushBtnTrial')
                 || action.params.hasOwnProperty('pushBtnTransfer')) {
 
                 return {
                     ...initialState,
                     ...action.params,
-                    currentIdUser: state.currentIdUser
+                    currentIdUser: state.currentIdUser,
+                    listSchedule: state.listSchedule
                 }
             }
 
@@ -64,6 +66,16 @@ const reducer = (state = initialState, action) => {
                 ...action.params
             }
 
+        case actionTypes.GET_STUDENTS_SCHEDULE:
+            return {
+                ...state,
+                listSchedule: action.listSchedule
+            }
+        case actionTypes.GET_TRAINER_TRAINING:
+            return {
+                ...state,
+                listSchedule: action.listSchedule,
+            }
 
         case actionTypes.GET_AVAILABLE_INTERVAL:
             return {
