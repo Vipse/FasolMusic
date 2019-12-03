@@ -26,17 +26,19 @@ class ContentForm extends React.Component {
         this.props.removeTrialTraining(idTraining, isAdmin)
         .then(() => {
             message.success('Пробная тренировка удалена')
+            this.props.onCancel();
             this.props.getStudentsSchedule(id, startDate, endDate, currDiscipline.code)
             this.props.getTrainingsTrialStatus(id)
             this.props.getTrainingTrialStatusByDiscipline(currDiscipline.code, id)
             this.props.getCountTrainingByDiscipline(id, currDiscipline.code)
+            
         })
         .catch((e) => {
             console.log("e", e)
             message.info('Ошибка при удалении пробной тренировки')
         })
 
-        //this.props.onCancel();
+        
     }
 
 

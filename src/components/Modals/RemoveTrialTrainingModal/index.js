@@ -23,8 +23,9 @@ const RemoveTrialTrainingModal = (props) => {
                footer={null}
         >
             <Content 
-                {...props}
                 {...params}
+                {...props}
+               
             />
         </Modal>
     )
