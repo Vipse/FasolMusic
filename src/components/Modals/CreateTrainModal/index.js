@@ -111,6 +111,7 @@ const mapDispatchToProps = dispatch => {
         
         addAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         editUseFrozenTraining: (idStudent, amount) => dispatch(actions.editUseFrozenTraining(idStudent, amount)),
+        
 
         getAvailableInterval: (start, end, discipline, isAdmin)=>dispatch(actions.getAvailableInterval(start, end,discipline,isAdmin)),
 

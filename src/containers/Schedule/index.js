@@ -118,7 +118,7 @@ class Schedule extends React.Component {
         
         this.min = moment([m.get('year'), m.get('month'), m.get('date'), 8])
         this.max = moment([m.get('year'), m.get('month'), m.get('date'), 23])
-        console.log("this.min", this.min)
+ 
         this.min = this.min.format('X')
         this.max = this.max.format('X')
     
@@ -160,6 +160,7 @@ class Schedule extends React.Component {
             this.props.onGetTheMasterInterval(newStart, newEnd, discCommunication[currDiscipline.code].idMaster, week, isAdmin)
         }
         if(pushBtnUnfresh || pushBtnTrial){
+            debugger
             this.props.getAvailableInterval(newStart, newEnd, currDiscipline.code,isAdmin)
         }
     }

@@ -205,6 +205,19 @@ class App extends React.Component {
     }
 
     isStudentSchedule = () => { 
+        // const {match} = this.props;
+
+        // let forAdmin;
+        // if(Object.keys(match.params).length && match.params.id){
+        //     forAdmin = true
+        // }
+        // else {
+        //     forAdmin = false
+        // }
+        // this.props.setParamsId({renderStudentScheduleForAdmin: forAdmin})
+        // return forAdmin
+
+
         const {pathname} = this.props.history.location;
         return pathname.includes('/app/schedule') && pathname.length !== ('/app/schedule'.length) ? true : false
     }
@@ -418,6 +431,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        setParamsId: (params) => dispatch(actions.setParamsId(params)),
+
+
+//
+
         onLogin: ({userName, password, remember}, history) => dispatch(actions.login(userName, password, remember, history)),
         onLogout: () => dispatch(actions.logout()),
         onGetInfoDoctor: (id) => dispatch(actions.getInfoDoctor(id)),

@@ -8,6 +8,9 @@ import '../../icon/style.css'
 import Spinner from "../Spinner";
 import Card from "antd/es/card";
 
+import {connect} from 'react-redux';
+import * as actions from '../../store/actions'
+
 class RecordTrainCarousel extends React.Component {
 
     state = {
@@ -23,10 +26,9 @@ class RecordTrainCarousel extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {intervals, trainerTrainings, isStudentPage} = this.props;
         const {loadingDate} = this.state;
-
         if (loadingDate &&
             (isStudentPage || (intervals && intervals.dateStart === loadingDate.format('X'))) &&
-            trainerTrainings && trainerTrainings.dateStart === loadingDate.format('X')
+                        trainerTrainings && trainerTrainings.dateStart === loadingDate.format('X')
         ) this.setState({loadingDate: null});
 
         if (prevState.loadingDate !== loadingDate) {
@@ -267,4 +269,19 @@ RecordTrainCarousel.defaultProps = {
     carouselDays: [],
 };
 
-export default RecordTrainCarousel
+const mapStateToProps = state => {
+
+    return {
+        startDate: state.training.startDate,
+        endDate: state.training.endDate,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        //hideListTrainersModal: () => dispatch(actions.hideListTrainersModal())
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecordTrainCarousel); 

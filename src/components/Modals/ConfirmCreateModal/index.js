@@ -31,6 +31,7 @@ class ConfirmCreateModal extends React.Component {
                 this.props.setParamsId({ pushBtnUnfresh: false, pushBtnTrial: false });
                 this.props.getCountTrainingByDiscipline(id, currDiscipline.code);
                 this.props.getUseFrozenTraining(id)
+                this.props.getDisciplineCommunication(id)
 
                 if(isTrialEvent){
                     this.props.getTrainingsTrialStatus(id)
@@ -170,6 +171,7 @@ const mapDispatchToProps = dispatch => {
 
         getCountTrainingByDiscipline: (currentIdUser, codeDisc) => dispatch(actions.getCountTrainingByDiscipline(currentIdUser, codeDisc)),
         getUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
+        getDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
 
         getTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),
         getTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),

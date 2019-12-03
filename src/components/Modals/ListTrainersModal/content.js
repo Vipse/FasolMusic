@@ -14,12 +14,12 @@ class ContentForm extends React.Component {
 
 
     renderTrainers = (list) => {
- console.log("list", list)
         return list.map((item, index) => (
             <FreeAdminTrainersItem 
                         {...item}
                         key={index}
                         onGoto={(id) => history.push('/app/coach' + id)}
+                        onCancelModal= {this.props.onCancel}
             />)
         )
     }

@@ -14,9 +14,8 @@ class ContentForm extends React.Component {
 
     setParamsId = () => {
         const {setParamsId, setParamsStatusPush, clearFreeInterval} = this.props;
-        
-        setParamsId({clickedIdEvent: null, timeClickFreeEvent: null})
-        setParamsStatusPush({isPushBtnTransfer: false})
+
+        setParamsId({pushBtnUnfresh: false, pushBtnTrial: false})
 
         clearFreeInterval();
     }
@@ -57,6 +56,7 @@ class ContentForm extends React.Component {
                 .then(() => getStudentsSchedule(id, startDate, endDate, idDiscipline))
         }
 
+       
         this.setParamsId();
         onCancel();
     }

@@ -8,6 +8,11 @@ import history from '../../store/history';
 
 class FreeAdminTrainersItem extends React.Component {
 
+    redirectToStudent = (id) => {
+        history.push(`/app/student${id}`)
+        this.props.onCancelModal()
+    }
+
     getStudent = () => {
         const {
             student,
@@ -26,7 +31,7 @@ class FreeAdminTrainersItem extends React.Component {
                     size='small'
                 />
                 <div className="myStudent-info-student-info">
-                    <a className="myStudent-info-student-info-name" onClick={() => history.push(`/app/student${student.id}`)}>
+                    <a className="myStudent-info-student-info-name" onClick={() => this.redirectToStudent(student.id)}>
                         {student.name}
                     </a>
                     <div className="myStudent-info-student-info-status">

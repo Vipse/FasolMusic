@@ -15,6 +15,7 @@ import Spinner from "../../components/Spinner";
 import {getNameFromObjArr, getNamesFromObjArr} from "../../helpers/getSelectorsCustomData";
 import moment from "moment";
 import {message, Modal} from "antd";
+//import Modal from "../../components/Modal"
 import AdminCreateTrainingModal from "../../components/AdminCreateTrainingModal";
 
 class CoachPage extends React.Component{
@@ -130,15 +131,6 @@ class CoachPage extends React.Component{
 
     handleTrainModal = (e, redirectable, isAdmin, item) => {
         e.preventDefault();
-
-        /*this.setState({
-            trainModal: {
-                visible: true,
-                item: item,
-                isDelete: isDelete ? isDelete : false,
-                isAdmin: isAdmin ? isAdmin : false
-            }
-        });*/
 
         if (redirectable && isAdmin) this.goToStudentProfile(item.idStudent);
         else Modal.warning({
@@ -313,7 +305,7 @@ const mapStateToProps = state => {
     return {
         auth: state.auth,
         profileCoach: state.profileCoach,
-        masterSchedule: state.scheduleIdParams.masterschedule,
+        masterSchedule: state.student.masterSchedule,
         trainerTrainings: state.profileCoach.trainerTrainings,
         mode: state.auth.mode,
     }

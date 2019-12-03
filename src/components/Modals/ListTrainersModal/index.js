@@ -13,6 +13,9 @@ const ListTrainersModal = (props) => {
     const {visible, hideListTrainersModal, timeClickInAdminSchedule} = props;
 
     const dateEvent = moment(+timeClickInAdminSchedule * 1000).format('L H:mm'); 
+    const params = {
+        onCancel: hideListTrainersModal
+    }
 
     return (
         <Modal title={`Список коучей - ${dateEvent}`}
@@ -20,7 +23,7 @@ const ListTrainersModal = (props) => {
                onCancel={hideListTrainersModal}
                width={720}
         >
-            <Content {...props}/>
+            <Content {...params} {...props}/>
         </Modal>
     )
 };

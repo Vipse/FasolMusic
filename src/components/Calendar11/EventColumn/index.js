@@ -9,9 +9,15 @@ import EventTraining from '../EventTraining'
 import './styles.css'
 import AdminEvent from '../AdminEvent';
 import { message } from 'antd';
+import history from '../../../store/history';
 
 
 class EventColumn extends React.Component {
+
+    isStudentSchedule = () => { 
+        const {pathname} = history.location;
+        return pathname.includes('/app/schedule') && pathname.length !== ('/app/schedule'.length) ? true : false
+    }
 
 
     renderHeadColumn = () => {
@@ -36,8 +42,13 @@ class EventColumn extends React.Component {
     }
 
     isIncludeEvent = (startEvent) => {
-        const { listSchedule } = this.props;
+        const { listSchedule, isAdmin } = this.props;
 
+        if(listSchedule.hasOwnProperty(startEvent) && listSchedule[startEvent].isBooking){
+            if(isAdmin) return true
+            else return false
+        }
+    
         return listSchedule.hasOwnProperty(startEvent)
     }
 
@@ -180,7 +191,11 @@ class EventColumn extends React.Component {
             <div className='rbc-time-eventgutter rbc-time-eventcolumn'>
                 {this.renderHeadColumn()}
 
-                {!isAdmin ? this.renderCells() : this.renderAdminCells()}
+                {isAdmin && !this.isStudentSchedule() ? 
+                    this.renderAdminCells()  
+                    : 
+                    this.renderCells()
+                }
 
             </div>
         )
@@ -203,6 +218,7 @@ const mapStateToProps = state => {
     } = state.scheduleIdParams;
 
     return {
+        isAdmin: state.auth.mode === "admin",
         listSchedule: { ...state.scheduleIdParams.listSchedule, ...listNewSchedule },
         freeInterval: state.scheduleIdParams.freeInterval,
         masters: state.scheduleIdParams.masters,
@@ -213,7 +229,7 @@ const mapStateToProps = state => {
         clickedTrainer,
         clickedIdEvent,
         pushBtnUnfresh,
-        pushBtnTrial
+        pushBtnTrial,
     }
 }
 
