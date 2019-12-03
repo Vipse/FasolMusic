@@ -16,12 +16,12 @@ const Option = Select.Option;
 class Toolbar extends React.Component {
 
   changeSelectorDiscipline = (codeDisc) => {
-    const { currentIdUser, mode, startDate, endDate, listDisciplines } = this.props;
+    const { currentIdUser, mode, isAdmin, startDate, endDate, listDisciplines } = this.props;
     const discObj = listDisciplines[codeDisc];
 
    
 
-    if(mode === 'student'){
+    if(mode === 'student' || isAdmin){
       this.props.getStudentsSchedule(currentIdUser, startDate, endDate, codeDisc);
       
     }

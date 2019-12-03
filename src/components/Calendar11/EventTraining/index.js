@@ -101,14 +101,19 @@ class EventTraining extends React.Component{
         if(this.isPostEvent()){
 
         }
-        else if(pushBtnTransfer && isAdmin){
-            setParamsId({clickedIdEvent: idEvent})
-        }
-        else if(pushBtnTransfer && event.wasTransfer){
-            message.info('Тренировка уже переносилась один раз')
-        }
-        else if(pushBtnTransfer && !event.isBooking){
-            setParamsId({clickedIdEvent: idEvent})
+        else if(pushBtnTransfer){
+            if(event.trial){
+                message.info('Пробная тренировка только удаляется')
+            }
+            else if(isAdmin){
+                setParamsId({clickedIdEvent: idEvent})
+            }
+            else if(event.wasTransfer){
+                message.info('Тренировка уже переносилась один раз')
+            }
+            else{
+                setParamsId({clickedIdEvent: idEvent})
+            }
         }
         else{
             if(isTrainer){
@@ -152,7 +157,7 @@ class EventTraining extends React.Component{
         return (
                 <div className='event-group' style={{ backgroundColor }} onClick={e => this.clickOnEvent(e,id)}>
                     <div> 
-                        {!isTrainer && !this.isPostEvent() && !event.isComplete &&
+                        {!isTrainer && !this.isPostEvent() && !event.isComplete && !event.isBooking && 
                             <div className="event-group-cross" onClick={functionCross}>
                                 <span className="icon icon-close"></span>
                             </div>

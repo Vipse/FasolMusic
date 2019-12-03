@@ -23,9 +23,8 @@ const RemoveTrialTrainingModal = (props) => {
                footer={null}
         >
             <Content 
-                {...params}
                 {...props}
-                
+                {...params}
             />
         </Modal>
     )
@@ -57,6 +56,8 @@ const mapDispatchToProps = dispatch => {
 
         getTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),
         getTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),
+
+        getCountTrainingByDiscipline: (currentIdUser, codeDisc) => dispatch(actions.getCountTrainingByDiscipline(currentIdUser, codeDisc)),
 
         hideRemoveTrialTrainingModal: () => dispatch(actions.hideRemoveTrialTrainingModal())
     }

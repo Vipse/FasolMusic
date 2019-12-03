@@ -12,9 +12,9 @@ class ContentForm extends React.Component {
     }
 
 
-    removeTrialTraining = () => {
+    remove = () => {
         const {
-            currentIdUser, 
+            currentIdUser: id, 
             currDiscipline, 
             crossCurrentIdTrialTraining: idTraining, 
 
@@ -26,16 +26,17 @@ class ContentForm extends React.Component {
         this.props.removeTrialTraining(idTraining, isAdmin)
         .then(() => {
             message.success('Пробная тренировка удалена')
-            this.props.getStudentsSchedule(currentIdUser, startDate, endDate, currDiscipline.code)
-            this.props.getTrainingsTrialStatus(currentIdUser)
-            this.props.getTrainingTrialStatusByDiscipline(currDiscipline.code, currentIdUser)
+            this.props.getStudentsSchedule(id, startDate, endDate, currDiscipline.code)
+            this.props.getTrainingsTrialStatus(id)
+            this.props.getTrainingTrialStatusByDiscipline(currDiscipline.code, id)
+            this.props.getCountTrainingByDiscipline(id, currDiscipline.code)
         })
         .catch((e) => {
             console.log("e", e)
             message.info('Ошибка при удалении пробной тренировки')
         })
 
-        this.props.onCancel();
+        //this.props.onCancel();
     }
 
 
@@ -45,15 +46,7 @@ class ContentForm extends React.Component {
             <div className="remove-modal">
                 <div className="remove-modal-btn">
                     <Button 
-                        onClick={() => {
-                            this.removeTrialTraining()
-                           // this.props.onRemoveTrialTraining(this.deleteIdTraining, this.props.isAdmin)
-                            //    .then(this.props.onGetTrainingsTrialStatus(this.id))
-                            //    .then(this.props.onGetTrainingTrialStatusByDiscipline(this.props.currDiscipline.code, this.id))
-                            //.then(() => this.props.onGetAbonementsFilter(id, currDiscipline, isAdmin))
-
-                            //this.setState({ modalRemoveTrialTraining: false });
-                        }}
+                        onClick={this.remove}
                         type='yellow' >Удалить тренировку</Button>
                 </div>
             </div>

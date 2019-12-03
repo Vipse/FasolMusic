@@ -14,7 +14,7 @@ class ContentForm extends React.Component {
 
 
     renderTrainers = (list) => {
- 
+ console.log("list", list)
         return list.map((item, index) => (
             <FreeAdminTrainersItem 
                         {...item}
@@ -26,6 +26,7 @@ class ContentForm extends React.Component {
 
     render() {
         const {freetrainers_listModal, busytrainers_listModal} = this.props;
+   
 
         return (
             <div className="admin-trainer-wrapper">

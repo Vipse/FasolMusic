@@ -136,14 +136,15 @@ class Header extends React.Component {
                                     className="header-btn"
                                     onClick={this.handleTransfer}
                                 /> :
-                                <Tooltip placement="bottom" title={'Нет тренировок для переноса'} text>
+                                
                                     <Button
                                         btnText='ПЕРЕНЕСТИ ТРЕНИРОВКУ'
                                         size='default'
                                         type='border-pink'
                                         className="header-btn"
+                                        onClick={() => message.info('Нет тренировок для переноса')}
                                     />
-                                </Tooltip>}
+                                }
                         </div>
                     </React.Fragment> : null}
                 <div className='header-notification'>

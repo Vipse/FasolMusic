@@ -72,9 +72,11 @@ class ContentForm extends React.Component {
             addAmountTraining(subsForDisc[codeDisc], useFrozenTraining)
                 .then(() => message.success('Количество добавленных тренировок '+useFrozenTraining))
                 .then(() => {
-                    getStudentsSchedule(currentIdUser, startDate, endDate, codeDisc);
-                    editUseFrozenTraining(currentIdUser, useFrozenTraining);
-                    getCountTrainingByDiscipline(currentIdUser, codeDisc);
+                    editUseFrozenTraining(currentIdUser, useFrozenTraining)
+                    .then(() => {
+                        getStudentsSchedule(currentIdUser, startDate, endDate, codeDisc);  
+                        getCountTrainingByDiscipline(currentIdUser, codeDisc);
+                    })          
                 })
                 .catch(()=> message.success('Ошибка при добавлении тренировок'))
         }

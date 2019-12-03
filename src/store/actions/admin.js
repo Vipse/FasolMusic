@@ -45,8 +45,10 @@ export const getFreeAndBusyMasterListOnHour = (dateStart) => {
                     dispatch({
                         type: actionTypes.GET_FREE_AND_BUSY_MASTER_LIST_ON_HOUR,
                         freetrainers_listModal: freetrainers ? freetrainers : [],
-                        busytrainers_listModal: busytrainers ? busytrainers : []
+                        busytrainers_listModal: busytrainers ? busytrainers : [],
                     })
+
+                    dispatch(actions.setParamsId({timeClickInAdminSchedule: dateStart}))
 
                     dispatch(actions.showListTrainersModal())
                 }

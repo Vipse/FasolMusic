@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import Modal from '../../Modal'
 import Content from './content'
@@ -9,10 +10,12 @@ import * as actions from '../../../store/actions'
 import './styles.css'
 
 const ListTrainersModal = (props) => {
-    const {visible, hideListTrainersModal} = props;
+    const {visible, hideListTrainersModal, timeClickInAdminSchedule} = props;
+
+    const dateEvent = moment(+timeClickInAdminSchedule * 1000).format('L H:mm'); 
 
     return (
-        <Modal title='Список коучей'
+        <Modal title={`Список коучей - ${dateEvent}`}
                visible={visible}
                onCancel={hideListTrainersModal}
                width={720}
@@ -23,11 +26,15 @@ const ListTrainersModal = (props) => {
 };
 
 const mapStateToProps = state => {
+    const {timeClickInAdminSchedule} = state.scheduleIdParams;
+
     return {
         visible: state.modal.visible_ListTrainersModal,
 
         freetrainers_listModal: state.admin.freetrainers_listModal,
         busytrainers_listModal: state.admin.busytrainers_listModal,
+
+        timeClickInAdminSchedule
     }
 }
 

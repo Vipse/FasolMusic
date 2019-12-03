@@ -94,7 +94,7 @@ class Schedule extends React.Component {
 
 
     dateChange = (action) => {
-        const {isAdmin} = this.props;
+        const {isAdmin, mode} = this.props;
 
         const getNewDate = (property) => {
             if (action == 'NEXT'){
@@ -131,8 +131,11 @@ class Schedule extends React.Component {
         if(isAdmin && !this.isStudentSchedule()){
             this.fetchAdminDateChange(newStart, newEnd)
         } 
-        else {
+        else if(mode === 'student' || this.isStudentSchedule()){
             this.fetchDateChange(newStart, newEnd)
+        }
+        else if(mode === 'master'){
+            this.fetchTrainerDateChange(newStart, newEnd)
         }
     }
 
@@ -145,20 +148,36 @@ class Schedule extends React.Component {
         const { currentIdUser: id, isAdmin, 
             currDiscipline, 
             pushBtnTransfer,
+            pushBtnTrial,
+            pushBtnUnfresh,
             discCommunication
         } = this.props;
         const week = [0,1,2,3,4,5,6]
 
-        
-
         this.props.onGetStudentsSchedule(id, newStart, newEnd, currDiscipline.code)
-        
-        
-        if (pushBtnTransfer && discCommunication.hasOwnProperty(currDiscipline.code)) {
-            
+           
+        if (pushBtnTransfer && discCommunication.hasOwnProperty(currDiscipline.code)) {       
             this.props.onGetTheMasterInterval(newStart, newEnd, discCommunication[currDiscipline.code].idMaster, week, isAdmin)
         }
+        if(pushBtnUnfresh || pushBtnTrial){
+            this.props.getAvailableInterval(newStart, newEnd, currDiscipline.code,isAdmin)
+        }
     }
+
+    fetchTrainerDateChange = (newStart, newEnd) => {
+        const { currentIdUser: id, isAdmin, 
+            currDiscipline, 
+            pushBtnTransfer,
+            pushBtnTrial,
+            pushBtnUnfresh,
+            discCommunication
+        } = this.props;
+        const week = [0,1,2,3,4,5,6]
+
+        this.props.getTrainerTraining(id, newStart, newEnd, currDiscipline.code)
+
+    }
+
 
 
     render() {
@@ -231,6 +250,9 @@ class Schedule extends React.Component {
 const mapStateToProps = state => {
     const {
         currentIdUser,
+        pushBtnUnfresh,
+        pushBtnTrial,
+        pushBtnTransfer
       } = state.scheduleIdParams;
 
     return {
@@ -243,7 +265,9 @@ const mapStateToProps = state => {
         //
         id: state.auth.id,
 
-        pushBtnTransfer: state.scheduleIdParams.pushBtnTransfer,
+        pushBtnUnfresh,
+        pushBtnTrial,
+        pushBtnTransfer,
 
         profileStudent: state.profileStudent,
         currDiscipline: state.abonement.currDiscipline,
@@ -267,7 +291,7 @@ const mapDispatchToProps = dispatch => {
         
 //
         onSetWeekInterval: (interval) => dispatch(actions.setWeekInterval(interval)),
-
+        getAvailableInterval: (start, end, discipline,isAdmin)=>dispatch(actions.getAvailableInterval(start,end,discipline,isAdmin)),
 
         getTrainerTraining: (id, dateMin, dateMax, codeDisc) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, codeDisc)),
 

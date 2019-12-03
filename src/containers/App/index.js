@@ -254,9 +254,6 @@ class App extends React.Component {
             
             this.onGoToSchedule();
             this.props.onGetTheMasterInterval(startDate, endDate, idMaster, chooseWeekdays, isAdmin)
-             .then(() => {
-               // this.setState({scheduleSpinner: false})
-             })
         }
     }
 

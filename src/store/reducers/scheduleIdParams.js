@@ -37,6 +37,7 @@ const initialState = {
 
 
     timeClickFreeEvent: null, //timestamp of click on free block
+    timeClickInAdminSchedule: null,
 
     pushBtnUnfresh: false, // is push btn
     pushBtnTrial: false, // is push btn

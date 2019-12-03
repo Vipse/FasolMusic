@@ -14,16 +14,16 @@ import { getNewTrainingTime } from '../../../containers/Schedule/shedule';
 class ConfirmCreateModal extends React.Component {
 
 
-    handleCreateAbonement = (abonement, textMessage) => {
+    handleCreateAbonement = (abonement, textMessage, isTrialEvent = false) => {
         const {
             currentIdUser: id,
             currDiscipline,
 
             startDate,
             endDate,
+            hideConfirmCreateModal: onCancel
         } = this.props;
 
-        debugger
         this.props.createAbonement(abonement)
             .then(() => {
                 // this.props.onEditUseFrozenTraining(id, useFrozenTraining);
@@ -31,11 +31,18 @@ class ConfirmCreateModal extends React.Component {
                 this.props.setParamsId({ pushBtnUnfresh: false, pushBtnTrial: false });
                 this.props.getCountTrainingByDiscipline(id, currDiscipline.code);
                 this.props.getUseFrozenTraining(id)
+
+                if(isTrialEvent){
+                    this.props.getTrainingsTrialStatus(id)
+                    this.props.getTrainingTrialStatusByDiscipline(currDiscipline.code, id)
+                }
                 message.success(textMessage);
             })
             .catch(() => {
                 message.info('Ошибка при создании');
             })
+
+        onCancel();
     }
 
 
@@ -96,7 +103,7 @@ class ConfirmCreateModal extends React.Component {
             isNoTrial: false
         }
 
-        this.handleCreateAbonement(abonement, 'Пробная тренировка создана')
+        this.handleCreateAbonement(abonement, 'Пробная тренировка создана', true)
     }
 
 
@@ -164,6 +171,9 @@ const mapDispatchToProps = dispatch => {
         getCountTrainingByDiscipline: (currentIdUser, codeDisc) => dispatch(actions.getCountTrainingByDiscipline(currentIdUser, codeDisc)),
         getUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
 
+        getTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),
+        getTrainingTrialStatusByDiscipline: (discipline, idStudent) => dispatch(actions.getTrainingTrialStatusByDiscipline(discipline, idStudent)),
+        
         hideConfirmCreateModal: () => dispatch(actions.hideConfirmCreateModal()),
 
         setParamsId: (params) => dispatch(actions.setParamsId(params)),
