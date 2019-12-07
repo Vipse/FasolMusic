@@ -111,6 +111,7 @@ export {
     rateMaster,
     changeBtnBack,
     changeBtnTransfer,
+    clearAllBookingTrainings,
 
   
     setParamsStatusPush

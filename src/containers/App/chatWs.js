@@ -28,13 +28,14 @@ let incomingCallModal = null;
 let callSound = null;
 
 export const sendMessage = (message) => {
+    if(ws.readyState){
+        ws.send(JSON.stringify(message));
 
-    ws.send(JSON.stringify(message));
-
-    if (message && message.id === 'chat') {
-        const visitInfo = callbacks.get_visitInfo();
-        const {idTraining} = visitInfo;
-        callbacks.onSaveMessage(+idTraining, message);
+        if (message && message.id === 'chat') {
+            const visitInfo = callbacks.get_visitInfo();
+            const {idTraining} = visitInfo;
+            callbacks.onSaveMessage(+idTraining, message);
+        }
     }
 }
 

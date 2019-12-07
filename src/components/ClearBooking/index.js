@@ -23,7 +23,10 @@ class ClearBooking extends React.Component {
             content: 'Вы действительно хотите удалить ВСЕ брони студента?',
             maskClosable: true,
             okText: 'Удалить',
-            onOk: () => this.props.clearAllBookingTrainings(id)
+            onOk: () => {
+                this.props.clearAllBookingTrainings(id)
+                .then(() => message.success('Брони удалены'))
+            }
         }); 
     }
 

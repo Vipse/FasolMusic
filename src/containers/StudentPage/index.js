@@ -339,7 +339,7 @@ const mapDispatchToProps = dispatch => {
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         onGetSubscriptionsByStudentId: (idStudent) => dispatch(actions.getSubscriptionsByStudentId(idStudent)),
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
-        onClearAllBookingTrainings: (idStudent) => {}//dispatch(actions.clearAllBookingTrainings(idStudent)),
+        onClearAllBookingTrainings: (idStudent) => dispatch(actions.clearAllBookingTrainings(idStudent)),
 
     }
 };

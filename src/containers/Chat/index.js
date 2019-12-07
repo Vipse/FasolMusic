@@ -179,7 +179,7 @@ class Chat extends React.Component{
             webSockedStatus: this.props.webSockedStatus
         };
 
-        console.log('chatProps', chatProps);
+       // console.log('chatProps', chatProps);
 
         return (
             <React.Fragment>

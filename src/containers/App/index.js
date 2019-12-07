@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import Spinner from '../../components/Spinner'
 
 import {connect} from 'react-redux';
-import {createSocket, closeSocket, register} from './chatWs';
+import {createSocket, closeSocket, register, sendMessage} from './chatWs';
 import ab from '../../autobahn.js'
 
 import Icon from "../../components/Icon";
@@ -120,6 +120,8 @@ class App extends React.Component {
                 setTimeout(() => this.runChatWS(), 5000)
             }
         
+            sendMessage('sdf')
+
         register(''+this.props.id, '', this.props.mode)
         setInterval(() => register(''+this.props.id, '', this.props.mode), 30000);
     };
