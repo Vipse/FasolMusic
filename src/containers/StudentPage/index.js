@@ -203,7 +203,7 @@ class StudentPage extends React.Component{
     };
 
     clearAllBookingTrainings = (id) => {  
-       this.props.onClearAllBookingTrainings(id);    
+       return this.props.onClearAllBookingTrainings(id);    
     }
 
     render() {

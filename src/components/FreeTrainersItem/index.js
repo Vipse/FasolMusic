@@ -7,6 +7,7 @@ import './style.css'
 import '../../icon/style.css'
 import ProfileAvatar from "../ProfileAvatar";
 import Button from "../Button";
+import history from '../../store/history'
 
 
 
@@ -36,7 +37,7 @@ class FreeTrainersItem extends React.Component{
                     />
                     <div className='myStudent-info'>
                         <div>
-                            <a className='myStudent-info-name' onClick={() => this.props.onGotoPage(id ? id : idMaster)}>{name}</a>
+                            <a className='myStudent-info-name' onClick={() => history.push(`app/coach${trainer.id}`)}>{name}</a>
                             <span className='myStudent-info-discipline'>{discipline}</span>
                         </div>
                         <div className='myStudent-info-lastMessage'>

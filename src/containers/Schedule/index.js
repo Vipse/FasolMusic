@@ -160,7 +160,6 @@ class Schedule extends React.Component {
             this.props.onGetTheMasterInterval(newStart, newEnd, discCommunication[currDiscipline.code].idMaster, week, isAdmin)
         }
         if(pushBtnUnfresh || pushBtnTrial){
-            debugger
             this.props.getAvailableInterval(newStart, newEnd, currDiscipline.code,isAdmin)
         }
     }
