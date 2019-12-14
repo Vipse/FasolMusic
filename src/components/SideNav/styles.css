@@ -1,11 +1,11 @@
-:global(.ant-menu-item) {
+.ant-menu-item {
   padding: 0 !important;
   display: flex;
   overflow: visible !important;
   height: 62px !important;
   margin: 5px 0 !important;
 }
-:global(.ant-menu-item) > a {
+.ant-menu-item > a {
   margin: auto 0 auto 40px;
 }
 .ant-menu-item-selected {
