@@ -5,18 +5,18 @@ import Card from '../Card'
 import Button from '../Button'
 import './style.css'
 import '../../icon/style.css'
-import InputNew from "../InputNew";
-import Spinner from "../Spinner";
-import {message} from "antd";
-import {Modal} from "antd";
+import {connect} from 'react-redux';
+import { message } from "antd";
+import { Modal } from "antd";
 
 class ClearBooking extends React.Component {
 
 
-    handleModalClear = (e,id) => {
-       
+    handleModalClear = (e, id) => {
         e.preventDefault();
-         Modal.warning({
+
+        const { startDate, endDate } = this.props
+        Modal.warning({
             title: 'Внимание',
             width: '500px',
             className: 'quick-modal',
@@ -25,28 +25,40 @@ class ClearBooking extends React.Component {
             okText: 'Удалить',
             onOk: () => {
                 this.props.clearAllBookingTrainings(id)
-                .then(() => message.success('Брони удалены'))
+                    .then(() => message.success('Брони удалены. Перезагрузите страницу'))
+                    .then(() => this.props.getSchedule(startDate, endDate))
             }
-        }); 
+        });
     }
 
     render() {
 
-        let {id} = this.props;
-        
+        let { id } = this.props;
+
         return (
             <Card title="Удаление броней ">
-                    <div className="profile-card-clearBooking">
-                        <Button onClick={e =>{this.handleModalClear(e,id)}}
+                <div className="profile-card-clearBooking">
+                    <Button onClick={e => { this.handleModalClear(e, id) }}
                         btnText='Удалить все брони'
                         size='default'
                         type='light-blue'
-                        />
-                    </div>
+                    />
+                </div>
             </Card>
         )
     }
 }
 
+const mapStateToProps = state => {
 
-export default ClearBooking
+    return {
+
+        startDate: state.training.startDate,
+        endDate: state.training.endDate,
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ClearBooking)

@@ -54,7 +54,7 @@ class EventTraining extends React.Component{
                     
                     this.props.getAvailableInterval(startDate, endDate, currDiscipline.code, isAdmin)
                     .then(() => {
-                        this.props.setParamsId({clickedTrainer: {id: null, name: null}})
+                        this.props.setParamsId({clickedTrainer: {id: null, name: null}, fullInfoMasters: []})
                     })
                 }
                

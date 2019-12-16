@@ -24,8 +24,9 @@ class RecordTrainCarousel extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {intervals, trainerTrainings, isStudentPage} = this.props;
+        const {intervals, trainerTrainings, isStudentPage, startDate} = this.props;
         const {loadingDate} = this.state;
+        
         if (loadingDate &&
             (isStudentPage || (intervals && intervals.dateStart === loadingDate.format('X'))) &&
                         trainerTrainings && trainerTrainings.dateStart === loadingDate.format('X')

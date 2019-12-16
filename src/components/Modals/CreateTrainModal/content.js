@@ -60,6 +60,7 @@ class ContentForm extends React.Component {
             startDate,
             endDate,
         
+            setParamsId,
             addAmountTraining,
             editUseFrozenTraining,
             getAvailableInterval,
@@ -76,6 +77,7 @@ class ContentForm extends React.Component {
                     .then(() => {
                         getStudentsSchedule(currentIdUser, startDate, endDate, codeDisc);  
                         getCountTrainingByDiscipline(currentIdUser, codeDisc);
+                        setParamsId({pushBtnUnfresh: false})
                     })          
                 })
                 .catch(()=> message.success('Ошибка при добавлении тренировок'))
@@ -138,14 +140,17 @@ class ContentForm extends React.Component {
                 const formatDiscForTrial = getFormatDiscipline(discForTrial);
 
                 formatDiscForTrial.forEach(key => {
-                    radioDisciplinesArr.push(
-                        <Radio 
-                            key={'radio-' + listDisciplines[key].name}
-                            value={listDisciplines[key].code} 
-                        >
-                            {listDisciplines[key].ruText}
-                        </Radio>
-                    )
+
+                    const name = listDisciplines[key].name;
+
+                        radioDisciplinesArr.push(
+                            <Radio 
+                                key={`radio-${name}`}
+                                value={listDisciplines[key].code} 
+                            >
+                                {listDisciplines[key].ruText}
+                            </Radio>
+                        ) 
                 })
 
             }

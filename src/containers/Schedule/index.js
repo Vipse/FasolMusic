@@ -150,16 +150,20 @@ class Schedule extends React.Component {
             pushBtnTransfer,
             pushBtnTrial,
             pushBtnUnfresh,
-            discCommunication
+            discCommunication,
+            clickedTrainer
         } = this.props;
         const week = [0,1,2,3,4,5,6]
 
         this.props.onGetStudentsSchedule(id, newStart, newEnd, currDiscipline.code)
            
-        if (pushBtnTransfer && discCommunication.hasOwnProperty(currDiscipline.code)) {       
+        if (pushBtnTransfer && discCommunication.hasOwnProperty(currDiscipline.code)) {  
             this.props.onGetTheMasterInterval(newStart, newEnd, discCommunication[currDiscipline.code].idMaster, week, isAdmin)
         }
-        if(pushBtnUnfresh || pushBtnTrial){
+        else if (pushBtnUnfresh && clickedTrainer.id){
+            this.props.onGetTheMasterInterval(newStart, newEnd, clickedTrainer.id, week, isAdmin)
+        }
+        else if(pushBtnUnfresh || pushBtnTrial){
             this.props.getAvailableInterval(newStart, newEnd, currDiscipline.code,isAdmin)
         }
     }
@@ -250,6 +254,8 @@ class Schedule extends React.Component {
 const mapStateToProps = state => {
     const {
         currentIdUser,
+        clickedTrainer,
+
         pushBtnUnfresh,
         pushBtnTrial,
         pushBtnTransfer
@@ -265,10 +271,12 @@ const mapStateToProps = state => {
         //
         id: state.auth.id,
 
+        
         pushBtnUnfresh,
         pushBtnTrial,
         pushBtnTransfer,
 
+        clickedTrainer,
         profileStudent: state.profileStudent,
         currDiscipline: state.abonement.currDiscipline,
 

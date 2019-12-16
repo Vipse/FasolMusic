@@ -34,6 +34,8 @@ export function getNewTrainingTime(trainingTime, time, event) {
     let newTrainingTime = { ...trainingTime }
     let weekDay = moment(+time * 1000).weekday() + 1; //+1, но надо было пн=0 ... воскр=6
 
+    if(weekDay === 7) weekDay = 0; // для воскресения должно быть 0
+
     if (!newTrainingTime.hasOwnProperty(weekDay)) {
       newTrainingTime[weekDay] = []
     }

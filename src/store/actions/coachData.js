@@ -1,9 +1,23 @@
 import axios from './axiosSettings'
 import * as actionTypes from './actionTypes';
+import * as actions from '../actions'
 
 export const getInfoDoctor = (id) => {
     let obj = {id};
-    return (dispatch) => {
+
+    function getMainDiscipline(list, data){
+        try{
+            if(Array.isArray(data.disciplines)){
+                return data.disciplines[0].discipline[0].id
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+        return null
+    }
+
+    return (dispatch, getState) => {
 
         return axios.post('/catalog.fasol/getUserInfo',
          JSON.stringify(obj))
@@ -14,6 +28,9 @@ export const getInfoDoctor = (id) => {
                     fdata.hasOwnProperty('aboutme') ?  fdata.aboutme = fdata.aboutme.replace(/(['])/g, "\"") : ''
                     fdata.hasOwnProperty('bestcomment') ? fdata.bestcomment = fdata.bestcomment.replace(/(['])/g, "\"") : ''
 
+
+                    const disc = getMainDiscipline(getState().abonement.listDisciplines, fdata)
+                    disc && dispatch(actions.changeCurrDiscipline(disc))
                     dispatch({
                         type: actionTypes.INFO_DOCTOR,
                         profileCoach: fdata,

@@ -112,7 +112,7 @@ const mapDispatchToProps = dispatch => {
         addAmountTraining: (idSubscription, addAmount) => dispatch(actions.addAmountTraining(idSubscription, addAmount)),
         editUseFrozenTraining: (idStudent, amount) => dispatch(actions.editUseFrozenTraining(idStudent, amount)),
         
-
+        setParamsId: (params) => dispatch(actions.setParamsId(params)),
         getAvailableInterval: (start, end, discipline, isAdmin)=>dispatch(actions.getAvailableInterval(start, end,discipline,isAdmin)),
 
         hideCreateTrainModal_clickUnfreeze: () => dispatch(actions.hideCreateTrainModal_clickUnfreeze()),

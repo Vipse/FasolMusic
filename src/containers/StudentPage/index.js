@@ -209,7 +209,7 @@ class StudentPage extends React.Component{
     render() {
         const { id, avatar, name, frozenTraining,email, phones } = this.props.profileStudent;
         const { bestsex, bestage, bestishomework, bestqualities, bestcomment } = this.props.profileStudent;
-        const {trainerTrainings, studentTrainings, match,
+        const {startDate, studentTrainings, match,
             trainings, loadingPastTrainsList, isRequestFailed, endAchieved, studentBalance} = this.props;
         const isAdmin = this.props.mode === 'admin';
 
@@ -235,6 +235,7 @@ class StudentPage extends React.Component{
                                     handleTrainModal={this.handleTrainModal}
                                     isAdmin={isAdmin}
                                     isStudentPage={true}
+                                    startDate={startDate}
                                 />
                             </Col>}
                             <Col span={10} className='section'>
@@ -281,14 +282,16 @@ class StudentPage extends React.Component{
                                     handleTrainModal={this.handleTrainModal}
                                     isAdmin={isAdmin}
                                     isStudentPage={true}
+                                    startDate={startDate}
                                 />}
                                 {isAdmin && <FrozenTrainingChanger
                                     frozenCount={frozenTraining}
                                     onSaveFrozenBalance={this.changeFrozenBalance}
                                 />}
                                 {isAdmin && <BookingClearButton
-                                id={id}
-                                clearAllBookingTrainings={this.clearAllBookingTrainings}
+                                    id={id}
+                                    clearAllBookingTrainings={this.clearAllBookingTrainings}
+                                    getSchedule={this.getSchedule}
                                 />}
                             </Col>
                         </Row>
@@ -303,6 +306,8 @@ const mapStateToProps = state => {
     return {
         id: state.auth.id,
         mode: state.auth.mode,
+        startDate: state.training.startDate,
+
         trainings: state.homework.trainings,
         loadingPastTrainsList: state.homework.loading,
         isRequestFailed: state.homework.isRequestFailed,

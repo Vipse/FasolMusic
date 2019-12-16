@@ -58,6 +58,7 @@ class Toolbar extends React.Component {
       listNewSchedule,
       isAdmin,
       listDisciplines,
+      clickedTrainer,
       //
       dateChange,
       countTrainingDiscipline: count,
@@ -102,7 +103,7 @@ class Toolbar extends React.Component {
         </div>
 
 
-        {Object.keys(listNewSchedule).length ?
+        {Object.keys(listNewSchedule).length && clickedTrainer.id?
           <Button
             btnText={'Сохранить'}
             size='small'
@@ -124,6 +125,8 @@ const mapStateToProps = state => {
     listNewSchedule,
     currentIdUser,
 
+    clickedTrainer,
+
     pushBtnUnfresh,
     pushBtnTrial
   } = state.scheduleIdParams;
@@ -131,6 +134,7 @@ const mapStateToProps = state => {
   return {
     currentIdUser,
     listNewSchedule,
+    clickedTrainer,
     isAdmin: state.auth.mode === "admin",
     mode: state.auth.mode,
 

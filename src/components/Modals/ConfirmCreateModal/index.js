@@ -74,7 +74,7 @@ class ConfirmCreateModal extends React.Component {
             amount: useFrozenTraining,
             discipline: [currDiscipline.code],
             trainingtime,
-            isNoTrial: true
+            isNoTrial: 1
         }
 
         this.handleCreateAbonement(abonement, 'Абонемент создан')
@@ -101,7 +101,7 @@ class ConfirmCreateModal extends React.Component {
             amount: 1,
             discipline: [currDiscipline.code],
             trainingtime,
-            isNoTrial: false
+            isNoTrial: 0
         }
 
         this.handleCreateAbonement(abonement, 'Пробная тренировка создана', true)

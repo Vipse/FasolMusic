@@ -15,8 +15,9 @@ export const getAvailableInterval = (dateStart, dateEnd, discipline, isCallAdmin
     if (!Array.isArray(discipline)) discipline = [discipline]
     let obj = { dateStart, dateEnd, discipline, isCallAdmin };
 
-    return (dispatch) => {
+    return (dispatch) => {    
         dispatch(actions.startLoading())
+        dispatch(actions.clearFreeInterval())
 
         return axios.post('/catalog.fasol/getIntervalOnWeekdaysOnlyDate', JSON.stringify(obj))
             .then(rez => {
@@ -54,7 +55,10 @@ export const getTheMasterInterval = (dateStart, dateEnd, idMaster, weekdays, isC
         isCallAdmin
     };
 
+    
     return (dispatch) => {
+        dispatch(actions.clearFreeInterval())
+
         return axios.post('/catalog.fasol/getMasterIntervalOnlyDate', JSON.stringify(obj))
             .then(res => {
 
