@@ -8,6 +8,8 @@ import FrozenTrainingChanger from "../../components/FrozenTrainingChanger";
 import TrainsHistory from "../../components/TrainsHistory";
 import RecordTrainCarousel from "../../components/RecordTrainCarousel";
 import BookingClearButton from "../../components/ClearBooking";
+import Card from '../../components/Card'
+import ProfileAvatar from '../../components/ProfileAvatar'
 
 import Hoc from '../../hoc'
 import * as actions from '../../store/actions'
@@ -227,6 +229,27 @@ class StudentPage extends React.Component{
                 <Hoc>
                     <div className="student-page">
                         <Row type="flex" gutter={32}>
+                            {isAdmin && <Col span={24}>
+                                <Card title={"Студент"}>
+                                    <div className="profile-card-student">
+                                        <div className='profile-student'>
+                                        <div className="profile-student-avatar">
+                                            <ProfileAvatar
+                                                img={avatar}
+                                                size="small"
+                                                //online={status}
+                                            />
+                                         </div>
+                                         <div className="profile-student-info">
+                                         <div className="profile-student-info-name">{name}</div>
+                                         <div className="profile-student-info-count">Тренировок оплачено: <span className="profile-student-info-count-number">{studentBalance}</span></div>
+                                          
+                                        </div>
+                                            
+                                        </div>
+                                    </div>
+                                </Card>
+                            </Col>}
                             {isAdmin && <Col span={24}>
                                 <RecordTrainCarousel
                                     onGetIntervals={this.getSchedule} 

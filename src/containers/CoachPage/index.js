@@ -5,6 +5,8 @@ import Col from "../../components/Col";
 import CoachProfile from "../../components/CoachProfile";
 import RecordTrainCarousel from "../../components/RecordTrainCarousel";
 import CoachPagePerfectStudent from "../../components/CoachPagePerfectStudent";
+import Card from '../../components/Card'
+import ProfileAvatar from '../../components/ProfileAvatar'
 
 import Hoc from '../../hoc'
 
@@ -272,7 +274,29 @@ class CoachPage extends React.Component{
                                     onGoToChat={this.goToNearestChat}
                                 />
                             </Col>}
+
                             <Col span={isAdmin ? 32 : 13} offset={32}>
+                            {isAdmin && <Card title={"Преподаватель"}>
+                                    <div className="profile-card-student">
+                                        <div className='profile-student'>
+                                        <div className="profile-student-avatar">
+                                            <ProfileAvatar
+                                                img={avatar}
+                                                size="small"
+                                                //online={status}
+                                            />
+                                         </div>
+                                         <div className="profile-student-info">
+                                         <div className="profile-student-info-name">{name}</div>
+                                        <div className="profile-student-info-count">{this.getDisciplinesList()+this.getSpecializationsList()}</div>
+                                          
+                                        </div>
+                                            
+                                        </div>
+                                    </div>
+                                </Card>
+                            }
+                               <Row>
                                 <RecordTrainCarousel
                                     onGetIntervals={this.getIntervals}
                                     intervals={masterSchedule}
@@ -318,6 +342,7 @@ class CoachPage extends React.Component{
                                     comment={bestcomment}
                                 />
                                 }
+                                </Row>
                             </Col>
                         </Row>
                         <AdminCreateTrainingModal
