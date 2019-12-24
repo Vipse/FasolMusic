@@ -6,6 +6,7 @@ import {message, Modal as PopupModal} from 'antd';
 
 import Button from "../../components/Button";
 import Calendar from "../../components/Calendar22";
+import NewTrialTrainingModal from "../../components/NewTrialTrainingModal"
 
 import Modal from './../../components/Modal/index';
 import * as actions from '../../store/actions'
@@ -26,6 +27,11 @@ class Schedule extends React.Component {
         const m = moment().startOf('week');
         this.min = moment([m.get('year'), m.get('month'), m.get('date'), 8]).format('X')
         this.max = moment([m.get('year'), m.get('month'), m.get('date'),23]).format('X')    
+
+        this.state = {
+            newTrialTrainingModal:false,
+            getPushPermissionModal:false,
+        }
     };
 
     componentDidUpdate(nextProps, nextState) {
@@ -46,6 +52,46 @@ class Schedule extends React.Component {
         const {match} = this.props;
         return (Object.keys(match.params).length && match.params.id) ? true : false
     }
+
+    //
+        showNewTrialTrainingModal = () => {
+            this.setState({newTrialTrainingModal:true})
+        }
+
+        closeNewTrialTrainingModal = () => {
+            this.setState({newTrialTrainingModal:false})
+        }
+
+        acceptNewTrialModal = () => {
+            const {id} = this.props;
+            this.fillTrainingWeek();
+            
+            if(Notification.permission !== "granted") {
+                this.setState({getPushPermissionModal:true});
+                
+                this.props.onAskForPermissionToReceivePushNotifications(id)
+                .then(()=>{
+                    this.setState({getPushPermissionModal:false});
+                })
+            }
+        }
+
+        pushNotificationsRequestModal = () => {
+            return  <div className = { this.state.getPushPermissionModal ? "showPushPermissionModal" : "hidePushPermissionModal"} >
+                    <div>
+                        Разреши Fasol отправлять тебе <br/> пуш-уведомления
+                    </div>
+                
+                    <div className="showPushPermissionModal-low">
+                    Будем уведомлять тебя о  начале занятий,
+                    <br/>
+                    изменениях в расписании и оплате
+                    </div>
+
+            </div>
+        }
+    //
+
 
     componentDidMount() {
         const {startDate, endDate, setParamsId} = this.props;
@@ -232,6 +278,7 @@ class Schedule extends React.Component {
 
         return (
             <React.Fragment>
+                {this.pushNotificationsRequestModal()}
                 <Card className='card-calendar' title={cardTitle}>
                         {calendar}
                 </Card>                
@@ -245,6 +292,11 @@ class Schedule extends React.Component {
                 <TransferOrNewScheduleModal />
                 
                 <ListTrainersModal />
+
+                <NewTrialTrainingModal visible={this.state.newTrialTrainingModal}
+                                       onCancel={this.closeNewTrialTrainingModal}
+                                       onSave={this.acceptNewTrialModal}
+                />
 
             </React.Fragment>
         )
@@ -279,6 +331,8 @@ const mapStateToProps = state => {
         clickedTrainer,
         profileStudent: state.profileStudent,
         currDiscipline: state.abonement.currDiscipline,
+        
+        pushNotificationsToken:state.auth.pushNotificationsToken,
 
         isAdmin:  state.auth.mode === "admin",
         theMasterInterval: state.student.theMasterInterval,
@@ -311,6 +365,7 @@ const mapDispatchToProps = dispatch => {
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays, isCallAdmin) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays, isCallAdmin)),
         
+        onAskForPermissionToReceivePushNotifications: (id) => dispatch(actions.askForPermissionToReceiveNotifications(id)),
     }
 };
 

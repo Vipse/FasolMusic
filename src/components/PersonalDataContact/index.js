@@ -30,6 +30,14 @@ class PersonalDataContact extends React.Component {
         }
     };
 
+    askForPermissionToReceiveNotifications = () =>{
+       let {id} = this.props.profile;
+
+       if (!this.props.pushNotificationsToken) {
+        this.props.askForPermissionToReceiveNotifications(id)
+        }
+    }
+
     render() {
         const {getFieldDecorator} = this.props;
         const {countriesList, onChangeSocial, showChangePasswordModal, showSendSuggestionsModal, avatarLink} = this.props;
@@ -130,6 +138,14 @@ class PersonalDataContact extends React.Component {
                         size='default'
                         type='light-blue'
                     />
+                    {!this.props.pushNotificationsToken ? <Button
+                        className='coach-data-toggles-modalBtn'
+                        onClick={this.askForPermissionToReceiveNotifications}
+                        size='default'
+                        btnText='Включить пуш уведомления'
+                        type='light-blue'
+                    /> : ''
+                    }
                     <Button
                         className='coach-data-toggles-modalBtn'
                         onClick={showSendSuggestionsModal}

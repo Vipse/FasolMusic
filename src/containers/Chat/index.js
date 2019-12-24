@@ -194,6 +194,9 @@ class Chat extends React.Component{
                                               goToPayment={this.onGoToPayment}
                                               isStudent={true}
                                               onCheckOnlineStatus={this.props.onCheckOnlineStatus}
+                                              sendPushNotification={this.props.onSendPushNotification}
+                                              getPushNotificationsToken={this.props.onGetPushNotificationsToken}
+                                              name={this.props.studentName}
                                     />
                                 ) : (
                                     <ChatCard {...chatProps}
@@ -204,6 +207,9 @@ class Chat extends React.Component{
                                               removeTrialTraining={this.props.onRemoveTrialTraining}
                                               changeTrainingStatus={this.props.onSetTrainingStatus}
                                               onCheckOnlineStatus={this.props.onCheckOnlineStatus}
+                                              sendPushNotification={this.props.onSendPushNotification}
+                                              getPushNotificationsToken={this.props.onGetPushNotificationsToken}
+                                              name={this.props.masterName}
                                     />
                                 ) :
                                 <ChatTrainingsList
@@ -232,6 +238,9 @@ const mapStateToProps = state =>{
         studentNearTrainings: state.training.nearTraining,
         masterNearTrainings: state.trainer.futureTraining,
         selectors: state.loading.selectors,
+
+        studentName:state.profileStudent.name,
+        masterName:state.profileCoach.name,
 
         chatStory: state.chatWS.chatStory,
         trainingStarts: state.chatWS.trainingStarts,
@@ -270,6 +279,9 @@ const mapDispatchToProps = dispatch => {
         onCheckInterlocutorOnlineStatus: (id) => dispatch(actions.checkInterlocutorOnlineStatus(id)),
         onGetUserFono: (idTo) => dispatch(actions.getUserFono(idTo)),
         onRemoveTrialTraining:(idTraining, isCallAdmin) => dispatch(actions.removeTrialTraining(idTraining, isCallAdmin)),
+        onSendPushNotification:(idUser,type,callerName) => dispatch(actions.sendPushNotification(idUser,type,callerName)),
+        onGetPushNotificationsToken : (id,changeStatus) => dispatch(actions.getPushNotificationsToken(id,changeStatus))
+        
         //uploadFile: (id_zap, id_user, file, callback) => dispatch(actions.uploadChatFile(id_zap,id_user, file,callback)),
 	}
 };

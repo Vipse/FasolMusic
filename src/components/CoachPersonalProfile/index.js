@@ -32,6 +32,8 @@ class CoachPersonalProfile extends React.Component{
                             selectors={this.props.selectors}
                             onChangePassword={this.props.onChangePassword}
                             uploadFile={this.props.uploadFile}
+                            askForPermissionToReceiveNotifications={this.props.askForPermissionToReceiveNotifications}
+                            pushNotificationsToken={this.props.pushNotificationsToken}
                         />
                     </Col>
                 </Row>
@@ -49,7 +51,8 @@ CoachPersonalProfile.propTypes = {
 CoachPersonalProfile.defaultProps = {
     profileCoach: {},
     onSubmit: () => {},
-    onChangePassword: () => {}
+    onChangePassword: () => {},
+    onAskForPermissionToReceiveNotifications:() => {}
 };
 
 export default CoachPersonalProfile

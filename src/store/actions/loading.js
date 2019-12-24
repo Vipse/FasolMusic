@@ -106,7 +106,7 @@ export const getNotifications = (id) => {
         axios.post('/catalog.fasol/connect',
             JSON.stringify(obj))
             .then(res => {
-                console.log('getNotifications', res)
+                //console.log('getNotifications', res)
             })
             .catch(err => {
                 console.log(err);

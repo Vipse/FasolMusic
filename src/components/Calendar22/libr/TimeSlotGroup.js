@@ -11,6 +11,10 @@ import { DropTarget } from 'react-dnd';
 import MasterListSlot from './MasterListSlot';
 import moment from 'moment';
 
+
+import Modal from '../../Modal/index';
+import Button from "../../Button";
+
 const squareTarget = {
   drop(props) {
     props.transferTraining(props.value); // drag and drop 
@@ -57,6 +61,23 @@ class TimeSlotGroup extends Component {
     showLabels: false,
     freeTrainers: null,
   }
+
+   constructor(props) {
+        super(props);
+        this.state = {
+            modalWasTransfer: false,
+            modalTooLateTransfer: false,
+        }
+    };
+
+
+    showWasTransferModal = () => {
+        this.setState({modalWasTransfer: true});
+    }
+
+    showTooLateTransferModal = () => {
+        this.setState({modalTooLateTransfer: true});
+    }
 
 
   renderSlice(slotNumber, content, value) {
@@ -225,9 +246,10 @@ class TimeSlotGroup extends Component {
     const currentEvent = this.renderEvent();
 
 
-    
+
     let cellClass = cn('rbc-timeslot-group', flag && !isViewTrainer && !currentEvent ? 'rbc-timeslot-group-OK' : 'rbc-timeslot-group-NOT');
     const modalTransferEvent = flag && !isViewTrainer && !currentEvent ? this.showModalTransferEvent : () => {}; // перенос тренировки
+    
 
     
     if(isAdmin) {
@@ -252,7 +274,50 @@ class TimeSlotGroup extends Component {
       <div className={cellClass} style={{backgroundColor}} onClick={(e) => modalTransferEvent(value.getTime())}>
            {this.renderSlices()}
            {currentEvent}
-         </div>
+           
+
+           <Modal
+                    title='Сообщение'
+                    visible={this.state.modalTooLateTransfer}
+                    onCancel={() => this.setState({modalTooLateTransfer : false})}
+                    width={360}
+                    className="schedule-message-modal-wrapper"
+                    >
+                        <div className="schedule-message-modal-text">
+                               Переносить тренировку можно только за 24 часа до тренировки
+                        </div>
+                        <div className="schedule-message-modal">
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Ок'
+                                        onClick= {() => {
+                                            this.setState({modalTooLateTransfer: false});
+                                        }}
+                                        type='yellow'/>
+                                </div>
+                        </div>
+                    </Modal>
+
+                    <Modal
+                    title='Сообщение'
+                    visible={this.state.modalWasTransfer}
+                    onCancel={() => this.setState({modalWasTransfer : false})}
+                    width={360}
+                    className="schedule-message-modal-wrapper"
+                    >
+                        <div className="schedule-message-modal-text">
+                               Одну тренировку можно переносить лишь один раз
+                        </div>
+                        <div className="schedule-message-modal">
+                                <div className="schedule-message-btn">
+                                    <Button btnText='Ок'
+                                        onClick= {() => {
+                                            this.setState({modalWasTransfer: false});
+                                        }}
+                                        type='yellow'/>
+                                </div>
+                        </div>
+                    </Modal>           
+      </div>
     )
   
   }

@@ -24,6 +24,8 @@ const IN_CALL = 2;
 var callState = null;
 
 let timerInterval;
+let timerPing;
+let dateNow;
 let incomingCallModal = null;
 let callSound = null;
 
@@ -47,6 +49,12 @@ export const setVideoOut = (video) => {
 
     videoOutput = video;
 }
+export const getReadyState = () => { 
+    if(ws && ws.readyState == 1){
+        return 'CONNECTING'
+    }
+    return 'NO_CONNECTING'
+}
 
 export function createSocket(wsUrl,_props,_callbacks) {
     console.log("createSocket", wsUrl, _props, _callbacks);
@@ -54,11 +62,16 @@ export function createSocket(wsUrl,_props,_callbacks) {
     ws = new WebSocket(wsUrl);
     props = _props;
     callbacks = _callbacks;
+    openSocketConnection(ws);
+
     ws.onmessage = (message) => {
         console.log("Onmessage", message);
 
         let parsedMessage = JSON.parse(message.data);
         switch (parsedMessage.id){
+            case 'ping':    
+                heartbeat();   
+                break;
             case 'registerResponse':
                 resgisterResponse(parsedMessage);
                 break;
@@ -105,6 +118,7 @@ export function createSocket(wsUrl,_props,_callbacks) {
 }
 export function closeSocket() {
     clearInterval(timerInterval);
+    clearInterval(timerPing);
     ws && ws.close();
 }
 
@@ -182,10 +196,43 @@ const timer = () => {
         })
 }
 
+function openSocketConnection(ws){
+
+    function startCycle(){
+        
+        timerPing = setInterval(() => {
+            
+            dateNow = Date.now()
+            console.log("startCycle", dateNow)
+            sendMessage({id: 'ping'})
+        }, 5000)
+    }
+    setTimeout(
+        function () {
+            if (ws.readyState !== 1) {
+                openSocketConnection(ws);
+            }
+            else {
+                startCycle();
+            }
+        }, 5);
+}
+function heartbeat() {  
+    console.log('heartbeat :');
+    if(Date.now() - dateNow > 5000){
+        //server wrong
+        clearInterval(timerPing);
+        callbacks.show_error_from_server()
+    }
+    //"server good"); 
+}
+
+
 export const register = (id1, id2, user_mode) => {
     callbacks.setChatFromId(id1);
     setRegisterState(REGISTERING);
 
+    
     ws.onopen = () => {
         console.log("true register")
         sendMessage({
@@ -248,7 +295,11 @@ const callResponse = (message) => {
                 : 'Unknown reason for call rejection.';
         console.log(errorMessage);
         stop(true);
-    } else {
+    }
+    if (message.code == 409){
+        callbacks.show_error()
+    } 
+    else {
         setCallState(IN_CALL);
         webRtcPeer.processAnswer(message.sdpAnswer);
     }

@@ -256,6 +256,9 @@ class ChatCard extends React.Component {
 			timer: this.props.timer,
 			isCalling: this.props.isCalling,
 			isActiveChat: this.state.isActiveChat,
+			getPushNotificationsToken: this.props.getPushNotificationsToken,
+			sendPushNotification: this.props.sendPushNotification,
+			callerName:this.props.name
 		};
 		
 		switch (this.props.mode) {

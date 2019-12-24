@@ -52,6 +52,8 @@ class PersonalInfo extends React.Component {
                             selectors={this.props.selectors}
                             uploadFile={this.props.uploadFile}
                             onChangePassword={this.props.onChangePassword}
+                            askForPermissionToReceiveNotifications={this.props.onAskForPermissionToReceiveNotifications}
+                            pushNotificationsToken={this.props.pushNotificationsToken}
                         />)}
                 </React.Fragment>
         )
@@ -64,6 +66,7 @@ const mapStateToProps = state => {
         profileStudent: state.profileStudent,
         auth: state.auth,
         selectors: state.loading.selectors,
+        pushNotificationsToken:state.auth.pushNotificationsToken,
     }
 };
 
@@ -75,7 +78,8 @@ const mapDispatchToProps = dispatch => {
         connectionToSocialNetwork: (idProfile, idSocial, networkName) => dispatch(actions.connectionToSocialNetwork(idProfile, idSocial, networkName)),
         getMultipleSelectors: (name) => dispatch(actions.getMultipleSelectors(name)),
         onChangePassword: (id, newPass) => dispatch(actions.changePassword(id, newPass)),
-        uploadFile: (file) => dispatch(actions.uploadFile(file))
+        uploadFile: (file) => dispatch(actions.uploadFile(file)),
+        onAskForPermissionToReceiveNotifications: (id) => dispatch(actions.askForPermissionToReceiveNotifications(id)),
     }
 };
 

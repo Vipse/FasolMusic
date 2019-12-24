@@ -164,11 +164,15 @@ export const changeSubscription = (value, isCallAdmin) => {
 }
 
 
-export const freezeAbonement = (idSubscription) => {
-    const obj = {
+export const freezeAbonement = (idSubscription,idUser) => {
+    const obj = idUser ? {
+        idSubscription,
+        idUser
+    } : {
         idSubscription
     }
-    return (dispatch, getState) =>
+    
+    return (dispatch, getState) => 
         axios.post('/catalog.fasol/frozenTraining', JSON.stringify(obj))
             .then(res => {
                 if (res.data.code == 200) {
@@ -191,7 +195,6 @@ export const getSubscriptionsByStudentId = (idStudent) => {
     return (dispatch, getState) =>
         axios.post('/catalog.fasol/getSubscriptionsByStudentId', JSON.stringify({ idStudent }))
             .then(res => {
-
                 dispatch({
                     type: actionTypes.GET_SUBSCRIPTION_FOR_DISCIPLINE,
                     subsForDisc: res.data.result,
@@ -208,8 +211,7 @@ export const getStudentBalance = (idStudent) => {
     return (dispatch, getState) =>
         axios.post('/catalog.fasol/getStudentBalance', JSON.stringify({ idStudent }))
             .then(res => {
-                console.log("getStudentBalance", res);
-
+                
                 dispatch({
                     type: actionTypes.GET_STUDENT_BALANCE,
                     studentBalance: res.data.balance,

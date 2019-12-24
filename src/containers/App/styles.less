@@ -1,5 +1,9 @@
 body {
     min-width: 1300px;
+
+    @media screen and (max-width: 768px) { 
+        min-width: 0;
+      }
 }
 
 .ant-layout {
@@ -29,10 +33,11 @@ body {
 }
 
 .main {
+    min-width: 1300px;
     display: flex;
     flex-wrap: wrap;
     background-color: #f9f5f6;
-    overflow: hidden; ///background-image: url("../../img/main-bg.svg");
+    overflow: scroll; ///background-image: url("../../img/main-bg.svg");
     background-size: 130%; //background-position: -33vw -15vw;
     //background-repeat: no-repeat;
     .schedule-spinner{

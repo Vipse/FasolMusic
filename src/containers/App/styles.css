@@ -1,6 +1,11 @@
 body {
   min-width: 1300px;
 }
+@media screen and (max-width: 768px) {
+  body {
+    min-width: 0;
+  }
+}
 .ant-layout {
   background-color: #ddebf5;
 }
@@ -27,10 +32,11 @@ body {
   background-color: transparent;
 }
 .main {
+  min-width: 1300px;
   display: flex;
   flex-wrap: wrap;
   background-color: #f9f5f6;
-  overflow: hidden;
+  overflow: scroll;
   background-size: 130%;
 }
 .main .schedule-spinner {

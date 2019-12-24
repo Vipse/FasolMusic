@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Spin} from "antd";
+import {Modal, message, Spin} from "antd";
 import {docRoutes, patientRoutes, adminRoutes, menuDoc, menuPatient} from '../../routes'
 import {coachRoutes, studentRoutes, menuStudent, menuCoach, menuAdmin} from '../../routes'
 import {Route, Switch, Redirect} from 'react-router-dom'
@@ -20,6 +20,8 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../../styles/fonts.css';
 import VKApp from '../../components/VKApp';
 import { detect } from 'detect-browser';
+import firebase, { messaging } from 'firebase'
+import WarningModal from '../../components/WarningModal';
 
 const browser = detect();
 
@@ -36,7 +38,9 @@ class App extends React.Component {
             notifications: [],
             scheduleSpinner: false,
             widget: null,
-            id: null
+            id: null,
+            mustLeaveReview: false,
+            isWarningModal: false
         };
     }
 
@@ -55,6 +59,22 @@ class App extends React.Component {
     componentDidUpdate(prevProps){
         this.state.scheduleSpinner && this.setState({scheduleSpinner: false});
     }
+    runFirebase = () => {
+        if (!firebase.apps.length){
+            console.log("Initialize firebase app")
+            firebase.initializeApp({
+            messagingSenderId: '913021465205'
+            })
+        };
+    }
+
+    setupPushNotificationsToken = (id) => {
+        this.props.onGetPushNotificationsToken(id,true)
+            .then(token => {
+                if (token) this.props.onRefreshPushNotificationsToken(id,token);
+        })
+    }
+
     runNotificationsWS = () => {
         const that = this;
         //let id = 3199;
@@ -114,6 +134,8 @@ class App extends React.Component {
                 get_visitInfo: () => this.getChatInfo(),
                 get_timer: () => this.props.timer,
                 get_history: () => this.props.history,
+                show_error: () => this.setState({isWarningModal: true}),
+                show_error_from_server: () => this.setState({isServerWarningModal: true})
             })
             .onerror = () => {
                 console.log("onerror")
@@ -176,6 +198,9 @@ class App extends React.Component {
     componentDidMount() {
         const {id, mode} = this.props;
         const {pathname} = this.props.history.location;
+
+        this.runFirebase();
+        
         this.props.getSelectors('discipline')
             .then(() => (mode === 'student' ||  this.isStudentSchedule()) && this.props.onGetTrainingsTrialStatus(this.props.id));
 
@@ -189,9 +214,11 @@ class App extends React.Component {
                                 })
                             )
                 })
+            this.setupPushNotificationsToken(id);
         }
         else if (mode === "student") {
            this.fetchStudentInfo(id)
+           this.setupPushNotificationsToken(id)
         }
         else if (mode === 'admin'){         
             if(this.isStudentSchedule()){
@@ -204,6 +231,7 @@ class App extends React.Component {
             this.runChatWS();
             this.runNotificationsWS();
         }
+        
     }
 
     isStudentSchedule = () => { 
@@ -349,7 +377,10 @@ class App extends React.Component {
                                             onTransferTrainPopupClose={this.props.onTransferTrainPopupDisable}
                                             isStudentSchedule={this.isStudentSchedule()}
                                             notifications = {this.props.notifications}
-                                            
+                                            pushNotificationsToken = {this.props.pushNotificationsToken}
+                                            askForPermissionToReceiveNotifications = {this.props.onAskForPermissionToReceiveNotifications}
+                                            showSpinner = {() => this.setState({scheduleSpinner: true})}
+                                            hideSpinner = {() => this.setState({scheduleSpinner: false})}
                                     />
                                 </div>
                                 <div className="main-content">
@@ -378,6 +409,19 @@ class App extends React.Component {
                                 </div>
                             }
 
+                            <React.Fragment>
+                                    <WarningModal 
+                                        onClick={() => this.setState({isWarningModal: false})}
+                                        visible={this.state.isWarningModal} 
+                                        message={'Пользователь недоступен'}
+                                    />
+
+                                    <WarningModal 
+                                        onClick={() => this.setState({isServerWarningModal: false})}
+                                        visible={this.state.isServerWarningModal} 
+                                        message={'Вы отключены от видеосервера. Выйдите и зайдите в систему снова'}
+                                    />
+                            </React.Fragment> 
 
                         </React.Fragment> :
                         <Redirect to='/signin'/>
@@ -398,6 +442,7 @@ const mapStateToProps = state => {
         auth: state.auth,
         id: state.auth.id,
         mode: state.auth.mode,
+        pushNotificationsToken:state.auth.pushNotificationsToken,
         profileCoach: state.profileCoach,
         profileStudent: state.profileStudent,
         selectors: state.loading.selectors,
@@ -489,7 +534,11 @@ const mapDispatchToProps = dispatch => {
         onGetUseFrozenTraining: (idStudent) => dispatch(actions.getUseFrozenTraining(idStudent)),
         
         onTransferTrainPopupDisable: () => dispatch(actions.transferTrainPopupDisable()),
-        
+        onUnsetPushBtnTransferTraining: () => dispatch(actions.unsetPushBtnTransferTraining()),
+
+        onAskForPermissionToReceiveNotifications: (id) => dispatch(actions.askForPermissionToReceiveNotifications(id)),
+        onGetPushNotificationsToken : (id,changeStatus) => dispatch(actions.getPushNotificationsToken(id,changeStatus)),
+        onRefreshPushNotificationsToken : (id,token) => dispatch(actions.refreshPushNotificationsToken(id,token))
     }
 };
 
