@@ -24,10 +24,6 @@ class BigCalendar extends React.Component{
                 {...this.props}
             />
         }
-<<<<<<< HEAD
-=======
-        //console.log('this.props :', this.props);
->>>>>>> master
 
         return (
             <Calendar
