@@ -1,8 +1,6 @@
 import axios from 'axios'
+import {baseURL} from '../../hosts.js'
 
-const instance = axios.create({
-    //baseURL: 'http://178.172.172.2/~api/json/'
-    baseURL: `https://web.fasolonline.ru/~api/json/`
-});
+const instance = axios.create({ baseURL });
 
 export default instance;

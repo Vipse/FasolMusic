@@ -14,6 +14,9 @@
   font-size: 20px;
 }
 .ant-modal-close-x {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #ffffff;
 }
 .ant-modal.warning .ant-modal-header {

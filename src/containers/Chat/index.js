@@ -2,7 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux';
 import Row from '../../components/Row'
 import Col from '../../components/Col'
-
+import Hoc from '../../hoc'
+import {url} from '../../hosts'
 
 import ChatCard from './ChatCard'
 
@@ -159,7 +160,11 @@ class Chat extends React.Component{
         const isStudent = this.props.user_mode === "student";
 
         const chatProps = {
-            wsURL: 'wss://web.fasolonline.ru:8443/one2one',
+            wsURL: `wss://${url}:8443/one2one`,
+            sendPushNotification:this.props.onSendPushNotification,
+            getPushNotificationsToken: this.props.onGetPushNotificationsToken,
+
+            name: this.props.studentName,
             timer: this.props.timer,
             chatStory: this.props.chatStory,
             loadingChatStory: this.state.loadingChatStory,
@@ -179,10 +184,9 @@ class Chat extends React.Component{
             webSockedStatus: this.props.webSockedStatus
         };
 
-       // console.log('chatProps', chatProps);
 
         return (
-            <React.Fragment>
+            <Hoc>
                 <Row>
                     <Col xs={24} xxl={24} className='section'>
                         {
@@ -194,9 +198,6 @@ class Chat extends React.Component{
                                               goToPayment={this.onGoToPayment}
                                               isStudent={true}
                                               onCheckOnlineStatus={this.props.onCheckOnlineStatus}
-                                              sendPushNotification={this.props.onSendPushNotification}
-                                              getPushNotificationsToken={this.props.onGetPushNotificationsToken}
-                                              name={this.props.studentName}
                                     />
                                 ) : (
                                     <ChatCard {...chatProps}
@@ -207,9 +208,6 @@ class Chat extends React.Component{
                                               removeTrialTraining={this.props.onRemoveTrialTraining}
                                               changeTrainingStatus={this.props.onSetTrainingStatus}
                                               onCheckOnlineStatus={this.props.onCheckOnlineStatus}
-                                              sendPushNotification={this.props.onSendPushNotification}
-                                              getPushNotificationsToken={this.props.onGetPushNotificationsToken}
-                                              name={this.props.masterName}
                                     />
                                 ) :
                                 <ChatTrainingsList
@@ -220,11 +218,15 @@ class Chat extends React.Component{
                                     completeTraining={this.completeTraining}
                                     tailTraining={this.transferToEnd}
                                     user_mode={this.props.user_mode}
+                                    removeTrialTraining={this.props.onRemoveTrialTraining}
+                                    refreshTrainingsList={this.loadTrainingsList}
+
+
                                 />
                         }
                     </Col>
                 </Row>
-            </React.Fragment>
+            </Hoc>
         )
     }
 }
@@ -279,9 +281,9 @@ const mapDispatchToProps = dispatch => {
         onCheckInterlocutorOnlineStatus: (id) => dispatch(actions.checkInterlocutorOnlineStatus(id)),
         onGetUserFono: (idTo) => dispatch(actions.getUserFono(idTo)),
         onRemoveTrialTraining:(idTraining, isCallAdmin) => dispatch(actions.removeTrialTraining(idTraining, isCallAdmin)),
+
         onSendPushNotification:(idUser,type,callerName) => dispatch(actions.sendPushNotification(idUser,type,callerName)),
         onGetPushNotificationsToken : (id,changeStatus) => dispatch(actions.getPushNotificationsToken(id,changeStatus))
-        
         //uploadFile: (id_zap, id_user, file, callback) => dispatch(actions.uploadChatFile(id_zap,id_user, file,callback)),
 	}
 };

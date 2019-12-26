@@ -1,4 +1,21 @@
 import * as actionTypes from '../actions/actionTypes'
+import {isFasolStudio, isFasolOnline} from '../../hosts'
+
+const addListDisciplines = isFasolStudio ? {
+    144051: {
+        ruText: 'Фортепиано',
+        code: 144051,
+        name: 'fono'
+    }
+} : {}
+const addDisciplines = isFasolStudio ? {
+    'fono': {
+        ruText: 'Фортепиано',
+        code: 144051,
+        name: 'fono'
+    }
+} : {}
+const addDisciplinesCode = isFasolStudio ? [144051] : []
 
 const initialState = {
     listDisciplines: {
@@ -11,11 +28,9 @@ const initialState = {
             ruText: 'Вокал',
             code: 125485,
             name: 'vocals'
-        }
+        },
+        ...addListDisciplines
     },
-    ///
-
-
     dataForCreate: {},
     currDiscipline: {},
 
@@ -29,10 +44,11 @@ const initialState = {
             ruText: 'Вокал',
             code: 125485,
             name: 'vocals'
-        }
+        },
+        ...addDisciplines
     },
 
-    disciplinesCode: [125470, 125485],
+    disciplinesCode: [125470, 125485, ...addDisciplinesCode],
     weekInterval : null,
     studentBalance: 0,
 };

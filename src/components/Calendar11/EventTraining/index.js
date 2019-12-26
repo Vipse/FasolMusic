@@ -146,6 +146,20 @@ class EventTraining extends React.Component{
         return false
     }
 
+    getShowCross = () => {
+        const {event, isTrainer, isAdmin} = this.props;
+
+        if(!event.isComplete){
+            if(!isTrainer && !this.isPostEvent()  && !event.isBooking){
+                return true
+            }
+            if(isAdmin) {
+                return true
+            }
+        }
+        return false
+    } 
+
     render() {
         const {event, isTrainer} = this.props;
         const {id} = event;
@@ -157,10 +171,10 @@ class EventTraining extends React.Component{
         return (
                 <div className='event-group' style={{ backgroundColor }} onClick={e => this.clickOnEvent(e,id)}>
                     <div> 
-                        {!isTrainer && !this.isPostEvent() && !event.isComplete && !event.isBooking && 
+                        {this.getShowCross() && (
                             <div className="event-group-cross" onClick={functionCross}>
                                 <span className="icon icon-close"></span>
-                            </div>
+                            </div>)
                         }
                         
                         <p className="event-group-text">{this.getName()}</p>

@@ -48,6 +48,10 @@
   line-height: 24px;
 }
 .nearTraining-chatBtn {
+  display: flex;
   margin-left: auto;
   align-self: center;
+}
+.nearTraining-chatBtn .btn-push {
+  margin-left: 15px;
 }

@@ -1,25 +1,95 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import { isFasolStudio, isFasolOnline } from '../../hosts'
 
 import './style.css'
 import '../../icon/style.css'
 import Button from "../Button";
 
-class NearTrainingsItem extends React.Component{
-    render(){
+class NearTrainingsItem extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            deleteTrialDisabled: false
+        }
+    }
+
+
+    renderBtnsFasolStudio = () => {
+        const { user_mode, isTrial, trial, start, idTraining, completeTraining, tailTraining} = this.props;
+        const { deleteTrialDisabled } = this.state;
+        const isAfter = moment(+start) > moment() ? false : true
+
+        if (user_mode == 'master' && isAfter) {
+            return (<div className='nearTraining-chatBtn'>
+
+                <div className="btn-push">
+                    {!deleteTrialDisabled ?
+                        <Button
+                            btnText="Засчитать"
+                            type="border-green"
+                            size='small'
+                            onClick={() => completeTraining({ idTraining })}
+                        /> : ""}
+                </div>
+                {isTrial && !deleteTrialDisabled ?
+                    <div className="btn-push">
+                        <Button
+                            btnText="Не пришел"
+                            type="border-green"
+                            size='small'
+                            onClick={() => {
+                                this.props.removeTrialTraining(idTraining, true)
+                                this.setState({ deleteTrialDisabled: true })
+                                this.props.refreshTrainingsList();
+                            }}
+                        />
+                    </div> : ''}
+                {!isTrial ?
+                    <div className="btn-push">
+                        {!trial && <Button
+                            btnText="Перенести в конец"
+                            type="border-green"
+                            size='small'
+                            onClick={() => tailTraining(idTraining)}
+                        />}
+                    </div> : ''}
+            </div>)
+        }
+    }
+
+    renderBtnsFasolOnline = () => {
         const {
             start,
-            end,
-            discipline,
             name,
             avatar,
             goToChat,
             idTraining,
             idProfile,
             isComplete,
-            isTrial,
-            onGoto
+            trial
+        } = this.props;
+
+        return (
+            <div className="nearTraining-chatBtn">
+                <Button
+                    btnText="Открыть чат"
+                    type="border-green"
+                    size='small'
+                    onClick={() => goToChat(idProfile, idTraining, name, avatar, start, isComplete, trial)}
+                />
+            </div>
+        )
+    }
+
+    render() {
+        const {
+            start,
+            end,
+            discipline,
+            name
         } = this.props;
 
         return (
@@ -39,35 +109,14 @@ class NearTrainingsItem extends React.Component{
                         {discipline}
                     </div>
                 </div>
-                <div className='nearTraining-chatBtn'>
-                    <Button
-                        btnText="Открыть чат"
-                        type="border-green"
-                        size='small'
-                        onClick={() => goToChat(idProfile, idTraining, name, avatar, start, isComplete, isTrial)}
-                    />
-                </div>
+
+                {isFasolStudio && this.renderBtnsFasolStudio()}
+                {isFasolOnline && this.renderBtnsFasolOnline()}
+
             </div>
         )
     }
 }
-
-NearTrainingsItem.propTypes = {
-
-    comment: PropTypes.string,
-    end: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    fio: PropTypes.string,
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    id_doc: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    id_user: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    start: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    type: PropTypes.string,
-    img: PropTypes.string,
-
-    onBegin: PropTypes.func,
-    onCancel: PropTypes.func,
-    onGoto: PropTypes.func,
-};
 
 NearTrainingsItem.defaultProps = {
     comment: '',
@@ -78,10 +127,10 @@ NearTrainingsItem.defaultProps = {
     id_user: 0,
     start: 0,
     img: '',
-    
-    onBegin: () => {},
-    onCancel: () => {},
-    onGoto: () => {},
+
+    onBegin: () => { },
+    onCancel: () => { },
+    onGoto: () => { },
 };
 
 export default NearTrainingsItem

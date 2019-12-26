@@ -4,6 +4,7 @@
   height: 160px;
   padding: 30px;
   flex-shrink: 0;
+
   &-circleDate {
     width: 100px;
     height: 100px;
@@ -18,30 +19,36 @@
     color: #333;
     line-height: 24px;
     margin-right: 20px;
+
     &-date {
       font-size: 35px;
     }
+
     &-month {
       font-size: 16px;
     }
   }
+
   &-info {
     color: #111;
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     &-time {
       font-family: RobotoMedium, sans-serif;
       font-size: 16px;
       line-height: 24px;
 
     }
+
     &-name {
       font-family: RobotoMedium, sans-serif;
       font-size: 14px;
       line-height: 24px;
 
     }
+
     &-discipline {
       font-family: RobotoRegularItalic, sans-serif;
       font-size: 12px;
@@ -49,8 +56,14 @@
 
     }
   }
+
   &-chatBtn {
+    display: flex;
     margin-left: auto;
     align-self: center;
+
+    .btn-push {
+      margin-left: 15px;
+    }
   }
 }
