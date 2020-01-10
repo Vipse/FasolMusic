@@ -401,6 +401,7 @@
   right: 1px;
 }
 .event-group-text {
+  height: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
   line-height: 14px;

@@ -95,7 +95,6 @@ class Schedule extends React.Component {
 
     componentDidMount() {
         const {startDate, endDate, setParamsId} = this.props;
-
         //
         const {currDiscipline, isAdmin, mode} = this.props;
         const id = this.getCurrentId() 
@@ -106,8 +105,13 @@ class Schedule extends React.Component {
         this.props.onSetWeekInterval({start, end});
 
 
+
         if(mode === 'student' || (isAdmin && this.isStudentSchedule())){
             this.props.onGetDisciplineCommunication(id);
+            this.props.getSelectors('discipline')
+            .then(() => {
+                this.props.onGetTrainingsTrialStatus(id)
+            })
 
             !isAdmin && this.props.onCheckToken(id)
                 .then(checkToken => {
@@ -358,13 +362,14 @@ const mapDispatchToProps = dispatch => {
         getTrainerTraining: (id, dateMin, dateMax, codeDisc) => dispatch(actions.getTrainerTraining(id, dateMin, dateMax, codeDisc)),
 
         onGetDisciplineCommunication: (idStudent) => dispatch(actions.getDisciplineCommunication(idStudent)),
-
+        onGetTrainingsTrialStatus: (idStudent) => dispatch(actions.getTrainingsTrialStatus(idStudent)),
        
         onCheckToken: (idUser) => dispatch(actions.checkToken(idUser)),
        
         onGetFreeAndBusyMasterList: (start, end) => dispatch(actions.getFreeAndBusyMasterList(start, end)),
         onGetTheMasterInterval: (dateStart, dateEnd, idMaster, weekdays, isCallAdmin) => dispatch(actions.getTheMasterInterval(dateStart, dateEnd, idMaster, weekdays, isCallAdmin)),
         
+        getSelectors: (name) => dispatch(actions.getSelectors(name)),
         onAskForPermissionToReceivePushNotifications: (id) => dispatch(actions.askForPermissionToReceiveNotifications(id)),
     }
 };

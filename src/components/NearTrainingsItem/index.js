@@ -20,9 +20,11 @@ class NearTrainingsItem extends React.Component {
     renderBtnsFasolStudio = () => {
         const { user_mode, isTrial, trial, start, idTraining, completeTraining, tailTraining} = this.props;
         const { deleteTrialDisabled } = this.state;
-        const isAfter = moment(+start) > moment() ? false : true
 
-        if (user_mode == 'master' && isAfter) {
+        
+        const isAfter = (moment() < moment(+start)) ? true : false
+        
+        if (user_mode == 'master' && !isAfter) {
             return (<div className='nearTraining-chatBtn'>
 
                 <div className="btn-push">

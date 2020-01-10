@@ -201,8 +201,13 @@ class App extends React.Component {
 
         this.runFirebase();
         
-        this.props.getSelectors('discipline')
-            .then(() => (mode === 'student' ||  this.isStudentSchedule()) && this.props.onGetTrainingsTrialStatus(this.props.id));
+        // console.log("componentDidMount")
+        // this.props.getSelectors('discipline')
+        //     .then(() => {
+        //         if(mode === 'student' || this.isStudentSchedule()){
+        //             this.props.onGetTrainingsTrialStatus(id)
+        //         }
+        //     })
 
         if (mode === "master") {
             this.props.onGetInfoDoctor(id)
